@@ -1,0 +1,26 @@
+export const tips = {
+  ar: [
+    "تذكّر: تحديث نظامك وبرامجك بانتظام يحسّن من مستوى الأمان.",
+    "استخدم المصادقة الثنائية لتعزيز الحماية.",
+    "قم بنسخ بياناتك احتياطياً لتفادي فقدانها في حال وقوع هجوم.",
+    "كلمة المرور القوية والمتنوعة لكل حساب تساهم في منع الاختراق.",
+    "احرص على التحقق من مصادر الرسائل الإلكترونية لتجنّب التصيد.",
+    "لا تشارك بيانات الدخول (Login) مع أي شخص عبر البريد الإلكتروني.",
+    "تأكّد أنّ شبكتك المنزلية مؤمّنة بكلمة مرور قوية ومعيار تشفير حديث.",
+    "استخدم برامج مكافحة الفيروسات وحافظ على تحديثها باستمرار.",
+    "تجنب فتح المرفقات من مصادر غير موثوقة في البريد الإلكتروني.",
+    "قم بتشفير البيانات الحساسة قبل تخزينها أو مشاركتها.",
+  ],
+  en: [
+    "Remember: Regularly updating your system and programs improves security.",
+    "Use two-factor authentication to enhance protection.",
+    "Back up your data to avoid losing it in case of an attack.",
+    "Strong and diverse passwords for each account help prevent hacking.",
+    "Be sure to verify the sources of emails to avoid phishing.",
+    "Do not share login credentials with anyone via email.",
+    "Make sure your home network is secured with a strong password and modern encryption standard.",
+    "Use antivirus software and keep it updated regularly.",
+    "Avoid opening attachments from untrusted sources in emails.",
+    "Encrypt sensitive data before storing or sharing it.",
+  ],
+}
