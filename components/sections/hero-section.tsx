@@ -21,7 +21,7 @@ export default function HeroSection() {
   if (!mounted) return null
 
   return (
-    <div className="relative w-full h-[70vh] md:h-[80vh] overflow-hidden">
+    <div className="relative w-full h-[50vh] md:h-[60vh] overflow-hidden">
       {/* Animated background */}
       <HeroBackground />
 
@@ -36,8 +36,8 @@ export default function HeroSection() {
           transition={{ duration: 1 }}
           className="max-w-3xl"
         >
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white drop-shadow-md">{t("hero.title")}</h1>
-          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-8 drop-shadow">{t("hero.subtitle")}</p>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white drop-shadow-md">{t("hero.title")}</h1>
+          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-6 drop-shadow">{t("hero.subtitle")}</p>
 
           <Button
             size="lg"

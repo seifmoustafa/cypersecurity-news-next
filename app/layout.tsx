@@ -4,6 +4,8 @@ import { Tajawal, Roboto } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { LanguageProvider } from "@/components/language-provider"
+import { ErrorBoundary } from "@/components/error-boundary"
+import { NavigationProgress } from "@/components/navigation-progress"
 
 const tajawal = Tajawal({
   subsets: ["arabic"],
@@ -31,11 +33,14 @@ export default function RootLayout({
   return (
     <html lang="ar" suppressHydrationWarning>
       <body className={`${tajawal.variable} ${roboto.variable}`}>
-        <LanguageProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-            {children}
-          </ThemeProvider>
-        </LanguageProvider>
+        <ErrorBoundary>
+          <LanguageProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+              <NavigationProgress />
+              {children}
+            </ThemeProvider>
+          </LanguageProvider>
+        </ErrorBoundary>
       </body>
     </html>
   )

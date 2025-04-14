@@ -6,8 +6,10 @@ import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import { useLanguage } from "@/components/language-provider"
 import { cn } from "@/lib/utils"
-import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { ROUTES } from "@/lib/routes"
+import { OptimizedLink } from "@/components/optimized-link"
 
 interface HeaderProps {
   onToggleTheme: () => void
@@ -16,51 +18,52 @@ interface HeaderProps {
 
 export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps) {
   const { theme, setTheme } = useTheme()
-  const { language, t } = useLanguage()
+  const { language, t, isRtl } = useLanguage()
   const [mounted, setMounted] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState("")
+  const pathname = usePathname()
 
   // Navigation items grouped by category
   const navGroups = [
     {
       title: "systems",
       items: [
-        { key: "nav.systems", href: "#systems" },
-        { key: "nav.vulnerabilities", href: "#systems" },
+        { key: "nav.systems", href: ROUTES.SECTIONS.SYSTEMS },
+        { key: "nav.vulnerabilities", href: ROUTES.SECTIONS.SYSTEMS },
       ],
     },
     {
       title: "regulation",
       items: [
-        { key: "nav.strategy", href: "#regulation" },
-        { key: "nav.regulations", href: "#regulation" },
+        { key: "nav.strategy", href: ROUTES.SECTIONS.REGULATION },
+        { key: "nav.regulations", href: ROUTES.SECTIONS.REGULATION },
       ],
     },
     {
       title: "security",
       items: [
-        { key: "nav.instructions", href: "#instructions" },
-        { key: "nav.procedures", href: "#instructions" },
+        { key: "nav.instructions", href: ROUTES.SECTIONS.INSTRUCTIONS },
+        { key: "nav.procedures", href: ROUTES.SECTIONS.INSTRUCTIONS },
       ],
     },
     {
       title: "awareness",
       items: [
-        { key: "nav.awareness", href: "#awareness" },
-        { key: "nav.news", href: "#awareness" },
+        { key: "nav.awareness", href: ROUTES.SECTIONS.AWARENESS },
+        { key: "nav.news", href: ROUTES.NEWS.INDEX },
       ],
     },
     {
       title: "media",
-      items: [{ key: "nav.videos", href: "#media" }],
+      items: [{ key: "nav.videos", href: ROUTES.SECTIONS.MEDIA }],
     },
     {
       title: "standards",
       items: [
-        { key: "nav.definitions", href: "#standards" },
-        { key: "nav.framework", href: "#standards" },
-        { key: "nav.standards", href: "#standards" },
+        { key: "nav.definitions", href: ROUTES.DEFINITIONS.INDEX },
+        { key: "nav.framework", href: ROUTES.FRAMEWORK.INDEX },
+        { key: "nav.standards", href: ROUTES.STANDARDS.INDEX },
       ],
     },
   ]
@@ -72,6 +75,9 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
 
   // Handle scroll and update active section
   useEffect(() => {
+    // Only run this on the homepage
+    if (pathname !== "/") return
+
     const handleScroll = () => {
       const sections = document.querySelectorAll(".section-anchor")
       let currentActiveSection = ""
@@ -88,15 +94,29 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
 
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+  }, [pathname])
 
   if (!mounted) return null
 
   const isDarkMode = theme === "dark"
-  const isRtl = language === "ar"
 
   const handleThemeToggle = () => {
     setTheme(theme === "dark" ? "light" : "dark")
+  }
+
+  // Helper function to handle navigation
+  const handleNavigation = (href: string) => {
+    // Close mobile menu when navigating
+    setMobileMenuOpen(false)
+
+    // If it's a hash link on the current page, handle smooth scrolling
+    if (href.startsWith("#") && pathname === "/") {
+      const element = document.querySelector(href)
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" })
+      }
+      return
+    }
   }
 
   return (
@@ -105,9 +125,9 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
         <div className="h-16 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="text-xl font-bold text-primary">
+            <OptimizedLink href={ROUTES.HOME} className="text-xl font-bold text-primary">
               {t("hero.title")}
-            </Link>
+            </OptimizedLink>
           </div>
 
           {/* Desktop Navigation */}
@@ -123,18 +143,19 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
                 <DropdownMenuContent align={isRtl ? "end" : "start"}>
                   {group.items.map((item) => (
                     <DropdownMenuItem key={item.key} asChild>
-                      <Link
+                      <OptimizedLink
                         href={item.href}
-                        className={cn("w-full", item.href.substring(1) === activeSection ? "font-medium" : "")}
-                        onClick={() => {
-                          const element = document.querySelector(item.href)
-                          if (element) {
-                            element.scrollIntoView({ behavior: "smooth" })
-                          }
-                        }}
+                        className={cn(
+                          "w-full",
+                          (item.href.startsWith("#") && item.href.substring(1) === activeSection) ||
+                            (!item.href.startsWith("#") && pathname.startsWith(item.href))
+                            ? "font-medium"
+                            : "",
+                        )}
+                        onClick={() => handleNavigation(item.href)}
                       >
                         {t(item.key)}
-                      </Link>
+                      </OptimizedLink>
                     </DropdownMenuItem>
                   ))}
                 </DropdownMenuContent>
@@ -183,25 +204,22 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
                   <h3 className="text-sm font-medium text-muted-foreground mb-1">
                     {t(`section.${group.title === "security" ? "instructions" : group.title}`)}
                   </h3>
-                  <div className="space-y-1 pl-2">
+                  <div className="space-y-1 pl-2 rtl:pr-2 rtl:pl-0">
                     {group.items.map((item) => (
-                      <Link
+                      <OptimizedLink
                         key={item.key}
                         href={item.href}
                         className={cn(
                           "block px-3 py-1.5 text-sm rounded-md transition-colors hover:bg-muted",
-                          item.href.substring(1) === activeSection ? "text-primary font-medium" : "text-foreground/80",
+                          (item.href.startsWith("#") && item.href.substring(1) === activeSection) ||
+                            (!item.href.startsWith("#") && pathname.startsWith(item.href))
+                            ? "text-primary font-medium"
+                            : "text-foreground/80",
                         )}
-                        onClick={() => {
-                          setMobileMenuOpen(false)
-                          const element = document.querySelector(item.href)
-                          if (element) {
-                            element.scrollIntoView({ behavior: "smooth" })
-                          }
-                        }}
+                        onClick={() => handleNavigation(item.href)}
                       >
                         {t(item.key)}
-                      </Link>
+                      </OptimizedLink>
                     ))}
                   </div>
                 </div>

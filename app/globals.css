@@ -216,3 +216,95 @@ body.ltr .prose blockquote {
 .text-on-light {
   @apply text-foreground;
 }
+
+/* RTL/LTR specific styles */
+.rtl .tabs-list {
+  flex-direction: row-reverse;
+}
+
+.rtl .first-item {
+  order: 1;
+}
+
+.rtl .last-item {
+  order: -1;
+}
+
+/* Fix carousel dots spacing */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+}
+
+.carousel-dots button {
+  margin: 0 6px;
+}
+
+/* Fix image padding in RTL/LTR */
+.rtl .image-container {
+  padding-left: 0;
+  padding-right: 1rem;
+}
+
+.ltr .image-container {
+  padding-right: 0;
+  padding-left: 1rem;
+}
+
+/* RTL/LTR specific alignment */
+.rtl .text-align-start {
+  text-align: right;
+}
+
+.ltr .text-align-start {
+  text-align: left;
+}
+
+.rtl .flex-row-reverse-rtl {
+  flex-direction: row-reverse;
+}
+
+/* Fix for TabsList in RTL mode */
+.rtl [role="tabslist"] {
+  flex-direction: row-reverse;
+}
+
+/* Fix for dropdown menus in RTL mode */
+.rtl .dropdown-content {
+  right: 0;
+  left: auto;
+}
+
+/* Fix for carousel navigation in RTL mode */
+.rtl .carousel-prev {
+  right: 1rem;
+  left: auto;
+}
+
+.rtl .carousel-next {
+  left: 1rem;
+  right: auto;
+}
+
+.ltr .carousel-prev {
+  left: 1rem;
+  right: auto;
+}
+
+.ltr .carousel-next {
+  right: 1rem;
+  left: auto;
+}
+
+/* Fix for tabs responsiveness */
+@media (max-width: 640px) {
+  [role="tablist"] {
+    flex-wrap: wrap;
+  }
+
+  [role="tablist"] [role="tab"] {
+    flex: 1 0 auto;
+    min-width: 120px;
+    margin-bottom: 0.5rem;
+  }
+}

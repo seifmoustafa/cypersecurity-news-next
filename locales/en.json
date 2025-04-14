@@ -1,0 +1,127 @@
+{
+  "nav": {
+    "systems": "Systems",
+    "strategy": "Cybersecurity Strategy",
+    "regulations": "Cybersecurity Executive Regulations",
+    "instructions": "Security Instructions",
+    "awareness": "Awareness Bulletins",
+    "news": "News",
+    "videos": "Videos",
+    "vulnerabilities": "Vulnerabilities Database",
+    "definitions": "Definitions",
+    "framework": "Cybersecurity Framework",
+    "standards": "Standards",
+    "procedures": "Security Procedures"
+  },
+  "section": {
+    "systems": "Systems",
+    "regulation": "Cybersecurity Regulation",
+    "awareness": "Awareness",
+    "instructions": "Security Instructions",
+    "standards": "Standards",
+    "media": "Media Library",
+    "definitions": "Definitions",
+    "framework": "Cybersecurity Framework"
+  },
+  "systems": {
+    "operations": "Operations",
+    "support": "Support",
+    "vulnerabilities": "Vulnerabilities",
+    "subtitle": "Integrated systems for cybersecurity management and monitoring",
+    "visitSystem": "Visit System"
+  },
+  "regulation": {
+    "council": "Council",
+    "strategy": "Strategy",
+    "executive": "Executive Regulations",
+    "subtitle": "Regulatory and legislative framework for cybersecurity"
+  },
+  "awareness": {
+    "bulletins": "Awareness Bulletins",
+    "articles": "Articles",
+    "news": "News",
+    "subtitle": "Awareness materials to promote cybersecurity culture"
+  },
+  "instructions": {
+    "group": "Group",
+    "branch": "Branch",
+    "subtitle": "Guidelines and instructions to enhance cybersecurity"
+  },
+  "standards": {
+    "international": "International",
+    "local": "Local",
+    "internal": "Internal",
+    "subtitle": "Approved standards and controls in the field of cybersecurity"
+  },
+  "media": {
+    "videos": "Videos",
+    "lectures": "Lectures",
+    "presentations": "Presentations",
+    "subtitle": "Integrated library of multimedia about cybersecurity"
+  },
+  "common": {
+    "readMore": "Read More",
+    "close": "Close",
+    "download": "Download",
+    "view": "View",
+    "language": "العربية",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "tipOfTheDay": "Tip of the Day",
+    "understood": "Got it",
+    "exploreMore": "Explore More",
+    "viewAll": "View All",
+    "viewAllNews": "View All News",
+    "all": "All",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "details": "Details",
+    "controls": "Controls",
+    "safeguards": "Safeguards",
+    "techniques": "Techniques",
+    "implementation": "Implementation Steps"
+  },
+  "hero": {
+    "title": "Cybersecurity Center",
+    "subtitle": "Latest updates and analysis on cybersecurity threats and protection techniques"
+  },
+  "news": {
+    "categories": {
+      "dataBreaches": "Data Breaches",
+      "cyberAttacks": "Cyber Attacks",
+      "vulnerabilities": "Vulnerabilities",
+      "threatIntelligence": "Threat Intelligence"
+    },
+    "latestNews": "Latest News",
+    "featuredNews": "Featured News",
+    "relatedNews": "Related News"
+  },
+  "definitions": {
+    "title": "Cybersecurity Definitions",
+    "subtitle": "Key terms and concepts in the field of cybersecurity",
+    "searchPlaceholder": "Search for a term...",
+    "categories": {
+      "general": "General Terms",
+      "technical": "Technical Terms",
+      "legal": "Legal Terms",
+      "threats": "Threats and Attacks"
+    }
+  },
+  "framework": {
+    "title": "Cybersecurity Framework",
+    "subtitle": "Comprehensive model for managing and implementing cybersecurity",
+    "domains": {
+      "governance": "Governance and Leadership",
+      "riskManagement": "Risk Management",
+      "assetManagement": "Asset Management",
+      "accessControl": "Access Control",
+      "cryptography": "Cryptography",
+      "physicalSecurity": "Physical Security",
+      "operationsSecurity": "Operations Security",
+      "communicationsSecurity": "Communications Security",
+      "incidentManagement": "Incident Management",
+      "businessContinuity": "Business Continuity"
+    }
+  }
+}
