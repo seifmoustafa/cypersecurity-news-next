@@ -1,8 +1,8 @@
 import MainLayout from "@/components/layouts/main-layout"
 import HeroSection from "@/components/sections/hero-section"
 import NewsTicker from "@/components/news-ticker"
+import NewsCarousel from "@/components/news-carousel"
 import { tickerItems } from "@/data/ticker-items"
-import TipOfTheDayPopup from "@/components/tip-of-the-day-popup"
 import SystemsSection from "@/components/sections/systems-section"
 import CyberSecurityRegulationSection from "@/components/sections/cybersecurity-regulation-section"
 import AwarenessSection from "@/components/sections/awareness-section"
@@ -14,8 +14,8 @@ export default function Home() {
   return (
     <MainLayout>
       <NewsTicker items={tickerItems} />
-      <TipOfTheDayPopup />
       <HeroSection />
+      <NewsCarousel />
 
       <div id="systems" className="section-anchor"></div>
       <SystemsSection />

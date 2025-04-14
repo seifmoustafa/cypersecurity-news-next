@@ -1,34 +1,46 @@
-"use client";
-
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { useLanguage } from "@/components/language-provider";
-import SectionHeader from "@/components/ui/section-header";
-import SectionContainer from "@/components/ui/section-container";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { awarenessData } from "@/data/awareness-data";
-import Image from "next/image";
+"use client"
+import { motion } from "framer-motion"
+import { useLanguage } from "@/components/language-provider"
+import SectionHeader from "@/components/ui/section-header"
+import SectionContainer from "@/components/ui/section-container"
+import { Card, CardContent } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { awarenessData } from "@/data/awareness-data"
+import { getNewsByCategory } from "@/data/news-data"
+import Image from "next/image"
+import Link from "next/link"
 
 export default function AwarenessSection() {
-  const { t } = useLanguage();
+  const { t, language, isRtl } = useLanguage()
+
+  const categoryNames = {
+    dataBreaches: {
+      ar: "تسريبات البيانات",
+      en: "Data Breaches",
+    },
+    cyberAttacks: {
+      ar: "الهجمات السيبرانية",
+      en: "Cyber Attacks",
+    },
+    vulnerabilities: {
+      ar: "الثغرات الأمنية",
+      en: "Vulnerabilities",
+    },
+    threatIntelligence: {
+      ar: "معلومات التهديدات",
+      en: "Threat Intelligence",
+    },
+  }
 
   return (
     <SectionContainer id="awareness" className="bg-muted/30">
-      <SectionHeader
-        title={t("section.awareness")}
-        subtitle={t("awareness.subtitle")}
-      />
+      <SectionHeader title={t("section.awareness")} subtitle={t("awareness.subtitle")} />
 
-      <Tabs defaultValue="bulletins" className="w-full">
-        <TabsList className="w-full max-w-md mx-auto mb-8">
+      <Tabs defaultValue="news" className="w-full">
+        <TabsList className={`w-full max-w-md mx-auto mb-8 ${isRtl ? "flex-row-reverse" : ""}`}>
+          <TabsTrigger value="news" className="flex-1">
+            {language === "ar" ? "الأخبار" : "News"}
+          </TabsTrigger>
           <TabsTrigger value="bulletins" className="flex-1">
             {t("awareness.bulletins")}
           </TabsTrigger>
@@ -36,6 +48,61 @@ export default function AwarenessSection() {
             {t("awareness.articles")}
           </TabsTrigger>
         </TabsList>
+
+        <TabsContent value="news" className="mt-0">
+          <Tabs defaultValue="all" className="w-full">
+            <TabsList
+              className={`w-full max-w-4xl mx-auto mb-8 flex flex-wrap justify-center ${isRtl ? "flex-row-reverse" : ""}`}
+            >
+              <TabsTrigger value="all" className="flex-grow">
+                {language === "ar" ? "الكل" : "All"}
+              </TabsTrigger>
+              {Object.entries(categoryNames).map(([key, value]) => (
+                <TabsTrigger key={key} value={key} className="flex-grow">
+                  {value[language]}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+
+            <TabsContent value="all" className="mt-0">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {Object.keys(categoryNames).flatMap((category) =>
+                  getNewsByCategory(category)
+                    .slice(0, 2)
+                    .map((item, index) => <NewsCard key={item.id} item={item} index={index} />),
+                )}
+                <div className="col-span-full flex justify-center mt-6">
+                  <Link
+                    href="/news"
+                    className="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-md transition-colors"
+                  >
+                    {language === "ar" ? "عرض جميع الأخبار" : "View All News"}
+                  </Link>
+                </div>
+              </div>
+            </TabsContent>
+
+            {Object.keys(categoryNames).map((category) => (
+              <TabsContent key={category} value={category} className="mt-0">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {getNewsByCategory(category).map((item, index) => (
+                    <NewsCard key={item.id} item={item} index={index} />
+                  ))}
+                  <div className="col-span-full flex justify-center mt-6">
+                    <Link
+                      href={`/news/category/${category}`}
+                      className="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-md transition-colors"
+                    >
+                      {language === "ar"
+                        ? `عرض جميع أخبار ${categoryNames[category as keyof typeof categoryNames][language]}`
+                        : `View All ${categoryNames[category as keyof typeof categoryNames][language]} News`}
+                    </Link>
+                  </div>
+                </div>
+              </TabsContent>
+            ))}
+          </Tabs>
+        </TabsContent>
 
         <TabsContent value="bulletins" className="mt-0">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -54,82 +121,128 @@ export default function AwarenessSection() {
         </TabsContent>
       </Tabs>
     </SectionContainer>
-  );
+  )
 }
 
 interface AwarenessCardProps {
-  item:
-    | (typeof awarenessData.bulletins)[0]
-    | (typeof awarenessData.articles)[0];
-  index: number;
+  item: (typeof awarenessData.bulletins)[0] | (typeof awarenessData.articles)[0]
+  index: number
 }
 
 function AwarenessCard({ item, index }: AwarenessCardProps) {
-  const { language, t } = useLanguage();
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const { language, isRtl } = useLanguage()
 
   return (
-    <>
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.5, delay: index * 0.1 }}
-      >
-        <Card
-          className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:border-primary/50 cursor-pointer"
-          onClick={() => setDialogOpen(true)}
-        >
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+    >
+      <Link href={`/awareness/${item.id}`}>
+        <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:border-primary/50 cursor-pointer">
+          <div className="relative h-48">
+            <Image src={item.imageUrl || "/placeholder.svg"} alt={item.title[language]} fill className="object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+            <div
+              className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} bg-primary text-white text-xs px-2 py-1 rounded`}
+            >
+              {item.date}
+            </div>
+          </div>
+          <CardContent className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
+            <h3 className="text-lg font-bold mb-2 line-clamp-2">{item.title[language]}</h3>
+            <p className="text-muted-foreground text-sm line-clamp-3">{item.summary[language]}</p>
+          </CardContent>
+        </Card>
+      </Link>
+    </motion.div>
+  )
+}
+
+interface NewsCardProps {
+  item: any
+  index: number
+}
+
+function NewsCard({ item, index }: NewsCardProps) {
+  const { language, isRtl } = useLanguage()
+
+  const categoryNames = {
+    dataBreaches: {
+      ar: "تسريبات البيانات",
+      en: "Data Breaches",
+    },
+    cyberAttacks: {
+      ar: "الهجمات السيبرانية",
+      en: "Cyber Attacks",
+    },
+    vulnerabilities: {
+      ar: "الثغرات الأمنية",
+      en: "Vulnerabilities",
+    },
+    threatIntelligence: {
+      ar: "معلومات التهديدات",
+      en: "Threat Intelligence",
+    },
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+    >
+      <Link href={`/news/${item.id}`} className="group">
+        <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:border-primary/50">
           <div className="relative h-48">
             <Image
               src={item.imageUrl || "/placeholder.svg"}
               alt={item.title[language]}
               fill
-              className="object-cover"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-            <div className="absolute top-2 right-2 bg-primary text-white text-xs px-2 py-1 rounded">
-              {new Date(item.date).toLocaleDateString(
-                language === "ar" ? "ar-SA" : "en-US"
-              )}
+            <div
+              className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} bg-primary text-white text-xs px-2 py-1 rounded`}
+            >
+              {item.date}
+            </div>
+            <div
+              className={`absolute bottom-2 ${isRtl ? "left-2" : "right-2"} bg-black/70 text-white text-xs px-2 py-1 rounded`}
+            >
+              {categoryNames[item.category as keyof typeof categoryNames][language]}
             </div>
           </div>
-          <CardContent className="p-4">
-            <h3 className="text-lg font-bold mb-2 line-clamp-2">
+
+          <CardContent className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
+            <h3 className="text-lg font-bold mb-2 line-clamp-2 text-foreground group-hover:text-primary transition-colors">
               {item.title[language]}
             </h3>
-            <p className="text-muted-foreground text-sm line-clamp-3">
-              {item.summary[language]}
-            </p>
+            <p className="text-sm text-muted-foreground mb-4 line-clamp-3">{item.summary[language]}</p>
+            <div className="mt-auto">
+              <span className="text-primary font-medium inline-flex items-center">
+                {language === "ar" ? "اقرأ المزيد" : "Read More"}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`h-4 w-4 ${isRtl ? "mr-1 rotate-180" : "ml-1"}`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d={isRtl ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"}
+                  />
+                </svg>
+              </span>
+            </div>
           </CardContent>
         </Card>
-      </motion.div>
-
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-3xl overflow-y-auto max-h-[85vh]">
-          <DialogHeader>
-            <DialogTitle>{item.title[language]}</DialogTitle>
-            <DialogDescription>
-              {new Date(item.date).toLocaleDateString(
-                language === "ar" ? "ar-SA" : "en-US"
-              )}
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="relative w-full h-64 my-4 rounded-md overflow-hidden">
-            <Image
-              src={item.imageUrl || "/placeholder.svg"}
-              alt={item.title[language]}
-              fill
-              className="object-cover"
-            />
-          </div>
-
-          <div className="prose dark:prose-invert max-w-none">
-            <div dangerouslySetInnerHTML={{ __html: item.content[language] }} />
-          </div>
-        </DialogContent>
-      </Dialog>
-    </>
-  );
+      </Link>
+    </motion.div>
+  )
 }
