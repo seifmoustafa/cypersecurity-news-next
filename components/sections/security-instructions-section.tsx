@@ -1,55 +1,73 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { useLanguage } from "@/components/language-provider"
-import SectionHeader from "@/components/ui/section-header"
-import SectionContainer from "@/components/ui/section-container"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
-import { instructionsData } from "@/data/instructions-data"
-import { Shield, FileText } from "lucide-react"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { useLanguage } from "@/components/language-provider";
+import SectionHeader from "@/components/ui/section-header";
+import SectionContainer from "@/components/ui/section-container";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { instructionsData } from "@/data/instructions-data";
+import { Shield, FileText } from "lucide-react";
 
 export default function SecurityInstructionsSection() {
-  const { t } = useLanguage()
+  const { t } = useLanguage();
 
   return (
     <SectionContainer id="instructions">
-      <SectionHeader title={t("section.instructions")} subtitle={t("instructions.subtitle")} />
+      <SectionHeader
+        title={t("section.instructions")}
+        subtitle={t("instructions.subtitle")}
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {Object.keys(instructionsData).map((key, index) => (
-          <InstructionCard key={key} type={key as keyof typeof instructionsData} index={index} />
+          <InstructionCard
+            key={key}
+            type={key as keyof typeof instructionsData}
+            index={index}
+          />
         ))}
       </div>
     </SectionContainer>
-  )
+  );
 }
 
 interface InstructionCardProps {
-  type: keyof typeof instructionsData
-  index: number
+  type: keyof typeof instructionsData;
+  index: number;
 }
 
 function InstructionCard({ type, index }: InstructionCardProps) {
-  const { language, t } = useLanguage()
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [selectedYear, setSelectedYear] = useState<string | null>(null)
-  const [yearDialogOpen, setYearDialogOpen] = useState(false)
+  const { language, t } = useLanguage();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedYear, setSelectedYear] = useState<string | null>(null);
+  const [yearDialogOpen, setYearDialogOpen] = useState(false);
 
   const handleCardClick = () => {
-    setDialogOpen(true)
-  }
+    setDialogOpen(true);
+  };
 
   const handleYearClick = (year: string) => {
-    setSelectedYear(year)
-    setYearDialogOpen(true)
-  }
+    setSelectedYear(year);
+    setYearDialogOpen(true);
+  };
 
-  const typeTitle = type === "group" ? t("instructions.group") : t("instructions.branch")
+  const typeTitle =
+    type === "group" ? t("instructions.group") : t("instructions.branch");
   const typeIcon =
-    type === "group" ? <Shield className="h-10 w-10 text-primary" /> : <FileText className="h-10 w-10 text-primary" />
+    type === "group" ? (
+      <Shield className="h-10 w-10 text-primary" />
+    ) : (
+      <FileText className="h-10 w-10 text-primary" />
+    );
 
   return (
     <>
@@ -67,15 +85,16 @@ function InstructionCard({ type, index }: InstructionCardProps) {
             <div className="mb-4">{typeIcon}</div>
             <h3 className="text-xl font-bold mb-2">{typeTitle}</h3>
             <p className="text-muted-foreground">
-              {language === "ar" ? `تعليمات ${typeTitle} للأمن السيبراني` : `${typeTitle} cybersecurity instructions`}
+              {language === "ar"
+                ? `تعليمات ${typeTitle} للأمن السيبراني`
+                : `${typeTitle} cybersecurity instructions`}
             </p>
           </CardContent>
         </Card>
       </motion.div>
-
       {/* Years Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent>
+        <DialogContent className="overflow-y-auto max-h-[85vh]">
           <DialogHeader>
             <DialogTitle>{typeTitle}</DialogTitle>
             <DialogDescription>
@@ -87,18 +106,33 @@ function InstructionCard({ type, index }: InstructionCardProps) {
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
             {Object.keys(instructionsData[type]).map((year) => (
-              <Button key={year} variant="outline" className="h-16 text-lg" onClick={() => handleYearClick(year)}>
+              <Button
+                key={year}
+                variant="outline"
+                className="h-16 text-lg"
+                onClick={() => handleYearClick(year)}
+              >
                 {year}
               </Button>
             ))}
           </div>
         </DialogContent>
       </Dialog>
-
       {/* Year Content Dialog */}
+      {Object.keys(instructionsData[type]).map((year) => (
+        <Button
+          key={year}
+          variant="outline"
+          className="h-16 text-lg"
+          onClick={() => handleYearClick(year)}
+        >
+          {year}
+        </Button>
+      ))}
+      // Year Content Dialog
       {selectedYear && (
         <Dialog open={yearDialogOpen} onOpenChange={setYearDialogOpen}>
-          <DialogContent className="max-w-3xl">
+          <DialogContent className="max-w-3xl overflow-y-auto max-h-[85vh]">
             <DialogHeader>
               <DialogTitle>
                 {language === "ar"
@@ -110,14 +144,28 @@ function InstructionCard({ type, index }: InstructionCardProps) {
             <div className="prose dark:prose-invert max-w-none">
               <div
                 dangerouslySetInnerHTML={{
-                  __html: instructionsData[type][selectedYear][language],
+                  __html:
+                    instructionsData[type][
+                      selectedYear as keyof (typeof instructionsData)[typeof type]
+                    ],
                 }}
               />
             </div>
 
-            {instructionsData[type][selectedYear].documentUrl && (
+            {instructionsData[type][
+              selectedYear as keyof (typeof instructionsData)[typeof type]
+            ].documentUrl && (
               <div className="mt-4 flex justify-end">
-                <Button onClick={() => window.open(instructionsData[type][selectedYear].documentUrl, "_blank")}>
+                <Button
+                  onClick={() =>
+                    window.open(
+                      instructionsData[type][
+                        selectedYear as keyof (typeof instructionsData)[typeof type]
+                      ].documentUrl,
+                      "_blank"
+                    )
+                  }
+                >
                   {t("common.download")}
                 </Button>
               </div>
@@ -126,5 +174,5 @@ function InstructionCard({ type, index }: InstructionCardProps) {
         </Dialog>
       )}
     </>
-  )
+  );
 }

@@ -6,7 +6,13 @@ import { useLanguage } from "@/components/language-provider";
 import SectionHeader from "@/components/ui/section-header";
 import SectionContainer from "@/components/ui/section-container";
 import { Card, CardContent } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { awarenessData } from "@/data/awareness-data";
 import Image from "next/image";
@@ -52,28 +58,15 @@ export default function AwarenessSection() {
 }
 
 interface AwarenessCardProps {
-  item: (typeof awarenessData.bulletins)[0] | (typeof awarenessData.articles)[0];
+  item:
+    | (typeof awarenessData.bulletins)[0]
+    | (typeof awarenessData.articles)[0];
   index: number;
 }
 
 function AwarenessCard({ item, index }: AwarenessCardProps) {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   const [dialogOpen, setDialogOpen] = useState(false);
-
-  // Format the date consistently between server and client by:
-  // - Forcing the Gregorian calendar and a fixed time zone.
-  const formatDate = (date: string) => {
-    const dateObj = new Date(date);
-    const options: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
-      timeZone: 'UTC',
-    };
-    // The Unicode extension "u-ca-gregory" forces the Gregorian calendar.
-    const locale = language === 'ar' ? 'ar-SA-u-ca-gregory' : 'en-US';
-    return new Intl.DateTimeFormat(locale, options).format(dateObj);
-  };
 
   return (
     <>
@@ -96,7 +89,9 @@ function AwarenessCard({ item, index }: AwarenessCardProps) {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
             <div className="absolute top-2 right-2 bg-primary text-white text-xs px-2 py-1 rounded">
-              {formatDate(item.date)}
+              {new Date(item.date).toLocaleDateString(
+                language === "ar" ? "ar-SA" : "en-US"
+              )}
             </div>
           </div>
           <CardContent className="p-4">
@@ -111,11 +106,13 @@ function AwarenessCard({ item, index }: AwarenessCardProps) {
       </motion.div>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-3xl">
+        <DialogContent className="max-w-3xl overflow-y-auto max-h-[85vh]">
           <DialogHeader>
             <DialogTitle>{item.title[language]}</DialogTitle>
             <DialogDescription>
-              {formatDate(item.date)}
+              {new Date(item.date).toLocaleDateString(
+                language === "ar" ? "ar-SA" : "en-US"
+              )}
             </DialogDescription>
           </DialogHeader>
 

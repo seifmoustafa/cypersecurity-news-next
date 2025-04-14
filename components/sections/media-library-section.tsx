@@ -1,24 +1,33 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { useLanguage } from "@/components/language-provider"
-import SectionHeader from "@/components/ui/section-header"
-import SectionContainer from "@/components/ui/section-container"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { mediaLibraryData } from "@/data/media-library-data"
-import { Video, FileIcon as FilePresentation, FileText } from "lucide-react"
-import Image from "next/image"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { useLanguage } from "@/components/language-provider";
+import SectionHeader from "@/components/ui/section-header";
+import SectionContainer from "@/components/ui/section-container";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { mediaLibraryData } from "@/data/media-library-data";
+import { Video, FileIcon as FilePresentation, FileText } from "lucide-react";
+import Image from "next/image";
 
 export default function MediaLibrarySection() {
-  const { t } = useLanguage()
+  const { t } = useLanguage();
 
   return (
     <SectionContainer id="media">
-      <SectionHeader title={t("section.media")} subtitle={t("media.subtitle")} />
+      <SectionHeader
+        title={t("section.media")}
+        subtitle={t("media.subtitle")}
+      />
 
       <Tabs defaultValue="videos" className="w-full">
         <TabsList className="w-full max-w-md mx-auto mb-8">
@@ -44,7 +53,12 @@ export default function MediaLibrarySection() {
         <TabsContent value="lectures" className="mt-0">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {mediaLibraryData.lectures.map((item, index) => (
-              <MediaCard key={item.id} item={item} index={index} type="lecture" />
+              <MediaCard
+                key={item.id}
+                item={item}
+                index={index}
+                type="lecture"
+              />
             ))}
           </div>
         </TabsContent>
@@ -52,38 +66,43 @@ export default function MediaLibrarySection() {
         <TabsContent value="presentations" className="mt-0">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {mediaLibraryData.presentations.map((item, index) => (
-              <MediaCard key={item.id} item={item} index={index} type="presentation" />
+              <MediaCard
+                key={item.id}
+                item={item}
+                index={index}
+                type="presentation"
+              />
             ))}
           </div>
         </TabsContent>
       </Tabs>
     </SectionContainer>
-  )
+  );
 }
 
 interface MediaCardProps {
   item:
     | (typeof mediaLibraryData.videos)[0]
     | (typeof mediaLibraryData.lectures)[0]
-    | (typeof mediaLibraryData.presentations)[0]
-  index: number
-  type: "video" | "lecture" | "presentation"
+    | (typeof mediaLibraryData.presentations)[0];
+  index: number;
+  type: "video" | "lecture" | "presentation";
 }
 
 function MediaCard({ item, index, type }: MediaCardProps) {
-  const { language, t } = useLanguage()
-  const [dialogOpen, setDialogOpen] = useState(false)
+  const { language, t } = useLanguage();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const getIcon = () => {
     switch (type) {
       case "video":
-        return <Video className="h-10 w-10 text-primary" />
+        return <Video className="h-10 w-10 text-primary" />;
       case "lecture":
-        return <FileText className="h-10 w-10 text-primary" />
+        return <FileText className="h-10 w-10 text-primary" />;
       case "presentation":
-        return <FilePresentation className="h-10 w-10 text-primary" />
+        return <FilePresentation className="h-10 w-10 text-primary" />;
     }
-  }
+  };
 
   return (
     <>
@@ -104,17 +123,23 @@ function MediaCard({ item, index, type }: MediaCardProps) {
               fill
               className="object-cover"
             />
-            <div className="absolute inset-0 bg-black/50 flex items-center justify-center">{getIcon()}</div>
+            <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+              {getIcon()}
+            </div>
           </div>
           <CardContent className="p-4">
-            <h3 className="text-lg font-bold mb-2 line-clamp-2">{item.title[language]}</h3>
-            <p className="text-muted-foreground text-sm line-clamp-3">{item.description[language]}</p>
+            <h3 className="text-lg font-bold mb-2 line-clamp-2">
+              {item.title[language]}
+            </h3>
+            <p className="text-muted-foreground text-sm line-clamp-3">
+              {item.description[language]}
+            </p>
           </CardContent>
         </Card>
       </motion.div>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-4xl">
+        <DialogContent className="max-w-4xl overflow-y-auto max-h-[85vh]">
           <DialogHeader>
             <DialogTitle>{item.title[language]}</DialogTitle>
             <DialogDescription>{item.description[language]}</DialogDescription>
@@ -136,10 +161,16 @@ function MediaCard({ item, index, type }: MediaCardProps) {
 
           {type === "lecture" && (
             <div className="prose dark:prose-invert max-w-none">
-              <div dangerouslySetInnerHTML={{ __html: item.content[language] }} />
+              {"content" in item && (
+                <div
+                  dangerouslySetInnerHTML={{ __html: item.content[language] }}
+                />
+              )}
               {item.url && (
                 <div className="mt-4 flex justify-end">
-                  <Button onClick={() => window.open(item.url, "_blank")}>{t("common.download")}</Button>
+                  <Button onClick={() => window.open(item.url, "_blank")}>
+                    {t("common.download")}
+                  </Button>
                 </div>
               )}
             </div>
@@ -154,11 +185,13 @@ function MediaCard({ item, index, type }: MediaCardProps) {
                 height={400}
                 className="object-contain rounded-md mb-4"
               />
-              <Button onClick={() => window.open(item.url, "_blank")}>{t("common.download")}</Button>
+              <Button onClick={() => window.open(item.url, "_blank")}>
+                {t("common.download")}
+              </Button>
             </div>
           )}
         </DialogContent>
       </Dialog>
     </>
-  )
+  );
 }
