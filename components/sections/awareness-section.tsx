@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/components/language-provider";
 import SectionHeader from "@/components/ui/section-header";
@@ -66,7 +66,23 @@ interface AwarenessCardProps {
 
 function AwarenessCard({ item, index }: AwarenessCardProps) {
   const { language, t } = useLanguage();
+  const [mounted, setMounted] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  // Set mounted to true on the client side only.
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Until mounting is complete (client side), render nothing.
+  if (!mounted) {
+    return null;
+  }
+
+  // Ensure that client-only dynamic data such as date formats are generated only on the client.
+  const formattedDate = new Date(item.date).toLocaleDateString(
+    language === "ar" ? "ar-SA" : "en-US"
+  );
 
   return (
     <>
@@ -89,9 +105,7 @@ function AwarenessCard({ item, index }: AwarenessCardProps) {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
             <div className="absolute top-2 right-2 bg-primary text-white text-xs px-2 py-1 rounded">
-              {new Date(item.date).toLocaleDateString(
-                language === "ar" ? "ar-SA" : "en-US"
-              )}
+              {formattedDate}
             </div>
           </div>
           <CardContent className="p-4">
@@ -109,11 +123,7 @@ function AwarenessCard({ item, index }: AwarenessCardProps) {
         <DialogContent className="max-w-3xl overflow-y-auto max-h-[85vh]">
           <DialogHeader>
             <DialogTitle>{item.title[language]}</DialogTitle>
-            <DialogDescription>
-              {new Date(item.date).toLocaleDateString(
-                language === "ar" ? "ar-SA" : "en-US"
-              )}
-            </DialogDescription>
+            <DialogDescription>{formattedDate}</DialogDescription>
           </DialogHeader>
 
           <div className="relative w-full h-64 my-4 rounded-md overflow-hidden">
