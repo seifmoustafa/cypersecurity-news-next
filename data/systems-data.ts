@@ -2,8 +2,8 @@ export const systemsData = [
   {
     id: 1,
     title: {
-      ar: "عمليات",
-      en: "Operations",
+      ar: "عمليات الأمن السيبراني",
+      en: " Cybersecurity Operations",
     },
     description: {
       ar: "منظومة متكاملة لإدارة عمليات الأمن السيبراني ومراقبة التهديدات في الوقت الفعلي.",
@@ -17,8 +17,8 @@ export const systemsData = [
   {
     id: 2,
     title: {
-      ar: "دعم",
-      en: "Support",
+      ar: "دعم متخذ القرار",
+      en: "Decision Maker Support",
     },
     description: {
       ar: "نظام متخصص لتقديم الدعم الفني وحل المشكلات المتعلقة بالأمن السيبراني.",
@@ -31,7 +31,7 @@ export const systemsData = [
   {
     id: 3,
     title: {
-      ar: "ثغرات",
+      ar: "الثغرات",
       en: "Vulnerabilities",
     },
     description: {

@@ -20,7 +20,7 @@ const roboto = Roboto({
 })
 
 export const metadata: Metadata = {
-  title: "مركز الأمن السيبراني | Cybersecurity Center",
+  title: "بوابة الأمن السيبراني | Cybersecurity Portal",
   description: "أحدث المستجدات والتحليلات حول التهديدات السيبرانية وتقنيات الحماية",
     generator: 'v0.dev'
 }

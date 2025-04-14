@@ -31,7 +31,7 @@
     "visitSystem": "Visit System"
   },
   "regulation": {
-    "council": "Council",
+    "council": " Cybersecurity Council",
     "strategy": "Strategy",
     "executive": "Executive Regulations",
     "subtitle": "Regulatory and legislative framework for cybersecurity"
@@ -83,7 +83,7 @@
     "implementation": "Implementation Steps"
   },
   "hero": {
-    "title": "Cybersecurity Center",
+    "title": "Cybersecurity Portal",
     "subtitle": "Latest updates and analysis on cybersecurity threats and protection techniques"
   },
   "news": {
