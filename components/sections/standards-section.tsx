@@ -1,75 +1,94 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
-import { useLanguage } from "@/components/language-provider"
-import SectionHeader from "@/components/ui/section-header"
-import SectionContainer from "@/components/ui/section-container"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Globe, Home, Building, BookOpen, FileCode, Shield } from "lucide-react"
-import Link from "next/link"
-import { container } from "@/core/di/container"
-import type { Definition } from "@/core/domain/models/definition"
-import type { Domain } from "@/core/domain/models/framework"
-import type { StandardCategory } from "@/core/domain/models/standard"
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { useLanguage } from "@/components/language-provider";
+import SectionHeader from "@/components/ui/section-header";
+import SectionContainer from "@/components/ui/section-container";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Globe,
+  Home,
+  Building,
+  BookOpen,
+  FileCode,
+  Shield,
+} from "lucide-react";
+import Link from "next/link";
+import { container } from "@/core/di/container";
+import type { Definition } from "@/core/domain/models/definition";
+import type { Domain } from "@/core/domain/models/framework";
+import type { StandardCategory } from "@/core/domain/models/standard";
 
 export default function StandardsSection() {
-  const { t, language, isRtl } = useLanguage()
-  const [definitions, setDefinitions] = useState<Record<string, Definition[]>>({})
-  const [domains, setDomains] = useState<Domain[]>([])
-  const [standardCategories, setStandardCategories] = useState<StandardCategory[]>([])
-  const [loading, setLoading] = useState(true)
+  const { t, language, isRtl } = useLanguage();
+  const [definitions, setDefinitions] = useState<Record<string, Definition[]>>(
+    {}
+  );
+  const [domains, setDomains] = useState<Domain[]>([]);
+  const [standardCategories, setStandardCategories] = useState<
+    StandardCategory[]
+  >([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true)
+        setLoading(true);
 
         // Fetch definitions
-        const categories = await container.services.definitions.getCategories()
-        const definitionsData: Record<string, Definition[]> = {}
+        const categories = await container.services.definitions.getCategories();
+        const definitionsData: Record<string, Definition[]> = {};
 
         for (const category of categories) {
-          const categoryDefinitions = await container.services.definitions.getDefinitionsByCategory(category)
-          definitionsData[category] = categoryDefinitions
+          const categoryDefinitions =
+            await container.services.definitions.getDefinitionsByCategory(
+              category
+            );
+          definitionsData[category] = categoryDefinitions;
         }
 
-        setDefinitions(definitionsData)
+        setDefinitions(definitionsData);
 
         // Fetch framework domains
-        const frameworkDomains = await container.services.framework.getDomains()
-        setDomains(frameworkDomains)
+        const frameworkDomains =
+          await container.services.framework.getDomains();
+        setDomains(frameworkDomains);
 
         // Fetch standard categories
-        const categories2 = await container.services.standards.getStandardCategories()
-        setStandardCategories(categories2)
+        const categories2 =
+          await container.services.standards.getStandardCategories();
+        setStandardCategories(categories2);
       } catch (error) {
-        console.error("Error fetching standards data:", error)
+        console.error("Error fetching standards data:", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   const icons = {
     international: <Globe className="h-6 w-6 text-primary" />,
     local: <Home className="h-6 w-6 text-primary" />,
     internal: <Building className="h-6 w-6 text-primary" />,
-  }
+  };
 
   const tabIcons = {
     definitions: <BookOpen className="h-5 w-5" />,
     framework: <FileCode className="h-5 w-5" />,
     standards: <Shield className="h-5 w-5" />,
-  }
+  };
 
   if (loading) {
     return (
       <SectionContainer id="standards" className="bg-muted/30">
-        <SectionHeader title={t("section.standards")} subtitle={t("standards.subtitle")} />
+        <SectionHeader
+          title={t("section.standards")}
+          subtitle={t("standards.subtitle")}
+        />
         <div className="animate-pulse">
           <div className="h-10 bg-gray-300 dark:bg-gray-700 rounded max-w-md mx-auto mb-8"></div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -88,12 +107,15 @@ export default function StandardsSection() {
           </div>
         </div>
       </SectionContainer>
-    )
+    );
   }
 
   return (
     <SectionContainer id="standards" className="bg-muted/30">
-      <SectionHeader title={t("section.standards")} subtitle={t("standards.subtitle")} />
+      <SectionHeader
+        title={t("section.standards")}
+        subtitle={t("standards.subtitle")}
+      />
 
       <Tabs defaultValue="standards" className="w-full">
         <TabsList className="w-full max-w-md mx-auto mb-8">
@@ -121,10 +143,16 @@ export default function StandardsSection() {
         <TabsContent value="definitions" className="mt-0">
           <Tabs defaultValue="general" className="w-full">
             <TabsList
-              className={`w-full max-w-2xl mx-auto mb-8 flex flex-wrap justify-center ${isRtl ? "flex-row-reverse" : ""}`}
+              className={`w-full max-w-2xl mx-auto mb-8 flex flex-wrap justify-center ${
+                isRtl ? "flex-row-reverse" : ""
+              }`}
             >
               {Object.keys(definitions).map((category) => (
-                <TabsTrigger key={category} value={category} className="flex-grow">
+                <TabsTrigger
+                  key={category}
+                  value={category}
+                  className="flex-grow"
+                >
                   {t(`definitions.categories.${category}`)}
                 </TabsTrigger>
               ))}
@@ -143,12 +171,20 @@ export default function StandardsSection() {
                       >
                         <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
                           <CardHeader className="pb-2">
-                            <CardTitle className={`text-xl ${isRtl ? "text-right" : "text-left"}`}>
+                            <CardTitle
+                              className={`text-xl ${
+                                isRtl ? "text-right" : "text-left"
+                              }`}
+                            >
                               {item.term[language]}
                             </CardTitle>
                           </CardHeader>
-                          <CardContent className={isRtl ? "text-right" : "text-left"}>
-                            <p className="text-muted-foreground line-clamp-4">{item.definition[language]}</p>
+                          <CardContent
+                            className={isRtl ? "text-right" : "text-left"}
+                          >
+                            <p className="text-muted-foreground line-clamp-4">
+                              {item.definition[language]}
+                            </p>
                           </CardContent>
                         </Card>
                       </motion.div>
@@ -160,7 +196,8 @@ export default function StandardsSection() {
                     href={`/definitions/category/${category}`}
                     className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
                   >
-                    {t("common.viewAll")} {t(`definitions.categories.${category}`)}
+                    {t("common.viewAll")}{" "}
+                    {t(`definitions.categories.${category}`)}
                   </Link>
                 </div>
               </TabsContent>
@@ -181,16 +218,27 @@ export default function StandardsSection() {
                 >
                   <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
                     <CardHeader className="pb-2">
-                      <CardTitle className={`text-xl ${isRtl ? "text-right" : "text-left"}`}>
+                      <CardTitle
+                        className={`text-xl ${
+                          isRtl ? "text-right" : "text-left"
+                        }`}
+                      >
                         {domain.title[language]}
                       </CardTitle>
                     </CardHeader>
                     <CardContent className={isRtl ? "text-right" : "text-left"}>
-                      <p className="text-muted-foreground mb-4">{domain.description[language]}</p>
+                      <p className="text-muted-foreground mb-4">
+                        {domain.description[language]}
+                      </p>
                       <div className="space-y-2">
                         {domain.components.slice(0, 2).map((component) => (
-                          <div key={component.id} className="p-2 bg-muted rounded-md">
-                            <p className="font-medium">{component.title[language]}</p>
+                          <div
+                            key={component.id}
+                            className="p-2 bg-muted rounded-md"
+                          >
+                            <p className="font-medium">
+                              {component.title[language]}
+                            </p>
                           </div>
                         ))}
                         {domain.components.length > 2 && (
@@ -228,13 +276,21 @@ export default function StandardsSection() {
                 >
                   <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
                     <CardHeader className="pb-2">
-                      <div className={`flex items-center gap-2 ${isRtl ? "justify-end" : "justify-start"}`}>
+                      <div
+                        className={`flex items-center gap-2 ${
+                          isRtl ? "justify-end" : "justify-start"
+                        }`}
+                      >
                         {icons[category.id as keyof typeof icons]}
                         <CardTitle>{category.name[language]}</CardTitle>
                       </div>
                     </CardHeader>
                     <CardContent>
-                      <div className={`prose dark:prose-invert max-w-none ${isRtl ? "text-right" : "text-left"}`}>
+                      <div
+                        className={`prose dark:prose-invert max-w-none ${
+                          isRtl ? "text-right" : "text-left"
+                        }`}
+                      >
                         <p>{category.description[language]}</p>
                       </div>
 
@@ -242,10 +298,14 @@ export default function StandardsSection() {
                         {category.items.slice(0, 2).map((item, itemIndex) => (
                           <div
                             key={itemIndex}
-                            className={`p-3 bg-muted rounded-md ${isRtl ? "text-right" : "text-left"}`}
+                            className={`p-3 bg-muted rounded-md ${
+                              isRtl ? "text-right" : "text-left"
+                            }`}
                           >
                             <h4 className="font-medium">{item.name}</h4>
-                            <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{item.description}</p>
+                            <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+                              {item.description}
+                            </p>
                           </div>
                         ))}
                         {category.items.length > 2 && (
@@ -263,5 +323,5 @@ export default function StandardsSection() {
         </TabsContent>
       </Tabs>
     </SectionContainer>
-  )
+  );
 }
