@@ -5,22 +5,24 @@ import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/components/language-provider"
-import { getLatestNews } from "@/data/news-data"
 import Image from "next/image"
 import Link from "next/link"
+import { useLatestNews } from "@/core/hooks/use-news"
 
 export default function NewsCarousel() {
   const { language, t, isRtl } = useLanguage()
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [news] = useState(getLatestNews(5))
+  const { news, loading } = useLatestNews(5)
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null)
   const carouselRef = useRef<HTMLDivElement>(null)
 
   const nextSlide = () => {
+    if (news.length === 0) return
     setCurrentIndex((prevIndex) => (prevIndex + 1) % news.length)
   }
 
   const prevSlide = () => {
+    if (news.length === 0) return
     setCurrentIndex((prevIndex) => (prevIndex - 1 + news.length) % news.length)
   }
 
@@ -36,14 +38,16 @@ export default function NewsCarousel() {
       }, 5000)
     }
 
-    startAutoPlay()
+    if (news.length > 0) {
+      startAutoPlay()
+    }
 
     return () => {
       if (autoPlayRef.current) {
         clearInterval(autoPlayRef.current)
       }
     }
-  }, [])
+  }, [news])
 
   // Pause auto play on hover
   const pauseAutoPlay = () => {
@@ -61,7 +65,7 @@ export default function NewsCarousel() {
     }, 5000)
   }
 
-  if (news.length === 0) return null
+  if (loading || news.length === 0) return null
 
   // Determine the direction of the slide based on RTL setting
   const slideDirection = isRtl ? -1 : 1
@@ -104,7 +108,7 @@ export default function NewsCarousel() {
                     <div
                       className={`mb-2 text-sm md:text-base bg-primary/80 inline-block px-2 py-1 rounded ${isRtl ? "float-right" : "float-left"}`}
                     >
-                      {news[currentIndex].date}
+                      {new Date(news[currentIndex].date).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
                     </div>
                     <div className="clear-both"></div>
                     <h2 className="text-xl md:text-3xl font-bold mb-2 line-clamp-2">

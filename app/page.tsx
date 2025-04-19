@@ -1,8 +1,12 @@
+"use client"
+
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
 import MainLayout from "@/components/layouts/main-layout"
 import HeroSection from "@/components/sections/hero-section"
 import NewsTicker from "@/components/news-ticker"
 import NewsCarousel from "@/components/news-carousel"
-import { tickerItems } from "@/data/ticker-items"
+import TipOfTheDayPopup from "@/components/tip-of-the-day-popup"
 import SystemsSection from "@/components/sections/systems-section"
 import CyberSecurityRegulationSection from "@/components/sections/cybersecurity-regulation-section"
 import AwarenessSection from "@/components/sections/awareness-section"
@@ -11,9 +15,20 @@ import StandardsSection from "@/components/sections/standards-section"
 import MediaLibrarySection from "@/components/sections/media-library-section"
 
 export default function Home() {
+  const router = useRouter()
+
+  // Force client-side navigation
+  useEffect(() => {
+    router.prefetch("/news")
+    router.prefetch("/standards/international")
+    router.prefetch("/instructions/group")
+    router.prefetch("/instructions/branch")
+  }, [router])
+
   return (
     <MainLayout>
-      <NewsTicker items={tickerItems} />
+      <NewsTicker />
+      <TipOfTheDayPopup />
       <HeroSection />
       <NewsCarousel />
 

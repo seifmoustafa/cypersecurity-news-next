@@ -6,8 +6,6 @@ import Footer from "./footer"
 import { useTheme } from "next-themes"
 import { useLanguage } from "@/components/language-provider"
 import { useEffect } from "react"
-import { PageTransition } from "@/components/page-transition"
-import TipOfTheDayPopup from "@/components/tip-of-the-day-popup"
 
 interface MainLayoutProps {
   children: ReactNode
@@ -34,10 +32,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
   return (
     <div className={`flex flex-col min-h-screen ${isRtl ? "rtl" : "ltr"}`}>
       <Header onToggleTheme={toggleTheme} onToggleLanguage={toggleLanguage} />
-      <TipOfTheDayPopup />
-      <PageTransition>
-        <main className="flex-grow pt-16">{children}</main>
-      </PageTransition>
+      <main className="flex-grow pt-16">{children}</main>
       <Footer />
     </div>
   )

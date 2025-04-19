@@ -1,3 +1,5 @@
+"use client"
+
 import { getDefinitionsByCategory } from "@/data/definitions-data"
 import { notFound } from "next/navigation"
 import MainLayout from "@/components/layouts/main-layout"
@@ -5,51 +7,61 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
 import { ChevronLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import type { Metadata } from "next"
+import { useLanguage } from "@/components/language-provider"
+import { useParams, useRouter } from "next/navigation"
+import { Suspense, useEffect, useState } from "react"
 
-export async function generateMetadata({ params }: { params: { category: string } }): Promise<Metadata> {
+export default function DefinitionCategoryPage() {
+  return (
+    <Suspense fallback={<LoadingState />}>
+      <DefinitionCategoryContent />
+    </Suspense>
+  )
+}
+
+function LoadingState() {
+  return (
+    <MainLayout>
+      <div className="pt-24 pb-16 flex justify-center items-center min-h-[50vh]">
+        <div className="animate-pulse">Loading...</div>
+      </div>
+    </MainLayout>
+  )
+}
+
+function DefinitionCategoryContent() {
+  const params = useParams()
+  const categoryParam = params.category as string
+  const { language, isRtl } = useLanguage()
+  const [definitions, setDefinitions] = useState<any[]>([])
+  const router = useRouter()
+
+  useEffect(() => {
+    const defs = getDefinitionsByCategory(categoryParam)
+    if (defs.length === 0) {
+      notFound()
+    }
+
+    setDefinitions(defs)
+
+    // Prefetch definition pages
+    defs.forEach((def) => {
+      router.prefetch(`/definitions/${def.id}`)
+    })
+  }, [categoryParam, router])
+
   const categoryNames = {
-    general: "مصطلحات عامة",
-    technical: "مصطلحات تقنية",
-    legal: "مصطلحات قانونية",
-    threats: "التهديدات والهجمات",
+    general: language === "ar" ? "مصطلحات عامة" : "General Terms",
+    technical: language === "ar" ? "مصطلحات تقنية" : "Technical Terms",
+    legal: language === "ar" ? "مصطلحات قانونية" : "Legal Terms",
+    threats: language === "ar" ? "التهديدات والهجمات" : "Threats and Attacks",
   }
 
-  const categoryName = categoryNames[params.category as keyof typeof categoryNames]
+  const categoryName = categoryNames[categoryParam as keyof typeof categoryNames]
 
   if (!categoryName) {
-    return {
-      title: "Category Not Found",
-    }
+    return <LoadingState />
   }
-
-  return {
-    title: categoryName,
-    description: `مصطلحات وتعريفات ${categoryName} في مجال الأمن السيبراني`,
-  }
-}
-
-export async function generateStaticParams() {
-  return ["general", "technical", "legal", "threats"].map((category) => ({
-    category,
-  }))
-}
-
-export default function DefinitionCategoryPage({ params }: { params: { category: string } }) {
-  const definitions = getDefinitionsByCategory(params.category)
-
-  if (definitions.length === 0) {
-    notFound()
-  }
-
-  const categoryNames = {
-    general: "مصطلحات عامة",
-    technical: "مصطلحات تقنية",
-    legal: "مصطلحات قانونية",
-    threats: "التهديدات والهجمات",
-  }
-
-  const categoryName = categoryNames[params.category as keyof typeof categoryNames]
 
   return (
     <MainLayout>
@@ -59,7 +71,7 @@ export default function DefinitionCategoryPage({ params }: { params: { category:
             <Link href="/#standards">
               <Button variant="ghost" size="sm" className="gap-1">
                 <ChevronLeft className="h-4 w-4" />
-                <span>رجوع</span>
+                <span>{language === "ar" ? "رجوع" : "Back"}</span>
               </Button>
             </Link>
             <h1 className="text-3xl font-bold text-center flex-1">{categoryName}</h1>
@@ -70,10 +82,12 @@ export default function DefinitionCategoryPage({ params }: { params: { category:
               <Link href={`/definitions/${definition.id}`} key={definition.id}>
                 <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-xl">{definition.term.ar}</CardTitle>
+                    <CardTitle className={`text-xl ${isRtl ? "text-right" : "text-left"}`}>
+                      {definition.term[language]}
+                    </CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground line-clamp-4">{definition.definition.ar}</p>
+                  <CardContent className={isRtl ? "text-right" : "text-left"}>
+                    <p className="text-muted-foreground line-clamp-4">{definition.definition[language]}</p>
                   </CardContent>
                 </Card>
               </Link>

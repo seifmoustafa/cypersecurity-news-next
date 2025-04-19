@@ -6,7 +6,7 @@ import HeroBackground from "@/components/hero-background"
 import { motion } from "framer-motion"
 import { useLanguage } from "@/components/language-provider"
 import { Button } from "@/components/ui/button"
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, Shield } from "lucide-react"
 
 export default function HeroSection() {
   const { theme } = useTheme()
@@ -21,12 +21,12 @@ export default function HeroSection() {
   if (!mounted) return null
 
   return (
-    <div className="relative w-full h-[50vh] md:h-[60vh] overflow-hidden">
+    <div className="relative w-full h-[60vh] md:h-[70vh] overflow-hidden">
       {/* Animated background */}
       <HeroBackground />
 
       {/* Optional overlay for better text contrast */}
-      <div className="absolute inset-0 bg-black/30 dark:bg-black/50 z-10"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70 dark:from-black/70 dark:via-black/60 dark:to-black/80 z-10"></div>
 
       {/* Hero content */}
       <div className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4">
@@ -36,12 +36,21 @@ export default function HeroSection() {
           transition={{ duration: 1 }}
           className="max-w-3xl"
         >
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white drop-shadow-md">{t("hero.title")}</h1>
-          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-6 drop-shadow">{t("hero.subtitle")}</p>
+          <div className="flex justify-center mb-4">
+            <Shield className="h-16 w-16 text-primary" />
+          </div>
+
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white drop-shadow-md bg-clip-text">
+            {t("hero.title")}
+          </h1>
+
+          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-8 drop-shadow leading-relaxed">
+            {t("hero.subtitle")}
+          </p>
 
           <Button
             size="lg"
-            className="bg-primary/90 hover:bg-primary text-white"
+            className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-6 text-lg"
             onClick={() => {
               const systemsSection = document.querySelector("#systems")
               if (systemsSection) {
@@ -65,7 +74,7 @@ export default function HeroSection() {
             repeatType: "reverse",
           }}
         >
-          <ChevronDown className="h-8 w-8 text-white/80" />
+          <ChevronDown className="h-10 w-10 text-white/80" />
         </motion.div>
       </div>
     </div>

@@ -1,58 +1,27 @@
 "use client"
 
+import { instructionsData } from "@/data/instructions-data"
 import { notFound } from "next/navigation"
 import MainLayout from "@/components/layouts/main-layout"
 import Link from "next/link"
 import { ChevronLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useEffect, useState } from "react"
-import { Loading } from "@/components/ui/loading"
-import { useLanguage } from "@/components/language-provider"
+import { useLanguage } from "@/context/LanguageContext"
 
 export default function InstructionsPageClient({
   params,
-  instructionData,
 }: {
   params: { type: string; year: string }
-  instructionData: any | null
 }) {
-  const type = params.type
+  const type = params.type as keyof typeof instructionsData
   const year = params.year
-  const [loading, setLoading] = useState(true)
-  const [data, setData] = useState<any>(null)
   const { language } = useLanguage()
 
-  useEffect(() => {
-    // If we already know the instruction doesn't exist, show 404
-    if (!instructionData) {
-      notFound()
-      return
-    }
-
-    // Set the data from props
-    setData(instructionData)
-    setLoading(false)
-  }, [instructionData])
-
-  // Show loading state
-  if (loading) {
-    return (
-      <MainLayout>
-        <div className="pt-24 pb-16">
-          <div className="container mx-auto px-4">
-            <div className="flex justify-center items-center min-h-[50vh]">
-              <Loading text={language === "ar" ? "جاري التحميل..." : "Loading..."} />
-            </div>
-          </div>
-        </div>
-      </MainLayout>
-    )
-  }
-
-  // Show 404 if data doesn't exist
-  if (!data) {
+  if (!instructionsData[type] || !instructionsData[type][year]) {
     notFound()
   }
+
+  const instructionData = instructionsData[type][year]
 
   return (
     <MainLayout>
@@ -62,7 +31,7 @@ export default function InstructionsPageClient({
             <Link href="/#instructions">
               <Button variant="ghost" size="sm" className="gap-1">
                 <ChevronLeft className="h-4 w-4" />
-                <span>رجوع</span>
+                <span>{language === "ar" ? "رجوع" : "Back"}</span>
               </Button>
             </Link>
             <h1 className="text-3xl font-bold text-center flex-1">
@@ -70,15 +39,18 @@ export default function InstructionsPageClient({
             </h1>
           </div>
 
-          <div className="mb-8">
-            <div className="prose dark:prose-invert max-w-none" dir={language === "ar" ? "rtl" : "ltr"}>
-              <div dangerouslySetInnerHTML={{ __html: data.content[language] }} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div className="prose dark:prose-invert max-w-none" dir="rtl">
+              <div dangerouslySetInnerHTML={{ __html: instructionData.ar }} />
+            </div>
+            <div className="prose dark:prose-invert max-w-none">
+              <div dangerouslySetInnerHTML={{ __html: instructionData.en }} />
             </div>
           </div>
 
-          {data.documentUrl && (
+          {instructionData.documentUrl && (
             <div className="flex justify-center mt-8">
-              <Button onClick={() => window.open(data.documentUrl, "_blank")}>تحميل الوثيقة</Button>
+              <Button onClick={() => window.open(instructionData.documentUrl, "_blank")}>تحميل الوثيقة</Button>
             </div>
           )}
         </div>

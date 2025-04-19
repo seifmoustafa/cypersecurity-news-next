@@ -1,40 +1,23 @@
-import { mediaLibraryData } from "@/data/media-library-data"
-import type { Metadata } from "next"
-import LecturePageClient from "./LecturePageClient"
+"use client"
 
-export const dynamic = "force-dynamic"
+import { Suspense } from "react"
+import LecturePageContent from "./LecturePageContent"
+import MainLayout from "@/components/layouts/main-layout"
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: string }
-}): Promise<Metadata> {
-  const lecture = mediaLibraryData.lectures.find(
-    (item) => item.id.toString() === params.id
+export default function LecturePage() {
+  return (
+    <Suspense fallback={<LoadingState />}>
+      <LecturePageContent />
+    </Suspense>
   )
-
-  if (!lecture) {
-    return {
-      title: "Lecture Not Found",
-    }
-  }
-
-  return {
-    title: `${lecture.title.ar} | ${lecture.title.en}`,
-    description: lecture.description.ar,
-  }
 }
 
-export async function generateStaticParams() {
-  return mediaLibraryData.lectures.map((item) => ({
-    id: item.id.toString(),
-  }))
-}
-
-export default function LecturePage({
-  params,
-}: {
-  params: { id: string }
-}) {
-  return <LecturePageClient id={params.id} />
+function LoadingState() {
+  return (
+    <MainLayout>
+      <div className="pt-24 pb-16 flex justify-center items-center min-h-[50vh]">
+        <div className="animate-pulse">Loading...</div>
+      </div>
+    </MainLayout>
+  )
 }

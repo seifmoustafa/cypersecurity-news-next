@@ -1,11 +1,19 @@
 import type React from "react"
-import type { Metadata } from "next"
 import { Tajawal, Roboto } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { LanguageProvider } from "@/components/language-provider"
-import { ErrorBoundary } from "@/components/error-boundary"
-import { NavigationProgress } from "@/components/navigation-progress"
+import { Suspense } from "react"
+
+// Add a cache control header to improve caching
+export const metadata = {
+  title: "مركز الأمن السيبراني | Cybersecurity Center",
+  description: "أحدث المستجدات والتحليلات حول التهديدات السيبرانية وتقنيات الحماية",
+    generator: 'v0.dev'
+}
+
+// Add this function to improve page loading performance
+export const dynamic = "force-dynamic"
 
 const tajawal = Tajawal({
   subsets: ["arabic"],
@@ -19,12 +27,6 @@ const roboto = Roboto({
   variable: "--font-roboto",
 })
 
-export const metadata: Metadata = {
-  title: "بوابة الأمن السيبراني | Cybersecurity Portal",
-  description: "أحدث المستجدات والتحليلات حول التهديدات السيبرانية وتقنيات الحماية",
-    generator: 'v0.dev'
-}
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,19 +34,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" suppressHydrationWarning>
+      <head>
+        <title>مركز الأمن السيبراني | Cybersecurity Center</title>
+        <meta name="description" content="أحدث المستجدات والتحليلات حول التهديدات السيبرانية وتقنيات الحماية" />
+      </head>
       <body className={`${tajawal.variable} ${roboto.variable}`}>
-        <ErrorBoundary>
-          <LanguageProvider>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-              <NavigationProgress />
+        <LanguageProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+            <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
               {children}
-            </ThemeProvider>
-          </LanguageProvider>
-        </ErrorBoundary>
+            </Suspense>
+          </ThemeProvider>
+        </LanguageProvider>
       </body>
     </html>
   )
 }
-
-
-import './globals.css'

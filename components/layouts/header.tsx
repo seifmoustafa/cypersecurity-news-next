@@ -1,15 +1,13 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { MoonIcon, SunIcon, MenuIcon, XIcon, Globe, ChevronDown } from "lucide-react"
+import { MoonIcon, SunIcon, MenuIcon, XIcon, Globe, ChevronDown, Shield } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import { useLanguage } from "@/components/language-provider"
 import { cn } from "@/lib/utils"
-import { usePathname } from "next/navigation"
+import Link from "next/link"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { ROUTES } from "@/lib/routes"
-import { OptimizedLink } from "@/components/optimized-link"
 
 interface HeaderProps {
   onToggleTheme: () => void
@@ -22,48 +20,47 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
   const [mounted, setMounted] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState("")
-  const pathname = usePathname()
 
   // Navigation items grouped by category
   const navGroups = [
     {
       title: "systems",
       items: [
-        { key: "nav.systems", href: ROUTES.SECTIONS.SYSTEMS },
-        { key: "nav.vulnerabilities", href: ROUTES.SECTIONS.SYSTEMS },
+        { key: "nav.systems", href: "#systems" },
+        { key: "nav.vulnerabilities", href: "#systems" },
       ],
     },
     {
       title: "regulation",
       items: [
-        { key: "nav.strategy", href: ROUTES.SECTIONS.REGULATION },
-        { key: "nav.regulations", href: ROUTES.SECTIONS.REGULATION },
+        { key: "nav.strategy", href: "#regulation" },
+        { key: "nav.regulations", href: "#regulation" },
       ],
     },
     {
       title: "security",
       items: [
-        { key: "nav.instructions", href: ROUTES.SECTIONS.INSTRUCTIONS },
-        { key: "nav.procedures", href: ROUTES.SECTIONS.INSTRUCTIONS },
+        { key: "nav.instructions", href: "#instructions" },
+        { key: "nav.procedures", href: "#instructions" },
       ],
     },
     {
       title: "awareness",
       items: [
-        { key: "nav.awareness", href: ROUTES.SECTIONS.AWARENESS },
-        { key: "nav.news", href: ROUTES.NEWS.INDEX },
+        { key: "nav.awareness", href: "#awareness" },
+        { key: "nav.news", href: "#awareness" },
       ],
     },
     {
       title: "media",
-      items: [{ key: "nav.videos", href: ROUTES.SECTIONS.MEDIA }],
+      items: [{ key: "nav.videos", href: "#media" }],
     },
     {
       title: "standards",
       items: [
-        { key: "nav.definitions", href: ROUTES.DEFINITIONS.INDEX },
-        { key: "nav.framework", href: ROUTES.FRAMEWORK.INDEX },
-        { key: "nav.standards", href: ROUTES.STANDARDS.INDEX },
+        { key: "nav.definitions", href: "#standards" },
+        { key: "nav.framework", href: "#standards" },
+        { key: "nav.standards", href: "#standards" },
       ],
     },
   ]
@@ -75,9 +72,6 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
 
   // Handle scroll and update active section
   useEffect(() => {
-    // Only run this on the homepage
-    if (pathname !== "/") return
-
     const handleScroll = () => {
       const sections = document.querySelectorAll(".section-anchor")
       let currentActiveSection = ""
@@ -94,7 +88,7 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
 
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [pathname])
+  }, [])
 
   if (!mounted) return null
 
@@ -104,30 +98,19 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
     setTheme(theme === "dark" ? "light" : "dark")
   }
 
-  // Helper function to handle navigation
-  const handleNavigation = (href: string) => {
-    // Close mobile menu when navigating
-    setMobileMenuOpen(false)
-
-    // If it's a hash link on the current page, handle smooth scrolling
-    if (href.startsWith("#") && pathname === "/") {
-      const element = document.querySelector(href)
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" })
-      }
-      return
-    }
-  }
-
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b shadow-sm">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-blue-200/20 dark:border-blue-800/20 shadow-sm">
       <div className="container mx-auto px-4">
         <div className="h-16 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
-            <OptimizedLink href={ROUTES.HOME} className="text-xl font-bold text-primary">
+            <Link
+              href="/"
+              className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 flex items-center"
+            >
+              <Shield className="h-6 w-6 text-primary mr-2 rtl:ml-2 rtl:mr-0" />
               {t("hero.title")}
-            </OptimizedLink>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
@@ -135,27 +118,35 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
             {navGroups.map((group) => (
               <DropdownMenu key={group.title}>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="flex items-center gap-1">
+                  <Button
+                    variant="ghost"
+                    className="flex items-center gap-1 hover:bg-blue-50/50 dark:hover:bg-blue-900/20"
+                  >
                     {t(`section.${group.title === "security" ? "instructions" : group.title}`)}
                     <ChevronDown className="h-4 w-4 opacity-50" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align={isRtl ? "end" : "start"}>
+                <DropdownMenuContent
+                  align={isRtl ? "end" : "start"}
+                  className="border border-blue-200/30 dark:border-blue-800/30"
+                >
                   {group.items.map((item) => (
                     <DropdownMenuItem key={item.key} asChild>
-                      <OptimizedLink
+                      <Link
                         href={item.href}
                         className={cn(
                           "w-full",
-                          (item.href.startsWith("#") && item.href.substring(1) === activeSection) ||
-                            (!item.href.startsWith("#") && pathname.startsWith(item.href))
-                            ? "font-medium"
-                            : "",
+                          item.href.substring(1) === activeSection ? "font-medium text-primary" : "",
                         )}
-                        onClick={() => handleNavigation(item.href)}
+                        onClick={() => {
+                          const element = document.querySelector(item.href)
+                          if (element) {
+                            element.scrollIntoView({ behavior: "smooth" })
+                          }
+                        }}
                       >
                         {t(item.key)}
-                      </OptimizedLink>
+                      </Link>
                     </DropdownMenuItem>
                   ))}
                 </DropdownMenuContent>
@@ -165,7 +156,13 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
 
           {/* Theme and Language Toggles */}
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" onClick={onToggleLanguage} title={t("common.language")}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onToggleLanguage}
+              title={t("common.language")}
+              className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20"
+            >
               <Globe className="h-5 w-5" />
               <span className="sr-only">{t("common.language")}</span>
             </Button>
@@ -175,6 +172,7 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
               size="icon"
               onClick={handleThemeToggle}
               title={isDarkMode ? t("common.lightMode") : t("common.darkMode")}
+              className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20"
             >
               {isDarkMode ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
               <span className="sr-only">{isDarkMode ? t("common.lightMode") : t("common.darkMode")}</span>
@@ -184,7 +182,7 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden"
+              className="lg:hidden hover:bg-blue-50/50 dark:hover:bg-blue-900/20"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? <XIcon className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
@@ -196,7 +194,7 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
 
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-background border-b">
+        <div className="lg:hidden bg-background/95 backdrop-blur-md border-b border-blue-200/20 dark:border-blue-800/20">
           <div className="container mx-auto px-4 py-3">
             <nav className="flex flex-col space-y-2">
               {navGroups.map((group) => (
@@ -206,20 +204,23 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
                   </h3>
                   <div className="space-y-1 pl-2 rtl:pr-2 rtl:pl-0">
                     {group.items.map((item) => (
-                      <OptimizedLink
+                      <Link
                         key={item.key}
                         href={item.href}
                         className={cn(
-                          "block px-3 py-1.5 text-sm rounded-md transition-colors hover:bg-muted",
-                          (item.href.startsWith("#") && item.href.substring(1) === activeSection) ||
-                            (!item.href.startsWith("#") && pathname.startsWith(item.href))
-                            ? "text-primary font-medium"
-                            : "text-foreground/80",
+                          "block px-3 py-1.5 text-sm rounded-md transition-colors hover:bg-blue-50/50 dark:hover:bg-blue-900/20",
+                          item.href.substring(1) === activeSection ? "text-primary font-medium" : "text-foreground/80",
                         )}
-                        onClick={() => handleNavigation(item.href)}
+                        onClick={() => {
+                          setMobileMenuOpen(false)
+                          const element = document.querySelector(item.href)
+                          if (element) {
+                            element.scrollIntoView({ behavior: "smooth" })
+                          }
+                        }}
                       >
                         {t(item.key)}
-                      </OptimizedLink>
+                      </Link>
                     ))}
                   </div>
                 </div>

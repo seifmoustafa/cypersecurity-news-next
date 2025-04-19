@@ -1,27 +1,31 @@
 "use client"
 
+import type React from "react"
 import { useEffect, useRef } from "react"
 import { useTheme } from "next-themes"
 
-// Helper function to convert hex to rgb
-function hexToRgb(hex: string) {
-  // Remove leading "#"
-  hex = hex.replace(/^#/, "")
-  // If shorthand notation (#RGB), expand it to (#RRGGBB)
-  if (hex.length === 3) {
-    hex = hex
-      .split("")
-      .map((c) => c + c)
-      .join("")
-  }
-  const bigint = Number.parseInt(hex, 16)
-  const r = (bigint >> 16) & 255
-  const g = (bigint >> 8) & 255
-  const b = bigint & 255
-  return [r, g, b]
+interface Node {
+  x: number
+  y: number
+  radius: number
+  type: "shield" | "lock" | "server"
+  connections: number[]
+  pulseRadius: number
+  pulseOpacity: number
+  pulseDirection: number
 }
 
-export default function HeroBackground() {
+interface DataPacket {
+  sourceIndex: number
+  targetIndex: number
+  x: number
+  y: number
+  progress: number
+  speed: number
+  color: string
+}
+
+const HeroBackground: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { theme } = useTheme()
   const isDark = theme === "dark"
@@ -29,490 +33,355 @@ export default function HeroBackground() {
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
+
     const ctx = canvas.getContext("2d")
     if (!ctx) return
 
-    let animationFrameId: number
-    let particles: Particle[] = []
-    let shields: Shield[] = []
-    let connections: Connection[] = []
-    let dataStreams: DataStream[] = []
-    const mousePosition = { x: 0, y: 0 }
-    let width = window.innerWidth
-    let height = window.innerHeight
-
-    // Set Canvas Dimensions + Initialize
-    function setCanvasDimensions() {
-      width = window.innerWidth
-      height = window.innerHeight
-      canvas.width = width
-      canvas.height = height
-      initElements()
+    // Set canvas dimensions with proper DPI scaling
+    const setCanvasDimensions = () => {
+      const dpr = window.devicePixelRatio || 1
+      canvas.width = window.innerWidth * dpr
+      canvas.height = 400 * dpr
+      canvas.style.width = `${window.innerWidth}px`
+      canvas.style.height = "400px"
+      ctx.scale(dpr, dpr)
     }
 
-    // Particle Class
-    class Particle {
-      x: number
-      y: number
-      size: number
-      speedX: number
-      speedY: number
-      color: string
-      opacity: number
-      connected: boolean
-      isBinary: boolean
-      binaryChar: string
-
-      constructor() {
-        this.x = Math.random() * width
-        this.y = Math.random() * height
-        this.size = Math.random() * 1.5 + 0.5
-        this.speedX = (Math.random() - 0.5) * 0.3
-        this.speedY = (Math.random() - 0.5) * 0.3
-        this.color = isDark ? "#ffffff" : "#000000"
-        this.opacity = Math.random() * 0.5 + 0.2
-        this.connected = false
-        this.isBinary = Math.random() > 0.8
-        this.binaryChar = Math.random() > 0.5 ? "1" : "0"
-      }
-
-      update() {
-        this.x += this.speedX
-        this.y += this.speedY
-        if (this.x < 0 || this.x > width) this.speedX *= -1
-        if (this.y < 0 || this.y > height) this.speedY *= -1
-        this.connected = false
-
-        // Occasionally change binary character
-        if (this.isBinary && Math.random() > 0.95) {
-          this.binaryChar = Math.random() > 0.5 ? "1" : "0"
-        }
-      }
-
-      draw() {
-        if (!ctx) return
-
-        if (this.isBinary) {
-          ctx.font = `${this.size * 8}px monospace`
-          ctx.fillStyle = `rgba(0, 150, 255, ${this.opacity})`
-          ctx.textAlign = "center"
-          ctx.fillText(this.binaryChar, this.x, this.y)
-        } else {
-          ctx.beginPath()
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
-          const [r, g, b] = hexToRgb(this.color)
-          ctx.fillStyle = `rgba(${r},${g},${b},${this.opacity})`
-          ctx.fill()
-        }
-      }
-    }
-
-    // Shield Class
-    class Shield {
-      x: number
-      y: number
-      size: number
-      rotation: number
-      rotationSpeed: number
-      pulsePhase: number
-      pulseSpeed: number
-
-      constructor() {
-        this.x = Math.random() * width
-        this.y = Math.random() * height
-        this.size = Math.random() * 20 + 15
-        this.rotation = Math.random() * Math.PI * 2
-        this.rotationSpeed = (Math.random() - 0.5) * 0.01
-        this.pulsePhase = Math.random() * Math.PI * 2
-        this.pulseSpeed = 0.03 + Math.random() * 0.02
-      }
-
-      update() {
-        this.rotation += this.rotationSpeed
-        this.pulsePhase += this.pulseSpeed
-
-        // Slowly drift
-        this.x += (Math.random() - 0.5) * 0.5
-        this.y += (Math.random() - 0.5) * 0.5
-
-        // Keep within bounds
-        if (this.x < 0) this.x = 0
-        if (this.x > width) this.x = width
-        if (this.y < 0) this.y = 0
-        if (this.y > height) this.y = height
-      }
-
-      draw() {
-        if (!ctx) return
-
-        const pulseFactor = 1 + 0.2 * Math.sin(this.pulsePhase)
-        const currentSize = this.size * pulseFactor
-
-        // Draw shield
-        ctx.save()
-        ctx.translate(this.x, this.y)
-        ctx.rotate(this.rotation)
-
-        // Shield body
-        ctx.beginPath()
-        ctx.moveTo(0, -currentSize)
-        ctx.bezierCurveTo(currentSize * 0.7, -currentSize * 0.7, currentSize, 0, currentSize * 0.7, currentSize * 0.7)
-        ctx.bezierCurveTo(0, currentSize, -currentSize * 0.7, currentSize * 0.7, -currentSize, 0)
-        ctx.bezierCurveTo(-currentSize * 0.7, -currentSize * 0.7, 0, -currentSize, 0, -currentSize)
-        ctx.closePath()
-
-        // Shield gradient
-        const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, currentSize)
-        gradient.addColorStop(0, `rgba(0, 150, 255, 0.2)`)
-        gradient.addColorStop(0.7, `rgba(0, 100, 255, 0.1)`)
-        gradient.addColorStop(1, `rgba(0, 50, 255, 0)`)
-
-        ctx.fillStyle = gradient
-        ctx.fill()
-
-        // Shield border
-        ctx.strokeStyle = `rgba(0, 150, 255, ${0.3 + 0.2 * Math.sin(this.pulsePhase)})`
-        ctx.lineWidth = 1.5
-        ctx.stroke()
-
-        // Shield emblem
-        ctx.beginPath()
-        ctx.moveTo(0, -currentSize * 0.5)
-        ctx.lineTo(currentSize * 0.4, 0)
-        ctx.lineTo(0, currentSize * 0.5)
-        ctx.lineTo(-currentSize * 0.4, 0)
-        ctx.closePath()
-
-        ctx.fillStyle = `rgba(0, 200, 255, ${0.2 + 0.1 * Math.sin(this.pulsePhase + Math.PI)})`
-        ctx.fill()
-
-        ctx.restore()
-      }
-    }
-
-    // Connection Class
-    class Connection {
-      from: Particle
-      to: Particle
-      distance: number
-      opacity: number
-      active: boolean
-
-      constructor(from: Particle, to: Particle) {
-        this.from = from
-        this.to = to
-        this.distance = 0
-        this.opacity = 0
-        this.active = false
-        this.updateDistance()
-      }
-
-      updateDistance() {
-        const dx = this.from.x - this.to.x
-        const dy = this.from.y - this.to.y
-        this.distance = Math.sqrt(dx * dx + dy * dy)
-
-        const maxDist = Math.min(width, height) * 0.15
-        this.active = this.distance < maxDist
-        this.opacity = this.active ? (1 - this.distance / maxDist) * 0.5 : 0
-
-        if (this.active) {
-          this.from.connected = true
-          this.to.connected = true
-        }
-      }
-
-      draw() {
-        if (!ctx || !this.active) return
-
-        // Use cybersecurity-themed colors
-        const primaryColor = "#0050bc"
-        const secondaryColor = "#00c2ff"
-
-        const [pr, pg, pb] = hexToRgb(primaryColor)
-        const [sr, sg, sb] = hexToRgb(secondaryColor)
-
-        const gradient = ctx.createLinearGradient(this.from.x, this.from.y, this.to.x, this.to.y)
-        gradient.addColorStop(0, `rgba(${pr},${pg},${pb},${(this.opacity * 0.8).toFixed(2)})`)
-        gradient.addColorStop(1, `rgba(${sr},${sg},${sb},${(this.opacity * 0.8).toFixed(2)})`)
-
-        ctx.beginPath()
-        ctx.moveTo(this.from.x, this.from.y)
-        ctx.lineTo(this.to.x, this.to.y)
-        ctx.strokeStyle = gradient
-        ctx.lineWidth = 0.5
-        ctx.stroke()
-
-        // Add data packet animation along the connection
-        if (Math.random() > 0.98) {
-          const packetPosition = Math.random()
-          const packetX = this.from.x + (this.to.x - this.from.x) * packetPosition
-          const packetY = this.from.y + (this.to.y - this.from.y) * packetPosition
-
-          ctx.beginPath()
-          ctx.arc(packetX, packetY, 2, 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(0, 255, 200, 0.8)`
-          ctx.fill()
-        }
-      }
-    }
-
-    // Data Stream Class
-    class DataStream {
-      startX: number
-      startY: number
-      endX: number
-      endY: number
-      segments: number
-      points: { x: number; y: number }[]
-      speed: number
-      width: number
-      color: string
-      progress: number
-      lifetime: number
-      age: number
-
-      constructor() {
-        // Start from edge of screen
-        const side = Math.floor(Math.random() * 4)
-        switch (side) {
-          case 0: // Top
-            this.startX = Math.random() * width
-            this.startY = 0
-            break
-          case 1: // Right
-            this.startX = width
-            this.startY = Math.random() * height
-            break
-          case 2: // Bottom
-            this.startX = Math.random() * width
-            this.startY = height
-            break
-          case 3: // Left
-            this.startX = 0
-            this.startY = Math.random() * height
-            break
-        }
-
-        // End at random position
-        this.endX = Math.random() * width
-        this.endY = Math.random() * height
-
-        // Create path with segments
-        this.segments = 2 + Math.floor(Math.random() * 3)
-        this.points = [{ x: this.startX, y: this.startY }]
-
-        // Create intermediate points
-        for (let i = 1; i < this.segments; i++) {
-          this.points.push({
-            x: this.startX + (this.endX - this.startX) * (i / this.segments) + (Math.random() - 0.5) * 100,
-            y: this.startY + (this.endY - this.startY) * (i / this.segments) + (Math.random() - 0.5) * 100,
-          })
-        }
-
-        this.points.push({ x: this.endX, y: this.endY })
-
-        this.speed = 0.01 + Math.random() * 0.02
-        this.width = 1 + Math.random() * 2
-        this.color = Math.random() > 0.7 ? "#00ff88" : "#0088ff"
-        this.progress = 0
-        this.lifetime = 100 + Math.random() * 100
-        this.age = 0
-      }
-
-      update() {
-        this.progress += this.speed
-        this.age++
-
-        return this.age < this.lifetime
-      }
-
-      draw() {
-        if (!ctx) return
-
-        const currentProgress = Math.min(this.progress, 1)
-        const fadeOpacity =
-          this.age < 20 ? this.age / 20 : this.age > this.lifetime - 20 ? (this.lifetime - this.age) / 20 : 1
-
-        // Draw path segments
-        for (let i = 0; i < this.segments; i++) {
-          const segmentProgress = currentProgress * (this.segments + 1) - i
-
-          if (segmentProgress > 0 && segmentProgress <= 1 && i < this.points.length - 1) {
-            const startX = this.points[i].x
-            const startY = this.points[i].y
-            const endX = this.points[i + 1].x
-            const endY = this.points[i + 1].y
-
-            const currentX = startX + (endX - startX) * segmentProgress
-            const currentY = startY + (endY - startY) * segmentProgress
-
-            ctx.beginPath()
-            ctx.moveTo(startX, startY)
-            ctx.lineTo(currentX, currentY)
-
-            const [r, g, b] = hexToRgb(this.color)
-            ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${fadeOpacity * 0.7})`
-            ctx.lineWidth = this.width
-            ctx.stroke()
-
-            // Add data packet at the end of the line
-            ctx.beginPath()
-            ctx.arc(currentX, currentY, this.width * 1.5, 0, Math.PI * 2)
-            ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${fadeOpacity})`
-            ctx.fill()
-
-            // Add binary trail
-            if (Math.random() > 0.9) {
-              const trailX = startX + (currentX - startX) * Math.random()
-              const trailY = startY + (currentY - startY) * Math.random()
-              const binaryChar = Math.random() > 0.5 ? "1" : "0"
-
-              ctx.font = `${this.width * 4}px monospace`
-              ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${fadeOpacity * 0.5})`
-              ctx.textAlign = "center"
-              ctx.fillText(binaryChar, trailX, trailY)
-            }
-          }
-        }
-      }
-    }
-
-    // Initialize Particles + Connections
-    function initElements() {
-      // Create particles
-      const particleCount = Math.min(100, Math.floor((width * height) / 10000))
-      particles = []
-      for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle())
-      }
-
-      // Create shields
-      const shieldCount = Math.min(5, Math.floor((width * height) / 100000))
-      shields = []
-      for (let i = 0; i < shieldCount; i++) {
-        shields.push(new Shield())
-      }
-
-      // Create connections
-      connections = []
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          connections.push(new Connection(particles[i], particles[j]))
-        }
-      }
-
-      // Initialize data streams
-      dataStreams = []
-      for (let i = 0; i < 3; i++) {
-        dataStreams.push(new DataStream())
-      }
-    }
-
-    // Handlers + Animation
-    function handleMouseMove(e: MouseEvent) {
-      mousePosition.x = e.x
-      mousePosition.y = e.y
-    }
-
-    function handleTouch(e: TouchEvent) {
-      if (e.touches.length > 0) {
-        mousePosition.x = e.touches[0].clientX
-        mousePosition.y = e.touches[0].clientY
-      }
-    }
-
-    function animate() {
-      if (!ctx) return
-      ctx.clearRect(0, 0, width, height)
-
-      // Update & draw connections
-      connections.forEach((c) => {
-        c.updateDistance()
-        c.draw()
-      })
-
-      // Update & draw particles
-      particles.forEach((p) => {
-        p.update()
-        p.draw()
-      })
-
-      // Update & draw shields
-      shields.forEach((s) => {
-        s.update()
-        s.draw()
-      })
-
-      // Update & draw data streams
-      for (let i = dataStreams.length - 1; i >= 0; i--) {
-        const isAlive = dataStreams[i].update()
-        dataStreams[i].draw()
-
-        if (!isAlive) {
-          dataStreams.splice(i, 1)
-          if (Math.random() > 0.7) {
-            dataStreams.push(new DataStream())
-          }
-        }
-      }
-
-      // Occasionally add new data streams
-      if (Math.random() > 0.99 && dataStreams.length < 10) {
-        dataStreams.push(new DataStream())
-      }
-
-      // Glow effect near mouse
-      const primaryColor = "#0050bc"
-      const [mr, mg, mb] = hexToRgb(primaryColor)
-
-      const glowGradient = ctx.createRadialGradient(
-        mousePosition.x,
-        mousePosition.y,
-        0,
-        mousePosition.x,
-        mousePosition.y,
-        150,
-      )
-
-      glowGradient.addColorStop(0, `rgba(${mr}, ${mg}, ${mb}, 0.2)`)
-      glowGradient.addColorStop(1, `rgba(${mr}, ${mg}, ${mb}, 0)`)
-
-      ctx.fillStyle = glowGradient
-      ctx.fillRect(0, 0, width, height)
-
-      animationFrameId = requestAnimationFrame(animate)
-    }
-
-    // Start
     setCanvasDimensions()
     window.addEventListener("resize", setCanvasDimensions)
-    window.addEventListener("mousemove", handleMouseMove)
-    window.addEventListener("touchmove", handleTouch)
-    animate()
 
-    // Cleanup
+    // Create security nodes
+    const nodes: Node[] = []
+    const numNodes = 12
+    const minDistance = 150
+
+    // Create nodes with minimum distance between them
+    for (let i = 0; i < numNodes; i++) {
+      let x, y
+      let tooClose
+      do {
+        tooClose = false
+        x = Math.random() * (window.innerWidth - 100) + 50
+        y = Math.random() * (350 - 100) + 50
+
+        // Check distance from other nodes
+        for (let j = 0; j < nodes.length; j++) {
+          const dx = x - nodes[j].x
+          const dy = y - nodes[j].y
+          const distance = Math.sqrt(dx * dx + dy * dy)
+          if (distance < minDistance) {
+            tooClose = true
+            break
+          }
+        }
+      } while (tooClose)
+
+      // Assign node type
+      let type: "shield" | "lock" | "server"
+      const typeRand = Math.random()
+      if (typeRand < 0.33) {
+        type = "shield"
+      } else if (typeRand < 0.66) {
+        type = "lock"
+      } else {
+        type = "server"
+      }
+
+      nodes.push({
+        x,
+        y,
+        radius: 15 + Math.random() * 10,
+        type,
+        connections: [],
+        pulseRadius: 0,
+        pulseOpacity: 0,
+        pulseDirection: 1,
+      })
+    }
+
+    // Create connections between nodes
+    for (let i = 0; i < nodes.length; i++) {
+      const numConnections = 1 + Math.floor(Math.random() * 2) // 1-2 connections per node
+      const possibleTargets = [...Array(nodes.length).keys()].filter((j) => j !== i)
+      possibleTargets.sort(() => Math.random() - 0.5) // Shuffle
+
+      for (let c = 0; c < Math.min(numConnections, possibleTargets.length); c++) {
+        const targetIndex = possibleTargets[c]
+        if (!nodes[i].connections.includes(targetIndex)) {
+          nodes[i].connections.push(targetIndex)
+        }
+      }
+    }
+
+    // Create data packets
+    const dataPackets: DataPacket[] = []
+    const createDataPacket = () => {
+      const sourceIndex = Math.floor(Math.random() * nodes.length)
+      if (nodes[sourceIndex].connections.length === 0) return
+
+      const targetIndex =
+        nodes[sourceIndex].connections[Math.floor(Math.random() * nodes[sourceIndex].connections.length)]
+
+      // Determine color based on node type (security-themed)
+      let color
+      switch (nodes[sourceIndex].type) {
+        case "shield":
+          color = "rgba(0, 150, 255, 0.8)" // Blue for shield (protection)
+          break
+        case "lock":
+          color = "rgba(0, 255, 150, 0.8)" // Green for lock (secure)
+          break
+        case "server":
+          color = "rgba(255, 200, 0, 0.8)" // Yellow for server (data)
+          break
+        default:
+          color = "rgba(0, 150, 255, 0.8)"
+      }
+
+      dataPackets.push({
+        sourceIndex,
+        targetIndex,
+        x: nodes[sourceIndex].x,
+        y: nodes[sourceIndex].y,
+        progress: 0,
+        speed: 0.005 + Math.random() * 0.01,
+        color,
+      })
+    }
+
+    // Draw shield icon
+    const drawShield = (x: number, y: number, radius: number, color: string) => {
+      ctx.save()
+      ctx.translate(x, y)
+      ctx.beginPath()
+      ctx.moveTo(0, -radius)
+      ctx.bezierCurveTo(radius * 0.8, -radius * 0.8, radius, -radius * 0.5, radius, 0)
+      ctx.bezierCurveTo(radius, radius * 0.6, radius * 0.5, radius, 0, radius)
+      ctx.bezierCurveTo(-radius * 0.5, radius, -radius, radius * 0.6, -radius, 0)
+      ctx.bezierCurveTo(-radius, -radius * 0.5, -radius * 0.8, -radius * 0.8, 0, -radius)
+      ctx.closePath()
+      ctx.fillStyle = color
+      ctx.fill()
+
+      // Draw checkmark inside shield
+      ctx.beginPath()
+      ctx.moveTo(-radius * 0.3, 0)
+      ctx.lineTo(-radius * 0.1, radius * 0.3)
+      ctx.lineTo(radius * 0.4, -radius * 0.3)
+      ctx.strokeStyle = isDark ? "#111827" : "#ffffff"
+      ctx.lineWidth = radius * 0.15
+      ctx.lineCap = "round"
+      ctx.lineJoin = "round"
+      ctx.stroke()
+      ctx.restore()
+    }
+
+    // Draw lock icon
+    const drawLock = (x: number, y: number, radius: number, color: string) => {
+      ctx.save()
+      ctx.translate(x, y)
+
+      // Lock body
+      ctx.beginPath()
+      ctx.roundRect(-radius * 0.7, -radius * 0.3, radius * 1.4, radius * 1.3, radius * 0.3)
+      ctx.fillStyle = color
+      ctx.fill()
+
+      // Lock shackle
+      ctx.beginPath()
+      ctx.moveTo(-radius * 0.3, -radius * 0.3)
+      ctx.arcTo(-radius * 0.3, -radius, 0, -radius, radius * 0.3)
+      ctx.arcTo(radius * 0.3, -radius, radius * 0.3, -radius * 0.3, radius * 0.3)
+      ctx.lineTo(radius * 0.3, -radius * 0.3)
+      ctx.lineWidth = radius * 0.2
+      ctx.strokeStyle = color
+      ctx.stroke()
+
+      // Keyhole
+      ctx.beginPath()
+      ctx.arc(0, radius * 0.2, radius * 0.2, 0, Math.PI * 2)
+      ctx.fillStyle = isDark ? "#111827" : "#ffffff"
+      ctx.fill()
+      ctx.beginPath()
+      ctx.moveTo(0, radius * 0.2)
+      ctx.lineTo(0, radius * 0.6)
+      ctx.lineWidth = radius * 0.15
+      ctx.strokeStyle = isDark ? "#111827" : "#ffffff"
+      ctx.stroke()
+
+      ctx.restore()
+    }
+
+    // Draw server icon
+    const drawServer = (x: number, y: number, radius: number, color: string) => {
+      ctx.save()
+      ctx.translate(x, y)
+
+      // Server rack
+      ctx.beginPath()
+      ctx.roundRect(-radius * 0.7, -radius, radius * 1.4, radius * 2, radius * 0.2)
+      ctx.fillStyle = color
+      ctx.fill()
+
+      // Server units
+      const unitHeight = radius * 0.4
+      const unitSpacing = radius * 0.1
+      const startY = -radius + unitSpacing
+
+      for (let i = 0; i < 3; i++) {
+        const unitY = startY + i * (unitHeight + unitSpacing)
+        ctx.beginPath()
+        ctx.roundRect(-radius * 0.6, unitY, radius * 1.2, unitHeight, radius * 0.1)
+        ctx.fillStyle = isDark ? "#111827" : "#ffffff"
+        ctx.fill()
+
+        // LED
+        ctx.beginPath()
+        ctx.arc(radius * 0.4, unitY + unitHeight * 0.5, radius * 0.05, 0, Math.PI * 2)
+        ctx.fillStyle = i % 2 === 0 ? "#10B981" : "#3B82F6"
+        ctx.fill()
+      }
+
+      ctx.restore()
+    }
+
+    // Animation loop
+    let animationFrameId: number
+    let lastTime = 0
+    const fps = 60
+    const interval = 1000 / fps
+
+    const animate = (currentTime: number) => {
+      animationFrameId = requestAnimationFrame(animate)
+
+      const delta = currentTime - lastTime
+      if (delta < interval) return
+
+      lastTime = currentTime - (delta % interval)
+
+      // Clear canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+      // Draw grid background
+      const gridSize = 30
+      const gridColor = isDark ? "rgba(30, 58, 138, 0.1)" : "rgba(30, 58, 138, 0.05)"
+
+      ctx.beginPath()
+      for (let x = 0; x < window.innerWidth; x += gridSize) {
+        ctx.moveTo(x, 0)
+        ctx.lineTo(x, 400)
+      }
+      for (let y = 0; y < 400; y += gridSize) {
+        ctx.moveTo(0, y)
+        ctx.lineTo(window.innerWidth, y)
+      }
+      ctx.strokeStyle = gridColor
+      ctx.lineWidth = 1
+      ctx.stroke()
+
+      // Draw connections
+      for (let i = 0; i < nodes.length; i++) {
+        const node = nodes[i]
+        for (const targetIndex of node.connections) {
+          const targetNode = nodes[targetIndex]
+          ctx.beginPath()
+          ctx.moveTo(node.x, node.y)
+          ctx.lineTo(targetNode.x, targetNode.y)
+          ctx.strokeStyle = isDark ? "rgba(59, 130, 246, 0.2)" : "rgba(59, 130, 246, 0.15)"
+          ctx.lineWidth = 1
+          ctx.stroke()
+        }
+      }
+
+      // Update and draw data packets
+      for (let i = dataPackets.length - 1; i >= 0; i--) {
+        const packet = dataPackets[i]
+        packet.progress += packet.speed
+
+        if (packet.progress >= 1) {
+          // Remove completed packet
+          dataPackets.splice(i, 1)
+          continue
+        }
+
+        const sourceNode = nodes[packet.sourceIndex]
+        const targetNode = nodes[packet.targetIndex]
+
+        packet.x = sourceNode.x + (targetNode.x - sourceNode.x) * packet.progress
+        packet.y = sourceNode.y + (targetNode.y - sourceNode.y) * packet.progress
+
+        // Draw data packet
+        ctx.beginPath()
+        ctx.arc(packet.x, packet.y, 3, 0, Math.PI * 2)
+        ctx.fillStyle = packet.color
+        ctx.fill()
+      }
+
+      // Update and draw nodes
+      for (let i = 0; i < nodes.length; i++) {
+        const node = nodes[i]
+
+        // Update pulse effect
+        if (node.pulseDirection > 0) {
+          node.pulseRadius += 0.5
+          node.pulseOpacity -= 0.01
+          if (node.pulseRadius > node.radius * 2) {
+            node.pulseDirection = -1
+          }
+        } else {
+          node.pulseRadius -= 0.5
+          node.pulseOpacity += 0.01
+          if (node.pulseRadius < node.radius * 0.5) {
+            node.pulseDirection = 1
+          }
+        }
+
+        // Draw pulse
+        ctx.beginPath()
+        ctx.arc(node.x, node.y, node.pulseRadius, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(59, 130, 246, ${node.pulseOpacity * 0.2})`
+        ctx.fill()
+
+        // Draw node based on type
+        const nodeColor = isDark ? "rgba(59, 130, 246, 0.8)" : "rgba(59, 130, 246, 0.7)"
+
+        switch (node.type) {
+          case "shield":
+            drawShield(node.x, node.y, node.radius, nodeColor)
+            break
+          case "lock":
+            drawLock(node.x, node.y, node.radius, nodeColor)
+            break
+          case "server":
+            drawServer(node.x, node.y, node.radius, nodeColor)
+            break
+        }
+      }
+
+      // Randomly create new data packets
+      if (Math.random() < 0.03) {
+        createDataPacket()
+      }
+    }
+
+    animate(0)
+
+    // Create initial data packets
+    for (let i = 0; i < 5; i++) {
+      createDataPacket()
+    }
+
     return () => {
       window.removeEventListener("resize", setCanvasDimensions)
-      window.removeEventListener("mousemove", handleMouseMove)
-      window.removeEventListener("touchmove", handleTouch)
       cancelAnimationFrame(animationFrameId)
     }
-  }, [isDark, theme])
+  }, [theme])
 
   return (
-    <>
-      {/* Base gradient background */}
-      <div
-        className={`absolute inset-0 z-0 ${
-          isDark
-            ? "bg-gradient-to-br from-gray-900 via-blue-950 to-gray-900"
-            : "bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700"
-        }`}
-      />
-
-      {/* Animated canvas with particles & lines */}
-      <canvas ref={canvasRef} className="absolute inset-0 z-10 opacity-100" />
-    </>
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <canvas ref={canvasRef} className="w-full h-[400px]" style={{ opacity: 0.9 }} />
+    </div>
   )
 }
+
+export default HeroBackground

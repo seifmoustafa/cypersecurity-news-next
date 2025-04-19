@@ -1,44 +1,50 @@
-import { getDefinitionById, getAllDefinitions } from "@/data/definitions-data"
+"use client"
+
+import { getDefinitionById } from "@/data/definitions-data"
 import { notFound } from "next/navigation"
 import MainLayout from "@/components/layouts/main-layout"
 import Link from "next/link"
 import { ChevronLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import type { Metadata } from "next"
+import { useLanguage } from "@/components/language-provider"
+import { useEffect, useState } from "react"
+import { useParams } from "next/navigation"
+import { Suspense } from "react"
 
-// Export the route segment config
-export const dynamic = "force-dynamic"
-export const dynamicParams = true
+export default function DefinitionPage() {
+  return (
+    <Suspense fallback={<LoadingState />}>
+      <DefinitionContent />
+    </Suspense>
+  )
+}
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const definition = getDefinitionById(params.id)
+function LoadingState() {
+  return (
+    <MainLayout>
+      <div className="pt-24 pb-16 flex justify-center items-center min-h-[50vh]">
+        <div className="animate-pulse">Loading...</div>
+      </div>
+    </MainLayout>
+  )
+}
 
-  if (!definition) {
-    return {
-      title: "Definition Not Found",
+function DefinitionContent() {
+  const params = useParams()
+  const id = params.id as string
+  const { language, isRtl } = useLanguage()
+  const [definition, setDefinition] = useState<any>(null)
+
+  useEffect(() => {
+    const definitionItem = getDefinitionById(id)
+    if (!definitionItem) {
+      notFound()
     }
-  }
-
-  return {
-    title: `${definition.term.ar} | ${definition.term.en}`,
-    description: definition.definition.ar,
-  }
-}
-
-export async function generateStaticParams() {
-  const allDefinitions = getAllDefinitions()
-
-  return allDefinitions.map((definition) => ({
-    id: definition.id,
-  }))
-}
-
-export default function DefinitionPage({ params }: { params: { id: string } }) {
-  const definition = getDefinitionById(params.id)
-  const language = "ar" // Assuming a default language, you might want to get this from context or props
+    setDefinition(definitionItem)
+  }, [id])
 
   if (!definition) {
-    notFound()
+    return <LoadingState />
   }
 
   return (
@@ -49,14 +55,13 @@ export default function DefinitionPage({ params }: { params: { id: string } }) {
             <Link href="/#standards">
               <Button variant="ghost" size="sm" className="gap-1">
                 <ChevronLeft className="h-4 w-4" />
-                <span>رجوع</span>
+                <span>{language === "ar" ? "رجوع" : "Back"}</span>
               </Button>
             </Link>
-            <h1 className="text-3xl font-bold text-center flex-1">{definition.term.ar}</h1>
+            <h1 className="text-3xl font-bold text-center flex-1">{definition.term[language]}</h1>
           </div>
 
-          <div className="prose dark:prose-invert max-w-none mb-8">
-            <h2 className="text-xl font-bold mb-4">{definition.term[language]}</h2>
+          <div className={`prose dark:prose-invert max-w-none mb-8 ${isRtl ? "text-right" : "text-left"}`}>
             <p className="text-lg">{definition.definition[language]}</p>
           </div>
         </div>

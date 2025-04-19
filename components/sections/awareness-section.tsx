@@ -1,17 +1,42 @@
 "use client"
+import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { useLanguage } from "@/components/language-provider"
 import SectionHeader from "@/components/ui/section-header"
 import SectionContainer from "@/components/ui/section-container"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { awarenessData } from "@/data/awareness-data"
-import { getNewsByCategory } from "@/data/news-data"
 import Image from "next/image"
 import Link from "next/link"
+import { useNewsByCategory } from "@/core/hooks/use-news"
+import { container } from "@/core/di/container"
 
 export default function AwarenessSection() {
   const { t, language, isRtl } = useLanguage()
+  const [bulletins, setBulletins] = useState<any[]>([])
+  const [articles, setArticles] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchAwarenessData = async () => {
+      try {
+        // In a real implementation, this would call the API
+        // For now, we'll use the mock data
+        const awarenessData = {
+          bulletins: [],
+          articles: [],
+        }
+        setBulletins(awarenessData.bulletins)
+        setArticles(awarenessData.articles)
+      } catch (error) {
+        console.error("Error fetching awareness data:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchAwarenessData()
+  }, [])
 
   const categoryNames = {
     dataBreaches: {
@@ -65,40 +90,15 @@ export default function AwarenessSection() {
             </TabsList>
 
             <TabsContent value="all" className="mt-0">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {Object.keys(categoryNames).flatMap((category) =>
-                  getNewsByCategory(category)
-                    .slice(0, 2)
-                    .map((item, index) => <NewsCard key={item.id} item={item} index={index} />),
-                )}
-                <div className="col-span-full flex justify-center mt-6">
-                  <Link
-                    href="/news"
-                    className="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-md transition-colors"
-                  >
-                    {language === "ar" ? "عرض جميع الأخبار" : "View All News"}
-                  </Link>
-                </div>
-              </div>
+              <AllNewsContent />
             </TabsContent>
 
             {Object.keys(categoryNames).map((category) => (
               <TabsContent key={category} value={category} className="mt-0">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {getNewsByCategory(category).map((item, index) => (
-                    <NewsCard key={item.id} item={item} index={index} />
-                  ))}
-                  <div className="col-span-full flex justify-center mt-6">
-                    <Link
-                      href={`/news/category/${category}`}
-                      className="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-md transition-colors"
-                    >
-                      {language === "ar"
-                        ? `عرض جميع أخبار ${categoryNames[category as keyof typeof categoryNames][language]}`
-                        : `View All ${categoryNames[category as keyof typeof categoryNames][language]} News`}
-                    </Link>
-                  </div>
-                </div>
+                <CategoryNewsContent
+                  category={category}
+                  categoryName={categoryNames[category as keyof typeof categoryNames][language]}
+                />
               </TabsContent>
             ))}
           </Tabs>
@@ -106,17 +106,27 @@ export default function AwarenessSection() {
 
         <TabsContent value="bulletins" className="mt-0">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {awarenessData.bulletins.map((item, index) => (
+            {bulletins.map((item, index) => (
               <AwarenessCard key={item.id} item={item} index={index} />
             ))}
+            {bulletins.length === 0 && !loading && (
+              <div className="col-span-full text-center py-10">
+                <p className="text-muted-foreground">{t("common.noData")}</p>
+              </div>
+            )}
           </div>
         </TabsContent>
 
         <TabsContent value="articles" className="mt-0">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {awarenessData.articles.map((item, index) => (
+            {articles.map((item, index) => (
               <AwarenessCard key={item.id} item={item} index={index} />
             ))}
+            {articles.length === 0 && !loading && (
+              <div className="col-span-full text-center py-10">
+                <p className="text-muted-foreground">{t("common.noData")}</p>
+              </div>
+            )}
           </div>
         </TabsContent>
       </Tabs>
@@ -124,8 +134,79 @@ export default function AwarenessSection() {
   )
 }
 
+function AllNewsContent() {
+  const { language } = useLanguage()
+  const categories = ["dataBreaches", "cyberAttacks", "vulnerabilities", "threatIntelligence"]
+  const [allNews, setAllNews] = useState<any[]>([])
+
+  useEffect(() => {
+    const fetchAllCategoryNews = async () => {
+      try {
+        const newsPromises = categories.map((category) => container.services.news.getNewsByCategory(category))
+        const results = await Promise.all(newsPromises)
+        const flattenedNews = results.flat().slice(0, 6) // Get first 6 news items
+        setAllNews(flattenedNews)
+      } catch (error) {
+        console.error("Error fetching all category news:", error)
+      }
+    }
+
+    fetchAllCategoryNews()
+  }, [])
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {allNews.map((item, index) => (
+        <NewsCard key={item.id} item={item} index={index} />
+      ))}
+      <div className="col-span-full flex justify-center mt-6">
+        <Link href="/news" className="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-md transition-colors">
+          {language === "ar" ? "عرض جميع الأخبار" : "View All News"}
+        </Link>
+      </div>
+    </div>
+  )
+}
+
+function CategoryNewsContent({ category, categoryName }: { category: string; categoryName: string }) {
+  const { language } = useLanguage()
+  const { news, loading } = useNewsByCategory(category)
+
+  if (loading) {
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[1, 2, 3].map((i) => (
+          <Card key={i} className="h-[300px] animate-pulse">
+            <div className="h-48 bg-gray-300 dark:bg-gray-700"></div>
+            <CardContent className="p-6">
+              <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
+              <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full"></div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    )
+  }
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {news.map((item, index) => (
+        <NewsCard key={item.id} item={item} index={index} />
+      ))}
+      <div className="col-span-full flex justify-center mt-6">
+        <Link
+          href={`/news/category/${category}`}
+          className="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-md transition-colors"
+        >
+          {language === "ar" ? `عرض جميع أخبار ${categoryName}` : `View All ${categoryName} News`}
+        </Link>
+      </div>
+    </div>
+  )
+}
+
 interface AwarenessCardProps {
-  item: (typeof awarenessData.bulletins)[0] | (typeof awarenessData.articles)[0]
+  item: any
   index: number
 }
 
@@ -147,7 +228,7 @@ function AwarenessCard({ item, index }: AwarenessCardProps) {
             <div
               className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} bg-primary text-white text-xs px-2 py-1 rounded`}
             >
-              {item.date}
+              {new Date(item.date).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
             </div>
           </div>
           <CardContent className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
@@ -207,7 +288,7 @@ function NewsCard({ item, index }: NewsCardProps) {
             <div
               className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} bg-primary text-white text-xs px-2 py-1 rounded`}
             >
-              {item.date}
+              {new Date(item.date).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
             </div>
             <div
               className={`absolute bottom-2 ${isRtl ? "left-2" : "right-2"} bg-black/70 text-white text-xs px-2 py-1 rounded`}

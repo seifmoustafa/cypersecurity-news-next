@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { useLanguage } from "@/components/language-provider"
 import SectionHeader from "@/components/ui/section-header"
@@ -12,9 +12,22 @@ import { mediaLibraryData } from "@/data/media-library-data"
 import { Video, FileIcon as FilePresentation, FileText } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export default function MediaLibrarySection() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const router = useRouter()
+
+  useEffect(() => {
+    // Prefetch lecture and presentation pages
+    mediaLibraryData.lectures.forEach((lecture) => {
+      router.prefetch(`/media/lecture/${lecture.id}`)
+    })
+
+    mediaLibraryData.presentations.forEach((presentation) => {
+      router.prefetch(`/media/presentation/${presentation.id}`)
+    })
+  }, [router])
 
   return (
     <SectionContainer id="media">
@@ -71,7 +84,7 @@ interface MediaCardProps {
 }
 
 function MediaCard({ item, index, type }: MediaCardProps) {
-  const { language, t } = useLanguage()
+  const { language, isRtl } = useLanguage()
   const [dialogOpen, setDialogOpen] = useState(false)
 
   const getIcon = () => {
@@ -107,7 +120,7 @@ function MediaCard({ item, index, type }: MediaCardProps) {
               />
               <div className="absolute inset-0 bg-black/50 flex items-center justify-center">{getIcon()}</div>
             </div>
-            <CardContent className="p-4">
+            <CardContent className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
               <h3 className="text-lg font-bold mb-2 line-clamp-2">{item.title[language]}</h3>
               <p className="text-muted-foreground text-sm line-clamp-3">{item.description[language]}</p>
             </CardContent>
@@ -124,7 +137,7 @@ function MediaCard({ item, index, type }: MediaCardProps) {
                 />
                 <div className="absolute inset-0 bg-black/50 flex items-center justify-center">{getIcon()}</div>
               </div>
-              <CardContent className="p-4">
+              <CardContent className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
                 <h3 className="text-lg font-bold mb-2 line-clamp-2">{item.title[language]}</h3>
                 <p className="text-muted-foreground text-sm line-clamp-3">{item.description[language]}</p>
               </CardContent>
