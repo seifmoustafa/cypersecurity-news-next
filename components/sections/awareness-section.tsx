@@ -10,6 +10,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useNewsByCategory } from "@/core/hooks/use-news"
 import { container } from "@/core/di/container"
+import { awarenessData } from "@/data/awareness-data"
 
 export default function AwarenessSection() {
   const { t, language, isRtl } = useLanguage()
@@ -20,12 +21,8 @@ export default function AwarenessSection() {
   useEffect(() => {
     const fetchAwarenessData = async () => {
       try {
-        // In a real implementation, this would call the API
-        // For now, we'll use the mock data
-        const awarenessData = {
-          bulletins: [],
-          articles: [],
-        }
+        setLoading(true)
+        // Using static data from awareness-data.ts until API is provided
         setBulletins(awarenessData.bulletins)
         setArticles(awarenessData.articles)
       } catch (error) {
