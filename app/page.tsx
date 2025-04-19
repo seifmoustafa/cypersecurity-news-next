@@ -28,6 +28,7 @@ export default function Home() {
   return (
     <MainLayout>
       <NewsTicker />
+      {/* The TipOfTheDayPopup will now show every time the page loads */}
       <TipOfTheDayPopup />
       <HeroSection />
       <NewsCarousel />

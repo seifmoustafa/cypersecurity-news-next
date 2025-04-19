@@ -1,34 +1,11 @@
 "use client"
 
-import type React from "react"
 import { useEffect, useRef } from "react"
 import { useTheme } from "next-themes"
 
-interface Node {
-  x: number
-  y: number
-  radius: number
-  type: "shield" | "lock" | "server"
-  connections: number[]
-  pulseRadius: number
-  pulseOpacity: number
-  pulseDirection: number
-}
-
-interface DataPacket {
-  sourceIndex: number
-  targetIndex: number
-  x: number
-  y: number
-  progress: number
-  speed: number
-  color: string
-}
-
-const HeroBackground: React.FC = () => {
+export default function HeroBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { theme } = useTheme()
-  const isDark = theme === "dark"
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -37,351 +14,331 @@ const HeroBackground: React.FC = () => {
     const ctx = canvas.getContext("2d")
     if (!ctx) return
 
-    // Set canvas dimensions with proper DPI scaling
+    // Set canvas dimensions
     const setCanvasDimensions = () => {
-      const dpr = window.devicePixelRatio || 1
-      canvas.width = window.innerWidth * dpr
-      canvas.height = 400 * dpr
-      canvas.style.width = `${window.innerWidth}px`
-      canvas.style.height = "400px"
-      ctx.scale(dpr, dpr)
+      canvas.width = window.innerWidth
+      canvas.height = 500 // Fixed height for hero section
     }
 
+    // Call once and add resize listener
     setCanvasDimensions()
     window.addEventListener("resize", setCanvasDimensions)
 
-    // Create security nodes
+    // Define nodes (connection points)
     const nodes: Node[] = []
-    const numNodes = 12
-    const minDistance = 150
+    const numNodes = 15
 
-    // Create nodes with minimum distance between them
+    // Create nodes
     for (let i = 0; i < numNodes; i++) {
-      let x, y
-      let tooClose
-      do {
-        tooClose = false
-        x = Math.random() * (window.innerWidth - 100) + 50
-        y = Math.random() * (350 - 100) + 50
-
-        // Check distance from other nodes
-        for (let j = 0; j < nodes.length; j++) {
-          const dx = x - nodes[j].x
-          const dy = y - nodes[j].y
-          const distance = Math.sqrt(dx * dx + dy * dy)
-          if (distance < minDistance) {
-            tooClose = true
-            break
-          }
-        }
-      } while (tooClose)
-
-      // Assign node type
-      let type: "shield" | "lock" | "server"
-      const typeRand = Math.random()
-      if (typeRand < 0.33) {
-        type = "shield"
-      } else if (typeRand < 0.66) {
-        type = "lock"
-      } else {
-        type = "server"
-      }
-
       nodes.push({
-        x,
-        y,
-        radius: 15 + Math.random() * 10,
-        type,
-        connections: [],
-        pulseRadius: 0,
-        pulseOpacity: 0,
-        pulseDirection: 1,
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 2 + 2,
+        vx: Math.random() * 2 - 1,
+        vy: Math.random() * 2 - 1,
+        type: Math.random() > 0.7 ? getRandomNodeType() : "default",
       })
-    }
-
-    // Create connections between nodes
-    for (let i = 0; i < nodes.length; i++) {
-      const numConnections = 1 + Math.floor(Math.random() * 2) // 1-2 connections per node
-      const possibleTargets = [...Array(nodes.length).keys()].filter((j) => j !== i)
-      possibleTargets.sort(() => Math.random() - 0.5) // Shuffle
-
-      for (let c = 0; c < Math.min(numConnections, possibleTargets.length); c++) {
-        const targetIndex = possibleTargets[c]
-        if (!nodes[i].connections.includes(targetIndex)) {
-          nodes[i].connections.push(targetIndex)
-        }
-      }
     }
 
     // Create data packets
-    const dataPackets: DataPacket[] = []
-    const createDataPacket = () => {
-      const sourceIndex = Math.floor(Math.random() * nodes.length)
-      if (nodes[sourceIndex].connections.length === 0) return
+    const packets: Packet[] = []
+    const createPacket = () => {
+      if (nodes.length < 2) return
 
-      const targetIndex =
-        nodes[sourceIndex].connections[Math.floor(Math.random() * nodes[sourceIndex].connections.length)]
+      // Select two different nodes
+      const startNodeIndex = Math.floor(Math.random() * nodes.length)
+      let endNodeIndex
+      do {
+        endNodeIndex = Math.floor(Math.random() * nodes.length)
+      } while (endNodeIndex === startNodeIndex)
 
-      // Determine color based on node type (security-themed)
-      let color
-      switch (nodes[sourceIndex].type) {
-        case "shield":
-          color = "rgba(0, 150, 255, 0.8)" // Blue for shield (protection)
-          break
-        case "lock":
-          color = "rgba(0, 255, 150, 0.8)" // Green for lock (secure)
-          break
-        case "server":
-          color = "rgba(255, 200, 0, 0.8)" // Yellow for server (data)
-          break
-        default:
-          color = "rgba(0, 150, 255, 0.8)"
-      }
+      const startNode = nodes[startNodeIndex]
+      const endNode = nodes[endNodeIndex]
 
-      dataPackets.push({
-        sourceIndex,
-        targetIndex,
-        x: nodes[sourceIndex].x,
-        y: nodes[sourceIndex].y,
+      packets.push({
+        x: startNode.x,
+        y: startNode.y,
+        targetX: endNode.x,
+        targetY: endNode.y,
         progress: 0,
-        speed: 0.005 + Math.random() * 0.01,
-        color,
+        speed: 0.01 + Math.random() * 0.02,
+        color: getRandomPacketColor(theme),
+        size: 2 + Math.random() * 3,
       })
-    }
-
-    // Draw shield icon
-    const drawShield = (x: number, y: number, radius: number, color: string) => {
-      ctx.save()
-      ctx.translate(x, y)
-      ctx.beginPath()
-      ctx.moveTo(0, -radius)
-      ctx.bezierCurveTo(radius * 0.8, -radius * 0.8, radius, -radius * 0.5, radius, 0)
-      ctx.bezierCurveTo(radius, radius * 0.6, radius * 0.5, radius, 0, radius)
-      ctx.bezierCurveTo(-radius * 0.5, radius, -radius, radius * 0.6, -radius, 0)
-      ctx.bezierCurveTo(-radius, -radius * 0.5, -radius * 0.8, -radius * 0.8, 0, -radius)
-      ctx.closePath()
-      ctx.fillStyle = color
-      ctx.fill()
-
-      // Draw checkmark inside shield
-      ctx.beginPath()
-      ctx.moveTo(-radius * 0.3, 0)
-      ctx.lineTo(-radius * 0.1, radius * 0.3)
-      ctx.lineTo(radius * 0.4, -radius * 0.3)
-      ctx.strokeStyle = isDark ? "#111827" : "#ffffff"
-      ctx.lineWidth = radius * 0.15
-      ctx.lineCap = "round"
-      ctx.lineJoin = "round"
-      ctx.stroke()
-      ctx.restore()
-    }
-
-    // Draw lock icon
-    const drawLock = (x: number, y: number, radius: number, color: string) => {
-      ctx.save()
-      ctx.translate(x, y)
-
-      // Lock body
-      ctx.beginPath()
-      ctx.roundRect(-radius * 0.7, -radius * 0.3, radius * 1.4, radius * 1.3, radius * 0.3)
-      ctx.fillStyle = color
-      ctx.fill()
-
-      // Lock shackle
-      ctx.beginPath()
-      ctx.moveTo(-radius * 0.3, -radius * 0.3)
-      ctx.arcTo(-radius * 0.3, -radius, 0, -radius, radius * 0.3)
-      ctx.arcTo(radius * 0.3, -radius, radius * 0.3, -radius * 0.3, radius * 0.3)
-      ctx.lineTo(radius * 0.3, -radius * 0.3)
-      ctx.lineWidth = radius * 0.2
-      ctx.strokeStyle = color
-      ctx.stroke()
-
-      // Keyhole
-      ctx.beginPath()
-      ctx.arc(0, radius * 0.2, radius * 0.2, 0, Math.PI * 2)
-      ctx.fillStyle = isDark ? "#111827" : "#ffffff"
-      ctx.fill()
-      ctx.beginPath()
-      ctx.moveTo(0, radius * 0.2)
-      ctx.lineTo(0, radius * 0.6)
-      ctx.lineWidth = radius * 0.15
-      ctx.strokeStyle = isDark ? "#111827" : "#ffffff"
-      ctx.stroke()
-
-      ctx.restore()
-    }
-
-    // Draw server icon
-    const drawServer = (x: number, y: number, radius: number, color: string) => {
-      ctx.save()
-      ctx.translate(x, y)
-
-      // Server rack
-      ctx.beginPath()
-      ctx.roundRect(-radius * 0.7, -radius, radius * 1.4, radius * 2, radius * 0.2)
-      ctx.fillStyle = color
-      ctx.fill()
-
-      // Server units
-      const unitHeight = radius * 0.4
-      const unitSpacing = radius * 0.1
-      const startY = -radius + unitSpacing
-
-      for (let i = 0; i < 3; i++) {
-        const unitY = startY + i * (unitHeight + unitSpacing)
-        ctx.beginPath()
-        ctx.roundRect(-radius * 0.6, unitY, radius * 1.2, unitHeight, radius * 0.1)
-        ctx.fillStyle = isDark ? "#111827" : "#ffffff"
-        ctx.fill()
-
-        // LED
-        ctx.beginPath()
-        ctx.arc(radius * 0.4, unitY + unitHeight * 0.5, radius * 0.05, 0, Math.PI * 2)
-        ctx.fillStyle = i % 2 === 0 ? "#10B981" : "#3B82F6"
-        ctx.fill()
-      }
-
-      ctx.restore()
     }
 
     // Animation loop
     let animationFrameId: number
-    let lastTime = 0
-    const fps = 60
-    const interval = 1000 / fps
-
-    const animate = (currentTime: number) => {
-      animationFrameId = requestAnimationFrame(animate)
-
-      const delta = currentTime - lastTime
-      if (delta < interval) return
-
-      lastTime = currentTime - (delta % interval)
-
-      // Clear canvas
+    const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-      // Draw grid background
-      const gridSize = 30
-      const gridColor = isDark ? "rgba(30, 58, 138, 0.1)" : "rgba(30, 58, 138, 0.05)"
+      // Set global opacity based on theme
+      ctx.globalAlpha = theme === "dark" ? 1.0 : 0.7
 
-      ctx.beginPath()
-      for (let x = 0; x < window.innerWidth; x += gridSize) {
-        ctx.moveTo(x, 0)
-        ctx.lineTo(x, 400)
-      }
-      for (let y = 0; y < 400; y += gridSize) {
-        ctx.moveTo(0, y)
-        ctx.lineTo(window.innerWidth, y)
-      }
-      ctx.strokeStyle = gridColor
-      ctx.lineWidth = 1
-      ctx.stroke()
-
-      // Draw connections
-      for (let i = 0; i < nodes.length; i++) {
-        const node = nodes[i]
-        for (const targetIndex of node.connections) {
-          const targetNode = nodes[targetIndex]
-          ctx.beginPath()
-          ctx.moveTo(node.x, node.y)
-          ctx.lineTo(targetNode.x, targetNode.y)
-          ctx.strokeStyle = isDark ? "rgba(59, 130, 246, 0.2)" : "rgba(59, 130, 246, 0.15)"
-          ctx.lineWidth = 1
-          ctx.stroke()
-        }
-      }
-
-      // Update and draw data packets
-      for (let i = dataPackets.length - 1; i >= 0; i--) {
-        const packet = dataPackets[i]
-        packet.progress += packet.speed
-
-        if (packet.progress >= 1) {
-          // Remove completed packet
-          dataPackets.splice(i, 1)
-          continue
-        }
-
-        const sourceNode = nodes[packet.sourceIndex]
-        const targetNode = nodes[packet.targetIndex]
-
-        packet.x = sourceNode.x + (targetNode.x - sourceNode.x) * packet.progress
-        packet.y = sourceNode.y + (targetNode.y - sourceNode.y) * packet.progress
-
-        // Draw data packet
-        ctx.beginPath()
-        ctx.arc(packet.x, packet.y, 3, 0, Math.PI * 2)
-        ctx.fillStyle = packet.color
-        ctx.fill()
-      }
+      // Draw connections between nodes
+      drawConnections(ctx, nodes, theme)
 
       // Update and draw nodes
-      for (let i = 0; i < nodes.length; i++) {
-        const node = nodes[i]
+      nodes.forEach((node) => {
+        // Move nodes
+        node.x += node.vx
+        node.y += node.vy
 
-        // Update pulse effect
-        if (node.pulseDirection > 0) {
-          node.pulseRadius += 0.5
-          node.pulseOpacity -= 0.01
-          if (node.pulseRadius > node.radius * 2) {
-            node.pulseDirection = -1
-          }
-        } else {
-          node.pulseRadius -= 0.5
-          node.pulseOpacity += 0.01
-          if (node.pulseRadius < node.radius * 0.5) {
-            node.pulseDirection = 1
-          }
-        }
+        // Bounce off edges
+        if (node.x < 0 || node.x > canvas.width) node.vx *= -1
+        if (node.y < 0 || node.y > canvas.height) node.vy *= -1
 
-        // Draw pulse
-        ctx.beginPath()
-        ctx.arc(node.x, node.y, node.pulseRadius, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(59, 130, 246, ${node.pulseOpacity * 0.2})`
-        ctx.fill()
+        // Draw node
+        drawNode(ctx, node, theme)
+      })
 
-        // Draw node based on type
-        const nodeColor = isDark ? "rgba(59, 130, 246, 0.8)" : "rgba(59, 130, 246, 0.7)"
+      // Update and draw packets
+      for (let i = packets.length - 1; i >= 0; i--) {
+        const packet = packets[i]
+        packet.progress += packet.speed
 
-        switch (node.type) {
-          case "shield":
-            drawShield(node.x, node.y, node.radius, nodeColor)
-            break
-          case "lock":
-            drawLock(node.x, node.y, node.radius, nodeColor)
-            break
-          case "server":
-            drawServer(node.x, node.y, node.radius, nodeColor)
-            break
+        // Calculate current position
+        packet.x = lerp(packet.x, packet.targetX, packet.speed)
+        packet.y = lerp(packet.y, packet.targetY, packet.speed)
+
+        // Draw packet
+        drawPacket(ctx, packet)
+
+        // Remove packet if it reached its destination
+        if (Math.abs(packet.x - packet.targetX) < 5 && Math.abs(packet.y - packet.targetY) < 5) {
+          packets.splice(i, 1)
         }
       }
 
-      // Randomly create new data packets
-      if (Math.random() < 0.03) {
-        createDataPacket()
+      // Randomly create new packets
+      if (Math.random() < 0.05 && packets.length < 20) {
+        createPacket()
       }
+
+      animationFrameId = requestAnimationFrame(animate)
     }
 
-    animate(0)
+    animate()
 
-    // Create initial data packets
-    for (let i = 0; i < 5; i++) {
-      createDataPacket()
-    }
-
+    // Clean up
     return () => {
       window.removeEventListener("resize", setCanvasDimensions)
       cancelAnimationFrame(animationFrameId)
     }
   }, [theme])
 
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <canvas ref={canvasRef} className="w-full h-[400px]" style={{ opacity: 0.9 }} />
-    </div>
-  )
+  return <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full pointer-events-none" />
 }
 
-export default HeroBackground
+// Helper functions and types
+type NodeType = "default" | "shield" | "lock" | "server"
+
+interface Node {
+  x: number
+  y: number
+  radius: number
+  vx: number
+  vy: number
+  type: NodeType
+}
+
+interface Packet {
+  x: number
+  y: number
+  targetX: number
+  targetY: number
+  progress: number
+  speed: number
+  color: string
+  size: number
+}
+
+function getRandomNodeType(): NodeType {
+  const types: NodeType[] = ["shield", "lock", "server"]
+  return types[Math.floor(Math.random() * types.length)]
+}
+
+function getRandomPacketColor(theme: string | undefined): string {
+  const darkModeColors = [
+    "rgba(56, 189, 248, 0.8)", // Bright cyan
+    "rgba(232, 121, 249, 0.8)", // Bright pink
+    "rgba(74, 222, 128, 0.8)", // Bright green
+    "rgba(250, 204, 21, 0.8)", // Bright yellow
+    "rgba(248, 113, 113, 0.8)", // Bright red
+  ]
+
+  const lightModeColors = [
+    "rgba(2, 132, 199, 0.8)", // Blue
+    "rgba(162, 28, 175, 0.8)", // Purple
+    "rgba(22, 163, 74, 0.8)", // Green
+    "rgba(202, 138, 4, 0.8)", // Yellow
+    "rgba(220, 38, 38, 0.8)", // Red
+  ]
+
+  const colors = theme === "dark" ? darkModeColors : lightModeColors
+  return colors[Math.floor(Math.random() * colors.length)]
+}
+
+function drawConnections(ctx: CanvasRenderingContext2D, nodes: Node[], theme: string | undefined) {
+  const connectionDistance = 150
+  const lineColor = theme === "dark" ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.05)"
+
+  ctx.strokeStyle = lineColor
+  ctx.lineWidth = theme === "dark" ? 0.8 : 0.5
+
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = nodes[i].x - nodes[j].x
+      const dy = nodes[i].y - nodes[j].y
+      const distance = Math.sqrt(dx * dx + dy * dy)
+
+      if (distance < connectionDistance) {
+        const opacity = 1 - distance / connectionDistance
+        ctx.globalAlpha = opacity * (theme === "dark" ? 0.3 : 0.15)
+
+        ctx.beginPath()
+        ctx.moveTo(nodes[i].x, nodes[i].y)
+        ctx.lineTo(nodes[j].x, nodes[j].y)
+        ctx.stroke()
+      }
+    }
+  }
+
+  ctx.globalAlpha = theme === "dark" ? 1.0 : 0.7
+}
+
+function drawNode(ctx: CanvasRenderingContext2D, node: Node, theme: string | undefined) {
+  const isDark = theme === "dark"
+
+  if (node.type === "default") {
+    // Draw regular node
+    ctx.fillStyle = isDark ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.5)"
+    ctx.beginPath()
+    ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2)
+    ctx.fill()
+
+    // Add glow effect in dark mode
+    if (isDark) {
+      ctx.shadowColor = "rgba(255, 255, 255, 0.5)"
+      ctx.shadowBlur = 5
+      ctx.beginPath()
+      ctx.arc(node.x, node.y, node.radius * 0.5, 0, Math.PI * 2)
+      ctx.fill()
+      ctx.shadowBlur = 0
+    }
+  } else {
+    // Draw special node types
+    const size = 12
+    ctx.fillStyle = isDark ? "rgba(255, 255, 255, 0.9)" : "rgba(0, 0, 0, 0.7)"
+
+    // Draw different shapes based on node type
+    switch (node.type) {
+      case "shield":
+        drawShield(ctx, node.x, node.y, size, isDark)
+        break
+      case "lock":
+        drawLock(ctx, node.x, node.y, size, isDark)
+        break
+      case "server":
+        drawServer(ctx, node.x, node.y, size, isDark)
+        break
+    }
+
+    // Add pulse effect
+    drawPulse(ctx, node.x, node.y, isDark)
+  }
+}
+
+function drawShield(ctx: CanvasRenderingContext2D, x: number, y: number, size: number, isDark: boolean) {
+  ctx.fillStyle = isDark ? "#60a5fa" : "#3b82f6" // Blue
+  ctx.beginPath()
+  ctx.moveTo(x, y - size)
+  ctx.lineTo(x + size, y - size / 2)
+  ctx.lineTo(x + size, y + size / 2)
+  ctx.lineTo(x, y + size)
+  ctx.lineTo(x - size, y + size / 2)
+  ctx.lineTo(x - size, y - size / 2)
+  ctx.closePath()
+  ctx.fill()
+
+  // Inner details
+  ctx.fillStyle = isDark ? "white" : "#1e40af"
+  ctx.beginPath()
+  ctx.moveTo(x, y - size / 2)
+  ctx.lineTo(x + size / 2, y)
+  ctx.lineTo(x, y + size / 2)
+  ctx.lineTo(x - size / 2, y)
+  ctx.closePath()
+  ctx.fill()
+}
+
+function drawLock(ctx: CanvasRenderingContext2D, x: number, y: number, size: number, isDark: boolean) {
+  // Lock body
+  ctx.fillStyle = isDark ? "#f59e0b" : "#d97706" // Amber
+  ctx.fillRect(x - size / 2, y - size / 3, size, size)
+
+  // Lock arc
+  ctx.strokeStyle = isDark ? "#f59e0b" : "#d97706"
+  ctx.lineWidth = 2
+  ctx.beginPath()
+  ctx.arc(x, y - size / 3, size / 2, Math.PI, 0)
+  ctx.stroke()
+
+  // Keyhole
+  ctx.fillStyle = isDark ? "white" : "#7c2d12"
+  ctx.beginPath()
+  ctx.arc(x, y, size / 4, 0, Math.PI * 2)
+  ctx.fill()
+}
+
+function drawServer(ctx: CanvasRenderingContext2D, x: number, y: number, size: number, isDark: boolean) {
+  // Server rack
+  ctx.fillStyle = isDark ? "#a855f7" : "#9333ea" // Purple
+  ctx.fillRect(x - size / 2, y - size, size, size * 2)
+
+  // Server details
+  const serverLevels = 3
+  const levelHeight = (size * 2) / serverLevels
+
+  ctx.fillStyle = isDark ? "white" : "#581c87"
+  for (let i = 0; i < serverLevels; i++) {
+    const levelY = y - size + i * levelHeight + levelHeight / 4
+    ctx.fillRect(x - size / 3, levelY, size / 1.5, levelHeight / 2)
+  }
+}
+
+function drawPulse(ctx: CanvasRenderingContext2D, x: number, y: number, isDark: boolean) {
+  const time = Date.now() / 1000
+  const maxRadius = 20
+  const pulseSpeed = 1.5
+
+  // Calculate pulse radius based on time
+  const pulseRadius = ((Math.sin(time * pulseSpeed) + 1) / 2) * maxRadius
+
+  // Draw pulse circle
+  const gradient = ctx.createRadialGradient(x, y, 0, x, y, pulseRadius)
+
+  if (isDark) {
+    gradient.addColorStop(0, "rgba(255, 255, 255, 0.3)")
+    gradient.addColorStop(1, "rgba(255, 255, 255, 0)")
+  } else {
+    gradient.addColorStop(0, "rgba(0, 0, 0, 0.2)")
+    gradient.addColorStop(1, "rgba(0, 0, 0, 0)")
+  }
+
+  ctx.fillStyle = gradient
+  ctx.beginPath()
+  ctx.arc(x, y, pulseRadius, 0, Math.PI * 2)
+  ctx.fill()
+}
+
+function drawPacket(ctx: CanvasRenderingContext2D, packet: Packet) {
+  ctx.fillStyle = packet.color
+  ctx.beginPath()
+  ctx.arc(packet.x, packet.y, packet.size, 0, Math.PI * 2)
+  ctx.fill()
+}
+
+function lerp(start: number, end: number, t: number): number {
+  return start + (end - start) * t
+}
