@@ -49,7 +49,7 @@
     "title": "Cybersecurity Regulation",
     "subtitle": "Regulations, policies, and procedures to regulate cybersecurity",
     "explore": "Explore Regulation",
-    "council": "Council",
+    "council": "Cybersecurity Council",
     "strategy": "Strategy",
     "executive": "Executive Regulations"
   },
@@ -130,7 +130,7 @@
     "more": "More"
   },
   "hero": {
-    "title": "Cybersecurity Center",
+    "title": "Cybersecurity Portal",
     "subtitle": "Protecting Digital Infrastructure and Enhancing Cybersecurity",
     "cta": "Explore More"
   },
@@ -185,6 +185,6 @@
     "disable": "Disable Tips"
   },
   "site": {
-    "name": "Cybersecurity Center"
+    "name": "Cybersecurity Portal"
   }
 }

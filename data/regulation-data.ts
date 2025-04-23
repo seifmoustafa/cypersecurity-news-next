@@ -2,8 +2,8 @@ export const regulationData = [
   {
     id: 1,
     title: {
-      ar: "المجلس",
-      en: "Council",
+      ar: "المجلس الأعلي للأمن السيبراني",
+      en: "Cybersecurity Council",
     },
     shortDescription: {
       ar: "مجلس الأمن السيبراني ودوره في وضع السياسات والاستراتيجيات",

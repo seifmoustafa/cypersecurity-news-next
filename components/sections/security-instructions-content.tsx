@@ -17,17 +17,17 @@ export default function SecurityInstructionsContent() {
     {
       id: "group",
       icon: <Shield className="h-10 w-10 text-primary" />,
-      title: { ar: "المجموعة", en: "Group" },
+      title: { ar: "المجموعة ٩٩", en: "Group 99" },
       description: {
-        ar: "تعليمات الأمن السيبراني للمجموعة",
-        en: "Group cybersecurity instructions",
+        ar: "تعليمات الأمن السيبراني للمجموعة ٩٩",
+        en: "Group 99 cybersecurity instructions",
       },
       years: Object.keys(instructionsData.group).sort((a, b) => Number(b) - Number(a)),
     },
     {
       id: "branch",
       icon: <FileText className="h-10 w-10 text-primary" />,
-      title: { ar: "الفرع", en: "Branch" },
+      title: { ar: "فرع حرب المعلومات", en: "Information Warfare Branch" },
       description: {
         ar: "تعليمات الأمن السيبراني للفرع",
         en: "Branch cybersecurity instructions",
