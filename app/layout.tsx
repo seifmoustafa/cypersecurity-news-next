@@ -7,7 +7,7 @@ import { Suspense } from "react"
 
 // Add a cache control header to improve caching
 export const metadata = {
-  title: "بوابة الأمن السيبراني | Cybersecurity Portal",
+  title: "مركز الأمن السيبراني | Cybersecurity Center",
   description: "أحدث المستجدات والتحليلات حول التهديدات السيبرانية وتقنيات الحماية",
     generator: 'v0.dev'
 }
@@ -35,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="ar" suppressHydrationWarning>
       <head>
-        <title>بوابة الأمن السيبراني | Cybersecurity Portal</title>
+        <title>مركز الأمن السيبراني | Cybersecurity Center</title>
         <meta name="description" content="أحدث المستجدات والتحليلات حول التهديدات السيبرانية وتقنيات الحماية" />
       </head>
       <body className={`${tajawal.variable} ${roboto.variable}`}>

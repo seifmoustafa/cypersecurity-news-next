@@ -9,10 +9,12 @@ export interface MediaItem {
     ar: string
   }
   thumbnailUrl: string
+  type?: "videos" | "lectures" | "presentations"
 }
 
 export interface Video extends MediaItem {
   url: string
+  type: "videos"
 }
 
 export interface Lecture extends MediaItem {
@@ -21,10 +23,12 @@ export interface Lecture extends MediaItem {
     ar: string
   }
   documentUrl?: string
+  type: "lectures"
 }
 
 export interface Presentation extends MediaItem {
   slides: Slide[]
+  type: "presentations"
 }
 
 export interface Slide {

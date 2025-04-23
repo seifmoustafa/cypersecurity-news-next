@@ -83,7 +83,7 @@ function SystemCard({ system, index }: SystemCardProps) {
       <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg group border border-blue-200/30 dark:border-blue-800/30">
         <div className="relative h-48">
           <Image
-            src={system.imageUrl || "/placeholder.svg"}
+            src={system.imageUrl || "/placeholder.svg?height=300&width=400"}
             alt={system.title[language]}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"

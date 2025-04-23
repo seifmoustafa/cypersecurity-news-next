@@ -1,116 +1,171 @@
 {
   "nav": {
+    "home": "Home",
     "systems": "Systems",
-    "strategy": "Cybersecurity Strategy",
-    "regulations": "Cybersecurity Executive Regulations",
+    "strategy": "Strategy",
+    "regulations": "Regulations",
     "instructions": "Security Instructions",
-    "awareness": "Awareness Bulletins",
+    "securityProcedures": "Security Procedures",
+    "securityRequirements": "Security Requirements",
+    "procedures": "Procedures",
+    "awareness": "Awareness",
     "news": "News",
     "videos": "Videos",
-    "vulnerabilities": "Vulnerabilities Database",
+    "vulnerabilities": "Vulnerabilities",
     "definitions": "Definitions",
-    "framework": "Cybersecurity Framework",
+    "framework": "Framework",
     "standards": "Standards",
-    "procedures": "Security Procedures"
+    "cybersecurityRegulation": "Cybersecurity Regulation",
+    "documentLibrary": "Document Library",
+    "laws": "Laws and Regulations"
   },
   "section": {
+    "news": "News",
     "systems": "Systems",
-    "regulation": "Cybersecurity Regulation",
-    "awareness": "Awareness",
+    "regulation": "Regulation",
+    "securityRequirements": "Security Requirements",
     "instructions": "Security Instructions",
-    "standards": "Standards",
+    "securityProcedures": "Security Procedures",
+    "awareness": "Awareness",
     "media": "Media Library",
+    "standards": "Standards",
     "definitions": "Definitions",
-    "framework": "Cybersecurity Framework"
+    "framework": "Framework",
+    "cybersecurityRegulation": "Cybersecurity Regulation",
+    "documentLibrary": "Document Library",
+    "cybersecurityConcepts": "Cybersecurity Concepts",
+    "laws": "Laws and Regulations"
   },
   "systems": {
+    "title": "Cybersecurity Systems",
+    "subtitle": "Systems and tools to enhance cybersecurity and protect digital infrastructure",
+    "explore": "Explore Systems",
     "operations": "Operations",
     "support": "Support",
     "vulnerabilities": "Vulnerabilities",
-    "subtitle": "Integrated systems for cybersecurity management and monitoring",
     "visitSystem": "Visit System"
   },
   "regulation": {
-    "council": "Cybersecurity Council",
+    "title": "Cybersecurity Regulation",
+    "subtitle": "Regulations, policies, and procedures to regulate cybersecurity",
+    "explore": "Explore Regulation",
+    "council": "Council",
     "strategy": "Strategy",
-    "executive": "Executive Regulations",
-    "subtitle": "Regulatory and legislative framework for cybersecurity"
+    "executive": "Executive Regulations"
   },
   "awareness": {
+    "title": "Cybersecurity Awareness",
+    "subtitle": "Stay informed about the latest cybersecurity threats and best practices",
+    "explore": "Explore Awareness",
     "bulletins": "Awareness Bulletins",
     "articles": "Articles",
-    "news": "News",
-    "subtitle": "Awareness materials to promote cybersecurity culture"
+    "news": "News"
   },
   "instructions": {
+    "title": "Security Instructions",
+    "subtitle": "Instructions and guidelines to enhance cybersecurity",
+    "explore": "Explore Instructions",
     "group": "Group",
-    "branch": "Branch",
-    "subtitle": "Guidelines and instructions to enhance cybersecurity"
+    "branch": "Branch"
+  },
+  "securityProcedures": {
+    "title": "Security Procedures",
+    "subtitle": "Procedures and steps to enhance cybersecurity and protect digital infrastructure"
   },
   "standards": {
+    "title": "Cybersecurity Standards",
+    "subtitle": "Standards and frameworks followed in the field of cybersecurity",
+    "explore": "Explore Standards",
     "international": "International",
     "local": "Local",
     "internal": "Internal",
-    "subtitle": "Approved standards and controls in the field of cybersecurity"
+    "categories": {
+      "international": "International",
+      "local": "Local",
+      "internal": "Internal"
+    }
+  },
+  "cybersecurityConcepts": {
+    "title": "Cybersecurity Concepts",
+    "subtitle": "Definitions, laws, frameworks, and standards in the field of cybersecurity"
   },
   "media": {
+    "title": "Media Library",
+    "subtitle": "Videos, images, and media materials related to cybersecurity",
+    "explore": "Explore Library",
     "videos": "Videos",
     "lectures": "Lectures",
-    "presentations": "Presentations",
-    "subtitle": "Integrated library of multimedia about cybersecurity"
+    "presentations": "Presentations"
+  },
+  "documentLibrary": {
+    "title": "Document Library",
+    "subtitle": "Documents, guides, and resources related to cybersecurity",
+    "explore": "Explore Library"
   },
   "common": {
-    "readMore": "Read More",
-    "close": "Close",
-    "download": "Download",
-    "view": "View",
-    "language": "العربية",
+    "language": "Change Language",
     "darkMode": "Dark Mode",
     "lightMode": "Light Mode",
-    "tipOfTheDay": "Tip of the Day",
-    "understood": "Got it",
-    "exploreMore": "Explore More",
+    "readMore": "Read More",
     "viewAll": "View All",
-    "viewAllNews": "View All News",
-    "all": "All",
+    "search": "Search",
+    "loading": "Loading...",
+    "noResults": "No Results",
     "back": "Back",
     "next": "Next",
     "previous": "Previous",
+    "close": "Close",
+    "download": "Download",
+    "view": "View",
+    "tipOfTheDay": "Tip of the Day",
+    "understood": "Got it",
+    "exploreMore": "Explore More",
+    "viewAllNews": "View All News",
+    "all": "All",
     "details": "Details",
     "controls": "Controls",
     "safeguards": "Safeguards",
     "techniques": "Techniques",
-    "implementation": "Implementation Steps"
+    "implementation": "Implementation Steps",
+    "more": "More"
   },
   "hero": {
-    "title": "Cybersecurity Portal",
-    "subtitle": "Latest updates and analysis on cybersecurity threats and protection techniques"
+    "title": "Cybersecurity Center",
+    "subtitle": "Protecting Digital Infrastructure and Enhancing Cybersecurity",
+    "cta": "Explore More"
   },
   "news": {
+    "title": "Cybersecurity News",
+    "subtitle": "Latest developments and news in the field of cybersecurity",
+    "latestNews": "Latest News",
+    "featuredNews": "Featured News",
+    "relatedNews": "Related News",
     "categories": {
+      "all": "All",
       "dataBreaches": "Data Breaches",
       "cyberAttacks": "Cyber Attacks",
       "vulnerabilities": "Vulnerabilities",
-      "threatIntelligence": "Threat Intelligence"
-    },
-    "latestNews": "Latest News",
-    "featuredNews": "Featured News",
-    "relatedNews": "Related News"
+      "threatIntelligence": "Threat Intelligence",
+      "threats": "Threats",
+      "incidents": "Incidents",
+      "updates": "Updates"
+    }
   },
   "definitions": {
     "title": "Cybersecurity Definitions",
-    "subtitle": "Key terms and concepts in the field of cybersecurity",
+    "subtitle": "Terms and concepts in the field of cybersecurity",
     "searchPlaceholder": "Search for a term...",
     "categories": {
       "general": "General Terms",
       "technical": "Technical Terms",
       "legal": "Legal Terms",
       "threats": "Threats and Attacks"
-    }
+    },
+    "explore": "Explore Definitions"
   },
   "framework": {
     "title": "Cybersecurity Framework",
-    "subtitle": "Comprehensive model for managing and implementing cybersecurity",
+    "subtitle": "A comprehensive framework to enhance cybersecurity",
     "domains": {
       "governance": "Governance and Leadership",
       "riskManagement": "Risk Management",
@@ -122,6 +177,14 @@
       "communicationsSecurity": "Communications Security",
       "incidentManagement": "Incident Management",
       "businessContinuity": "Business Continuity"
-    }
+    },
+    "explore": "Explore Framework"
+  },
+  "tips": {
+    "enable": "Enable Tips",
+    "disable": "Disable Tips"
+  },
+  "site": {
+    "name": "Cybersecurity Center"
   }
 }

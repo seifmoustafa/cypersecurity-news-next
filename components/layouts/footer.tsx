@@ -14,7 +14,7 @@ export default function Footer() {
           <div className="flex items-center mb-4 md:mb-0">
             <Shield className="h-6 w-6 text-primary mr-2 rtl:ml-2 rtl:mr-0" />
             <span className="font-bold text-lg text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">
-              {language === "ar" ? "بوابة الأمن السيبراني" : "Cybersecurity Portal"}
+              {language === "ar" ? "مركز الأمن السيبراني" : "Cybersecurity Center"}
             </span>
           </div>
 

@@ -14,6 +14,20 @@ export class RegulationsRepositoryImpl implements RegulationsRepository {
   }
 
   async getRegulationById(id: string): Promise<Regulation | null> {
-    return this.dataSource.getRegulationById(id)
+    try {
+      // Convert string ID to number if needed
+      const numericId = Number.parseInt(id, 10)
+
+      // Get all regulations
+      const allRegulations = await this.dataSource.getAllRegulations()
+
+      // Find the regulation with the matching ID
+      const regulation = allRegulations.find((reg) => reg.id === numericId)
+
+      return regulation || null
+    } catch (error) {
+      console.error(`Error fetching regulation with ID ${id}:`, error)
+      return null
+    }
   }
 }

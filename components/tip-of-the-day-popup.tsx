@@ -1,10 +1,10 @@
-"use client";
+"use client"
 
-import { useState, useEffect } from "react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { LightbulbIcon } from "lucide-react";
-import { useLanguage } from "@/components/language-provider";
+import { useState, useEffect } from "react"
+import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { LightbulbIcon } from "lucide-react"
+import { useLanguage } from "@/components/language-provider"
 
 // Static tips data until API is provided
 const staticTips = [
@@ -63,44 +63,45 @@ const staticTips = [
       ar: "عند الاتصال بشبكات Wi-Fi العامة، استخدم شبكة خاصة افتراضية (VPN) لتشفير حركة الإنترنت الخاصة بك وحماية بياناتك من المتطفلين المحتملين.",
     },
   },
-];
+]
 
 export default function TipOfTheDayPopup() {
-  const [open, setOpen] = useState(false);
-  const [tip, setTip] = useState<(typeof staticTips)[0] | null>(null);
-  const { language } = useLanguage();
+  const [open, setOpen] = useState(false)
+  const [tip, setTip] = useState<(typeof staticTips)[0] | null>(null)
+  const { language } = useLanguage()
 
   useEffect(() => {
-    // Select a random tip
-    const randomIndex = Math.floor(Math.random() * staticTips.length);
-    setTip(staticTips[randomIndex]);
+    // Check if tips are disabled in localStorage
+    const disabled = localStorage.getItem("tipOfTheDayDisabled") === "true"
 
-    // Show the tip after a short delay
-    const timer = setTimeout(() => {
-      setOpen(true);
-    }, 1000);
+    // Only show the tip if not disabled
+    if (!disabled) {
+      // Select a random tip
+      const randomIndex = Math.floor(Math.random() * staticTips.length)
+      setTip(staticTips[randomIndex])
 
-    // Cleanup function
-    return () => clearTimeout(timer);
-  }, []);
+      // Show the tip after a short delay
+      const timer = setTimeout(() => {
+        setOpen(true)
+      }, 1000)
 
-  if (!tip) return null;
+      // Cleanup function
+      return () => clearTimeout(timer)
+    }
+  }, [])
+
+  if (!tip) return null
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent
-        className="sm:max-w-2xl p-0 overflow-hidden border-primary/20"
-        hideCloseButton
-      >
+      <DialogContent className="sm:max-w-2xl p-0 overflow-hidden border-primary/20" hideCloseButton>
         {/* Header section with colored background */}
         <div className="bg-primary/10 dark:bg-primary/20 p-6 flex items-center gap-4 border-b border-primary/20">
           <div className="bg-primary/20 dark:bg-primary/30 p-3 rounded-full">
             <LightbulbIcon className="h-8 w-8 text-primary" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-primary">
-              {language === "ar" ? "نصيحة اليوم" : "Tip of the Day"}
-            </h2>
+            <h2 className="text-2xl font-bold text-primary">{language === "ar" ? "نصيحة اليوم" : "Tip of the Day"}</h2>
             <p className="text-lg font-medium">{tip.title[language]}</p>
           </div>
         </div>
@@ -111,15 +112,12 @@ export default function TipOfTheDayPopup() {
 
           {/* Custom close button */}
           <div className="mt-6 flex justify-center">
-            <Button
-              className="px-8 py-2 bg-primary hover:bg-primary/90 text-white"
-              onClick={() => setOpen(false)}
-            >
+            <Button className="px-8 py-2 bg-primary hover:bg-primary/90 text-white" onClick={() => setOpen(false)}>
               {language === "ar" ? "فهمت" : "I Understand"}
             </Button>
           </div>
         </div>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

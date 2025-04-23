@@ -62,10 +62,10 @@ export const mediaLibraryData = {
           <li>استخدام تحليلات البيانات الضخمة في اكتشاف الأنماط المشبوهة</li>
           <li>تحليل البرمجيات الخبيثة وهندستها العكسية</li>
           <li>استراتيجيات الاستجابة للحوادث المتقدمة</li>
-          <li>دراسات حالة لهجمات متقدمة وكيفية التعامل معها</li>
+          <li>دراسات حالة لهجمات متقدمة وكيفية التعامل ��عها</li>
         </ol>
         
-        <p>قدم المحاضرة الدكتور أحمد الشمري، خبير الأمن السيبراني المتخصص في تحليل التهديدات المتقدمة، بتاريخ 15 يناير 2024.</p>`,
+        <p>قدم المحاضرة الدكتور أحمد الشمري، خبير الأمن الس��براني المتخصص في تحليل التهديدات المتقدمة، بتاريخ 15 يناير 2024.</p>`,
         en: `<h3>Lecture Content</h3>
         <p>This advanced lecture addresses the topic of analyzing sophisticated cyber threats and how to detect and counter them. The lecture covers the following topics:</p>
         

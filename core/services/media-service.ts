@@ -1,34 +1,34 @@
-import type { MediaRepository } from "../domain/repositories/media-repository"
-import type { Video, Lecture, Presentation } from "../domain/models/media"
+import type { MediaRepository } from "@/core/domain/repositories/media-repository"
+import type { MediaItem, Video, Lecture, Presentation } from "@/core/domain/models/media"
 
 export class MediaService {
-  private repository: MediaRepository
+  constructor(private mediaRepository: MediaRepository) {}
 
-  constructor(repository: MediaRepository) {
-    this.repository = repository
+  async getAllMedia(): Promise<MediaItem[]> {
+    return this.mediaRepository.getAllMedia()
   }
 
-  async getAllVideos(): Promise<Video[]> {
-    return this.repository.getAllVideos()
+  async getVideoById(id: string): Promise<Video> {
+    const video = await this.mediaRepository.getVideoById(id)
+    if (!video) {
+      throw new Error(`Video with id ${id} not found`)
+    }
+    return video
   }
 
-  async getVideoById(id: string): Promise<Video | null> {
-    return this.repository.getVideoById(id)
+  async getLectureById(id: string): Promise<Lecture> {
+    const lecture = await this.mediaRepository.getLectureById(id)
+    if (!lecture) {
+      throw new Error(`Lecture with id ${id} not found`)
+    }
+    return lecture
   }
 
-  async getAllLectures(): Promise<Lecture[]> {
-    return this.repository.getAllLectures()
-  }
-
-  async getLectureById(id: string): Promise<Lecture | null> {
-    return this.repository.getLectureById(id)
-  }
-
-  async getAllPresentations(): Promise<Presentation[]> {
-    return this.repository.getAllPresentations()
-  }
-
-  async getPresentationById(id: string): Promise<Presentation | null> {
-    return this.repository.getPresentationById(id)
+  async getPresentationById(id: string): Promise<Presentation> {
+    const presentation = await this.mediaRepository.getPresentationById(id)
+    if (!presentation) {
+      throw new Error(`Presentation with id ${id} not found`)
+    }
+    return presentation
   }
 }

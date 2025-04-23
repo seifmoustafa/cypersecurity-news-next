@@ -7,8 +7,10 @@ import Link from "next/link"
 import { ChevronLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/components/language-provider"
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { Suspense, useEffect, useState } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { motion } from "framer-motion"
 
 export default function InstructionsYearPage() {
   return (
@@ -33,8 +35,9 @@ function InstructionsYearContent() {
   const typeParam = params.type as string
   const yearParam = params.year as string
   const { language, isRtl } = useLanguage()
-  const [instructionData, setInstructionData] = useState<any>(null)
+  const [instructions, setInstructions] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const router = useRouter()
 
   useEffect(() => {
     // Immediately try to access the data without async operations
@@ -55,7 +58,7 @@ function InstructionsYearContent() {
       }
 
       // Set the data and mark as loaded
-      setInstructionData(yearData)
+      setInstructions(yearData)
       setIsLoading(false)
     } catch (error) {
       console.error("Error loading instruction data:", error)
@@ -73,6 +76,10 @@ function InstructionsYearContent() {
       branch: language === "ar" ? "تعليمات الفرع" : "Branch Instructions",
     }[typeParam as keyof typeof instructionsData] || ""
 
+  const handleInstructionClick = (instructionId: string) => {
+    router.push(`/instructions/${typeParam}/${yearParam}/${instructionId}`)
+  }
+
   return (
     <MainLayout>
       <div className="pt-24 pb-16">
@@ -89,17 +96,33 @@ function InstructionsYearContent() {
             </h1>
           </div>
 
-          <div className={`prose dark:prose-invert max-w-none mb-8 ${isRtl ? "text-right" : "text-left"}`}>
-            <div dangerouslySetInnerHTML={{ __html: instructionData[language] }} />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {instructions.map((instruction, index) => (
+              <motion.div
+                key={instruction.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                onClick={() => handleInstructionClick(instruction.id)}
+              >
+                <Card className="h-full hover:shadow-md transition-shadow cursor-pointer hover:border-primary/50">
+                  <CardHeader className="pb-2">
+                    <CardTitle className={`text-xl ${isRtl ? "text-right" : "text-left"}`}>
+                      {instruction.title[language]}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className={isRtl ? "text-right" : "text-left"}>
+                    <p className="text-muted-foreground line-clamp-3">
+                      {instruction.content[language].replace(/<[^>]*>/g, "").substring(0, 150)}...
+                    </p>
+                    <div className="mt-4 text-sm text-primary">
+                      {language === "ar" ? "انقر للعرض" : "Click to view"}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
           </div>
-
-          {instructionData.documentUrl && (
-            <div className="flex justify-center mt-8">
-              <Button onClick={() => window.open(instructionData.documentUrl, "_blank")}>
-                {language === "ar" ? "تحميل الوثيقة" : "Download Document"}
-              </Button>
-            </div>
-          )}
         </div>
       </div>
     </MainLayout>

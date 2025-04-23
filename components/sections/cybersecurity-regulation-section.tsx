@@ -1,19 +1,18 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
 import { useLanguage } from "@/components/language-provider"
-import SectionHeader from "@/components/ui/section-header"
-import SectionContainer from "@/components/ui/section-container"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
-import Image from "next/image"
+import { useEffect, useState } from "react"
+import { motion } from "framer-motion"
 import { container } from "@/core/di/container"
 import type { Regulation } from "@/core/domain/models/regulation"
+import SectionContainer from "@/components/ui/section-container"
+import SectionHeader from "@/components/ui/section-header"
+import { Card, CardContent } from "@/components/ui/card"
+import Image from "next/image"
+import Link from "next/link"
 
-export default function CyberSecurityRegulationSection() {
-  const { t } = useLanguage()
+export default function CybersecurityRegulationSection() {
+  const { language, t } = useLanguage()
   const [regulations, setRegulations] = useState<Regulation[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -71,21 +70,17 @@ interface RegulationCardProps {
 }
 
 function RegulationCard({ item, index }: RegulationCardProps) {
-  const { language, isRtl, t } = useLanguage()
-  const [dialogOpen, setDialogOpen] = useState(false)
+  const { language } = useLanguage()
 
   return (
-    <>
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.5, delay: index * 0.1 }}
-      >
-        <Card
-          className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:border-primary/50 cursor-pointer border border-blue-200/30 dark:border-blue-800/30"
-          onClick={() => setDialogOpen(true)}
-        >
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+    >
+      <Link href={`/regulation/${item.id}`}>
+        <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:border-primary/50 cursor-pointer border border-blue-200/30 dark:border-blue-800/30">
           <div className="relative h-48">
             <Image src={item.imageUrl || "/placeholder.svg"} alt={item.title[language]} fill className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
@@ -97,37 +92,7 @@ function RegulationCard({ item, index }: RegulationCardProps) {
             <p className="text-muted-foreground">{item.shortDescription[language]}</p>
           </CardContent>
         </Card>
-      </motion.div>
-
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-3xl overflow-y-auto max-h-[85vh] border border-blue-200/50 dark:border-blue-800/30 bg-gradient-to-br from-white to-blue-50/50 dark:from-gray-900 dark:to-blue-950/30">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">
-              {item.title[language]}
-            </DialogTitle>
-            <DialogDescription>{item.shortDescription[language]}</DialogDescription>
-          </DialogHeader>
-
-          <div className="relative w-full h-48 my-4 rounded-md overflow-hidden">
-            <Image src={item.imageUrl || "/placeholder.svg"} alt={item.title[language]} fill className="object-cover" />
-          </div>
-
-          <div className="prose dark:prose-invert max-w-none">
-            <div dangerouslySetInnerHTML={{ __html: item.fullDescription[language] }} />
-          </div>
-
-          {item.documentUrl && (
-            <div className="mt-4 flex justify-end">
-              <Button
-                onClick={() => window.open(item.documentUrl, "_blank")}
-                className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white border-0 shadow-md hover:shadow-lg transition-all duration-300"
-              >
-                {t("common.download")}
-              </Button>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
-    </>
+      </Link>
+    </motion.div>
   )
 }

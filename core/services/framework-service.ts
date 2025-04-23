@@ -1,5 +1,5 @@
 import type { FrameworkRepository } from "../domain/repositories/framework-repository"
-import type { Framework, Domain, Component } from "../domain/models/framework"
+import type { Framework, Domain, Component, FrameworkFunction, FrameworkCategory } from "../domain/models/framework"
 
 export class FrameworkService {
   private repository: FrameworkRepository
@@ -10,6 +10,18 @@ export class FrameworkService {
 
   async getFramework(): Promise<Framework> {
     return this.repository.getFramework()
+  }
+
+  async getFrameworkFunctions(): Promise<FrameworkFunction[]> {
+    return this.repository.getFrameworkFunctions()
+  }
+
+  async getFrameworkFunctionById(id: string): Promise<FrameworkFunction | null> {
+    return this.repository.getFrameworkFunctionById(id)
+  }
+
+  async getFrameworkCategories(functionId: string): Promise<FrameworkCategory[]> {
+    return this.repository.getFrameworkCategories(functionId)
   }
 
   async getDomains(): Promise<Domain[]> {

@@ -263,12 +263,13 @@ export class MockDataSource {
   }
 
   // Regulations
-  async getAllRegulations(): Promise<Regulation[]> {
+  getAllRegulations(): Regulation[] {
     return regulationData
   }
 
-  async getRegulationById(id: string): Promise<Regulation | null> {
-    return regulationData.find((regulation) => regulation.id === id) || null
+  getRegulationById(id: string | number): Regulation | null {
+    const numericId = typeof id === "string" ? Number.parseInt(id, 10) : id
+    return regulationData.find((regulation) => regulation.id === numericId) || null
   }
 
   // Media

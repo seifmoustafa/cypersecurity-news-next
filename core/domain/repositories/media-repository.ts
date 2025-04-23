@@ -1,12 +1,8 @@
-import type { Video, Lecture, Presentation } from "../models/media"
+import type { MediaItem, Video, Lecture, Presentation } from "@/core/domain/models/media"
 
 export interface MediaRepository {
-  getAllVideos(): Promise<Video[]>
+  getAllMedia(): Promise<MediaItem[]>
   getVideoById(id: string): Promise<Video | null>
-
-  getAllLectures(): Promise<Lecture[]>
   getLectureById(id: string): Promise<Lecture | null>
-
-  getAllPresentations(): Promise<Presentation[]>
   getPresentationById(id: string): Promise<Presentation | null>
 }

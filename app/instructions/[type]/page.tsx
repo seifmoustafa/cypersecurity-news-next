@@ -1,80 +1,43 @@
 "use client"
 
-import { instructionsData } from "@/data/instructions-data"
-import { notFound } from "next/navigation"
+import { useEffect, useState } from "react"
+import { useParams, useRouter } from "next/navigation"
 import MainLayout from "@/components/layouts/main-layout"
+import { useLanguage } from "@/components/language-provider"
 import { Card, CardContent } from "@/components/ui/card"
-import Link from "next/link"
+import { motion } from "framer-motion"
+import { instructionsData } from "@/data/instructions-data"
 import { ChevronLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useLanguage } from "@/components/language-provider"
-import { motion } from "framer-motion"
-import { useParams, useRouter } from "next/navigation"
-import { Suspense, useEffect, useState } from "react"
+import Link from "next/link"
 
-export default function InstructionTypePage() {
-  return (
-    <Suspense fallback={<LoadingState />}>
-      <InstructionTypeContent />
-    </Suspense>
-  )
-}
-
-function LoadingState() {
-  return (
-    <MainLayout>
-      <div className="pt-24 pb-16 flex justify-center items-center min-h-[50vh]">
-        <div className="animate-pulse">Loading...</div>
-      </div>
-    </MainLayout>
-  )
-}
-
-// Update the InstructionTypeContent function for faster loading
-function InstructionTypeContent() {
+export default function InstructionsTypePage() {
   const params = useParams()
   const typeParam = params.type as string
   const { language, isRtl } = useLanguage()
-  const [years, setYears] = useState<string[]>([])
-  const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
+  const [years, setYears] = useState<string[]>([])
 
   useEffect(() => {
-    // Directly access the data without async operations
-    try {
-      const type = typeParam as keyof typeof instructionsData
-
-      if (!instructionsData[type]) {
-        notFound()
-        return
-      }
-
-      // Get and sort the years
-      const sortedYears = Object.keys(instructionsData[type]).sort((a, b) => Number(b) - Number(a))
-      setYears(sortedYears)
-      setIsLoading(false)
-
-      // Prefetch year pages for faster navigation
-      sortedYears.forEach((year) => {
-        router.prefetch(`/instructions/${type}/${year}`)
-      })
-    } catch (error) {
-      console.error("Error loading years:", error)
-      notFound()
+    // Get the years for this instruction type
+    const type = typeParam as keyof typeof instructionsData
+    if (instructionsData[type]) {
+      const yearsArray = Object.keys(instructionsData[type]).sort((a, b) => Number(b) - Number(a))
+      setYears(yearsArray)
+    } else {
+      router.push("/")
     }
   }, [typeParam, router])
 
-  if (isLoading) {
-    return <LoadingState />
+  const handleYearClick = (year: string) => {
+    router.push(`/instructions/${typeParam}/${year}`)
   }
-
-  const type = typeParam as keyof typeof instructionsData
 
   const typeTitle =
     {
       group: language === "ar" ? "تعليمات المجموعة" : "Group Instructions",
       branch: language === "ar" ? "تعليمات الفرع" : "Branch Instructions",
-    }[type] || ""
+    }[typeParam as keyof typeof instructionsData] || ""
 
   return (
     <MainLayout>
@@ -90,24 +53,28 @@ function InstructionTypeContent() {
             <h1 className="text-3xl font-bold text-center flex-1">{typeTitle}</h1>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {years.map((year, index) => (
               <motion.div
                 key={year}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
+                onClick={() => handleYearClick(year)}
               >
-                <Link href={`/instructions/${type}/${year}`}>
-                  <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
-                    <CardContent className="p-6 flex flex-col items-center justify-center text-center">
-                      <h3 className="text-3xl font-bold">{year}</h3>
-                      <p className="text-muted-foreground mt-2">
-                        {language === "ar" ? "تعليمات عام" : "Instructions for"} {year}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </Link>
+                <Card className="h-full hover:shadow-md transition-shadow cursor-pointer hover:border-primary/50">
+                  <CardContent className="p-6 flex flex-col items-center text-center">
+                    <h3 className="text-2xl font-bold mb-4 text-primary">{year}</h3>
+                    <p className="text-muted-foreground">
+                      {language === "ar"
+                        ? `تعليمات الأمن السيبراني لعام ${year}`
+                        : `Cybersecurity instructions for ${year}`}
+                    </p>
+                    <div className="mt-4 text-sm text-primary">
+                      {language === "ar" ? "انقر للعرض" : "Click to view"}
+                    </div>
+                  </CardContent>
+                </Card>
               </motion.div>
             ))}
           </div>

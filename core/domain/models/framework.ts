@@ -1,29 +1,47 @@
 export interface Framework {
   id: string
-  domains: Domain[]
+  nameAr: string
+  nameEn: string
+  descriptionAr: string
+  descriptionEn: string
+  version: string
+}
+
+export interface FrameworkFunction {
+  id: string
+  nameAr: string
+  nameEn: string
+  descriptionAr: string
+  descriptionEn: string
+  color: string
+  order: number
+}
+
+export interface FrameworkCategory {
+  id: string
+  functionId: string
+  nameAr: string
+  nameEn: string
+  descriptionAr: string
+  descriptionEn: string
+  order: number
 }
 
 export interface Domain {
   id: string
-  title: {
-    en: string
-    ar: string
-  }
-  description: {
-    en: string
-    ar: string
-  }
-  components: Component[]
+  nameAr: string
+  nameEn: string
+  descriptionAr: string
+  descriptionEn: string
+  order: number
 }
 
 export interface Component {
   id: string
-  title: {
-    en: string
-    ar: string
-  }
-  description: {
-    en: string
-    ar: string
-  }
+  domainId: string
+  nameAr: string
+  nameEn: string
+  descriptionAr: string
+  descriptionEn: string
+  order: number
 }

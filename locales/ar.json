@@ -1,70 +1,109 @@
 {
   "nav": {
-    "systems": "منظومات",
-    "strategy": "إستراتيجية الأمن السيبراني",
-    "regulations": "اللائحة التنفيذية للأمن السيبراني",
+    "systems": "المنظومات",
+    "strategy": "الاستراتيجية",
+    "regulations": "اللوائح",
     "instructions": "تعليمات التأمين",
-    "awareness": "نشرات التوعية",
-    "news": "أخبار",
-    "videos": "فيديوهات",
-    "vulnerabilities": "قاعدة بيانات الثغرات",
-    "definitions": "تعريفات",
-    "framework": "اطار عمل الأمن السيبراني",
-    "standards": "المعايير القياسية",
-    "procedures": "إجراءات التأمين"
+    "securityProcedures": "إجراءات التأمين",
+    "securityRequirements": "متطلبات الأمن السيبراني",
+    "procedures": "الإجراءات",
+    "awareness": "التوعية",
+    "news": "الأخبار",
+    "videos": "الفيديوهات",
+    "vulnerabilities": "الثغرات",
+    "definitions": "التعريفات",
+    "framework": "إطار العمل",
+    "standards": "المعايير",
+    "home": "الرئيسية",
+    "cybersecurityRegulation": "تنظيم الأمن السيبراني",
+    "documentLibrary": "مكتبة الوثائق",
+    "laws": "القوانين واللوائح التنفيذية"
   },
   "section": {
-    "systems": "منظومات",
-    "regulation": "تنظيم الأمن السيبراني",
-    "awareness": "نشر الوعي",
+    "news": "الأخبار",
+    "systems": "المنظومات",
+    "regulation": "التنظيم",
+    "securityRequirements": "متطلبات الأمن السيبراني",
     "instructions": "تعليمات التأمين",
-    "standards": "المعايير القياسية",
-    "media": "مكتبة الوثائق المتعددة",
-    "definitions": "تعريفات",
-    "framework": "اطار عمل الأمن السيبراني"
+    "securityProcedures": "إجراءات التأمين",
+    "awareness": "التوعية",
+    "media": "المكتبة الإعلامية",
+    "standards": "المعايير",
+    "definitions": "التعريفات",
+    "framework": "إطار العمل",
+    "cybersecurityRegulation": "تنظيم الأمن السيبراني",
+    "documentLibrary": "مكتبة الوثائق",
+    "cybersecurityConcepts": "مفاهيم الأمن السيبراني",
+    "laws": "القوانين واللوائح التنفيذية"
   },
   "systems": {
     "operations": "عمليات",
     "support": "دعم",
     "vulnerabilities": "ثغرات",
     "subtitle": "أنظمة متكاملة لإدارة ومراقبة الأمن السيبراني",
-    "visitSystem": "زيارة النظام"
+    "visitSystem": "زيارة النظام",
+    "title": "منظومات الأمن السيبراني",
+    "explore": "استكشف المنظومات"
   },
   "regulation": {
-    "council": "المجلس الأعلي للأمن السيبراني",
+    "council": "المجلس",
     "strategy": "الإسترتيجية",
     "executive": "اللائحة التنفيذية",
-    "subtitle": "الإطار التنظيمي والتشريعي للأمن السيبراني"
+    "subtitle": "الإطار التنظيمي والتشريعي للأمن السيبراني",
+    "title": "تنظيم الأمن السيبراني",
+    "explore": "استكشف التنظيم"
   },
   "awareness": {
     "bulletins": "نشرات التوعية",
     "articles": "المقالات",
     "news": "الأخبار",
-    "subtitle": "مواد توعوية لتعزيز ثقافة الأمن السيبراني"
+    "subtitle": "ابق على اطلاع بأحدث تهديدات الأمن السيبراني وأفضل الممارسات",
+    "title": "التوعية بالأمن السيبراني",
+    "explore": "استكشف التوعية"
   },
   "instructions": {
     "group": "مجموعة",
     "branch": "فرع",
-    "subtitle": "إرشادات وتعليمات لتعزيز الأمن السيبراني"
+    "subtitle": "إرشادات وتعليمات لتعزيز الأمن السيبراني",
+    "title": "تعليمات الأمن السيبراني",
+    "explore": "استكشف التعليمات"
   },
   "standards": {
     "international": "الدولية",
     "local": "محلية",
     "internal": "داخلية",
-    "subtitle": "المعايير والضوابط المعتمدة في مجال الأمن السيبراني"
+    "subtitle": "المعايير والضوابط المعتمدة في مجال الأمن السيبراني",
+    "title": "معايير الأمن السيبراني",
+    "explore": "استكشف المعايير",
+    "categories": {
+      "international": "دولية",
+      "local": "محلية",
+      "internal": "داخلية"
+    }
+  },
+  "cybersecurityConcepts": {
+    "title": "مفاهيم الأمن السيبراني",
+    "subtitle": "التعريفات والقوانين وأطر العمل والمعايير في مجال الأمن السيبراني"
   },
   "media": {
     "videos": "الفيديوهات",
     "lectures": "المحاضرات",
     "presentations": "العروض التقديمية",
-    "subtitle": "مكتبة متكاملة من الوسائط المتعددة حول الأمن السيبراني"
+    "subtitle": "مكتبة متكاملة من الوسائط المتعددة حول الأمن السيبراني",
+    "title": "المكتبة الإعلامية",
+    "explore": "استكشف المكتبة"
+  },
+  "documentLibrary": {
+    "title": "مكتبة الوثائق",
+    "subtitle": "وثائق وأدلة وموارد متعلقة بالأمن السيبراني",
+    "explore": "استكشف المكتبة"
   },
   "common": {
-    "readMore": "اقرأ المزيد",
+    "readMore": "قراءة المزيد",
     "close": "إغلاق",
     "download": "تحميل",
     "view": "عرض",
-    "language": "English",
+    "language": "تغيير اللغة",
     "darkMode": "الوضع الداكن",
     "lightMode": "الوضع الفاتح",
     "tipOfTheDay": "نصيحة اليوم",
@@ -80,37 +119,49 @@
     "controls": "الضوابط",
     "safeguards": "الإجراءات الوقائية",
     "techniques": "التقنيات",
-    "implementation": "خطوات التنفيذ"
+    "implementation": "خطوات التنفيذ",
+    "search": "بحث",
+    "loading": "جاري التحميل...",
+    "noResults": "لا توجد نتائج",
+    "more": "المزيد"
   },
   "hero": {
-    "title": "بوابة الأمن السيبراني",
-    "subtitle": "أحدث المستجدات والتحليلات حول التهديدات السيبرانية وتقنيات الحماية"
+    "title": "مركز الأمن السيبراني",
+    "subtitle": "حماية البنية التحتية الرقمية وتعزيز الأمن السيبراني",
+    "cta": "استكشف المزيد"
   },
   "news": {
     "categories": {
       "dataBreaches": "تسريبات البيانات",
       "cyberAttacks": "الهجمات السيبرانية",
       "vulnerabilities": "الثغرات الأمنية",
-      "threatIntelligence": "معلومات التهديدات"
+      "threatIntelligence": "معلومات التهديدات",
+      "all": "الكل",
+      "threats": "التهديدات",
+      "incidents": "الحوادث",
+      "updates": "التحديثات"
     },
-    "latestNews": "أحدث الأخبار",
+    "latestNews": "آخر الأخبار",
     "featuredNews": "أخبار مميزة",
-    "relatedNews": "أخبار ذات صلة"
+    "relatedNews": "أخبار ذات صلة",
+    "title": "أخبار الأمن السيبراني",
+    "subtitle": "آخر التطورات والأخبار في مجال الأمن السيبراني"
   },
   "definitions": {
     "title": "تعريفات الأمن السيبراني",
-    "subtitle": "المصطلحات والمفاهيم الأساسية في مجال الأمن السيبراني",
+    "subtitle": "مصطلحات ومفاهيم في مجال الأمن السيبراني",
     "searchPlaceholder": "ابحث عن مصطلح...",
     "categories": {
       "general": "مصطلحات عامة",
       "technical": "مصطلحات تقنية",
       "legal": "مصطلحات قانونية",
       "threats": "التهديدات والهجمات"
-    }
+    },
+    "explore": "استكشف التعريفات"
   },
   "framework": {
     "title": "إطار عمل الأمن السيبراني",
-    "subtitle": "نموذج شامل لإدارة وتنفيذ الأمن السيبراني",
+    "subtitle": "إطار عمل شامل لتعزيز الأمن السيبراني",
     "domains": {
       "governance": "الحوكمة والقيادة",
       "riskManagement": "إدارة المخاطر",
@@ -122,6 +173,18 @@
       "communicationsSecurity": "أمن الاتصالات",
       "incidentManagement": "إدارة الحوادث",
       "businessContinuity": "استمرارية الأعمال"
-    }
+    },
+    "explore": "استكشف إطار العمل"
+  },
+  "securityProcedures": {
+    "title": "إجراءات الأمن السيبراني",
+    "subtitle": "إجراءات وخطوات لتعزيز الأمن السيبراني وحماية البنية التحتية الرقمية"
+  },
+  "tips": {
+    "enable": "تفعيل النصائح",
+    "disable": "إيقاف النصائح"
+  },
+  "site": {
+    "name": "مركز الأمن السيبراني"
   }
 }

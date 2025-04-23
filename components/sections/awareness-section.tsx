@@ -17,6 +17,8 @@ export default function AwarenessSection() {
   const [bulletins, setBulletins] = useState<any[]>([])
   const [articles, setArticles] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState("news")
+  const [activeNewsCategory, setActiveNewsCategory] = useState("all")
 
   useEffect(() => {
     const fetchAwarenessData = async () => {
@@ -33,6 +35,28 @@ export default function AwarenessSection() {
     }
 
     fetchAwarenessData()
+  }, [])
+
+  // Listen for tab change events
+  useEffect(() => {
+    const handleTabChange = (event: Event) => {
+      const customEvent = event as CustomEvent
+      const { sectionId, tab } = customEvent.detail
+
+      if (sectionId === "awareness" && tab) {
+        setActiveTab(tab)
+
+        // If the tab is "news", also set the default news category
+        if (tab === "news") {
+          setActiveNewsCategory("all")
+        }
+      }
+    }
+
+    window.addEventListener("tabchange", handleTabChange)
+    return () => {
+      window.removeEventListener("tabchange", handleTabChange)
+    }
   }, [])
 
   const categoryNames = {
@@ -58,7 +82,7 @@ export default function AwarenessSection() {
     <SectionContainer id="awareness" className="bg-muted/30">
       <SectionHeader title={t("section.awareness")} subtitle={t("awareness.subtitle")} />
 
-      <Tabs defaultValue="news" className="w-full">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className={`w-full max-w-md mx-auto mb-8 ${isRtl ? "flex-row-reverse" : ""}`}>
           <TabsTrigger value="news" className="flex-1">
             {language === "ar" ? "الأخبار" : "News"}
@@ -72,7 +96,7 @@ export default function AwarenessSection() {
         </TabsList>
 
         <TabsContent value="news" className="mt-0">
-          <Tabs defaultValue="all" className="w-full">
+          <Tabs value={activeNewsCategory} onValueChange={setActiveNewsCategory} className="w-full">
             <TabsList
               className={`w-full max-w-4xl mx-auto mb-8 flex flex-wrap justify-center ${isRtl ? "flex-row-reverse" : ""}`}
             >
