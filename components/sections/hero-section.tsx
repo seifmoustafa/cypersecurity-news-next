@@ -1,82 +1,62 @@
-"use client"
+"use client";
 
-import { useTheme } from "next-themes"
-import { useEffect, useState } from "react"
-import HeroBackground from "@/components/hero-background"
-import { motion } from "framer-motion"
-import { useLanguage } from "@/components/language-provider"
-import { Button } from "@/components/ui/button"
-import { ChevronDown, Shield } from "lucide-react"
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import HeroBackground from "@/components/hero-background";
+import { useLanguage } from "@/components/language-provider";
+import { Button } from "@/components/ui/button";
 
 export default function HeroSection() {
-  const { theme } = useTheme()
-  const { language, t } = useLanguage()
-  const [mounted, setMounted] = useState(false)
+  const { theme } = useTheme();
+  const { language, t } = useLanguage();
+  const [mounted, setMounted] = useState(false);
 
   // Prevent hydration mismatch
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
-  if (!mounted) return null
+  if (!mounted) return null;
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
-    <div className="relative w-full h-[60vh] md:h-[70vh] overflow-hidden">
-      {/* Animated background */}
-      <HeroBackground />
-
-      {/* Optional overlay for better text contrast */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70 dark:from-black/70 dark:via-black/60 dark:to-black/80 z-10"></div>
-
-      {/* Hero content */}
-      <div className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="max-w-3xl"
-        >
-          <div className="flex justify-center mb-4">
-            <Shield className="h-16 w-16 text-primary" />
-          </div>
-
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white drop-shadow-md bg-clip-text">
+    <section className="relative overflow-hidden">
+      <div className="absolute inset-0 z-0">
+        <HeroBackground />
+      </div>
+      <div className="relative z-10 container mx-auto px-4 max-w-full 2xl:max-w-[1600px]">
+        <div className="flex flex-col items-center justify-center min-h-[40vh] md:min-h-[45vh] py-8 md:py-12">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-4 text-white drop-shadow-lg">
             {t("hero.title")}
           </h1>
-
-          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-8 drop-shadow leading-relaxed">
+          <p className="text-lg sm:text-xl md:text-2xl text-center max-w-3xl text-white/90 drop-shadow-md mb-8">
             {t("hero.subtitle")}
           </p>
-
-          <Button
-            size="lg"
-            className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-6 text-lg"
-            onClick={() => {
-              const systemsSection = document.querySelector("#systems")
-              if (systemsSection) {
-                systemsSection.scrollIntoView({ behavior: "smooth" })
-              }
-            }}
-          >
-            {t("common.exploreMore")}
-          </Button>
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          className="absolute bottom-8"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 1,
-            delay: 1,
-            repeat: Number.POSITIVE_INFINITY,
-            repeatType: "reverse",
-          }}
-        >
-          <ChevronDown className="h-10 w-10 text-white/80" />
-        </motion.div>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white border-0 shadow-lg"
+              onClick={() => scrollToSection("awareness")}
+            >
+              {t("hero.cta.primary")}
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="bg-white/10 backdrop-blur-sm border border-white/30 text-white hover:bg-white/20"
+              onClick={() => scrollToSection("security-requirements")}
+            >
+              {t("hero.cta.secondary")}
+            </Button>
+          </div>
+        </div>
       </div>
-    </div>
-  )
+    </section>
+  );
 }

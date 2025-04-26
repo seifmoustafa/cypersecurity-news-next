@@ -1,54 +1,71 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
-import { useLanguage } from "@/components/language-provider"
-import SectionHeader from "@/components/ui/section-header"
-import SectionContainer from "@/components/ui/section-container"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Globe, Home, Building, BookOpen, FileCode, Shield, Scale } from "lucide-react"
-import Link from "next/link"
-import { container } from "@/core/di/container"
-import type { Definition } from "@/core/domain/models/definition"
-import type { Domain } from "@/core/domain/models/framework"
-import type { StandardCategory } from "@/core/domain/models/standard"
-import type { Law, LawCategory } from "@/core/domain/models/law"
-import Image from "next/image"
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { useLanguage } from "@/components/language-provider";
+import SectionHeader from "@/components/ui/section-header";
+import SectionContainer from "@/components/ui/section-container";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Globe,
+  Home,
+  Building,
+  BookOpen,
+  FileCode,
+  Shield,
+  Scale,
+} from "lucide-react";
+import Link from "next/link";
+import { container } from "@/core/di/container";
+import type { Definition } from "@/core/domain/models/definition";
+import type { Domain } from "@/core/domain/models/framework";
+import type { StandardCategory } from "@/core/domain/models/standard";
+import type { Law, LawCategory } from "@/core/domain/models/law";
+import Image from "next/image";
 
 export default function CybersecurityConceptsSection() {
-  const { t, language, isRtl } = useLanguage()
-  const [definitions, setDefinitions] = useState<Record<string, Definition[]>>({})
-  const [domains, setDomains] = useState<Domain[]>([])
-  const [standardCategories, setStandardCategories] = useState<StandardCategory[]>([])
-  const [lawCategories, setLawCategories] = useState<LawCategory[]>([])
-  const [laws, setLaws] = useState<Record<string, Law[]>>({})
-  const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState("definitions")
+  const { t, language, isRtl } = useLanguage();
+  const [definitions, setDefinitions] = useState<Record<string, Definition[]>>(
+    {}
+  );
+  const [domains, setDomains] = useState<Domain[]>([]);
+  const [standardCategories, setStandardCategories] = useState<
+    StandardCategory[]
+  >([]);
+  const [lawCategories, setLawCategories] = useState<LawCategory[]>([]);
+  const [laws, setLaws] = useState<Record<string, Law[]>>({});
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("definitions");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true)
+        setLoading(true);
 
         // Fetch definitions
-        const categories = await container.services.definitions.getCategories()
-        const definitionsData: Record<string, Definition[]> = {}
+        const categories = await container.services.definitions.getCategories();
+        const definitionsData: Record<string, Definition[]> = {};
 
         for (const category of categories) {
-          const categoryDefinitions = await container.services.definitions.getDefinitionsByCategory(category)
-          definitionsData[category] = categoryDefinitions
+          const categoryDefinitions =
+            await container.services.definitions.getDefinitionsByCategory(
+              category
+            );
+          definitionsData[category] = categoryDefinitions;
         }
 
-        setDefinitions(definitionsData)
+        setDefinitions(definitionsData);
 
         // Fetch framework domains
-        const frameworkDomains = await container.services.framework.getDomains()
-        setDomains(frameworkDomains)
+        const frameworkDomains =
+          await container.services.framework.getDomains();
+        setDomains(frameworkDomains);
 
         // Fetch standard categories
-        const categories2 = await container.services.standards.getStandardCategories()
-        setStandardCategories(categories2)
+        const categories2 =
+          await container.services.standards.getStandardCategories();
+        setStandardCategories(categories2);
 
         // Fetch law categories and laws
         // This is a placeholder until the actual service is implemented
@@ -86,9 +103,9 @@ export default function CybersecurityConceptsSection() {
               en: "Cybersecurity policies",
             },
           },
-        ]
+        ];
 
-        setLawCategories(lawCategoriesData)
+        setLawCategories(lawCategoriesData);
 
         // Mock laws data by category
         const lawsData: Record<string, Law[]> = {
@@ -129,7 +146,8 @@ export default function CybersecurityConceptsSection() {
                 en: "Content of the executive regulation",
               },
               publishDate: "2022-03-15",
-              documentUrl: "https://example.com/cybersecurity-executive-regulation.pdf",
+              documentUrl:
+                "https://example.com/cybersecurity-executive-regulation.pdf",
             },
             {
               id: "4",
@@ -147,7 +165,8 @@ export default function CybersecurityConceptsSection() {
                 en: "Content of the essential controls",
               },
               publishDate: "2022-01-10",
-              documentUrl: "https://example.com/essential-cybersecurity-controls.pdf",
+              documentUrl:
+                "https://example.com/essential-cybersecurity-controls.pdf",
             },
           ],
           policies: [
@@ -167,7 +186,8 @@ export default function CybersecurityConceptsSection() {
                 en: "Content of the national policy",
               },
               publishDate: "2021-06-20",
-              documentUrl: "https://example.com/national-cybersecurity-policy.pdf",
+              documentUrl:
+                "https://example.com/national-cybersecurity-policy.pdf",
             },
             {
               id: "5",
@@ -185,56 +205,60 @@ export default function CybersecurityConceptsSection() {
                 en: "Content of the regulatory framework",
               },
               publishDate: "2021-09-05",
-              documentUrl: "https://example.com/regulatory-framework-critical-systems.pdf",
+              documentUrl:
+                "https://example.com/regulatory-framework-critical-systems.pdf",
             },
           ],
-        }
+        };
 
-        setLaws(lawsData)
+        setLaws(lawsData);
       } catch (error) {
-        console.error("Error fetching cybersecurity concepts data:", error)
+        console.error("Error fetching cybersecurity concepts data:", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   // Listen for tab change events
   useEffect(() => {
     const handleTabChange = (event: Event) => {
-      const customEvent = event as CustomEvent
-      const { sectionId, tab } = customEvent.detail
+      const customEvent = event as CustomEvent;
+      const { sectionId, tab } = customEvent.detail;
 
       if (sectionId === "standards" && tab) {
-        setActiveTab(tab)
+        setActiveTab(tab);
       }
-    }
+    };
 
-    window.addEventListener("tabchange", handleTabChange)
+    window.addEventListener("tabchange", handleTabChange);
     return () => {
-      window.removeEventListener("tabchange", handleTabChange)
-    }
-  }, [])
+      window.removeEventListener("tabchange", handleTabChange);
+    };
+  }, []);
 
   const icons = {
     international: <Globe className="h-6 w-6 text-primary" />,
     local: <Home className="h-6 w-6 text-primary" />,
     internal: <Building className="h-6 w-6 text-primary" />,
-  }
+  };
 
   const tabIcons = {
     definitions: <BookOpen className="h-5 w-5" />,
     laws: <Scale className="h-5 w-5" />,
     framework: <FileCode className="h-5 w-5" />,
     standards: <Shield className="h-5 w-5" />,
-  }
+  };
 
   if (loading) {
     return (
       <SectionContainer id="standards" className="bg-muted/30">
-        <SectionHeader title={t("section.cybersecurityConcepts")} subtitle={t("cybersecurityConcepts.subtitle")} />
+        <SectionHeader
+          title={t("section.cybersecurityConcepts")}
+          subtitle={t("cybersecurityConcepts.subtitle")}
+        />
         <div className="animate-pulse">
           <div className="h-10 bg-gray-300 dark:bg-gray-700 rounded max-w-md mx-auto mb-8"></div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -253,12 +277,15 @@ export default function CybersecurityConceptsSection() {
           </div>
         </div>
       </SectionContainer>
-    )
+    );
   }
 
   return (
     <SectionContainer id="standards" className="bg-muted/30">
-      <SectionHeader title={t("section.cybersecurityConcepts")} subtitle={t("cybersecurityConcepts.subtitle")} />
+      <SectionHeader
+        title={t("section.cybersecurityConcepts")}
+        subtitle={t("cybersecurityConcepts.subtitle")}
+      />
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className={`mx-auto mb-8 ${isRtl ? "flex-row-reverse" : ""}`}>
@@ -292,10 +319,16 @@ export default function CybersecurityConceptsSection() {
         <TabsContent value="definitions" className="mt-0">
           <Tabs defaultValue="general" className="w-full">
             <TabsList
-              className={`w-full max-w-2xl mx-auto mb-8 flex flex-wrap justify-center ${isRtl ? "flex-row-reverse" : ""}`}
+              className={`w-full max-w-2xl mx-auto mb-8 flex flex-wrap justify-center ${
+                isRtl ? "flex-row-reverse" : ""
+              }`}
             >
               {Object.keys(definitions).map((category) => (
-                <TabsTrigger key={category} value={category} className="flex-grow">
+                <TabsTrigger
+                  key={category}
+                  value={category}
+                  className="flex-grow"
+                >
                   {t(`definitions.categories.${category}`)}
                 </TabsTrigger>
               ))}
@@ -314,12 +347,20 @@ export default function CybersecurityConceptsSection() {
                       >
                         <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
                           <CardHeader className="pb-2">
-                            <CardTitle className={`text-xl ${isRtl ? "text-right" : "text-left"}`}>
+                            <CardTitle
+                              className={`text-xl ${
+                                isRtl ? "text-right" : "text-left"
+                              }`}
+                            >
                               {item.term[language]}
                             </CardTitle>
                           </CardHeader>
-                          <CardContent className={isRtl ? "text-right" : "text-left"}>
-                            <p className="text-muted-foreground line-clamp-4">{item.definition[language]}</p>
+                          <CardContent
+                            className={isRtl ? "text-right" : "text-left"}
+                          >
+                            <p className="text-muted-foreground line-clamp-4">
+                              {item.definition[language]}
+                            </p>
                           </CardContent>
                         </Card>
                       </motion.div>
@@ -329,9 +370,10 @@ export default function CybersecurityConceptsSection() {
                 <div className="mt-8 text-center">
                   <Link
                     href={`/definitions/category/${category}`}
-                    className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+                    className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
                   >
-                    {t("common.viewAll")} {t(`definitions.categories.${category}`)}
+                    {t("common.viewAll")}{" "}
+                    {t(`definitions.categories.${category}`)}
                   </Link>
                 </div>
               </TabsContent>
@@ -343,17 +385,27 @@ export default function CybersecurityConceptsSection() {
         <TabsContent value="laws" className="mt-0">
           <Tabs defaultValue="presidential-decrees" className="w-full">
             <TabsList
-              className={`w-full max-w-2xl mx-auto mb-8 flex flex-wrap justify-center ${isRtl ? "flex-row-reverse" : ""}`}
+              className={`w-full max-w-2xl mx-auto mb-8 flex flex-wrap justify-center ${
+                isRtl ? "flex-row-reverse" : ""
+              }`}
             >
               {lawCategories.map((category) => (
-                <TabsTrigger key={category.id} value={category.id} className="flex-grow">
+                <TabsTrigger
+                  key={category.id}
+                  value={category.id}
+                  className="flex-grow"
+                >
                   {category.name[language]}
                 </TabsTrigger>
               ))}
             </TabsList>
 
             {lawCategories.map((category) => (
-              <TabsContent key={category.id} value={category.id} className="mt-0">
+              <TabsContent
+                key={category.id}
+                value={category.id}
+                className="mt-0"
+              >
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {laws[category.id]?.map((item, index) => (
                     <Link href={`/laws/${item.id}`} key={item.id}>
@@ -365,14 +417,24 @@ export default function CybersecurityConceptsSection() {
                       >
                         <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
                           <CardHeader className="pb-2">
-                            <CardTitle className={`text-xl ${isRtl ? "text-right" : "text-left"}`}>
+                            <CardTitle
+                              className={`text-xl ${
+                                isRtl ? "text-right" : "text-left"
+                              }`}
+                            >
                               {item.title[language]}
                             </CardTitle>
                           </CardHeader>
-                          <CardContent className={isRtl ? "text-right" : "text-left"}>
-                            <p className="text-muted-foreground line-clamp-4">{item.description[language]}</p>
+                          <CardContent
+                            className={isRtl ? "text-right" : "text-left"}
+                          >
+                            <p className="text-muted-foreground line-clamp-4">
+                              {item.description[language]}
+                            </p>
                             <p className="text-sm text-primary mt-2">
-                              {new Date(item.publishDate).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
+                              {new Date(item.publishDate).toLocaleDateString(
+                                language === "ar" ? "ar-SA" : "en-US"
+                              )}
                             </p>
                           </CardContent>
                         </Card>
@@ -383,7 +445,7 @@ export default function CybersecurityConceptsSection() {
                 <div className="mt-8 text-center">
                   <Link
                     href={`/laws/category/${category.id}`}
-                    className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+                    className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
                   >
                     {t("common.viewAll")} {category.name[language]}
                   </Link>
@@ -405,27 +467,30 @@ export default function CybersecurityConceptsSection() {
                 className="w-full h-auto"
               />
             </div>
-            <div className={`prose dark:prose-invert max-w-3xl mx-auto ${isRtl ? "text-right" : "text-left"}`}>
+            <div
+              className={`prose dark:prose-invert max-w-3xl mx-auto ${
+                isRtl ? "text-right" : "text-left"
+              }`}
+            >
               <p className="text-lg mb-6">
                 {language === "ar"
                   ? "يوفر إطار عمل الأمن السيبراني نهجًا منظمًا لفهم وإدارة وتقليل مخاطر الأمن السيبراني."
                   : "The Cybersecurity Framework provides a structured approach to understanding, managing, and reducing cybersecurity risks."}
               </p>
-             <div className="flex justify-center">
-  <Link
-    href="/framework"
-    className="
-      inline-flex items-center justify-center
-      rounded-md bg-blue-500 px-6 py-3
-      text-base font-medium text-white
-      no-underline
-      hover:bg-blue-600 hover:no-underline
-    "
-  >
-    {language === "ar" ? "استكشف" : "Explore"}
-  </Link>
-</div>
-
+              <div className="flex justify-center">
+                <Link
+                  href="/framework"
+                  className="
+    inline-flex items-center justify-center
+    rounded-md bg-blue-500 px-6 py-3
+    text-base font-medium text-white
+    no-underline
+    hover:bg-blue-600 hover:no-underline
+  "
+                >
+                  {language === "ar" ? "استكشف" : "Explore"}
+                </Link>
+              </div>
             </div>
           </div>
         </TabsContent>
@@ -443,13 +508,21 @@ export default function CybersecurityConceptsSection() {
                 >
                   <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
                     <CardHeader className="pb-2">
-                      <div className={`flex items-center gap-2 ${isRtl ? "justify-end" : "justify-start"}`}>
+                      <div
+                        className={`flex items-center gap-2 ${
+                          isRtl ? "justify-end" : "justify-start"
+                        }`}
+                      >
                         {icons[category.id as keyof typeof icons]}
                         <CardTitle>{category.name[language]}</CardTitle>
                       </div>
                     </CardHeader>
                     <CardContent>
-                      <div className={`prose dark:prose-invert max-w-none ${isRtl ? "text-right" : "text-left"}`}>
+                      <div
+                        className={`prose dark:prose-invert max-w-none ${
+                          isRtl ? "text-right" : "text-left"
+                        }`}
+                      >
                         <p>{category.description[language]}</p>
                       </div>
 
@@ -457,10 +530,14 @@ export default function CybersecurityConceptsSection() {
                         {category.items.slice(0, 2).map((item, itemIndex) => (
                           <div
                             key={itemIndex}
-                            className={`p-3 bg-muted rounded-md ${isRtl ? "text-right" : "text-left"}`}
+                            className={`p-3 bg-muted rounded-md ${
+                              isRtl ? "text-right" : "text-left"
+                            }`}
                           >
                             <h4 className="font-medium">{item.name}</h4>
-                            <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{item.description}</p>
+                            <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+                              {item.description}
+                            </p>
                           </div>
                         ))}
                         {category.items.length > 2 && (
@@ -478,5 +555,5 @@ export default function CybersecurityConceptsSection() {
         </TabsContent>
       </Tabs>
     </SectionContainer>
-  )
+  );
 }

@@ -1,79 +1,160 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { container } from "@/core/di/container"
-import type { Framework, FrameworkFunction, FrameworkCategory, Domain, Component } from "@/core/domain/models/framework"
+import { useState, useCallback, useEffect } from "react";
+import { container } from "@/core/di/container";
+import type {
+  Framework,
+  FrameworkFunction,
+  Domain,
+} from "@/core/domain/models/framework";
 
 export function useFramework() {
-  const [framework, setFramework] = useState<Framework | null>(null)
-  const [functions, setFunctions] = useState<FrameworkFunction[]>([])
-  const [domains, setDomains] = useState<Domain[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+  const [framework, setFramework] = useState<Framework | null>(null);
+  const [functions, setFunctions] = useState<FrameworkFunction[]>([]);
+  const [domains, setDomains] = useState<Domain[]>([]);
 
+  const getFramework = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await container.services.framework.getFramework();
+      setFramework(data);
+      return data;
+    } catch (err) {
+      setError(
+        err instanceof Error ? err : new Error("Failed to fetch framework")
+      );
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const getFrameworkFunctions = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await container.services.framework.getFrameworkFunctions();
+      setFunctions(data);
+      return data;
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err
+          : new Error("Failed to fetch framework functions")
+      );
+      return [];
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const getFunctionById = useCallback(async (id: string) => {
+    try {
+      return await container.services.framework.getFrameworkFunctionById(id);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err
+          : new Error(`Failed to fetch function with id: ${id}`)
+      );
+      return null;
+    }
+  }, []);
+
+  const getCategoriesByFunctionId = useCallback(async (functionId: string) => {
+    try {
+      return await container.services.framework.getFrameworkCategories(
+        functionId
+      );
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err
+          : new Error(`Failed to fetch categories for function: ${functionId}`)
+      );
+      return [];
+    }
+  }, []);
+
+  const getDomains = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await container.services.framework.getDomains();
+      setDomains(data);
+      return data;
+    } catch (err) {
+      setError(
+        err instanceof Error ? err : new Error("Failed to fetch domains")
+      );
+      return [];
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const getDomainById = useCallback(async (id: string) => {
+    try {
+      return await container.services.framework.getDomainById(id);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err
+          : new Error(`Failed to fetch domain with id: ${id}`)
+      );
+      return null;
+    }
+  }, []);
+
+  const getComponentsByDomainId = useCallback(async (domainId: string) => {
+    try {
+      return await container.services.framework.getComponentsByDomainId(
+        domainId
+      );
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err
+          : new Error(`Failed to fetch components for domain: ${domainId}`)
+      );
+      return [];
+    }
+  }, []);
+
+  const getImplementationSteps = useCallback(async () => {
+    try {
+      return await container.services.framework.getImplementationSteps();
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err
+          : new Error("Failed to fetch implementation steps")
+      );
+      return [];
+    }
+  }, []);
+
+  const getFrameworkBenefits = useCallback(async () => {
+    try {
+      return await container.services.framework.getFrameworkBenefits();
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err
+          : new Error("Failed to fetch framework benefits")
+      );
+      return [];
+    }
+  }, []);
+
+  // Load initial data
   useEffect(() => {
-    const frameworkService = container.services.framework
-
-    const fetchFramework = async () => {
-      try {
-        setLoading(true)
-        const frameworkData = await frameworkService.getFramework()
-        const functionsData = await frameworkService.getFrameworkFunctions()
-        const domainsData = await frameworkService.getDomains()
-
-        setFramework(frameworkData)
-        setFunctions(functionsData)
-        setDomains(domainsData)
-        setError(null)
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error("Unknown error occurred"))
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchFramework()
-  }, [])
-
-  const getFunctionById = async (id: string): Promise<FrameworkFunction | null> => {
-    try {
-      const frameworkService = container.services.framework
-      return await frameworkService.getFrameworkFunctionById(id)
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error("Unknown error occurred"))
-      return null
-    }
-  }
-
-  const getCategoriesByFunctionId = async (functionId: string): Promise<FrameworkCategory[]> => {
-    try {
-      const frameworkService = container.services.framework
-      return await frameworkService.getFrameworkCategories(functionId)
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error("Unknown error occurred"))
-      return []
-    }
-  }
-
-  const getDomainById = async (id: string): Promise<Domain | null> => {
-    try {
-      const frameworkService = container.services.framework
-      return await frameworkService.getDomainById(id)
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error("Unknown error occurred"))
-      return null
-    }
-  }
-
-  const getComponentsByDomainId = async (domainId: string): Promise<Component[]> => {
-    try {
-      const frameworkService = container.services.framework
-      return await frameworkService.getComponentsByDomainId(domainId)
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error("Unknown error occurred"))
-      return []
-    }
-  }
+    const loadInitialData = async () => {
+      await getFrameworkFunctions();
+      await getDomains();
+    };
+    loadInitialData();
+  }, [getFrameworkFunctions, getDomains]);
 
   return {
     framework,
@@ -81,9 +162,14 @@ export function useFramework() {
     domains,
     loading,
     error,
+    getFramework,
+    getFrameworkFunctions,
     getFunctionById,
     getCategoriesByFunctionId,
+    getDomains,
     getDomainById,
     getComponentsByDomainId,
-  }
+    getImplementationSteps,
+    getFrameworkBenefits,
+  };
 }

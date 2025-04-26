@@ -1,74 +1,74 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useRef } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { useLanguage } from "@/components/language-provider"
-import Image from "next/image"
-import Link from "next/link"
-import { useLatestNews } from "@/core/hooks/use-news"
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/components/language-provider";
+import Image from "next/image";
+import Link from "next/link";
+import { useLatestNews } from "@/core/hooks/use-news";
 
 export default function NewsCarousel() {
-  const { language, t, isRtl } = useLanguage()
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const { news, loading } = useLatestNews(5)
-  const autoPlayRef = useRef<NodeJS.Timeout | null>(null)
-  const carouselRef = useRef<HTMLDivElement>(null)
+  const { language, t, isRtl } = useLanguage();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const { news, loading } = useLatestNews(5);
+  const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   const nextSlide = () => {
-    if (news.length === 0) return
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % news.length)
-  }
+    if (news.length === 0) return;
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % news.length);
+  };
 
   const prevSlide = () => {
-    if (news.length === 0) return
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + news.length) % news.length)
-  }
+    if (news.length === 0) return;
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + news.length) % news.length);
+  };
 
   const goToSlide = (index: number) => {
-    setCurrentIndex(index)
-  }
+    setCurrentIndex(index);
+  };
 
   // Auto play functionality
   useEffect(() => {
     const startAutoPlay = () => {
       autoPlayRef.current = setInterval(() => {
-        nextSlide()
-      }, 5000)
-    }
+        nextSlide();
+      }, 5000);
+    };
 
     if (news.length > 0) {
-      startAutoPlay()
+      startAutoPlay();
     }
 
     return () => {
       if (autoPlayRef.current) {
-        clearInterval(autoPlayRef.current)
+        clearInterval(autoPlayRef.current);
       }
-    }
-  }, [news])
+    };
+  }, [news]);
 
   // Pause auto play on hover
   const pauseAutoPlay = () => {
     if (autoPlayRef.current) {
-      clearInterval(autoPlayRef.current)
+      clearInterval(autoPlayRef.current);
     }
-  }
+  };
 
   const resumeAutoPlay = () => {
     if (autoPlayRef.current) {
-      clearInterval(autoPlayRef.current)
+      clearInterval(autoPlayRef.current);
     }
     autoPlayRef.current = setInterval(() => {
-      nextSlide()
-    }, 5000)
-  }
+      nextSlide();
+    }, 5000);
+  };
 
-  if (loading || news.length === 0) return null
+  if (loading || news.length === 0) return null;
 
   // Determine the direction of the slide based on RTL setting
-  const slideDirection = isRtl ? -1 : 1
+  const slideDirection = isRtl ? -1 : 1;
 
   return (
     <div
@@ -82,9 +82,9 @@ export default function NewsCarousel() {
           <motion.div
             key={currentIndex}
             custom={slideDirection}
-            initial={{ x: 300 * slideDirection, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: -300 * slideDirection, opacity: 0 }}
+            initial={{ opacity: 0, x: isRtl ? 30 : -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: isRtl ? -30 : 30 }}
             transition={{ duration: 0.5 }}
             className="absolute inset-0"
           >
@@ -104,11 +104,21 @@ export default function NewsCarousel() {
               {/* Content */}
               <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8 text-white">
                 <div className="container mx-auto">
-                  <div className={`max-w-3xl ${isRtl ? "mr-0 ml-auto text-right" : "ml-0 mr-auto text-left"}`}>
+                  <div
+                    className={`max-w-3xl ${
+                      isRtl
+                        ? "mr-0 ml-auto text-right"
+                        : "ml-0 mr-auto text-left"
+                    }`}
+                  >
                     <div
-                      className={`mb-2 text-sm md:text-base bg-primary/80 inline-block px-2 py-1 rounded ${isRtl ? "float-right" : "float-left"}`}
+                      className={`mb-2 text-sm md:text-base bg-primary/80 inline-block px-2 py-1 rounded ${
+                        isRtl ? "float-right" : "float-left"
+                      }`}
                     >
-                      {new Date(news[currentIndex].date).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
+                      {new Date(news[currentIndex].date).toLocaleDateString(
+                        language === "ar" ? "ar-SA" : "en-US"
+                      )}
                     </div>
                     <div className="clear-both"></div>
                     <h2 className="text-xl md:text-3xl font-bold mb-2 line-clamp-2">
@@ -134,21 +144,33 @@ export default function NewsCarousel() {
         <Button
           variant="ghost"
           size="icon"
-          className={`absolute top-1/2 ${isRtl ? "right-4" : "left-4"} -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full z-10`}
+          className={`absolute top-1/2 ${
+            isRtl ? "right-4" : "left-4"
+          } -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full z-10`}
           onClick={prevSlide}
           aria-label={t("common.previous")}
         >
-          {isRtl ? <ChevronRight className="h-6 w-6" /> : <ChevronLeft className="h-6 w-6" />}
+          {isRtl ? (
+            <ChevronRight className="h-6 w-6" />
+          ) : (
+            <ChevronLeft className="h-6 w-6" />
+          )}
         </Button>
 
         <Button
           variant="ghost"
           size="icon"
-          className={`absolute top-1/2 ${isRtl ? "left-4" : "right-4"} -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full z-10`}
+          className={`absolute top-1/2 ${
+            isRtl ? "left-4" : "right-4"
+          } -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full z-10`}
           onClick={nextSlide}
           aria-label={t("common.next")}
         >
-          {isRtl ? <ChevronLeft className="h-6 w-6" /> : <ChevronRight className="h-6 w-6" />}
+          {isRtl ? (
+            <ChevronLeft className="h-6 w-6" />
+          ) : (
+            <ChevronRight className="h-6 w-6" />
+          )}
         </Button>
 
         {/* Indicators - Fixed spacing */}
@@ -157,7 +179,9 @@ export default function NewsCarousel() {
             <button
               key={index}
               className={`w-3 h-3 mx-1.5 rounded-full transition-colors ${
-                index === currentIndex ? "bg-primary" : "bg-white/50 hover:bg-white/80"
+                index === currentIndex
+                  ? "bg-primary"
+                  : "bg-white/50 hover:bg-white/80"
               }`}
               onClick={() => goToSlide(index)}
               aria-label={`Go to slide ${index + 1}`}
@@ -166,5 +190,5 @@ export default function NewsCarousel() {
         </div>
       </div>
     </div>
-  )
+  );
 }

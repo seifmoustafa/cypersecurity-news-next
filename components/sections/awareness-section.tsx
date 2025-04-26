@@ -1,63 +1,63 @@
-"use client"
-import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
-import { useLanguage } from "@/components/language-provider"
-import SectionHeader from "@/components/ui/section-header"
-import SectionContainer from "@/components/ui/section-container"
-import { Card, CardContent } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Image from "next/image"
-import Link from "next/link"
-import { useNewsByCategory } from "@/core/hooks/use-news"
-import { container } from "@/core/di/container"
-import { awarenessData } from "@/data/awareness-data"
+"use client";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { useLanguage } from "@/components/language-provider";
+import SectionHeader from "@/components/ui/section-header";
+import SectionContainer from "@/components/ui/section-container";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Image from "next/image";
+import Link from "next/link";
+import { useNewsByCategory } from "@/core/hooks/use-news";
+import { container } from "@/core/di/container";
+import { awarenessData } from "@/data/awareness-data";
 
 export default function AwarenessSection() {
-  const { t, language, isRtl } = useLanguage()
-  const [bulletins, setBulletins] = useState<any[]>([])
-  const [articles, setArticles] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState("news")
-  const [activeNewsCategory, setActiveNewsCategory] = useState("all")
+  const { t, language, isRtl } = useLanguage();
+  const [bulletins, setBulletins] = useState<any[]>([]);
+  const [articles, setArticles] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("news");
+  const [activeNewsCategory, setActiveNewsCategory] = useState("all");
 
   useEffect(() => {
     const fetchAwarenessData = async () => {
       try {
-        setLoading(true)
+        setLoading(true);
         // Using static data from awareness-data.ts until API is provided
-        setBulletins(awarenessData.bulletins)
-        setArticles(awarenessData.articles)
+        setBulletins(awarenessData.bulletins);
+        setArticles(awarenessData.articles);
       } catch (error) {
-        console.error("Error fetching awareness data:", error)
+        console.error("Error fetching awareness data:", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchAwarenessData()
-  }, [])
+    fetchAwarenessData();
+  }, []);
 
   // Listen for tab change events
   useEffect(() => {
     const handleTabChange = (event: Event) => {
-      const customEvent = event as CustomEvent
-      const { sectionId, tab } = customEvent.detail
+      const customEvent = event as CustomEvent;
+      const { sectionId, tab } = customEvent.detail;
 
       if (sectionId === "awareness" && tab) {
-        setActiveTab(tab)
+        setActiveTab(tab);
 
         // If the tab is "news", also set the default news category
         if (tab === "news") {
-          setActiveNewsCategory("all")
+          setActiveNewsCategory("all");
         }
       }
-    }
+    };
 
-    window.addEventListener("tabchange", handleTabChange)
+    window.addEventListener("tabchange", handleTabChange);
     return () => {
-      window.removeEventListener("tabchange", handleTabChange)
-    }
-  }, [])
+      window.removeEventListener("tabchange", handleTabChange);
+    };
+  }, []);
 
   const categoryNames = {
     dataBreaches: {
@@ -76,14 +76,21 @@ export default function AwarenessSection() {
       ar: "معلومات التهديدات",
       en: "Threat Intelligence",
     },
-  }
+  };
 
   return (
     <SectionContainer id="awareness" className="bg-muted/30">
-      <SectionHeader title={t("section.awareness")} subtitle={t("awareness.subtitle")} />
+      <SectionHeader
+        title={t("section.awareness")}
+        subtitle={t("awareness.subtitle")}
+      />
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className={`w-full max-w-md mx-auto mb-8 ${isRtl ? "flex-row-reverse" : ""}`}>
+        <TabsList
+          className={`w-full max-w-md mx-auto mb-8 ${
+            isRtl ? "flex-row-reverse" : ""
+          }`}
+        >
           <TabsTrigger value="news" className="flex-1">
             {language === "ar" ? "الأخبار" : "News"}
           </TabsTrigger>
@@ -96,9 +103,15 @@ export default function AwarenessSection() {
         </TabsList>
 
         <TabsContent value="news" className="mt-0">
-          <Tabs value={activeNewsCategory} onValueChange={setActiveNewsCategory} className="w-full">
+          <Tabs
+            value={activeNewsCategory}
+            onValueChange={setActiveNewsCategory}
+            className="w-full"
+          >
             <TabsList
-              className={`w-full max-w-4xl mx-auto mb-8 flex flex-wrap justify-center ${isRtl ? "flex-row-reverse" : ""}`}
+              className={`w-full max-w-4xl mx-auto mb-8 flex flex-wrap justify-center ${
+                isRtl ? "flex-row-reverse" : ""
+              }`}
             >
               <TabsTrigger value="all" className="flex-grow">
                 {language === "ar" ? "الكل" : "All"}
@@ -118,7 +131,11 @@ export default function AwarenessSection() {
               <TabsContent key={category} value={category} className="mt-0">
                 <CategoryNewsContent
                   category={category}
-                  categoryName={categoryNames[category as keyof typeof categoryNames][language]}
+                  categoryName={
+                    categoryNames[category as keyof typeof categoryNames][
+                      language
+                    ]
+                  }
                 />
               </TabsContent>
             ))}
@@ -152,28 +169,35 @@ export default function AwarenessSection() {
         </TabsContent>
       </Tabs>
     </SectionContainer>
-  )
+  );
 }
 
 function AllNewsContent() {
-  const { language } = useLanguage()
-  const categories = ["dataBreaches", "cyberAttacks", "vulnerabilities", "threatIntelligence"]
-  const [allNews, setAllNews] = useState<any[]>([])
+  const { language } = useLanguage();
+  const categories = [
+    "dataBreaches",
+    "cyberAttacks",
+    "vulnerabilities",
+    "threatIntelligence",
+  ];
+  const [allNews, setAllNews] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchAllCategoryNews = async () => {
       try {
-        const newsPromises = categories.map((category) => container.services.news.getNewsByCategory(category))
-        const results = await Promise.all(newsPromises)
-        const flattenedNews = results.flat().slice(0, 6) // Get first 6 news items
-        setAllNews(flattenedNews)
+        const newsPromises = categories.map((category) =>
+          container.services.news.getNewsByCategory(category)
+        );
+        const results = await Promise.all(newsPromises);
+        const flattenedNews = results.flat().slice(0, 6); // Get first 6 news items
+        setAllNews(flattenedNews);
       } catch (error) {
-        console.error("Error fetching all category news:", error)
+        console.error("Error fetching all category news:", error);
       }
-    }
+    };
 
-    fetchAllCategoryNews()
-  }, [])
+    fetchAllCategoryNews();
+  }, []);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -181,17 +205,26 @@ function AllNewsContent() {
         <NewsCard key={item.id} item={item} index={index} />
       ))}
       <div className="col-span-full flex justify-center mt-6">
-        <Link href="/news" className="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-md transition-colors">
+        <Link
+          href="/news"
+          className="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-md transition-colors"
+        >
           {language === "ar" ? "عرض جميع الأخبار" : "View All News"}
         </Link>
       </div>
     </div>
-  )
+  );
 }
 
-function CategoryNewsContent({ category, categoryName }: { category: string; categoryName: string }) {
-  const { language } = useLanguage()
-  const { news, loading } = useNewsByCategory(category)
+function CategoryNewsContent({
+  category,
+  categoryName,
+}: {
+  category: string;
+  categoryName: string;
+}) {
+  const { language } = useLanguage();
+  const { news, loading } = useNewsByCategory(category);
 
   if (loading) {
     return (
@@ -206,7 +239,7 @@ function CategoryNewsContent({ category, categoryName }: { category: string; cat
           </Card>
         ))}
       </div>
-    )
+    );
   }
 
   return (
@@ -219,20 +252,22 @@ function CategoryNewsContent({ category, categoryName }: { category: string; cat
           href={`/news/category/${category}`}
           className="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-md transition-colors"
         >
-          {language === "ar" ? `عرض جميع أخبار ${categoryName}` : `View All ${categoryName} News`}
+          {language === "ar"
+            ? `عرض جميع أخبار ${categoryName}`
+            : `View All ${categoryName} News`}
         </Link>
       </div>
     </div>
-  )
+  );
 }
 
 interface AwarenessCardProps {
-  item: any
-  index: number
+  item: any;
+  index: number;
 }
 
 function AwarenessCard({ item, index }: AwarenessCardProps) {
-  const { language, isRtl } = useLanguage()
+  const { language, isRtl } = useLanguage();
 
   return (
     <motion.div
@@ -244,31 +279,44 @@ function AwarenessCard({ item, index }: AwarenessCardProps) {
       <Link href={`/awareness/${item.id}`}>
         <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:border-primary/50 cursor-pointer">
           <div className="relative h-48">
-            <Image src={item.imageUrl || "/placeholder.svg"} alt={item.title[language]} fill className="object-cover" />
+            <Image
+              src={item.imageUrl || "/placeholder.svg"}
+              alt={item.title[language]}
+              fill
+              className="object-cover"
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
             <div
-              className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} bg-primary text-white text-xs px-2 py-1 rounded`}
+              className={`absolute top-2 ${
+                isRtl ? "right-2" : "left-2"
+              } bg-primary text-white text-xs px-2 py-1 rounded`}
             >
-              {new Date(item.date).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
+              {new Date(item.date).toLocaleDateString(
+                language === "ar" ? "ar-SA" : "en-US"
+              )}
             </div>
           </div>
           <CardContent className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
-            <h3 className="text-lg font-bold mb-2 line-clamp-2">{item.title[language]}</h3>
-            <p className="text-muted-foreground text-sm line-clamp-3">{item.summary[language]}</p>
+            <h3 className="text-lg font-bold mb-2 line-clamp-2">
+              {item.title[language]}
+            </h3>
+            <p className="text-muted-foreground text-sm line-clamp-3">
+              {item.summary[language]}
+            </p>
           </CardContent>
         </Card>
       </Link>
     </motion.div>
-  )
+  );
 }
 
 interface NewsCardProps {
-  item: any
-  index: number
+  item: any;
+  index: number;
 }
 
 function NewsCard({ item, index }: NewsCardProps) {
-  const { language, isRtl } = useLanguage()
+  const { language, isRtl } = useLanguage();
 
   const categoryNames = {
     dataBreaches: {
@@ -287,7 +335,7 @@ function NewsCard({ item, index }: NewsCardProps) {
       ar: "معلومات التهديدات",
       en: "Threat Intelligence",
     },
-  }
+  };
 
   return (
     <motion.div
@@ -307,14 +355,24 @@ function NewsCard({ item, index }: NewsCardProps) {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
             <div
-              className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} bg-primary text-white text-xs px-2 py-1 rounded`}
+              className={`absolute top-2 ${
+                isRtl ? "right-2" : "left-2"
+              } bg-primary text-white text-xs px-2 py-1 rounded`}
             >
-              {new Date(item.date).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
+              {new Date(item.date).toLocaleDateString(
+                language === "ar" ? "ar-SA" : "en-US"
+              )}
             </div>
             <div
-              className={`absolute bottom-2 ${isRtl ? "left-2" : "right-2"} bg-black/70 text-white text-xs px-2 py-1 rounded`}
+              className={`absolute bottom-2 ${
+                isRtl ? "left-2" : "right-2"
+              } bg-black/70 text-white text-xs px-2 py-1 rounded`}
             >
-              {categoryNames[item.category as keyof typeof categoryNames][language]}
+              {
+                categoryNames[item.category as keyof typeof categoryNames][
+                  language
+                ]
+              }
             </div>
           </div>
 
@@ -322,7 +380,9 @@ function NewsCard({ item, index }: NewsCardProps) {
             <h3 className="text-lg font-bold mb-2 line-clamp-2 text-foreground group-hover:text-primary transition-colors">
               {item.title[language]}
             </h3>
-            <p className="text-sm text-muted-foreground mb-4 line-clamp-3">{item.summary[language]}</p>
+            <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+              {item.summary[language]}
+            </p>
             <div className="mt-auto">
               <span className="text-primary font-medium inline-flex items-center">
                 {language === "ar" ? "اقرأ المزيد" : "Read More"}
@@ -346,5 +406,5 @@ function NewsCard({ item, index }: NewsCardProps) {
         </Card>
       </Link>
     </motion.div>
-  )
+  );
 }

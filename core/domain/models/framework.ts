@@ -1,47 +1,62 @@
+// Domain models for the framework section
+
 export interface Framework {
-  id: string
-  nameAr: string
-  nameEn: string
-  descriptionAr: string
-  descriptionEn: string
-  version: string
+  id: string;
+  nameEn: string;
+  nameAr: string;
+  descriptionEn: string;
+  descriptionAr: string;
 }
 
 export interface FrameworkFunction {
-  id: string
-  nameAr: string
-  nameEn: string
-  descriptionAr: string
-  descriptionEn: string
-  color: string
-  order: number
+  id: string;
+  nameEn: string;
+  nameAr: string;
+  descriptionEn: string;
+  descriptionAr: string;
+  color: string;
+  textColor: string;
+  borderColor: string;
 }
 
 export interface FrameworkCategory {
-  id: string
-  functionId: string
-  nameAr: string
-  nameEn: string
-  descriptionAr: string
-  descriptionEn: string
-  order: number
+  id: string;
+  functionId: string;
+  nameEn: string;
+  nameAr: string;
+  descriptionEn: string;
+  descriptionAr: string;
 }
 
 export interface Domain {
-  id: string
-  nameAr: string
-  nameEn: string
-  descriptionAr: string
-  descriptionEn: string
-  order: number
+  id: string;
+  nameEn: string;
+  nameAr: string;
+  descriptionEn: string;
+  descriptionAr: string;
 }
 
 export interface Component {
-  id: string
-  domainId: string
-  nameAr: string
-  nameEn: string
-  descriptionAr: string
-  descriptionEn: string
-  order: number
+  id: string;
+  domainId: string;
+  nameEn: string;
+  nameAr: string;
+  descriptionEn: string;
+  descriptionAr: string;
+}
+
+export interface ImplementationStep {
+  step: number;
+  titleEn: string;
+  titleAr: string;
+  descriptionEn: string;
+  descriptionAr: string;
+}
+
+export interface FrameworkBenefit {
+  id: string;
+  titleEn: string;
+  titleAr: string;
+  descriptionEn: string;
+  descriptionAr: string;
 }

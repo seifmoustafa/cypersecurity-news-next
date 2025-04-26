@@ -1,428 +1,154 @@
-"use client"
+"use client";
 
-import { frameworkData } from "@/data/standards-hierarchy-data"
-import MainLayout from "@/components/layouts/main-layout"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import Link from "next/link"
-import { useLanguage } from "@/components/language-provider"
-import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
-import { Shield, ArrowRight, CheckCircle2 } from "lucide-react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import Image from "next/image"
+import MainLayout from "@/components/layouts/main-layout";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from "next/link";
+import { useLanguage } from "@/components/language-provider";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Shield, ArrowRight, CheckCircle2 } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import Image from "next/image";
+import { useFramework } from "@/core/hooks/use-framework";
+import type {
+  FrameworkFunction,
+  FrameworkCategory,
+  ImplementationStep,
+  FrameworkBenefit,
+} from "@/core/domain/models/framework";
 
 export default function FrameworkPage() {
-  const { language, isRtl } = useLanguage()
-  const router = useRouter()
-  const [activeFunction, setActiveFunction] = useState("identify")
+  const { language, isRtl } = useLanguage();
+  const router = useRouter();
+  const [activeFunction, setActiveFunction] = useState("identify");
+  const {
+    domains,
+    functions,
+    loading,
+    error,
+    getFunctionById,
+    getCategoriesByFunctionId,
+    getFrameworkBenefits,
+    getImplementationSteps,
+  } = useFramework();
+
+  const [frameworkFunctions, setFrameworkFunctions] = useState<
+    FrameworkFunction[]
+  >([]);
+  const [functionCategories, setFunctionCategories] = useState<
+    Record<string, FrameworkCategory[]>
+  >({});
+  const [implementationSteps, setImplementationSteps] = useState<
+    ImplementationStep[]
+  >([]);
+  const [benefits, setBenefits] = useState<FrameworkBenefit[]>([]);
 
   useEffect(() => {
     // Prefetch domain pages
-    frameworkData.domains.forEach((domain) => {
-      router.prefetch(`/framework/${domain.id}`)
-    })
+    if (domains && domains.length > 0) {
+      domains.forEach((domain) => {
+        router.prefetch(`/framework/${domain.id}`);
+      });
+    }
 
     // Handle hash navigation
     if (typeof window !== "undefined") {
-      const hash = window.location.hash.substring(1)
-      if (hash && ["identify", "protect", "detect", "respond", "recover"].includes(hash)) {
-        setActiveFunction(hash)
+      const hash = window.location.hash.substring(1);
+      if (
+        hash &&
+        ["identify", "protect", "detect", "respond", "recover"].includes(hash)
+      ) {
+        setActiveFunction(hash);
 
         // Scroll to the section after a short delay
         setTimeout(() => {
-          const element = document.getElementById(hash)
+          const element = document.getElementById(hash);
           if (element) {
-            element.scrollIntoView({ behavior: "smooth" })
+            element.scrollIntoView({ behavior: "smooth" });
           }
-        }, 300)
+        }, 300);
       }
     }
-  }, [router])
+  }, [router, domains]);
 
-  const frameworkFunctions = [
-    {
-      id: "identify",
-      title: {
-        ar: "تحديد",
-        en: "Identify",
-      },
-      color: "bg-blue-500",
-      textColor: "text-blue-500",
-      borderColor: "border-blue-500",
-      description: {
-        ar: "تطوير فهم تنظيمي لإدارة مخاطر الأمن السيبراني للأنظمة والأصول والبيانات والقدرات.",
-        en: "Develop organizational understanding to manage cybersecurity risks to systems, people, assets, data, and capabilities.",
-      },
-      categories: [
-        {
-          id: "asset-management",
-          name: {
-            ar: "إدارة الأصول",
-            en: "Asset Management",
-          },
-          description: {
-            ar: "البيانات والأجهزة والأنظمة والمرافق التي تمكن المؤسسة من تحقيق أهداف العمل يتم تحديدها وإدارتها بما يتناسب مع أهميتها النسبية للأهداف التنظيمية والاستراتيجية المخاطر للمؤسسة.",
-            en: "The data, devices, systems, and facilities that enable the organization to achieve business purposes are identified and managed consistent with their relative importance to organizational objectives and the organization's risk strategy.",
-          },
-        },
-        {
-          id: "business-environment",
-          name: {
-            ar: "بيئة العمل",
-            en: "Business Environment",
-          },
-          description: {
-            ar: "يتم فهم مهمة المؤسسة وأهدافها وأصحاب المصلحة والأنشطة وتحديد أولوياتها؛ تستخدم هذه المعلومات لإبلاغ أدوار الأمن السيبراني والمسؤوليات وقرارات إدارة مخاطر الأمن السيبراني.",
-            en: "The organization's mission, objectives, stakeholders, and activities are understood and prioritized; this information is used to inform cybersecurity roles, responsibilities, and risk management decisions.",
-          },
-        },
-        {
-          id: "governance",
-          name: {
-            ar: "الحوكمة",
-            en: "Governance",
-          },
-          description: {
-            ar: "يتم فهم السياسات والإجراءات والعمليات لإدارة وتحديد المخاطر الأمنية السيبرانية وتوثيقها.",
-            en: "The policies, procedures, and processes to manage and monitor the organization's regulatory, legal, risk, environmental, and operational requirements are understood and inform the management of cybersecurity risk.",
-          },
-        },
-        {
-          id: "risk-assessment",
-          name: {
-            ar: "تقييم المخاطر",
-            en: "Risk Assessment",
-          },
-          description: {
-            ar: "تفهم المؤسسة المخاطر السيبرانية على عملياتها (بما في ذلك المهمة والوظائف والصورة أو السمعة) وأصولها التنظيمية والأفراد.",
-            en: "The organization understands the cybersecurity risk to organizational operations (including mission, functions, image, or reputation), organizational assets, and individuals.",
-          },
-        },
-        {
-          id: "risk-management-strategy",
-          name: {
-            ar: "استراتيجية إدارة المخاطر",
-            en: "Risk Management Strategy",
-          },
-          description: {
-            ar: "يتم تحديد أولويات المؤسسة وقيودها وتسامحها مع المخاطر وافتراضاتها وتستخدم لدعم قرارات المخاطر التشغيلية.",
-            en: "The organization's priorities, constraints, risk tolerances, and assumptions are established and used to support operational risk decisions.",
-          },
-        },
-      ],
-    },
-    {
-      id: "protect",
-      title: {
-        ar: "حماية",
-        en: "Protect",
-      },
-      color: "bg-purple-600",
-      textColor: "text-purple-600",
-      borderColor: "border-purple-600",
-      description: {
-        ar: "تطوير وتنفيذ الضمانات المناسبة لضمان تقديم الخدمات الحيوية.",
-        en: "Develop and implement appropriate safeguards to ensure delivery of critical services.",
-      },
-      categories: [
-        {
-          id: "access-control",
-          name: {
-            ar: "التحكم في الوصول",
-            en: "Access Control",
-          },
-          description: {
-            ar: "يتم تقييد الوصول إلى الأصول والمرافق المرتبطة بها ويتم إدارته بما يتفق مع المخاطر المقبولة.",
-            en: "Access to physical and logical assets and associated facilities is limited to authorized users, processes, and devices, and is managed consistent with the assessed risk of unauthorized access.",
-          },
-        },
-        {
-          id: "awareness-training",
-          name: {
-            ar: "التوعية والتدريب",
-            en: "Awareness and Training",
-          },
-          description: {
-            ar: "يتم توفير التعليم والتدريب للموظفين والشركاء لأداء واجباتهم ومسؤولياتهم المتعلقة بالأمن السيبراني بما يتماشى مع السياسات والإجراءات والاتفاقيات ذات الصلة.",
-            en: "The organization's personnel and partners are provided cybersecurity awareness education and are trained to perform their cybersecurity-related duties and responsibilities consistent with related policies, procedures, and agreements.",
-          },
-        },
-        {
-          id: "data-security",
-          name: {
-            ar: "أمن البيانات",
-            en: "Data Security",
-          },
-          description: {
-            ar: "تتم إدارة المعلومات والسجلات (البيانات) بما يتفق مع استراتيجية المؤسسة لإدارة المخاطر لحماية سرية المعلومات وسلامتها وتوافرها.",
-            en: "Information and records (data) are managed consistent with the organization's risk strategy to protect the confidentiality, integrity, and availability of information.",
-          },
-        },
-        {
-          id: "info-protection",
-          name: {
-            ar: "عمليات وإجراءات حماية المعلومات",
-            en: "Info Protection Processes and Procedures",
-          },
-          description: {
-            ar: "يتم الحفاظ على سياسات الأمن (تتناول الغرض والنطاق والأدوار والمسؤوليات والالتزام الإداري والتنسيق بين كيانات المؤسسة) والعمليات والإجراءات وتستخدم لإدارة حماية أنظمة المعلومات والأصول.",
-            en: "Security policies (that address purpose, scope, roles, responsibilities, management commitment, and coordination among organizational entities), processes, and procedures are maintained and used to manage protection of information systems and assets.",
-          },
-        },
-        {
-          id: "maintenance",
-          name: {
-            ar: "الصيانة",
-            en: "Maintenance",
-          },
-          description: {
-            ar: "يتم إجراء صيانة وإصلاحات لمكونات نظام التحكم الصناعي والمعلومات بما يتفق مع السياسات والإجراءات.",
-            en: "Maintenance and repairs of industrial control and information system components are performed consistent with policies and procedures.",
-          },
-        },
-        {
-          id: "protective-technology",
-          name: {
-            ar: "التكنولوجيا الوقائية",
-            en: "Protective Technology",
-          },
-          description: {
-            ar: "يتم تشغيل الحلول التقنية الأمنية وإدارتها لضمان أمن وصمود الأنظمة والأصول، بما يتفق مع السياسات والإجراءات والاتفاقيات ذات الصلة.",
-            en: "Technical security solutions are managed to ensure the security and resilience of systems and assets, consistent with related policies, procedures, and agreements.",
-          },
-        },
-      ],
-    },
-    {
-      id: "detect",
-      title: {
-        ar: "كشف",
-        en: "Detect",
-      },
-      color: "bg-yellow-500",
-      textColor: "text-yellow-500",
-      borderColor: "border-yellow-500",
-      description: {
-        ar: "تطوير وتنفيذ الأنشطة المناسبة للكشف عن وقوع حدث أمني سيبراني.",
-        en: "Develop and implement appropriate activities to identify the occurrence of a cybersecurity event.",
-      },
-      categories: [
-        {
-          id: "anomalies-events",
-          name: {
-            ar: "الشذوذ والأحداث",
-            en: "Anomalies and Events",
-          },
-          description: {
-            ar: "يتم اكتشاف النشاط الشاذ في الوقت المناسب وفهم التأثير المحتمل للأحداث.",
-            en: "Anomalous activity is detected and the potential impact of events is understood.",
-          },
-        },
-        {
-          id: "security-monitoring",
-          name: {
-            ar: "المراقبة الأمنية المستمرة",
-            en: "Security Continuous Monitoring",
-          },
-          description: {
-            ar: "تتم مراقبة نظام المعلومات والأصول في فترات زمنية محددة للتعرف على الأحداث الأمنية السيبرانية والتحقق من فعالية تدابير الحماية.",
-            en: "The information system and assets are monitored to identify cybersecurity events and verify the effectiveness of protective measures.",
-          },
-        },
-        {
-          id: "detection-processes",
-          name: {
-            ar: "عمليات الكشف",
-            en: "Detection Processes",
-          },
-          description: {
-            ar: "يتم الحفاظ على عمليات وإجراءات الكشف واختبارها لضمان الوعي في الوقت المناسب بالأحداث الشاذة.",
-            en: "Detection processes and procedures are maintained and tested to ensure awareness of anomalous events.",
-          },
-        },
-      ],
-    },
-    {
-      id: "respond",
-      title: {
-        ar: "استجابة",
-        en: "Respond",
-      },
-      color: "bg-red-600",
-      textColor: "text-red-600",
-      borderColor: "border-red-600",
-      description: {
-        ar: "تطوير وتنفيذ الأنشطة المناسبة لاتخاذ إجراءات بشأن حدث أمني سيبراني تم اكتشافه.",
-        en: "Develop and implement appropriate activities to take action regarding a detected cybersecurity incident.",
-      },
-      categories: [
-        {
-          id: "response-planning",
-          name: {
-            ar: "تخطيط الاستجابة",
-            en: "Response Planning",
-          },
-          description: {
-            ar: "يتم تنفيذ عمليات وإجراءات الاستجابة وصيانتها للتأكد من الاستجابة في الوقت المناسب للأحداث الأمنية السيبرانية المكتشفة.",
-            en: "Response processes and procedures are executed and maintained, to ensure response to detected cybersecurity incidents.",
-          },
-        },
-        {
-          id: "communications",
-          name: {
-            ar: "الاتصالات",
-            en: "Communications",
-          },
-          description: {
-            ar: "يتم تنسيق أنشطة الاستجابة مع أصحاب المصلحة الداخليين والخارجيين (مثل الدعم الخارجي من وكالات إنفاذ القانون).",
-            en: "Response activities are coordinated with internal and external stakeholders (e.g. external support from law enforcement agencies).",
-          },
-        },
-        {
-          id: "analysis",
-          name: {
-            ar: "التحليل",
-            en: "Analysis",
-          },
-          description: {
-            ar: "يتم إجراء التحليل لضمان استجابة فعالة واستعادة الدعم.",
-            en: "Analysis is conducted to ensure effective response and support recovery activities.",
-          },
-        },
-        {
-          id: "mitigation",
-          name: {
-            ar: "التخفيف",
-            en: "Mitigation",
-          },
-          description: {
-            ar: "يتم تنفيذ الأنشطة لمنع توسع الحدث، وتخفيف آثاره، وحل الحادث.",
-            en: "Activities are performed to prevent expansion of an event, mitigate its effects, and resolve the incident.",
-          },
-        },
-        {
-          id: "improvements",
-          name: {
-            ar: "التحسينات",
-            en: "Improvements",
-          },
-          description: {
-            ar: "يتم تحسين أنشطة استجابة المؤسسة من خلال دمج الدروس المستفادة من أنشطة الكشف/الاستجابة الحالية والسابقة.",
-            en: "Organizational response activities are improved by incorporating lessons learned from current and previous detection/response activities.",
-          },
-        },
-      ],
-    },
-    {
-      id: "recover",
-      title: {
-        ar: "تعافي",
-        en: "Recover",
-      },
-      color: "bg-green-500",
-      textColor: "text-green-500",
-      borderColor: "border-green-500",
-      description: {
-        ar: "تطوير وتنفيذ الأنشطة المناسبة للحفاظ على خطط المرونة واستعادة أي قدرات أو خدمات تضررت بسبب حدث أمني سيبراني.",
-        en: "Develop and implement appropriate activities to maintain plans for resilience and to restore any capabilities or services that were impaired due to a cybersecurity incident.",
-      },
-      categories: [
-        {
-          id: "recovery-planning",
-          name: {
-            ar: "تخطيط التعافي",
-            en: "Recovery Planning",
-          },
-          description: {
-            ar: "يتم تنفيذ عمليات وإجراءات الاستعادة وصيانتها لضمان استعادة الأنظمة أو الأصول المتأثرة بحوادث الأمن السيبراني.",
-            en: "Recovery processes and procedures are executed and maintained to ensure restoration of systems or assets affected by cybersecurity incidents.",
-          },
-        },
-        {
-          id: "recovery-improvements",
-          name: {
-            ar: "التحسينات",
-            en: "Improvements",
-          },
-          description: {
-            ar: "يتم تحسين تخطيط وعمليات الاستعادة من خلال دمج الدروس المستفادة في الأنشطة المستقبلية.",
-            en: "Recovery planning and processes are improved by incorporating lessons learned into future activities.",
-          },
-        },
-        {
-          id: "recovery-communications",
-          name: {
-            ar: "الاتصالات",
-            en: "Communications",
-          },
-          description: {
-            ar: "يتم تنسيق أنشطة الاستعادة مع الأطراف الداخلية والخارجية (مثل مراكز التنسيق وأصحاب الأنظمة المتأثرة والمالكين والموردين والشركاء).",
-            en: "Recovery activities are coordinated with internal and external parties (e.g. coordinating centers, Internet Service Providers, owners of attacking systems, victims, other CSIRTs, and vendors).",
-          },
-        },
-      ],
-    },
-  ]
+  useEffect(() => {
+    // Load framework functions
+    if (functions && functions.length > 0) {
+      setFrameworkFunctions(functions);
 
-  // Framework implementation steps
-  const implementationSteps = [
-    {
-      step: 1,
-      title: {
-        ar: "تحديد النطاق",
-        en: "Determine Scope",
-      },
-      description: {
-        ar: "تحديد الأنظمة والأصول الحرجة التي تحتاج إلى حماية",
-        en: "Identify critical systems and assets that need protection",
-      },
-    },
-    {
-      step: 2,
-      title: {
-        ar: "تحديد الملف التعريفي المستهدف",
-        en: "Define Target Profile",
-      },
-      description: {
-        ar: "تحديد الأهداف الأمنية المرجوة والنتائج المطلوبة",
-        en: "Define desired security outcomes and objectives",
-      },
-    },
-    {
-      step: 3,
-      title: {
-        ar: "إنشاء ملف تعريف حالي",
-        en: "Create Current Profile",
-      },
-      description: {
-        ar: "تقييم الوضع الحالي للأمن السيبراني في المؤسسة",
-        en: "Assess the current state of cybersecurity in the organization",
-      },
-    },
-    {
-      step: 4,
-      title: {
-        ar: "تحليل الفجوات",
-        en: "Conduct Gap Analysis",
-      },
-      description: {
-        ar: "مقارنة الملف الحالي بالملف المستهدف لتحديد الفجوات",
-        en: "Compare current profile to target profile to identify gaps",
-      },
-    },
-    {
-      step: 5,
-      title: {
-        ar: "تنفيذ خطة العمل",
-        en: "Implement Action Plan",
-      },
-      description: {
-        ar: "تطوير وتنفيذ خطة لمعالجة الفجوات المحددة",
-        en: "Develop and implement a plan to address identified gaps",
-      },
-    },
-  ]
+      // Load categories for each function
+      const loadCategories = async () => {
+        const categoriesMap: Record<string, FrameworkCategory[]> = {};
+
+        for (const func of functions) {
+          const categories = await getCategoriesByFunctionId(func.id);
+          categoriesMap[func.id] = categories;
+        }
+
+        setFunctionCategories(categoriesMap);
+      };
+
+      loadCategories();
+    }
+
+    // Load implementation steps
+    const loadImplementationSteps = async () => {
+      try {
+        const steps = await getImplementationSteps();
+        setImplementationSteps(steps);
+      } catch (error) {
+        console.error("Failed to load implementation steps:", error);
+      }
+    };
+
+    // Load benefits
+    const loadBenefits = async () => {
+      try {
+        const benefitsData = await getFrameworkBenefits();
+        setBenefits(benefitsData);
+      } catch (error) {
+        console.error("Failed to load benefits:", error);
+      }
+    };
+
+    loadImplementationSteps();
+    loadBenefits();
+  }, [
+    functions,
+    getCategoriesByFunctionId,
+    getImplementationSteps,
+    getFrameworkBenefits,
+  ]);
+
+  if (loading) {
+    return (
+      <MainLayout>
+        <div className="pt-24 pb-16 flex justify-center items-center min-h-[50vh]">
+          <div className="animate-pulse">Loading...</div>
+        </div>
+      </MainLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <MainLayout>
+        <div className="pt-24 pb-16 flex justify-center items-center min-h-[50vh]">
+          <div className="text-red-500">
+            Error loading framework data. Please try again later.
+          </div>
+        </div>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout>
@@ -430,7 +156,9 @@ export default function FrameworkPage() {
         <div className="container mx-auto px-4">
           <div className="mb-12 text-center">
             <h1 className="text-3xl md:text-4xl font-bold mb-2">
-              {language === "ar" ? "إطار عمل الأمن السيبراني" : "Cybersecurity Framework"}
+              {language === "ar"
+                ? "إطار عمل الأمن السيبراني"
+                : "Cybersecurity Framework"}
             </h1>
             <p className="text-xl text-muted-foreground">
               {language === "ar"
@@ -443,7 +171,11 @@ export default function FrameworkPage() {
           <div className="mb-16">
             <Card>
               <CardContent className="pt-6">
-                <div className={`prose dark:prose-invert max-w-none ${isRtl ? "text-right" : "text-left"}`}>
+                <div
+                  className={`prose dark:prose-invert max-w-none ${
+                    isRtl ? "text-right" : "text-left"
+                  }`}
+                >
                   <p className="text-lg">
                     {language === "ar"
                       ? "يوفر إطار عمل الأمن السيبراني نهجًا منظمًا لفهم وإدارة وتقليل مخاطر الأمن السيبراني. يتكون الإطار من خمس وظائف أساسية تعمل معًا لتشكيل نهج استراتيجي للأمن السيبراني. تم تصميم هذا الإطار ليكون مرنًا وقابلًا للتكيف مع احتياجات مختلف المؤسسات، بغض النظر عن حجمها أو قطاعها."
@@ -457,7 +189,9 @@ export default function FrameworkPage() {
           {/* Framework Functions Visualization */}
           <div className="mb-16">
             <h2 className="text-2xl font-bold mb-8 text-center">
-              {language === "ar" ? "الوظائف الأساسية للإطار" : "Core Framework Functions"}
+              {language === "ar"
+                ? "الوظائف الأساسية للإطار"
+                : "Core Framework Functions"}
             </h2>
 
             {/* Framework Diagram */}
@@ -481,15 +215,21 @@ export default function FrameworkPage() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className={`cursor-pointer p-4 rounded-lg ${
-                    activeFunction === func.id ? func.color + " text-white" : "bg-muted"
+                    activeFunction === func.id
+                      ? func.color + " text-white"
+                      : "bg-muted"
                   } transition-all duration-300 w-full sm:w-auto flex-1 max-w-xs`}
                   onClick={() => {
-                    setActiveFunction(func.id)
-                    document.getElementById(func.id)?.scrollIntoView({ behavior: "smooth" })
+                    setActiveFunction(func.id);
+                    document
+                      .getElementById(func.id)
+                      ?.scrollIntoView({ behavior: "smooth" });
                   }}
                 >
                   <div className="text-center">
-                    <h3 className="font-bold text-lg">{func.title[language]}</h3>
+                    <h3 className="font-bold text-lg">
+                      {language === "ar" ? func.nameAr : func.nameEn}
+                    </h3>
                   </div>
                 </motion.div>
               ))}
@@ -500,44 +240,79 @@ export default function FrameworkPage() {
               <div
                 key={func.id}
                 id={func.id}
-                className={`mb-12 scroll-mt-24 ${activeFunction === func.id ? "opacity-100" : "opacity-70"} transition-opacity duration-300`}
+                className={`mb-12 scroll-mt-24 ${
+                  activeFunction === func.id ? "opacity-100" : "opacity-70"
+                } transition-opacity duration-300`}
               >
                 <Card className={`border-2 ${func.borderColor}`}>
                   <CardHeader className={func.color}>
-                    <CardTitle className="text-2xl text-white">{func.title[language]}</CardTitle>
+                    <CardTitle className="text-2xl text-white">
+                      {language === "ar" ? func.nameAr : func.nameEn}
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="pt-6">
-                    <div className={`prose dark:prose-invert max-w-none ${isRtl ? "text-right" : "text-left"}`}>
-                      <p className="text-lg mb-6">{func.description[language]}</p>
+                    <div
+                      className={`prose dark:prose-invert max-w-none ${
+                        isRtl ? "text-right" : "text-left"
+                      }`}
+                    >
+                      <p className="text-lg mb-6">
+                        {language === "ar"
+                          ? func.descriptionAr
+                          : func.descriptionEn}
+                      </p>
 
-                      <h3 className={`text-xl font-semibold mb-4 ${func.textColor}`}>
+                      <h3
+                        className={`text-xl font-semibold mb-4 ${func.textColor}`}
+                      >
                         {language === "ar" ? "الفئات" : "Categories"}
                       </h3>
 
-                      <Table>
-                        <TableHeader>
-                          <TableRow>
-                            <TableHead className={isRtl ? "text-right" : "text-left"}>
-                              {language === "ar" ? "الفئة" : "Category"}
-                            </TableHead>
-                            <TableHead className={isRtl ? "text-right" : "text-left"}>
-                              {language === "ar" ? "الوصف" : "Description"}
-                            </TableHead>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          {func.categories.map((category) => (
-                            <TableRow key={category.id}>
-                              <TableCell className={`font-medium ${func.textColor}`}>
-                                {category.name[language]}
-                              </TableCell>
-                              <TableCell className={isRtl ? "text-right" : "text-left"}>
-                                {category.description[language]}
-                              </TableCell>
+                      {functionCategories[func.id] &&
+                      functionCategories[func.id].length > 0 ? (
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead
+                                className={isRtl ? "text-right" : "text-left"}
+                              >
+                                {language === "ar" ? "الفئة" : "Category"}
+                              </TableHead>
+                              <TableHead
+                                className={isRtl ? "text-right" : "text-left"}
+                              >
+                                {language === "ar" ? "الوصف" : "Description"}
+                              </TableHead>
                             </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
+                          </TableHeader>
+                          <TableBody>
+                            {functionCategories[func.id].map((category) => (
+                              <TableRow key={category.id}>
+                                <TableCell
+                                  className={`font-medium ${func.textColor}`}
+                                >
+                                  {language === "ar"
+                                    ? category.nameAr
+                                    : category.nameEn}
+                                </TableCell>
+                                <TableCell
+                                  className={isRtl ? "text-right" : "text-left"}
+                                >
+                                  {language === "ar"
+                                    ? category.descriptionAr
+                                    : category.descriptionEn}
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      ) : (
+                        <div className="text-center py-4">
+                          {language === "ar"
+                            ? "جاري تحميل الفئات..."
+                            : "Loading categories..."}
+                        </div>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
@@ -548,7 +323,9 @@ export default function FrameworkPage() {
           {/* Framework Implementation Steps */}
           <div className="mb-16">
             <h2 className="text-2xl font-bold mb-8 text-center">
-              {language === "ar" ? "خطوات تنفيذ الإطار" : "Framework Implementation Steps"}
+              {language === "ar"
+                ? "خطوات تنفيذ الإطار"
+                : "Framework Implementation Steps"}
             </h2>
 
             <div className="relative">
@@ -574,11 +351,19 @@ export default function FrameworkPage() {
                           <div className="md:hidden flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white font-bold mr-4">
                             {step.step}
                           </div>
-                          <CardTitle className={isRtl ? "text-right" : "text-left"}>{step.title[language]}</CardTitle>
+                          <CardTitle
+                            className={isRtl ? "text-right" : "text-left"}
+                          >
+                            {language === "ar" ? step.titleAr : step.titleEn}
+                          </CardTitle>
                         </div>
                       </CardHeader>
                       <CardContent>
-                        <p className={isRtl ? "text-right" : "text-left"}>{step.description[language]}</p>
+                        <p className={isRtl ? "text-right" : "text-left"}>
+                          {language === "ar"
+                            ? step.descriptionAr
+                            : step.descriptionEn}
+                        </p>
                       </CardContent>
                     </Card>
                   </div>
@@ -590,56 +375,15 @@ export default function FrameworkPage() {
           {/* Framework Benefits */}
           <div className="mb-16">
             <h2 className="text-2xl font-bold mb-8 text-center">
-              {language === "ar" ? "فوائد تطبيق الإطار" : "Benefits of Implementing the Framework"}
+              {language === "ar"
+                ? "فوائد تطبيق الإطار"
+                : "Benefits of Implementing the Framework"}
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[
-                {
-                  title: { ar: "إدارة المخاطر المحسنة", en: "Improved Risk Management" },
-                  description: {
-                    ar: "تحديد وتقييم وإدارة مخاطر الأمن السيبراني بشكل أكثر فعالية",
-                    en: "Identify, assess, and manage cybersecurity risks more effectively",
-                  },
-                },
-                {
-                  title: { ar: "تعزيز الأمن", en: "Enhanced Security" },
-                  description: {
-                    ar: "تحسين الموقف الأمني العام للمؤسسة وحماية الأصول الحيوية",
-                    en: "Improve the overall security posture of the organization and protect critical assets",
-                  },
-                },
-                {
-                  title: { ar: "الامتثال التنظيمي", en: "Regulatory Compliance" },
-                  description: {
-                    ar: "المساعدة في تلبية متطلبات الامتثال التنظيمية والقانونية",
-                    en: "Help meet regulatory and legal compliance requirements",
-                  },
-                },
-                {
-                  title: { ar: "تحسين الاتصال", en: "Improved Communication" },
-                  description: {
-                    ar: "تعزيز التواصل حول مخاطر الأمن السيبراني داخل المؤسسة وخارجها",
-                    en: "Enhance communication about cybersecurity risks within and outside the organization",
-                  },
-                },
-                {
-                  title: { ar: "اتخاذ قرارات أفضل", en: "Better Decision Making" },
-                  description: {
-                    ar: "توفير معلومات لاتخاذ قرارات أفضل بشأن استثمارات الأمن السيبراني",
-                    en: "Inform better decisions about cybersecurity investments",
-                  },
-                },
-                {
-                  title: { ar: "المرونة التنظيمية", en: "Organizational Resilience" },
-                  description: {
-                    ar: "تعزيز قدرة المؤسسة على التعافي من الحوادث الأمنية",
-                    en: "Enhance the organization's ability to recover from security incidents",
-                  },
-                },
-              ].map((benefit, index) => (
+              {benefits.map((benefit, index) => (
                 <motion.div
-                  key={index}
+                  key={benefit.id}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -648,14 +392,20 @@ export default function FrameworkPage() {
                   <Card className="h-full">
                     <CardHeader className="pb-2">
                       <CardTitle
-                        className={`text-xl flex items-center gap-2 ${isRtl ? "justify-end" : "justify-start"}`}
+                        className={`text-xl flex items-center gap-2 ${
+                          isRtl ? "justify-end" : "justify-start"
+                        }`}
                       >
                         <CheckCircle2 className="h-5 w-5 text-primary" />
-                        {benefit.title[language]}
+                        {language === "ar" ? benefit.titleAr : benefit.titleEn}
                       </CardTitle>
                     </CardHeader>
                     <CardContent className={isRtl ? "text-right" : "text-left"}>
-                      <p>{benefit.description[language]}</p>
+                      <p>
+                        {language === "ar"
+                          ? benefit.descriptionAr
+                          : benefit.descriptionEn}
+                      </p>
                     </CardContent>
                   </Card>
                 </motion.div>
@@ -666,7 +416,9 @@ export default function FrameworkPage() {
           {/* Framework Summary Table */}
           <div className="mb-16">
             <h2 className="text-2xl font-bold mb-8 text-center">
-              {language === "ar" ? "ملخص إطار عمل الأمن السيبراني" : "Cybersecurity Framework Summary"}
+              {language === "ar"
+                ? "ملخص إطار عمل الأمن السيبراني"
+                : "Cybersecurity Framework Summary"}
             </h2>
 
             <div className="overflow-x-auto">
@@ -701,12 +453,16 @@ export default function FrameworkPage() {
 
                   {/* Anomalies and Events */}
                   <div className="bg-yellow-100 dark:bg-yellow-900/30 p-2 rounded-md text-sm">
-                    {language === "ar" ? "الشذوذ والأحداث" : "Anomalies and Events"}
+                    {language === "ar"
+                      ? "الشذوذ والأحداث"
+                      : "Anomalies and Events"}
                   </div>
 
                   {/* Response Planning */}
                   <div className="bg-red-100 dark:bg-red-900/30 p-2 rounded-md text-sm">
-                    {language === "ar" ? "تخطيط الاستجابة" : "Response Planning"}
+                    {language === "ar"
+                      ? "تخطيط الاستجابة"
+                      : "Response Planning"}
                   </div>
 
                   {/* Recovery Planning */}
@@ -721,12 +477,16 @@ export default function FrameworkPage() {
 
                   {/* Awareness and Training */}
                   <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-md text-sm">
-                    {language === "ar" ? "التوعية والتدريب" : "Awareness and Training"}
+                    {language === "ar"
+                      ? "التوعية والتدريب"
+                      : "Awareness and Training"}
                   </div>
 
                   {/* Security Continuous Monitoring */}
                   <div className="bg-yellow-100 dark:bg-yellow-900/30 p-2 rounded-md text-sm">
-                    {language === "ar" ? "المراقبة الأمنية المستمرة" : "Security Continuous Monitoring"}
+                    {language === "ar"
+                      ? "المراقبة الأمنية المستمرة"
+                      : "Security Continuous Monitoring"}
                   </div>
 
                   {/* Communications */}
@@ -771,7 +531,9 @@ export default function FrameworkPage() {
 
                   {/* Info Protection Processes */}
                   <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-md text-sm">
-                    {language === "ar" ? "عمليات وإجراءات حماية المعلومات" : "Info Protection Processes and Procedures"}
+                    {language === "ar"
+                      ? "عمليات وإجراءات حماية المعلومات"
+                      : "Info Protection Processes and Procedures"}
                   </div>
 
                   {/* Empty cell for Detect */}
@@ -787,7 +549,9 @@ export default function FrameworkPage() {
 
                   {/* Risk Management Strategy */}
                   <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-md text-sm">
-                    {language === "ar" ? "استراتيجية إدارة المخاطر" : "Risk Management Strategy"}
+                    {language === "ar"
+                      ? "استراتيجية إدارة المخاطر"
+                      : "Risk Management Strategy"}
                   </div>
 
                   {/* Maintenance */}
@@ -811,7 +575,9 @@ export default function FrameworkPage() {
 
                   {/* Protective Technology */}
                   <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-md text-sm">
-                    {language === "ar" ? "التكنولوجيا الوقائية" : "Protective Technology"}
+                    {language === "ar"
+                      ? "التكنولوجيا الوقائية"
+                      : "Protective Technology"}
                   </div>
                 </div>
               </div>
@@ -824,7 +590,7 @@ export default function FrameworkPage() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {frameworkData.domains.map((domain, index) => (
+            {domains.map((domain, index) => (
               <motion.div
                 key={domain.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -834,29 +600,33 @@ export default function FrameworkPage() {
                 <Link href={`/framework/${domain.id}`}>
                   <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
                     <CardHeader className="pb-2">
-                      <CardTitle className={`text-xl ${isRtl ? "text-right" : "text-left"} flex items-center gap-2`}>
+                      <CardTitle
+                        className={`text-xl ${
+                          isRtl ? "text-right" : "text-left"
+                        } flex items-center gap-2`}
+                      >
                         <Shield className="h-5 w-5 text-primary" />
-                        {domain.title[language]}
+                        {language === "ar" ? domain.nameAr : domain.nameEn}
                       </CardTitle>
                     </CardHeader>
                     <CardContent className={isRtl ? "text-right" : "text-left"}>
-                      <p className="text-muted-foreground mb-4">{domain.description[language]}</p>
-                      <div className="space-y-2">
-                        {domain.components.slice(0, 2).map((component) => (
-                          <div key={component.id} className="p-2 bg-muted rounded-md">
-                            <p className="font-medium">{component.title[language]}</p>
-                          </div>
-                        ))}
-                        {domain.components.length > 2 && (
-                          <div className="text-primary text-sm font-medium">
-                            +{domain.components.length - 2} {language === "ar" ? "المزيد" : "more"}
-                          </div>
-                        )}
-                      </div>
-                      <div className={`mt-4 flex ${isRtl ? "justify-start" : "justify-end"}`}>
+                      <p className="text-muted-foreground mb-4">
+                        {language === "ar"
+                          ? domain.descriptionAr
+                          : domain.descriptionEn}
+                      </p>
+                      <div
+                        className={`mt-4 flex ${
+                          isRtl ? "justify-start" : "justify-end"
+                        }`}
+                      >
                         <span className="text-primary flex items-center text-sm font-medium">
                           {language === "ar" ? "عرض التفاصيل" : "View details"}
-                          <ArrowRight className={`h-4 w-4 ${isRtl ? "mr-1 rotate-180" : "ml-1"}`} />
+                          <ArrowRight
+                            className={`h-4 w-4 ${
+                              isRtl ? "mr-1 rotate-180" : "ml-1"
+                            }`}
+                          />
                         </span>
                       </div>
                     </CardContent>
@@ -868,5 +638,5 @@ export default function FrameworkPage() {
         </div>
       </div>
     </MainLayout>
-  )
+  );
 }
