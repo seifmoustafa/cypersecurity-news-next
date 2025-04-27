@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { useLanguage } from "@/components/language-provider"
-import { Shield } from "lucide-react"
+import { useLanguage } from "@/components/language-provider";
+import { Shield } from "lucide-react";
 
 export default function Footer() {
-  const { language } = useLanguage()
-  const isRtl = language === "ar"
+  const { language } = useLanguage();
+  const isRtl = language === "ar";
 
   return (
     <footer className="py-8 border-t border-blue-200/20 dark:border-blue-800/20 bg-gradient-to-b from-transparent to-blue-50/30 dark:to-blue-950/30">
@@ -14,7 +14,9 @@ export default function Footer() {
           <div className="flex items-center mb-4 md:mb-0">
             <Shield className="h-6 w-6 text-primary mr-2 rtl:ml-2 rtl:mr-0" />
             <span className="font-bold text-lg text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">
-              {language === "ar" ? "مركز الأمن السيبراني" : "Cybersecurity Center"}
+              {language === "ar"
+                ? "بوابة الأمن السيبراني"
+                : "Cybersecurity Portal"}
             </span>
           </div>
 
@@ -28,5 +30,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
