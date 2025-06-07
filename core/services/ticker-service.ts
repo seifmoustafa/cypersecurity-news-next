@@ -9,6 +9,12 @@ export class TickerService {
   }
 
   async getTickerItems(): Promise<TickerItem[]> {
-    return this.repository.getTickerItems()
+    try {
+      return await this.repository.getTickerItems()
+    } catch (error) {
+      console.error("Error in ticker service:", error)
+      // Return empty array on error to prevent UI crashes
+      return []
+    }
   }
 }

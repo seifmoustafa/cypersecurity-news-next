@@ -1,7 +1,9 @@
 export interface TickerItem {
   id: string
-  type: "info" | "warning" | "alert"
-  text: {
+  title: string
+  titleEn?: string | null
+  type?: "info" | "warning" | "alert"
+  text?: {
     en: string
     ar: string
   }

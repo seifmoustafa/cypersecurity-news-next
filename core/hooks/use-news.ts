@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { container } from "../di/container"
 import type { News } from "../domain/models/news"
+import type { NewsCategory } from "../domain/models/news-category"
 
 export function useNews() {
   const [news, setNews] = useState<News[]>([])
@@ -54,7 +55,7 @@ export function useNewsById(id: string) {
   return { news, loading, error }
 }
 
-export function useNewsByCategory(category: string) {
+export function useNewsByCategory(categoryId: string | null, page = 1, pageSize = 10) {
   const [news, setNews] = useState<News[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
@@ -63,7 +64,7 @@ export function useNewsByCategory(category: string) {
     const fetchNews = async () => {
       try {
         setLoading(true)
-        const data = await container.services.news.getNewsByCategory(category)
+        const data = await container.services.news.getNewsByCategory(categoryId, page, pageSize)
         setNews(data)
         setError(null)
       } catch (err) {
@@ -74,12 +75,12 @@ export function useNewsByCategory(category: string) {
     }
 
     fetchNews()
-  }, [category])
+  }, [categoryId, page, pageSize])
 
   return { news, loading, error }
 }
 
-export function useLatestNews(count: number) {
+export function useLatestNews(count = 5) {
   const [news, setNews] = useState<News[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
@@ -127,4 +128,29 @@ export function useFeaturedNews() {
   }, [])
 
   return { news, loading, error }
+}
+
+export function useNewsCategories(page = 1, pageSize = 10) {
+  const [categories, setCategories] = useState<NewsCategory[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        setLoading(true)
+        const data = await container.services.news.getNewsCategories(page, pageSize)
+        setCategories(data)
+        setError(null)
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error("An unknown error occurred"))
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchCategories()
+  }, [page, pageSize])
+
+  return { categories, loading, error }
 }
