@@ -55,6 +55,33 @@ export function useNewsById(id: string) {
   return { news, loading, error }
 }
 
+export function useNewsBySlug(slug: string) {
+  const [news, setNews] = useState<News | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        setLoading(true)
+        const data = await container.services.news.getNewsBySlug(slug)
+        setNews(data)
+        setError(null)
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error("An unknown error occurred"))
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    if (slug) {
+      fetchNews()
+    }
+  }, [slug])
+
+  return { news, loading, error }
+}
+
 export function useNewsByCategory(categoryId: string | null, page = 1, pageSize = 10) {
   const [news, setNews] = useState<News[]>([])
   const [loading, setLoading] = useState(true)

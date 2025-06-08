@@ -8,6 +8,7 @@ import { useLanguage } from "@/components/language-provider"
 import Image from "next/image"
 import Link from "next/link"
 import { useLatestNews } from "@/core/hooks/use-news"
+import { slugify } from "@/lib/utils"
 
 export default function NewsCarousel() {
   const { language, t, isRtl } = useLanguage()
@@ -70,6 +71,21 @@ export default function NewsCarousel() {
   // Determine the direction of the slide based on RTL setting
   const slideDirection = isRtl ? -1 : 1
 
+  // Get the current news item
+  const currentNews = news[currentIndex]
+
+  // Get the title for the current language with fallback
+  const newsTitle =
+    language === "ar"
+      ? currentNews.title || currentNews.titleEn || "News"
+      : currentNews.titleEn || currentNews.title || "News"
+
+  // Create a URL-friendly slug from the title (NO ID!)
+  const newsSlug = slugify(newsTitle)
+
+  // Debug the slug
+  console.log(`News carousel slug: ${newsSlug} for title: ${newsTitle}`)
+
   return (
     <div
       ref={carouselRef}
@@ -91,12 +107,8 @@ export default function NewsCarousel() {
             <div className="relative w-full h-full">
               {/* Image */}
               <Image
-                src={news[currentIndex].imageUrl || "/placeholder.svg"}
-                alt={
-                  language === "ar"
-                    ? news[currentIndex].title || news[currentIndex].titleEn || "News image"
-                    : news[currentIndex].titleEn || news[currentIndex].title || "News image"
-                }
+                src={currentNews.imageUrl || "/placeholder.svg"}
+                alt={newsTitle}
                 fill
                 className="object-cover"
                 priority
@@ -114,21 +126,17 @@ export default function NewsCarousel() {
                         isRtl ? "float-right" : "float-left"
                       }`}
                     >
-                      {new Date(news[currentIndex].date ?? "").toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
+                      {new Date(currentNews.date).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
                     </div>
                     <div className="clear-both"></div>
-                    <h2 className="text-xl md:text-3xl font-bold mb-2 line-clamp-2">
-                      {language === "ar"
-                        ? news[currentIndex].title || news[currentIndex].titleEn || "No title available"
-                        : news[currentIndex].titleEn || news[currentIndex].title || "No title available"}
-                    </h2>
+                    <h2 className="text-xl md:text-3xl font-bold mb-2 line-clamp-2">{newsTitle}</h2>
                     <p className="text-sm md:text-base mb-4 line-clamp-2 text-gray-200">
                       {language === "ar"
-                        ? news[currentIndex].summary || news[currentIndex].summaryEn || "No summary available"
-                        : news[currentIndex].summaryEn || news[currentIndex].summary || "No summary available"}
+                        ? currentNews.summary || currentNews.summaryEn || ""
+                        : currentNews.summaryEn || currentNews.summary || ""}
                     </p>
                     <Link
-                      href={`/news/${news[currentIndex].id}`}
+                      href={`/news/${newsSlug}`}
                       className="inline-block bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md transition-colors"
                     >
                       {t("common.readMore")}

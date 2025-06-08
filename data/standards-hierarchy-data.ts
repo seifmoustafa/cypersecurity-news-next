@@ -806,7 +806,7 @@ export const definitionsData = {
         en: "Phishing",
       },
       definition: {
-        ar: "هجوم يستخدم رسائل بريد إلكتروني أو رسائل نصية أو مواقع ويب مزيفة ت��دو وكأنها من مصادر موثوقة، بهدف خداع المستخدمين للكشف عن معلومات حساسة مثل كلمات المرور أو بيانات بطاقات الائتمان.",
+        ar: "هجوم يستخدم رسائل بريد إلكتروني أو رسائل نصية أو مواقع ويب مزيفة ت��دو وكأنها من مصادر موثوقة، بهدف خداع المستخدمين للكشف عن معلومات حساسة ��ثل كلمات المرور أو بيانات بطاقات الائتمان.",
         en: "An attack that uses fraudulent emails, text messages, or websites that appear to be from trusted sources, designed to trick users into revealing sensitive information such as passwords or credit card details.",
       },
     },

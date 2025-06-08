@@ -27,6 +27,15 @@ export class NewsService {
     }
   }
 
+  async getNewsBySlug(slug: string): Promise<News | null> {
+    try {
+      return await this.repository.getNewsBySlug(slug)
+    } catch (error) {
+      console.error(`NewsService: Error getting news by slug "${slug}":`, error)
+      return null
+    }
+  }
+
   async getNewsByCategory(categoryId: string | null, page = 1, pageSize = 10): Promise<News[]> {
     try {
       return await this.repository.getNewsByCategory(categoryId, page, pageSize)
