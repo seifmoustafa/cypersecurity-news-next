@@ -1,5 +1,4 @@
-import type { News } from "../models/news"
-import type { NewsCategory } from "../models/news-category"
+import type { News, NewsCategory } from "../../../entities"
 
 export interface NewsRepository {
   getAllNews(): Promise<News[]>

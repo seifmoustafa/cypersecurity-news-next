@@ -16,15 +16,12 @@ import Image from "next/image"
 import { useLanguage } from "@/components/language-provider"
 import Link from "next/link"
 import { slugify } from "@/lib/utils"
+import type { News } from "@/entities"
 
-interface NewsCardProps {
-  id: string
-  title: string
-  titleEn?: string | null
-  subtitle: string
+interface NewsCardProps extends Partial<News> {
+  subtitle?: string
   fullDescription?: string
   details?: string
-  imageUrl: string
 }
 
 const cardMotionVariants = {
@@ -36,15 +33,42 @@ const cardMotionVariants = {
   },
 }
 
-export default function NewsCard({ id, title, titleEn, subtitle, fullDescription, details, imageUrl }: NewsCardProps) {
+export default function NewsCard({
+  id,
+  title,
+  titleEn,
+  subtitle,
+  summary,
+  summaryEn,
+  fullDescription,
+  details,
+  content,
+  contentEn,
+  imageUrl,
+}: NewsCardProps) {
   const [open, setOpen] = useState(false)
   const { language, isRtl } = useLanguage()
 
-  // Get the title for the current language with fallback
-  const newsTitle = language === "ar" ? title || titleEn || "News" : titleEn || title || "News"
+  // Get title from API data only
+  const newsTitle = language === "ar" ? title || titleEn || "" : titleEn || title || ""
 
-  // Create a URL-friendly slug from the title (NO ID!)
+  // ONLY GET SUMMARY - NO FALLBACK TO CONTENT OR SUBTITLE!
+  const newsSummary = language === "ar" ? summary || summaryEn || "" : summaryEn || summary || ""
+
+  // Get full content for dialog (can use content if summary not available)
+  const fullContent = language === "ar" ? fullDescription || summary || "" : fullDescription || summaryEn || ""
+
+  // Create URL-friendly slug from the title
   const newsSlug = slugify(newsTitle)
+
+  // Don't render if no title
+  if (!newsTitle) {
+    return null
+  }
+
+  // Clean HTML tags and validate summary
+  const cleanSummary = newsSummary.replace(/<\/?[^>]+(>|$)/g, "").trim()
+  const hasValidSummary = cleanSummary && cleanSummary !== "string" && cleanSummary.length > 0
 
   return (
     <>
@@ -74,7 +98,8 @@ export default function NewsCard({ id, title, titleEn, subtitle, fullDescription
             </div>
           </div>
           <CardContent className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
-            <p className="text-sm text-muted-foreground line-clamp-3">{subtitle}</p>
+            {/* ALWAYS show summary area - empty string if no summary */}
+            <p className="text-sm text-muted-foreground line-clamp-3">{hasValidSummary ? cleanSummary : ""}</p>
             <div className="mt-4 flex justify-end">
               <span className="text-primary text-sm font-medium inline-flex items-center">
                 {language === "ar" ? "اقرأ المزيد" : "Read More"}
@@ -98,16 +123,20 @@ export default function NewsCard({ id, title, titleEn, subtitle, fullDescription
         <DialogContent className="max-w-3xl bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-gray-950 border border-blue-100 dark:border-blue-900/30">
           <DialogHeader>
             <DialogTitle className={`text-xl font-bold ${isRtl ? "text-right" : "text-left"}`}>{newsTitle}</DialogTitle>
-            <DialogDescription className={isRtl ? "text-right" : "text-left"}>{subtitle}</DialogDescription>
+            {hasValidSummary && (
+              <DialogDescription className={isRtl ? "text-right" : "text-left"}>{cleanSummary}</DialogDescription>
+            )}
           </DialogHeader>
 
-          <div className="relative w-full h-64 my-4 rounded-lg overflow-hidden">
-            <Image src={imageUrl || "/placeholder.svg"} alt={newsTitle} fill className="object-cover" />
-          </div>
+          {imageUrl && (
+            <div className="relative w-full h-64 my-4 rounded-lg overflow-hidden">
+              <Image src={imageUrl || "/placeholder.svg"} alt={newsTitle} fill className="object-cover" />
+            </div>
+          )}
 
           <div className={`whitespace-pre-line ${isRtl ? "text-right" : "text-left"}`}>
-            <p>{fullDescription || subtitle}</p>
-            {details && (
+            {fullContent && fullContent !== "string" && <p>{fullContent}</p>}
+            {details && details !== "string" && (
               <div className="mt-4 p-4 bg-blue-50/50 dark:bg-blue-900/20 rounded-lg border border-blue-100/50 dark:border-blue-900/30">
                 <h4 className="font-semibold mb-2">{language === "ar" ? "تفاصيل إضافية:" : "Additional Details:"}</h4>
                 <p>{details}</p>

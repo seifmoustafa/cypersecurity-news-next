@@ -13,7 +13,14 @@ import { useNewsByCategory, useNewsCategories } from "@/core/hooks/use-news"
 import { container } from "@/core/di/container"
 import { awarenessData } from "@/data/awareness-data"
 import { slugify } from "@/lib/utils"
-import type { NewsCategory } from "@/core/domain/models/news-category"
+
+// Map category IDs to URL-friendly names
+const categoryUrlMap: { [key: string]: string } = {
+  dataBreaches: "data-breaches",
+  cyberAttacks: "cyber-attacks",
+  vulnerabilities: "vulnerabilities",
+  threatIntelligence: "threat-intelligence",
+}
 
 export default function AwarenessSection() {
   const { t, language, isRtl } = useLanguage()
@@ -72,7 +79,9 @@ export default function AwarenessSection() {
 
         <TabsContent value="news">
           <Tabs value={activeNewsCategory} onValueChange={setActiveNewsCategory} className="w-full">
-            <TabsList className={`w-full max-w-4xl mx-auto mb-8 flex flex-wrap justify-center ${isRtl ? "flex-row-reverse" : ""}`}>
+            <TabsList
+              className={`w-full max-w-4xl mx-auto mb-8 flex flex-wrap justify-center ${isRtl ? "flex-row-reverse" : ""}`}
+            >
               <TabsTrigger value="all" className="flex-grow">
                 {language === "ar" ? "الكل" : "All"}
               </TabsTrigger>
@@ -129,6 +138,7 @@ export default function AwarenessSection() {
   )
 }
 
+// ALL NEWS CONTENT - Shows preview and "View All News" button
 function AllNewsContent() {
   const { language } = useLanguage()
   const [allNews, setAllNews] = useState<any[]>([])
@@ -137,9 +147,16 @@ function AllNewsContent() {
   useEffect(() => {
     const load = async () => {
       setLoading(true)
-      const data = await container.services.news.getNewsByCategory(null, 1, 6)
-      setAllNews(data)
-      setLoading(false)
+      try {
+        // Get first 6 news items for preview
+        const data = await container.services.news.getNewsByCategory(null, 1, 6)
+        setAllNews(data)
+      } catch (error) {
+        console.error("Error fetching all news:", error)
+        setAllNews([])
+      } finally {
+        setLoading(false)
+      }
     }
     load()
   }, [])
@@ -166,7 +183,10 @@ function AllNewsContent() {
         <NewsCard key={item.id} item={item} index={idx} />
       ))}
       <div className="col-span-full flex justify-center mt-6">
-        <Link href="/news" className="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-md">
+        <Link
+          href="/news"
+          className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-md font-medium transition-colors"
+        >
           {language === "ar" ? "عرض جميع الأخبار" : "View All News"}
         </Link>
       </div>
@@ -174,9 +194,22 @@ function AllNewsContent() {
   )
 }
 
+// CATEGORY NEWS CONTENT - Shows preview and "View All [Category] News" button
 function CategoryNewsContent({ categoryId, categoryName }: { categoryId: string; categoryName: string }) {
   const { language } = useLanguage()
   const { news, loading } = useNewsByCategory(categoryId, 1, 6)
+
+  // Get URL-friendly category name
+  const getCategoryUrl = (catId: string, catName: string) => {
+    // First try predefined mapping
+    if (categoryUrlMap[catId]) {
+      return categoryUrlMap[catId]
+    }
+    // Fallback to slugified name
+    return slugify(catName)
+  }
+
+  const categoryUrl = getCategoryUrl(categoryId, categoryName)
 
   if (loading) {
     return (
@@ -201,12 +234,10 @@ function CategoryNewsContent({ categoryId, categoryName }: { categoryId: string;
       ))}
       <div className="col-span-full flex justify-center mt-6">
         <Link
-          href={`/news/category/${categoryId}`}
-          className="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-md"
+          href={`/news/category/${categoryUrl}`}
+          className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-md font-medium transition-colors"
         >
-          {language === "ar"
-            ? `عرض جميع أخبار ${categoryName}`
-            : `View All ${categoryName} News`}
+          {language === "ar" ? `عرض جميع أخبار ${categoryName}` : `View All ${categoryName} News`}
         </Link>
       </div>
     </div>
@@ -230,22 +261,17 @@ function AwarenessCard({ item, index }: AwarenessCardProps) {
       <Link href={`/awareness/${item.id}`}>
         <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:border-primary/50 cursor-pointer">
           <div className="relative h-48">
-            <Image
-              src={item.imageUrl || "/placeholder.svg"}
-              alt={item.title[language]}
-              fill
-              className="object-cover"
-            />
+            <Image src={item.imageUrl || "/placeholder.svg"} alt={item.title[language]} fill className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-            <div className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} bg-primary text-white text-xs px-2 py-1 rounded`}>
+            <div
+              className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} bg-primary text-white text-xs px-2 py-1 rounded`}
+            >
               {new Date(item.date).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
             </div>
           </div>
           <CardContent className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
             <h3 className="text-lg font-bold mb-2 line-clamp-2">{item.title[language]}</h3>
-            <p className="text-muted-foreground text-sm line-clamp-3">
-              {item.summary[language]}
-            </p>
+            <p className="text-muted-foreground text-sm line-clamp-3">{item.summary[language]}</p>
           </CardContent>
         </Card>
       </Link>
@@ -260,18 +286,29 @@ interface NewsCardProps {
 function NewsCard({ item, index }: NewsCardProps) {
   const { language, isRtl } = useLanguage()
 
-  const getTitle = (i: any) =>
-    language === "ar"
-      ? i.title || i.titleEn || "No title"
-      : i.titleEn || i.title || "No title"
-  const getContent = (i: any) =>
-    language === "ar"
-      ? i.summary || i.summaryEn || i.content || i.contentEn || ""
-      : i.summaryEn || i.summary || i.contentEn || i.content || ""
+  // Get title from API data only
+  const getTitle = (i: any) => (language === "ar" ? i.title || i.titleEn || "" : i.titleEn || i.title || "")
+
+  // ONLY GET SUMMARY - NO FALLBACK TO CONTENT!
+  const getSummary = (i: any) => {
+    if (language === "ar") {
+      return i.summary || i.summaryEn || ""
+    }
+    return i.summaryEn || i.summary || ""
+  }
 
   const newsTitle = getTitle(item)
-  const newsSummary = getContent(item)
+  const newsSummary = getSummary(item) // SUMMARY ONLY!
   const slug = slugify(newsTitle)
+
+  // Don't render if no title
+  if (!newsTitle) {
+    return null
+  }
+
+  // Clean HTML tags and check for valid summary
+  const cleanSummary = newsSummary.replace(/<\/?[^>]+(>|$)/g, "").trim()
+  const hasValidSummary = cleanSummary && cleanSummary !== "string" && cleanSummary.length > 0
 
   return (
     <motion.div
@@ -292,9 +329,7 @@ function NewsCard({ item, index }: NewsCardProps) {
             <div
               className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} bg-primary text-white text-xs px-2 py-1 rounded`}
             >
-              {new Date(item.date || item.createdAt).toLocaleDateString(
-                language === "ar" ? "ar-SA" : "en-US"
-              )}
+              {new Date(item.date || item.createdAt).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
             </div>
           </div>
 
@@ -302,9 +337,8 @@ function NewsCard({ item, index }: NewsCardProps) {
             <h3 className="text-lg font-bold mb-2 line-clamp-2 group-hover:text-primary transition-colors">
               {newsTitle}
             </h3>
-            <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
-              {newsSummary}
-            </p>
+            {/* ALWAYS show summary area - empty string if no summary */}
+            <p className="text-sm text-muted-foreground mb-4 line-clamp-3">{hasValidSummary ? cleanSummary : ""}</p>
             <div className="mt-auto inline-flex items-center text-primary font-medium">
               {language === "ar" ? "اقرأ المزيد" : "Read More"}
               <svg

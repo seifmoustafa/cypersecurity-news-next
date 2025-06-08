@@ -1,6 +1,5 @@
 import type { NewsRepository } from "../../domain/repositories/news-repository"
-import type { News, NewsResponse, LatestNews } from "../../domain/models/news"
-import type { NewsCategory, NewsCategoriesResponse } from "../../domain/models/news-category"
+import type { News, NewsResponse, LatestNews, NewsCategory, NewsCategoriesResponse } from "../../../entities"
 import type { ApiDataSource } from "../sources/api-data-source"
 import { slugify } from "@/lib/utils"
 
@@ -47,13 +46,6 @@ export class NewsRepositoryImpl implements NewsRepository {
       // Get all news
       const allNews = await this.getAllNews()
 
-      // Debug: Log all titles and their slugs
-      allNews.forEach((news) => {
-        const titleSlug = slugify(news.title || "")
-        const titleEnSlug = slugify(news.titleEn || "")
-        console.log(`News ID: ${news.id}, Title slug: ${titleSlug}, TitleEn slug: ${titleEnSlug}`)
-      })
-
       // Find the news item with a matching slug
       const foundNews = allNews.find((news) => {
         const titleSlug = slugify(news.title || "")
@@ -80,17 +72,28 @@ export class NewsRepositoryImpl implements NewsRepository {
     }
   }
 
-  async getNewsByCategory(categoryId: string | null, page = 1, pageSize = 10): Promise<News[]> {
+  async getNewsByCategory(categoryId: string | null, page = 1, pageSize = 100): Promise<News[]> {
     try {
       let endpoint = `/News/byCategory?page=${page}&pageSize=${pageSize}`
-      if (categoryId && categoryId !== "all") {
-        endpoint += `&categoryId=${categoryId}`
+
+      // Only add categoryId if it's not null and not empty
+      if (categoryId && categoryId !== "all" && categoryId.trim() !== "") {
+        console.log(`🔍 Fetching news for specific category ID: "${categoryId}"`)
+        endpoint += `&categoryId=${encodeURIComponent(categoryId)}`
+      } else {
+        console.log("🔍 Fetching ALL news (no category filter)")
       }
 
+      console.log(`📡 API endpoint: ${endpoint}`)
+
       const response = await this.apiDataSource.get<NewsResponse>(endpoint)
-      return this.transformNewsData(response.data)
+      const newsData = this.transformNewsData(response.data)
+
+      console.log(`✅ Successfully fetched ${newsData.length} news items`)
+      return newsData
     } catch (error) {
-      console.error("Error fetching news by category:", error)
+      console.error(`❌ Error fetching news by category "${categoryId}":`, error)
+      // DON'T FALLBACK TO ALL NEWS - Let the error bubble up
       throw error
     }
   }

@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { container } from "../di/container"
-import type { News } from "../domain/models/news"
-import type { NewsCategory } from "../domain/models/news-category"
+import type { News, NewsCategory } from "../../entities"
 
 export function useNews() {
   const [news, setNews] = useState<News[]>([])

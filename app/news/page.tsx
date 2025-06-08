@@ -1,179 +1,180 @@
-"use client";
+"use client"
 
-import MainLayout from "@/components/layouts/main-layout";
-import Image from "next/image";
-import Link from "next/link";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useLanguage } from "@/components/language-provider";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { slugify } from "@/lib/utils";
-import { useNews, useNewsCategories, useNewsByCategory } from "@/core/hooks/use-news";
+import MainLayout from "@/components/layouts/main-layout"
+import Image from "next/image"
+import Link from "next/link"
+import { useLanguage } from "@/components/language-provider"
+import { useEffect, useState } from "react"
+import { container } from "@/core/di/container"
+import { slugify } from "@/lib/utils"
 
 export default function NewsPage() {
-  const { language, isRtl } = useLanguage();
-  const router = useRouter();
-  const { news: allNews, loading: loadingAll } = useNews();
-  const { categories, loading: loadingCats } = useNewsCategories();
+  const { language, isRtl } = useLanguage()
+  const [allNews, setAllNews] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
 
-  // Prefetch category tabs
   useEffect(() => {
-    categories.forEach((cat) => {
-      router.prefetch(`/news/category/${cat.id}`);
-    });
-  }, [categories, router]);
+    const fetchAllNews = async () => {
+      try {
+        setLoading(true)
+        console.log("🔍 Fetching ALL news from API...")
+        // Get ALL news from API only - NO MOCK DATA
+        const data = await container.services.news.getNewsByCategory(null, 1, 100)
+        console.log(`✅ Fetched ${data.length} real news items from API`)
+        setAllNews(data)
+      } catch (error) {
+        console.error("❌ Error fetching all news:", error)
+        setAllNews([])
+      } finally {
+        setLoading(false)
+      }
+    }
 
-  if (loadingAll || loadingCats) {
+    fetchAllNews()
+  }, [])
+
+  if (loading) {
     return (
       <MainLayout>
-        <div className="pt-24 pb-16 flex justify-center">
-          <div className="animate-pulse">Loading...</div>
+        <div className="pt-24 pb-16">
+          <div className="container mx-auto px-4">
+            <div className="mb-12 text-center">
+              <h1 className="text-3xl md:text-4xl font-bold mb-2 text-foreground">
+                {language === "ar" ? "جميع أخبار الأمن السيبراني" : "All Cybersecurity News"}
+              </h1>
+              <p className="text-xl text-foreground/80">
+                {language === "ar"
+                  ? "آخر الأخبار والتطورات في مجال الأمن السيبراني"
+                  : "Latest news and developments in cybersecurity"}
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
+                <div key={i} className="bg-card border rounded-lg overflow-hidden h-[400px] animate-pulse">
+                  <div className="h-48 bg-gray-300 dark:bg-gray-700"></div>
+                  <div className="p-4">
+                    <div className="h-4 bg-gray-300 rounded w-3/4 mb-4"></div>
+                    <div className="h-4 bg-gray-300 rounded w-full mb-2"></div>
+                    <div className="h-4 bg-gray-300 rounded w-2/3"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </MainLayout>
-    );
+    )
   }
 
   return (
     <MainLayout>
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-4">
-          {/* Header */}
-          <header className="mb-12 text-center">
+          <div className="mb-12 text-center">
             <h1 className="text-3xl md:text-4xl font-bold mb-2 text-foreground">
-              {language === "ar" ? "أخبار الأمن السيبراني" : "Cybersecurity News"}
+              {language === "ar" ? "جميع أخبار الأمن السيبراني" : "All Cybersecurity News"}
             </h1>
-            <h2 className="text-xl text-foreground/80">
-              {language === "ar" ? "أخبار الأمن السيبراني" : "Cybersecurity News"}
-            </h2>
-          </header>
+            <p className="text-xl text-foreground/80">
+              {language === "ar"
+                ? "آخر الأخبار والتطورات في مجال الأمن السيبراني"
+                : "Latest news and developments in cybersecurity"}
+            </p>
+            <div className="mt-4 text-sm text-muted-foreground">
+              {language === "ar" ? `${allNews.length} خبر متاح` : `${allNews.length} news articles available`}
+            </div>
+          </div>
 
-          {/* Tabs */}
-          <Tabs defaultValue="all" className="w-full mb-12">
-            <TabsList
-              className={`w-full max-w-4xl mx-auto mb-8 flex flex-wrap justify-center ${
-                isRtl ? "flex-row-reverse" : ""
-              }`}
-            >
-              <TabsTrigger value="all" className="flex-grow">
-                {language === "ar" ? "الكل" : "All"}
-              </TabsTrigger>
-              {categories.map((cat) => (
-                <TabsTrigger key={cat.id} value={cat.id} className="flex-grow">
-                  {language === "ar" ? cat.nameAr : cat.nameEn}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-
-            {/* All News */}
-            <TabsContent value="all">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {allNews.map((item) => (
-                  <NewsCard key={item.id} item={item} />
-                ))}
-              </div>
-            </TabsContent>
-
-            {/* Per-category */}
-            {categories.map((cat) => (
-              <TabsContent key={cat.id} value={cat.id}>
-                <CategoryNewsList categoryId={cat.id} />
-              </TabsContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {allNews.map((item) => (
+              <NewsCard key={item.id} item={item} />
             ))}
-          </Tabs>
+          </div>
+
+          {allNews.length === 0 && !loading && (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground text-lg">
+                {language === "ar" ? "لا توجد أخبار متاحة حالياً" : "No news available at the moment"}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </MainLayout>
-  );
+  )
 }
 
-function CategoryNewsList({ categoryId }: { categoryId: string }) {
-  const { news, loading } = useNewsByCategory(categoryId);
-  if (loading) return <div className="animate-pulse">Loading...</div>;
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {news.map((item) => (
-        <NewsCard key={item.id} item={item} />
-      ))}
-    </div>
-  );
-}
+function NewsCard({ item }: { item: any }) {
+  const { language, isRtl } = useLanguage()
 
-type NewsItem = {
-  id: string;
-  title: string;
-  titleEn: string | null;
-  summary: string | null;
-  summaryEn: string | null;
-  date: string;
-  imageUrl?: string | null;
-  categoryId: string;
-};
+  // Get title based on language - ONLY FROM API DATA
+  const getTitle = (i: any) => {
+    if (language === "ar") {
+      return i?.title || i?.titleEn || ""
+    }
+    return i?.titleEn || i?.title || ""
+  }
 
-function NewsCard({ item }: { item: NewsItem }) {
-  const { language, isRtl } = useLanguage();
+  // Get SUMMARY ONLY (not content) - ONLY FROM API DATA
+  const getSummary = (i: any) => {
+    if (language === "ar") {
+      return i?.summary || i?.summaryEn || ""
+    }
+    return i?.summaryEn || i?.summary || ""
+  }
 
-  // pick localized title & summary
-  const newsTitle =
-    language === "ar" ? item.title : item.titleEn || item.title;
-  const newsSummary =
-    language === "ar" ? item.summary || "" : item.summaryEn || "";
+  const newsTitle = getTitle(item)
+  const newsSummary = getSummary(item) // This will be SUMMARY only
+  const slug = slugify(newsTitle)
+  const date = item?.date ? new Date(item.date) : item?.createdAt ? new Date(item.createdAt) : new Date()
 
-  // slugify the title
-  const slug = slugify(newsTitle);
+  // Don't render if no title
+  if (!newsTitle) {
+    return null
+  }
 
   return (
     <Link href={`/news/${slug}`} className="group">
-      <div className="bg-card border rounded-lg overflow-hidden transition-shadow hover:shadow-lg h-full flex flex-col">
+      <div className="bg-card border rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg h-full flex flex-col">
         <div className="relative h-48 overflow-hidden">
           <Image
-            src={item.imageUrl ?? "/placeholder.svg"}
+            src={item?.imageUrl || "/placeholder.svg"}
             alt={newsTitle}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
           <div
-            className={`absolute top-2 ${
-              isRtl ? "right-2" : "left-2"
-            } bg-primary text-white text-xs px-2 py-1 rounded`}
+            className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} bg-primary text-white text-xs px-2 py-1 rounded`}
           >
-            {new Date(item.date).toLocaleDateString(
-              language === "ar" ? "ar-SA" : "en-US"
-            )}
+            {date.toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
           </div>
         </div>
 
-        <div
-          className={`p-4 flex-1 flex flex-col ${
-            isRtl ? "text-right" : "text-left"
-          }`}
-        >
-          <h3 className="text-lg font-bold mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+        <div className={`p-4 flex-1 flex flex-col ${isRtl ? "text-right" : "text-left"}`}>
+          <h3 className="text-lg font-bold mb-2 line-clamp-2 text-foreground group-hover:text-primary transition-colors">
             {newsTitle}
           </h3>
-          <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
-            {newsSummary}
-          </p>
-          <div className="mt-auto inline-flex items-center text-primary font-medium">
-            {language === "ar" ? "اقرأ المزيد" : "Read More"}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className={`h-4 w-4 ${
-                isRtl ? "mr-1 rotate-180" : "ml-1"
-              }`}
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d={isRtl ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"}
-              />
-            </svg>
+          {newsSummary && <p className="text-sm text-muted-foreground mb-4 line-clamp-3">{newsSummary}</p>}
+          <div className="mt-auto">
+            <span className="text-primary font-medium inline-flex items-center">
+              {language === "ar" ? "اقرأ المزيد" : "Read More"}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={`h-4 w-4 ${isRtl ? "mr-1 rotate-180" : "ml-1"}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d={isRtl ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"}
+                />
+              </svg>
+            </span>
           </div>
         </div>
       </div>
     </Link>
-  );
+  )
 }

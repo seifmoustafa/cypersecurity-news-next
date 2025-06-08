@@ -9,6 +9,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useLatestNews } from "@/core/hooks/use-news"
 import { slugify } from "@/lib/utils"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export default function NewsCarousel() {
   const { language, t, isRtl } = useLanguage()
@@ -66,7 +67,57 @@ export default function NewsCarousel() {
     }, 5000)
   }
 
-  if (loading || news.length === 0) return null
+  // Show skeleton while loading
+  if (loading) {
+    return (
+      <div className="relative w-full overflow-hidden bg-gray-100 dark:bg-gray-900">
+        <div className="relative h-[400px] md:h-[500px]">
+          {/* Skeleton for image */}
+          <Skeleton className="absolute inset-0 w-full h-full" />
+
+          {/* Skeleton for content */}
+          <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8">
+            <div className="container mx-auto">
+              <div className={`max-w-3xl ${isRtl ? "mr-0 ml-auto text-right" : "ml-0 mr-auto text-left"}`}>
+                {/* Date skeleton */}
+                <Skeleton className={`mb-2 h-8 w-24 ${isRtl ? "float-right" : "float-left"}`} />
+                <div className="clear-both"></div>
+
+                {/* Title skeleton */}
+                <Skeleton className="h-10 w-full mb-2" />
+                <Skeleton className="h-10 w-3/4 mb-2" />
+
+                {/* Summary skeleton */}
+                <Skeleton className="h-6 w-full mb-2" />
+                <Skeleton className="h-6 w-5/6 mb-4" />
+
+                {/* Button skeleton */}
+                <Skeleton className="h-10 w-32" />
+              </div>
+            </div>
+          </div>
+
+          {/* Skeleton for navigation buttons */}
+          <Skeleton
+            className={`absolute top-1/2 ${isRtl ? "right-4" : "left-4"} -translate-y-1/2 h-10 w-10 rounded-full`}
+          />
+          <Skeleton
+            className={`absolute top-1/2 ${isRtl ? "left-4" : "right-4"} -translate-y-1/2 h-10 w-10 rounded-full`}
+          />
+
+          {/* Skeleton for indicators */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex">
+            {[...Array(5)].map((_, index) => (
+              <Skeleton key={index} className="w-3 h-3 mx-1.5 rounded-full" />
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // If no news after loading, don't show anything
+  if (news.length === 0) return null
 
   // Determine the direction of the slide based on RTL setting
   const slideDirection = isRtl ? -1 : 1
@@ -80,11 +131,18 @@ export default function NewsCarousel() {
       ? currentNews.title || currentNews.titleEn || "News"
       : currentNews.titleEn || currentNews.title || "News"
 
+  // ONLY GET SUMMARY - NO FALLBACK TO CONTENT!
+  const newsSummary =
+    language === "ar"
+      ? currentNews.summary || currentNews.summaryEn || ""
+      : currentNews.summaryEn || currentNews.summary || ""
+
+  // Clean HTML tags and validate summary
+  const cleanSummary = newsSummary.replace(/<\/?[^>]+(>|$)/g, "").trim()
+  const hasValidSummary = cleanSummary && cleanSummary !== "string" && cleanSummary.length > 0
+
   // Create a URL-friendly slug from the title (NO ID!)
   const newsSlug = slugify(newsTitle)
-
-  // Debug the slug
-  console.log(`News carousel slug: ${newsSlug} for title: ${newsTitle}`)
 
   return (
     <div
@@ -130,10 +188,9 @@ export default function NewsCarousel() {
                     </div>
                     <div className="clear-both"></div>
                     <h2 className="text-xl md:text-3xl font-bold mb-2 line-clamp-2">{newsTitle}</h2>
+                    {/* ALWAYS show summary area - empty string if no summary */}
                     <p className="text-sm md:text-base mb-4 line-clamp-2 text-gray-200">
-                      {language === "ar"
-                        ? currentNews.summary || currentNews.summaryEn || ""
-                        : currentNews.summaryEn || currentNews.summary || ""}
+                      {hasValidSummary ? cleanSummary : ""}
                     </p>
                     <Link
                       href={`/news/${newsSlug}`}

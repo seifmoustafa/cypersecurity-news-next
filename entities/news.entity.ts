@@ -32,7 +32,26 @@ export interface LatestNews {
   id: string
   title: string
   titleEn: string | null
+  imageUrl?: string | null
 }
 
-// Re-export from centralized entities
-export * from "../../../entities/news.entity"
+export interface NewsCategory {
+  id: string
+  name: string
+  nameEn: string
+  description?: string
+  descriptionEn?: string
+  isActive: boolean
+  createdAt: string
+  updatedAt: string | null
+}
+
+export interface NewsCategoriesResponse {
+  data: NewsCategory[]
+  pagination: {
+    itemsCount: number
+    pagesCount: number
+    pageSize: number
+    currentPage: number
+  }
+}

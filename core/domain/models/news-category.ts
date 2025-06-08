@@ -16,3 +16,6 @@ export interface NewsCategoriesResponse {
     currentPage: number
   }
 }
+
+// Re-export from centralized entities
+export * from "../../../entities/news.entity"
