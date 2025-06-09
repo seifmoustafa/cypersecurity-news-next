@@ -102,6 +102,7 @@ export default function AwarenessSection() {
                 <CategoryNewsContent
                   categoryId={cat.id}
                   categoryName={language === "ar" ? cat.name || cat.nameEn : cat.nameEn || cat.name}
+                  categoryNameEn={cat.nameEn || cat.name}
                 />
               </TabsContent>
             ))}
@@ -195,21 +196,29 @@ function AllNewsContent() {
 }
 
 // CATEGORY NEWS CONTENT - Shows preview and "View All [Category] News" button
-function CategoryNewsContent({ categoryId, categoryName }: { categoryId: string; categoryName: string }) {
+function CategoryNewsContent({
+  categoryId,
+  categoryName,
+  categoryNameEn,
+}: {
+  categoryId: string
+  categoryName: string
+  categoryNameEn: string
+}) {
   const { language } = useLanguage()
   const { news, loading } = useNewsByCategory(categoryId, 1, 6)
 
-  // Get URL-friendly category name
-  const getCategoryUrl = (catId: string, catName: string) => {
+  // ALWAYS use English name for URL generation (regardless of current language)
+  const getCategoryUrl = (catId: string, catNameEn: string) => {
     // First try predefined mapping
     if (categoryUrlMap[catId]) {
       return categoryUrlMap[catId]
     }
-    // Fallback to slugified name
-    return slugify(catName)
+    // Always use English name for URL slug
+    return slugify(catNameEn)
   }
 
-  const categoryUrl = getCategoryUrl(categoryId, categoryName)
+  const categoryUrl = getCategoryUrl(categoryId, categoryNameEn)
 
   if (loading) {
     return (
@@ -286,23 +295,18 @@ interface NewsCardProps {
 function NewsCard({ item, index }: NewsCardProps) {
   const { language, isRtl } = useLanguage()
 
-  // Get title from API data only
-  const getTitle = (i: any) => (language === "ar" ? i.title || i.titleEn || "" : i.titleEn || i.title || "")
+  // Get title for display based on current language
+  const displayTitle = language === "ar" ? item.title || item.titleEn || "" : item.titleEn || item.title || ""
 
   // ONLY GET SUMMARY - NO FALLBACK TO CONTENT!
-  const getSummary = (i: any) => {
-    if (language === "ar") {
-      return i.summary || i.summaryEn || ""
-    }
-    return i.summaryEn || i.summary || ""
-  }
+  const newsSummary = language === "ar" ? item.summary || item.summaryEn || "" : item.summaryEn || item.summary || ""
 
-  const newsTitle = getTitle(item)
-  const newsSummary = getSummary(item) // SUMMARY ONLY!
-  const slug = slugify(newsTitle)
+  // ALWAYS use English title for URL slug (regardless of current language)
+  const englishTitle = item.titleEn || item.title || ""
+  const slug = slugify(englishTitle)
 
   // Don't render if no title
-  if (!newsTitle) {
+  if (!displayTitle) {
     return null
   }
 
@@ -322,7 +326,7 @@ function NewsCard({ item, index }: NewsCardProps) {
           <div className="relative h-48">
             <Image
               src={item.imageUrl || "/placeholder.svg"}
-              alt={newsTitle}
+              alt={displayTitle}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
@@ -335,7 +339,7 @@ function NewsCard({ item, index }: NewsCardProps) {
 
           <CardContent className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
             <h3 className="text-lg font-bold mb-2 line-clamp-2 group-hover:text-primary transition-colors">
-              {newsTitle}
+              {displayTitle}
             </h3>
             {/* ALWAYS show summary area - empty string if no summary */}
             <p className="text-sm text-muted-foreground mb-4 line-clamp-3">{hasValidSummary ? cleanSummary : ""}</p>

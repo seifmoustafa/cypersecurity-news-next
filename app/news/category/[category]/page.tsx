@@ -9,6 +9,7 @@ import { useParams } from "next/navigation"
 import { Suspense } from "react"
 import { container } from "@/core/di/container"
 import { slugify } from "@/lib/utils"
+import type { News } from "@/entities"
 
 export default function NewsCategoryPage() {
   return (
@@ -32,7 +33,7 @@ function NewsCategoryContent() {
   const params = useParams()
   const categoryUrl = params.category as string
   const { language, isRtl } = useLanguage()
-  const [news, setNews] = useState<any[]>([])
+  const [news, setNews] = useState<News[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [categoryInfo, setCategoryInfo] = useState<any>(null)
@@ -44,7 +45,7 @@ function NewsCategoryContent() {
         setError(null)
         console.log(`🔍 Fetching news for category URL: ${categoryUrl}`)
 
-        // Fetch all available categories from API - NO STATIC DATA
+        // Fetch all available categories from API
         let apiCategories: any[] = []
         try {
           apiCategories = await container.services.news.getNewsCategories()
@@ -56,16 +57,20 @@ function NewsCategoryContent() {
           console.warn(`⚠️ Could not fetch categories from API:`, apiError)
         }
 
-        // Try to find matching category in API data
+        // Try to find matching category in API data - PRIORITIZE ENGLISH NAMES
         let foundCategory = null
         let categoryIdToUse = null
 
         const matchedApiCategory = apiCategories.find((cat: any) => {
-          const nameSlug = slugify(cat.name || cat.nameEn || "")
+          // ALWAYS try to match against English name first
           const nameEnSlug = slugify(cat.nameEn || cat.name || "")
-          const matches = categoryUrl === nameSlug || categoryUrl === nameEnSlug
+          const nameSlug = slugify(cat.name || cat.nameEn || "")
+
+          // Prioritize English name matching
+          const matches = categoryUrl === nameEnSlug || categoryUrl === nameSlug
+
           if (matches) {
-            console.log(`✅ Found matching API category: ${cat.name || cat.nameEn} (ID: ${cat.id})`)
+            console.log(`✅ Found matching API category: ${cat.nameEn || cat.name} (ID: ${cat.id})`)
           }
           return matches
         })
@@ -91,7 +96,7 @@ function NewsCategoryContent() {
         setCategoryInfo(foundCategory)
         console.log(`✅ Using category:`, foundCategory)
 
-        // Fetch news from API only - NO MOCK DATA
+        // Fetch news from API only
         console.log(`📡 Fetching news with category ID: ${categoryIdToUse || "null (all news)"}`)
         try {
           const newsData = await container.services.news.getNewsByCategory(categoryIdToUse, 1, 100)
@@ -192,34 +197,41 @@ function NewsCategoryContent() {
   )
 }
 
-function NewsCard({ item }: { item: any }) {
+function NewsCard({ item }: { item: News }) {
   const { language, isRtl } = useLanguage()
 
-  // Get title from API data only
-  const getTitle = (i: any) => {
+  // Get title for DISPLAY based on language
+  const getDisplayTitle = (i: News) => {
     if (language === "ar") {
       return i?.title || i?.titleEn || ""
     }
     return i?.titleEn || i?.title || ""
   }
 
-  // Get SUMMARY ONLY (not content) from API data
-  const getSummary = (i: any) => {
+  // Get SUMMARY ONLY (not content) for DISPLAY based on language
+  const getDisplaySummary = (i: News) => {
     if (language === "ar") {
       return i?.summary || i?.summaryEn || ""
     }
     return i?.summaryEn || i?.summary || ""
   }
 
-  const newsTitle = getTitle(item)
-  const newsSummary = getSummary(item) // SUMMARY field only
-  const slug = slugify(newsTitle)
+  // ALWAYS use English title for URL slug (regardless of current language)
+  const englishTitle = item?.titleEn || item?.title || ""
+  const slug = slugify(englishTitle)
+
+  const displayTitle = getDisplayTitle(item)
+  const displaySummary = getDisplaySummary(item)
   const date = item?.date ? new Date(item.date) : item?.createdAt ? new Date(item.createdAt) : new Date()
 
   // Don't render if no title
-  if (!newsTitle) {
+  if (!displayTitle) {
     return null
   }
+
+  // Clean HTML tags from summary
+  const cleanSummary = displaySummary.replace(/<\/?[^>]+(>|$)/g, "").trim()
+  const hasValidSummary = cleanSummary && cleanSummary !== "string" && cleanSummary.length > 0
 
   return (
     <Link href={`/news/${slug}`} className="group">
@@ -227,7 +239,7 @@ function NewsCard({ item }: { item: any }) {
         <div className="relative h-48 overflow-hidden">
           <Image
             src={item?.imageUrl || "/placeholder.svg"}
-            alt={newsTitle}
+            alt={displayTitle}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
@@ -240,9 +252,9 @@ function NewsCard({ item }: { item: any }) {
 
         <div className={`p-4 flex-1 flex flex-col ${isRtl ? "text-right" : "text-left"}`}>
           <h3 className="text-lg font-bold mb-2 line-clamp-2 text-foreground group-hover:text-primary transition-colors">
-            {newsTitle}
+            {displayTitle}
           </h3>
-          {newsSummary && <p className="text-sm text-muted-foreground mb-4 line-clamp-3">{newsSummary}</p>}
+          <p className="text-sm text-muted-foreground mb-4 line-clamp-3">{hasValidSummary ? cleanSummary : ""}</p>
           <div className="mt-auto">
             <span className="text-primary font-medium inline-flex items-center">
               {language === "ar" ? "اقرأ المزيد" : "Read More"}

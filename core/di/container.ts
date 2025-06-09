@@ -30,13 +30,13 @@ const mockDataSource = new MockDataSource()
 const apiDataSource = new ApiDataSource()
 
 // Create repositories
-const newsRepository = new NewsRepositoryImpl(apiDataSource) // Now uses API
+const newsRepository = new NewsRepositoryImpl(apiDataSource)
 const standardsRepository = new StandardsRepositoryImpl(mockDataSource)
 const instructionsRepository = new InstructionsRepositoryImpl(mockDataSource)
 const definitionsRepository = new DefinitionsRepositoryImpl(mockDataSource)
 const systemsRepository = new SystemsRepositoryImpl(mockDataSource)
 const tickerRepository = new TickerRepositoryImpl(apiDataSource)
-const tipsRepository = new TipsRepositoryImpl(mockDataSource)
+const tipsRepository = new TipsRepositoryImpl(apiDataSource) // Now uses API
 const mediaRepository = new MediaRepositoryImpl(mockDataSource)
 const regulationsRepository = new RegulationsRepositoryImpl(mockDataSource)
 const lawsRepository = new LawsRepositoryImpl(mockDataSource)

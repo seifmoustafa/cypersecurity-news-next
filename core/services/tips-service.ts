@@ -1,5 +1,5 @@
 import type { TipsRepository } from "../domain/repositories/tips-repository"
-import type { Tip } from "../domain/models/tip"
+import type { Tip } from "@/entities"
 
 export class TipsService {
   private repository: TipsRepository
@@ -8,11 +8,12 @@ export class TipsService {
     this.repository = repository
   }
 
-  async getAllTips(): Promise<Tip[]> {
-    return this.repository.getAllTips()
-  }
-
   async getRandomTip(): Promise<Tip> {
-    return this.repository.getRandomTip()
+    try {
+      return await this.repository.getRandomTip()
+    } catch (error) {
+      console.error("Error in TipsService.getRandomTip:", error)
+      throw error
+    }
   }
 }

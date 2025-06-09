@@ -7,10 +7,11 @@ import { useLanguage } from "@/components/language-provider"
 import { useEffect, useState } from "react"
 import { container } from "@/core/di/container"
 import { slugify } from "@/lib/utils"
+import type { News } from "@/entities"
 
 export default function NewsPage() {
   const { language, isRtl } = useLanguage()
-  const [allNews, setAllNews] = useState<any[]>([])
+  const [allNews, setAllNews] = useState<News[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -18,7 +19,6 @@ export default function NewsPage() {
       try {
         setLoading(true)
         console.log("🔍 Fetching ALL news from API...")
-        // Get ALL news from API only - NO MOCK DATA
         const data = await container.services.news.getNewsByCategory(null, 1, 100)
         console.log(`✅ Fetched ${data.length} real news items from API`)
         setAllNews(data)
@@ -103,34 +103,41 @@ export default function NewsPage() {
   )
 }
 
-function NewsCard({ item }: { item: any }) {
+function NewsCard({ item }: { item: News }) {
   const { language, isRtl } = useLanguage()
 
-  // Get title based on language - ONLY FROM API DATA
-  const getTitle = (i: any) => {
+  // Get title for DISPLAY based on language
+  const getDisplayTitle = (i: News) => {
     if (language === "ar") {
       return i?.title || i?.titleEn || ""
     }
     return i?.titleEn || i?.title || ""
   }
 
-  // Get SUMMARY ONLY (not content) - ONLY FROM API DATA
-  const getSummary = (i: any) => {
+  // Get SUMMARY ONLY (not content) for DISPLAY based on language
+  const getDisplaySummary = (i: News) => {
     if (language === "ar") {
       return i?.summary || i?.summaryEn || ""
     }
     return i?.summaryEn || i?.summary || ""
   }
 
-  const newsTitle = getTitle(item)
-  const newsSummary = getSummary(item) // This will be SUMMARY only
-  const slug = slugify(newsTitle)
+  // ALWAYS use English title for URL slug (regardless of current language)
+  const englishTitle = item?.titleEn || item?.title || ""
+  const slug = slugify(englishTitle)
+
+  const displayTitle = getDisplayTitle(item)
+  const displaySummary = getDisplaySummary(item)
   const date = item?.date ? new Date(item.date) : item?.createdAt ? new Date(item.createdAt) : new Date()
 
   // Don't render if no title
-  if (!newsTitle) {
+  if (!displayTitle) {
     return null
   }
+
+  // Clean HTML tags from summary
+  const cleanSummary = displaySummary.replace(/<\/?[^>]+(>|$)/g, "").trim()
+  const hasValidSummary = cleanSummary && cleanSummary !== "string" && cleanSummary.length > 0
 
   return (
     <Link href={`/news/${slug}`} className="group">
@@ -138,7 +145,7 @@ function NewsCard({ item }: { item: any }) {
         <div className="relative h-48 overflow-hidden">
           <Image
             src={item?.imageUrl || "/placeholder.svg"}
-            alt={newsTitle}
+            alt={displayTitle}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
@@ -151,9 +158,9 @@ function NewsCard({ item }: { item: any }) {
 
         <div className={`p-4 flex-1 flex flex-col ${isRtl ? "text-right" : "text-left"}`}>
           <h3 className="text-lg font-bold mb-2 line-clamp-2 text-foreground group-hover:text-primary transition-colors">
-            {newsTitle}
+            {displayTitle}
           </h3>
-          {newsSummary && <p className="text-sm text-muted-foreground mb-4 line-clamp-3">{newsSummary}</p>}
+          <p className="text-sm text-muted-foreground mb-4 line-clamp-3">{hasValidSummary ? cleanSummary : ""}</p>
           <div className="mt-auto">
             <span className="text-primary font-medium inline-flex items-center">
               {language === "ar" ? "اقرأ المزيد" : "Read More"}

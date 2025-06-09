@@ -49,8 +49,8 @@ export default function NewsCard({
   const [open, setOpen] = useState(false)
   const { language, isRtl } = useLanguage()
 
-  // Get title from API data only
-  const newsTitle = language === "ar" ? title || titleEn || "" : titleEn || title || ""
+  // Get title for display based on current language
+  const displayTitle = language === "ar" ? title || titleEn || "" : titleEn || title || ""
 
   // ONLY GET SUMMARY - NO FALLBACK TO CONTENT OR SUBTITLE!
   const newsSummary = language === "ar" ? summary || summaryEn || "" : summaryEn || summary || ""
@@ -58,11 +58,12 @@ export default function NewsCard({
   // Get full content for dialog (can use content if summary not available)
   const fullContent = language === "ar" ? fullDescription || summary || "" : fullDescription || summaryEn || ""
 
-  // Create URL-friendly slug from the title
-  const newsSlug = slugify(newsTitle)
+  // ALWAYS use English title for URL slug (regardless of current language)
+  const englishTitle = titleEn || title || ""
+  const newsSlug = slugify(englishTitle)
 
   // Don't render if no title
-  if (!newsTitle) {
+  if (!displayTitle) {
     return null
   }
 
@@ -88,13 +89,13 @@ export default function NewsCard({
           <div className="h-48 relative overflow-hidden">
             <Image
               src={imageUrl || "/placeholder.svg"}
-              alt={newsTitle}
+              alt={displayTitle}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-110"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
             <div className="absolute bottom-0 left-0 right-0 p-4">
-              <h3 className="text-white font-bold text-lg line-clamp-1">{newsTitle}</h3>
+              <h3 className="text-white font-bold text-lg line-clamp-1">{displayTitle}</h3>
             </div>
           </div>
           <CardContent className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
@@ -122,7 +123,9 @@ export default function NewsCard({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-3xl bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-gray-950 border border-blue-100 dark:border-blue-900/30">
           <DialogHeader>
-            <DialogTitle className={`text-xl font-bold ${isRtl ? "text-right" : "text-left"}`}>{newsTitle}</DialogTitle>
+            <DialogTitle className={`text-xl font-bold ${isRtl ? "text-right" : "text-left"}`}>
+              {displayTitle}
+            </DialogTitle>
             {hasValidSummary && (
               <DialogDescription className={isRtl ? "text-right" : "text-left"}>{cleanSummary}</DialogDescription>
             )}
@@ -130,7 +133,7 @@ export default function NewsCard({
 
           {imageUrl && (
             <div className="relative w-full h-64 my-4 rounded-lg overflow-hidden">
-              <Image src={imageUrl || "/placeholder.svg"} alt={newsTitle} fill className="object-cover" />
+              <Image src={imageUrl || "/placeholder.svg"} alt={displayTitle} fill className="object-cover" />
             </div>
           )}
 

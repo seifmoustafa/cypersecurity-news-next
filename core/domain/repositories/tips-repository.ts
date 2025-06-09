@@ -1,6 +1,5 @@
-import type { Tip } from "../models/tip"
+import type { Tip } from "@/entities"
 
 export interface TipsRepository {
-  getAllTips(): Promise<Tip[]>
   getRandomTip(): Promise<Tip>
 }

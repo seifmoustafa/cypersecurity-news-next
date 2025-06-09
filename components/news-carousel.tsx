@@ -125,11 +125,15 @@ export default function NewsCarousel() {
   // Get the current news item
   const currentNews = news[currentIndex]
 
-  // Get the title for the current language with fallback
-  const newsTitle =
+  // Get the title for DISPLAY (based on current language)
+  const displayTitle =
     language === "ar"
       ? currentNews.title || currentNews.titleEn || "News"
       : currentNews.titleEn || currentNews.title || "News"
+
+  // ALWAYS use English title for URL slug (regardless of current language)
+  const englishTitle = currentNews.titleEn || currentNews.title || "news"
+  const newsSlug = slugify(englishTitle)
 
   // ONLY GET SUMMARY - NO FALLBACK TO CONTENT!
   const newsSummary =
@@ -141,8 +145,11 @@ export default function NewsCarousel() {
   const cleanSummary = newsSummary.replace(/<\/?[^>]+(>|$)/g, "").trim()
   const hasValidSummary = cleanSummary && cleanSummary !== "string" && cleanSummary.length > 0
 
-  // Create a URL-friendly slug from the title (NO ID!)
-  const newsSlug = slugify(newsTitle)
+  // Debug logging
+  console.log(`🔍 News Carousel - Language: ${language}`)
+  console.log(`📰 Display Title: ${displayTitle}`)
+  console.log(`🔗 English Title for URL: ${englishTitle}`)
+  console.log(`🌐 Generated Slug: ${newsSlug}`)
 
   return (
     <div
@@ -166,7 +173,7 @@ export default function NewsCarousel() {
               {/* Image */}
               <Image
                 src={currentNews.imageUrl || "/placeholder.svg"}
-                alt={newsTitle}
+                alt={displayTitle}
                 fill
                 className="object-cover"
                 priority
@@ -187,7 +194,7 @@ export default function NewsCarousel() {
                       {new Date(currentNews.date).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
                     </div>
                     <div className="clear-both"></div>
-                    <h2 className="text-xl md:text-3xl font-bold mb-2 line-clamp-2">{newsTitle}</h2>
+                    <h2 className="text-xl md:text-3xl font-bold mb-2 line-clamp-2">{displayTitle}</h2>
                     {/* ALWAYS show summary area - empty string if no summary */}
                     <p className="text-sm md:text-base mb-4 line-clamp-2 text-gray-200">
                       {hasValidSummary ? cleanSummary : ""}
