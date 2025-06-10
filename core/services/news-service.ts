@@ -19,9 +19,16 @@ export class NewsService {
 
   async getNewsById(id: string): Promise<News | null> {
     try {
-      return await this.repository.getNewsById(id)
+      console.log(`NewsService: Fetching news by ID ${id}`)
+      const news = await this.repository.getNewsById(id)
+      if (news) {
+        console.log(`NewsService: Successfully retrieved news with ID ${id}`)
+      } else {
+        console.warn(`NewsService: No news found with ID ${id}`)
+      }
+      return news
     } catch (error) {
-      console.error("NewsService: Error getting news by ID:", error)
+      console.error(`NewsService: Error getting news by ID ${id}:`, error)
       return null
     }
   }

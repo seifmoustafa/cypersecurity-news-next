@@ -27,8 +27,8 @@ export default function NewsDetailPage() {
         setError(null)
         console.log(`🔍 Fetching news detail for slug: ${slug}`)
 
-        // Get all news and find the one with matching slug
-        const allNews = await container.services.news.getNewsByCategory(null, 1, 100)
+        // Get all news and find the one with matching slug to get its ID
+        const allNews = await container.services.news.getAllNews()
         console.log(`📡 Fetched ${allNews.length} news items to search`)
 
         // Find news by matching slug (ALWAYS use English title for slug matching)
@@ -37,13 +37,20 @@ export default function NewsDetailPage() {
           const itemSlug = slugify(englishTitle)
           const matches = itemSlug === slug
           if (matches) {
-            console.log(`✅ Found matching news: ${englishTitle} (slug: ${itemSlug})`)
+            console.log(`✅ Found matching news: ${englishTitle} (slug: ${itemSlug}, id: ${item.id})`)
           }
           return matches
         })
 
         if (foundNews) {
-          setNews(foundNews)
+          // Use getNewsById to get the full details
+          console.log(`📡 Fetching detailed news by ID: ${foundNews.id}`)
+          const newsDetail = await container.services.news.getNewsById(foundNews.id)
+          if (newsDetail) {
+            setNews(newsDetail)
+          } else {
+            setError("Failed to load news content")
+          }
         } else {
           console.log(`❌ No news found for slug: ${slug}`)
           setError("News article not found")
@@ -195,17 +202,8 @@ export default function NewsDetailPage() {
 
             {/* Article content */}
             <div className="prose prose-lg max-w-none dark:prose-invert">
-              {cleanContent ? (
-                <div className="whitespace-pre-line text-foreground leading-relaxed">
-                  {cleanContent.split("\n").map(
-                    (paragraph, index) =>
-                      paragraph.trim() && (
-                        <p key={index} className="mb-4">
-                          {paragraph.trim()}
-                        </p>
-                      ),
-                  )}
-                </div>
+              {newsContent ? (
+                <div className="text-foreground leading-relaxed" dangerouslySetInnerHTML={{ __html: newsContent }} />
               ) : (
                 <p className="text-muted-foreground italic">
                   {language === "ar" ? "لا يوجد محتوى متاح لهذا المقال" : "No content available for this article"}

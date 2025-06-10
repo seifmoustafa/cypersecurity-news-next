@@ -30,11 +30,22 @@ export class NewsRepositoryImpl implements NewsRepository {
 
   async getNewsById(id: string): Promise<News | null> {
     try {
+      console.log(`📡 Fetching news by ID: ${id}`)
+      // First try to use cache if available
+      if (this.newsCache) {
+        const cachedNews = this.newsCache.find((item) => item.id === id)
+        if (cachedNews) {
+          console.log(`✅ Found news with ID ${id} in cache`)
+          return cachedNews
+        }
+      }
+
       // Call the specific API endpoint for a single news item
-      const news = await this.apiDataSource.get<News>(`/News/${id}`)
-      return this.transformNewsItem(news)
+      const newsItem = await this.apiDataSource.get<News>(`/News/${id}`)
+      console.log(`✅ Successfully fetched news with ID ${id} from API`)
+      return this.transformNewsItem(newsItem)
     } catch (error) {
-      console.error("Error fetching news by ID:", error)
+      console.error(`❌ Error fetching news by ID ${id}:`, error)
       return null
     }
   }

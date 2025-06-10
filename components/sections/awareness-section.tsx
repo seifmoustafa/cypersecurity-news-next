@@ -305,6 +305,8 @@ function NewsCard({ item, index }: NewsCardProps) {
   const englishTitle = item.titleEn || item.title || ""
   const slug = slugify(englishTitle)
 
+  console.log(`News card linking to /news/${slug} (ID: ${item.id})`)
+
   // Don't render if no title
   if (!displayTitle) {
     return null
