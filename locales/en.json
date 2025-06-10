@@ -34,7 +34,8 @@
     "cybersecurityRegulation": "Cybersecurity Regulation",
     "documentLibrary": "Document Library",
     "cybersecurityConcepts": "Cybersecurity Concepts",
-    "laws": "Laws and Regulations"
+    "laws": "Laws and Regulations",
+    "helperSystems": "Helper Systems"
   },
   "systems": {
     "title": "Cybersecurity Systems",
@@ -43,7 +44,9 @@
     "operations": "Operations",
     "support": "Support",
     "vulnerabilities": "Vulnerabilities",
-    "visitSystem": "Visit System"
+    "visitSystem": "Visit System",
+    "mainSystems": "Main Systems",
+    "helperSystems": "Helper Systems"
   },
   "regulation": {
     "title": "Cybersecurity Regulation",
@@ -102,6 +105,10 @@
     "subtitle": "Documents, guides, and resources related to cybersecurity",
     "explore": "Explore Library"
   },
+  "helperSystems": {
+    "subtitle": "Download helpful tools and utilities for your cybersecurity needs",
+    "download": "Download"
+  },
   "common": {
     "language": "Change Language",
     "darkMode": "Dark Mode",
@@ -127,7 +134,8 @@
     "safeguards": "Safeguards",
     "techniques": "Techniques",
     "implementation": "Implementation Steps",
-    "more": "More"
+    "more": "More",
+    "retry": "Retry"
   },
   "hero": {
     "title": "Cybersecurity Portal",

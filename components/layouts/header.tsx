@@ -74,9 +74,8 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
     {
       title: "systems",
       items: [
-        { key: "systems.operations", href: "#systems", isScroll: true },
-        { key: "systems.support", href: "#systems", isScroll: true },
-        { key: "systems.vulnerabilities", href: "#systems", isScroll: true },
+        { key: "systems.mainSystems", href: "#systems", isScroll: true },
+        { key: "systems.helperSystems", href: "#helpers", isScroll: true },
       ],
     },
   ]
