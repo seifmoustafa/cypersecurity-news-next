@@ -1,17 +1,18 @@
 import type { Metadata } from "next"
 import RegulationPageClient from "./RegulationPageClient"
 import { notFound } from "next/navigation"
-import { regulationData } from "@/data/regulation-data"
+import { container } from "@/core/di/container"
+import MainLayout from "@/components/layouts/main-layout"
 
 interface RegulationPageProps {
   params: {
-    id: string
+    slug: string
   }
 }
 
 export async function generateMetadata({ params }: RegulationPageProps): Promise<Metadata> {
-  const numericId = Number.parseInt(params.id, 10)
-  const regulation = regulationData.find((reg) => reg.id === numericId)
+  const { slug } = params
+  const regulation = await container.services.regulations.getRegulationBySlug(slug)
 
   if (!regulation) {
     return {
@@ -21,18 +22,22 @@ export async function generateMetadata({ params }: RegulationPageProps): Promise
   }
 
   return {
-    title: `${regulation.title.en} | Cybersecurity Center`,
-    description: regulation.shortDescription.en,
+    title: `${regulation.titleEn} | Cybersecurity Center`,
+    description: regulation.summaryEn,
   }
 }
 
 export default async function RegulationPage({ params }: RegulationPageProps) {
-  const numericId = Number.parseInt(params.id, 10)
-  const regulation = regulationData.find((reg) => reg.id === numericId)
+  const { slug } = params
+  const regulation = await container.services.regulations.getRegulationBySlug(slug)
 
   if (!regulation) {
     notFound()
   }
 
-  return <RegulationPageClient regulation={regulation} />
+  return (
+    <MainLayout>
+      <RegulationPageClient regulationSlug={slug} />
+    </MainLayout>
+  )
 }

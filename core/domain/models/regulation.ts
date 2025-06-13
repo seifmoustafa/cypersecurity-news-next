@@ -1,17 +1,29 @@
 export interface Regulation {
   id: string
-  title: {
-    en: string
-    ar: string
-  }
-  shortDescription: {
-    en: string
-    ar: string
-  }
-  fullDescription: {
-    en: string
-    ar: string
-  }
+  title: string
+  titleEn: string
+  content: string
+  contentEn: string
+  summary: string
+  summaryEn: string
+  issueDate: string
+  effectiveDate: string
+  documentUrl: string
   imageUrl: string
-  documentUrl?: string
+  regulationCategoryId: string
+  categoryName: string
+  categoryNameEn: string
+  isActive: boolean
+  createdAt: string
+  updatedAt: string | null
+}
+
+export interface RegulationsResponse {
+  data: Regulation[]
+  pagination: {
+    itemsCount: number
+    pagesCount: number
+    pageSize: number
+    currentPage: number
+  }
 }

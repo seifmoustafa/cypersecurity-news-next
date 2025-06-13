@@ -89,11 +89,11 @@ export default function Home() {
       <div id="media" className="section-anchor pt-16 -mt-16"></div>
       <MediaLibrarySection />
 
-      <div id="systems" className="section-anchor pt-16 -mt-16"></div>
-      <SystemsSection />
-
       <div id="helpers" className="section-anchor pt-16 -mt-16"></div>
       <HelperSystemsSection />
+
+      <div id="systems" className="section-anchor pt-16 -mt-16"></div>
+      <SystemsSection />
     </MainLayout>
   )
 }

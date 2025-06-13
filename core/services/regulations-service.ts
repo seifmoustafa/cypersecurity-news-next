@@ -1,5 +1,5 @@
 import type { RegulationsRepository } from "../domain/repositories/regulations-repository"
-import type { Regulation } from "../domain/models/regulation"
+import type { Regulation, RegulationsResponse } from "../domain/models/regulation"
 
 export class RegulationsService {
   private repository: RegulationsRepository
@@ -8,11 +8,19 @@ export class RegulationsService {
     this.repository = repository
   }
 
-  async getAllRegulations(): Promise<Regulation[]> {
-    return this.repository.getAllRegulations()
+  async getAllRegulations(page?: number, pageSize?: number): Promise<RegulationsResponse> {
+    return this.repository.getAllRegulations(page, pageSize)
+  }
+
+  async getRegulationsByCategory(categoryId: string, page?: number, pageSize?: number): Promise<RegulationsResponse> {
+    return this.repository.getRegulationsByCategory(categoryId, page, pageSize)
   }
 
   async getRegulationById(id: string): Promise<Regulation | null> {
     return this.repository.getRegulationById(id)
+  }
+
+  async getRegulationBySlug(slug: string): Promise<Regulation | null> {
+    return this.repository.getRegulationBySlug(slug)
   }
 }
