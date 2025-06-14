@@ -12,6 +12,7 @@ import { RegulationCategoriesRepositoryImpl } from "../data/repositories/regulat
 import { RegulationsRepositoryImpl } from "../data/repositories/regulations-repository-impl"
 import { InstructionCategoriesRepositoryImpl } from "../data/repositories/instruction-categories-repository-impl"
 import { InstructionYearsRepositoryImpl } from "../data/repositories/instruction-years-repository-impl"
+import { InstructionsRepositoryImpl } from "../data/repositories/instructions-repository-impl"
 
 import { NewsService } from "../services/news-service"
 import { StandardsService } from "../services/standards-service"
@@ -27,6 +28,7 @@ import { RegulationCategoriesService } from "../services/regulation-categories-s
 import { RegulationsService } from "../services/regulations-service"
 import { InstructionCategoriesService } from "../services/instruction-categories-service"
 import { InstructionYearsService } from "../services/instruction-years-service"
+import { InstructionsService } from "../services/instructions-service"
 
 import { MockDataSource } from "../data/sources/mock-data-source"
 import { ApiDataSource } from "../data/sources/api-data-source"
@@ -38,7 +40,7 @@ const apiDataSource = new ApiDataSource()
 // Create repositories
 const newsRepository = new NewsRepositoryImpl(apiDataSource)
 const standardsRepository = new StandardsRepositoryImpl(mockDataSource)
-const instructionsRepository = null // Removed
+const instructionsRepository = new InstructionsRepositoryImpl(apiDataSource)
 const definitionsRepository = new DefinitionsRepositoryImpl(mockDataSource)
 const systemsRepository = new SystemsRepositoryImpl(mockDataSource)
 const tickerRepository = new TickerRepositoryImpl(apiDataSource)
@@ -55,7 +57,7 @@ const instructionYearsRepository = new InstructionYearsRepositoryImpl(apiDataSou
 // Create services
 const newsService = new NewsService(newsRepository)
 const standardsService = new StandardsService(standardsRepository)
-const instructionsService = null // Removed
+const instructionsService = new InstructionsService(instructionsRepository)
 const definitionsService = new DefinitionsService(definitionsRepository)
 const systemsService = new SystemsService(systemsRepository)
 const tickerService = new TickerService(tickerRepository)
@@ -86,5 +88,6 @@ export const container = {
     regulations: regulationsService,
     instructionCategories: instructionCategoriesService,
     instructionYears: instructionYearsService,
+    instructions: instructionsService,
   },
 }

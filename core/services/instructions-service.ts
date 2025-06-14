@@ -1,5 +1,5 @@
 import type { InstructionsRepository } from "../domain/repositories/instructions-repository"
-import type { Instruction } from "../domain/models/instruction"
+import type { Instruction, InstructionsPaginatedResponse } from "../domain/models/instruction"
 
 export class InstructionsService {
   private repository: InstructionsRepository
@@ -26,5 +26,24 @@ export class InstructionsService {
 
   async getYearsByType(type: "group" | "branch"): Promise<string[]> {
     return this.repository.getYearsByType(type)
+  }
+
+  async getInstructionsByYearId(
+    yearId: string,
+    page?: number,
+    pageSize?: number,
+  ): Promise<InstructionsPaginatedResponse> {
+    return this.repository.getInstructionsByYearId(yearId, page, pageSize)
+  }
+
+  async getInstructionById(id: string, forceRefresh = false): Promise<Instruction | null> {
+    return this.repository.getInstructionById(id, forceRefresh)
+  }
+
+  // Add method to clear cache
+  clearCache(): void {
+    if ("clearCache" in this.repository) {
+      ;(this.repository as any).clearCache()
+    }
   }
 }
