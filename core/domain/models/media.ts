@@ -17,6 +17,28 @@ export interface Video extends MediaItem {
   type: "videos"
 }
 
+export interface ApiVideo {
+  id: string
+  nameEn: string
+  nameAr: string
+  summaryEn: string
+  summaryAr: string
+  videoUrl: string
+  isActive: boolean
+  createdAt: string
+  updatedAt: string | null
+}
+
+export interface VideosPaginatedResponse {
+  data: ApiVideo[]
+  pagination: {
+    itemsCount: number
+    pagesCount: number
+    pageSize: number
+    currentPage: number
+  }
+}
+
 export interface Lecture extends MediaItem {
   content: {
     en: string

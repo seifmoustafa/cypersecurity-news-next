@@ -74,7 +74,7 @@ class Container {
       definitions: new DefinitionsService(new DefinitionsRepositoryImpl(this.apiDataSource)),
       laws: new LawsService(new LawsRepositoryImpl(this.apiDataSource)),
       framework: new FrameworkService(new FrameworkRepositoryImpl(this.mockDataSource)),
-      media: new MediaService(new MediaRepositoryImpl(this.mockDataSource)),
+      media: new MediaService(new MediaRepositoryImpl(this.apiDataSource)),
       standards: new StandardsService(new StandardsRepositoryImpl(this.apiDataSource)),
       articles: new ArticlesService(new ArticlesRepositoryImpl(this.apiDataSource)),
     }

@@ -1,5 +1,12 @@
 import type { MediaRepository } from "@/core/domain/repositories/media-repository"
-import type { MediaItem, Video, Lecture, Presentation } from "@/core/domain/models/media"
+import type {
+  MediaItem,
+  Video,
+  Lecture,
+  Presentation,
+  ApiVideo,
+  VideosPaginatedResponse,
+} from "@/core/domain/models/media"
 
 export class MediaService {
   constructor(private mediaRepository: MediaRepository) {}
@@ -30,5 +37,17 @@ export class MediaService {
       throw new Error(`Presentation with id ${id} not found`)
     }
     return presentation
+  }
+
+  async getVideos(page = 1, pageSize = 10, search?: string): Promise<VideosPaginatedResponse> {
+    return this.mediaRepository.getVideos(page, pageSize, search)
+  }
+
+  async getApiVideoById(id: string): Promise<ApiVideo> {
+    const video = await this.mediaRepository.getApiVideoById(id)
+    if (!video) {
+      throw new Error(`Video with id ${id} not found`)
+    }
+    return video
   }
 }
