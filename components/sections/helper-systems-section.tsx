@@ -6,15 +6,16 @@ import SectionHeader from "@/components/ui/section-header"
 import SectionContainer from "@/components/ui/section-container"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Download, AlertCircle } from "lucide-react"
+import { Download, AlertCircle, ArrowLeft, ArrowRight } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import Image from "next/image"
+import Link from "next/link"
 import { useHelperSystems } from "@/core/hooks/use-helper-systems"
 import type { HelperSystem } from "@/core/domain/models/helper-system"
 
 export default function HelperSystemsSection() {
   const { t, isRtl } = useLanguage()
-  const { helperSystems, loading, error, refetch } = useHelperSystems(1, 10)
+  const { helperSystems, loading, error, refetch } = useHelperSystems(1, 6) // Show first 6 helper systems
 
   if (error) {
     return (
@@ -68,6 +69,24 @@ export default function HelperSystemsSection() {
           <p className="text-muted-foreground">{t("common.noResults")}</p>
         </div>
       )}
+
+      {/* View All Helper Systems Button */}
+      <div className="flex justify-center mt-12">
+        <Link href="/helper-systems">
+          <Button
+            variant="outline"
+            size="lg"
+            className="group border-blue-300 dark:border-blue-700 hover:border-blue-500 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all duration-300"
+          >
+            <span className={`${isRtl ? "ml-2" : "mr-2"}`}>{t("helperSystems.viewAll")}</span>
+            {isRtl ? (
+              <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+            ) : (
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            )}
+          </Button>
+        </Link>
+      </div>
     </SectionContainer>
   )
 }

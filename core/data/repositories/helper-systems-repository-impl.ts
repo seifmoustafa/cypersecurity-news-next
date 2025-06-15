@@ -15,20 +15,29 @@ export class HelperSystemsRepositoryImpl implements HelperSystemsRepository {
     this.baseImageUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.replace("/api", "") || ""
   }
 
-  async getHelperSystems(page = 1, pageSize = 10): Promise<HelperSystemsResponse> {
-    const cacheKey = `helper-systems-${page}-${pageSize}`
+  async getHelperSystems(page = 1, pageSize = 10, search?: string): Promise<HelperSystemsResponse> {
+    const cacheKey = `helper-systems-${page}-${pageSize}-${search || ""}`
 
     // Try to get from cache first
     if (this.cache.has(cacheKey) && this.cacheExpiry.get(cacheKey)! > Date.now()) {
-      console.log(`📋 Using cached helper systems for page ${page}`)
+      console.log(`📋 Using cached helper systems for page ${page}, search: ${search}`)
       return this.cache.get(cacheKey)
     }
 
     try {
-      console.log(`🔍 Fetching helper systems from API - page: ${page}, pageSize: ${pageSize}`)
-      const response = await this.dataSource.get<HelperSystemsResponse>(
-        `/HelperSystems?page=${page}&pageSize=${pageSize}`,
-      )
+      console.log(`🔍 Fetching helper systems from API - page: ${page}, pageSize: ${pageSize}, search: ${search}`)
+
+      // Build query parameters
+      const params = new URLSearchParams({
+        page: page.toString(),
+        pageSize: pageSize.toString(),
+      })
+
+      if (search && search.trim()) {
+        params.append("search", search.trim())
+      }
+
+      const response = await this.dataSource.get<HelperSystemsResponse>(`/HelperSystems?${params.toString()}`)
 
       console.log(`📦 Raw API response:`, response)
 

@@ -193,7 +193,7 @@ export const awarenessData = {
         en: "IoT Security: Challenges and Solutions",
       },
       summary: {
-        ar: "استكشاف التحديات الأمنية لأجهزة إنترنت الأشياء والحلول المقترحة لحمايتها",
+        ar: "استكشاف التحديات الأمنية لأجه��ة إنترنت الأشياء والحلول المقترحة لحمايتها",
         en: "Exploring the security challenges of IoT devices and proposed solutions to protect them",
       },
       content: {

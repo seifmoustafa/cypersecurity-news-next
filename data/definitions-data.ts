@@ -18,7 +18,7 @@ export const definitionsData = {
         en: "Cyberspace",
       },
       definition: {
-        ar: "البيئة الافتراضية التي تتصل فيها شبكات الحاسوب وأنظمة المعلومات والبنى التحتية الرقمية، وتتفاعل فيها الأشخاص والبرمجيات والخدمات.",
+        ar: "البيئة الافتراضية التي تتصل فيها شبكات الحاسوب وأنظمة الم��لومات والبنى التحتية الرقمية، وتتفاعل فيها الأشخاص والبرمجيات والخدمات.",
         en: "The environment formed by physical and non-physical components to store, modify, and exchange data using computer networks.",
       },
     },

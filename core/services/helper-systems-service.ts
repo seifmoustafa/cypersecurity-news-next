@@ -8,11 +8,13 @@ export class HelperSystemsService {
     this.repository = repository
   }
 
-  async getHelperSystems(page?: number, pageSize?: number): Promise<HelperSystemsResponse> {
-    console.log(`🔄 HelperSystemsService: Getting helper systems - page: ${page}, pageSize: ${pageSize}`)
+  async getHelperSystems(page?: number, pageSize?: number, search?: string): Promise<HelperSystemsResponse> {
+    console.log(
+      `🔄 HelperSystemsService: Getting helper systems - page: ${page}, pageSize: ${pageSize}, search: ${search}`,
+    )
 
     try {
-      const result = await this.repository.getHelperSystems(page, pageSize)
+      const result = await this.repository.getHelperSystems(page, pageSize, search)
       console.log(`✅ HelperSystemsService: Successfully retrieved ${result.data.length} helper systems`)
       return result
     } catch (error) {

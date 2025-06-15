@@ -69,7 +69,7 @@ class Container {
       instructions: new InstructionsService(new InstructionsRepositoryImpl(this.apiDataSource)),
       ticker: new TickerService(new TickerRepositoryImpl(this.apiDataSource)),
       tips: new TipsService(new TipsRepositoryImpl(this.apiDataSource)),
-      systems: new SystemsService(new SystemsRepositoryImpl(this.mockDataSource)),
+      systems: new SystemsService(new SystemsRepositoryImpl(this.apiDataSource)),
       helperSystems: new HelperSystemsService(new HelperSystemsRepositoryImpl(this.apiDataSource)),
       definitions: new DefinitionsService(new DefinitionsRepositoryImpl(this.apiDataSource)),
       laws: new LawsService(new LawsRepositoryImpl(this.apiDataSource)),

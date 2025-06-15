@@ -1,8 +1,15 @@
 export class ApiDataSource {
   private baseUrl: string
+  private baseImageUrl: string
 
   constructor() {
     this.baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || ""
+    // Remove /api from the base URL for images
+    this.baseImageUrl = this.baseUrl.replace("/api", "")
+  }
+
+  getBaseImageUrl(): string {
+    return this.baseImageUrl
   }
 
   async get<T>(endpoint: string): Promise<T> {
