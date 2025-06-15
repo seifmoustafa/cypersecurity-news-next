@@ -29,6 +29,13 @@ export default function NewsTicker() {
     const fetchTickerItems = async () => {
       try {
         setLoading(true)
+        // Check if container and services are available
+        if (!container?.services?.ticker) {
+          console.warn("Ticker service not available")
+          setTickerItems([])
+          return
+        }
+
         const items = await container.services.ticker.getTickerItems()
         setTickerItems(Array.isArray(items) ? items : [])
       } catch (error) {

@@ -13,7 +13,8 @@ import { container } from "@/core/di/container"
 import type { Definition } from "@/core/domain/models/definition"
 import type { Domain } from "@/core/domain/models/framework"
 import type { StandardCategory, Standard } from "@/core/domain/models/standard"
-import type { Law, LawCategory } from "@/core/domain/models/law"
+import type { Law } from "@/core/domain/models/law"
+import type { LawCategory } from "@/core/domain/models/law-category"
 import Image from "next/image"
 import { slugify } from "@/lib/utils"
 
@@ -65,146 +66,29 @@ export default function CybersecurityConceptsSection() {
         }
         setStandardsByCategory(standardsData)
 
-        // Fetch law categories and laws (mock data for now)
-        const lawCategoriesData = [
-          {
-            id: "presidential-decrees",
-            name: {
-              ar: "القرارات الجمهورية",
-              en: "Presidential Decrees",
-            },
-            description: {
-              ar: "القرارات الجمهورية المتعلقة بالأمن السيبراني",
-              en: "Presidential decrees related to cybersecurity",
-            },
-          },
-          {
-            id: "executive-regulations",
-            name: {
-              ar: "اللوائح التنفيذية",
-              en: "Executive Regulations",
-            },
-            description: {
-              ar: "اللوائح التنفيذية للأمن السيبراني",
-              en: "Cybersecurity executive regulations",
-            },
-          },
-          {
-            id: "policies",
-            name: {
-              ar: "السياسات",
-              en: "Policies",
-            },
-            description: {
-              ar: "سياسات الأمن السيبراني",
-              en: "Cybersecurity policies",
-            },
-          },
-        ]
+        // Fetch law categories and laws from backend
+        try {
+          const lawCategoriesResponse = await container.services.laws.getAllCategories(1, 100)
+          setLawCategories(lawCategoriesResponse.data)
 
-        setLawCategories(lawCategoriesData)
-
-        // Mock laws data by category
-        const lawsData: Record<string, Law[]> = {
-          "presidential-decrees": [
-            {
-              id: "1",
-              title: {
-                ar: "المرسوم الملكي رقم (م/6) بتاريخ 1442/1/8هـ",
-                en: "Royal Decree No. (M/6) dated 8/1/1442 AH",
-              },
-              category: "presidential-decrees",
-              description: {
-                ar: "مرسوم ملكي بشأن تنظيم الهيئة الوطنية للأمن السيبراني",
-                en: "Royal decree regarding the organization of the National Cybersecurity Authority",
-              },
-              content: {
-                ar: "محتوى المرسوم الملكي",
-                en: "Content of the royal decree",
-              },
-              publishDate: "2020-08-28",
-              documentUrl: "https://example.com/royal-decree-m6.pdf",
-            },
-          ],
-          "executive-regulations": [
-            {
-              id: "2",
-              title: {
-                ar: "اللائحة التنفيذية للأمن السيبراني",
-                en: "Cybersecurity Executive Regulation",
-              },
-              category: "executive-regulations",
-              description: {
-                ar: "اللائحة التنفيذية للأمن السيبراني الصادرة عن الهيئة الوطنية للأمن السيبراني",
-                en: "Cybersecurity Executive Regulation issued by the National Cybersecurity Authority",
-              },
-              content: {
-                ar: "محتوى اللائحة التنفيذية",
-                en: "Content of the executive regulation",
-              },
-              publishDate: "2022-03-15",
-              documentUrl: "https://example.com/cybersecurity-executive-regulation.pdf",
-            },
-            {
-              id: "4",
-              title: {
-                ar: "الضوابط الأساسية للأمن السيبراني",
-                en: "Essential Cybersecurity Controls",
-              },
-              category: "executive-regulations",
-              description: {
-                ar: "الضوابط الأساسية للأمن السيبراني الصادرة عن الهيئة الوطنية للأمن السيبراني",
-                en: "Essential Cybersecurity Controls issued by the National Cybersecurity Authority",
-              },
-              content: {
-                ar: "محتوى الضوابط الأساسية",
-                en: "Content of the essential controls",
-              },
-              publishDate: "2022-01-10",
-              documentUrl: "https://example.com/essential-cybersecurity-controls.pdf",
-            },
-          ],
-          policies: [
-            {
-              id: "3",
-              title: {
-                ar: "السياسة الوطنية للأمن السيبراني",
-                en: "National Cybersecurity Policy",
-              },
-              category: "policies",
-              description: {
-                ar: "السياسة الوطنية للأمن السيبراني في المملكة العربية السعودية",
-                en: "National Cybersecurity Policy in the Kingdom of Saudi Arabia",
-              },
-              content: {
-                ar: "محتوى السياسة الوطنية",
-                en: "Content of the national policy",
-              },
-              publishDate: "2021-06-20",
-              documentUrl: "https://example.com/national-cybersecurity-policy.pdf",
-            },
-            {
-              id: "5",
-              title: {
-                ar: "الإطار التنظيمي للأمن السيبراني للأنظمة الحساسة",
-                en: "Regulatory Framework for Cybersecurity of Critical Systems",
-              },
-              category: "policies",
-              description: {
-                ar: "الإطار التنظيمي للأمن السيبراني للأنظمة الحساسة في القطاعات الحيوية",
-                en: "Regulatory Framework for Cybersecurity of Critical Systems in Vital Sectors",
-              },
-              content: {
-                ar: "محتوى الإطار التنظيمي",
-                en: "Content of the regulatory framework",
-              },
-              publishDate: "2021-09-05",
-              documentUrl: "https://example.com/regulatory-framework-critical-systems.pdf",
-            },
-          ],
+          // Fetch laws for each category (first 2 + count remaining)
+          const lawsData: Record<string, Law[]> = {}
+          for (const category of lawCategoriesResponse.data) {
+            try {
+              const categoryLaws = await container.services.laws.getLawsByCategory(category.id, 1, 100)
+              lawsData[category.id] = categoryLaws.data
+            } catch (error) {
+              console.error(`Error fetching laws for category ${category.id}:`, error)
+              lawsData[category.id] = []
+            }
+          }
+          setLaws(lawsData)
+        } catch (error) {
+          console.error("Error fetching laws data:", error)
+          // Set empty data if laws API fails
+          setLawCategories([])
+          setLaws({})
         }
-
-        setLaws(lawsData)
       } catch (error) {
         console.error("Error fetching cybersecurity concepts data:", error)
       } finally {
@@ -361,58 +245,81 @@ export default function CybersecurityConceptsSection() {
 
           {/* Laws Tab Content */}
           <TabsContent value="laws" className="mt-0">
-            <Tabs defaultValue="presidential-decrees" className="w-full">
-              <TabsList
-                className={`w-full max-w-2xl mx-auto mb-8 flex flex-wrap justify-center ${
-                  isRtl ? "flex-row-reverse" : ""
-                }`}
-              >
-                {lawCategories.map((category) => (
-                  <TabsTrigger key={category.id} value={category.id} className="flex-grow">
-                    {category.name[language]}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
+            {lawCategories.length > 0 ? (
+              <Tabs defaultValue={lawCategories[0]?.id || ""} className="w-full">
+                <TabsList
+                  className={`w-full max-w-2xl mx-auto mb-8 flex flex-wrap justify-center ${
+                    isRtl ? "flex-row-reverse" : ""
+                  }`}
+                >
+                  {lawCategories.map((category) => (
+                    <TabsTrigger key={category.id} value={category.id} className="flex-grow">
+                      {language === "ar" ? category.name : category.nameEn}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
 
-              {lawCategories.map((category) => (
-                <TabsContent key={category.id} value={category.id} className="mt-0">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {(isRtl ? [...(laws[category.id] || [])].reverse() : laws[category.id] || []).map((item, index) => (
-                      <Link href={`/laws/${item.id}`} key={item.id}>
-                        <motion.div
-                          initial={{ opacity: 0, y: 30 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true, margin: "-100px" }}
-                          transition={{ duration: 0.5, delay: index * 0.1 }}
-                        >
-                          <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
-                            <CardHeader className="pb-2">
-                              <CardTitle className={`text-xl ${isRtl ? "text-right" : "text-left"}`}>
-                                {item.title[language]}
-                              </CardTitle>
-                            </CardHeader>
-                            <CardContent className={isRtl ? "text-right" : "text-left"}>
-                              <p className="text-muted-foreground line-clamp-4">{item.description[language]}</p>
-                              <p className="text-sm text-primary mt-2">
-                                {new Date(item.publishDate).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
-                              </p>
-                            </CardContent>
-                          </Card>
-                        </motion.div>
+                {lawCategories.map((category) => (
+                  <TabsContent key={category.id} value={category.id} className="mt-0">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {(isRtl ? [...(laws[category.id] || [])].reverse() : laws[category.id] || [])
+                        .slice(0, 6)
+                        .map((item, index) => {
+                          const lawSlug = slugify(item.titleEn || item.title)
+                          return (
+                            <Link href={`/laws/${lawSlug}`} key={item.id}>
+                              <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, margin: "-100px" }}
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                              >
+                                <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                                  <CardHeader className="pb-2">
+                                    <CardTitle className={`text-xl ${isRtl ? "text-right" : "text-left"}`}>
+                                      {language === "ar" ? item.title || item.titleEn : item.titleEn || item.title}
+                                    </CardTitle>
+                                  </CardHeader>
+                                  <CardContent className={isRtl ? "text-right" : "text-left"}>
+                                    <p className="text-muted-foreground line-clamp-4">
+                                      {language === "ar"
+                                        ? item.summary || item.summaryEn
+                                        : item.summaryEn || item.summary}
+                                    </p>
+                                    <p className="text-sm text-primary mt-2">
+                                      {new Date(item.issueDate).toLocaleDateString(
+                                        language === "ar" ? "ar-SA" : "en-US",
+                                      )}
+                                    </p>
+                                  </CardContent>
+                                </Card>
+                              </motion.div>
+                            </Link>
+                          )
+                        })}
+                    </div>
+                    <div className="mt-8 text-center">
+                      <Link
+                        href={`/laws/category/${slugify(category.nameEn || category.name)}`}
+                        className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
+                      >
+                        {t("common.viewAll")} {language === "ar" ? category.name : category.nameEn}
                       </Link>
-                    ))}
-                  </div>
-                  <div className="mt-8 text-center">
-                    <Link
-                      href={`/laws/category/${category.id}`}
-                      className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
-                    >
-                      {t("common.viewAll")} {category.name[language]}
-                    </Link>
-                  </div>
-                </TabsContent>
-              ))}
-            </Tabs>
+                    </div>
+                  </TabsContent>
+                ))}
+              </Tabs>
+            ) : (
+              <div className="text-center py-12">
+                <Scale className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-muted-foreground mb-2">
+                  {language === "ar" ? "لا توجد قوانين متاحة" : "No Laws Available"}
+                </h3>
+                <p className="text-muted-foreground">
+                  {language === "ar" ? "لم يتم العثور على أي قوانين في الوقت الحالي" : "No laws found at the moment"}
+                </p>
+              </div>
+            )}
           </TabsContent>
 
           {/* Framework Tab Content */}

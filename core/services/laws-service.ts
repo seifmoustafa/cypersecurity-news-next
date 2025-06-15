@@ -1,5 +1,6 @@
 import type { LawsRepository } from "../domain/repositories/laws-repository"
-import type { Law, LawCategory } from "../domain/models/law"
+import type { Law, LawsPaginatedResponse } from "../domain/models/law"
+import type { LawCategory, LawCategoriesPaginatedResponse } from "../domain/models/law-category"
 
 export class LawsService {
   private repository: LawsRepository
@@ -8,19 +9,27 @@ export class LawsService {
     this.repository = repository
   }
 
-  async getAllLaws(): Promise<Law[]> {
-    return this.repository.getAllLaws()
+  async getAllCategories(page?: number, pageSize?: number): Promise<LawCategoriesPaginatedResponse> {
+    return await this.repository.getAllCategories(page, pageSize)
   }
 
-  async getLawById(id: string): Promise<Law | null> {
-    return this.repository.getLawById(id)
+  async getCategoryById(id: string): Promise<LawCategory> {
+    return await this.repository.getCategoryById(id)
   }
 
-  async getLawsByCategory(category: string): Promise<Law[]> {
-    return this.repository.getLawsByCategory(category)
+  async getCategoryBySlug(slug: string): Promise<LawCategory | null> {
+    return await this.repository.getCategoryBySlug(slug)
   }
 
-  async getLawCategories(): Promise<LawCategory[]> {
-    return this.repository.getLawCategories()
+  async getLawsByCategory(categoryId: string, page?: number, pageSize?: number): Promise<LawsPaginatedResponse> {
+    return await this.repository.getLawsByCategory(categoryId, page, pageSize)
+  }
+
+  async getLawById(id: string): Promise<Law> {
+    return await this.repository.getLawById(id)
+  }
+
+  async getLawBySlug(slug: string): Promise<Law | null> {
+    return await this.repository.getLawBySlug(slug)
   }
 }
