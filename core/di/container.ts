@@ -1,93 +1,84 @@
+import { ApiDataSource } from "../data/sources/api-data-source"
+import { MockDataSource } from "../data/sources/mock-data-source"
+
+// Repositories
 import { NewsRepositoryImpl } from "../data/repositories/news-repository-impl"
-import { StandardsRepositoryImpl } from "../data/repositories/standards-repository-impl"
-import { DefinitionsRepositoryImpl } from "../data/repositories/definitions-repository-impl"
-import { SystemsRepositoryImpl } from "../data/repositories/systems-repository-impl"
-import { TickerRepositoryImpl } from "../data/repositories/ticker-repository-impl"
-import { TipsRepositoryImpl } from "../data/repositories/tips-repository-impl"
-import { MediaRepositoryImpl } from "../data/repositories/media-repository-impl"
-import { LawsRepositoryImpl } from "../data/repositories/laws-repository-impl"
-import { FrameworkRepositoryImpl } from "../data/repositories/framework-repository-impl"
-import { HelperSystemsRepositoryImpl } from "../data/repositories/helper-systems-repository-impl"
-import { RegulationCategoriesRepositoryImpl } from "../data/repositories/regulation-categories-repository-impl"
 import { RegulationsRepositoryImpl } from "../data/repositories/regulations-repository-impl"
+import { RegulationCategoriesRepositoryImpl } from "../data/repositories/regulation-categories-repository-impl"
 import { InstructionCategoriesRepositoryImpl } from "../data/repositories/instruction-categories-repository-impl"
 import { InstructionYearsRepositoryImpl } from "../data/repositories/instruction-years-repository-impl"
 import { InstructionsRepositoryImpl } from "../data/repositories/instructions-repository-impl"
+import { TickerRepositoryImpl } from "../data/repositories/ticker-repository-impl"
+import { TipsRepositoryImpl } from "../data/repositories/tips-repository-impl"
+import { SystemsRepositoryImpl } from "../data/repositories/systems-repository-impl"
+import { HelperSystemsRepositoryImpl } from "../data/repositories/helper-systems-repository-impl"
+import { DefinitionsRepositoryImpl } from "../data/repositories/definitions-repository-impl"
+import { LawsRepositoryImpl } from "../data/repositories/laws-repository-impl"
+import { FrameworkRepositoryImpl } from "../data/repositories/framework-repository-impl"
+import { MediaRepositoryImpl } from "../data/repositories/media-repository-impl"
+import { StandardsRepositoryImpl } from "../data/repositories/standards-repository-impl"
+import { ArticlesRepositoryImpl } from "../data/repositories/articles-repository-impl"
 
+// Services
 import { NewsService } from "../services/news-service"
-import { StandardsService } from "../services/standards-service"
-import { DefinitionsService } from "../services/definitions-service"
-import { SystemsService } from "../services/systems-service"
-import { TickerService } from "../services/ticker-service"
-import { TipsService } from "../services/tips-service"
-import { MediaService } from "../services/media-service"
-import { LawsService } from "../services/laws-service"
-import { FrameworkService } from "../services/framework-service"
-import { HelperSystemsService } from "../services/helper-systems-service"
-import { RegulationCategoriesService } from "../services/regulation-categories-service"
 import { RegulationsService } from "../services/regulations-service"
+import { RegulationCategoriesService } from "../services/regulation-categories-service"
 import { InstructionCategoriesService } from "../services/instruction-categories-service"
 import { InstructionYearsService } from "../services/instruction-years-service"
 import { InstructionsService } from "../services/instructions-service"
+import { TickerService } from "../services/ticker-service"
+import { TipsService } from "../services/tips-service"
+import { SystemsService } from "../services/systems-service"
+import { HelperSystemsService } from "../services/helper-systems-service"
+import { DefinitionsService } from "../services/definitions-service"
+import { LawsService } from "../services/laws-service"
+import { FrameworkService } from "../services/framework-service"
+import { MediaService } from "../services/media-service"
+import { StandardsService } from "../services/standards-service"
+import { ArticlesService } from "../services/articles-service"
 
-import { MockDataSource } from "../data/sources/mock-data-source"
-import { ApiDataSource } from "../data/sources/api-data-source"
+class Container {
+  private _apiDataSource: ApiDataSource | null = null
+  private _mockDataSource: MockDataSource | null = null
 
-// Create data sources
-const mockDataSource = new MockDataSource()
-const apiDataSource = new ApiDataSource()
+  // Data sources
+  get apiDataSource(): ApiDataSource {
+    if (!this._apiDataSource) {
+      this._apiDataSource = new ApiDataSource()
+    }
+    return this._apiDataSource
+  }
 
-// Create repositories
-const newsRepository = new NewsRepositoryImpl(apiDataSource)
-const standardsRepository = new StandardsRepositoryImpl(mockDataSource)
-const instructionsRepository = new InstructionsRepositoryImpl(apiDataSource)
-const definitionsRepository = new DefinitionsRepositoryImpl(mockDataSource)
-const systemsRepository = new SystemsRepositoryImpl(mockDataSource)
-const tickerRepository = new TickerRepositoryImpl(apiDataSource)
-const tipsRepository = new TipsRepositoryImpl(apiDataSource)
-const mediaRepository = new MediaRepositoryImpl(mockDataSource)
-const lawsRepository = new LawsRepositoryImpl(mockDataSource)
-const frameworkRepository = new FrameworkRepositoryImpl()
-const helperSystemsRepository = new HelperSystemsRepositoryImpl(apiDataSource)
-const regulationCategoriesRepository = new RegulationCategoriesRepositoryImpl(apiDataSource)
-const regulationsRepository = new RegulationsRepositoryImpl(apiDataSource)
-const instructionCategoriesRepository = new InstructionCategoriesRepositoryImpl(apiDataSource)
-const instructionYearsRepository = new InstructionYearsRepositoryImpl(apiDataSource)
+  get mockDataSource(): MockDataSource {
+    if (!this._mockDataSource) {
+      this._mockDataSource = new MockDataSource()
+    }
+    return this._mockDataSource
+  }
 
-// Create services
-const newsService = new NewsService(newsRepository)
-const standardsService = new StandardsService(standardsRepository)
-const instructionsService = new InstructionsService(instructionsRepository)
-const definitionsService = new DefinitionsService(definitionsRepository)
-const systemsService = new SystemsService(systemsRepository)
-const tickerService = new TickerService(tickerRepository)
-const tipsService = new TipsService(tipsRepository)
-const mediaService = new MediaService(mediaRepository)
-const lawsService = new LawsService(lawsRepository)
-const frameworkService = new FrameworkService(frameworkRepository)
-const helperSystemsService = new HelperSystemsService(helperSystemsRepository)
-const regulationCategoriesService = new RegulationCategoriesService(regulationCategoriesRepository)
-const regulationsService = new RegulationsService(regulationsRepository)
-const instructionCategoriesService = new InstructionCategoriesService(instructionCategoriesRepository)
-const instructionYearsService = new InstructionYearsService(instructionYearsRepository)
-
-// Export the container
-export const container = {
-  services: {
-    news: newsService,
-    standards: standardsService,
-    definitions: definitionsService,
-    systems: systemsService,
-    ticker: tickerService,
-    tips: tipsService,
-    media: mediaService,
-    laws: lawsService,
-    framework: frameworkService,
-    helperSystems: helperSystemsService,
-    regulationCategories: regulationCategoriesService,
-    regulations: regulationsService,
-    instructionCategories: instructionCategoriesService,
-    instructionYears: instructionYearsService,
-    instructions: instructionsService,
-  },
+  // Services
+  get services() {
+    return {
+      news: new NewsService(new NewsRepositoryImpl(this.apiDataSource)),
+      regulations: new RegulationsService(new RegulationsRepositoryImpl(this.apiDataSource)),
+      regulationCategories: new RegulationCategoriesService(new RegulationCategoriesRepositoryImpl(this.apiDataSource)),
+      instructionCategories: new InstructionCategoriesService(
+        new InstructionCategoriesRepositoryImpl(this.apiDataSource),
+      ),
+      instructionYears: new InstructionYearsService(new InstructionYearsRepositoryImpl(this.apiDataSource)),
+      instructions: new InstructionsService(new InstructionsRepositoryImpl(this.apiDataSource)),
+      ticker: new TickerService(new TickerRepositoryImpl(this.apiDataSource)),
+      tips: new TipsService(new TipsRepositoryImpl(this.apiDataSource)),
+      systems: new SystemsService(new SystemsRepositoryImpl(this.mockDataSource)),
+      helperSystems: new HelperSystemsService(new HelperSystemsRepositoryImpl(this.apiDataSource)),
+      definitions: new DefinitionsService(new DefinitionsRepositoryImpl(this.mockDataSource)),
+      laws: new LawsService(new LawsRepositoryImpl(this.mockDataSource)),
+      framework: new FrameworkService(new FrameworkRepositoryImpl(this.mockDataSource)),
+      media: new MediaService(new MediaRepositoryImpl(this.mockDataSource)),
+      standards: new StandardsService(new StandardsRepositoryImpl(this.apiDataSource)),
+      articles: new ArticlesService(new ArticlesRepositoryImpl(this.apiDataSource)),
+    }
+  }
 }
+
+export const container = new Container()

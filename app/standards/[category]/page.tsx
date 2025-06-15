@@ -1,147 +1,77 @@
-"use client"
-
-import { standardsData } from "@/data/standards-data"
-import { internationalStandardsData } from "@/data/standards-hierarchy-data"
+import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import MainLayout from "@/components/layouts/main-layout"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import Link from "next/link"
-import Image from "next/image"
-import { ChevronLeft } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { useLanguage } from "@/components/language-provider"
-import { useEffect, useState } from "react"
-import { useParams, useRouter } from "next/navigation"
-import { Suspense } from "react"
+import { container } from "@/core/di/container"
+import { slugify } from "@/lib/utils"
+import StandardCategoryPageClient from "./StandardCategoryPageClient"
 
-export default function StandardsCategoryPage() {
-  return (
-    <Suspense fallback={<LoadingState />}>
-      <StandardsCategoryContent />
-    </Suspense>
-  )
+interface StandardCategoryPageProps {
+  params: {
+    category: string
+  }
+  searchParams: {
+    page?: string
+  }
 }
 
-function LoadingState() {
-  return (
-    <MainLayout>
-      <div className="pt-24 pb-16 flex justify-center items-center min-h-[50vh]">
-        <div className="animate-pulse">Loading...</div>
-      </div>
-    </MainLayout>
-  )
+async function findCategoryBySlug(slug: string) {
+  try {
+    console.log(`🔍 Finding standard category by slug: ${slug}`)
+
+    const categoriesResponse = await container.services.standards.getAllStandardCategories(1, 100)
+    const category = categoriesResponse.data.find((cat) => slugify(cat.nameEn) === slug)
+
+    if (!category) {
+      console.log(`❌ Category not found for slug: ${slug}`)
+      return null
+    }
+
+    console.log(`✅ Found category: ${category.nameEn} (${category.id})`)
+    return category
+  } catch (error) {
+    console.error("❌ Error finding category by slug:", error)
+    throw error
+  }
 }
 
-function StandardsCategoryContent() {
-  const params = useParams()
-  const category = params.category as string
-  const { language, isRtl } = useLanguage()
-  const [categoryData, setCategoryData] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
-  const router = useRouter()
+export async function generateMetadata({ params }: StandardCategoryPageProps): Promise<Metadata> {
+  try {
+    const category = await findCategoryBySlug(params.category)
 
-  useEffect(() => {
-    const categoryKey = category as keyof typeof standardsData
-    if (!standardsData[categoryKey]) {
+    if (!category) {
+      return {
+        title: "Category Not Found",
+        description: "The requested standards category could not be found.",
+      }
+    }
+
+    return {
+      title: `${category.nameEn} Standards | Cybersecurity Portal`,
+      description: `Browse all ${category.nameEn.toLowerCase()} cybersecurity standards and frameworks.`,
+      keywords: `${category.nameEn}, cybersecurity standards, security frameworks`,
+    }
+  } catch (error) {
+    return {
+      title: "Standards Category",
+      description: "Browse cybersecurity standards by category.",
+    }
+  }
+}
+
+export default async function StandardCategoryPage({ params, searchParams }: StandardCategoryPageProps) {
+  const page = Number.parseInt(searchParams.page || "1", 10)
+
+  try {
+    const category = await findCategoryBySlug(params.category)
+
+    if (!category) {
       notFound()
     }
-    setCategoryData(standardsData[categoryKey])
-    setLoading(false)
 
-    // Prefetch related routes
-    if (categoryKey === "international") {
-      internationalStandardsData.forEach((standard) => {
-        router.prefetch(`/standards/${categoryKey}/${standard.id}`)
-      })
-    }
-  }, [category, router])
+    const standardsResponse = await container.services.standards.getStandardsByCategory(category.id, page, 12)
 
-  if (loading) {
-    return <LoadingState />
+    return <StandardCategoryPageClient category={category} initialStandards={standardsResponse} initialPage={page} />
+  } catch (error) {
+    console.error("❌ Error in StandardCategoryPage:", error)
+    notFound()
   }
-
-  if (!categoryData) {
-    return notFound()
-  }
-
-  const categoryKey = category as keyof typeof standardsData
-
-  // For international standards, we'll show the detailed list
-  const standards = categoryKey === "international" ? internationalStandardsData : []
-
-  const categoryTitle = {
-    international: language === "ar" ? "المعايير الدولية" : "International Standards",
-    local: language === "ar" ? "المعايير المحلية" : "Local Standards",
-    internal: language === "ar" ? "المعايير الداخلية" : "Internal Standards",
-  }[categoryKey]
-
-  return (
-    <MainLayout>
-      <div className="pt-24 pb-16">
-        <div className="container mx-auto px-4">
-          <div className="mb-8 flex items-center">
-            <Link href="/#standards">
-              <Button variant="ghost" size="sm" className="gap-1">
-                <ChevronLeft className="h-4 w-4" />
-                <span>{language === "ar" ? "رجوع" : "Back"}</span>
-              </Button>
-            </Link>
-            <h1 className="text-3xl font-bold text-center flex-1">{categoryTitle}</h1>
-          </div>
-
-          <div className={`prose dark:prose-invert max-w-none mb-8 ${isRtl ? "text-right" : "text-left"}`}>
-            {/* Extract only the current language content from the HTML */}
-            {isRtl ? (
-              <p>{categoryData.description.replace(/<p>.*?<\/p>/g, "").replace(/<\/?[^>]+(>|$)/g, "")}</p>
-            ) : (
-              <p>{categoryData.description.match(/<p>(.*?)<\/p>/)?.[1] || ""}</p>
-            )}
-          </div>
-
-          {categoryKey === "international" ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {standards.map((standard) => (
-                <Link href={`/standards/${categoryKey}/${standard.id}`} key={standard.id}>
-                  <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
-                    <div className="relative h-48">
-                      <Image
-                        src={standard.imageUrl || "/placeholder.svg"}
-                        alt={standard.title[language]}
-                        fill
-                        className="object-cover rounded-t-lg"
-                      />
-                    </div>
-                    <CardHeader className="pb-2">
-                      <CardTitle className={`text-xl ${isRtl ? "text-right" : "text-left"}`}>
-                        {standard.title[language]}
-                      </CardTitle>
-                      <p className={`text-sm text-muted-foreground ${isRtl ? "text-right" : "text-left"}`}>
-                        {standard.organization[language]}
-                      </p>
-                    </CardHeader>
-                    <CardContent className={isRtl ? "text-right" : "text-left"}>
-                      <p className="text-muted-foreground line-clamp-3">{standard.description[language]}</p>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {categoryData.items.map((item: any, index: number) => (
-                <Card key={index} className="h-full">
-                  <CardHeader className="pb-2">
-                    <CardTitle className={isRtl ? "text-right" : "text-left"}>{item.name}</CardTitle>
-                  </CardHeader>
-                  <CardContent className={isRtl ? "text-right" : "text-left"}>
-                    <p className="text-muted-foreground">{item.description}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-    </MainLayout>
-  )
 }

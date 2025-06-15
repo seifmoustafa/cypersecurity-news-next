@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Image from "next/image"
 import Link from "next/link"
 import { useNewsByCategory, useNewsCategories } from "@/core/hooks/use-news"
+import { useLatestArticles } from "@/core/hooks/use-articles"
 import { container } from "@/core/di/container"
 import { awarenessData } from "@/data/awareness-data"
 import { slugify } from "@/lib/utils"
@@ -25,10 +26,12 @@ const categoryUrlMap: { [key: string]: string } = {
 export default function AwarenessSection() {
   const { t, language, isRtl } = useLanguage()
   const [bulletins, setBulletins] = useState<any[]>([])
-  const [articles, setArticles] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState("news")
   const [activeNewsCategory, setActiveNewsCategory] = useState("all")
+
+  // Fetch real articles from API
+  const { articles, loading: articlesLoading } = useLatestArticles(3)
 
   // Fetch categories from API
   const { categories, loading: categoriesLoading } = useNewsCategories()
@@ -37,9 +40,8 @@ export default function AwarenessSection() {
     const fetchAwarenessData = async () => {
       try {
         setLoading(true)
-        // Using static data until API is provided
+        // Using static data for bulletins until API is provided
         setBulletins(awarenessData.bulletins)
-        setArticles(awarenessData.articles)
       } finally {
         setLoading(false)
       }
@@ -124,12 +126,33 @@ export default function AwarenessSection() {
 
         <TabsContent value="articles">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {articles.map((item, idx) => (
-              <AwarenessCard key={item.id} item={item} index={idx} />
-            ))}
-            {!loading && articles.length === 0 && (
+            {articlesLoading ? (
+              // Loading skeleton
+              [1, 2, 3].map((i) => (
+                <Card key={i} className="h-[300px] animate-pulse">
+                  <div className="h-48 bg-gray-300 dark:bg-gray-700"></div>
+                  <CardContent className="p-6">
+                    <div className="h-4 bg-gray-300 rounded w-3/4 mb-4"></div>
+                    <div className="h-4 bg-gray-300 rounded w-full"></div>
+                  </CardContent>
+                </Card>
+              ))
+            ) : articles.length > 0 ? (
+              articles.map((item, idx) => <ArticleCard key={item.id} item={item} index={idx} />)
+            ) : (
               <div className="col-span-full text-center py-10">
                 <p className="text-muted-foreground">{t("common.noData")}</p>
+              </div>
+            )}
+            {/* View All Articles Button */}
+            {articles.length > 0 && (
+              <div className="col-span-full flex justify-center mt-6">
+                <Link
+                  href="/articles"
+                  className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-md font-medium transition-colors"
+                >
+                  {language === "ar" ? "عرض جميع المقالات" : "View All Articles"}
+                </Link>
               </div>
             )}
           </div>
@@ -344,6 +367,84 @@ function NewsCard({ item, index }: NewsCardProps) {
               {displayTitle}
             </h3>
             {/* ALWAYS show summary area - empty string if no summary */}
+            <p className="text-sm text-muted-foreground mb-4 line-clamp-3">{hasValidSummary ? cleanSummary : ""}</p>
+            <div className="mt-auto inline-flex items-center text-primary font-medium">
+              {language === "ar" ? "اقرأ المزيد" : "Read More"}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={`h-4 w-4 ${isRtl ? "mr-1 rotate-180" : "ml-1"}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d={isRtl ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"}
+                />
+              </svg>
+            </div>
+          </CardContent>
+        </Card>
+      </Link>
+    </motion.div>
+  )
+}
+
+interface ArticleCardProps {
+  item: any
+  index: number
+}
+function ArticleCard({ item, index }: ArticleCardProps) {
+  const { language, isRtl } = useLanguage()
+
+  // Get title for display based on current language
+  const displayTitle = language === "ar" ? item.title || item.titleEn || "" : item.titleEn || item.title || ""
+
+  // Get summary for display
+  const displaySummary = language === "ar" ? item.summary || item.summaryEn || "" : item.summaryEn || item.summary || ""
+
+  // ALWAYS use English title for URL slug (regardless of current language)
+  const englishTitle = item.titleEn || item.title || ""
+  const slug = slugify(englishTitle)
+
+  // Don't render if no title
+  if (!displayTitle) {
+    return null
+  }
+
+  // Clean HTML tags and check for valid summary
+  const cleanSummary = displaySummary.replace(/<\/?[^>]+(>|$)/g, "").trim()
+  const hasValidSummary = cleanSummary && cleanSummary !== "string" && cleanSummary.length > 0
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+    >
+      <Link href={`/articles/${slug}`} className="group">
+        <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:border-primary/50">
+          <div className="relative h-48">
+            <Image
+              src={item.imageUrl || "/placeholder.svg"}
+              alt={displayTitle}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <div
+              className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} bg-primary text-white text-xs px-2 py-1 rounded`}
+            >
+              {new Date(item.createdAt).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
+            </div>
+          </div>
+
+          <CardContent className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
+            <h3 className="text-lg font-bold mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+              {displayTitle}
+            </h3>
             <p className="text-sm text-muted-foreground mb-4 line-clamp-3">{hasValidSummary ? cleanSummary : ""}</p>
             <div className="mt-auto inline-flex items-center text-primary font-medium">
               {language === "ar" ? "اقرأ المزيد" : "Read More"}

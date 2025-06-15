@@ -349,7 +349,7 @@ export const instructionsData = {
             <li>تحديث أنظمة نقاط البيع شهريًا.</li>
             <li>تقييد الوصول المادي إلى المعدات الحساسة.</li>
             <li>تدريب موظفي الفروع على التعرف على محاولات التصيد والاحتيال.</li>
-            <li>إبلاغ الإدارة المركزية فورًا عن أي حوادث أمنية مشتبه بها.</li>
+            <li>إبلاغ الإدارة المركزية فورًا ع�� أي حوادث أمنية مشتبه بها.</li>
           </ul>`,
           en: `<h3>Branch Cybersecurity Instructions No. 1 - 2022</h3>
           <p>This document defines the basic cybersecurity requirements for branches for the year 2022.</p>
@@ -381,7 +381,7 @@ export const instructionsData = {
             <li>تخزين النسخ الاحتياطية في موقع آمن ومنفصل.</li>
             <li>اختبار استعادة البيانات من النسخ الاحتياطية بشكل دوري.</li>
             <li>تشفير جميع وسائط التخزين المحمولة.</li>
-            <li>تطبيق إجراءات آمنة للتخلص من البيانات والأجهزة القديمة.</li>
+            <li>تطبيق إجراء��ت آمنة للتخلص من البيانات والأجهزة القديمة.</li>
           </ul>`,
           en: `<h3>Branch Cybersecurity Instructions No. 2 - 2022</h3>
           <p>This document addresses data security and backup procedures in branches.</p>

@@ -1,35 +1,45 @@
 export interface Standard {
   id: string
-  title: {
-    en: string
-    ar: string
-  }
-  description: {
-    en: string
-    ar: string
-  }
-  organization: {
-    en: string
-    ar: string
-  }
-  year: string
-  imageUrl: string
-  documentUrl?: string
+  nameEn: string
+  nameAr: string
+  descriptionEn: string
+  descriptionAr: string
+  category: StandardCategory
+  isActive: boolean
+  createdAt: string
+  updatedAt: string | null
 }
 
 export interface StandardCategory {
   id: string
-  name: {
-    en: string
-    ar: string
-  }
-  description: {
-    en: string
-    ar: string
-  }
-  items: StandardItem[]
+  nameEn: string
+  nameAr: string
+  isActive: boolean
+  createdAt: string
+  updatedAt: string | null
 }
 
+export interface StandardsPaginatedResponse {
+  data: Standard[]
+  pagination: {
+    itemsCount: number
+    pagesCount: number
+    pageSize: number
+    currentPage: number
+  }
+}
+
+export interface StandardCategoriesPaginatedResponse {
+  data: StandardCategory[]
+  pagination: {
+    itemsCount: number
+    pagesCount: number
+    pageSize: number
+    currentPage: number
+  }
+}
+
+// Legacy interfaces for backward compatibility
 export interface StandardItem {
   id: string
   name: string

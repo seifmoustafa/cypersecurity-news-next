@@ -10,8 +10,6 @@ import type { Tip } from "../../domain/models/tip"
 
 // Import mock data
 import { newsData, getNewsByCategory, getNewsById, getLatestNews } from "@/data/news-data"
-import { standardsData } from "@/data/standards-data"
-import { internationalStandardsData, iso27001Controls } from "@/data/standards-hierarchy-data"
 import { instructionsData } from "@/data/instructions-data"
 import { definitionsData, getDefinitionById, getDefinitionsByCategory } from "@/data/definitions-data"
 import { systemsData } from "@/data/systems-data"
@@ -50,63 +48,94 @@ export class MockDataSource {
 
   // Standards
   async getAllStandards(): Promise<Standard[]> {
-    return internationalStandardsData
+    // Return mock standards data that matches the new API structure
+    return [
+      {
+        id: "iso-27001",
+        name: {
+          en: "ISO 27001",
+          ar: "معيار الأيسو 27001",
+        },
+        description: {
+          en: "Information security management systems standard",
+          ar: "معيار أنظمة إدارة أمن المعلومات",
+        },
+        category: "international",
+        status: "active",
+        version: "2022",
+        createdAt: new Date("2022-01-01"),
+        updatedAt: new Date("2024-01-01"),
+      },
+      {
+        id: "essential-controls",
+        name: {
+          en: "Essential Cybersecurity Controls",
+          ar: "الضوابط الأساسية للأمن السيبراني",
+        },
+        description: {
+          en: "Essential cybersecurity controls for organizations",
+          ar: "الضوابط الأساسية للأمن السيبراني للمؤسسات",
+        },
+        category: "national",
+        status: "active",
+        version: "2024",
+        createdAt: new Date("2024-01-01"),
+        updatedAt: new Date("2024-01-01"),
+      },
+    ]
   }
 
   async getStandardById(id: string): Promise<Standard | null> {
-    return internationalStandardsData.find((standard) => standard.id === id) || null
+    const standards = await this.getAllStandards()
+    return standards.find((standard) => standard.id === id) || null
   }
 
   async getStandardsByCategory(category: string): Promise<Standard[]> {
-    if (category === "international") {
-      return internationalStandardsData
-    }
-    return []
+    const standards = await this.getAllStandards()
+    return standards.filter((standard) => standard.category === category)
   }
 
   async getStandardCategories(): Promise<StandardCategory[]> {
-    return Object.keys(standardsData).map((key) => ({
-      id: key,
-      name: {
-        en: standardsData[key].title?.en || key,
-        ar: standardsData[key].title?.ar || key,
+    return [
+      {
+        id: "international",
+        name: {
+          en: "International Standards",
+          ar: "المعايير الدولية",
+        },
+        description: {
+          en: "International cybersecurity standards and frameworks",
+          ar: "المعايير والأطر الدولية للأمن السيبراني",
+        },
+        items: [],
       },
-      description: {
-        en: standardsData[key].description?.match(/<p>(.*?)<\/p>/)?.[1] || "",
-        ar: standardsData[key].description?.replace(/<p>.*?<\/p>/g, "").replace(/<\/?[^>]+(>|$)/g, "") || "",
+      {
+        id: "national",
+        name: {
+          en: "National Standards",
+          ar: "المعايير الوطنية",
+        },
+        description: {
+          en: "National cybersecurity standards and controls",
+          ar: "المعايير والضوابط الوطنية للأمن السيبراني",
+        },
+        items: [],
       },
-      items: standardsData[key].items,
-    }))
+    ]
   }
 
   async getStandardCategoryById(id: string): Promise<StandardCategory | null> {
-    if (!standardsData[id]) return null
-
-    return {
-      id,
-      name: {
-        en: standardsData[id].title?.en || id,
-        ar: standardsData[id].title?.ar || id,
-      },
-      description: {
-        en: standardsData[id].description?.match(/<p>(.*?)<\/p>/)?.[1] || "",
-        ar: standardsData[id].description?.replace(/<p>.*?<\/p>/g, "").replace(/<\/?[^>]+(>|$)/g, "") || "",
-      },
-      items: standardsData[id].items,
-    }
+    const categories = await this.getStandardCategories()
+    return categories.find((category) => category.id === id) || null
   }
 
   async getControlsByStandardId(standardId: string): Promise<Control[]> {
-    if (standardId === "iso-27001") {
-      return iso27001Controls
-    }
+    // Return empty array for now - can be implemented later if needed
     return []
   }
 
   async getControlById(standardId: string, controlId: string): Promise<Control | null> {
-    if (standardId === "iso-27001") {
-      return iso27001Controls.find((control) => control.id === controlId) || null
-    }
+    // Return null for now - can be implemented later if needed
     return null
   }
 

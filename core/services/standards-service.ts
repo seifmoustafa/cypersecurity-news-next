@@ -2,6 +2,8 @@ import type { StandardsRepository } from "../domain/repositories/standards-repos
 import type {
   Standard,
   StandardCategory,
+  StandardsPaginatedResponse,
+  StandardCategoriesPaginatedResponse,
   Control,
   Safeguard,
   Technique,
@@ -15,24 +17,39 @@ export class StandardsService {
     this.repository = repository
   }
 
+  // New API methods
+  async getAllStandardCategories(
+    page?: number,
+    pageSize?: number,
+    forceRefresh?: boolean,
+  ): Promise<StandardCategoriesPaginatedResponse> {
+    return this.repository.getAllStandardCategories(page, pageSize, forceRefresh)
+  }
+
+  async getStandardCategoryById(id: string, forceRefresh?: boolean): Promise<StandardCategory | null> {
+    return this.repository.getStandardCategoryById(id, forceRefresh)
+  }
+
+  async getStandardsByCategory(
+    categoryId: string,
+    page?: number,
+    pageSize?: number,
+    forceRefresh?: boolean,
+  ): Promise<StandardsPaginatedResponse> {
+    return this.repository.getStandardsByCategory(categoryId, page, pageSize, forceRefresh)
+  }
+
+  async getStandardById(id: string, forceRefresh?: boolean): Promise<Standard | null> {
+    return this.repository.getStandardById(id, forceRefresh)
+  }
+
+  // Legacy methods
   async getAllStandards(): Promise<Standard[]> {
     return this.repository.getAllStandards()
   }
 
-  async getStandardById(id: string): Promise<Standard | null> {
-    return this.repository.getStandardById(id)
-  }
-
-  async getStandardsByCategory(category: string): Promise<Standard[]> {
-    return this.repository.getStandardsByCategory(category)
-  }
-
   async getStandardCategories(): Promise<StandardCategory[]> {
     return this.repository.getStandardCategories()
-  }
-
-  async getStandardCategoryById(id: string): Promise<StandardCategory | null> {
-    return this.repository.getStandardCategoryById(id)
   }
 
   async getControlsByStandardId(standardId: string): Promise<Control[]> {

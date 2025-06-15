@@ -1,74 +1,71 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { useLanguage } from "@/components/language-provider";
-import SectionHeader from "@/components/ui/section-header";
-import SectionContainer from "@/components/ui/section-container";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Globe,
-  Home,
-  Building,
-  BookOpen,
-  FileCode,
-  Shield,
-  Scale,
-} from "lucide-react";
-import Link from "next/link";
-import { container } from "@/core/di/container";
-import type { Definition } from "@/core/domain/models/definition";
-import type { Domain } from "@/core/domain/models/framework";
-import type { StandardCategory } from "@/core/domain/models/standard";
-import type { Law, LawCategory } from "@/core/domain/models/law";
-import Image from "next/image";
+import { useEffect, useState } from "react"
+import { motion } from "framer-motion"
+import { useLanguage } from "@/components/language-provider"
+import SectionHeader from "@/components/ui/section-header"
+import SectionContainer from "@/components/ui/section-container"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Globe, Home, Building, BookOpen, FileCode, Shield, Scale } from "lucide-react"
+import Link from "next/link"
+import { container } from "@/core/di/container"
+import type { Definition } from "@/core/domain/models/definition"
+import type { Domain } from "@/core/domain/models/framework"
+import type { StandardCategory, Standard } from "@/core/domain/models/standard"
+import type { Law, LawCategory } from "@/core/domain/models/law"
+import Image from "next/image"
+import { slugify } from "@/lib/utils"
 
 export default function CybersecurityConceptsSection() {
-  const { t, language, isRtl } = useLanguage();
-  const [definitions, setDefinitions] = useState<Record<string, Definition[]>>(
-    {}
-  );
-  const [domains, setDomains] = useState<Domain[]>([]);
-  const [standardCategories, setStandardCategories] = useState<
-    StandardCategory[]
-  >([]);
-  const [lawCategories, setLawCategories] = useState<LawCategory[]>([]);
-  const [laws, setLaws] = useState<Record<string, Law[]>>({});
-  const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState("definitions");
+  const { t, language, isRtl } = useLanguage()
+  const [definitions, setDefinitions] = useState<Record<string, Definition[]>>({})
+  const [domains, setDomains] = useState<Domain[]>([])
+  const [standardCategories, setStandardCategories] = useState<StandardCategory[]>([])
+  const [standardsByCategory, setStandardsByCategory] = useState<Record<string, Standard[]>>({})
+  const [lawCategories, setLawCategories] = useState<LawCategory[]>([])
+  const [laws, setLaws] = useState<Record<string, Law[]>>({})
+  const [loading, setLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState("definitions")
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
+        setLoading(true)
 
         // Fetch definitions
-        const categories = await container.services.definitions.getCategories();
-        const definitionsData: Record<string, Definition[]> = {};
+        const categories = await container.services.definitions.getCategories()
+        const definitionsData: Record<string, Definition[]> = {}
 
         for (const category of categories) {
-          const categoryDefinitions =
-            await container.services.definitions.getDefinitionsByCategory(
-              category
-            );
-          definitionsData[category] = categoryDefinitions;
+          const categoryDefinitions = await container.services.definitions.getDefinitionsByCategory(category)
+          definitionsData[category] = categoryDefinitions
         }
 
-        setDefinitions(definitionsData);
+        setDefinitions(definitionsData)
 
         // Fetch framework domains
-        const frameworkDomains =
-          await container.services.framework.getDomains();
-        setDomains(frameworkDomains);
+        const frameworkDomains = await container.services.framework.getDomains()
+        setDomains(frameworkDomains)
 
-        // Fetch standard categories
-        const categories2 =
-          await container.services.standards.getStandardCategories();
-        setStandardCategories(categories2);
+        // Fetch standard categories from backend
+        const standardCategoriesResponse = await container.services.standards.getAllStandardCategories(1, 100)
+        setStandardCategories(standardCategoriesResponse.data)
 
-        // Fetch law categories and laws
-        // This is a placeholder until the actual service is implemented
+        // Fetch standards for each category (first 2 + count remaining)
+        const standardsData: Record<string, Standard[]> = {}
+        for (const category of standardCategoriesResponse.data) {
+          try {
+            const categoryStandards = await container.services.standards.getStandardsByCategory(category.id, 1, 100)
+            standardsData[category.id] = categoryStandards.data
+          } catch (error) {
+            console.error(`Error fetching standards for category ${category.id}:`, error)
+            standardsData[category.id] = []
+          }
+        }
+        setStandardsByCategory(standardsData)
+
+        // Fetch law categories and laws (mock data for now)
         const lawCategoriesData = [
           {
             id: "presidential-decrees",
@@ -103,9 +100,9 @@ export default function CybersecurityConceptsSection() {
               en: "Cybersecurity policies",
             },
           },
-        ];
+        ]
 
-        setLawCategories(lawCategoriesData);
+        setLawCategories(lawCategoriesData)
 
         // Mock laws data by category
         const lawsData: Record<string, Law[]> = {
@@ -146,8 +143,7 @@ export default function CybersecurityConceptsSection() {
                 en: "Content of the executive regulation",
               },
               publishDate: "2022-03-15",
-              documentUrl:
-                "https://example.com/cybersecurity-executive-regulation.pdf",
+              documentUrl: "https://example.com/cybersecurity-executive-regulation.pdf",
             },
             {
               id: "4",
@@ -165,8 +161,7 @@ export default function CybersecurityConceptsSection() {
                 en: "Content of the essential controls",
               },
               publishDate: "2022-01-10",
-              documentUrl:
-                "https://example.com/essential-cybersecurity-controls.pdf",
+              documentUrl: "https://example.com/essential-cybersecurity-controls.pdf",
             },
           ],
           policies: [
@@ -186,8 +181,7 @@ export default function CybersecurityConceptsSection() {
                 en: "Content of the national policy",
               },
               publishDate: "2021-06-20",
-              documentUrl:
-                "https://example.com/national-cybersecurity-policy.pdf",
+              documentUrl: "https://example.com/national-cybersecurity-policy.pdf",
             },
             {
               id: "5",
@@ -205,60 +199,57 @@ export default function CybersecurityConceptsSection() {
                 en: "Content of the regulatory framework",
               },
               publishDate: "2021-09-05",
-              documentUrl:
-                "https://example.com/regulatory-framework-critical-systems.pdf",
+              documentUrl: "https://example.com/regulatory-framework-critical-systems.pdf",
             },
           ],
-        };
+        }
 
-        setLaws(lawsData);
+        setLaws(lawsData)
       } catch (error) {
-        console.error("Error fetching cybersecurity concepts data:", error);
+        console.error("Error fetching cybersecurity concepts data:", error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   // Listen for tab change events
   useEffect(() => {
     const handleTabChange = (event: Event) => {
-      const customEvent = event as CustomEvent;
-      const { sectionId, tab } = customEvent.detail;
+      const customEvent = event as CustomEvent
+      const { sectionId, tab } = customEvent.detail
 
       if (sectionId === "standards" && tab) {
-        setActiveTab(tab);
+        setActiveTab(tab)
       }
-    };
+    }
 
-    window.addEventListener("tabchange", handleTabChange);
+    window.addEventListener("tabchange", handleTabChange)
     return () => {
-      window.removeEventListener("tabchange", handleTabChange);
-    };
-  }, []);
+      window.removeEventListener("tabchange", handleTabChange)
+    }
+  }, [])
 
   const icons = {
     international: <Globe className="h-6 w-6 text-primary" />,
+    national: <Home className="h-6 w-6 text-primary" />,
     local: <Home className="h-6 w-6 text-primary" />,
     internal: <Building className="h-6 w-6 text-primary" />,
-  };
+  }
 
   const tabIcons = {
     definitions: <BookOpen className="h-5 w-5" />,
     laws: <Scale className="h-5 w-5" />,
     framework: <FileCode className="h-5 w-5" />,
     standards: <Shield className="h-5 w-5" />,
-  };
+  }
 
   if (loading) {
     return (
       <SectionContainer id="standards" className="bg-muted/30">
-        <SectionHeader
-          title={t("section.cybersecurityConcepts")}
-          subtitle={t("cybersecurityConcepts.subtitle")}
-        />
+        <SectionHeader title={t("section.cybersecurityConcepts")} subtitle={t("cybersecurityConcepts.subtitle")} />
         <div className="animate-pulse">
           <div className="h-10 bg-gray-300 dark:bg-gray-700 rounded max-w-md mx-auto mb-8"></div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -277,283 +268,275 @@ export default function CybersecurityConceptsSection() {
           </div>
         </div>
       </SectionContainer>
-    );
+    )
   }
 
   return (
-    <SectionContainer id="standards" className="bg-muted/30">
-      <SectionHeader
-        title={t("section.cybersecurityConcepts")}
-        subtitle={t("cybersecurityConcepts.subtitle")}
-      />
+    <div className={isRtl ? "rtl" : "ltr"} dir={isRtl ? "rtl" : "ltr"}>
+      <SectionContainer id="standards" className="bg-muted/30">
+        <SectionHeader title={t("section.cybersecurityConcepts")} subtitle={t("cybersecurityConcepts.subtitle")} />
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className={`mx-auto mb-8 ${isRtl ? "flex-row-reverse" : ""}`}>
-          <TabsTrigger value="definitions" className="flex-1">
-            <span className="flex items-center gap-2">
-              {tabIcons.definitions}
-              <span>{t("section.definitions")}</span>
-            </span>
-          </TabsTrigger>
-          <TabsTrigger value="laws" className="flex-1">
-            <span className="flex items-center gap-2">
-              {tabIcons.laws}
-              <span>{t("section.laws")}</span>
-            </span>
-          </TabsTrigger>
-          <TabsTrigger value="framework" className="flex-1">
-            <span className="flex items-center gap-2">
-              {tabIcons.framework}
-              <span>{t("section.framework")}</span>
-            </span>
-          </TabsTrigger>
-          <TabsTrigger value="standards" className="flex-1">
-            <span className="flex items-center gap-2">
-              {tabIcons.standards}
-              <span>{t("section.standards")}</span>
-            </span>
-          </TabsTrigger>
-        </TabsList>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className={`mx-auto mb-8 ${isRtl ? "flex-row-reverse" : ""}`}>
+            <TabsTrigger value="definitions" className="flex-1">
+              <span className={`flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}>
+                {tabIcons.definitions}
+                <span>{t("section.definitions")}</span>
+              </span>
+            </TabsTrigger>
+            <TabsTrigger value="laws" className="flex-1">
+              <span className={`flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}>
+                {tabIcons.laws}
+                <span>{t("section.laws")}</span>
+              </span>
+            </TabsTrigger>
+            <TabsTrigger value="framework" className="flex-1">
+              <span className={`flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}>
+                {tabIcons.framework}
+                <span>{t("section.framework")}</span>
+              </span>
+            </TabsTrigger>
+            <TabsTrigger value="standards" className="flex-1">
+              <span className={`flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}>
+                {tabIcons.standards}
+                <span>{t("section.standards")}</span>
+              </span>
+            </TabsTrigger>
+          </TabsList>
 
-        {/* Definitions Tab Content */}
-        <TabsContent value="definitions" className="mt-0">
-          <Tabs defaultValue="general" className="w-full">
-            <TabsList
-              className={`w-full max-w-2xl mx-auto mb-8 flex flex-wrap justify-center ${
-                isRtl ? "flex-row-reverse" : ""
-              }`}
-            >
-              {Object.keys(definitions).map((category) => (
-                <TabsTrigger
-                  key={category}
-                  value={category}
-                  className="flex-grow"
-                >
-                  {t(`definitions.categories.${category}`)}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-
-            {Object.keys(definitions).map((category) => (
-              <TabsContent key={category} value={category} className="mt-0">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {definitions[category].slice(0, 6).map((item, index) => (
-                    <Link href={`/definitions/${item.id}`} key={item.id}>
-                      <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.5, delay: index * 0.1 }}
-                      >
-                        <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
-                          <CardHeader className="pb-2">
-                            <CardTitle
-                              className={`text-xl ${
-                                isRtl ? "text-right" : "text-left"
-                              }`}
-                            >
-                              {item.term[language]}
-                            </CardTitle>
-                          </CardHeader>
-                          <CardContent
-                            className={isRtl ? "text-right" : "text-left"}
-                          >
-                            <p className="text-muted-foreground line-clamp-4">
-                              {item.definition[language]}
-                            </p>
-                          </CardContent>
-                        </Card>
-                      </motion.div>
-                    </Link>
-                  ))}
-                </div>
-                <div className="mt-8 text-center">
-                  <Link
-                    href={`/definitions/category/${category}`}
-                    className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
-                  >
-                    {t("common.viewAll")}{" "}
-                    {t(`definitions.categories.${category}`)}
-                  </Link>
-                </div>
-              </TabsContent>
-            ))}
-          </Tabs>
-        </TabsContent>
-
-        {/* Laws Tab Content */}
-        <TabsContent value="laws" className="mt-0">
-          <Tabs defaultValue="presidential-decrees" className="w-full">
-            <TabsList
-              className={`w-full max-w-2xl mx-auto mb-8 flex flex-wrap justify-center ${
-                isRtl ? "flex-row-reverse" : ""
-              }`}
-            >
-              {lawCategories.map((category) => (
-                <TabsTrigger
-                  key={category.id}
-                  value={category.id}
-                  className="flex-grow"
-                >
-                  {category.name[language]}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-
-            {lawCategories.map((category) => (
-              <TabsContent
-                key={category.id}
-                value={category.id}
-                className="mt-0"
+          {/* Definitions Tab Content */}
+          <TabsContent value="definitions" className="mt-0">
+            <Tabs defaultValue="general" className="w-full">
+              <TabsList
+                className={`w-full max-w-2xl mx-auto mb-8 flex flex-wrap justify-center ${
+                  isRtl ? "flex-row-reverse" : ""
+                }`}
               >
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {laws[category.id]?.map((item, index) => (
-                    <Link href={`/laws/${item.id}`} key={item.id}>
-                      <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.5, delay: index * 0.1 }}
-                      >
-                        <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
-                          <CardHeader className="pb-2">
-                            <CardTitle
-                              className={`text-xl ${
-                                isRtl ? "text-right" : "text-left"
-                              }`}
-                            >
-                              {item.title[language]}
-                            </CardTitle>
-                          </CardHeader>
-                          <CardContent
-                            className={isRtl ? "text-right" : "text-left"}
+                {Object.keys(definitions).map((category) => (
+                  <TabsTrigger key={category} value={category} className="flex-grow">
+                    {t(`definitions.categories.${category}`)}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+
+              {Object.keys(definitions).map((category) => (
+                <TabsContent key={category} value={category} className="mt-0">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {(isRtl ? [...definitions[category]].reverse() : definitions[category])
+                      .slice(0, 6)
+                      .map((item, index) => (
+                        <Link href={`/definitions/${item.id}`} key={item.id}>
+                          <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-100px" }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
                           >
-                            <p className="text-muted-foreground line-clamp-4">
-                              {item.description[language]}
-                            </p>
-                            <p className="text-sm text-primary mt-2">
-                              {new Date(item.publishDate).toLocaleDateString(
-                                language === "ar" ? "ar-SA" : "en-US"
-                              )}
-                            </p>
-                          </CardContent>
-                        </Card>
-                      </motion.div>
+                            <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                              <CardHeader className="pb-2">
+                                <CardTitle className={`text-xl ${isRtl ? "text-right" : "text-left"}`}>
+                                  {item.term[language]}
+                                </CardTitle>
+                              </CardHeader>
+                              <CardContent className={isRtl ? "text-right" : "text-left"}>
+                                <p className="text-muted-foreground line-clamp-4">{item.definition[language]}</p>
+                              </CardContent>
+                            </Card>
+                          </motion.div>
+                        </Link>
+                      ))}
+                  </div>
+                  <div className="mt-8 text-center">
+                    <Link
+                      href={`/definitions/category/${category}`}
+                      className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
+                    >
+                      {t("common.viewAll")} {t(`definitions.categories.${category}`)}
                     </Link>
-                  ))}
-                </div>
-                <div className="mt-8 text-center">
+                  </div>
+                </TabsContent>
+              ))}
+            </Tabs>
+          </TabsContent>
+
+          {/* Laws Tab Content */}
+          <TabsContent value="laws" className="mt-0">
+            <Tabs defaultValue="presidential-decrees" className="w-full">
+              <TabsList
+                className={`w-full max-w-2xl mx-auto mb-8 flex flex-wrap justify-center ${
+                  isRtl ? "flex-row-reverse" : ""
+                }`}
+              >
+                {lawCategories.map((category) => (
+                  <TabsTrigger key={category.id} value={category.id} className="flex-grow">
+                    {category.name[language]}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+
+              {lawCategories.map((category) => (
+                <TabsContent key={category.id} value={category.id} className="mt-0">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {(isRtl ? [...(laws[category.id] || [])].reverse() : laws[category.id] || []).map((item, index) => (
+                      <Link href={`/laws/${item.id}`} key={item.id}>
+                        <motion.div
+                          initial={{ opacity: 0, y: 30 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true, margin: "-100px" }}
+                          transition={{ duration: 0.5, delay: index * 0.1 }}
+                        >
+                          <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                            <CardHeader className="pb-2">
+                              <CardTitle className={`text-xl ${isRtl ? "text-right" : "text-left"}`}>
+                                {item.title[language]}
+                              </CardTitle>
+                            </CardHeader>
+                            <CardContent className={isRtl ? "text-right" : "text-left"}>
+                              <p className="text-muted-foreground line-clamp-4">{item.description[language]}</p>
+                              <p className="text-sm text-primary mt-2">
+                                {new Date(item.publishDate).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
+                              </p>
+                            </CardContent>
+                          </Card>
+                        </motion.div>
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="mt-8 text-center">
+                    <Link
+                      href={`/laws/category/${category.id}`}
+                      className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
+                    >
+                      {t("common.viewAll")} {category.name[language]}
+                    </Link>
+                  </div>
+                </TabsContent>
+              ))}
+            </Tabs>
+          </TabsContent>
+
+          {/* Framework Tab Content */}
+          <TabsContent value="framework" className="mt-0">
+            <div className="flex flex-col items-center">
+              <div className="relative w-full max-w-md mx-auto mb-6">
+                <Image
+                  src="/images/cybersecurity-framework-circle.png"
+                  alt="Cybersecurity Framework"
+                  width={500}
+                  height={500}
+                  className="w-full h-auto"
+                />
+              </div>
+              <div className={`prose dark:prose-invert max-w-3xl mx-auto ${isRtl ? "text-right" : "text-left"}`}>
+                <p className="text-lg mb-6">
+                  {language === "ar"
+                    ? "يوفر إطار عمل الأمن السيبراني نهجًا منظمًا لفهم وإدارة وتقليل مخاطر الأمن السيبراني."
+                    : "The Cybersecurity Framework provides a structured approach to understanding, managing, and reducing cybersecurity risks."}
+                </p>
+                <div className="flex justify-center">
                   <Link
-                    href={`/laws/category/${category.id}`}
-                    className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
+                    href="/framework"
+                    className="
+      inline-flex items-center justify-center
+      rounded-md bg-blue-500 px-6 py-3
+      text-base font-medium text-white
+      no-underline
+      hover:bg-blue-600 hover:no-underline
+    "
                   >
-                    {t("common.viewAll")} {category.name[language]}
+                    {language === "ar" ? "استكشف" : "Explore"}
                   </Link>
                 </div>
-              </TabsContent>
-            ))}
-          </Tabs>
-        </TabsContent>
-
-        {/* Framework Tab Content */}
-        <TabsContent value="framework" className="mt-0">
-          <div className="flex flex-col items-center">
-            <div className="relative w-full max-w-md mx-auto mb-6">
-              <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-dI27cBudyF5803ufbRQIQ74OVrIoKr.png"
-                alt="Cybersecurity Framework"
-                width={500}
-                height={500}
-                className="w-full h-auto"
-              />
-            </div>
-            <div
-              className={`prose dark:prose-invert max-w-3xl mx-auto ${
-                isRtl ? "text-right" : "text-left"
-              }`}
-            >
-              <p className="text-lg mb-6">
-                {language === "ar"
-                  ? "يوفر إطار عمل الأمن السيبراني نهجًا منظمًا لفهم وإدارة وتقليل مخاطر الأمن السيبراني."
-                  : "The Cybersecurity Framework provides a structured approach to understanding, managing, and reducing cybersecurity risks."}
-              </p>
-              <div className="flex justify-center">
-                <Link
-                  href="/framework"
-                  className="
-    inline-flex items-center justify-center
-    rounded-md bg-blue-500 px-6 py-3
-    text-base font-medium text-white
-    no-underline
-    hover:bg-blue-600 hover:no-underline
-  "
-                >
-                  {language === "ar" ? "استكشف" : "Explore"}
-                </Link>
               </div>
             </div>
-          </div>
-        </TabsContent>
+          </TabsContent>
 
-        {/* Standards Tab Content */}
-        <TabsContent value="standards" className="mt-0">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {standardCategories.map((category, index) => (
-              <Link href={`/standards/${category.id}`} key={category.id}>
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
-                    <CardHeader className="pb-2">
-                      <div
-                        className={`flex items-center gap-2 ${
-                          isRtl ? "justify-end" : "justify-start"
-                        }`}
-                      >
-                        {icons[category.id as keyof typeof icons]}
-                        <CardTitle>{category.name[language]}</CardTitle>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div
-                        className={`prose dark:prose-invert max-w-none ${
-                          isRtl ? "text-right" : "text-left"
-                        }`}
-                      >
-                        <p>{category.description[language]}</p>
-                      </div>
+          {/* Standards Tab Content */}
+          <TabsContent value="standards" className="mt-0">
+            <div
+              className={`flex flex-wrap gap-8 ${isRtl ? "flex-row-reverse justify-end" : "justify-start"} md:justify-center`}
+            >
+              {(isRtl ? [...standardCategories].reverse() : standardCategories).map((category, index) => {
+                const categoryStandards = standardsByCategory[category.id] || []
+                const displayStandards = categoryStandards.slice(0, 2)
+                const remainingCount = Math.max(0, categoryStandards.length - 2)
+                const categorySlug = slugify(category.nameEn)
 
-                      <div className="mt-4 space-y-2">
-                        {category.items.slice(0, 2).map((item, itemIndex) => (
+                // Get appropriate icon
+                const iconKey = category.nameEn.toLowerCase() as keyof typeof icons
+                const icon = icons[iconKey] || icons.international
+
+                return (
+                  <Link href={`/standards/${categorySlug}`} key={category.id}>
+                    <motion.div
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-100px" }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      className="w-full md:w-80 lg:w-96"
+                    >
+                      <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                        <CardHeader className="pb-2">
                           <div
-                            key={itemIndex}
-                            className={`p-3 bg-muted rounded-md ${
-                              isRtl ? "text-right" : "text-left"
+                            className={`flex items-center gap-2 ${
+                              isRtl ? "justify-end flex-row-reverse" : "justify-start"
                             }`}
                           >
-                            <h4 className="font-medium">{item.name}</h4>
-                            <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
-                              {item.description}
-                            </p>
+                            {icon}
+                            <CardTitle className={isRtl ? "text-right" : "text-left"}>
+                              {language === "ar" ? category.nameAr : category.nameEn}
+                            </CardTitle>
                           </div>
-                        ))}
-                        {category.items.length > 2 && (
-                          <div className="text-primary text-sm font-medium text-center">
-                            +{category.items.length - 2} {t("common.more")}
+                        </CardHeader>
+                        <CardContent className={isRtl ? "text-right" : "text-left"}>
+                          <div className="space-y-2">
+                            {displayStandards.length > 0 ? (
+                              <>
+                                {displayStandards.map((standard, standardIndex) => (
+                                  <div
+                                    key={standardIndex}
+                                    className={`p-3 bg-muted rounded-md ${isRtl ? "text-right" : "text-left"}`}
+                                  >
+                                    <h4 className={`font-medium ${isRtl ? "text-right" : "text-left"}`}>
+                                      {language === "ar" ? standard.nameAr : standard.nameEn}
+                                    </h4>
+                                    <p
+                                      className={`text-sm text-muted-foreground mt-1 line-clamp-2 ${
+                                        isRtl ? "text-right" : "text-left"
+                                      }`}
+                                    >
+                                      {language === "ar" ? standard.descriptionAr : standard.descriptionEn}
+                                    </p>
+                                  </div>
+                                ))}
+                                {remainingCount > 0 && (
+                                  <div
+                                    className={`text-primary text-sm font-medium ${
+                                      isRtl ? "text-right" : "text-center"
+                                    }`}
+                                  >
+                                    +{remainingCount} {t("common.more")}
+                                  </div>
+                                )}
+                              </>
+                            ) : (
+                              <div className={`p-3 bg-muted rounded-md ${isRtl ? "text-right" : "text-center"}`}>
+                                <p className={`text-muted-foreground ${isRtl ? "text-right" : "text-left"}`}>
+                                  {language === "ar" ? "لا توجد معايير" : "No Standards"}
+                                </p>
+                              </div>
+                            )}
                           </div>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              </Link>
-            ))}
-          </div>
-        </TabsContent>
-      </Tabs>
-    </SectionContainer>
-  );
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  </Link>
+                )
+              })}
+            </div>
+          </TabsContent>
+        </Tabs>
+      </SectionContainer>
+    </div>
+  )
 }

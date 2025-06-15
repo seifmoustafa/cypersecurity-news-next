@@ -2,8 +2,125 @@
 
 import { useState, useEffect } from "react"
 import { container } from "../di/container"
-import type { Standard, StandardCategory, Control } from "../domain/models/standard"
+import type {
+  Standard,
+  StandardCategory,
+  StandardsPaginatedResponse,
+  StandardCategoriesPaginatedResponse,
+} from "../domain/models/standard"
 
+export function useStandardCategories(page = 1, pageSize = 10) {
+  const [data, setData] = useState<StandardCategoriesPaginatedResponse | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
+
+  const fetchData = async (forceRefresh = false) => {
+    try {
+      setLoading(true)
+      const response = await container.services.standards.getAllStandardCategories(page, pageSize, forceRefresh)
+      setData(response)
+      setError(null)
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error("An unknown error occurred"))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [page, pageSize])
+
+  return { data, loading, error, refetch: () => fetchData(true) }
+}
+
+export function useStandardCategoryById(id: string) {
+  const [category, setCategory] = useState<StandardCategory | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
+
+  const fetchData = async (forceRefresh = false) => {
+    try {
+      setLoading(true)
+      const data = await container.services.standards.getStandardCategoryById(id, forceRefresh)
+      setCategory(data)
+      setError(null)
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error("An unknown error occurred"))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (id) {
+      fetchData()
+    }
+  }, [id])
+
+  return { category, loading, error, refetch: () => fetchData(true) }
+}
+
+export function useStandardsByCategory(categoryId: string, page = 1, pageSize = 10) {
+  const [data, setData] = useState<StandardsPaginatedResponse | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
+
+  const fetchData = async (forceRefresh = false) => {
+    try {
+      setLoading(true)
+      const response = await container.services.standards.getStandardsByCategory(
+        categoryId,
+        page,
+        pageSize,
+        forceRefresh,
+      )
+      setData(response)
+      setError(null)
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error("An unknown error occurred"))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (categoryId) {
+      fetchData()
+    }
+  }, [categoryId, page, pageSize])
+
+  return { data, loading, error, refetch: () => fetchData(true) }
+}
+
+export function useStandardById(id: string) {
+  const [standard, setStandard] = useState<Standard | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
+
+  const fetchData = async (forceRefresh = false) => {
+    try {
+      setLoading(true)
+      const data = await container.services.standards.getStandardById(id, forceRefresh)
+      setStandard(data)
+      setError(null)
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error("An unknown error occurred"))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (id) {
+      fetchData()
+    }
+  }, [id])
+
+  return { standard, loading, error, refetch: () => fetchData(true) }
+}
+
+// Legacy hooks for backward compatibility
 export function useStandards() {
   const [standards, setStandards] = useState<Standard[]>([])
   const [loading, setLoading] = useState(true)
@@ -27,154 +144,4 @@ export function useStandards() {
   }, [])
 
   return { standards, loading, error }
-}
-
-export function useStandardById(id: string) {
-  const [standard, setStandard] = useState<Standard | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
-
-  useEffect(() => {
-    const fetchStandard = async () => {
-      try {
-        setLoading(true)
-        const data = await container.services.standards.getStandardById(id)
-        setStandard(data)
-        setError(null)
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error("An unknown error occurred"))
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchStandard()
-  }, [id])
-
-  return { standard, loading, error }
-}
-
-export function useStandardsByCategory(category: string) {
-  const [standards, setStandards] = useState<Standard[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
-
-  useEffect(() => {
-    const fetchStandards = async () => {
-      try {
-        setLoading(true)
-        const data = await container.services.standards.getStandardsByCategory(category)
-        setStandards(data)
-        setError(null)
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error("An unknown error occurred"))
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchStandards()
-  }, [category])
-
-  return { standards, loading, error }
-}
-
-export function useStandardCategories() {
-  const [categories, setCategories] = useState<StandardCategory[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        setLoading(true)
-        const data = await container.services.standards.getStandardCategories()
-        setCategories(data)
-        setError(null)
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error("An unknown error occurred"))
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchCategories()
-  }, [])
-
-  return { categories, loading, error }
-}
-
-export function useStandardCategoryById(id: string) {
-  const [category, setCategory] = useState<StandardCategory | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
-
-  useEffect(() => {
-    const fetchCategory = async () => {
-      try {
-        setLoading(true)
-        const data = await container.services.standards.getStandardCategoryById(id)
-        setCategory(data)
-        setError(null)
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error("An unknown error occurred"))
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchCategory()
-  }, [id])
-
-  return { category, loading, error }
-}
-
-export function useControlsByStandardId(standardId: string) {
-  const [controls, setControls] = useState<Control[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
-
-  useEffect(() => {
-    const fetchControls = async () => {
-      try {
-        setLoading(true)
-        const data = await container.services.standards.getControlsByStandardId(standardId)
-        setControls(data)
-        setError(null)
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error("An unknown error occurred"))
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchControls()
-  }, [standardId])
-
-  return { controls, loading, error }
-}
-
-export function useControlById(standardId: string, controlId: string) {
-  const [control, setControl] = useState<Control | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
-
-  useEffect(() => {
-    const fetchControl = async () => {
-      try {
-        setLoading(true)
-        const data = await container.services.standards.getControlById(standardId, controlId)
-        setControl(data)
-        setError(null)
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error("An unknown error occurred"))
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchControl()
-  }, [standardId, controlId])
-
-  return { control, loading, error }
 }

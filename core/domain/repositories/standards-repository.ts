@@ -1,11 +1,33 @@
-import type { Standard, StandardCategory, Control, Safeguard, Technique, Implementation } from "../models/standard"
+import type {
+  Standard,
+  StandardCategory,
+  StandardsPaginatedResponse,
+  StandardCategoriesPaginatedResponse,
+  Control,
+  Safeguard,
+  Technique,
+  Implementation,
+} from "../models/standard"
 
 export interface StandardsRepository {
+  // New API methods
+  getAllStandardCategories(
+    page?: number,
+    pageSize?: number,
+    forceRefresh?: boolean,
+  ): Promise<StandardCategoriesPaginatedResponse>
+  getStandardCategoryById(id: string, forceRefresh?: boolean): Promise<StandardCategory | null>
+  getStandardsByCategory(
+    categoryId: string,
+    page?: number,
+    pageSize?: number,
+    forceRefresh?: boolean,
+  ): Promise<StandardsPaginatedResponse>
+  getStandardById(id: string, forceRefresh?: boolean): Promise<Standard | null>
+
+  // Legacy methods for backward compatibility
   getAllStandards(): Promise<Standard[]>
-  getStandardById(id: string): Promise<Standard | null>
-  getStandardsByCategory(category: string): Promise<Standard[]>
   getStandardCategories(): Promise<StandardCategory[]>
-  getStandardCategoryById(id: string): Promise<StandardCategory | null>
 
   // Controls and related items
   getControlsByStandardId(standardId: string): Promise<Control[]>
