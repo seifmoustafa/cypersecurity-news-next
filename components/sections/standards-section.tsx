@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Globe, Home, Building, BookOpen, FileCode, Shield, Scale } from "lucide-react"
 import Link from "next/link"
 import { container } from "@/core/di/container"
-import type { Definition } from "@/core/domain/models/definition"
+import type { Definition, DefinitionCategory } from "@/core/domain/models/definition"
 import type { Domain } from "@/core/domain/models/framework"
 import type { StandardCategory, Standard } from "@/core/domain/models/standard"
 import type { Law } from "@/core/domain/models/law"
@@ -20,6 +20,7 @@ import { slugify } from "@/lib/utils"
 
 export default function CybersecurityConceptsSection() {
   const { t, language, isRtl } = useLanguage()
+  const [definitionCategories, setDefinitionCategories] = useState<DefinitionCategory[]>([])
   const [definitions, setDefinitions] = useState<Record<string, Definition[]>>({})
   const [domains, setDomains] = useState<Domain[]>([])
   const [standardCategories, setStandardCategories] = useState<StandardCategory[]>([])
@@ -34,16 +35,33 @@ export default function CybersecurityConceptsSection() {
       try {
         setLoading(true)
 
-        // Fetch definitions
-        const categories = await container.services.definitions.getCategories()
-        const definitionsData: Record<string, Definition[]> = {}
+        // Fetch definition categories and definitions from API
+        try {
+          const definitionCategoriesResponse = await container.services.definitions.getAllCategories(1, 100)
+          setDefinitionCategories(definitionCategoriesResponse.data)
 
-        for (const category of categories) {
-          const categoryDefinitions = await container.services.definitions.getDefinitionsByCategory(category)
-          definitionsData[category] = categoryDefinitions
+          // Fetch definitions for each category (first 6 + count remaining)
+          const definitionsData: Record<string, Definition[]> = {}
+          for (const category of definitionCategoriesResponse.data) {
+            try {
+              const categoryDefinitions = await container.services.definitions.getDefinitionsByCategory(
+                category.id,
+                1,
+                100,
+              )
+              definitionsData[category.id] = categoryDefinitions.data
+            } catch (error) {
+              console.error(`Error fetching definitions for category ${category.id}:`, error)
+              definitionsData[category.id] = []
+            }
+          }
+          setDefinitions(definitionsData)
+        } catch (error) {
+          console.error("Error fetching definitions data:", error)
+          // Set empty data if definitions API fails
+          setDefinitionCategories([])
+          setDefinitions({})
         }
-
-        setDefinitions(definitionsData)
 
         // Fetch framework domains
         const frameworkDomains = await container.services.framework.getDomains()
@@ -190,57 +208,78 @@ export default function CybersecurityConceptsSection() {
 
           {/* Definitions Tab Content */}
           <TabsContent value="definitions" className="mt-0">
-            <Tabs defaultValue="general" className="w-full">
-              <TabsList
-                className={`w-full max-w-2xl mx-auto mb-8 flex flex-wrap justify-center ${
-                  isRtl ? "flex-row-reverse" : ""
-                }`}
-              >
-                {Object.keys(definitions).map((category) => (
-                  <TabsTrigger key={category} value={category} className="flex-grow">
-                    {t(`definitions.categories.${category}`)}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
+            {definitionCategories.length > 0 ? (
+              <Tabs defaultValue={definitionCategories[0]?.id || ""} className="w-full">
+                <TabsList
+                  className={`w-full max-w-2xl mx-auto mb-8 flex flex-wrap justify-center ${
+                    isRtl ? "flex-row-reverse" : ""
+                  }`}
+                >
+                  {definitionCategories.map((category) => (
+                    <TabsTrigger key={category.id} value={category.id} className="flex-grow">
+                      {language === "ar" ? category.name : category.nameEn}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
 
-              {Object.keys(definitions).map((category) => (
-                <TabsContent key={category} value={category} className="mt-0">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {(isRtl ? [...definitions[category]].reverse() : definitions[category])
-                      .slice(0, 6)
-                      .map((item, index) => (
-                        <Link href={`/definitions/${item.id}`} key={item.id}>
-                          <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-100px" }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                          >
-                            <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
-                              <CardHeader className="pb-2">
-                                <CardTitle className={`text-xl ${isRtl ? "text-right" : "text-left"}`}>
-                                  {item.term[language]}
-                                </CardTitle>
-                              </CardHeader>
-                              <CardContent className={isRtl ? "text-right" : "text-left"}>
-                                <p className="text-muted-foreground line-clamp-4">{item.definition[language]}</p>
-                              </CardContent>
-                            </Card>
-                          </motion.div>
-                        </Link>
-                      ))}
-                  </div>
-                  <div className="mt-8 text-center">
-                    <Link
-                      href={`/definitions/category/${category}`}
-                      className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
-                    >
-                      {t("common.viewAll")} {t(`definitions.categories.${category}`)}
-                    </Link>
-                  </div>
-                </TabsContent>
-              ))}
-            </Tabs>
+                {definitionCategories.map((category) => (
+                  <TabsContent key={category.id} value={category.id} className="mt-0">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {(isRtl ? [...(definitions[category.id] || [])].reverse() : definitions[category.id] || [])
+                        .slice(0, 6)
+                        .map((item, index) => {
+                          const definitionSlug = slugify(item.termEn || item.term)
+                          return (
+                            <Link href={`/definitions/${definitionSlug}`} key={item.id}>
+                              <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, margin: "-100px" }}
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                              >
+                                <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                                  <CardHeader className="pb-2">
+                                    <CardTitle className={`text-xl ${isRtl ? "text-right" : "text-left"}`}>
+                                      {language === "ar" ? item.term || item.termEn : item.termEn || item.term}
+                                    </CardTitle>
+                                  </CardHeader>
+                                  <CardContent className={isRtl ? "text-right" : "text-left"}>
+                                    <p className="text-muted-foreground line-clamp-4">
+                                      {language === "ar"
+                                        ? item.definitionText || item.definitionEn
+                                        : item.definitionEn || item.definitionText}
+                                    </p>
+                                  </CardContent>
+                                </Card>
+                              </motion.div>
+                            </Link>
+                          )
+                        })}
+                    </div>
+                    <div className="mt-8 text-center">
+                      <Link
+                        href={`/definitions/category/${slugify(category.nameEn || category.name)}`}
+                        className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
+                      >
+                        {t("common.viewAll")} {language === "ar" ? category.name : category.nameEn}
+                      </Link>
+                    </div>
+                  </TabsContent>
+                ))}
+              </Tabs>
+            ) : (
+              <div className="text-center py-12">
+                <BookOpen className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-muted-foreground mb-2">
+                  {language === "ar" ? "لا توجد تعريفات متاحة" : "No Definitions Available"}
+                </h3>
+                <p className="text-muted-foreground">
+                  {language === "ar"
+                    ? "لم يتم العثور على أي تعريفات في الوقت الحالي"
+                    : "No definitions found at the moment"}
+                </p>
+              </div>
+            )}
           </TabsContent>
 
           {/* Laws Tab Content */}

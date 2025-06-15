@@ -71,7 +71,7 @@ class Container {
       tips: new TipsService(new TipsRepositoryImpl(this.apiDataSource)),
       systems: new SystemsService(new SystemsRepositoryImpl(this.mockDataSource)),
       helperSystems: new HelperSystemsService(new HelperSystemsRepositoryImpl(this.apiDataSource)),
-      definitions: new DefinitionsService(new DefinitionsRepositoryImpl(this.mockDataSource)),
+      definitions: new DefinitionsService(new DefinitionsRepositoryImpl(this.apiDataSource)),
       laws: new LawsService(new LawsRepositoryImpl(this.apiDataSource)),
       framework: new FrameworkService(new FrameworkRepositoryImpl(this.mockDataSource)),
       media: new MediaService(new MediaRepositoryImpl(this.mockDataSource)),

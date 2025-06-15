@@ -1,5 +1,10 @@
 import type { DefinitionsRepository } from "../domain/repositories/definitions-repository"
-import type { Definition } from "../domain/models/definition"
+import type {
+  Definition,
+  DefinitionCategory,
+  DefinitionsPaginatedResponse,
+  DefinitionCategoriesPaginatedResponse,
+} from "../domain/models/definition"
 
 export class DefinitionsService {
   private repository: DefinitionsRepository
@@ -16,11 +21,27 @@ export class DefinitionsService {
     return this.repository.getDefinitionById(id)
   }
 
-  async getDefinitionsByCategory(category: string): Promise<Definition[]> {
-    return this.repository.getDefinitionsByCategory(category)
+  async getDefinitionsByCategory(categoryId: string, page = 1, pageSize = 10): Promise<DefinitionsPaginatedResponse> {
+    return this.repository.getDefinitionsByCategory(categoryId, page, pageSize)
   }
 
   async getCategories(): Promise<string[]> {
     return this.repository.getCategories()
+  }
+
+  async getAllCategories(page = 1, pageSize = 10): Promise<DefinitionCategoriesPaginatedResponse> {
+    return this.repository.getAllCategories(page, pageSize)
+  }
+
+  async getCategoryById(id: string): Promise<DefinitionCategory | null> {
+    return this.repository.getCategoryById(id)
+  }
+
+  async getDefinitionBySlug(slug: string): Promise<Definition | null> {
+    return this.repository.getDefinitionBySlug(slug)
+  }
+
+  async getCategoryBySlug(slug: string): Promise<DefinitionCategory | null> {
+    return this.repository.getCategoryBySlug(slug)
   }
 }
