@@ -195,5 +195,30 @@
   },
   "site": {
     "name": "بوابة الأمن السيبراني"
+  },
+  "presentations": {
+    "title": "العروض التقديمية",
+    "subtitle": "الوصول إلى وتحميل العروض التقديمية والمواد التعليمية للأمن السيبراني",
+    "searchPlaceholder": "البحث في العروض التقديمية...",
+    "allPresentations": "جميع العروض التقديمية",
+    "searchResults": "نتائج البحث",
+    "resultsCount": "تم العثور على {{count}} عرض تقديمي",
+    "noSearchResults": "لم يتم العثور على عروض تقديمية",
+    "noPresentations": "لا توجد عروض تقديمية متاحة",
+    "tryDifferentSearch": "جرب البحث بكلمات مفتاحية مختلفة",
+    "checkBackLater": "تحقق لاحقاً للحصول على عروض تقديمية جديدة"
+  },
+  "presentation": {
+    "details": "تفاصيل العرض التقديمي",
+    "title": "العنوان",
+    "summary": "الملخص",
+    "download": "تحميل PPTX",
+    "downloadStarted": "بدأ التحميل",
+    "downloadError": "فشل التحميل",
+    "format": "التنسيق",
+    "created": "تاريخ الإنشاء",
+    "updated": "تاريخ التحديث",
+    "status": "الحالة",
+    "previewNotAvailable": "المعاينة غير متاحة"
   }
 }

@@ -5,13 +5,12 @@ import { useLanguage } from "@/components/language-provider"
 import SectionHeader from "@/components/ui/section-header"
 import SectionContainer from "@/components/ui/section-container"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { mediaLibraryData } from "@/data/media-library-data"
 import { container } from "@/core/di/container"
-import type { ApiVideo } from "@/core/domain/models/media"
-import Image from "next/image"
+import type { ApiVideo, ApiLecture, ApiPresentation } from "@/core/domain/models/media"
+import { slugify } from "@/lib/utils"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, ArrowLeft, Play } from "lucide-react"
+import { ArrowRight, ArrowLeft, Play, BookOpen, Presentation } from "lucide-react"
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 
 export default function MediaLibrarySection() {
@@ -20,7 +19,11 @@ export default function MediaLibrarySection() {
   const searchParams = useSearchParams()
   const [activeTab, setActiveTab] = useState("videos")
   const [videos, setVideos] = useState<ApiVideo[]>([])
+  const [lectures, setLectures] = useState<ApiLecture[]>([])
+  const [presentations, setPresentations] = useState<ApiPresentation[]>([])
   const [videosLoading, setVideosLoading] = useState(true)
+  const [lecturesLoading, setLecturesLoading] = useState(true)
+  const [presentationsLoading, setPresentationsLoading] = useState(true)
   const [selectedVideo, setSelectedVideo] = useState<ApiVideo | null>(null)
 
   // Check URL for tab parameter on mount
@@ -66,18 +69,48 @@ export default function MediaLibrarySection() {
     fetchVideos()
   }, [])
 
+  // Fetch lectures from API
+  useEffect(() => {
+    const fetchLectures = async () => {
+      try {
+        setLecturesLoading(true)
+        const response = await container.services.media.getLectures(1, 6) // Get first 6 lectures
+        setLectures(response.data)
+      } catch (error) {
+        console.error("Error fetching lectures:", error)
+        setLectures([])
+      } finally {
+        setLecturesLoading(false)
+      }
+    }
+
+    fetchLectures()
+  }, [])
+
+  // Fetch presentations from API
+  useEffect(() => {
+    const fetchPresentations = async () => {
+      try {
+        setPresentationsLoading(true)
+        const response = await container.services.media.getPresentations(1, 6) // Get first 6 presentations
+        setPresentations(response.data)
+      } catch (error) {
+        console.error("Error fetching presentations:", error)
+        setPresentations([])
+      } finally {
+        setPresentationsLoading(false)
+      }
+    }
+
+    fetchPresentations()
+  }, [])
+
   // Prefetch media pages
   useEffect(() => {
-    mediaLibraryData.lectures.forEach((lecture) => {
-      router.prefetch(`/media/lecture/${lecture.id}`)
-    })
-
-    mediaLibraryData.presentations.forEach((presentation) => {
-      router.prefetch(`/media/presentation/${presentation.id}`)
-    })
-
-    // Prefetch videos page
+    // Prefetch pages
     router.prefetch("/videos")
+    router.prefetch("/lectures")
+    router.prefetch("/presentations")
   }, [router])
 
   return (
@@ -133,18 +166,72 @@ export default function MediaLibrarySection() {
 
         <TabsContent value="lectures" className="mt-0">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mediaLibraryData.lectures.map((item) => (
-              <MediaCard key={item.id} media={item} onClick={() => router.push(`/media/lecture/${item.id}`)} />
-            ))}
+            {lecturesLoading ? (
+              // Loading skeletons
+              Array.from({ length: 6 }).map((_, index) => (
+                <div key={index} className="animate-pulse">
+                  <div className="aspect-video bg-muted rounded-lg mb-4"></div>
+                  <div className="h-4 bg-muted rounded mb-2"></div>
+                  <div className="h-3 bg-muted rounded w-3/4"></div>
+                </div>
+              ))
+            ) : lectures.length > 0 ? (
+              lectures.map((lecture) => <LectureCard key={lecture.id} lecture={lecture} />)
+            ) : (
+              <div className="col-span-full text-center py-8">
+                <p className="text-muted-foreground">{t("media.noLectures")}</p>
+              </div>
+            )}
           </div>
+
+          {lectures.length > 0 && (
+            <div className="flex justify-center mt-8">
+              <Button onClick={() => router.push("/lectures")} variant="outline" className="group">
+                {t("common.viewAll")}
+                {isRtl ? (
+                  <ArrowLeft className="ml-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+                ) : (
+                  <ArrowRight className="mr-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                )}
+              </Button>
+            </div>
+          )}
         </TabsContent>
 
         <TabsContent value="presentations" className="mt-0">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mediaLibraryData.presentations.map((item) => (
-              <MediaCard key={item.id} media={item} onClick={() => router.push(`/media/presentation/${item.id}`)} />
-            ))}
+            {presentationsLoading ? (
+              // Loading skeletons
+              Array.from({ length: 6 }).map((_, index) => (
+                <div key={index} className="animate-pulse">
+                  <div className="aspect-video bg-muted rounded-lg mb-4"></div>
+                  <div className="h-4 bg-muted rounded mb-2"></div>
+                  <div className="h-3 bg-muted rounded w-3/4"></div>
+                </div>
+              ))
+            ) : presentations.length > 0 ? (
+              presentations.map((presentation) => (
+                <PresentationCard key={presentation.id} presentation={presentation} />
+              ))
+            ) : (
+              <div className="col-span-full text-center py-8">
+                <p className="text-muted-foreground">{t("media.noPresentations")}</p>
+              </div>
+            )}
           </div>
+
+          {presentations.length > 0 && (
+            <div className="flex justify-center mt-8">
+              <Button onClick={() => router.push("/presentations")} variant="outline" className="group">
+                {t("common.viewAll")}
+                {isRtl ? (
+                  <ArrowLeft className="ml-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+                ) : (
+                  <ArrowRight className="mr-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                )}
+              </Button>
+            </div>
+          )}
         </TabsContent>
       </Tabs>
 
@@ -179,13 +266,7 @@ export default function MediaLibrarySection() {
 }
 
 // Video Card Component for API videos
-const VideoCard = ({
-  video,
-  onClick,
-}: {
-  video: ApiVideo
-  onClick: (video: ApiVideo) => void
-}) => {
+const VideoCard = ({ video, onClick }: { video: ApiVideo; onClick: (video: ApiVideo) => void }) => {
   const { language, isRtl } = useLanguage()
 
   const handleCardClick = () => {
@@ -227,20 +308,15 @@ const VideoCard = ({
   )
 }
 
-// Update the MediaCard component to be more responsive
-const MediaCard = ({
-  media,
-  onClick,
-}: {
-  media: any
-  onClick: (media: any) => void
-}) => {
-  const { t, language, isRtl } = useLanguage()
-  const mediaType = media.type || "video"
-  const thumbnailUrl = media.thumbnailUrl || `/placeholder.svg?height=200&width=300`
+// Lecture Card Component for API lectures with slug-based navigation
+const LectureCard = ({ lecture }: { lecture: ApiLecture }) => {
+  const { language, isRtl } = useLanguage()
+  const router = useRouter()
 
   const handleCardClick = () => {
-    onClick(media)
+    const englishTitle = lecture.nameEn || ""
+    const slug = slugify(englishTitle)
+    router.push(`/lectures/${slug}`)
   }
 
   const formatDate = (dateString: string) => {
@@ -250,7 +326,7 @@ const MediaCard = ({
       month: "long",
       day: "numeric",
     }
-    return date.toLocaleDateString(undefined, options)
+    return date.toLocaleDateString(language === "ar" ? "ar-SA" : "en-US", options)
   }
 
   return (
@@ -258,28 +334,66 @@ const MediaCard = ({
       className="card group cursor-pointer transition-all duration-300 hover:shadow-lg border border-border/50 overflow-hidden rounded-lg bg-card"
       onClick={handleCardClick}
     >
-      <div className="relative aspect-video overflow-hidden">
-        <Image
-          src={thumbnailUrl || "/placeholder.svg"}
-          alt={typeof media.title === "object" ? media.title[language] : media.title}
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-        />
+      <div className="relative aspect-video overflow-hidden bg-muted flex items-center justify-center">
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
+        <BookOpen className="h-12 w-12 text-white/80 group-hover:text-white transition-colors" />
         <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between">
-          <span className="text-xs font-medium text-white bg-primary/80 px-2 py-1 rounded">
-            {t(`media.${mediaType}`)}
-          </span>
-          <span className="text-xs text-white/90">{media.date ? formatDate(media.date) : ""}</span>
+          <span className="text-xs font-medium text-white bg-primary/80 px-2 py-1 rounded">Lecture</span>
+          <span className="text-xs text-white/90">{formatDate(lecture.createdAt)}</span>
         </div>
       </div>
       <div className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
         <h3 className="font-bold text-base sm:text-lg mb-2 line-clamp-2">
-          {typeof media.title === "object" ? media.title[language] : media.title}
+          {language === "ar" ? lecture.nameAr : lecture.nameEn}
         </h3>
         <p className="text-sm text-muted-foreground line-clamp-2">
-          {typeof media.description === "object" ? media.description[language] : media.description}
+          {language === "ar" ? lecture.summaryAr : lecture.summaryEn}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+// Presentation Card Component for API presentations with slug-based navigation
+const PresentationCard = ({ presentation }: { presentation: ApiPresentation }) => {
+  const { language, isRtl } = useLanguage()
+  const router = useRouter()
+
+  const handleCardClick = () => {
+    const englishTitle = presentation.nameEn || ""
+    const slug = slugify(englishTitle)
+    router.push(`/presentations/${slug}`)
+  }
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString)
+    const options: Intl.DateTimeFormatOptions = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }
+    return date.toLocaleDateString(language === "ar" ? "ar-SA" : "en-US", options)
+  }
+
+  return (
+    <div
+      className="card group cursor-pointer transition-all duration-300 hover:shadow-lg border border-border/50 overflow-hidden rounded-lg bg-card"
+      onClick={handleCardClick}
+    >
+      <div className="relative aspect-video overflow-hidden bg-muted flex items-center justify-center">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
+        <Presentation className="h-12 w-12 text-white/80 group-hover:text-white transition-colors" />
+        <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between">
+          <span className="text-xs font-medium text-white bg-primary/80 px-2 py-1 rounded">Presentation</span>
+          <span className="text-xs text-white/90">{formatDate(presentation.createdAt)}</span>
+        </div>
+      </div>
+      <div className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
+        <h3 className="font-bold text-base sm:text-lg mb-2 line-clamp-2">
+          {language === "ar" ? presentation.nameAr : presentation.nameEn}
+        </h3>
+        <p className="text-sm text-muted-foreground line-clamp-2">
+          {language === "ar" ? presentation.summaryAr : presentation.summaryEn}
         </p>
       </div>
     </div>

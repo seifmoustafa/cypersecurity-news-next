@@ -7,8 +7,13 @@ import type {
   Presentation,
   ApiVideo,
   VideosPaginatedResponse,
+  ApiLecture,
+  LecturesPaginatedResponse,
+  ApiPresentation,
+  PresentationsPaginatedResponse,
 } from "@/core/domain/models/media"
 import type { ApiDataSource } from "@/core/data/sources/api-data-source"
+import { slugify } from "@/lib/utils"
 
 export class MediaRepositoryImpl implements MediaRepository {
   constructor(private dataSource: ApiDataSource) {}
@@ -89,6 +94,170 @@ export class MediaRepositoryImpl implements MediaRepository {
       }
     } catch (error) {
       console.error("MediaRepository: Error fetching video by ID:", error)
+      return null
+    }
+  }
+
+  async getLectures(page = 1, pageSize = 10, search?: string): Promise<LecturesPaginatedResponse> {
+    try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        pageSize: pageSize.toString(),
+      })
+
+      if (search && search.trim()) {
+        params.append("search", search.trim())
+      }
+
+      const response = await this.dataSource.get<LecturesPaginatedResponse>(`/Lectures?${params.toString()}`)
+
+      // Transform document URLs to include base URL
+      const baseImageUrl = this.dataSource.getBaseImageUrl()
+      const transformedData = response.data.map((lecture) => ({
+        ...lecture,
+        documentUrl: lecture.documentUrl ? `${baseImageUrl}${lecture.documentUrl}` : lecture.documentUrl,
+      }))
+
+      return {
+        ...response,
+        data: transformedData,
+      }
+    } catch (error) {
+      console.error("MediaRepository: Error fetching lectures:", error)
+      return {
+        data: [],
+        pagination: {
+          itemsCount: 0,
+          pagesCount: 0,
+          pageSize: pageSize,
+          currentPage: page,
+        },
+      }
+    }
+  }
+
+  async getApiLectureById(id: string): Promise<ApiLecture | null> {
+    try {
+      const lecture = await this.dataSource.get<ApiLecture>(`/Lectures/${id}`)
+
+      // Transform document URL to include base URL
+      const baseImageUrl = this.dataSource.getBaseImageUrl()
+      return {
+        ...lecture,
+        documentUrl: lecture.documentUrl ? `${baseImageUrl}${lecture.documentUrl}` : lecture.documentUrl,
+      }
+    } catch (error) {
+      console.error("MediaRepository: Error fetching lecture by ID:", error)
+      return null
+    }
+  }
+
+  async getLectureBySlug(slug: string): Promise<ApiLecture | null> {
+    try {
+      // Get all lectures and find by slug
+      const response = await this.dataSource.get<LecturesPaginatedResponse>(`/Lectures?page=1&pageSize=1000`)
+
+      const baseImageUrl = this.dataSource.getBaseImageUrl()
+      const transformedData = response.data.map((lecture) => ({
+        ...lecture,
+        documentUrl: lecture.documentUrl ? `${baseImageUrl}${lecture.documentUrl}` : lecture.documentUrl,
+      }))
+
+      // Find lecture by slug
+      const foundLecture = transformedData.find((lecture) => {
+        const englishTitle = lecture.nameEn || ""
+        const lectureSlug = slugify(englishTitle)
+        return lectureSlug === slug
+      })
+
+      return foundLecture || null
+    } catch (error) {
+      console.error("MediaRepository: Error fetching lecture by slug:", error)
+      return null
+    }
+  }
+
+  async getPresentations(page = 1, pageSize = 10, search?: string): Promise<PresentationsPaginatedResponse> {
+    try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        pageSize: pageSize.toString(),
+      })
+
+      if (search && search.trim()) {
+        params.append("search", search.trim())
+      }
+
+      const response = await this.dataSource.get<PresentationsPaginatedResponse>(`/Presentations?${params.toString()}`)
+
+      // Transform presentation URLs to include base URL
+      const baseImageUrl = this.dataSource.getBaseImageUrl()
+      const transformedData = response.data.map((presentation) => ({
+        ...presentation,
+        presentationUrl: presentation.presentationUrl
+          ? `${baseImageUrl}${presentation.presentationUrl}`
+          : presentation.presentationUrl,
+      }))
+
+      return {
+        ...response,
+        data: transformedData,
+      }
+    } catch (error) {
+      console.error("MediaRepository: Error fetching presentations:", error)
+      return {
+        data: [],
+        pagination: {
+          itemsCount: 0,
+          pagesCount: 0,
+          pageSize: pageSize,
+          currentPage: page,
+        },
+      }
+    }
+  }
+
+  async getApiPresentationById(id: string): Promise<ApiPresentation | null> {
+    try {
+      const presentation = await this.dataSource.get<ApiPresentation>(`/Presentations/${id}`)
+
+      // Transform presentation URL to include base URL
+      const baseImageUrl = this.dataSource.getBaseImageUrl()
+      return {
+        ...presentation,
+        presentationUrl: presentation.presentationUrl
+          ? `${baseImageUrl}${presentation.presentationUrl}`
+          : presentation.presentationUrl,
+      }
+    } catch (error) {
+      console.error("MediaRepository: Error fetching presentation by ID:", error)
+      return null
+    }
+  }
+
+  async getPresentationBySlug(slug: string): Promise<ApiPresentation | null> {
+    try {
+      // Get all presentations and find by slug
+      const response = await this.dataSource.get<PresentationsPaginatedResponse>(`/Presentations?page=1&pageSize=1000`)
+
+      const baseImageUrl = this.dataSource.getBaseImageUrl()
+      const transformedData = response.data.map((presentation) => ({
+        ...presentation,
+        presentationUrl: presentation.presentationUrl
+          ? `${baseImageUrl}${presentation.presentationUrl}`
+          : presentation.presentationUrl,
+      }))
+
+      // Find presentation by slug
+      const foundPresentation = transformedData.find((presentation) => {
+        const englishTitle = presentation.nameEn || ""
+        const presentationSlug = slugify(englishTitle)
+        return presentationSlug === slug
+      })
+
+      return foundPresentation || null
+    } catch (error) {
+      console.error("MediaRepository: Error fetching presentation by slug:", error)
       return null
     }
   }

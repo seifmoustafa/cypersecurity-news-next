@@ -925,7 +925,7 @@ export const frameworkBenefitsData = [
       en: "Enhanced Security",
     },
     description: {
-      ar: "تحسين الموقف الأمني العام للمؤسسة وحماية الأصول الحيوية",
+      ar: "تحسين الموقف الأمني ��لعام للمؤسسة وحماية الأصول الحيوية",
       en: "Improve the overall security posture of the organization and protect critical assets",
     },
   },

@@ -39,6 +39,52 @@ export interface VideosPaginatedResponse {
   }
 }
 
+export interface ApiLecture {
+  id: string
+  nameEn: string
+  nameAr: string
+  summaryEn: string
+  summaryAr: string
+  contentEn: string
+  contentAr: string
+  documentUrl: string
+  isActive: boolean
+  createdAt: string
+  updatedAt: string | null
+}
+
+export interface LecturesPaginatedResponse {
+  data: ApiLecture[]
+  pagination: {
+    itemsCount: number
+    pagesCount: number
+    pageSize: number
+    currentPage: number
+  }
+}
+
+export interface ApiPresentation {
+  id: string
+  nameEn: string
+  nameAr: string
+  summaryEn: string
+  summaryAr: string
+  presentationUrl: string
+  isActive: boolean
+  createdAt: string
+  updatedAt: string | null
+}
+
+export interface PresentationsPaginatedResponse {
+  data: ApiPresentation[]
+  pagination: {
+    itemsCount: number
+    pagesCount: number
+    pageSize: number
+    currentPage: number
+  }
+}
+
 export interface Lecture extends MediaItem {
   content: {
     en: string

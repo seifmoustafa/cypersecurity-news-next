@@ -194,5 +194,30 @@
   },
   "site": {
     "name": "Cybersecurity Portal"
+  },
+  "presentations": {
+    "title": "Presentations",
+    "subtitle": "Access and download cybersecurity presentations and educational materials",
+    "searchPlaceholder": "Search presentations...",
+    "allPresentations": "All Presentations",
+    "searchResults": "Search Results",
+    "resultsCount": "{{count}} presentations found",
+    "noSearchResults": "No presentations found",
+    "noPresentations": "No presentations available",
+    "tryDifferentSearch": "Try searching with different keywords",
+    "checkBackLater": "Check back later for new presentations"
+  },
+  "presentation": {
+    "details": "Presentation Details",
+    "title": "Title",
+    "summary": "Summary",
+    "download": "Download PPTX",
+    "downloadStarted": "Download started",
+    "downloadError": "Download failed",
+    "format": "Format",
+    "created": "Created",
+    "updated": "Updated",
+    "status": "Status",
+    "previewNotAvailable": "Preview not available"
   }
 }

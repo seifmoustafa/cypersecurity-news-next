@@ -579,7 +579,7 @@ export const frameworkData = {
             en: "Cybersecurity Policies and Procedures",
           },
           description: {
-            ar: "إنشاء وصيانة سياسات وإجراءات الأمن السيبراني.",
+            ar: "إنشاء وصيانة ��ياسات وإجراءات الأمن السيبراني.",
             en: "Establishing and maintaining cybersecurity policies and procedures.",
           },
         },

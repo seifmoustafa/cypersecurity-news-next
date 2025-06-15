@@ -89,7 +89,7 @@ export const lawsData: Law[] = [
       <p>يقصد بالألفاظ والعبارات الآتية -أينما وردت في هذه اللائحة- المعاني المبينة أمام كل منها، ما لم يقتض السياق خلاف ذلك:</p>
       <p>الأمن السيبراني: حماية الشبكات وأنظمة تقنية المعلومات وأنظمة التقنيات التشغيلية ومكوناتها من أجهزة وبرمجيات، وما تقدمه من خدمات، وما تحويه من بيانات، من أي اختراق أو تعطيل أو تعديل أو دخول أو استخدام أو استغلال غير مشروع.</p>
       <p>المخاطر السيبرانية: احتمالية تعرض الأصول السيبرانية للتهديدات السيبرانية، وما ينتج عن ذلك من آثار.</p>
-      <p>الحوادث السيبرانية: حدث أو سلسلة أحداث غير متوقعة أو غير مرغوب فيها تهدد الأمن السيبراني.</p>`,
+      <p>الحوادث السيبرانية: حدث أو سلسلة أحداث غير مت��قعة أو غير مرغوب فيها تهدد الأمن السيبراني.</p>`,
       en: `<p>Article One: Definitions</p>
       <p>The following terms and phrases - wherever mentioned in this regulation - shall have the meanings indicated next to each of them, unless the context requires otherwise:</p>
       <p>Cybersecurity: Protection of networks, information technology systems, operational technology systems and their components of hardware and software, and the services they provide, and the data they contain, from any breach, disruption, modification, entry, use or illegal exploitation.</p>

@@ -73,7 +73,7 @@ function TechniquePageContent() {
             <Link href={`/standards/${category}/${standard}/${control}/${safeguard}`}>
               <Button variant="ghost" size="sm" className="gap-1">
                 <ChevronLeft className="h-4 w-4" />
-                <span>{language === "ar" ? "رجوع" : "Back"}</span>
+                <span>{language === "ar" ? "رج��ع" : "Back"}</span>
               </Button>
             </Link>
             <h1 className="text-3xl font-bold text-center flex-1">
