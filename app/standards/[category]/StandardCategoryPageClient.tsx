@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { useLanguage } from "@/components/language-provider"
 import MainLayout from "@/components/layouts/main-layout"
@@ -11,6 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { ChevronLeft, ChevronRight, ArrowLeft, ArrowRight, Globe, Home, Building } from "lucide-react"
 import Link from "next/link"
 import { container } from "@/core/di/container"
+import { slugify } from "@/lib/utils"
 import type { StandardCategory, Standard } from "@/core/domain/models/standard"
 import type { PaginatedResponse } from "@/core/domain/models/component"
 
@@ -26,6 +28,7 @@ export default function StandardCategoryPageClient({
   initialPage,
 }: StandardCategoryPageClientProps) {
   const { language, isRtl } = useLanguage()
+  const router = useRouter()
   const [standards, setStandards] = useState(initialStandards)
   const [currentPage, setCurrentPage] = useState(initialPage)
   const [loading, setLoading] = useState(false)
@@ -38,16 +41,21 @@ export default function StandardCategoryPageClient({
     return <Globe className="h-5 w-5 text-primary" />
   }
 
+  const handleStandardClick = (standard: Standard) => {
+    console.log("Standard clicked:", standard)
+    const categorySlug = slugify(category.nameEn)
+    const standardSlug = slugify(standard.nameEn)
+    const url = `/standards/${categorySlug}/${standardSlug}`
+    console.log("Navigating to:", url)
+    router.push(url)
+  }
+
   const loadPage = async (page: number) => {
     if (page === currentPage) return
 
     setLoading(true)
     try {
-      const response = await container.services.standards.getStandardsByCategory(
-        category.id,
-        page,
-        12
-      )
+      const response = await container.services.standards.getStandardsByCategory(category.id, page, 12)
       setStandards(response)
       setCurrentPage(page)
 
@@ -66,7 +74,11 @@ export default function StandardCategoryPageClient({
     }
   }
 
-  const totalPages = Math.ceil(standards.total / standards.limit)
+  // Safe access to standards data with fallbacks
+  const standardsData = standards?.data || []
+  const totalItems = standards?.total || 0
+  const pageSize = standards?.limit || 12
+  const totalPages = Math.ceil(totalItems / pageSize)
 
   return (
     <div className={isRtl ? "rtl" : "ltr"} dir={isRtl ? "rtl" : "ltr"}>
@@ -76,16 +88,8 @@ export default function StandardCategoryPageClient({
             {/* Breadcrumb */}
             <div className={`mb-8 ${isRtl ? "text-right" : "text-left"}`}>
               <Link href="/standards">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className={`gap-2 ${isRtl ? "flex-row-reverse" : "flex-row"}`}
-                >
-                  {isRtl ? (
-                    <ChevronRight className="h-4 w-4" />
-                  ) : (
-                    <ChevronLeft className="h-4 w-4" />
-                  )}
+                <Button variant="ghost" size="sm" className={`gap-2 ${isRtl ? "flex-row-reverse" : "flex-row"}`}>
+                  {isRtl ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
                   <span>{language === "ar" ? "رجوع إلى المعايير" : "Back to Standards"}</span>
                 </Button>
               </Link>
@@ -94,16 +98,14 @@ export default function StandardCategoryPageClient({
             {/* Page Header */}
             <div className={`mb-12 ${isRtl ? "text-right" : "text-left"}`}>
               <div
-                className={`flex items-center gap-4 mb-4 ${
-                  isRtl ? "flex-row-reverse justify-end" : "justify-start"
-                }`}
+                className={`flex items-center gap-4 mb-4 ${isRtl ? "flex-row-reverse justify-end" : "justify-start"}`}
               >
                 {getCategoryIcon(category.nameEn)}
                 <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
                   {language === "ar" ? category.nameAr : category.nameEn}
                 </h1>
                 <Badge variant="secondary" className="text-sm">
-                  {standards.total} {language === "ar" ? "معيار" : "Standards"}
+                  {totalItems} {language === "ar" ? "معيار" : "Standards"}
                 </Badge>
               </div>
               <p
@@ -136,10 +138,10 @@ export default function StandardCategoryPageClient({
                   </Card>
                 ))}
               </div>
-            ) : standards.data.length > 0 ? (
+            ) : standardsData.length > 0 ? (
               <>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                  {standards.data.map((standard, index) => (
+                  {standardsData.map((standard, index) => (
                     <motion.div
                       key={standard.id}
                       initial={{ opacity: 0, y: 20 }}
@@ -147,11 +149,19 @@ export default function StandardCategoryPageClient({
                       viewport={{ once: true, margin: "-50px" }}
                       transition={{ duration: 0.3, delay: index * 0.05 }}
                     >
-                      <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                      <Card
+                        className="h-full hover:shadow-md transition-all duration-200 cursor-pointer hover:scale-105"
+                        onClick={() => handleStandardClick(standard)}
+                      >
                         <CardHeader className="pb-2">
                           <CardTitle className={isRtl ? "text-right" : "text-left"}>
                             {language === "ar" ? standard.nameAr : standard.nameEn}
                           </CardTitle>
+                          {standard.code && (
+                            <Badge variant="outline" className="w-fit">
+                              {standard.code}
+                            </Badge>
+                          )}
                         </CardHeader>
                         <CardContent className={isRtl ? "text-right" : "text-left"}>
                           <p
@@ -159,22 +169,16 @@ export default function StandardCategoryPageClient({
                               isRtl ? "text-right" : "text-left"
                             }`}
                           >
-                            {language === "ar"
-                              ? standard.descriptionAr
-                              : standard.descriptionEn}
+                            {language === "ar" ? standard.descriptionAr : standard.descriptionEn}
                           </p>
                           <div
-                            className={`flex items-center justify-between ${
-                              isRtl ? "flex-row-reverse" : "flex-row"
-                            }`}
+                            className={`flex items-center justify-between ${isRtl ? "flex-row-reverse" : "flex-row"}`}
                           >
-                            <Badge variant="outline" className="text-xs">
+                            <Badge variant="secondary" className="text-xs">
                               {language === "ar" ? category.nameAr : category.nameEn}
                             </Badge>
                             <span className="text-xs text-muted-foreground">
-                              {new Date(standard.createdAt).toLocaleDateString(
-                                language === "ar" ? "ar-SA" : "en-US"
-                              )}
+                              {new Date(standard.createdAt).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
                             </span>
                           </div>
                         </CardContent>
@@ -185,11 +189,7 @@ export default function StandardCategoryPageClient({
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                  <div
-                    className={`flex items-center justify-center gap-2 ${
-                      isRtl ? "flex-row-reverse" : "flex-row"
-                    }`}
-                  >
+                  <div className={`flex items-center justify-center gap-2 ${isRtl ? "flex-row-reverse" : "flex-row"}`}>
                     <Button
                       variant="outline"
                       size="sm"

@@ -5,8 +5,13 @@ import type {
   StandardsPaginatedResponse,
   StandardCategoriesPaginatedResponse,
   Control,
+  ControlsPaginatedResponse,
   Safeguard,
+  SafeguardsPaginatedResponse,
   Technique,
+  TechniquesPaginatedResponse,
+  ImplementationStep,
+  ImplementationStepsPaginatedResponse,
   Implementation,
 } from "../domain/models/standard"
 
@@ -52,33 +57,88 @@ export class StandardsService {
     return this.repository.getStandardCategories()
   }
 
-  async getControlsByStandardId(standardId: string): Promise<Control[]> {
-    return this.repository.getControlsByStandardId(standardId)
+  async getControlsByStandardId(
+    standardId: string,
+    page?: number,
+    pageSize?: number,
+    forceRefresh?: boolean,
+  ): Promise<ControlsPaginatedResponse> {
+    return this.repository.getControlsByStandardId(standardId, page, pageSize, forceRefresh)
   }
 
-  async getControlById(standardId: string, controlId: string): Promise<Control | null> {
-    return this.repository.getControlById(standardId, controlId)
+  async getControlById(controlId: string, forceRefresh?: boolean): Promise<Control | null> {
+    return this.repository.getControlById(controlId, forceRefresh)
   }
 
-  async getSafeguardsByControlId(standardId: string, controlId: string): Promise<Safeguard[]> {
-    return this.repository.getSafeguardsByControlId(standardId, controlId)
+  // Safeguards methods
+  async getSafeguardsByControlId(
+    controlId: string,
+    page?: number,
+    pageSize?: number,
+    forceRefresh?: boolean,
+  ): Promise<SafeguardsPaginatedResponse> {
+    return this.repository.getSafeguardsByControlId(controlId, page, pageSize, forceRefresh)
   }
 
-  async getSafeguardById(standardId: string, controlId: string, safeguardId: string): Promise<Safeguard | null> {
-    return this.repository.getSafeguardById(standardId, controlId, safeguardId)
+  async getSafeguardById(safeguardId: string, forceRefresh?: boolean): Promise<Safeguard | null> {
+    return this.repository.getSafeguardById(safeguardId, forceRefresh)
   }
 
-  async getTechniquesBySafeguardId(standardId: string, controlId: string, safeguardId: string): Promise<Technique[]> {
-    return this.repository.getTechniquesBySafeguardId(standardId, controlId, safeguardId)
+  // New Techniques methods
+  async getTechniquesBySafeguardId(
+    safeguardId: string,
+    page?: number,
+    pageSize?: number,
+    forceRefresh?: boolean,
+  ): Promise<TechniquesPaginatedResponse> {
+    return this.repository.getTechniquesBySafeguardId(safeguardId, page, pageSize, forceRefresh)
   }
 
-  async getTechniqueById(
+  async getTechniqueById(techniqueId: string, forceRefresh?: boolean): Promise<Technique | null> {
+    return this.repository.getTechniqueById(techniqueId, forceRefresh)
+  }
+
+  // New Implementation Steps methods
+  async getImplementationStepsByTechniqueId(
+    techniqueId: string,
+    page?: number,
+    pageSize?: number,
+    forceRefresh?: boolean,
+  ): Promise<ImplementationStepsPaginatedResponse> {
+    return this.repository.getImplementationStepsByTechniqueId(techniqueId, page, pageSize, forceRefresh)
+  }
+
+  async getImplementationStepById(
+    implementationStepId: string,
+    forceRefresh?: boolean,
+  ): Promise<ImplementationStep | null> {
+    return this.repository.getImplementationStepById(implementationStepId, forceRefresh)
+  }
+
+  // Legacy methods
+  async getSafeguardsByControlIdLegacy(standardId: string, controlId: string): Promise<Safeguard[]> {
+    return this.repository.getSafeguardsByControlIdLegacy(standardId, controlId)
+  }
+
+  async getSafeguardByIdLegacy(standardId: string, controlId: string, safeguardId: string): Promise<Safeguard | null> {
+    return this.repository.getSafeguardByIdLegacy(standardId, controlId, safeguardId)
+  }
+
+  async getTechniquesBySafeguardIdLegacy(
+    standardId: string,
+    controlId: string,
+    safeguardId: string,
+  ): Promise<Technique[]> {
+    return this.repository.getTechniquesBySafeguardIdLegacy(standardId, controlId, safeguardId)
+  }
+
+  async getTechniqueByIdLegacy(
     standardId: string,
     controlId: string,
     safeguardId: string,
     techniqueId: string,
   ): Promise<Technique | null> {
-    return this.repository.getTechniqueById(standardId, controlId, safeguardId, techniqueId)
+    return this.repository.getTechniqueByIdLegacy(standardId, controlId, safeguardId, techniqueId)
   }
 
   async getImplementationsByTechniqueId(

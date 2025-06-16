@@ -40,6 +40,7 @@ import { ArticlesService } from "../services/articles-service"
 class Container {
   private _apiDataSource: ApiDataSource | null = null
   private _mockDataSource: MockDataSource | null = null
+  private _services: any = null
 
   // Data sources
   get apiDataSource(): ApiDataSource {
@@ -58,26 +59,48 @@ class Container {
 
   // Services
   get services() {
-    return {
-      news: new NewsService(new NewsRepositoryImpl(this.apiDataSource)),
-      regulations: new RegulationsService(new RegulationsRepositoryImpl(this.apiDataSource)),
-      regulationCategories: new RegulationCategoriesService(new RegulationCategoriesRepositoryImpl(this.apiDataSource)),
-      instructionCategories: new InstructionCategoriesService(
-        new InstructionCategoriesRepositoryImpl(this.apiDataSource),
-      ),
-      instructionYears: new InstructionYearsService(new InstructionYearsRepositoryImpl(this.apiDataSource)),
-      instructions: new InstructionsService(new InstructionsRepositoryImpl(this.apiDataSource)),
-      ticker: new TickerService(new TickerRepositoryImpl(this.apiDataSource)),
-      tips: new TipsService(new TipsRepositoryImpl(this.apiDataSource)),
-      systems: new SystemsService(new SystemsRepositoryImpl(this.apiDataSource)),
-      helperSystems: new HelperSystemsService(new HelperSystemsRepositoryImpl(this.apiDataSource)),
-      definitions: new DefinitionsService(new DefinitionsRepositoryImpl(this.apiDataSource)),
-      laws: new LawsService(new LawsRepositoryImpl(this.apiDataSource)),
-      framework: new FrameworkService(new FrameworkRepositoryImpl(this.mockDataSource)),
-      media: new MediaService(new MediaRepositoryImpl(this.apiDataSource)),
-      standards: new StandardsService(new StandardsRepositoryImpl(this.apiDataSource)),
-      articles: new ArticlesService(new ArticlesRepositoryImpl(this.apiDataSource)),
+    if (!this._services) {
+      this._services = {
+        news: new NewsService(new NewsRepositoryImpl(this.apiDataSource)),
+        regulations: new RegulationsService(new RegulationsRepositoryImpl(this.apiDataSource)),
+        regulationCategories: new RegulationCategoriesService(
+          new RegulationCategoriesRepositoryImpl(this.apiDataSource),
+        ),
+        instructionCategories: new InstructionCategoriesService(
+          new InstructionCategoriesRepositoryImpl(this.apiDataSource),
+        ),
+        instructionYears: new InstructionYearsService(new InstructionYearsRepositoryImpl(this.apiDataSource)),
+        instructions: new InstructionsService(new InstructionsRepositoryImpl(this.apiDataSource)),
+        ticker: new TickerService(new TickerRepositoryImpl(this.apiDataSource)),
+        tips: new TipsService(new TipsRepositoryImpl(this.apiDataSource)),
+        systems: new SystemsService(new SystemsRepositoryImpl(this.apiDataSource)),
+        helperSystems: new HelperSystemsService(new HelperSystemsRepositoryImpl(this.apiDataSource)),
+        definitions: new DefinitionsService(new DefinitionsRepositoryImpl(this.apiDataSource)),
+        laws: new LawsService(new LawsRepositoryImpl(this.apiDataSource)),
+        framework: new FrameworkService(new FrameworkRepositoryImpl(this.mockDataSource)),
+        media: new MediaService(new MediaRepositoryImpl(this.apiDataSource)),
+        standards: new StandardsService(new StandardsRepositoryImpl(this.apiDataSource)),
+        articles: new ArticlesService(new ArticlesRepositoryImpl(this.apiDataSource)),
+      }
     }
+    return this._services
+  }
+
+  // Individual service getters for easier access
+  get standardsService() {
+    return this.services.standards
+  }
+
+  get newsService() {
+    return this.services.news
+  }
+
+  get regulationsService() {
+    return this.services.regulations
+  }
+
+  get instructionsService() {
+    return this.services.instructions
   }
 }
 

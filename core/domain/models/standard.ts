@@ -48,38 +48,100 @@ export interface StandardItem {
 
 export interface Control {
   id: string
+  standardId: string
   code: string
-  title: {
-    en: string
-    ar: string
-  }
-  description: {
-    en: string
-    ar: string
+  nameEn: string
+  nameAr: string
+  descriptionEn: string
+  descriptionAr: string
+  isActive: boolean
+  createdAt: string
+  updatedAt: string | null
+}
+
+// Add pagination response for controls
+export interface ControlsPaginatedResponse {
+  data: Control[]
+  pagination: {
+    itemsCount: number
+    pagesCount: number
+    pageSize: number
+    currentPage: number
   }
 }
 
+// Safeguard interface matching API response
 export interface Safeguard {
   id: string
-  title: {
-    en: string
-    ar: string
-  }
-  description: {
-    en: string
-    ar: string
+  controlId: string
+  code: string
+  nameEn: string
+  nameAr: string
+  descriptionEn: string
+  descriptionAr: string
+  isActive: boolean
+  createdAt: string
+  updatedAt: string | null
+}
+
+// Add pagination response for safeguards
+export interface SafeguardsPaginatedResponse {
+  data: Safeguard[]
+  pagination: {
+    itemsCount: number
+    pagesCount: number
+    pageSize: number
+    currentPage: number
   }
 }
 
+// New Technique interface matching API response
 export interface Technique {
   id: string
-  title: {
-    en: string
-    ar: string
+  code: string
+  nameEn: string
+  nameAr: string
+  descriptionEn: string
+  descriptionAr: string
+  safeguardId: string
+  isActive: boolean
+  createdAt: string
+  updatedAt: string | null
+}
+
+// Add pagination response for techniques
+export interface TechniquesPaginatedResponse {
+  data: Technique[]
+  pagination: {
+    itemsCount: number
+    pagesCount: number
+    pageSize: number
+    currentPage: number
   }
-  description: {
-    en: string
-    ar: string
+}
+
+// New ImplementationStep interface matching API response
+export interface ImplementationStep {
+  id: string
+  orderNum: number
+  nameEn: string
+  nameAr: string
+  descriptionEn: string
+  descriptionAr: string
+  techniqueId: string
+  isActive: boolean
+  createdAt: string
+  updatedAt: string | null
+}
+
+// Add pagination response for implementation steps
+export interface ImplementationStepsPaginatedResponse {
+  data: ImplementationStep[]
+  pagination: {
+    itemsCount: number
+    pagesCount: number
+    pageSize: number
+    currentPage: number
   }
 }
 

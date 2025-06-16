@@ -5,8 +5,13 @@ import type {
   StandardsPaginatedResponse,
   StandardCategoriesPaginatedResponse,
   Control,
+  ControlsPaginatedResponse,
   Safeguard,
+  SafeguardsPaginatedResponse,
   Technique,
+  TechniquesPaginatedResponse,
+  ImplementationStep,
+  ImplementationStepsPaginatedResponse,
   Implementation,
 } from "../../domain/models/standard"
 import type { MockDataSource } from "../sources/mock-data-source"
@@ -215,39 +220,350 @@ export class StandardsRepositoryImpl implements StandardsRepository {
     return response.data
   }
 
-  async getControlsByStandardId(standardId: string): Promise<Control[]> {
-    // Mock implementation - would be replaced with real API call
-    return []
+  async getControlsByStandardId(
+    standardId: string,
+    page = 1,
+    pageSize = 10,
+    forceRefresh = false,
+  ): Promise<ControlsPaginatedResponse> {
+    const cacheKey = `controls-standard-${standardId}-${page}-${pageSize}`
+
+    if (!forceRefresh) {
+      const cached = this.getCachedData<ControlsPaginatedResponse>(cacheKey)
+      if (cached) return cached
+    }
+
+    try {
+      console.log(`🔄 Fetching controls by standard: ${standardId}, page=${page}, pageSize=${pageSize}`)
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
+      const url = `${baseUrl}/Controls/byStandard/${standardId}?page=${page}&pageSize=${pageSize}`
+
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data: ControlsPaginatedResponse = await response.json()
+      console.log(`✅ Fetched ${data.data.length} controls for standard ${standardId}`)
+
+      this.setCachedData(cacheKey, data)
+      return data
+    } catch (error) {
+      console.error("❌ Error fetching controls by standard:", error)
+      throw error
+    }
   }
 
-  async getControlById(standardId: string, controlId: string): Promise<Control | null> {
-    // Mock implementation - would be replaced with real API call
-    return null
+  async getControlById(controlId: string, forceRefresh = false): Promise<Control | null> {
+    const cacheKey = `control-${controlId}`
+
+    if (!forceRefresh) {
+      const cached = this.getCachedData<Control>(cacheKey)
+      if (cached) return cached
+    }
+
+    try {
+      console.log(`🔄 Fetching control by ID: ${controlId}`)
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
+      const url = `${baseUrl}/Controls/${controlId}`
+
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          return null
+        }
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data: Control = await response.json()
+      console.log(`✅ Fetched control: ${data.nameEn}`)
+
+      this.setCachedData(cacheKey, data)
+      return data
+    } catch (error) {
+      console.error("❌ Error fetching control:", error)
+      throw error
+    }
   }
 
-  async getSafeguardsByControlId(standardId: string, controlId: string): Promise<Safeguard[]> {
-    // Mock implementation - would be replaced with real API call
-    return []
+  // Safeguards methods
+  async getSafeguardsByControlId(
+    controlId: string,
+    page = 1,
+    pageSize = 10,
+    forceRefresh = false,
+  ): Promise<SafeguardsPaginatedResponse> {
+    const cacheKey = `safeguards-control-${controlId}-${page}-${pageSize}`
+
+    if (!forceRefresh) {
+      const cached = this.getCachedData<SafeguardsPaginatedResponse>(cacheKey)
+      if (cached) return cached
+    }
+
+    try {
+      console.log(`🔄 Fetching safeguards by control: ${controlId}, page=${page}, pageSize=${pageSize}`)
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
+      const url = `${baseUrl}/Safeguards/by-control/${controlId}?page=${page}&pageSize=${pageSize}`
+
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data: SafeguardsPaginatedResponse = await response.json()
+      console.log(`✅ Fetched ${data.data.length} safeguards for control ${controlId}`)
+
+      this.setCachedData(cacheKey, data)
+      return data
+    } catch (error) {
+      console.error("❌ Error fetching safeguards by control:", error)
+      throw error
+    }
   }
 
-  async getSafeguardById(standardId: string, controlId: string, safeguardId: string): Promise<Safeguard | null> {
-    // Mock implementation - would be replaced with real API call
-    return null
+  async getSafeguardById(safeguardId: string, forceRefresh = false): Promise<Safeguard | null> {
+    const cacheKey = `safeguard-${safeguardId}`
+
+    if (!forceRefresh) {
+      const cached = this.getCachedData<Safeguard>(cacheKey)
+      if (cached) return cached
+    }
+
+    try {
+      console.log(`🔄 Fetching safeguard by ID: ${safeguardId}`)
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
+      const url = `${baseUrl}/Safeguards/${safeguardId}`
+
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          return null
+        }
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data: Safeguard = await response.json()
+      console.log(`✅ Fetched safeguard: ${data.nameEn}`)
+
+      this.setCachedData(cacheKey, data)
+      return data
+    } catch (error) {
+      console.error("❌ Error fetching safeguard:", error)
+      throw error
+    }
   }
 
-  async getTechniquesBySafeguardId(standardId: string, controlId: string, safeguardId: string): Promise<Technique[]> {
-    // Mock implementation - would be replaced with real API call
-    return []
+  // New Techniques methods
+  async getTechniquesBySafeguardId(
+    safeguardId: string,
+    page = 1,
+    pageSize = 10,
+    forceRefresh = false,
+  ): Promise<TechniquesPaginatedResponse> {
+    const cacheKey = `techniques-safeguard-${safeguardId}-${page}-${pageSize}`
+
+    if (!forceRefresh) {
+      const cached = this.getCachedData<TechniquesPaginatedResponse>(cacheKey)
+      if (cached) return cached
+    }
+
+    try {
+      console.log(`🔄 Fetching techniques by safeguard: ${safeguardId}, page=${page}, pageSize=${pageSize}`)
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
+      const url = `${baseUrl}/Techniques/by-safeguard/${safeguardId}?page=${page}&pageSize=${pageSize}`
+
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data: TechniquesPaginatedResponse = await response.json()
+      console.log(`✅ Fetched ${data.data.length} techniques for safeguard ${safeguardId}`)
+
+      this.setCachedData(cacheKey, data)
+      return data
+    } catch (error) {
+      console.error("❌ Error fetching techniques by safeguard:", error)
+      throw error
+    }
   }
 
-  async getTechniqueById(
+  async getTechniqueById(techniqueId: string, forceRefresh = false): Promise<Technique | null> {
+    const cacheKey = `technique-${techniqueId}`
+
+    if (!forceRefresh) {
+      const cached = this.getCachedData<Technique>(cacheKey)
+      if (cached) return cached
+    }
+
+    try {
+      console.log(`🔄 Fetching technique by ID: ${techniqueId}`)
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
+      const url = `${baseUrl}/Techniques/${techniqueId}`
+
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          return null
+        }
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data: Technique = await response.json()
+      console.log(`✅ Fetched technique: ${data.nameEn}`)
+
+      this.setCachedData(cacheKey, data)
+      return data
+    } catch (error) {
+      console.error("❌ Error fetching technique:", error)
+      throw error
+    }
+  }
+
+  // New Implementation Steps methods
+  async getImplementationStepsByTechniqueId(
+    techniqueId: string,
+    page = 1,
+    pageSize = 10,
+    forceRefresh = false,
+  ): Promise<ImplementationStepsPaginatedResponse> {
+    const cacheKey = `implementation-steps-technique-${techniqueId}-${page}-${pageSize}`
+
+    if (!forceRefresh) {
+      const cached = this.getCachedData<ImplementationStepsPaginatedResponse>(cacheKey)
+      if (cached) return cached
+    }
+
+    try {
+      console.log(`🔄 Fetching implementation steps by technique: ${techniqueId}, page=${page}, pageSize=${pageSize}`)
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
+      const url = `${baseUrl}/ImplementationSteps/by-technique/${techniqueId}?page=${page}&pageSize=${pageSize}`
+
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data: ImplementationStepsPaginatedResponse = await response.json()
+      console.log(`✅ Fetched ${data.data.length} implementation steps for technique ${techniqueId}`)
+
+      this.setCachedData(cacheKey, data)
+      return data
+    } catch (error) {
+      console.error("❌ Error fetching implementation steps by technique:", error)
+      throw error
+    }
+  }
+
+  async getImplementationStepById(
+    implementationStepId: string,
+    forceRefresh = false,
+  ): Promise<ImplementationStep | null> {
+    const cacheKey = `implementation-step-${implementationStepId}`
+
+    if (!forceRefresh) {
+      const cached = this.getCachedData<ImplementationStep>(cacheKey)
+      if (cached) return cached
+    }
+
+    try {
+      console.log(`🔄 Fetching implementation step by ID: ${implementationStepId}`)
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
+      const url = `${baseUrl}/ImplementationSteps/${implementationStepId}`
+
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          return null
+        }
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data: ImplementationStep = await response.json()
+      console.log(`✅ Fetched implementation step: ${data.nameEn}`)
+
+      this.setCachedData(cacheKey, data)
+      return data
+    } catch (error) {
+      console.error("❌ Error fetching implementation step:", error)
+      throw error
+    }
+  }
+
+  // Legacy methods (keeping for compatibility)
+  async getSafeguardsByControlIdLegacy(standardId: string, controlId: string): Promise<Safeguard[]> {
+    const response = await this.getSafeguardsByControlId(controlId, 1, 100)
+    return response.data
+  }
+
+  async getSafeguardByIdLegacy(standardId: string, controlId: string, safeguardId: string): Promise<Safeguard | null> {
+    return this.getSafeguardById(safeguardId)
+  }
+
+  async getTechniquesBySafeguardIdLegacy(
+    standardId: string,
+    controlId: string,
+    safeguardId: string,
+  ): Promise<Technique[]> {
+    const response = await this.getTechniquesBySafeguardId(safeguardId, 1, 100)
+    return response.data
+  }
+
+  async getTechniqueByIdLegacy(
     standardId: string,
     controlId: string,
     safeguardId: string,
     techniqueId: string,
   ): Promise<Technique | null> {
-    // Mock implementation - would be replaced with real API call
-    return null
+    return this.getTechniqueById(techniqueId)
   }
 
   async getImplementationsByTechniqueId(
