@@ -46,7 +46,8 @@
     "vulnerabilities": "Vulnerabilities",
     "visitSystem": "Visit System",
     "mainSystems": "Main Systems",
-    "helperSystems": "Helper Systems"
+    "helperSystems": "Helper Systems",
+    "viewAll": "View All"
   },
   "regulation": {
     "title": "Cybersecurity Regulation",
@@ -98,7 +99,8 @@
     "explore": "Explore Library",
     "videos": "Videos",
     "lectures": "Lectures",
-    "presentations": "Presentations"
+    "presentations": "Presentations",
+    "presentation": "Presentation"
   },
   "documentLibrary": {
     "title": "Document Library",
@@ -107,7 +109,9 @@
   },
   "helperSystems": {
     "subtitle": "Download helpful tools and utilities for your cybersecurity needs",
-    "download": "Download"
+    "download": "Download",
+    "visitSystem": "Visit System",
+    "viewAll": "View All"
   },
   "common": {
     "language": "Change Language",
