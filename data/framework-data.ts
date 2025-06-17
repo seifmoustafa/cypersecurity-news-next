@@ -317,7 +317,7 @@ export const frameworkFunctionsData = [
           en: "Improvements",
         },
         description: {
-          ar: "يتم تحسين تخطيط وعمليات الاستعادة من خلال دمج الدروس المستفادة في الأنشطة المستقبلية.",
+          ar: "يتم تحسين تخطيط وعمليات الاستعادة من خلال دمج الدروس المستفادة في الأ��شطة المستقبلية.",
           en: "Recovery planning and processes are improved by incorporating lessons learned into future activities.",
         },
       },
@@ -381,7 +381,7 @@ export const frameworkCategoriesData = [
       en: "Risk Assessment",
     },
     description: {
-      ar: "تفهم المؤسسة المخاطر السيبرانية على عملياتها (بما في ذلك المهمة والوظائف والصورة أو السمعة) وأصولها التنظيمية والأفراد.",
+      ar: "تفهم المؤسسة المخاطر السيبرانية على عملياتها (بما في ذلك المهمة والوظائف والصورة أو السمعة) وأصولها التنظيمية ��الأفراد.",
       en: "The organization understands the cybersecurity risk to organizational operations (including mission, functions, image, or reputation), organizational assets, and individuals.",
     },
   },

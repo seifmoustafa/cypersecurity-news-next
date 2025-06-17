@@ -34,7 +34,7 @@ export default function StandardsPageClient({ categories }: StandardsPageClientP
             <div className="mb-12">
               <div className={`text-center mb-8 ${isRtl ? "text-right" : "text-left"}`}>
                 <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 bg-clip-text text-transparent mb-4">
-                  {language === "ar" ? "معايير الأمن السيبراني" : "Cybersecurity Standards"}
+                  {language === "ar" ? "معايير الأمن السي��راني" : "Cybersecurity Standards"}
                 </h1>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                   {language === "ar"

@@ -33,7 +33,7 @@ export const mediaLibraryData = {
         en: "Data Encryption Basics",
       },
       description: {
-        ar: "شرح مبسط لمفاهيم وتقنيات تشفير البيانات وأهميتها في حماية المعلومات الحساسة",
+        ar: "شرح مبسط لمفاهيم وتقنيات تشفير البيانات وأهميتها في حماية المعلومات الحساس��",
         en: "A simplified explanation of data encryption concepts and techniques and their importance in protecting sensitive information",
       },
       thumbnailUrl: "/placeholder.svg?height=400&width=600",

@@ -91,35 +91,7 @@ export default function SecurityProceduresContent() {
       </div>
 
       {/* Additional content about security procedures */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-        <SecurityProcedureCard
-          icon={<Database className="h-8 w-8" />}
-          title={language === "ar" ? "حماية البيانات" : "Data Protection"}
-          description={
-            language === "ar"
-              ? "إجراءات لحماية البيانات الحساسة وضمان سريتها وسلامتها وتوافرها"
-              : "Procedures to protect sensitive data and ensure its confidentiality, integrity, and availability"
-          }
-        />
-        <SecurityProcedureCard
-          icon={<Server className="h-8 w-8" />}
-          title={language === "ar" ? "أمن الأنظمة" : "System Security"}
-          description={
-            language === "ar"
-              ? "إجراءات لتأمين الأنظمة والخوادم والشبكات ضد التهديدات السيبرانية"
-              : "Procedures to secure systems, servers, and networks against cyber threats"
-          }
-        />
-        <SecurityProcedureCard
-          icon={<Key className="h-8 w-8" />}
-          title={language === "ar" ? "إدارة الهوية" : "Identity Management"}
-          description={
-            language === "ar"
-              ? "إجراءات لإدارة هويات المستخدمين وصلاحياتهم وضمان الوصول الآمن"
-              : "Procedures to manage user identities, permissions, and ensure secure access"
-          }
-        />
-      </div>
+    
     </div>
   )
 }

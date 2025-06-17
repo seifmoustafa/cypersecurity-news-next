@@ -18,6 +18,7 @@ import { FrameworkRepositoryImpl } from "../data/repositories/framework-reposito
 import { MediaRepositoryImpl } from "../data/repositories/media-repository-impl"
 import { StandardsRepositoryImpl } from "../data/repositories/standards-repository-impl"
 import { ArticlesRepositoryImpl } from "../data/repositories/articles-repository-impl"
+import { AwarenessRepositoryImpl } from "../data/repositories/awareness-repository-impl"
 
 // Services
 import { NewsService } from "../services/news-service"
@@ -36,6 +37,7 @@ import { FrameworkService } from "../services/framework-service"
 import { MediaService } from "../services/media-service"
 import { StandardsService } from "../services/standards-service"
 import { ArticlesService } from "../services/articles-service"
+import { AwarenessService } from "../services/awareness-service"
 
 class Container {
   private _apiDataSource: ApiDataSource | null = null
@@ -81,6 +83,7 @@ class Container {
         media: new MediaService(new MediaRepositoryImpl(this.apiDataSource)),
         standards: new StandardsService(new StandardsRepositoryImpl(this.apiDataSource)),
         articles: new ArticlesService(new ArticlesRepositoryImpl(this.apiDataSource)),
+        awareness: new AwarenessService(new AwarenessRepositoryImpl(this.apiDataSource)),
       }
     }
     return this._services
@@ -102,6 +105,11 @@ class Container {
   get instructionsService() {
     return this.services.instructions
   }
+
+  get awarenessService() {
+    return this.services.awareness
+  }
 }
 
+// Export the container instance
 export const container = new Container()

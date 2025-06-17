@@ -7,13 +7,16 @@ import SectionHeader from "@/components/ui/section-header"
 import SectionContainer from "@/components/ui/section-container"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Badge } from "@/components/ui/badge"
 import Image from "next/image"
 import Link from "next/link"
 import { useNewsByCategory, useNewsCategories } from "@/core/hooks/use-news"
 import { useLatestArticles } from "@/core/hooks/use-articles"
 import { container } from "@/core/di/container"
-import { awarenessData } from "@/data/awareness-data"
 import { slugify } from "@/lib/utils"
+import { useCurrentYearAwareness } from "@/core/hooks/use-awareness"
+import { Button } from "@/components/ui/button"
+import { ArrowRight, Calendar, FileText } from "lucide-react"
 
 // Map category IDs to URL-friendly names
 const categoryUrlMap: { [key: string]: string } = {
@@ -25,7 +28,6 @@ const categoryUrlMap: { [key: string]: string } = {
 
 export default function AwarenessSection() {
   const { t, language, isRtl } = useLanguage()
-  const [bulletins, setBulletins] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState("news")
   const [activeNewsCategory, setActiveNewsCategory] = useState("all")
@@ -40,8 +42,6 @@ export default function AwarenessSection() {
     const fetchAwarenessData = async () => {
       try {
         setLoading(true)
-        // Using static data for bulletins until API is provided
-        setBulletins(awarenessData.bulletins)
       } finally {
         setLoading(false)
       }
@@ -112,16 +112,7 @@ export default function AwarenessSection() {
         </TabsContent>
 
         <TabsContent value="bulletins">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {bulletins.map((item, idx) => (
-              <AwarenessCard key={item.id} item={item} index={idx} />
-            ))}
-            {!loading && bulletins.length === 0 && (
-              <div className="col-span-full text-center py-10">
-                <p className="text-muted-foreground">{t("common.noData")}</p>
-              </div>
-            )}
-          </div>
+          <CurrentYearAwarenessContent />
         </TabsContent>
 
         <TabsContent value="articles">
@@ -273,41 +264,6 @@ function CategoryNewsContent({
         </Link>
       </div>
     </div>
-  )
-}
-
-interface AwarenessCardProps {
-  item: any
-  index: number
-}
-function AwarenessCard({ item, index }: AwarenessCardProps) {
-  const { language, isRtl } = useLanguage()
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-    >
-      <Link href={`/awareness/${item.id}`}>
-        <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:border-primary/50 cursor-pointer">
-          <div className="relative h-48">
-            <Image src={item.imageUrl || "/placeholder.svg"} alt={item.title[language]} fill className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-            <div
-              className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} bg-primary text-white text-xs px-2 py-1 rounded`}
-            >
-              {new Date(item.date).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
-            </div>
-          </div>
-          <CardContent className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
-            <h3 className="text-lg font-bold mb-2 line-clamp-2">{item.title[language]}</h3>
-            <p className="text-muted-foreground text-sm line-clamp-3">{item.summary[language]}</p>
-          </CardContent>
-        </Card>
-      </Link>
-    </motion.div>
   )
 }
 
@@ -467,5 +423,134 @@ function ArticleCard({ item, index }: ArticleCardProps) {
         </Card>
       </Link>
     </motion.div>
+  )
+}
+
+function CurrentYearAwarenessContent() {
+  const { language, isRtl } = useLanguage()
+  const { data, loading, error } = useCurrentYearAwareness("", 1, 3) // Only get first 3 items
+
+  const getDisplayTitle = (item: any) => {
+    return language === "ar" ? item.title || item.titleEn || "" : item.titleEn || item.title || ""
+  }
+
+  const getDisplaySummary = (item: any) => {
+    return language === "ar" ? item.summary || item.summaryEn || "" : item.summaryEn || item.summary || ""
+  }
+
+  const getSlug = (item: any) => {
+    const englishTitle = item.titleEn || item.title || ""
+    return slugify(englishTitle)
+  }
+
+  if (loading) {
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[1, 2, 3].map((i) => (
+          <Card key={i} className="h-[250px] animate-pulse dark:bg-slate-900">
+            <CardContent className="p-6">
+              <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
+              <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full mb-2"></div>
+              <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-2/3"></div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-10">
+        <p className="text-red-600">{language === "ar" ? "خطأ في تحميل البيانات" : "Error loading data"}</p>
+      </div>
+    )
+  }
+
+  return (
+    <>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {data && data.data.length > 0 ? (
+          data.data.map((item, idx) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+            >
+              <Link href={`/awareness/${item.year}/${getSlug(item)}`} className="group">
+                <Card className="h-full transition-all duration-300 hover:shadow-lg hover:border-primary/50 dark:bg-slate-900 dark:border-slate-800 dark:hover:border-primary/50">
+                  <CardContent className={`p-6 ${isRtl ? "text-right" : "text-left"}`}>
+                    {/* Header with icon and badge */}
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-primary/10 dark:bg-primary/5 rounded-lg flex items-center justify-center">
+                          <FileText className="h-5 w-5 text-primary" />
+                        </div>
+                        <Badge className="bg-primary/10 dark:bg-primary/5 text-primary border-primary/20 dark:border-primary/10">
+                          {item.year}
+                        </Badge>
+                      </div>
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-lg font-bold mb-3 line-clamp-2 group-hover:text-primary transition-colors dark:text-slate-200">
+                      {getDisplayTitle(item)}
+                    </h3>
+
+                    {/* Summary */}
+                    <p className="text-sm text-muted-foreground dark:text-slate-400 mb-4 line-clamp-3">
+                      {getDisplaySummary(item)}
+                    </p>
+
+                    {/* Read more link */}
+                    <div className="mt-auto inline-flex items-center text-primary font-medium">
+                      {language === "ar" ? "اقرأ المزيد" : "Read More"}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className={`h-4 w-4 ${isRtl ? "mr-1 rotate-180" : "ml-1"}`}
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d={isRtl ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"}
+                        />
+                      </svg>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            </motion.div>
+          ))
+        ) : (
+          <div className="col-span-full text-center py-10">
+            <p className="text-muted-foreground">{language === "ar" ? "لا توجد بيانات" : "No data available"}</p>
+          </div>
+        )}
+      </div>
+
+      {/* Action Buttons */}
+      {data && data.data.length > 0 && (
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+          <Link href={`/awareness/${new Date().getFullYear()}`}>
+            <Button className="flex items-center gap-2">
+              {language === "ar" ? "المزيد من هذا العام" : "More This Year"}
+              <ArrowRight className={`h-4 w-4 ${isRtl ? "rotate-180" : ""}`} />
+            </Button>
+          </Link>
+          <Link href="/awareness/years">
+            <Button variant="outline" className="flex items-center gap-2">
+              <Calendar className="h-4 w-4" />
+              {language === "ar" ? "جميع السنوات" : "All Years"}
+            </Button>
+          </Link>
+        </div>
+      )}
+    </>
   )
 }
