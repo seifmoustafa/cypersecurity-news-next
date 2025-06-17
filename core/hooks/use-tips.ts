@@ -14,6 +14,8 @@ export function useTips() {
       setLoading(true)
       setError(null)
       const randomTip = await container.services.tips.getRandomTip()
+
+      // If randomTip is null (204 response), just set tip to null without error
       setTip(randomTip)
     } catch (err) {
       const error = err instanceof Error ? err : new Error("Failed to fetch tip")

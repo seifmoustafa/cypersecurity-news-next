@@ -8,6 +8,10 @@ export class ApiDataSource {
     this.baseImageUrl = this.baseUrl.replace("/api", "")
   }
 
+  getBaseUrl(): string {
+    return this.baseUrl
+  }
+
   getBaseImageUrl(): string {
     return this.baseImageUrl
   }

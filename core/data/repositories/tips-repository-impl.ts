@@ -9,22 +9,33 @@ export class TipsRepositoryImpl implements TipsRepository {
     this.apiDataSource = apiDataSource
   }
 
-  async getRandomTip(): Promise<Tip> {
+  async getRandomTip(): Promise<Tip | null> {
     try {
-      const response = await this.apiDataSource.get<TipResponse>("/Tips/random")
+      const response = await fetch(`${this.apiDataSource.getBaseUrl()}/Tips/random`)
+
+      // Handle 204 No Content - no tips available
+      if (response.status === 204) {
+        return null
+      }
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const tipResponse = (await response.json()) as TipResponse
 
       // Transform API response to our entity
       const tip: Tip = {
-        id: response.id,
-        title: response.title,
-        titleEn: response.titleEn,
-        subtitle: response.subtitle,
-        subtitleEn: response.subtitleEn,
-        summary: response.summary,
-        summaryEn: response.summaryEn,
-        isActive: response.isActive,
-        createdAt: response.createdAt,
-        updatedAt: response.updatedAt,
+        id: tipResponse.id,
+        title: tipResponse.title,
+        titleEn: tipResponse.titleEn,
+        subtitle: tipResponse.subtitle,
+        subtitleEn: tipResponse.subtitleEn,
+        summary: tipResponse.summary,
+        summaryEn: tipResponse.summaryEn,
+        isActive: tipResponse.isActive,
+        createdAt: tipResponse.createdAt,
+        updatedAt: tipResponse.updatedAt,
       }
 
       return tip

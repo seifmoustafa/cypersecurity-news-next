@@ -8,7 +8,7 @@ export class TipsService {
     this.repository = repository
   }
 
-  async getRandomTip(): Promise<Tip> {
+  async getRandomTip(): Promise<Tip | null> {
     try {
       return await this.repository.getRandomTip()
     } catch (error) {
