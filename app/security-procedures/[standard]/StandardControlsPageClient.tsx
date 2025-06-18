@@ -1,46 +1,70 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Pagination } from "@/components/ui/pagination"
 import { useLanguage } from "@/components/language-provider"
-import { useSecurityProcedureTechniques, useSecurityProcedureSafeguard } from "@/core/hooks/use-security-procedures"
-import { ArrowLeft, Search, AlertCircle, RefreshCw, ChevronRight, Wrench } from "lucide-react"
+import { useSecurityProcedures } from "@/core/hooks/use-security-procedures"
+import { ArrowLeft, AlertCircle, RefreshCw, ChevronRight, Settings } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Skeleton } from "@/components/ui/skeleton"
+import { findEntityBySlugOrId, generateSecurityProcedureUrls } from "@/lib/security-procedures-utils"
 
-interface TechniquesPageClientProps {
-  standardId: string
-  controlId: string
-  safeguardId: string
+interface StandardControlsPageClientProps {
+  standardSlug: string
 }
 
-export default function TechniquesPageClient({ standardId, controlId, safeguardId }: TechniquesPageClientProps) {
+export default function StandardControlsPageClient({ standardSlug }: StandardControlsPageClientProps) {
   const { language, t } = useLanguage()
   const router = useRouter()
   const [currentPage, setCurrentPage] = useState(1)
-  const [searchTerm, setSearchTerm] = useState("")
+  const [standardId, setStandardId] = useState<string | null>(null)
+  const [standard, setStandard] = useState<any>(null)
+  const [controls, setControls] = useState<any[]>([])
+  const [pagination, setPagination] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const pageSize = 12
 
-  const { safeguard, loading: safeguardLoading } = useSecurityProcedureSafeguard(safeguardId)
-  const {
-    techniques,
-    pagination,
-    loading: techniquesLoading,
-    error,
-  } = useSecurityProcedureTechniques(safeguardId, currentPage, pageSize, searchTerm)
+  const { getStandards, getControlsByStandardId } = useSecurityProcedures()
 
-  const loading = safeguardLoading || techniquesLoading
+  // Find the standard by slug and load controls
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true)
+        setError(null)
 
-  const handleSearch = (value: string) => {
-    setSearchTerm(value)
-    setCurrentPage(1)
-  }
+        // Get all standards to find the one matching the slug
+        const standards = await getStandards()
+        const foundStandard = findEntityBySlugOrId(standards, standardSlug)
+
+        if (!foundStandard) {
+          setError("Standard not found")
+          return
+        }
+
+        setStandard(foundStandard)
+        setStandardId(foundStandard.id)
+
+        // Load controls for this standard
+        const controlsResult = await getControlsByStandardId(foundStandard.id, currentPage, pageSize)
+        setControls(controlsResult)
+        setPagination({ itemsCount: controlsResult.length, pageSize, currentPage })
+      } catch (err) {
+        console.error("Error loading standard controls:", err)
+        setError("Failed to load controls")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadData()
+  }, [standardSlug, currentPage, pageSize, getStandards, getControlsByStandardId])
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
@@ -71,7 +95,7 @@ export default function TechniquesPageClient({ standardId, controlId, safeguardI
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="mb-6">
           <Button
             variant="ghost"
-            onClick={() => router.back()}
+            onClick={() => router.push("/security-procedures")}
             className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -82,63 +106,40 @@ export default function TechniquesPageClient({ standardId, controlId, safeguardI
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
           <div className="flex items-center mb-4">
-            <Wrench className="h-8 w-8 text-blue-600 dark:text-blue-400 mr-3" />
+            <Settings className="h-8 w-8 text-blue-600 dark:text-blue-400 mr-3" />
             <div>
               <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 bg-clip-text text-transparent">
-                {t("securityProcedures.techniques")}
+                {t("securityProcedures.controls")}
               </h1>
-              {safeguard && (
+              {standard && (
                 <p className="text-lg text-muted-foreground mt-2">
-                  {language === "ar" ? safeguard.safeGuardTitle : safeguard.nameEn}
+                  {language === "ar" ? standard.standardName : standard.nameEn}
                 </p>
               )}
             </div>
           </div>
-          {safeguard && (
-            <div className="flex flex-wrap gap-2">
-              {safeguard.mandatory && <Badge variant="destructive">Mandatory</Badge>}
-              {safeguard.configurable && <Badge variant="secondary">Configurable</Badge>}
-              {safeguard.online && <Badge variant="outline">Online</Badge>}
+          {standard && (
+            <div className="flex items-center gap-2">
               <Badge variant="secondary" className="bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300">
-                {`Score: ${safeguard.configurationScore}`}
+                {standard.standardAbbreviation}
               </Badge>
+              <Badge variant="outline">{`v${standard.standardVersion}`}</Badge>
             </div>
           )}
         </motion.div>
 
-        {/* Search Bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="mb-8"
-        >
-          <div className="relative max-w-md mx-auto">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-            <Input
-              type="text"
-              placeholder={t("common.search")}
-              value={searchTerm}
-              onChange={(e) => handleSearch(e.target.value)}
-              className="pl-10 bg-white dark:bg-gray-800 border-blue-200 dark:border-blue-800 focus:border-blue-500 dark:focus:border-blue-400"
-            />
-          </div>
-        </motion.div>
-
-        {/* Techniques Grid */}
+        {/* Controls Grid */}
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {Array.from({ length: pageSize }).map((_, i) => (
-              <TechniqueCardSkeleton key={i} />
+              <ControlCardSkeleton key={i} />
             ))}
           </div>
-        ) : techniques.length === 0 ? (
+        ) : controls.length === 0 ? (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-12">
-            <Wrench className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+            <Settings className="h-16 w-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{t("common.noResults")}</h3>
-            <p className="text-gray-600 dark:text-gray-400">
-              {searchTerm ? t("common.noSearchResults") : t("securityProcedures.noTechniques")}
-            </p>
+            <p className="text-gray-600 dark:text-gray-400">{t("securityProcedures.noControls")}</p>
           </motion.div>
         ) : (
           <motion.div
@@ -147,15 +148,8 @@ export default function TechniquesPageClient({ standardId, controlId, safeguardI
             transition={{ delay: 0.2 }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8"
           >
-            {techniques.map((technique, index) => (
-              <TechniqueCard
-                key={technique.id}
-                technique={technique}
-                standardId={standardId}
-                controlId={controlId}
-                safeguardId={safeguardId}
-                index={index}
-              />
+            {controls.map((control, index) => (
+              <ControlCard key={control.id} control={control} standard={standard} index={index} />
             ))}
           </motion.div>
         )}
@@ -180,22 +174,19 @@ export default function TechniquesPageClient({ standardId, controlId, safeguardI
   )
 }
 
-function TechniqueCard({
-  technique,
-  standardId,
-  controlId,
-  safeguardId,
-  index,
-}: { technique: any; standardId: string; controlId: string; safeguardId: string; index: number }) {
+function ControlCard({ control, standard, index }: { control: any; standard: any; index: number }) {
   const { language } = useLanguage()
 
-  const title = language === "ar" ? technique.nameEn : technique.nameEn // Using nameEn from the main object
-  const techniqueName = language === "ar" ? technique.technique.techniqueName : technique.technique.nameEn
-  const description = language === "ar" ? technique.technique.techniqueDescription : technique.technique.descriptionEn
+  const title = language === "ar" ? control.standardControlName : control.nameEn
+  const controlTitle = language === "ar" ? control.control.controlTitle : control.control.nameEn
+  const description = language === "ar" ? control.control.controlDescription : control.control.descriptionEn
+
+  // Generate URL with slugs
+  const urls = generateSecurityProcedureUrls(standard, { id: control.control.id, nameEn: control.control.nameEn })
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }}>
-      <Link href={`/security-procedures/${standardId}/${controlId}/${safeguardId}/${technique.technique.id}`}>
+      <Link href={urls.controlUrl}>
         <Card className="h-full bg-white dark:bg-gray-800 border-blue-100 dark:border-blue-800 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 hover:shadow-lg group cursor-pointer">
           <CardHeader className="pb-3">
             <div className="flex items-start justify-between">
@@ -203,22 +194,7 @@ function TechniqueCard({
                 <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200 line-clamp-2">
                   {title}
                 </CardTitle>
-                <p className="text-sm text-blue-600 dark:text-blue-400 mt-1 font-medium">{techniqueName}</p>
-                <div className="flex flex-wrap gap-1 mt-2">
-                  {technique.technique.approval && (
-                    <Badge
-                      variant="secondary"
-                      className="text-xs bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300"
-                    >
-                      Approved
-                    </Badge>
-                  )}
-                  {technique.technique.online && (
-                    <Badge variant="outline" className="text-xs">
-                      Online
-                    </Badge>
-                  )}
-                </div>
+                <p className="text-sm text-blue-600 dark:text-blue-400 mt-1 font-medium">{controlTitle}</p>
               </div>
               <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors duration-200 flex-shrink-0 ml-2" />
             </div>
@@ -228,11 +204,14 @@ function TechniqueCard({
               <div dangerouslySetInnerHTML={{ __html: description || "" }} />
             </CardDescription>
             <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-500 dark:text-gray-400">
-                {technique.technique.approvalDate
-                  ? `Approved: ${new Date(technique.technique.approvalDate).toLocaleDateString()}`
-                  : "Not Approved"}
-              </span>
+              <div className="flex items-center gap-2">
+                <Badge variant="outline" className="text-xs">
+                  {`Weight: ${control.control.weight}`}
+                </Badge>
+                <span className="text-gray-500 dark:text-gray-400">
+                  {control.control.online ? "Online" : "Offline"}
+                </span>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -241,18 +220,14 @@ function TechniqueCard({
   )
 }
 
-function TechniqueCardSkeleton() {
+function ControlCardSkeleton() {
   return (
     <Card className="h-full bg-white dark:bg-gray-800 border-blue-100 dark:border-blue-800">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <Skeleton className="h-6 w-3/4 mb-2" />
-            <Skeleton className="h-4 w-1/2 mb-2" />
-            <div className="flex gap-1">
-              <Skeleton className="h-4 w-16" />
-              <Skeleton className="h-4 w-12" />
-            </div>
+            <Skeleton className="h-4 w-1/2" />
           </div>
           <Skeleton className="h-5 w-5" />
         </div>
@@ -262,7 +237,12 @@ function TechniqueCardSkeleton() {
           <Skeleton className="h-4 w-full" />
           <Skeleton className="h-4 w-2/3" />
         </div>
-        <Skeleton className="h-4 w-32" />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-4 w-12" />
+            <Skeleton className="h-4 w-12" />
+          </div>
+        </div>
       </CardContent>
     </Card>
   )

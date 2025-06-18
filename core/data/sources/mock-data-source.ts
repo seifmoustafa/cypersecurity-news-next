@@ -54,7 +54,7 @@ export class MockDataSource {
         id: "iso-27001",
         name: {
           en: "ISO 27001",
-          ar: "معيار الأيسو 27001",
+          ar: "معيار ��لأيسو 27001",
         },
         description: {
           en: "Information security management systems standard",

@@ -1,40 +1,89 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Pagination } from "@/components/ui/pagination"
 import { useLanguage } from "@/components/language-provider"
-import { useSecurityProcedureControls, useSecurityProcedureStandard } from "@/core/hooks/use-security-procedures"
-import { ArrowLeft, AlertCircle, RefreshCw, ChevronRight, Settings } from "lucide-react"
+import { useSecurityProcedures } from "@/core/hooks/use-security-procedures"
+import { ArrowLeft, AlertCircle, RefreshCw, ChevronRight, ShieldCheck } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Skeleton } from "@/components/ui/skeleton"
+import { findEntityBySlugOrId, generateSecurityProcedureUrls } from "@/lib/security-procedures-utils"
 
-interface StandardControlsPageClientProps {
-  standardId: string
+interface SafeguardsPageClientProps {
+  standardSlug: string
+  controlSlug: string
 }
 
-export default function StandardControlsPageClient({ standardId }: StandardControlsPageClientProps) {
+export default function SafeguardsPageClient({ standardSlug, controlSlug }: SafeguardsPageClientProps) {
   const { language, t } = useLanguage()
   const router = useRouter()
-  const [currentPage, setCurrentPage] = useState(1)
-  const pageSize = 12
+  const [standard, setStandard] = useState<any>(null)
+  const [control, setControl] = useState<any>(null)
+  const [safeguards, setSafeguards] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  const { standard, loading: standardLoading } = useSecurityProcedureStandard(standardId)
-  const {
-    controls,
-    pagination,
-    loading: controlsLoading,
-    error,
-  } = useSecurityProcedureControls(standardId, currentPage, pageSize)
+  const { getStandards, getControlsByStandardId, getSafeguardsByControlId } = useSecurityProcedures()
 
-  const loading = standardLoading || controlsLoading
+  // Load data
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true)
+        setError(null)
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page)
+        // Get standards
+        const standards = await getStandards()
+        const foundStandard = findEntityBySlugOrId(standards, standardSlug)
+
+        if (!foundStandard) {
+          setError("Standard not found")
+          return
+        }
+
+        setStandard(foundStandard)
+
+        // Get controls for this standard
+        const controls = await getControlsByStandardId(foundStandard.id)
+        const foundControl = findEntityBySlugOrId(
+          controls.map((c) => ({ id: c.control.id, nameEn: c.control.nameEn })),
+          controlSlug,
+        )
+
+        if (!foundControl) {
+          setError("Control not found")
+          return
+        }
+
+        // Find the full control object
+        const fullControl = controls.find((c) => c.control.id === foundControl.id)?.control
+        setControl(fullControl)
+
+        // Get safeguards for this control
+        const safeguardsData = await getSafeguardsByControlId(foundControl.id)
+        setSafeguards(safeguardsData)
+      } catch (err) {
+        console.error("Error loading safeguards:", err)
+        setError("Failed to load safeguards")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadData()
+  }, [standardSlug, controlSlug, getStandards, getControlsByStandardId, getSafeguardsByControlId])
+
+  const handleBack = () => {
+    if (standard) {
+      const urls = generateSecurityProcedureUrls(standard)
+      router.push(urls.standardUrl)
+    } else {
+      router.back()
+    }
   }
 
   if (error) {
@@ -62,7 +111,7 @@ export default function StandardControlsPageClient({ standardId }: StandardContr
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="mb-6">
           <Button
             variant="ghost"
-            onClick={() => router.back()}
+            onClick={handleBack}
             className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -73,67 +122,57 @@ export default function StandardControlsPageClient({ standardId }: StandardContr
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
           <div className="flex items-center mb-4">
-            <Settings className="h-8 w-8 text-blue-600 dark:text-blue-400 mr-3" />
+            <ShieldCheck className="h-8 w-8 text-blue-600 dark:text-blue-400 mr-3" />
             <div>
               <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 bg-clip-text text-transparent">
-                {t("securityProcedures.controls")}
+                {t("securityProcedures.safeguards")}
               </h1>
-              {standard && (
+              {control && (
                 <p className="text-lg text-muted-foreground mt-2">
-                  {language === "ar" ? standard.standardName : standard.nameEn}
+                  {language === "ar" ? control.controlTitle : control.nameEn}
                 </p>
               )}
             </div>
           </div>
-          {standard && (
+          {control && (
             <div className="flex items-center gap-2">
               <Badge variant="secondary" className="bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300">
-                {standard.standardAbbreviation}
+                {`Weight: ${control.weight}`}
               </Badge>
-              <Badge variant="outline">{`v${standard.standardVersion}`}</Badge>
+              <Badge variant="outline">{control.online ? "Online" : "Offline"}</Badge>
             </div>
           )}
         </motion.div>
 
-        {/* Controls Grid */}
+        {/* Safeguards Grid */}
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {Array.from({ length: pageSize }).map((_, i) => (
-              <ControlCardSkeleton key={i} />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <SafeguardCardSkeleton key={i} />
             ))}
           </div>
-        ) : controls.length === 0 ? (
+        ) : safeguards.length === 0 ? (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-12">
-            <Settings className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+            <ShieldCheck className="h-16 w-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{t("common.noResults")}</h3>
-            <p className="text-gray-600 dark:text-gray-400">{t("securityProcedures.noControls")}</p>
+            <p className="text-gray-600 dark:text-gray-400">{t("securityProcedures.noSafeguards")}</p>
           </motion.div>
         ) : (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
-            {controls.map((control, index) => (
-              <ControlCard key={control.id} control={control} standardId={standardId} index={index} />
+            {safeguards.map((safeguard, index) => (
+              <SafeguardCard
+                key={safeguard.id}
+                safeguard={safeguard}
+                standard={standard}
+                control={control}
+                index={index}
+              />
             ))}
-          </motion.div>
-        )}
-
-        {/* Pagination */}
-        {pagination && pagination.itemsCount > pageSize && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="flex justify-center"
-          >
-            <Pagination
-              currentPage={currentPage}
-              totalPages={Math.ceil(pagination.itemsCount / pageSize)}
-              onPageChange={handlePageChange}
-            />
           </motion.div>
         )}
       </div>
@@ -141,16 +180,23 @@ export default function StandardControlsPageClient({ standardId }: StandardContr
   )
 }
 
-function ControlCard({ control, standardId, index }: { control: any; standardId: string; index: number }) {
+function SafeguardCard({
+  safeguard,
+  standard,
+  control,
+  index,
+}: { safeguard: any; standard: any; control: any; index: number }) {
   const { language } = useLanguage()
 
-  const title = language === "ar" ? control.standardControlName : control.nameEn
-  const controlTitle = language === "ar" ? control.control.controlTitle : control.control.nameEn
-  const description = language === "ar" ? control.control.controlDescription : control.control.descriptionEn
+  const title = language === "ar" ? safeguard.safeGuardTitle : safeguard.nameEn
+  const description = language === "ar" ? safeguard.safeGuardDescription : safeguard.descriptionEn
+
+  // Generate URL with slugs
+  const urls = generateSecurityProcedureUrls(standard, control, { id: safeguard.id, nameEn: safeguard.nameEn })
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }}>
-      <Link href={`/security-procedures/${standardId}/${control.control.id}`}>
+      <Link href={urls.safeguardUrl}>
         <Card className="h-full bg-white dark:bg-gray-800 border-blue-100 dark:border-blue-800 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 hover:shadow-lg group cursor-pointer">
           <CardHeader className="pb-3">
             <div className="flex items-start justify-between">
@@ -158,7 +204,23 @@ function ControlCard({ control, standardId, index }: { control: any; standardId:
                 <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200 line-clamp-2">
                   {title}
                 </CardTitle>
-                <p className="text-sm text-blue-600 dark:text-blue-400 mt-1 font-medium">{controlTitle}</p>
+                <div className="flex flex-wrap gap-1 mt-2">
+                  {safeguard.mandatory && (
+                    <Badge variant="destructive" className="text-xs">
+                      Mandatory
+                    </Badge>
+                  )}
+                  {safeguard.configurable && (
+                    <Badge variant="secondary" className="text-xs">
+                      Configurable
+                    </Badge>
+                  )}
+                  {safeguard.online && (
+                    <Badge variant="outline" className="text-xs">
+                      Online
+                    </Badge>
+                  )}
+                </div>
               </div>
               <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors duration-200 flex-shrink-0 ml-2" />
             </div>
@@ -170,10 +232,10 @@ function ControlCard({ control, standardId, index }: { control: any; standardId:
             <div className="flex items-center justify-between text-sm">
               <div className="flex items-center gap-2">
                 <Badge variant="outline" className="text-xs">
-                  {`Weight: ${control.control.weight}`}
+                  {`Score: ${safeguard.configurationScore}`}
                 </Badge>
                 <span className="text-gray-500 dark:text-gray-400">
-                  {control.control.online ? "Online" : "Offline"}
+                  {safeguard.mandatoryEvidence ? "Evidence Required" : "No Evidence"}
                 </span>
               </div>
             </div>
@@ -184,14 +246,17 @@ function ControlCard({ control, standardId, index }: { control: any; standardId:
   )
 }
 
-function ControlCardSkeleton() {
+function SafeguardCardSkeleton() {
   return (
     <Card className="h-full bg-white dark:bg-gray-800 border-blue-100 dark:border-blue-800">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <Skeleton className="h-6 w-3/4 mb-2" />
-            <Skeleton className="h-4 w-1/2" />
+            <div className="flex gap-1">
+              <Skeleton className="h-4 w-16" />
+              <Skeleton className="h-4 w-20" />
+            </div>
           </div>
           <Skeleton className="h-5 w-5" />
         </div>
@@ -204,7 +269,7 @@ function ControlCardSkeleton() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Skeleton className="h-4 w-12" />
-            <Skeleton className="h-4 w-12" />
+            <Skeleton className="h-4 w-20" />
           </div>
         </div>
       </CardContent>

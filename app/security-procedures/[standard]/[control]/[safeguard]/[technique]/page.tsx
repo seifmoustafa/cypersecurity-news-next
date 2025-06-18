@@ -1,33 +1,33 @@
-import { Suspense } from "react";
-import TechniquesPageClient from "./TechniquesPageClient";
-import { Skeleton } from "@/components/ui/skeleton";
-import MainLayout from "@/components/layouts/main-layout";
+import { Suspense } from "react"
+import { Skeleton } from "@/components/ui/skeleton"
+import MainLayout from "@/components/layouts/main-layout"
+import ImplementationStepsPageClient from "./ImplementationStepsPageClient"
 
 interface PageProps {
-  params: Promise<{
-    standardId: string;
-    controlId: string;
-    safeguardId: string;
-  }>;
+  params: {
+    standard: string
+    control: string
+    safeguard: string
+    technique: string
+  }
 }
 
-export default async function TechniquesPage({ params }: PageProps) {
-  const { standardId, controlId, safeguardId } = await params;
-
+export default function ImplementationStepsPage({ params }: PageProps) {
   return (
     <MainLayout>
-      <Suspense fallback={<TechniquesPageSkeleton />}>
-        <TechniquesPageClient
-          standardId={standardId}
-          controlId={controlId}
-          safeguardId={safeguardId}
+      <Suspense fallback={<ImplementationStepsPageSkeleton />}>
+        <ImplementationStepsPageClient
+          standardSlug={params.standard}
+          controlSlug={params.control}
+          safeguardSlug={params.safeguard}
+          techniqueSlug={params.technique}
         />
       </Suspense>
     </MainLayout>
-  );
+  )
 }
 
-function TechniquesPageSkeleton() {
+function ImplementationStepsPageSkeleton() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 dark:from-blue-950 dark:via-gray-900 dark:to-cyan-950">
       <div className="container mx-auto px-4 py-8">
@@ -54,5 +54,5 @@ function TechniquesPageSkeleton() {
         </div>
       </div>
     </div>
-  );
+  )
 }

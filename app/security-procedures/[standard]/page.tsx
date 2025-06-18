@@ -1,25 +1,25 @@
-import { Suspense } from "react";
-import SafeguardsPageClient from "./SafeguardsPageClient";
-import { Skeleton } from "@/components/ui/skeleton";
-import MainLayout from "@/components/layouts/main-layout";
+import { Suspense } from "react"
+import { Skeleton } from "@/components/ui/skeleton"
+import MainLayout from "@/components/layouts/main-layout"
+import StandardControlsPageClient from "./StandardControlsPageClient"
 
 interface PageProps {
-  params: Promise<{ standardId: string; controlId: string }>;
+  params: {
+    standard: string
+  }
 }
 
-export default async function SafeguardsPage({ params }: PageProps) {
-  const { standardId, controlId } = await params;
-
+export default function StandardControlsPage({ params }: PageProps) {
   return (
     <MainLayout>
-      <Suspense fallback={<SafeguardsPageSkeleton />}>
-        <SafeguardsPageClient standardId={standardId} controlId={controlId} />
+      <Suspense fallback={<StandardControlsPageSkeleton />}>
+        <StandardControlsPageClient standardSlug={params.standard} />
       </Suspense>
     </MainLayout>
-  );
+  )
 }
 
-function SafeguardsPageSkeleton() {
+function StandardControlsPageSkeleton() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 dark:from-blue-950 dark:via-gray-900 dark:to-cyan-950">
       <div className="container mx-auto px-4 py-8">
@@ -46,5 +46,5 @@ function SafeguardsPageSkeleton() {
         </div>
       </div>
     </div>
-  );
+  )
 }

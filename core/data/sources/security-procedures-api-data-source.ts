@@ -1,49 +1,59 @@
 export class SecurityProceduresApiDataSource {
   private baseUrl: string
-  private baseImageUrl: string
 
   constructor() {
-    this.baseUrl = process.env.NEXT_PUBLIC_PROCEDURES_API_BASE_URL || ""
-    // Remove /api from the base URL for images if present
-    this.baseImageUrl = this.baseUrl.replace("/api", "")
-  }
+    this.baseUrl = process.env.NEXT_PUBLIC_PROCEDURES_API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL || ""
 
-  getBaseUrl(): string {
-    return this.baseUrl
-  }
-
-  getBaseImageUrl(): string {
-    return this.baseImageUrl
+    if (!this.baseUrl) {
+      console.error("No API base URL configured for security procedures")
+    }
   }
 
   async get<T>(endpoint: string): Promise<T> {
-    const response = await fetch(`${this.baseUrl}${endpoint}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    try {
+      const url = `${this.baseUrl}${endpoint}`
+      console.log("Security Procedures API Request:", url)
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      console.log("Security Procedures API Response:", data)
+      return data
+    } catch (error) {
+      console.error("Security Procedures API Error:", error)
+      throw error
     }
-
-    return response.json()
   }
 
   async post<T>(endpoint: string, data: any): Promise<T> {
-    const response = await fetch(`${this.baseUrl}${endpoint}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
+    try {
+      const url = `${this.baseUrl}${endpoint}`
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      return await response.json()
+    } catch (error) {
+      console.error("Security Procedures API Error:", error)
+      throw error
     }
-
-    return response.json()
   }
 }

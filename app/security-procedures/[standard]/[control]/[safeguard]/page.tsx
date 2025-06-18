@@ -1,19 +1,31 @@
 import { Suspense } from "react"
-import SecurityProceduresPageClient from "./SecurityProceduresPageClient"
 import { Skeleton } from "@/components/ui/skeleton"
 import MainLayout from "@/components/layouts/main-layout"
+import TechniquesPageClient from "./TechniquesPageClient"
 
-export default function SecurityProceduresPage() {
+interface PageProps {
+  params: {
+    standard: string
+    control: string
+    safeguard: string
+  }
+}
+
+export default function TechniquesPage({ params }: PageProps) {
   return (
     <MainLayout>
-      <Suspense fallback={<SecurityProceduresPageSkeleton />}>
-        <SecurityProceduresPageClient />
+      <Suspense fallback={<TechniquesPageSkeleton />}>
+        <TechniquesPageClient
+          standardSlug={params.standard}
+          controlSlug={params.control}
+          safeguardSlug={params.safeguard}
+        />
       </Suspense>
     </MainLayout>
   )
 }
 
-function SecurityProceduresPageSkeleton() {
+function TechniquesPageSkeleton() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 dark:from-blue-950 dark:via-gray-900 dark:to-cyan-950">
       <div className="container mx-auto px-4 py-8">

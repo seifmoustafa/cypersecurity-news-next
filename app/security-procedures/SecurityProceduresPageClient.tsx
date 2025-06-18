@@ -9,9 +9,10 @@ import { Input } from "@/components/ui/input"
 import { Pagination } from "@/components/ui/pagination"
 import { useLanguage } from "@/components/language-provider"
 import { useSecurityProcedureStandards } from "@/core/hooks/use-security-procedures"
-import { Search, Shield, AlertCircle, RefreshCw, ChevronRight } from "lucide-react"
+import { Search, AlertCircle, RefreshCw, ChevronRight, Shield } from "lucide-react"
 import Link from "next/link"
 import { Skeleton } from "@/components/ui/skeleton"
+import { createSecurityProcedureSlug } from "@/lib/security-procedures-utils"
 
 export default function SecurityProceduresPageClient() {
   const { language, t } = useLanguage()
@@ -54,12 +55,12 @@ export default function SecurityProceduresPageClient() {
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
           <div className="flex items-center justify-center mb-4">
-            <Shield className="h-8 w-8 text-blue-600 dark:text-blue-400 mr-3" />
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 bg-clip-text text-transparent">
+            <Shield className="h-12 w-12 text-blue-600 dark:text-blue-400 mr-4" />
+            <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 bg-clip-text text-transparent">
               {t("securityProcedures.title")}
             </h1>
           </div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("securityProcedures.description")}</p>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">{t("securityProcedures.description")}</p>
         </motion.div>
 
         {/* Search Bar */}
@@ -135,9 +136,12 @@ function StandardCard({ standard, index }: { standard: any; index: number }) {
   const title = language === "ar" ? standard.standardName : standard.nameEn
   const description = language === "ar" ? standard.standardDescription : standard.descriptionEn
 
+  // Generate slug for URL
+  const slug = createSecurityProcedureSlug(standard.nameEn)
+
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }}>
-      <Link href={`/security-procedures/${standard.id}`}>
+      <Link href={`/security-procedures/${slug}`}>
         <Card className="h-full bg-white dark:bg-gray-800 border-blue-100 dark:border-blue-800 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 hover:shadow-lg group cursor-pointer">
           <CardHeader className="pb-3">
             <div className="flex items-start justify-between">
@@ -145,14 +149,26 @@ function StandardCard({ standard, index }: { standard: any; index: number }) {
                 <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200 line-clamp-2">
                   {title}
                 </CardTitle>
-                {standard.standardAbbreviation && (
-                  <Badge
-                    variant="secondary"
-                    className="mt-2 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300"
-                  >
-                    {standard.standardAbbreviation}
-                  </Badge>
-                )}
+                <div className="flex flex-wrap gap-1 mt-2">
+                  {standard.approval && (
+                    <Badge
+                      variant="secondary"
+                      className="text-xs bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300"
+                    >
+                      Approved
+                    </Badge>
+                  )}
+                  {standard.online && (
+                    <Badge variant="outline" className="text-xs">
+                      Online
+                    </Badge>
+                  )}
+                  {standard.configuration && (
+                    <Badge variant="secondary" className="text-xs">
+                      Configurable
+                    </Badge>
+                  )}
+                </div>
               </div>
               <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors duration-200 flex-shrink-0 ml-2" />
             </div>
@@ -162,12 +178,11 @@ function StandardCard({ standard, index }: { standard: any; index: number }) {
               <div dangerouslySetInnerHTML={{ __html: description || "" }} />
             </CardDescription>
             <div className="flex items-center justify-between text-sm">
-              <div className="flex items-center gap-2">
-                <Badge variant="outline" className="text-xs">
-                  {`v${standard.standardVersion}`}
-                </Badge>
-                <span className="text-gray-500 dark:text-gray-400">{standard.isActive ? "Active" : "Inactive"}</span>
-              </div>
+              <span className="text-gray-500 dark:text-gray-400">
+                {standard.approvalDate
+                  ? `Approved: ${new Date(standard.approvalDate).toLocaleDateString()}`
+                  : "Not Approved"}
+              </span>
             </div>
           </CardContent>
         </Card>
@@ -183,7 +198,11 @@ function StandardCardSkeleton() {
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <Skeleton className="h-6 w-3/4 mb-2" />
-            <Skeleton className="h-4 w-16" />
+            <div className="flex gap-1">
+              <Skeleton className="h-4 w-16" />
+              <Skeleton className="h-4 w-12" />
+              <Skeleton className="h-4 w-20" />
+            </div>
           </div>
           <Skeleton className="h-5 w-5" />
         </div>
@@ -193,12 +212,7 @@ function StandardCardSkeleton() {
           <Skeleton className="h-4 w-full" />
           <Skeleton className="h-4 w-2/3" />
         </div>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Skeleton className="h-4 w-8" />
-            <Skeleton className="h-4 w-12" />
-          </div>
-        </div>
+        <Skeleton className="h-4 w-32" />
       </CardContent>
     </Card>
   )

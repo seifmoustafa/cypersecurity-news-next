@@ -50,7 +50,7 @@ export const regulationData = [
         <li><strong>حماية البنية التحتية الحيوية:</strong> عبر تطبيق معايير وضوابط الأمن السيبراني على الأنظمة والشبكات الحساسة.</li>
         <li><strong>بناء القدرات البشرية:</strong> من خلال تأهيل وتدريب الكوادر الوطنية في مجال الأمن السيبراني.</li>
         <li><strong>تعزيز الوعي المجتمعي:</strong> عبر نشر ثقافة الأمن السيبراني بين مختلف شرائح المجتمع.</li>
-        <li><strong>تطوير صناعة الأمن السيبراني:</strong> من خلال دعم الابتكار والبحث العلمي وريادة الأعمال في هذا المجال.</li>
+        <li><strong>تطوي�� صناعة الأمن السيبراني:</strong> من خلال دعم الابتكار والبحث العلمي وريادة الأعمال في هذا المجال.</li>
       </ol>`,
       en: `<p>The National Cybersecurity Strategy aims to enhance the country's capabilities in the field of cybersecurity and protect critical infrastructure and electronic systems from cyber risks and threats.</p>
       <p>The strategy includes the following main pillars:</p>
