@@ -1,19 +1,30 @@
-import { Suspense } from "react"
-import TechniquesPageClient from "./TechniquesPageClient"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Suspense } from "react";
+import TechniquesPageClient from "./TechniquesPageClient";
+import { Skeleton } from "@/components/ui/skeleton";
+import MainLayout from "@/components/layouts/main-layout";
 
 interface PageProps {
-  params: Promise<{ standardId: string; controlId: string; safeguardId: string }>
+  params: Promise<{
+    standardId: string;
+    controlId: string;
+    safeguardId: string;
+  }>;
 }
 
 export default async function TechniquesPage({ params }: PageProps) {
-  const { standardId, controlId, safeguardId } = await params
+  const { standardId, controlId, safeguardId } = await params;
 
   return (
-    <Suspense fallback={<TechniquesPageSkeleton />}>
-      <TechniquesPageClient standardId={standardId} controlId={controlId} safeguardId={safeguardId} />
-    </Suspense>
-  )
+    <MainLayout>
+      <Suspense fallback={<TechniquesPageSkeleton />}>
+        <TechniquesPageClient
+          standardId={standardId}
+          controlId={controlId}
+          safeguardId={safeguardId}
+        />
+      </Suspense>
+    </MainLayout>
+  );
 }
 
 function TechniquesPageSkeleton() {
@@ -43,5 +54,5 @@ function TechniquesPageSkeleton() {
         </div>
       </div>
     </div>
-  )
+  );
 }

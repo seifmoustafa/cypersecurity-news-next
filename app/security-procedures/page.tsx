@@ -1,13 +1,16 @@
-import { Suspense } from "react"
-import SecurityProceduresPageClient from "./SecurityProceduresPageClient"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Suspense } from "react";
+import SecurityProceduresPageClient from "./SecurityProceduresPageClient";
+import { Skeleton } from "@/components/ui/skeleton";
+import MainLayout from "@/components/layouts/main-layout";
 
 export default function SecurityProceduresPage() {
   return (
-    <Suspense fallback={<SecurityProceduresPageSkeleton />}>
-      <SecurityProceduresPageClient />
-    </Suspense>
-  )
+    <MainLayout>
+      <Suspense fallback={<SecurityProceduresPageSkeleton />}>
+        <SecurityProceduresPageClient />
+      </Suspense>
+    </MainLayout>
+  );
 }
 
 function SecurityProceduresPageSkeleton() {
@@ -37,5 +40,5 @@ function SecurityProceduresPageSkeleton() {
         </div>
       </div>
     </div>
-  )
+  );
 }

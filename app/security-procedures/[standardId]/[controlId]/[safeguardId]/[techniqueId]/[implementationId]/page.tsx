@@ -1,31 +1,37 @@
-import { Suspense } from "react"
-import ImplementationStepDetailPageClient from "./ImplementationStepDetailPageClient"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Suspense } from "react";
+import ImplementationStepDetailPageClient from "./ImplementationStepDetailPageClient";
+import { Skeleton } from "@/components/ui/skeleton";
+import MainLayout from "@/components/layouts/main-layout";
 
 interface PageProps {
   params: Promise<{
-    standardId: string
-    controlId: string
-    safeguardId: string
-    techniqueId: string
-    implementationId: string
-  }>
+    standardId: string;
+    controlId: string;
+    safeguardId: string;
+    techniqueId: string;
+    implementationId: string;
+  }>;
 }
 
-export default async function ImplementationStepDetailPage({ params }: PageProps) {
-  const { standardId, controlId, safeguardId, techniqueId, implementationId } = await params
+export default async function ImplementationStepDetailPage({
+  params,
+}: PageProps) {
+  const { standardId, controlId, safeguardId, techniqueId, implementationId } =
+    await params;
 
   return (
-    <Suspense fallback={<ImplementationStepDetailPageSkeleton />}>
-      <ImplementationStepDetailPageClient
-        standardId={standardId}
-        controlId={controlId}
-        safeguardId={safeguardId}
-        techniqueId={techniqueId}
-        implementationId={implementationId}
-      />
-    </Suspense>
-  )
+    <MainLayout>
+      <Suspense fallback={<ImplementationStepDetailPageSkeleton />}>
+        <ImplementationStepDetailPageClient
+          standardId={standardId}
+          controlId={controlId}
+          safeguardId={safeguardId}
+          techniqueId={techniqueId}
+          implementationId={implementationId}
+        />
+      </Suspense>
+    </MainLayout>
+  );
 }
 
 function ImplementationStepDetailPageSkeleton() {
@@ -55,5 +61,5 @@ function ImplementationStepDetailPageSkeleton() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,19 +1,22 @@
-import { Suspense } from "react"
-import StandardControlsPageClient from "./StandardControlsPageClient"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Suspense } from "react";
+import StandardControlsPageClient from "./StandardControlsPageClient";
+import { Skeleton } from "@/components/ui/skeleton";
+import MainLayout from "@/components/layouts/main-layout";
 
 interface PageProps {
-  params: Promise<{ standardId: string }>
+  params: Promise<{ standardId: string }>;
 }
 
 export default async function StandardControlsPage({ params }: PageProps) {
-  const { standardId } = await params
+  const { standardId } = await params;
 
   return (
-    <Suspense fallback={<StandardControlsPageSkeleton />}>
-      <StandardControlsPageClient standardId={standardId} />
-    </Suspense>
-  )
+    <MainLayout>
+      <Suspense fallback={<StandardControlsPageSkeleton />}>
+        <StandardControlsPageClient standardId={standardId} />
+      </Suspense>
+    </MainLayout>
+  );
 }
 
 function StandardControlsPageSkeleton() {
@@ -43,5 +46,5 @@ function StandardControlsPageSkeleton() {
         </div>
       </div>
     </div>
-  )
+  );
 }

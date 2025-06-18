@@ -88,7 +88,8 @@
     "backToStandards": "Back to Standards",
     "backToControls": "Back to Controls",
     "backToSafeguards": "Back to Safeguards",
-    "backToTechniques": "Back to Techniques"
+    "backToTechniques": "Back to Techniques",
+    "description": "Description"
   },
   "standards": {
     "title": "Cybersecurity Standards",

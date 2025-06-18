@@ -1,19 +1,22 @@
-import { Suspense } from "react"
-import SafeguardsPageClient from "./SafeguardsPageClient"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Suspense } from "react";
+import SafeguardsPageClient from "./SafeguardsPageClient";
+import { Skeleton } from "@/components/ui/skeleton";
+import MainLayout from "@/components/layouts/main-layout";
 
 interface PageProps {
-  params: Promise<{ standardId: string; controlId: string }>
+  params: Promise<{ standardId: string; controlId: string }>;
 }
 
 export default async function SafeguardsPage({ params }: PageProps) {
-  const { standardId, controlId } = await params
+  const { standardId, controlId } = await params;
 
   return (
-    <Suspense fallback={<SafeguardsPageSkeleton />}>
-      <SafeguardsPageClient standardId={standardId} controlId={controlId} />
-    </Suspense>
-  )
+    <MainLayout>
+      <Suspense fallback={<SafeguardsPageSkeleton />}>
+        <SafeguardsPageClient standardId={standardId} controlId={controlId} />
+      </Suspense>
+    </MainLayout>
+  );
 }
 
 function SafeguardsPageSkeleton() {
@@ -43,5 +46,5 @@ function SafeguardsPageSkeleton() {
         </div>
       </div>
     </div>
-  )
+  );
 }

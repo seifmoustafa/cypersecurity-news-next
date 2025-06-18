@@ -205,7 +205,8 @@
     "backToStandards": "العودة إلى المعايير",
     "backToControls": "العودة إلى الضوابط",
     "backToSafeguards": "العودة إلى الضمانات",
-    "backToTechniques": "العودة إلى التقنيات"
+    "backToTechniques": "العودة إلى التقنيات",
+    "description": "الوصف"
   },
   "tips": {
     "enable": "تفعيل النصائح",
