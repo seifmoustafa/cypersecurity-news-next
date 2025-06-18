@@ -154,7 +154,8 @@
     "techniques": "Techniques",
     "implementation": "Implementation Steps",
     "more": "More",
-    "retry": "Retry"
+    "retry": "Retry",
+    "metadata": "MetaData"
   },
   "hero": {
     "title": "Cybersecurity Portal",

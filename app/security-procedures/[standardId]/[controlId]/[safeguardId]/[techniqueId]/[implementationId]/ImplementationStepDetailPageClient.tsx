@@ -1,21 +1,29 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { useLanguage } from "@/components/language-provider"
-import { useSecurityProcedureImplementationStep } from "@/core/hooks/use-security-procedures"
-import { ArrowLeft, AlertCircle, RefreshCw, CheckCircle, Settings, Calendar, Info } from "lucide-react"
-import { useRouter } from "next/navigation"
-import { Skeleton } from "@/components/ui/skeleton"
+import { motion } from "framer-motion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/components/language-provider";
+import { useSecurityProcedureImplementationStep } from "@/core/hooks/use-security-procedures";
+import {
+  ArrowLeft,
+  AlertCircle,
+  RefreshCw,
+  CheckCircle,
+  Settings,
+  Calendar,
+  Info,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ImplementationStepDetailPageClientProps {
-  standardId: string
-  controlId: string
-  safeguardId: string
-  techniqueId: string
-  implementationId: string
+  standardId: string;
+  controlId: string;
+  safeguardId: string;
+  techniqueId: string;
+  implementationId: string;
 }
 
 export default function ImplementationStepDetailPageClient({
@@ -25,10 +33,11 @@ export default function ImplementationStepDetailPageClient({
   techniqueId,
   implementationId,
 }: ImplementationStepDetailPageClientProps) {
-  const { language, t } = useLanguage()
-  const router = useRouter()
+  const { language, t } = useLanguage();
+  const router = useRouter();
 
-  const { implementationStep, loading, error } = useSecurityProcedureImplementationStep(implementationId)
+  const { implementationStep, loading, error } =
+    useSecurityProcedureImplementationStep(implementationId);
 
   if (error) {
     return (
@@ -36,8 +45,12 @@ export default function ImplementationStepDetailPageClient({
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col items-center justify-center min-h-[400px]">
             <AlertCircle className="h-16 w-16 text-red-500 mb-4" />
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{t("common.error")}</h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-4 text-center">{error}</p>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+              {t("common.error")}
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-4 text-center">
+              {error}
+            </p>
             <Button onClick={() => window.location.reload()} variant="outline">
               <RefreshCw className="h-4 w-4 mr-2" />
               {t("common.retry")}
@@ -45,7 +58,7 @@ export default function ImplementationStepDetailPageClient({
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   if (loading) {
@@ -75,18 +88,27 @@ export default function ImplementationStepDetailPageClient({
           </div>
         </div>
       </div>
-    )
+    );
   }
 
-  const title = language === "ar" ? implementationStep?.implementationStepName : implementationStep?.nameEn
+  const title =
+    language === "ar"
+      ? implementationStep?.implementationStepName
+      : implementationStep?.nameEn;
   const description =
-    language === "ar" ? implementationStep?.implementationStepDescription : implementationStep?.descriptionEn
+    language === "ar"
+      ? implementationStep?.implementationStepDescription
+      : implementationStep?.descriptionEn;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 dark:from-blue-950 dark:via-gray-900 dark:to-cyan-950">
       <div className="container mx-auto px-4 py-8 max-w-full 2xl:max-w-[1600px]">
         {/* Back Button */}
-        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="mb-6">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="mb-6"
+        >
           <Button
             variant="ghost"
             onClick={() => router.back()}
@@ -99,14 +121,20 @@ export default function ImplementationStepDetailPageClient({
 
         <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-8"
+          >
             <div className="flex items-center mb-4">
               <Settings className="h-8 w-8 text-blue-600 dark:text-blue-400 mr-3" />
               <div>
                 <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 bg-clip-text text-transparent">
                   {title}
                 </h1>
-                <p className="text-lg text-muted-foreground mt-2">{t("securityProcedures.implementationStepDetail")}</p>
+                <p className="text-lg text-muted-foreground mt-2">
+                  {t("securityProcedures.implementationStepDetail")}
+                </p>
               </div>
             </div>
 
@@ -122,26 +150,37 @@ export default function ImplementationStepDetailPageClient({
                 </Badge>
               )}
               {implementationStep?.configuration && (
-                <Badge variant="secondary" className="bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300">
+                <Badge
+                  variant="secondary"
+                  className="bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300"
+                >
                   <Settings className="h-3 w-3 mr-1" />
                   Configurable
                 </Badge>
               )}
-              {implementationStep?.online && <Badge variant="outline">Online</Badge>}
+              {implementationStep?.online && (
+                <Badge variant="outline">Online</Badge>
+              )}
               {implementationStep?.approvalDate && (
                 <Badge
                   variant="secondary"
                   className="bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300"
                 >
                   <Calendar className="h-3 w-3 mr-1" />
-                  {new Date(implementationStep.approvalDate).toLocaleDateString()}
+                  {new Date(
+                    implementationStep.approvalDate
+                  ).toLocaleDateString()}
                 </Badge>
               )}
             </div>
           </motion.div>
 
           {/* Content */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+          >
             <Card className="bg-white dark:bg-gray-800 border-blue-100 dark:border-blue-800 shadow-lg">
               <CardHeader className="border-b border-blue-100 dark:border-blue-800">
                 <CardTitle className="flex items-center text-xl font-semibold text-gray-900 dark:text-white">
@@ -156,7 +195,9 @@ export default function ImplementationStepDetailPageClient({
                     dangerouslySetInnerHTML={{ __html: description }}
                   />
                 ) : (
-                  <p className="text-gray-600 dark:text-gray-400 italic">{t("common.noDescription")}</p>
+                  <p className="text-gray-600 dark:text-gray-400 italic">
+                    {t("common.noDescription")}
+                  </p>
                 )}
               </CardContent>
             </Card>
@@ -178,42 +219,68 @@ export default function ImplementationStepDetailPageClient({
               <CardContent className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                   <div>
-                    <span className="font-medium text-gray-700 dark:text-gray-300">ID:</span>
-                    <span className="ml-2 text-gray-600 dark:text-gray-400 font-mono">{implementationStep?.id}</span>
-                  </div>
-                  <div>
-                    <span className="font-medium text-gray-700 dark:text-gray-300">Status:</span>
+                    <span className="font-medium text-gray-700 dark:text-gray-300">
+                      Status:
+                    </span>
                     <span className="ml-2">
-                      <Badge variant={implementationStep?.isActive ? "secondary" : "destructive"}>
+                      <Badge
+                        variant={
+                          implementationStep?.isActive
+                            ? "secondary"
+                            : "destructive"
+                        }
+                      >
                         {implementationStep?.isActive ? "Active" : "Inactive"}
                       </Badge>
                     </span>
                   </div>
                   {implementationStep?.createdTimestamp && (
                     <div>
-                      <span className="font-medium text-gray-700 dark:text-gray-300">Created:</span>
+                      <span className="font-medium text-gray-700 dark:text-gray-300">
+                        Created:
+                      </span>
                       <span className="ml-2 text-gray-600 dark:text-gray-400">
-                        {new Date(implementationStep.createdTimestamp).toLocaleDateString()}
+                        {new Date(
+                          implementationStep.createdTimestamp
+                        ).toLocaleDateString()}
                       </span>
                     </div>
                   )}
                   {implementationStep?.updatedTimestamp && (
                     <div>
-                      <span className="font-medium text-gray-700 dark:text-gray-300">Updated:</span>
+                      <span className="font-medium text-gray-700 dark:text-gray-300">
+                        Updated:
+                      </span>
                       <span className="ml-2 text-gray-600 dark:text-gray-400">
-                        {new Date(implementationStep.updatedTimestamp).toLocaleDateString()}
+                        {new Date(
+                          implementationStep.updatedTimestamp
+                        ).toLocaleDateString()}
                       </span>
                     </div>
                   )}
                   <div>
-                    <span className="font-medium text-gray-700 dark:text-gray-300">Order:</span>
-                    <span className="ml-2 text-gray-600 dark:text-gray-400">{implementationStep?.order}</span>
+                    <span className="font-medium text-gray-700 dark:text-gray-300">
+                      Order:
+                    </span>
+                    <span className="ml-2 text-gray-600 dark:text-gray-400">
+                      {implementationStep?.order}
+                    </span>
                   </div>
                   <div>
-                    <span className="font-medium text-gray-700 dark:text-gray-300">Configuration:</span>
+                    <span className="font-medium text-gray-700 dark:text-gray-300">
+                      Configuration:
+                    </span>
                     <span className="ml-2">
-                      <Badge variant={implementationStep?.configuration ? "secondary" : "outline"}>
-                        {implementationStep?.configuration ? "Enabled" : "Disabled"}
+                      <Badge
+                        variant={
+                          implementationStep?.configuration
+                            ? "secondary"
+                            : "outline"
+                        }
+                      >
+                        {implementationStep?.configuration
+                          ? "Enabled"
+                          : "Disabled"}
                       </Badge>
                     </span>
                   </div>
@@ -224,5 +291,5 @@ export default function ImplementationStepDetailPageClient({
         </div>
       </div>
     </div>
-  )
+  );
 }
