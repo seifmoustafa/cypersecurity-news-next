@@ -301,7 +301,7 @@ function ImplementationStepCard({
   technique: any;
   index: number;
 }) {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
 
   const title =
     language === "ar"
@@ -341,12 +341,12 @@ function ImplementationStepCard({
                 <div className="flex flex-wrap gap-1 mt-2">
                   {step.implementationStep.approval && (
                     <Badge variant="secondary" className="text-xs">
-                      Approved
+                      {t("securityProcedures.badgeApproved")}
                     </Badge>
                   )}
                   {step.implementationStep.online && (
                     <Badge variant="outline" className="text-xs">
-                      Online
+                      {t("securityProcedures.online")}
                     </Badge>
                   )}
                 </div>

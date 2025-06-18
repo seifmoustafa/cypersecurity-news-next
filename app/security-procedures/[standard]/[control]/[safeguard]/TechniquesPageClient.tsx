@@ -2,16 +2,31 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/components/language-provider"
 import { useSecurityProcedures } from "@/core/hooks/use-security-procedures"
-import { ArrowLeft, AlertCircle, RefreshCw, ChevronRight, Settings } from "lucide-react"
+import {
+  ArrowLeft,
+  AlertCircle,
+  RefreshCw,
+  ChevronRight,
+  Settings,
+} from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Skeleton } from "@/components/ui/skeleton"
-import { findEntityBySlugOrId, generateSecurityProcedureUrls } from "@/lib/security-procedures-utils"
+import {
+  findEntityBySlugOrId,
+  generateSecurityProcedureUrls,
+} from "@/lib/security-procedures-utils"
 
 interface TechniquesPageClientProps {
   standardSlug: string
@@ -19,7 +34,11 @@ interface TechniquesPageClientProps {
   safeguardSlug: string
 }
 
-export default function TechniquesPageClient({ standardSlug, controlSlug, safeguardSlug }: TechniquesPageClientProps) {
+export default function TechniquesPageClient({
+  standardSlug,
+  controlSlug,
+  safeguardSlug,
+}: TechniquesPageClientProps) {
   const { language, t } = useLanguage()
   const router = useRouter()
   const [standard, setStandard] = useState<any>(null)
@@ -29,60 +48,64 @@ export default function TechniquesPageClient({ standardSlug, controlSlug, safegu
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const { getStandards, getControlsByStandardId, getSafeguardsByControlId, getTechniquesBySafeguardId } =
-    useSecurityProcedures()
+  const {
+    getStandards,
+    getControlsByStandardId,
+    getSafeguardsByControlId,
+    getTechniquesBySafeguardId,
+  } = useSecurityProcedures()
 
-  // Load data
   useEffect(() => {
     const loadData = async () => {
       try {
         setLoading(true)
         setError(null)
 
-        // Get standards
-        const standards = await getStandards()
-        const foundStandard = findEntityBySlugOrId(standards, standardSlug)
-
+        const allStandards = await getStandards()
+        const foundStandard = findEntityBySlugOrId(
+          allStandards,
+          standardSlug
+        )
         if (!foundStandard) {
-          setError("Standard not found")
+          setError(t("securityProcedures.errorNotFound"))
           return
         }
-
         setStandard(foundStandard)
 
-        // Get controls for this standard
         const controls = await getControlsByStandardId(foundStandard.id)
         const foundControl = findEntityBySlugOrId(
-          controls.map((c) => ({ id: c.control.id, nameEn: c.control.nameEn })),
-          controlSlug,
+          controls.map((c) => ({
+            id: c.control.id,
+            nameEn: c.control.nameEn,
+          })),
+          controlSlug
         )
-
         if (!foundControl) {
-          setError("Control not found")
+          setError(t("securityProcedures.errorControlNotFound"))
           return
         }
-
-        // Find the full control object
-        const fullControl = controls.find((c) => c.control.id === foundControl.id)?.control
+        const fullControl = controls.find(
+          (c) => c.control.id === foundControl.id
+        )?.control
         setControl(fullControl)
 
-        // Get safeguards for this control
         const safeguards = await getSafeguardsByControlId(foundControl.id)
-        const foundSafeguard = findEntityBySlugOrId(safeguards, safeguardSlug)
-
+        const foundSafeguard = findEntityBySlugOrId(
+          safeguards,
+          safeguardSlug
+        )
         if (!foundSafeguard) {
-          setError("Safeguard not found")
+          setError(t("securityProcedures.errorSafeguardNotFound"))
           return
         }
-
         setSafeguard(foundSafeguard)
 
-        // Get techniques for this safeguard
-        const techniquesData = await getTechniquesBySafeguardId(foundSafeguard.id)
+        const techniquesData = await getTechniquesBySafeguardId(
+          foundSafeguard.id
+        )
         setTechniques(techniquesData)
-      } catch (err) {
-        console.error("Error loading techniques:", err)
-        setError("Failed to load techniques")
+      } catch {
+        setError(t("securityProcedures.errorLoadTechniques"))
       } finally {
         setLoading(false)
       }
@@ -97,6 +120,7 @@ export default function TechniquesPageClient({ standardSlug, controlSlug, safegu
     getControlsByStandardId,
     getSafeguardsByControlId,
     getTechniquesBySafeguardId,
+    t,
   ])
 
   const handleBack = () => {
@@ -114,8 +138,12 @@ export default function TechniquesPageClient({ standardSlug, controlSlug, safegu
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col items-center justify-center min-h-[400px]">
             <AlertCircle className="h-16 w-16 text-red-500 mb-4" />
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{t("common.error")}</h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-4 text-center">{error}</p>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+              {t("common.error")}
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-4 text-center">
+              {error}
+            </p>
             <Button onClick={() => window.location.reload()} variant="outline">
               <RefreshCw className="h-4 w-4 mr-2" />
               {t("common.retry")}
@@ -130,7 +158,11 @@ export default function TechniquesPageClient({ standardSlug, controlSlug, safegu
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 dark:from-blue-950 dark:via-gray-900 dark:to-cyan-950">
       <div className="container mx-auto px-4 py-8 max-w-full 2xl:max-w-[1600px]">
         {/* Back Button */}
-        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="mb-6">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="mb-6"
+        >
           <Button
             variant="ghost"
             onClick={handleBack}
@@ -142,7 +174,11 @@ export default function TechniquesPageClient({ standardSlug, controlSlug, safegu
         </motion.div>
 
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-12"
+        >
           <div className="flex items-center mb-4">
             <Settings className="h-8 w-8 text-blue-600 dark:text-blue-400 mr-3" />
             <div>
@@ -151,7 +187,9 @@ export default function TechniquesPageClient({ standardSlug, controlSlug, safegu
               </h1>
               {safeguard && (
                 <p className="text-lg text-muted-foreground mt-2">
-                  {language === "ar" ? safeguard.safeGuardTitle : safeguard.nameEn}
+                  {language === "ar"
+                    ? safeguard.safeGuardTitle
+                    : safeguard.nameEn}
                 </p>
               )}
             </div>
@@ -160,15 +198,19 @@ export default function TechniquesPageClient({ standardSlug, controlSlug, safegu
             <div className="flex items-center gap-2">
               {safeguard.mandatory && (
                 <Badge variant="destructive" className="text-xs">
-                  Mandatory
+                  {t("securityProcedures.badgeMandatory")}
                 </Badge>
               )}
               {safeguard.configurable && (
                 <Badge variant="secondary" className="text-xs">
-                  Configurable
+                  {t("securityProcedures.badgeConfigurable")}
                 </Badge>
               )}
-              <Badge variant="outline">{safeguard.online ? "Online" : "Offline"}</Badge>
+              <Badge variant="outline" className="text-xs">
+                {safeguard.online
+                  ? t("securityProcedures.online")
+                  : t("securityProcedures.offline")}
+              </Badge>
             </div>
           )}
         </motion.div>
@@ -181,10 +223,18 @@ export default function TechniquesPageClient({ standardSlug, controlSlug, safegu
             ))}
           </div>
         ) : techniques.length === 0 ? (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-12">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-12"
+          >
             <Settings className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{t("common.noResults")}</h3>
-            <p className="text-gray-600 dark:text-gray-400">{t("securityProcedures.noTechniques")}</p>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              {t("common.noResults")}
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400">
+              {t("securityProcedures.noTechniques")}
+            </p>
           </motion.div>
         ) : (
           <motion.div
@@ -223,19 +273,33 @@ function TechniqueCard({
   safeguard: any
   index: number
 }) {
-  const { language } = useLanguage()
+  const { language, t } = useLanguage()
 
-  const title = language === "ar" ? technique.technique.techniqueName : technique.technique.nameEn
-  const description = language === "ar" ? technique.technique.techniqueDescription : technique.technique.descriptionEn
+  const title =
+    language === "ar"
+      ? technique.technique.techniqueName
+      : technique.technique.nameEn
+  const description =
+    language === "ar"
+      ? technique.technique.techniqueDescription
+      : technique.technique.descriptionEn
 
-  // Generate URL with slugs
-  const urls = generateSecurityProcedureUrls(standard, control, safeguard, {
-    id: technique.technique.id,
-    nameEn: technique.technique.nameEn,
-  })
+  const urls = generateSecurityProcedureUrls(
+    standard,
+    control,
+    safeguard,
+    {
+      id: technique.technique.id,
+      nameEn: technique.technique.nameEn,
+    }
+  )
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }}>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.1 }}
+    >
       <Link href={urls.techniqueUrl}>
         <Card className="h-full bg-white dark:bg-gray-800 border-blue-100 dark:border-blue-800 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 hover:shadow-lg group cursor-pointer">
           <CardHeader className="pb-3">
@@ -247,12 +311,12 @@ function TechniqueCard({
                 <div className="flex flex-wrap gap-1 mt-2">
                   {technique.technique.approval && (
                     <Badge variant="secondary" className="text-xs">
-                      Approved
+                      {t("securityProcedures.badgeApproved")}
                     </Badge>
                   )}
                   {technique.technique.online && (
                     <Badge variant="outline" className="text-xs">
-                      Online
+                      {t("securityProcedures.badgeOnline")}
                     </Badge>
                   )}
                 </div>
@@ -262,16 +326,23 @@ function TechniqueCard({
           </CardHeader>
           <CardContent className="pt-0">
             <CardDescription className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3 mb-4">
-              <div dangerouslySetInnerHTML={{ __html: description || "" }} />
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: description || "",
+                }}
+              />
             </CardDescription>
             <div className="flex items-center justify-between text-sm">
               <div className="flex items-center gap-2">
                 <Badge variant="outline" className="text-xs">
-                  {`Order: ${technique.technique.order || 0}`}
+                  {t("securityProcedures.labelOrder")}{" "}
+                  {technique.technique.order || 0}
                 </Badge>
                 {technique.technique.approvalDate && (
                   <span className="text-gray-500 dark:text-gray-400">
-                    {new Date(technique.technique.approvalDate).toLocaleDateString()}
+                    {new Date(
+                      technique.technique.approvalDate
+                    ).toLocaleDateString()}
                   </span>
                 )}
               </div>

@@ -1,35 +1,48 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Pagination } from "@/components/ui/pagination"
-import { useLanguage } from "@/components/language-provider"
-import { useSecurityProcedureStandards } from "@/core/hooks/use-security-procedures"
-import { Search, AlertCircle, RefreshCw, ChevronRight, Shield } from "lucide-react"
-import Link from "next/link"
-import { Skeleton } from "@/components/ui/skeleton"
-import { createSecurityProcedureSlug } from "@/lib/security-procedures-utils"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Pagination } from "@/components/ui/pagination";
+import { useLanguage } from "@/components/language-provider";
+import { useSecurityProcedureStandards } from "@/core/hooks/use-security-procedures";
+import {
+  Search,
+  AlertCircle,
+  RefreshCw,
+  ChevronRight,
+  Shield,
+} from "lucide-react";
+import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton";
+import { createSecurityProcedureSlug } from "@/lib/security-procedures-utils";
 
 export default function SecurityProceduresPageClient() {
-  const { language, t } = useLanguage()
-  const [currentPage, setCurrentPage] = useState(1)
-  const [searchTerm, setSearchTerm] = useState("")
-  const pageSize = 12
+  const { t } = useLanguage();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const pageSize = 12;
 
-  const { standards, pagination, loading, error } = useSecurityProcedureStandards(currentPage, pageSize, searchTerm)
+  const { standards, pagination, loading, error } =
+    useSecurityProcedureStandards(currentPage, pageSize, searchTerm);
 
   const handleSearch = (value: string) => {
-    setSearchTerm(value)
-    setCurrentPage(1)
-  }
+    setSearchTerm(value);
+    setCurrentPage(1);
+  };
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page)
-  }
+    setCurrentPage(page);
+  };
 
   if (error) {
     return (
@@ -37,8 +50,12 @@ export default function SecurityProceduresPageClient() {
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col items-center justify-center min-h-[400px]">
             <AlertCircle className="h-16 w-16 text-red-500 mb-4" />
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{t("common.error")}</h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-4 text-center">{error}</p>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+              {t("common.error")}
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-4 text-center">
+              {error}
+            </p>
             <Button onClick={() => window.location.reload()} variant="outline">
               <RefreshCw className="h-4 w-4 mr-2" />
               {t("common.retry")}
@@ -46,21 +63,27 @@ export default function SecurityProceduresPageClient() {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 dark:from-blue-950 dark:via-gray-900 dark:to-cyan-950">
       <div className="container mx-auto px-4 py-8 max-w-full 2xl:max-w-[1600px]">
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-12"
+        >
           <div className="flex items-center justify-center mb-4">
             <Shield className="h-12 w-12 text-blue-600 dark:text-blue-400 mr-4" />
             <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 bg-clip-text text-transparent">
               {t("securityProcedures.title")}
             </h1>
           </div>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">{t("securityProcedures.description")}</p>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            {t("securityProcedures.description")}
+          </p>
         </motion.div>
 
         {/* Search Bar */}
@@ -90,11 +113,19 @@ export default function SecurityProceduresPageClient() {
             ))}
           </div>
         ) : standards.length === 0 ? (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-12">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-12"
+          >
             <Shield className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{t("common.noResults")}</h3>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              {t("common.noResults")}
+            </h3>
             <p className="text-gray-600 dark:text-gray-400">
-              {searchTerm ? t("common.noSearchResults") : t("securityProcedures.noStandards")}
+              {searchTerm
+                ? t("common.noSearchResults")
+                : t("securityProcedures.noStandards")}
             </p>
           </motion.div>
         ) : (
@@ -105,7 +136,11 @@ export default function SecurityProceduresPageClient() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8"
           >
             {standards.map((standard, index) => (
-              <StandardCard key={standard.id} standard={standard} index={index} />
+              <StandardCard
+                key={standard.id}
+                standard={standard}
+                index={index}
+              />
             ))}
           </motion.div>
         )}
@@ -127,20 +162,27 @@ export default function SecurityProceduresPageClient() {
         )}
       </div>
     </div>
-  )
+  );
 }
 
 function StandardCard({ standard, index }: { standard: any; index: number }) {
-  const { language } = useLanguage()
+  const { language, t } = useLanguage();
 
-  const title = language === "ar" ? standard.standardName : standard.nameEn
-  const description = language === "ar" ? standard.standardDescription : standard.descriptionEn
+  const title = language === "ar" ? standard.standardName : standard.nameEn;
+  const description =
+    language === "ar" ? standard.standardDescription : standard.descriptionEn;
 
-  // Generate slug for URL
-  const slug = createSecurityProcedureSlug(standard.nameEn)
+  const slug = createSecurityProcedureSlug(standard.nameEn);
+  const formattedDate = standard.approvalDate
+    ? new Date(standard.approvalDate).toLocaleDateString()
+    : null;
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }}>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.1 }}
+    >
       <Link href={`/security-procedures/${slug}`}>
         <Card className="h-full bg-white dark:bg-gray-800 border-blue-100 dark:border-blue-800 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 hover:shadow-lg group cursor-pointer">
           <CardHeader className="pb-3">
@@ -149,46 +191,23 @@ function StandardCard({ standard, index }: { standard: any; index: number }) {
                 <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200 line-clamp-2">
                   {title}
                 </CardTitle>
-                <div className="flex flex-wrap gap-1 mt-2">
-                  {standard.approval && (
-                    <Badge
-                      variant="secondary"
-                      className="text-xs bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300"
-                    >
-                      Approved
-                    </Badge>
-                  )}
-                  {standard.online && (
-                    <Badge variant="outline" className="text-xs">
-                      Online
-                    </Badge>
-                  )}
-                  {standard.configuration && (
-                    <Badge variant="secondary" className="text-xs">
-                      Configurable
-                    </Badge>
-                  )}
-                </div>
               </div>
               <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors duration-200 flex-shrink-0 ml-2" />
             </div>
           </CardHeader>
           <CardContent className="pt-0">
             <CardDescription className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3 mb-4">
-              <div dangerouslySetInnerHTML={{ __html: description || "" }} />
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: description || "",
+                }}
+              />
             </CardDescription>
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-500 dark:text-gray-400">
-                {standard.approvalDate
-                  ? `Approved: ${new Date(standard.approvalDate).toLocaleDateString()}`
-                  : "Not Approved"}
-              </span>
-            </div>
           </CardContent>
         </Card>
       </Link>
     </motion.div>
-  )
+  );
 }
 
 function StandardCardSkeleton() {
@@ -215,5 +234,5 @@ function StandardCardSkeleton() {
         <Skeleton className="h-4 w-32" />
       </CardContent>
     </Card>
-  )
+  );
 }

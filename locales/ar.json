@@ -111,6 +111,14 @@
     "viewAll": "عرض الكل"
   },
   "common": {
+    "order": "ترتيب",
+    "description": "وصف",
+    "status": "الحالة",
+    "availability": "التوفر",
+    "approvalDate": "تاريخ الموافقة",
+    "approved": "مؤهل",
+    "online": "متصل",
+    "hierarchy": "التسلسل",
     "readMore": "قراءة المزيد",
     "close": "إغلاق",
     "download": "تحميل",
@@ -137,7 +145,9 @@
     "noResults": "لا توجد نتائج",
     "more": "المزيد",
     "retry": "إعادة المحاولة",
-    "metadata": "معلومات إضافية"
+    "metadata": "معلومات إضافية",
+    "error": "خطأ",
+    "noSearchResults": "لا توجد نتائج لبحثك"
   },
   "hero": {
     "title": "بوابة الأمن السيبراني",
@@ -213,7 +223,30 @@
     "noTechniques": "لا توجد تقنيات متاحة",
     "noTechniquesDescription": "لا توجد حالياً تقنيات متاحة لهذا الضمان.",
     "noImplementationSteps": "لا توجد خطوات تنفيذ متاحة",
-    "noImplementationStepsDescription": "لا توجد حالياً خطوات تنفيذ متاحة لهذه التقنية."
+    "noImplementationStepsDescription": "لا توجد حالياً خطوات تنفيذ متاحة لهذه التقنية.",
+    "cardTitle": "{{title}}",
+    "badgeApproved": "معتمد",
+    "badgeOnline": "متاح عبر الإنترنت",
+    "badgeConfigurable": "قابل للتكوين",
+    "approvedOn": "تمت الموافقة: {{date}}",
+    "notApproved": "غير معتمد",
+    "errorNotFound": "المعيار غير موجود",
+    "errorLoadControls": "فشل في تحميل عناصر التحكم",
+    "version": "v{{version}}",
+    "labelWeight": "الوزن:",
+    "online": "متصل",
+    "offline": "غير متصل",
+    "errorControlNotFound": "عنصر التحكم غير موجود",
+    "errorLoadSafeguards": "فشل في تحميل إجراءات الحماية",
+    "badgeMandatory": "إلزامي",
+    "labelScore": "الدرجة:",
+    "evidenceRequired": "إثبات مطلوب",
+    "noEvidence": "لا إثبات",
+    "errorSafeguardNotFound": "إجراء الحماية غير موجود",
+    "errorLoadTechniques": "فشل في تحميل التقنيات",
+    "errorTechniqueNotFound": "التقنية غير موجودة",
+    "errorLoadImplementationSteps": "فشل في تحميل خطوات التنفيذ",
+    "labelOrder": "الترتيب:"
   },
   "tips": {
     "enable": "تفعيل النصائح",
