@@ -1,5 +1,6 @@
 import { ApiDataSource } from "../data/sources/api-data-source"
 import { MockDataSource } from "../data/sources/mock-data-source"
+import { SecurityProceduresApiDataSource } from "../data/sources/security-procedures-api-data-source"
 
 // Repositories
 import { NewsRepositoryImpl } from "../data/repositories/news-repository-impl"
@@ -19,6 +20,7 @@ import { MediaRepositoryImpl } from "../data/repositories/media-repository-impl"
 import { StandardsRepositoryImpl } from "../data/repositories/standards-repository-impl"
 import { ArticlesRepositoryImpl } from "../data/repositories/articles-repository-impl"
 import { AwarenessRepositoryImpl } from "../data/repositories/awareness-repository-impl"
+import { SecurityProceduresRepositoryImpl } from "../data/repositories/security-procedures-repository-impl"
 
 // Services
 import { NewsService } from "../services/news-service"
@@ -38,10 +40,12 @@ import { MediaService } from "../services/media-service"
 import { StandardsService } from "../services/standards-service"
 import { ArticlesService } from "../services/articles-service"
 import { AwarenessService } from "../services/awareness-service"
+import { SecurityProceduresService } from "../services/security-procedures-service"
 
 class Container {
   private _apiDataSource: ApiDataSource | null = null
   private _mockDataSource: MockDataSource | null = null
+  private _securityProceduresApiDataSource: SecurityProceduresApiDataSource | null = null
   private _services: any = null
 
   // Data sources
@@ -57,6 +61,13 @@ class Container {
       this._mockDataSource = new MockDataSource()
     }
     return this._mockDataSource
+  }
+
+  get securityProceduresApiDataSource(): SecurityProceduresApiDataSource {
+    if (!this._securityProceduresApiDataSource) {
+      this._securityProceduresApiDataSource = new SecurityProceduresApiDataSource()
+    }
+    return this._securityProceduresApiDataSource
   }
 
   // Services
@@ -84,6 +95,9 @@ class Container {
         standards: new StandardsService(new StandardsRepositoryImpl(this.apiDataSource)),
         articles: new ArticlesService(new ArticlesRepositoryImpl(this.apiDataSource)),
         awareness: new AwarenessService(new AwarenessRepositoryImpl(this.apiDataSource)),
+        securityProcedures: new SecurityProceduresService(
+          new SecurityProceduresRepositoryImpl(this.securityProceduresApiDataSource),
+        ),
       }
     }
     return this._services
@@ -108,6 +122,10 @@ class Container {
 
   get awarenessService() {
     return this.services.awareness
+  }
+
+  get securityProceduresService() {
+    return this.services.securityProcedures
   }
 }
 

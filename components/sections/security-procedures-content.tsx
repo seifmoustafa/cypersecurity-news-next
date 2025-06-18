@@ -81,7 +81,7 @@ export default function SecurityProceduresContent() {
               <Button
                 size="lg"
                 className="bg-blue-600 hover:bg-blue-700 text-white"
-                onClick={() => router.push("/standards/internal")}
+                onClick={() => router.push("/security-procedures")}
               >
                 {language === "ar" ? "استكشف المزيد" : "Explore More"}
               </Button>
