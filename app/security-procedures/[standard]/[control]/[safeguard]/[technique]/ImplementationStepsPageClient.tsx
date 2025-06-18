@@ -1,23 +1,38 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { useLanguage } from "@/components/language-provider"
-import { useSecurityProcedures } from "@/core/hooks/use-security-procedures"
-import { ArrowLeft, AlertCircle, RefreshCw, ChevronRight, CheckCircle } from "lucide-react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { Skeleton } from "@/components/ui/skeleton"
-import { findEntityBySlugOrId, generateSecurityProcedureUrls } from "@/lib/security-procedures-utils"
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/components/language-provider";
+import { useSecurityProcedures } from "@/core/hooks/use-security-procedures";
+import {
+  ArrowLeft,
+  AlertCircle,
+  RefreshCw,
+  ChevronRight,
+  CheckCircle,
+} from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  findEntityBySlugOrId,
+  generateSecurityProcedureUrls,
+} from "@/lib/security-procedures-utils";
 
 interface ImplementationStepsPageClientProps {
-  standardSlug: string
-  controlSlug: string
-  safeguardSlug: string
-  techniqueSlug: string
+  standardSlug: string;
+  controlSlug: string;
+  safeguardSlug: string;
+  techniqueSlug: string;
 }
 
 export default function ImplementationStepsPageClient({
@@ -26,15 +41,15 @@ export default function ImplementationStepsPageClient({
   safeguardSlug,
   techniqueSlug,
 }: ImplementationStepsPageClientProps) {
-  const { language, t } = useLanguage()
-  const router = useRouter()
-  const [standard, setStandard] = useState<any>(null)
-  const [control, setControl] = useState<any>(null)
-  const [safeguard, setSafeguard] = useState<any>(null)
-  const [technique, setTechnique] = useState<any>(null)
-  const [implementationSteps, setImplementationSteps] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const { language, t } = useLanguage();
+  const router = useRouter();
+  const [standard, setStandard] = useState<any>(null);
+  const [control, setControl] = useState<any>(null);
+  const [safeguard, setSafeguard] = useState<any>(null);
+  const [technique, setTechnique] = useState<any>(null);
+  const [implementationSteps, setImplementationSteps] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const {
     getStandards,
@@ -42,81 +57,89 @@ export default function ImplementationStepsPageClient({
     getSafeguardsByControlId,
     getTechniquesBySafeguardId,
     getImplementationStepsByTechniqueId,
-  } = useSecurityProcedures()
+  } = useSecurityProcedures();
 
   // Load data
   useEffect(() => {
     const loadData = async () => {
       try {
-        setLoading(true)
-        setError(null)
+        setLoading(true);
+        setError(null);
 
         // Get standards
-        const standards = await getStandards()
-        const foundStandard = findEntityBySlugOrId(standards, standardSlug)
+        const standards = await getStandards();
+        const foundStandard = findEntityBySlugOrId(standards, standardSlug);
 
         if (!foundStandard) {
-          setError("Standard not found")
-          return
+          setError("Standard not found");
+          return;
         }
 
-        setStandard(foundStandard)
+        setStandard(foundStandard);
 
         // Get controls for this standard
-        const controls = await getControlsByStandardId(foundStandard.id)
+        const controls = await getControlsByStandardId(foundStandard.id);
         const foundControl = findEntityBySlugOrId(
           controls.map((c) => ({ id: c.control.id, nameEn: c.control.nameEn })),
-          controlSlug,
-        )
+          controlSlug
+        );
 
         if (!foundControl) {
-          setError("Control not found")
-          return
+          setError("Control not found");
+          return;
         }
 
         // Find the full control object
-        const fullControl = controls.find((c) => c.control.id === foundControl.id)?.control
-        setControl(fullControl)
+        const fullControl = controls.find(
+          (c) => c.control.id === foundControl.id
+        )?.control;
+        setControl(fullControl);
 
         // Get safeguards for this control
-        const safeguards = await getSafeguardsByControlId(foundControl.id)
-        const foundSafeguard = findEntityBySlugOrId(safeguards, safeguardSlug)
+        const safeguards = await getSafeguardsByControlId(foundControl.id);
+        const foundSafeguard = findEntityBySlugOrId(safeguards, safeguardSlug);
 
         if (!foundSafeguard) {
-          setError("Safeguard not found")
-          return
+          setError("Safeguard not found");
+          return;
         }
 
-        setSafeguard(foundSafeguard)
+        setSafeguard(foundSafeguard);
 
         // Get techniques for this safeguard
-        const techniques = await getTechniquesBySafeguardId(foundSafeguard.id)
+        const techniques = await getTechniquesBySafeguardId(foundSafeguard.id);
         const foundTechnique = findEntityBySlugOrId(
-          techniques.map((t) => ({ id: t.technique.id, nameEn: t.technique.nameEn })),
-          techniqueSlug,
-        )
+          techniques.map((t) => ({
+            id: t.technique.id,
+            nameEn: t.technique.nameEn,
+          })),
+          techniqueSlug
+        );
 
         if (!foundTechnique) {
-          setError("Technique not found")
-          return
+          setError("Technique not found");
+          return;
         }
 
         // Find the full technique object
-        const fullTechnique = techniques.find((t) => t.technique.id === foundTechnique.id)?.technique
-        setTechnique(fullTechnique)
+        const fullTechnique = techniques.find(
+          (t) => t.technique.id === foundTechnique.id
+        )?.technique;
+        setTechnique(fullTechnique);
 
         // Get implementation steps for this technique
-        const implementationStepsData = await getImplementationStepsByTechniqueId(foundTechnique.id)
-        setImplementationSteps(implementationStepsData)
+        const implementationStepsData =
+          await getImplementationStepsByTechniqueId(foundTechnique.id);
+        setImplementationSteps(implementationStepsData);
       } catch (err) {
-        console.error("Error loading implementation steps:", err)
-        setError("Failed to load implementation steps")
+        console.error("Error loading implementation steps:", err);
+        setError("Failed to load implementation steps");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    loadData()
+    loadData();
   }, [
     standardSlug,
     controlSlug,
@@ -127,16 +150,16 @@ export default function ImplementationStepsPageClient({
     getSafeguardsByControlId,
     getTechniquesBySafeguardId,
     getImplementationStepsByTechniqueId,
-  ])
+  ]);
 
   const handleBack = () => {
     if (standard && control && safeguard) {
-      const urls = generateSecurityProcedureUrls(standard, control, safeguard)
-      router.push(urls.safeguardUrl)
+      const urls = generateSecurityProcedureUrls(standard, control, safeguard);
+      router.push(urls.safeguardUrl);
     } else {
-      router.back()
+      router.back();
     }
-  }
+  };
 
   if (error) {
     return (
@@ -144,8 +167,12 @@ export default function ImplementationStepsPageClient({
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col items-center justify-center min-h-[400px]">
             <AlertCircle className="h-16 w-16 text-red-500 mb-4" />
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{t("common.error")}</h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-4 text-center">{error}</p>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+              {t("common.error")}
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-4 text-center">
+              {error}
+            </p>
             <Button onClick={() => window.location.reload()} variant="outline">
               <RefreshCw className="h-4 w-4 mr-2" />
               {t("common.retry")}
@@ -153,14 +180,18 @@ export default function ImplementationStepsPageClient({
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 dark:from-blue-950 dark:via-gray-900 dark:to-cyan-950">
       <div className="container mx-auto px-4 py-8 max-w-full 2xl:max-w-[1600px]">
         {/* Back Button */}
-        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="mb-6">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="mb-6"
+        >
           <Button
             variant="ghost"
             onClick={handleBack}
@@ -172,7 +203,11 @@ export default function ImplementationStepsPageClient({
         </motion.div>
 
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-12"
+        >
           <div className="flex items-center mb-4">
             <CheckCircle className="h-8 w-8 text-blue-600 dark:text-blue-400 mr-3" />
             <div>
@@ -181,7 +216,9 @@ export default function ImplementationStepsPageClient({
               </h1>
               {technique && (
                 <p className="text-lg text-muted-foreground mt-2">
-                  {language === "ar" ? technique.techniqueName : technique.nameEn}
+                  {language === "ar"
+                    ? technique.techniqueName
+                    : technique.nameEn}
                 </p>
               )}
             </div>
@@ -193,8 +230,12 @@ export default function ImplementationStepsPageClient({
                   Approved
                 </Badge>
               )}
-              <Badge variant="outline">{technique.online ? "Online" : "Offline"}</Badge>
-              <Badge variant="outline">{`Order: ${technique.order || 0}`}</Badge>
+              <Badge variant="outline">
+                {technique.online ? "Online" : "Offline"}
+              </Badge>
+              <Badge variant="outline">{`Order: ${
+                technique.order || 0
+              }`}</Badge>
             </div>
           )}
         </motion.div>
@@ -207,10 +248,18 @@ export default function ImplementationStepsPageClient({
             ))}
           </div>
         ) : implementationSteps.length === 0 ? (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-12">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-12"
+          >
             <CheckCircle className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{t("common.noResults")}</h3>
-            <p className="text-gray-600 dark:text-gray-400">{t("securityProcedures.noImplementationSteps")}</p>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              {t("common.noResults")}
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400">
+              {t("securityProcedures.noImplementationSteps")}
+            </p>
           </motion.div>
         ) : (
           <motion.div
@@ -234,7 +283,7 @@ export default function ImplementationStepsPageClient({
         )}
       </div>
     </div>
-  )
+  );
 }
 
 function ImplementationStepCard({
@@ -245,26 +294,42 @@ function ImplementationStepCard({
   technique,
   index,
 }: {
-  step: any
-  standard: any
-  control: any
-  safeguard: any
-  technique: any
-  index: number
+  step: any;
+  standard: any;
+  control: any;
+  safeguard: any;
+  technique: any;
+  index: number;
 }) {
-  const { language } = useLanguage()
+  const { language } = useLanguage();
 
-  const title = language === "ar" ? step.implementationStepName : step.nameEn
-  const description = language === "ar" ? step.implementationStepDescription : step.descriptionEn
+  const title =
+    language === "ar"
+      ? step.implementationStep.implementationStepName
+      : step.implementationStep.nameEn;
+  const description =
+    language === "ar"
+      ? step.implementationStep.implementationStepDescription
+      : step.implementationStep.descriptionEn;
 
   // Generate URL with slugs
-  const urls = generateSecurityProcedureUrls(standard, control, safeguard, technique, {
-    id: step.id,
-    nameEn: step.nameEn,
-  })
+  const urls = generateSecurityProcedureUrls(
+    standard,
+    control,
+    safeguard,
+    technique,
+    {
+      id: step.id,
+      nameEn: step.nameEn,
+    }
+  );
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }}>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.1 }}
+    >
       <Link href={urls.implementationUrl}>
         <Card className="h-full bg-white dark:bg-gray-800 border-blue-100 dark:border-blue-800 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 hover:shadow-lg group cursor-pointer">
           <CardHeader className="pb-3">
@@ -274,12 +339,12 @@ function ImplementationStepCard({
                   {title}
                 </CardTitle>
                 <div className="flex flex-wrap gap-1 mt-2">
-                  {step.approval && (
+                  {step.implementationStep.approval && (
                     <Badge variant="secondary" className="text-xs">
                       Approved
                     </Badge>
                   )}
-                  {step.online && (
+                  {step.implementationStep.online && (
                     <Badge variant="outline" className="text-xs">
                       Online
                     </Badge>
@@ -296,11 +361,13 @@ function ImplementationStepCard({
             <div className="flex items-center justify-between text-sm">
               <div className="flex items-center gap-2">
                 <Badge variant="outline" className="text-xs">
-                  {`Order: ${step.order || 0}`}
+                  {`Order: ${step.implementationStep.order || 0}`}
                 </Badge>
-                {step.approvalDate && (
+                {step.implementationStep.approvalDate && (
                   <span className="text-gray-500 dark:text-gray-400">
-                    {new Date(step.approvalDate).toLocaleDateString()}
+                    {new Date(
+                      step.implementationStep.approvalDate
+                    ).toLocaleDateString()}
                   </span>
                 )}
               </div>
@@ -309,7 +376,7 @@ function ImplementationStepCard({
         </Card>
       </Link>
     </motion.div>
-  )
+  );
 }
 
 function ImplementationStepCardSkeleton() {
@@ -340,5 +407,5 @@ function ImplementationStepCardSkeleton() {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
