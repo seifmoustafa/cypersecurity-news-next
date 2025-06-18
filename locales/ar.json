@@ -190,8 +190,22 @@
     "explore": "استكشف إطار العمل"
   },
   "securityProcedures": {
-    "title": "إجراءات الأمن السيبراني",
-    "subtitle": "إجراءات وخطوات لتعزيز الأمن السيبراني وحماية البنية التحتية الرقمية"
+    "title": "إجراءات الأمان",
+    "standards": "المعايير",
+    "controls": "الضوابط",
+    "safeguards": "الضمانات",
+    "techniques": "التقنيات",
+    "implementationSteps": "خطوات التنفيذ",
+    "noStandards": "لا توجد معايير",
+    "noControls": "لا توجد ضوابط",
+    "noSafeguards": "لا توجد ضمانات",
+    "noTechniques": "لا توجد تقنيات",
+    "noImplementationSteps": "لا توجد خطوات تنفيذ",
+    "viewDetails": "عرض التفاصيل",
+    "backToStandards": "العودة إلى المعايير",
+    "backToControls": "العودة إلى الضوابط",
+    "backToSafeguards": "العودة إلى الضمانات",
+    "backToTechniques": "العودة إلى التقنيات"
   },
   "tips": {
     "enable": "تفعيل النصائح",

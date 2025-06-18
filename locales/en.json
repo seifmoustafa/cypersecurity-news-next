@@ -74,7 +74,21 @@
   },
   "securityProcedures": {
     "title": "Security Procedures",
-    "subtitle": "Procedures and steps to enhance cybersecurity and protect digital infrastructure"
+    "standards": "Standards",
+    "controls": "Controls",
+    "safeguards": "Safeguards",
+    "techniques": "Techniques",
+    "implementationSteps": "Implementation Steps",
+    "noStandards": "No standards found",
+    "noControls": "No controls found",
+    "noSafeguards": "No safeguards found",
+    "noTechniques": "No techniques found",
+    "noImplementationSteps": "No implementation steps found",
+    "viewDetails": "View Details",
+    "backToStandards": "Back to Standards",
+    "backToControls": "Back to Controls",
+    "backToSafeguards": "Back to Safeguards",
+    "backToTechniques": "Back to Techniques"
   },
   "standards": {
     "title": "Cybersecurity Standards",
