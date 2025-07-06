@@ -6,7 +6,7 @@ import { slugify } from "../../../lib/utils"
 
 export class LawsRepositoryImpl implements LawsRepository {
   private apiDataSource: ApiDataSource
-  private baseDocumentUrl = process.env.NEXT_PUBLIC_API_BASE_URL || ""
+  private baseDocumentUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.replace("/api","") || ""
 
   constructor(apiDataSource: ApiDataSource) {
     this.apiDataSource = apiDataSource
