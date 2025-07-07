@@ -10,7 +10,7 @@ import { slugify } from "@/lib/utils"
 import type { News } from "@/entities"
 
 export default function NewsPage() {
-  const { language, isRtl } = useLanguage()
+  const { language, isRtl, t } = useLanguage()
   const [allNews, setAllNews] = useState<News[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -40,12 +40,10 @@ export default function NewsPage() {
           <div className="container mx-auto px-4">
             <div className="mb-12 text-center">
               <h1 className="text-3xl md:text-4xl font-bold mb-2 text-foreground">
-                {language === "ar" ? "جميع أخبار الأمن السيبراني" : "All Cybersecurity News"}
+                {t("news.allTitle")}
               </h1>
               <p className="text-xl text-foreground/80">
-                {language === "ar"
-                  ? "آخر الأخبار والتطورات في مجال الأمن السيبراني"
-                  : "Latest news and developments in cybersecurity"}
+                {t("news.allSubtitle")}
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -72,12 +70,10 @@ export default function NewsPage() {
         <div className="container mx-auto px-4">
           <div className="mb-12 text-center">
             <h1 className="text-3xl md:text-4xl font-bold mb-2 text-foreground">
-              {language === "ar" ? "جميع أخبار الأمن السيبراني" : "All Cybersecurity News"}
+              {t("news.allTitle")}
             </h1>
             <p className="text-xl text-foreground/80">
-              {language === "ar"
-                ? "آخر الأخبار والتطورات في مجال الأمن السيبراني"
-                : "Latest news and developments in cybersecurity"}
+              {t("news.allSubtitle")}
             </p>
             <div className="mt-4 text-sm text-muted-foreground">
               {language === "ar" ? `${allNews.length} خبر متاح` : `${allNews.length} news articles available`}
@@ -93,7 +89,7 @@ export default function NewsPage() {
           {allNews.length === 0 && !loading && (
             <div className="text-center py-12">
               <p className="text-muted-foreground text-lg">
-                {language === "ar" ? "لا توجد أخبار متاحة حالياً" : "No news available at the moment"}
+                {t("news.noNews")}
               </p>
             </div>
           )}
@@ -104,7 +100,7 @@ export default function NewsPage() {
 }
 
 function NewsCard({ item }: { item: News }) {
-  const { language, isRtl } = useLanguage()
+  const { language, isRtl, t } = useLanguage()
 
   // Get title for DISPLAY based on language
   const getDisplayTitle = (i: News) => {
@@ -163,7 +159,7 @@ function NewsCard({ item }: { item: News }) {
           <p className="text-sm text-muted-foreground mb-4 line-clamp-3">{hasValidSummary ? cleanSummary : ""}</p>
           <div className="mt-auto">
             <span className="text-primary font-medium inline-flex items-center">
-              {language === "ar" ? "اقرأ المزيد" : "Read More"}
+              {t("common.readMore")}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className={`h-4 w-4 ${isRtl ? "mr-1 rotate-180" : "ml-1"}`}

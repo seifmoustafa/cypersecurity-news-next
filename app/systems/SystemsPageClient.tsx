@@ -19,7 +19,7 @@ interface SystemsPageClientProps {
 }
 
 export default function SystemsPageClient({ initialSystems }: SystemsPageClientProps) {
-  const { language, isRtl } = useLanguage()
+  const { language, isRtl, t } = useLanguage()
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -82,13 +82,13 @@ export default function SystemsPageClient({ initialSystems }: SystemsPageClientP
               className={`inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors mb-4 ${isRtl ? "flex-row-reverse" : ""}`}
             >
               {isRtl ? <ArrowRight className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />}
-              {language === "ar" ? "العودة للرئيسية" : "Back to Home"}
+              {t("systemsPage.backToHome")}
             </Link>
             <h1 className={`text-4xl font-bold text-foreground mb-4 ${isRtl ? "text-right" : "text-left"}`}>
-              {language === "ar" ? "الأنظمة" : "Systems"}
+              {t("systemsPage.title")}
             </h1>
             <p className={`text-muted-foreground text-lg ${isRtl ? "text-right" : "text-left"}`}>
-              {language === "ar" ? "تصفح جميع الأنظمة المتاحة" : "Browse all available systems"}
+              {t("systemsPage.subtitle")}
             </p>
           </div>
 
@@ -100,7 +100,7 @@ export default function SystemsPageClient({ initialSystems }: SystemsPageClientP
               />
               <Input
                 type="text"
-                placeholder={language === "ar" ? "البحث في الأنظمة..." : "Search systems..."}
+                placeholder={t("systemsPage.searchPlaceholder")}
                 value={searchTerm}
                 onChange={(e) => handleSearch(e.target.value)}
                 className={`${isRtl ? "pr-10 text-right" : "pl-10"}`}
@@ -161,7 +161,7 @@ export default function SystemsPageClient({ initialSystems }: SystemsPageClientP
                       variant="default"
                     >
                       <ExternalLink className="w-4 h-4 mr-2" />
-                      {language === "ar" ? "زيارة النظام" : "Visit System"}
+                      {t("systems.visitSystem")}
                     </Button>
                   </CardContent>
                 </Card>
@@ -170,13 +170,7 @@ export default function SystemsPageClient({ initialSystems }: SystemsPageClientP
           ) : (
             <div className="text-center py-12">
               <p className="text-muted-foreground text-lg">
-                {searchTerm
-                  ? language === "ar"
-                    ? "لا توجد نتائج للبحث"
-                    : "No search results found"
-                  : language === "ar"
-                    ? "لا توجد أنظمة متاحة"
-                    : "No systems available"}
+                {searchTerm ? t("systemsPage.noSearchResults") : t("systemsPage.noSystems")}
               </p>
             </div>
           )}
@@ -190,13 +184,11 @@ export default function SystemsPageClient({ initialSystems }: SystemsPageClientP
                 variant="outline"
               >
                 {isRtl ? <ArrowRight className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />}
-                {language === "ar" ? "السابق" : "Previous"}
+                {t("common.previous")}
               </Button>
 
               <span className="text-foreground">
-                {language === "ar"
-                  ? `صفحة ${currentPage} من ${pagination.pagesCount}`
-                  : `Page ${currentPage} of ${pagination.pagesCount}`}
+                {t("common.pageOf", { current: currentPage, total: pagination.pagesCount })}
               </span>
 
               <Button
@@ -204,7 +196,7 @@ export default function SystemsPageClient({ initialSystems }: SystemsPageClientP
                 disabled={currentPage === pagination.pagesCount || loading}
                 variant="outline"
               >
-                {language === "ar" ? "التالي" : "Next"}
+                {t("common.next")}
                 {isRtl ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
               </Button>
             </div>

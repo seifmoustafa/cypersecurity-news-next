@@ -131,7 +131,9 @@
       "international": "International",
       "local": "Local",
       "internal": "Internal"
-    }
+    },
+    "noCategoriesTitle": "No Standard Categories Available",
+    "noCategoriesDescription": "No standard categories are currently available"
   },
   "cybersecurityConcepts": {
     "title": "Cybersecurity Concepts",
@@ -140,11 +142,17 @@
   "media": {
     "title": "Media Library",
     "subtitle": "Videos, images, and media materials related to cybersecurity",
+    "videosDescription": "Collection of cybersecurity related videos",
     "explore": "Explore Library",
     "videos": "Videos",
     "lectures": "Lectures",
     "presentations": "Presentations",
-    "presentation": "Presentation"
+    "presentation": "Presentation",
+    "backToMedia": "Back to Media",
+    "videoLabel": "Video",
+    "noVideoSupport": "Your browser does not support the video tag.",
+    "noVideos": "No videos available",
+    "videosDescription": "Collection of cybersecurity related videos"
   },
   "documentLibrary": {
     "title": "Document Library",
@@ -174,9 +182,13 @@
     "search": "Search",
     "loading": "Loading...",
     "noResults": "No Results",
+    "noSearchResults": "No search results found",
+    "tryDifferentSearch": "Try searching with different keywords",
     "back": "Back",
     "next": "Next",
     "previous": "Previous",
+    "page": "Page {{page}}",
+    "pageOf": "Page {{current}} of {{total}}",
     "close": "Close",
     "download": "Download",
     "view": "View",
@@ -192,7 +204,10 @@
     "implementation": "Implementation Steps",
     "more": "More",
     "retry": "Retry",
-    "metadata": "MetaData"
+    "metadata": "MetaData",
+    "somethingWrong": "Something went wrong",
+    "additionalDetails": "Additional Details:",
+    "viewFullArticle": "View Full Article"
   },
   "hero": {
     "title": "Cybersecurity Portal",
@@ -202,6 +217,9 @@
   "news": {
     "title": "Cybersecurity News",
     "subtitle": "Latest developments and news in the field of cybersecurity",
+    "allTitle": "All Cybersecurity News",
+    "allSubtitle": "Latest news and developments in cybersecurity",
+    "noNews": "No news available at the moment",
     "latestNews": "Latest News",
     "featuredNews": "Featured News",
     "relatedNews": "Related News",
@@ -251,6 +269,34 @@
   },
   "site": {
     "name": "Cybersecurity Portal"
+  },
+  "articles": {
+    "title": "Articles",
+    "subtitle": "Browse all cybersecurity articles and insights",
+    "backToHome": "Back to Home",
+    "backToArticles": "Back to Articles",
+    "moreArticles": "More Articles",
+    "published": "Published: ",
+    "updated": "Last updated: ",
+    "errorTitle": "Error Loading Articles",
+    "errorMessage": "An error occurred while loading articles",
+    "noArticlesTitle": "No Articles Found",
+    "noArticlesDescription": "No articles were found"
+  },
+  "lectures": {
+    "title": "Lectures",
+    "backToMedia": "Back to Media",
+    "noLectures": "No lectures available",
+    "noResults": "No results found",
+    "tryDifferent": "Try searching with different terms"
+  },
+  "systemsPage": {
+    "title": "Systems",
+    "subtitle": "Browse all available systems",
+    "searchPlaceholder": "Search systems...",
+    "backToHome": "Back to Home",
+    "noSystems": "No systems available",
+    "noSearchResults": "No search results found"
   },
   "presentations": {
     "title": "Presentations",

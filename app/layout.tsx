@@ -3,6 +3,8 @@ import { Tajawal, Roboto } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { LanguageProvider } from "@/components/language-provider"
+import ErrorBoundary from "@/components/error-boundary"
+import LoadingScreen from "@/components/loading-screen"
 import { Suspense } from "react"
 
 // Add a cache control header to improve caching
@@ -41,9 +43,11 @@ export default function RootLayout({
       <body className={`${tajawal.variable} ${roboto.variable}`}>
         <LanguageProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-            <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
-              {children}
-            </Suspense>
+            <ErrorBoundary>
+              <Suspense fallback={<LoadingScreen />}>
+                {children}
+              </Suspense>
+            </ErrorBoundary>
           </ThemeProvider>
         </LanguageProvider>
       </body>

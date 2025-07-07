@@ -9,7 +9,7 @@ import { useTips } from "@/core/hooks/use-tips"
 
 export default function TipOfTheDayPopup() {
   const [open, setOpen] = useState(false)
-  const { language } = useLanguage()
+  const { language, t } = useLanguage()
   const { tip, loading, error, fetchRandomTip } = useTips()
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function TipOfTheDayPopup() {
             <LightbulbIcon className="h-8 w-8 text-primary" />
           </div>
           <div className="flex-1">
-            <h2 className="text-2xl font-bold text-primary">{language === "ar" ? "نصيحة اليوم" : "Tip of the Day"}</h2>
+            <h2 className="text-2xl font-bold text-primary">{t("common.tipOfTheDay")}</h2>
             <p className="text-lg font-medium">{language === "ar" ? tip.title : tip.titleEn}</p>
           </div>
         </div>
@@ -66,7 +66,7 @@ export default function TipOfTheDayPopup() {
           {/* Custom close button */}
           <div className="mt-6 flex justify-center gap-3">
             <Button className="px-8 py-2 bg-primary hover:bg-primary/90 text-white" onClick={() => setOpen(false)}>
-              {language === "ar" ? "فهمت" : "I Understand"}
+              {t("common.understood")}
             </Button>
           </div>
         </div>

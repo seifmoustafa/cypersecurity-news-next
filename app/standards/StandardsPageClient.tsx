@@ -15,7 +15,7 @@ interface StandardsPageClientProps {
 }
 
 export default function StandardsPageClient({ categories }: StandardsPageClientProps) {
-  const { language, isRtl } = useLanguage()
+  const { language, isRtl, t } = useLanguage()
 
   const getCategoryIcon = (categoryName: string) => {
     const name = categoryName.toLowerCase()
@@ -34,12 +34,10 @@ export default function StandardsPageClient({ categories }: StandardsPageClientP
             <div className="mb-12">
               <div className={`text-center mb-8 ${isRtl ? "text-right" : "text-left"}`}>
                 <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 bg-clip-text text-transparent mb-4">
-                  {language === "ar" ? "معايير الأمن السي��راني" : "Cybersecurity Standards"}
+                  {t("standards.title")}
                 </h1>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                  {language === "ar"
-                    ? "استعرض معايير الأمن السيبراني المختلفة بما في ذلك المعايير الدولية والوطنية والداخلية"
-                    : "Browse different cybersecurity standards including international, national, and internal standards"}
+                  {t("standards.subtitle")}
                 </p>
               </div>
             </div>
@@ -75,7 +73,7 @@ export default function StandardsPageClient({ categories }: StandardsPageClientP
                               {language === "ar" ? category.descriptionAr : category.descriptionEn}
                             </p>
                             <Button variant="outline" className={`w-full gap-2 ${isRtl ? "flex-row-reverse" : ""}`}>
-                              <span>{language === "ar" ? "استعرض المعايير" : "Browse Standards"}</span>
+                              <span>{t("standards.explore")}</span>
                               {isRtl ? <ArrowLeft className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />}
                             </Button>
                           </CardContent>
@@ -87,14 +85,8 @@ export default function StandardsPageClient({ categories }: StandardsPageClientP
               </div>
             ) : (
               <div className="text-center py-12">
-                <h3 className="text-lg font-semibold mb-2">
-                  {language === "ar" ? "لا توجد فئات معايير" : "No Standard Categories Available"}
-                </h3>
-                <p className="text-muted-foreground">
-                  {language === "ar"
-                    ? "لا توجد فئات معايير متاحة حالياً"
-                    : "No standard categories are currently available"}
-                </p>
+                <h3 className="text-lg font-semibold mb-2">{t("standards.noCategoriesTitle")}</h3>
+                <p className="text-muted-foreground">{t("standards.noCategoriesDescription")}</p>
               </div>
             )}
           </div>

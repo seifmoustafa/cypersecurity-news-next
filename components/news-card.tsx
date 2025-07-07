@@ -47,7 +47,7 @@ export default function NewsCard({
   imageUrl,
 }: NewsCardProps) {
   const [open, setOpen] = useState(false)
-  const { language, isRtl } = useLanguage()
+  const { language, isRtl, t } = useLanguage()
 
   // Get title for display based on current language
   const displayTitle = language === "ar" ? title || titleEn || "" : titleEn || title || ""
@@ -103,7 +103,7 @@ export default function NewsCard({
             <p className="text-sm text-muted-foreground line-clamp-3">{hasValidSummary ? cleanSummary : ""}</p>
             <div className="mt-4 flex justify-end">
               <span className="text-primary text-sm font-medium inline-flex items-center">
-                {language === "ar" ? "اقرأ المزيد" : "Read More"}
+                {t("common.readMore")}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className={`h-4 w-4 ${isRtl ? "mr-1 rotate-180" : "ml-1"} transition-transform group-hover:${isRtl ? "-translate-x-1" : "translate-x-1"}`}
@@ -141,7 +141,7 @@ export default function NewsCard({
             {fullContent && fullContent !== "string" && <p>{fullContent}</p>}
             {details && details !== "string" && (
               <div className="mt-4 p-4 bg-blue-50/50 dark:bg-blue-900/20 rounded-lg border border-blue-100/50 dark:border-blue-900/30">
-                <h4 className="font-semibold mb-2">{language === "ar" ? "تفاصيل إضافية:" : "Additional Details:"}</h4>
+                <h4 className="font-semibold mb-2">{t("common.additionalDetails")}</h4>
                 <p>{details}</p>
               </div>
             )}
@@ -152,10 +152,10 @@ export default function NewsCard({
               href={`/news/${newsSlug}`}
               className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md transition-colors"
             >
-              {language === "ar" ? "عرض المقال الكامل" : "View Full Article"}
+              {t("common.viewFullArticle")}
             </Link>
             <Button onClick={() => setOpen(false)} variant="outline">
-              {language === "ar" ? "إغلاق" : "Close"}
+              {t("common.close")}
             </Button>
           </DialogFooter>
         </DialogContent>

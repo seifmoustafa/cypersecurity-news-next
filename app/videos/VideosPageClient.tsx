@@ -114,7 +114,7 @@ export default function VideosPageClient({
               ) : (
                 <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
               )}
-              <span className={isRtl ? "mr-2" : "ml-2"}>{t("common.backToMedia")}</span>
+              <span className={isRtl ? "mr-2" : "ml-2"}>{t("media.backToMedia")}</span>
             </Button>
           </div>
 
@@ -224,7 +224,7 @@ export default function VideosPageClient({
                   className="w-full h-full"
                   src={getVideoUrl(selectedVideo.videoUrl)}
                 >
-                  Your browser does not support the video tag.
+                  {t("media.noVideoSupport")}
                 </video>
               </div>
             </DialogContent>
@@ -264,7 +264,7 @@ const VideoCard = ({
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
         <Play className="h-12 w-12 text-white/80 group-hover:text-white transition-colors" />
         <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between">
-          <span className="text-xs font-medium text-white bg-primary/80 px-2 py-1 rounded">Video</span>
+          <span className="text-xs font-medium text-white bg-primary/80 px-2 py-1 rounded">{t("media.videoLabel")}</span>
           <span className="text-xs text-white/90">{formatDate(video.createdAt)}</span>
         </div>
       </div>
