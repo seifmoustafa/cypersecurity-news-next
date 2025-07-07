@@ -105,6 +105,7 @@ function HelperSystemCard({ system, index }: HelperSystemCardProps) {
       const link = document.createElement("a")
       link.href = system.downloadUrl
       link.download = system.name
+      link.target = "_blank"
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
