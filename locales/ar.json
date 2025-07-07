@@ -84,7 +84,9 @@
       "international": "دولية",
       "local": "محلية",
       "internal": "داخلية"
-    }
+    },
+    "noCategoriesTitle": "لا توجد فئات معايير",
+    "noCategoriesDescription": "لا توجد فئات معايير متاحة حالياً"
   },
   "cybersecurityConcepts": {
     "title": "مفاهيم الأمن السيبراني",
@@ -96,8 +98,14 @@
     "presentations": "العروض التقديمية",
     "subtitle": "مكتبة متكاملة من الوسائط المتعددة حول الأمن السيبراني",
     "title": "المكتبة الإعلامية",
+    "videosDescription": "مجموعة من مقاطع الفيديو المتعلقة بالأمن السيبراني",
     "explore": "استكشف المكتبة",
-    "presentation": "عرض تقديمي"
+    "presentation": "عرض تقديمي",
+    "backToMedia": "العودة للمكتبة",
+    "videoLabel": "فيديو",
+    "noVideoSupport": "متصفحك لا يدعم فيديو HTML5.",
+    "noVideos": "لا توجد فيديوهات متاحة",
+    "videosDescription": "مجموعة من مقاطع الفيديو المتعلقة بالأمن السيبراني"
   },
   "documentLibrary": {
     "title": "مكتبة الوثائق",
@@ -135,6 +143,8 @@
     "back": "رجوع",
     "next": "التالي",
     "previous": "السابق",
+    "page": "صفحة {{page}}",
+    "pageOf": "صفحة {{current}} من {{total}}",
     "details": "التفاصيل",
     "controls": "الضوابط",
     "safeguards": "الإجراءات الوقائية",
@@ -143,11 +153,15 @@
     "search": "بحث",
     "loading": "جاري التحميل...",
     "noResults": "لا توجد نتائج",
+    "noSearchResults": "لا توجد نتائج لبحثك",
+    "tryDifferentSearch": "جرب البحث بكلمات مفتاحية مختلفة",
     "more": "المزيد",
     "retry": "إعادة المحاولة",
     "metadata": "معلومات إضافية",
-    "error": "خطأ",
-    "noSearchResults": "لا توجد نتائج لبحثك"
+    "somethingWrong": "حدث خطأ ما",
+    "additionalDetails": "تفاصيل إضافية:",
+    "viewFullArticle": "عرض المقال الكامل",
+    "error": "خطأ"
   },
   "hero": {
     "title": "بوابة الأمن السيبراني",
@@ -168,6 +182,9 @@
     "latestNews": "آخر الأخبار",
     "featuredNews": "أخبار مميزة",
     "relatedNews": "أخبار ذات صلة",
+    "allTitle": "جميع أخبار الأمن السيبراني",
+    "allSubtitle": "آخر الأخبار والتطورات في مجال الأمن السيبراني",
+    "noNews": "لا توجد أخبار متاحة حالياً",
     "title": "أخبار الأمن السيبراني",
     "subtitle": "آخر التطورات والأخبار في مجال الأمن السيبراني"
   },
@@ -254,6 +271,34 @@
   },
   "site": {
     "name": "بوابة الأمن السيبراني"
+  },
+  "articles": {
+    "title": "المقالات",
+    "subtitle": "استعرض جميع المقالات والرؤى المتعلقة بالأمن السيبراني",
+    "backToHome": "رجوع إلى الرئيسية",
+    "backToArticles": "رجوع إلى المقالات",
+    "moreArticles": "المزيد من المقالات",
+    "published": "تاريخ النشر: ",
+    "updated": "آخر تحديث: ",
+    "errorTitle": "خطأ في تحميل المقالات",
+    "errorMessage": "حدث خطأ أثناء تحميل المقالات",
+    "noArticlesTitle": "لا توجد مقالات",
+    "noArticlesDescription": "لم يتم العثور على أي مقالات"
+  },
+  "lectures": {
+    "title": "المحاضرات",
+    "backToMedia": "العودة للمكتبة",
+    "noLectures": "لا توجد محاضرات",
+    "noResults": "لا توجد نتائج",
+    "tryDifferent": "جرب البحث بكلمات مختلفة"
+  },
+  "systemsPage": {
+    "title": "الأنظمة",
+    "subtitle": "تصفح جميع الأنظمة المتاحة",
+    "searchPlaceholder": "البحث في الأنظمة...",
+    "backToHome": "العودة للرئيسية",
+    "noSystems": "لا توجد أنظمة متاحة",
+    "noSearchResults": "لا توجد نتائج للبحث"
   },
   "presentations": {
     "title": "العروض التقديمية",

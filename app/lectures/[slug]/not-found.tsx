@@ -11,7 +11,7 @@ export default function LectureNotFound() {
           <BookOpen className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
           <h1 className="text-4xl font-bold mb-2">Lecture Not Found</h1>
           <p className="text-muted-foreground mb-6">
-            The lecture you're looking for doesn't exist or has been removed.
+            The lecture you&apos;re looking for doesn&apos;t exist or has been removed.
           </p>
           <div className="flex gap-4 justify-center">
             <Button asChild>

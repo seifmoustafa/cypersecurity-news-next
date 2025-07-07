@@ -20,7 +20,7 @@ export default function ArticleNotFound() {
           <p className="text-muted-foreground mb-8">
             {language === "ar"
               ? "عذراً، لا يمكن العثور على المقال المطلوب. قد يكون قد تم حذفه أو نقله."
-              : "Sorry, the article you're looking for doesn't exist. It may have been deleted or moved."}
+              : "Sorry, the article you&apos;re looking for doesn&apos;t exist. It may have been deleted or moved."}
           </p>
         </div>
 

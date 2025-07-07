@@ -14,7 +14,7 @@ import { slugify } from "@/lib/utils"
 const ITEMS_PER_PAGE = 12
 
 export default function ArticlesPageClient() {
-  const { language, isRtl } = useLanguage()
+  const { language, isRtl, t } = useLanguage()
   const [currentPage, setCurrentPage] = useState(1)
   const { articles, loading, error } = useArticles(currentPage, ITEMS_PER_PAGE)
 
@@ -23,11 +23,9 @@ export default function ArticlesPageClient() {
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-red-600 mb-4">
-            {language === "ar" ? "خطأ في تحميل المقالات" : "Error Loading Articles"}
+            {t("articles.errorTitle")}
           </h1>
-          <p className="text-muted-foreground">
-            {language === "ar" ? "حدث خطأ أثناء تحميل المقالات" : "An error occurred while loading articles"}
-          </p>
+          <p className="text-muted-foreground">{t("articles.errorMessage")}</p>
         </div>
       </div>
     )
@@ -45,7 +43,7 @@ export default function ArticlesPageClient() {
             }`}
           >
             {isRtl ? <ChevronRight className="h-4 w-4 mr-1" /> : <ChevronLeft className="h-4 w-4 mr-1" />}
-            {language === "ar" ? "رجوع إلى الرئيسية" : "Back to Home"}
+            {t("articles.backToHome")}
           </Link>
         </div>
 
@@ -56,14 +54,10 @@ export default function ArticlesPageClient() {
               <FileText className="h-8 w-8 text-primary" />
             </div>
             <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
-              {language === "ar" ? "المقالات" : "Articles"}
+              {t("articles.title")}
             </h1>
           </div>
-          <p className={`text-lg text-muted-foreground max-w-2xl ${isRtl ? "mr-auto" : "ml-auto"}`}>
-            {language === "ar"
-              ? "استعرض جميع المقالات والرؤى المتعلقة بالأمن السيبراني"
-              : "Browse all cybersecurity articles and insights"}
-          </p>
+          <p className={`text-lg text-muted-foreground max-w-2xl ${isRtl ? "mr-auto" : "ml-auto"}`}>{t("articles.subtitle")}</p>
         </div>
 
         {/* Articles Grid */}
@@ -83,10 +77,8 @@ export default function ArticlesPageClient() {
         ) : articles.length === 0 ? (
           <div className={`text-center py-20 ${isRtl ? "text-right" : "text-left"}`}>
             <FileText className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">{language === "ar" ? "لا توجد مقالات" : "No Articles Found"}</h3>
-            <p className="text-muted-foreground">
-              {language === "ar" ? "لم يتم العثور على أي مقالات" : "No articles were found"}
-            </p>
+            <h3 className="text-xl font-semibold mb-2">{t("articles.noArticlesTitle")}</h3>
+            <p className="text-muted-foreground">{t("articles.noArticlesDescription")}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -108,10 +100,10 @@ export default function ArticlesPageClient() {
                 className={isRtl ? "flex-row-reverse" : ""}
               >
                 {isRtl ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-                {language === "ar" ? "السابق" : "Previous"}
+                {t("common.previous")}
               </Button>
               <span className="px-4 py-2 text-sm font-medium">
-                {language === "ar" ? `صفحة ${currentPage}` : `Page ${currentPage}`}
+                {t("common.page", { page: currentPage })}
               </span>
               <Button
                 variant="outline"
@@ -120,7 +112,7 @@ export default function ArticlesPageClient() {
                 disabled={articles.length < ITEMS_PER_PAGE}
                 className={isRtl ? "flex-row-reverse" : ""}
               >
-                {language === "ar" ? "التالي" : "Next"}
+                {t("common.next")}
                 {isRtl ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
               </Button>
             </div>
@@ -189,7 +181,7 @@ function ArticleCard({ article, index }: ArticleCardProps) {
             </h3>
             <p className="text-sm text-muted-foreground mb-4 line-clamp-3">{hasValidSummary ? cleanSummary : ""}</p>
             <div className="mt-auto inline-flex items-center text-primary font-medium">
-              {language === "ar" ? "اقرأ المزيد" : "Read More"}
+              {t("common.readMore")}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className={`h-4 w-4 ${isRtl ? "mr-1 rotate-180" : "ml-1"}`}

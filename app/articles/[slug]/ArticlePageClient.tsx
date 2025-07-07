@@ -13,7 +13,7 @@ interface ArticlePageClientProps {
 }
 
 export default function ArticlePageClient({ article }: ArticlePageClientProps) {
-  const { language, isRtl } = useLanguage()
+  const { language, isRtl, t } = useLanguage()
 
   // Get content based on current language
   const displayTitle =
@@ -30,11 +30,11 @@ export default function ArticlePageClient({ article }: ArticlePageClientProps) {
         <div className={`mb-8 ${isRtl ? "text-right" : "text-left"}`}>
           <div className={`flex items-center gap-2 text-sm text-muted-foreground ${isRtl ? "flex-row-reverse" : ""}`}>
             <Link href="/" className="hover:text-primary transition-colors">
-              {language === "ar" ? "الرئيسية" : "Home"}
+              {t("nav.home")}
             </Link>
             <span>{isRtl ? "←" : "→"}</span>
             <Link href="/articles" className="hover:text-primary transition-colors">
-              {language === "ar" ? "المقالات" : "Articles"}
+              {t("articles.title")}
             </Link>
             <span>{isRtl ? "←" : "→"}</span>
             <span className="text-foreground font-medium line-clamp-1">{displayTitle}</span>
@@ -46,7 +46,7 @@ export default function ArticlePageClient({ article }: ArticlePageClientProps) {
           <Link href="/articles">
             <Button variant="outline" className={`${isRtl ? "flex-row-reverse" : ""}`}>
               {isRtl ? <ChevronRight className="h-4 w-4 mr-2" /> : <ChevronLeft className="h-4 w-4 mr-2" />}
-              {language === "ar" ? "رجوع إلى المقالات" : "Back to Articles"}
+              {t("articles.backToArticles")}
             </Button>
           </Link>
         </div>
@@ -114,12 +114,12 @@ export default function ArticlePageClient({ article }: ArticlePageClientProps) {
               <div className={`flex items-center justify-between pt-6 ${isRtl ? "flex-row-reverse" : ""}`}>
                 <div className={`text-sm text-muted-foreground ${isRtl ? "text-right" : "text-left"}`}>
                   <p>
-                    {language === "ar" ? "تاريخ النشر: " : "Published: "}
+                    {language === "ar" ? "تاريخ النشر: " : t("articles.published")}
                     {new Date(article.createdAt).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
                   </p>
                   {article.updatedAt && (
                     <p>
-                      {language === "ar" ? "آخر تحديث: " : "Last updated: "}
+                      {language === "ar" ? "آخر تحديث: " : t("articles.updated")}
                       {new Date(article.updatedAt).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
                     </p>
                   )}
@@ -127,7 +127,7 @@ export default function ArticlePageClient({ article }: ArticlePageClientProps) {
                 <Link href="/articles">
                   <Button variant="outline" size="sm" className={`${isRtl ? "flex-row-reverse" : ""}`}>
                     {isRtl ? <ChevronRight className="h-4 w-4 mr-2" /> : <ChevronLeft className="h-4 w-4 mr-2" />}
-                    {language === "ar" ? "المزيد من المقالات" : "More Articles"}
+                    {t("articles.moreArticles")}
                   </Button>
                 </Link>
               </div>
