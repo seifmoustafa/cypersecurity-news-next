@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, type ReactNode, useEffect } from "react"
 import { getTranslation, getDirection, type Language, type TranslationKey } from "@/lib/i18n"
+import { getFontFamily } from "@/lib/fonts"
 
 interface LanguageContextType {
   language: Language
@@ -49,11 +50,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     document.body.classList.toggle("ltr", !isRtl)
 
     // Update font family based on language
-    if (isRtl) {
-      document.body.style.fontFamily = "var(--font-cairo), sans-serif"
-    } else {
-      document.body.style.fontFamily = "var(--font-roboto), sans-serif"
-    }
+    document.body.style.fontFamily = getFontFamily(isRtl)
   }, [language, dir, isRtl, mounted])
 
   const t = (key: TranslationKey): string => {
