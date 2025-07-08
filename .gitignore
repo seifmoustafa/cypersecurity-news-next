@@ -26,4 +26,4 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 # fonts
-public/fonts/*.woff2
+public/fonts/*.ttf
