@@ -1,5 +1,5 @@
 import type React from "react"
-import { Tajawal, Roboto } from "next/font/google"
+import localFont from "next/font/local"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { LanguageProvider } from "@/components/language-provider"
@@ -17,16 +17,27 @@ export const metadata = {
 // Add this function to improve page loading performance
 export const dynamic = "force-dynamic"
 
-const tajawal = Tajawal({
-  subsets: ["arabic"],
-  weight: ["400", "500", "700"],
-  variable: "--font-tajawal",
+const cairo = localFont({
+  src: [
+    { path: "../public/fonts/Cairo-300.woff2", weight: "300", style: "normal" },
+    { path: "../public/fonts/Cairo-400.woff2", weight: "400", style: "normal" },
+    { path: "../public/fonts/Cairo-700.woff2", weight: "700", style: "normal" },
+  ],
+  variable: "--font-cairo",
+  display: "swap",
 })
 
-const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
+const roboto = localFont({
+  src: [
+    { path: "../public/fonts/Roboto-300.woff2", weight: "300", style: "normal" },
+    { path: "../public/fonts/Roboto-300-italic.woff2", weight: "300", style: "italic" },
+    { path: "../public/fonts/Roboto-400.woff2", weight: "400", style: "normal" },
+    { path: "../public/fonts/Roboto-400-italic.woff2", weight: "400", style: "italic" },
+    { path: "../public/fonts/Roboto-700.woff2", weight: "700", style: "normal" },
+    { path: "../public/fonts/Roboto-700-italic.woff2", weight: "700", style: "italic" },
+  ],
   variable: "--font-roboto",
+  display: "swap",
 })
 
 export default function RootLayout({
@@ -40,7 +51,7 @@ export default function RootLayout({
         <title>بوابة الأمن السيبراني | Cybersecurity Portal</title>
         <meta name="description" content="أحدث المستجدات والتحليلات حول التهديدات السيبرانية وتقنيات الحماية" />
       </head>
-      <body className={`${tajawal.variable} ${roboto.variable}`}>
+      <body className={`${cairo.variable} ${roboto.variable}`}>
         <LanguageProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <ErrorBoundary>

@@ -50,7 +50,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
     // Update font family based on language
     if (isRtl) {
-      document.body.style.fontFamily = "var(--font-tajawal), sans-serif"
+      document.body.style.fontFamily = "var(--font-cairo), sans-serif"
     } else {
       document.body.style.fontFamily = "var(--font-roboto), sans-serif"
     }

@@ -84,7 +84,7 @@ body {
 
 body.rtl {
   direction: rtl;
-  font-family: var(--font-tajawal), sans-serif;
+  font-family: var(--font-cairo), sans-serif;
   text-align: right;
 }
 
