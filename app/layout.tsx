@@ -14,8 +14,6 @@ export const metadata = {
     "أحدث المستجدات والتحليلات حول التهديدات السيبرانية وتقنيات الحماية",
 };
 
-// Add this function to improve page loading performance
-export const dynamic = "force-dynamic";
 
 export default function RootLayout({
   children,
