@@ -12,6 +12,7 @@ import Link from "next/link"
 import { useLanguage } from "@/components/language-provider"
 import { container } from "@/core/di/container"
 import type { Standard, Control } from "@/core/domain/models/standard"
+import { slugify } from "@/lib/utils"
 
 export default function StandardPage() {
   return (
@@ -56,16 +57,14 @@ function StandardPageContent() {
 
         const allStandards = await standardsService.getAllStandards()
         const foundStandard = allStandards.find((s) => {
-          const slugEn = s.nameEn
-            .toLowerCase()
-            .replace(/\s+/g, "-")
-            .replace(/[^\w-]/g, "")
-          const slugAr = s.nameAr
-            .toLowerCase()
-            .replace(/\s+/g, "-")
-            .replace(/[^\w-]/g, "")
+          const slugEn = slugify(s.nameEn)
+          const slugAr = slugify(s.nameAr)
 
-          return slugEn === standardSlug || slugAr === standardSlug
+          return (
+            slugEn === standardSlug ||
+            slugAr === standardSlug ||
+            s.id === standardSlug
+          )
         })
 
         if (!foundStandard) {
@@ -222,10 +221,9 @@ function StandardPageContent() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {controls.map((control, index) => (
                   <Link
-                    href={`/standards/${category}/${standardSlug}/${control.nameEn
-                      .toLowerCase()
-                      .replace(/\s+/g, "-")
-                      .replace(/[^\w-]/g, "")}`}
+                    href={`/standards/${category}/${standardSlug}/${slugify(
+                      control.nameEn || control.nameAr || "",
+                    )}`}
                     key={control.id}
                   >
                     <Card className="h-full hover:shadow-lg transition-all duration-300 hover:scale-105 cursor-pointer group border-l-4 border-l-primary/20 hover:border-l-primary">

@@ -9,7 +9,13 @@ import { ChevronLeft, Settings } from "lucide-react"
 import Link from "next/link"
 import { useLanguage } from "@/components/language-provider"
 import { container } from "@/core/di/container"
-import type { Control, Standard, Safeguard, Technique, ImplementationStep } from "@/core/domain/models/standard"
+import type {
+  Control,
+  Standard,
+  Safeguard,
+  Technique,
+  ImplementationStep,
+} from "@/core/domain/models/standard"
 
 export default function ImplementationStepPage() {
   return (
@@ -47,13 +53,6 @@ function ImplementationStepPageContent() {
   const [error, setError] = useState<string | null>(null)
 
   const standardsService = container.standardsService
-
-  const generateSlug = (text: string): string => {
-    return text
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^\w-]/g, "")
-  }
 
   useEffect(() => {
     const fetchData = async () => {
