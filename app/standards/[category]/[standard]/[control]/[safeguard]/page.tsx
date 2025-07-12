@@ -11,6 +11,7 @@ import Link from "next/link"
 import { useLanguage } from "@/components/language-provider"
 import { container } from "@/core/di/container"
 import type { Control, Standard, Safeguard, Technique } from "@/core/domain/models/standard"
+import { slugify } from "@/lib/utils"
 
 export default function SafeguardPage() {
   return (
@@ -47,15 +48,8 @@ function SafeguardPageContent() {
 
   const standardsService = container.standardsService
 
-  const generateSlug = (text: string): string => {
-    return text
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^\w-]/g, "")
-  }
-
   const handleTechniqueClick = (technique: Technique) => {
-    const techniqueSlug = generateSlug(technique.nameEn || technique.nameAr)
+    const techniqueSlug = slugify(technique.nameEn || technique.nameAr)
     const url = `/standards/${category}/${standardSlug}/${controlSlug}/${safeguardSlug}/${techniqueSlug}`
     console.log("🔗 Navigating to technique:", url)
     window.location.href = url
@@ -72,7 +66,10 @@ function SafeguardPageContent() {
         // First get the standard
         const allStandards = await standardsService.getAllStandards()
         const foundStandard = allStandards.find(
-          (s) => generateSlug(s.nameEn) === standardSlug || generateSlug(s.nameAr) === standardSlug,
+          (s) =>
+            slugify(s.nameEn) === standardSlug ||
+            slugify(s.nameAr) === standardSlug ||
+            s.id === standardSlug,
         )
 
         if (!foundStandard) {
@@ -86,7 +83,10 @@ function SafeguardPageContent() {
         // Then get controls for this standard
         const controlsResponse = await standardsService.getControlsByStandardId(foundStandard.id, 1, 100)
         const foundControl = controlsResponse.data.find(
-          (c) => generateSlug(c.nameEn) === controlSlug || generateSlug(c.nameAr) === controlSlug,
+          (c) =>
+            slugify(c.nameEn) === controlSlug ||
+            slugify(c.nameAr) === controlSlug ||
+            c.id === controlSlug,
         )
 
         if (!foundControl) {
@@ -100,7 +100,10 @@ function SafeguardPageContent() {
         // Then get safeguards for this control
         const safeguardsResponse = await standardsService.getSafeguardsByControlId(foundControl.id, 1, 100)
         const foundSafeguard = safeguardsResponse.data.find(
-          (s) => generateSlug(s.nameEn) === safeguardSlug || generateSlug(s.nameAr) === safeguardSlug,
+          (s) =>
+            slugify(s.nameEn) === safeguardSlug ||
+            slugify(s.nameAr) === safeguardSlug ||
+            s.id === safeguardSlug,
         )
 
         if (!foundSafeguard) {

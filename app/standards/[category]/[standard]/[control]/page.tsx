@@ -9,7 +9,13 @@ import { ChevronLeft, Shield, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { useLanguage } from "@/components/language-provider"
 import { container } from "@/core/di/container"
-import type { Control, Standard, Safeguard, SafeguardsPaginatedResponse } from "@/core/domain/models/standard"
+import type {
+  Control,
+  Standard,
+  Safeguard,
+  SafeguardsPaginatedResponse,
+} from "@/core/domain/models/standard"
+import { slugify } from "@/lib/utils"
 
 export default function ControlPage() {
   return (
@@ -62,17 +68,13 @@ function ControlPageContent() {
         console.log("✅ Found standards:", allStandards.length)
 
         const foundStandard = allStandards.find((s) => {
-          const slugEn =
-            s.nameEn
-              ?.toLowerCase()
-              .replace(/\s+/g, "-")
-              .replace(/[^\w-]/g, "") || ""
-          const slugAr =
-            s.nameAr
-              ?.toLowerCase()
-              .replace(/\s+/g, "-")
-              .replace(/[^\w-]/g, "") || ""
-          return slugEn === standardSlug || slugAr === standardSlug
+          const slugEn = slugify(s.nameEn)
+          const slugAr = slugify(s.nameAr)
+          return (
+            slugEn === standardSlug ||
+            slugAr === standardSlug ||
+            s.id === standardSlug
+          )
         })
 
         if (!foundStandard) {
@@ -90,17 +92,13 @@ function ControlPageContent() {
         console.log("✅ Found controls:", controlsResponse.data.length)
 
         const foundControl = controlsResponse.data.find((c) => {
-          const slugEn =
-            c.nameEn
-              ?.toLowerCase()
-              .replace(/\s+/g, "-")
-              .replace(/[^\w-]/g, "") || ""
-          const slugAr =
-            c.nameAr
-              ?.toLowerCase()
-              .replace(/\s+/g, "-")
-              .replace(/[^\w-]/g, "") || ""
-          return slugEn === controlSlug || slugAr === controlSlug
+          const slugEn = slugify(c.nameEn)
+          const slugAr = slugify(c.nameAr)
+          return (
+            slugEn === controlSlug ||
+            slugAr === controlSlug ||
+            c.id === controlSlug
+          )
         })
 
         if (!foundControl) {
@@ -147,10 +145,7 @@ function ControlPageContent() {
   }, [standardSlug, controlSlug, standardsService])
 
   const handleSafeguardClick = (safeguard: Safeguard) => {
-    const safeguardSlug = (safeguard.nameEn || safeguard.nameAr || "")
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^\w-]/g, "")
+    const safeguardSlug = slugify(safeguard.nameEn || safeguard.nameAr || "")
 
     console.log("🔗 Navigating to safeguard:", safeguardSlug)
     window.location.href = `/standards/${category}/${standardSlug}/${controlSlug}/${safeguardSlug}`

@@ -10,6 +10,7 @@ import Link from "next/link"
 import { useLanguage } from "@/components/language-provider"
 import { container } from "@/core/di/container"
 import type { Control, Standard, Safeguard, Technique, ImplementationStep } from "@/core/domain/models/standard"
+import { slugify } from "@/lib/utils"
 
 export default function TechniquePage() {
   return (
@@ -48,13 +49,6 @@ function TechniquePageContent() {
 
   const standardsService = container.standardsService
 
-  const generateSlug = (text: string): string => {
-    return text
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^\w-]/g, "")
-  }
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -66,7 +60,10 @@ function TechniquePageContent() {
         // First get the standard
         const allStandards = await standardsService.getAllStandards()
         const foundStandard = allStandards.find(
-          (s) => generateSlug(s.nameEn) === standardSlug || generateSlug(s.nameAr) === standardSlug,
+          (s) =>
+            slugify(s.nameEn) === standardSlug ||
+            slugify(s.nameAr) === standardSlug ||
+            s.id === standardSlug,
         )
 
         if (!foundStandard) {
@@ -80,7 +77,10 @@ function TechniquePageContent() {
         // Then get controls for this standard
         const controlsResponse = await standardsService.getControlsByStandardId(foundStandard.id, 1, 100)
         const foundControl = controlsResponse.data.find(
-          (c) => generateSlug(c.nameEn) === controlSlug || generateSlug(c.nameAr) === controlSlug,
+          (c) =>
+            slugify(c.nameEn) === controlSlug ||
+            slugify(c.nameAr) === controlSlug ||
+            c.id === controlSlug,
         )
 
         if (!foundControl) {
@@ -94,7 +94,10 @@ function TechniquePageContent() {
         // Then get safeguards for this control
         const safeguardsResponse = await standardsService.getSafeguardsByControlId(foundControl.id, 1, 100)
         const foundSafeguard = safeguardsResponse.data.find(
-          (s) => generateSlug(s.nameEn) === safeguardSlug || generateSlug(s.nameAr) === safeguardSlug,
+          (s) =>
+            slugify(s.nameEn) === safeguardSlug ||
+            slugify(s.nameAr) === safeguardSlug ||
+            s.id === safeguardSlug,
         )
 
         if (!foundSafeguard) {
@@ -108,7 +111,10 @@ function TechniquePageContent() {
         // Finally get techniques for this safeguard
         const techniquesResponse = await standardsService.getTechniquesBySafeguardId(foundSafeguard.id, 1, 100)
         const foundTechnique = techniquesResponse.data.find(
-          (t) => generateSlug(t.nameEn) === techniqueSlug || generateSlug(t.nameAr) === techniqueSlug,
+          (t) =>
+            slugify(t.nameEn) === techniqueSlug ||
+            slugify(t.nameAr) === techniqueSlug ||
+            t.id === techniqueSlug,
         )
 
         if (!foundTechnique) {
