@@ -285,16 +285,18 @@ function TechniquePageContent() {
               </div>
             ) : implementationSteps.length > 0 ? (
               <div className="grid gap-4">
-                {implementationSteps.map((step) => (
-                  <Link
-                    key={step.id}
-                    href={`/standards/${category}/${standardSlug}/${controlSlug}/${safeguardSlug}/${techniqueSlug}/${step.id}`}
-                    className="block"
-                  >
-                    <div className="bg-card hover:bg-muted/50 rounded-lg p-6 border border-border transition-all duration-200 hover:shadow-md hover:border-green-300 dark:hover:border-green-700">
-                      <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0">
-                          <div className="w-8 h-8 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center">
+                {implementationSteps.map((step) => {
+                  const stepSlug = slugify(step.nameEn || step.nameAr)
+                  return (
+                    <Link
+                      key={step.id}
+                      href={`/standards/${category}/${standardSlug}/${controlSlug}/${safeguardSlug}/${techniqueSlug}/${stepSlug}`}
+                      className="block"
+                    >
+                      <div className="bg-card hover:bg-muted/50 rounded-lg p-6 border border-border transition-all duration-200 hover:shadow-md hover:border-green-300 dark:hover:border-green-700">
+                        <div className="flex items-start gap-4">
+                          <div className="flex-shrink-0">
+                            <div className="w-8 h-8 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center">
                             <span className="text-green-600 dark:text-green-400 font-bold text-sm">
                               {step.orderNum}
                             </span>
@@ -316,7 +318,8 @@ function TechniquePageContent() {
                       </div>
                     </div>
                   </Link>
-                ))}
+                  )
+                })}
               </div>
             ) : (
               <div className="text-center py-8">
