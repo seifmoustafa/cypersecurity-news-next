@@ -72,7 +72,10 @@ function SafeguardPageContent() {
         // First get the standard
         const allStandards = await standardsService.getAllStandards()
         const foundStandard = allStandards.find(
-          (s) => generateSlug(s.nameEn) === standardSlug || generateSlug(s.nameAr) === standardSlug,
+          (s) =>
+            generateSlug(s.nameEn) === standardSlug ||
+            generateSlug(s.nameAr) === standardSlug ||
+            s.id === standardSlug,
         )
 
         if (!foundStandard) {
@@ -86,7 +89,10 @@ function SafeguardPageContent() {
         // Then get controls for this standard
         const controlsResponse = await standardsService.getControlsByStandardId(foundStandard.id, 1, 100)
         const foundControl = controlsResponse.data.find(
-          (c) => generateSlug(c.nameEn) === controlSlug || generateSlug(c.nameAr) === controlSlug,
+          (c) =>
+            generateSlug(c.nameEn) === controlSlug ||
+            generateSlug(c.nameAr) === controlSlug ||
+            c.id === controlSlug,
         )
 
         if (!foundControl) {
@@ -100,7 +106,10 @@ function SafeguardPageContent() {
         // Then get safeguards for this control
         const safeguardsResponse = await standardsService.getSafeguardsByControlId(foundControl.id, 1, 100)
         const foundSafeguard = safeguardsResponse.data.find(
-          (s) => generateSlug(s.nameEn) === safeguardSlug || generateSlug(s.nameAr) === safeguardSlug,
+          (s) =>
+            generateSlug(s.nameEn) === safeguardSlug ||
+            generateSlug(s.nameAr) === safeguardSlug ||
+            s.id === safeguardSlug,
         )
 
         if (!foundSafeguard) {

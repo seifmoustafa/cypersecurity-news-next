@@ -66,7 +66,10 @@ function TechniquePageContent() {
         // First get the standard
         const allStandards = await standardsService.getAllStandards()
         const foundStandard = allStandards.find(
-          (s) => generateSlug(s.nameEn) === standardSlug || generateSlug(s.nameAr) === standardSlug,
+          (s) =>
+            generateSlug(s.nameEn) === standardSlug ||
+            generateSlug(s.nameAr) === standardSlug ||
+            s.id === standardSlug,
         )
 
         if (!foundStandard) {
@@ -80,7 +83,10 @@ function TechniquePageContent() {
         // Then get controls for this standard
         const controlsResponse = await standardsService.getControlsByStandardId(foundStandard.id, 1, 100)
         const foundControl = controlsResponse.data.find(
-          (c) => generateSlug(c.nameEn) === controlSlug || generateSlug(c.nameAr) === controlSlug,
+          (c) =>
+            generateSlug(c.nameEn) === controlSlug ||
+            generateSlug(c.nameAr) === controlSlug ||
+            c.id === controlSlug,
         )
 
         if (!foundControl) {
@@ -94,7 +100,10 @@ function TechniquePageContent() {
         // Then get safeguards for this control
         const safeguardsResponse = await standardsService.getSafeguardsByControlId(foundControl.id, 1, 100)
         const foundSafeguard = safeguardsResponse.data.find(
-          (s) => generateSlug(s.nameEn) === safeguardSlug || generateSlug(s.nameAr) === safeguardSlug,
+          (s) =>
+            generateSlug(s.nameEn) === safeguardSlug ||
+            generateSlug(s.nameAr) === safeguardSlug ||
+            s.id === safeguardSlug,
         )
 
         if (!foundSafeguard) {
@@ -108,7 +117,10 @@ function TechniquePageContent() {
         // Finally get techniques for this safeguard
         const techniquesResponse = await standardsService.getTechniquesBySafeguardId(foundSafeguard.id, 1, 100)
         const foundTechnique = techniquesResponse.data.find(
-          (t) => generateSlug(t.nameEn) === techniqueSlug || generateSlug(t.nameAr) === techniqueSlug,
+          (t) =>
+            generateSlug(t.nameEn) === techniqueSlug ||
+            generateSlug(t.nameAr) === techniqueSlug ||
+            t.id === techniqueSlug,
         )
 
         if (!foundTechnique) {

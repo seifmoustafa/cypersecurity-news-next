@@ -65,7 +65,11 @@ function StandardPageContent() {
             .replace(/\s+/g, "-")
             .replace(/[^\w-]/g, "")
 
-          return slugEn === standardSlug || slugAr === standardSlug
+          return (
+            slugEn === standardSlug ||
+            slugAr === standardSlug ||
+            s.id === standardSlug
+          )
         })
 
         if (!foundStandard) {

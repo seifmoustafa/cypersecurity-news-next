@@ -72,7 +72,11 @@ function ControlPageContent() {
               ?.toLowerCase()
               .replace(/\s+/g, "-")
               .replace(/[^\w-]/g, "") || ""
-          return slugEn === standardSlug || slugAr === standardSlug
+          return (
+            slugEn === standardSlug ||
+            slugAr === standardSlug ||
+            s.id === standardSlug
+          )
         })
 
         if (!foundStandard) {
@@ -100,7 +104,11 @@ function ControlPageContent() {
               ?.toLowerCase()
               .replace(/\s+/g, "-")
               .replace(/[^\w-]/g, "") || ""
-          return slugEn === controlSlug || slugAr === controlSlug
+          return (
+            slugEn === controlSlug ||
+            slugAr === controlSlug ||
+            c.id === controlSlug
+          )
         })
 
         if (!foundControl) {
