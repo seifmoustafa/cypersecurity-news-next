@@ -9,6 +9,7 @@ import { ChevronLeft, Settings } from "lucide-react"
 import Link from "next/link"
 import { useLanguage } from "@/components/language-provider"
 import { container } from "@/core/di/container"
+import { slugify } from "@/lib/utils"
 import type {
   Control,
   Standard,
@@ -42,7 +43,7 @@ function ImplementationStepPageContent() {
   const controlSlug = params.control as string
   const safeguardSlug = params.safeguard as string
   const techniqueSlug = params.technique as string
-  const implementationId = params.implementation as string
+  const implementationSlug = params.implementation as string
   const { language, isRtl } = useLanguage()
   const [implementationStep, setImplementationStep] = useState<ImplementationStep | null>(null)
   const [technique, setTechnique] = useState<Technique | null>(null)
@@ -62,55 +63,90 @@ function ImplementationStepPageContent() {
 
         console.log("🔄 Starting data fetch for implementation step page...")
 
-        // First get the implementation step by ID
-        const foundImplementationStep = await standardsService.getImplementationStepById(implementationId)
-        if (!foundImplementationStep) {
-          console.error("❌ Implementation step not found:", implementationId)
-          notFound()
-        }
+        // Get the standard
+        const allStandards = await standardsService.getAllStandards()
+        const foundStandard = allStandards.find(
+          (s) =>
+            slugify(s.nameEn) === standardSlug ||
+            slugify(s.nameAr) === standardSlug ||
+            s.id === standardSlug,
+        )
 
-        console.log("✅ Found implementation step:", foundImplementationStep.nameEn)
-        setImplementationStep(foundImplementationStep)
-
-        // Then get the technique
-        const foundTechnique = await standardsService.getTechniqueById(foundImplementationStep.techniqueId)
-        if (!foundTechnique) {
-          console.error("❌ Technique not found:", foundImplementationStep.techniqueId)
-          notFound()
-        }
-
-        console.log("✅ Found technique:", foundTechnique.nameEn)
-        setTechnique(foundTechnique)
-
-        // Then get the safeguard
-        const foundSafeguard = await standardsService.getSafeguardById(foundTechnique.safeguardId)
-        if (!foundSafeguard) {
-          console.error("❌ Safeguard not found:", foundTechnique.safeguardId)
-          notFound()
-        }
-
-        console.log("✅ Found safeguard:", foundSafeguard.nameEn)
-        setSafeguard(foundSafeguard)
-
-        // Then get the control
-        const foundControl = await standardsService.getControlById(foundSafeguard.controlId)
-        if (!foundControl) {
-          console.error("❌ Control not found:", foundSafeguard.controlId)
-          notFound()
-        }
-
-        console.log("✅ Found control:", foundControl.nameEn)
-        setControl(foundControl)
-
-        // Finally get the standard
-        const foundStandard = await standardsService.getStandardById(foundControl.standardId)
         if (!foundStandard) {
-          console.error("❌ Standard not found:", foundControl.standardId)
+          console.error("❌ Standard not found:", standardSlug)
           notFound()
         }
 
-        console.log("✅ Found standard:", foundStandard.nameEn)
         setStandard(foundStandard)
+        console.log("✅ Found standard:", foundStandard.nameEn)
+
+        // Get controls for this standard
+        const controlsResponse = await standardsService.getControlsByStandardId(foundStandard.id, 1, 100)
+        const foundControl = controlsResponse.data.find(
+          (c) =>
+            slugify(c.nameEn) === controlSlug ||
+            slugify(c.nameAr) === controlSlug ||
+            c.id === controlSlug,
+        )
+
+        if (!foundControl) {
+          console.error("❌ Control not found:", controlSlug)
+          notFound()
+        }
+
+        setControl(foundControl)
+        console.log("✅ Found control:", foundControl.nameEn)
+
+        // Get safeguards for this control
+        const safeguardsResponse = await standardsService.getSafeguardsByControlId(foundControl.id, 1, 100)
+        const foundSafeguard = safeguardsResponse.data.find(
+          (s) =>
+            slugify(s.nameEn) === safeguardSlug ||
+            slugify(s.nameAr) === safeguardSlug ||
+            s.id === safeguardSlug,
+        )
+
+        if (!foundSafeguard) {
+          console.error("❌ Safeguard not found:", safeguardSlug)
+          notFound()
+        }
+
+        setSafeguard(foundSafeguard)
+        console.log("✅ Found safeguard:", foundSafeguard.nameEn)
+
+        // Get techniques for this safeguard
+        const techniquesResponse = await standardsService.getTechniquesBySafeguardId(foundSafeguard.id, 1, 100)
+        const foundTechnique = techniquesResponse.data.find(
+          (t) =>
+            slugify(t.nameEn) === techniqueSlug ||
+            slugify(t.nameAr) === techniqueSlug ||
+            t.id === techniqueSlug,
+        )
+
+        if (!foundTechnique) {
+          console.error("❌ Technique not found:", techniqueSlug)
+          notFound()
+        }
+
+        setTechnique(foundTechnique)
+        console.log("✅ Found technique:", foundTechnique.nameEn)
+
+        // Get implementation steps for this technique
+        const stepsResponse = await standardsService.getImplementationStepsByTechniqueId(foundTechnique.id, 1, 100)
+        const foundImplementationStep = stepsResponse.data.find(
+          (step) =>
+            slugify(step.nameEn) === implementationSlug ||
+            slugify(step.nameAr) === implementationSlug ||
+            step.id === implementationSlug,
+        )
+
+        if (!foundImplementationStep) {
+          console.error("❌ Implementation step not found:", implementationSlug)
+          notFound()
+        }
+
+        setImplementationStep(foundImplementationStep)
+        console.log("✅ Found implementation step:", foundImplementationStep.nameEn)
       } catch (error) {
         console.error("❌ Error fetching data:", error)
         setError(error instanceof Error ? error.message : "An error occurred")
@@ -119,10 +155,10 @@ function ImplementationStepPageContent() {
       }
     }
 
-    if (implementationId) {
+    if (standardSlug && controlSlug && safeguardSlug && techniqueSlug && implementationSlug) {
       fetchData()
     }
-  }, [implementationId, standardsService])
+  }, [standardSlug, controlSlug, safeguardSlug, techniqueSlug, implementationSlug, standardsService])
 
   if (loading) {
     return <LoadingState />
