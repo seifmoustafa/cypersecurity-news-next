@@ -43,8 +43,8 @@ export default function StandardCategoryPageClient({
 
   const handleStandardClick = (standard: Standard) => {
     console.log("Standard clicked:", standard)
-    const categorySlug = slugify(category.nameEn)
-    const standardSlug = slugify(standard.nameEn)
+    const categorySlug = slugify(category.nameEn, category.id)
+    const standardSlug = slugify(standard.nameEn, standard.id)
     const url = `/standards/${categorySlug}/${standardSlug}`
     console.log("Navigating to:", url)
     router.push(url)

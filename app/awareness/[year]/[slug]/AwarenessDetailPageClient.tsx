@@ -56,7 +56,7 @@ export default function AwarenessDetailPageClient({ year, slug }: AwarenessDetai
         // Find the specific awareness by slug
         const foundAwareness = awarenessData.data.find((item) => {
           const englishTitle = item.titleEn || item.title || ""
-          return slugify(englishTitle) === slug
+          return slugify(englishTitle, item.id) === slug
         })
 
         if (foundAwareness) {

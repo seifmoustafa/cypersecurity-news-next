@@ -59,7 +59,7 @@ export default function CybersecurityRegulationSection() {
   const getActiveCategorySlug = () => {
     if (!activeCategory) return "all"
     const activeItem = categories.find((c) => c.id === activeCategory)
-    return activeItem ? slugify(activeItem.name_En) : "all"
+    return activeItem ? slugify(activeItem.name_En, activeItem.id) : "all"
   }
 
   if (loading && !activeCategory) {
@@ -186,7 +186,7 @@ function RegulationCard({ item, index }: RegulationCardProps) {
   const summary = language === "ar" ? item.summary : item.summaryEn
 
   // Create slug from English title for URL
-  const slug = slugify(item.titleEn)
+  const slug = slugify(item.titleEn, item.id)
 
   return (
     <motion.div

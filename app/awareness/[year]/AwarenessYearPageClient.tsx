@@ -56,7 +56,7 @@ export default function AwarenessYearPageClient({ year }: AwarenessYearPageClien
 
   const getSlug = (item: any) => {
     const englishTitle = item.titleEn || item.title || ""
-    return slugify(englishTitle)
+    return slugify(englishTitle, item.id)
   }
 
   const handleDownload = (documentUrl: string, title: string) => {
