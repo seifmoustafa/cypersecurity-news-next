@@ -23,4 +23,8 @@ export class AwarenessService {
   async getAwarenessById(id: string): Promise<Awareness> {
     return this.awarenessRepository.getAwarenessById(id)
   }
+
+  async getAwarenessByYearAndSlug(year: string, slug: string): Promise<Awareness | null> {
+    return this.awarenessRepository.getAwarenessByYearAndSlug(year, slug)
+  }
 }

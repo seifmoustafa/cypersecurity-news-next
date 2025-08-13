@@ -9,7 +9,6 @@ import { Separator } from "@/components/ui/separator"
 import { ArrowLeft, ArrowRight, Download, FileText, BookOpen, Shield, CheckCircle, AlertCircle } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { container } from "@/core/di/container"
-import { slugify } from "@/lib/utils"
 import MainLayout from "@/components/layouts/main-layout"
 
 interface AwarenessDetailPageClientProps {
@@ -41,23 +40,7 @@ export default function AwarenessDetailPageClient({ year, slug }: AwarenessDetai
       try {
         setLoading(true)
 
-        // First get the year ID
-        const years = await container.services.awareness.getAllAwarenessYears("", 1, 100)
-        const foundYear = years.data.find((y) => y.year.toString() === year)
-
-        if (!foundYear) {
-          setError("Year not found")
-          return
-        }
-
-        // Then get all awareness for that year
-        const awarenessData = await container.services.awareness.getAwarenessByYearId(foundYear.id, "", 1, 100)
-
-        // Find the specific awareness by slug
-        const foundAwareness = awarenessData.data.find((item) => {
-          const englishTitle = item.titleEn || item.title || ""
-          return slugify(englishTitle, item.id) === slug
-        })
+        const foundAwareness = await container.services.awareness.getAwarenessByYearAndSlug(year, slug)
 
         if (foundAwareness) {
           setAwareness(foundAwareness)
