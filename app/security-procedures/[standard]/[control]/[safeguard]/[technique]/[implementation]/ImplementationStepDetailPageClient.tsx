@@ -410,7 +410,7 @@ export default function ImplementationStepDetailPageClient({
                           {new Date(
                             implementationStep.implementationStep.approvalDate
                           ).toLocaleDateString(
-                            language === "ar" ? "ar-SA" : "en-US"
+                            "en-US"
                           )}
                         </span>
                       </div>

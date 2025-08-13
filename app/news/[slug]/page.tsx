@@ -164,7 +164,7 @@ export default function NewsDetailPage() {
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
                   <span>
-                    {date.toLocaleDateString(language === "ar" ? "ar-SA" : "en-US", {
+                    {date.toLocaleDateString("en-US", {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
@@ -223,7 +223,7 @@ export default function NewsDetailPage() {
 
                 <div className="text-sm text-muted-foreground">
                   {language === "ar" ? "تم النشر في" : "Published on"}{" "}
-                  {date.toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
+                  {date.toLocaleDateString("en-US")}
                 </div>
               </div>
             </footer>

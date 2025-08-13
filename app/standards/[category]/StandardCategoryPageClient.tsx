@@ -178,7 +178,7 @@ export default function StandardCategoryPageClient({
                               {language === "ar" ? category.nameAr : category.nameEn}
                             </Badge>
                             <span className="text-xs text-muted-foreground">
-                              {new Date(standard.createdAt).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
+                              {new Date(standard.createdAt).toLocaleDateString("en-US")}
                             </span>
                           </div>
                         </CardContent>

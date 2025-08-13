@@ -327,7 +327,7 @@ export default function CybersecurityConceptsSection() {
                                     </p>
                                     <p className="text-sm text-primary mt-2">
                                       {new Date(item.issueDate).toLocaleDateString(
-                                        language === "ar" ? "ar-SA" : "en-US",
+                                        "en-US",
                                       )}
                                     </p>
                                   </CardContent>

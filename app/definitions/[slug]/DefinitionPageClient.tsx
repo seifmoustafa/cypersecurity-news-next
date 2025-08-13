@@ -34,11 +34,7 @@ export default function DefinitionPageClient({ definition, category }: Definitio
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString)
-      return date.toLocaleDateString(language === "ar" ? "ar-SA" : "en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
+      return date.toLocaleDateString("en-US")
     } catch {
       return dateString
     }

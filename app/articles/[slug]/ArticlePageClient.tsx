@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronRight, Calendar, FileText } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import type { Article } from "@/entities"
+import MainLayout from "@/components/layouts/main-layout"
 
 interface ArticlePageClientProps {
   article: Article
@@ -24,6 +25,7 @@ export default function ArticlePageClient({ article }: ArticlePageClientProps) {
     language === "ar" ? article.summary || article.summaryEn || "" : article.summaryEn || article.summary || ""
 
   return (
+    <MainLayout>
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
@@ -74,7 +76,7 @@ export default function ArticlePageClient({ article }: ArticlePageClientProps) {
                 >
                   <Calendar className="h-4 w-4" />
                   <span>
-                    {new Date(article.createdAt).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US", {
+                    {new Date(article.createdAt).toLocaleDateString("en-US", {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
@@ -108,19 +110,19 @@ export default function ArticlePageClient({ article }: ArticlePageClientProps) {
             </div>
 
             {/* Article Footer */}
-            <div
+            {/* <div
               className={`px-6 md:px-8 pb-6 border-t border-gray-200 dark:border-gray-700 ${isRtl ? "text-right" : "text-left"}`}
             >
               <div className={`flex items-center justify-between pt-6 ${isRtl ? "flex-row-reverse" : ""}`}>
                 <div className={`text-sm text-muted-foreground ${isRtl ? "text-right" : "text-left"}`}>
                   <p>
                     {language === "ar" ? "تاريخ النشر: " : t("articles.published")}
-                    {new Date(article.createdAt).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
+                    {new Date(article.createdAt).toLocaleDateString("en-US")}
                   </p>
                   {article.updatedAt && (
                     <p>
                       {language === "ar" ? "آخر تحديث: " : t("articles.updated")}
-                      {new Date(article.updatedAt).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
+                      {new Date(article.updatedAt).toLocaleDateString("en-US")}
                     </p>
                   )}
                 </div>
@@ -131,10 +133,11 @@ export default function ArticlePageClient({ article }: ArticlePageClientProps) {
                   </Button>
                 </Link>
               </div>
-            </div>
+            </div> */}
           </article>
         </div>
       </div>
     </div>
+    </MainLayout>
   )
 }

@@ -143,7 +143,7 @@
     "back": "رجوع",
     "next": "التالي",
     "previous": "السابق",
-    "page": "صفحة {{page}}",
+    "page": "صفحة",
     "pageOf": "صفحة {{current}} من {{total}}",
     "details": "التفاصيل",
     "controls": "الضوابط",

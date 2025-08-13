@@ -112,7 +112,7 @@ function LawCard({ item }: { item: Law }) {
           <div
             className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} bg-primary text-white text-xs px-2 py-1 rounded`}
           >
-            {date.toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
+            {date.toLocaleDateString("en-US")}
           </div>
         </div>
 

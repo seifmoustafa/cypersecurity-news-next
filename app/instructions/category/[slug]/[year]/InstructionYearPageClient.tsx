@@ -48,7 +48,7 @@ function InstructionCard({
             <div className="flex items-center gap-2 mt-2 text-sm text-muted-foreground">
               <Clock className="h-4 w-4" />
               <span>
-                {new Date(instruction.publishDate).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US", {
+                {new Date(instruction.publishDate).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",
                   day: "numeric",

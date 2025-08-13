@@ -187,7 +187,7 @@
     "back": "Back",
     "next": "Next",
     "previous": "Previous",
-    "page": "Page {{page}}",
+    "page": "Page",
     "pageOf": "Page {{current}} of {{total}}",
     "close": "Close",
     "download": "Download",

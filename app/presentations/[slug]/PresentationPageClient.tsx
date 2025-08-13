@@ -28,7 +28,7 @@ export default function PresentationPageClient({ presentation }: PresentationPag
       hour: "2-digit",
       minute: "2-digit",
     }
-    return date.toLocaleDateString(language === "ar" ? "ar-SA" : "en-US", options)
+    return date.toLocaleDateString("en-US")
   }
 
   const handleDownload = () => {

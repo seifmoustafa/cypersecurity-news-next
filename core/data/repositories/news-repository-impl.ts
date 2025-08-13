@@ -96,7 +96,6 @@ export class NewsRepositoryImpl implements NewsRepository {
       }
 
       console.log(`📡 API endpoint: ${endpoint}`)
-
       const response = await this.apiDataSource.get<NewsResponse>(endpoint)
       const newsData = this.transformNewsData(response.data)
 

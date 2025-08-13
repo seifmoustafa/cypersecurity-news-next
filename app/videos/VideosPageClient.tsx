@@ -252,7 +252,7 @@ const VideoCard = ({
       month: "long",
       day: "numeric",
     }
-    return date.toLocaleDateString(language === "ar" ? "ar-SA" : "en-US", options)
+    return date.toLocaleDateString("en-US")
   }
 
   return (

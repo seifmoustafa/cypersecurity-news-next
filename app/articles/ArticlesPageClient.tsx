@@ -10,6 +10,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useArticles } from "@/core/hooks/use-articles"
 import { slugify } from "@/lib/utils"
+import MainLayout from "@/components/layouts/main-layout"
 
 const ITEMS_PER_PAGE = 12
 
@@ -32,6 +33,7 @@ export default function ArticlesPageClient() {
   }
 
   return (
+    <MainLayout>
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
@@ -103,7 +105,7 @@ export default function ArticlesPageClient() {
                 {t("common.previous")}
               </Button>
               <span className="px-4 py-2 text-sm font-medium">
-                {t("common.page", { page: currentPage })}
+                {t("common.page")} {currentPage}
               </span>
               <Button
                 variant="outline"
@@ -120,6 +122,7 @@ export default function ArticlesPageClient() {
         )}
       </div>
     </div>
+    </MainLayout>
   )
 }
 
@@ -129,7 +132,7 @@ interface ArticleCardProps {
 }
 
 function ArticleCard({ article, index }: ArticleCardProps) {
-  const { language, isRtl } = useLanguage()
+  const { language, isRtl,t } = useLanguage()
 
   // Get title for display based on current language
   const displayTitle =
@@ -171,7 +174,7 @@ function ArticleCard({ article, index }: ArticleCardProps) {
             <div
               className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} bg-primary text-white text-xs px-2 py-1 rounded`}
             >
-              {new Date(article.createdAt).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
+              {new Date(article.createdAt).toLocaleDateString("en-US")}
             </div>
           </div>
 

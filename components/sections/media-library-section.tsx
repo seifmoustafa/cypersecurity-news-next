@@ -280,7 +280,7 @@ const VideoCard = ({ video, onClick }: { video: ApiVideo; onClick: (video: ApiVi
       month: "long",
       day: "numeric",
     }
-    return date.toLocaleDateString(language === "ar" ? "ar-SA" : "en-US", options)
+    return date.toLocaleDateString("en-US")
   }
 
   return (
@@ -326,7 +326,7 @@ const LectureCard = ({ lecture }: { lecture: ApiLecture }) => {
       month: "long",
       day: "numeric",
     }
-    return date.toLocaleDateString(language === "ar" ? "ar-SA" : "en-US", options)
+    return date.toLocaleDateString("en-US")
   }
 
   return (
@@ -372,7 +372,7 @@ const PresentationCard = ({ presentation }: { presentation: ApiPresentation }) =
       month: "long",
       day: "numeric",
     }
-    return date.toLocaleDateString(language === "ar" ? "ar-SA" : "en-US", options)
+    return date.toLocaleDateString("en-US")
   }
 
   return (

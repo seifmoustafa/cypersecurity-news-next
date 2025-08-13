@@ -54,7 +54,7 @@ export default function LecturePageClient({ lecture }: LecturePageClientProps) {
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString)
-      return date.toLocaleDateString(language === "ar" ? "ar-SA" : "en-US", {
+      return date.toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
         day: "numeric",

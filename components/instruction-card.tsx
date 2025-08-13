@@ -32,7 +32,7 @@ export function InstructionCard({ instruction, categorySlug, yearNumber }: Instr
             <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
               <Calendar className="h-3 w-3 flex-shrink-0" />
               <span className="truncate">
-                {new Date(instruction.publishDate).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US", {
+                {new Date(instruction.publishDate).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "short",
                   day: "numeric",

@@ -47,7 +47,7 @@ export default function InstructionPageClient({ instruction, categorySlug, yearN
               <div className="flex items-center gap-1">
                 <Calendar className="h-4 w-4" />
                 <span>
-                  {new Date(instruction.publishDate).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US", {
+                  {new Date(instruction.publishDate).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",
                     day: "numeric",

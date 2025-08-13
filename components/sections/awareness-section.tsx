@@ -314,7 +314,7 @@ function NewsCard({ item, index }: NewsCardProps) {
             <div
               className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} bg-primary text-white text-xs px-2 py-1 rounded`}
             >
-              {new Date(item.date || item.createdAt).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
+              {new Date(item.date || item.createdAt).toLocaleDateString("en-US")}
             </div>
           </div>
 
@@ -393,7 +393,7 @@ function ArticleCard({ item, index }: ArticleCardProps) {
             <div
               className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} bg-primary text-white text-xs px-2 py-1 rounded`}
             >
-              {new Date(item.createdAt).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
+              {new Date(item.createdAt).toLocaleDateString("en-US")}
             </div>
           </div>
 

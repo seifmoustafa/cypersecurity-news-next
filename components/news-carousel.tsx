@@ -191,7 +191,7 @@ export default function NewsCarousel() {
                         isRtl ? "float-right" : "float-left"
                       }`}
                     >
-                      {new Date(currentNews.date).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US")}
+                      {new Date(currentNews.date).toLocaleDateString("en-US")}
                     </div>
                     <div className="clear-both"></div>
                     <h2 className="text-xl md:text-3xl font-bold mb-2 line-clamp-2">{displayTitle}</h2>
