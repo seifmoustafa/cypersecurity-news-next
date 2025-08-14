@@ -59,11 +59,8 @@ export class NewsRepositoryImpl implements NewsRepository {
 
       // Find the news item with a matching slug
       const foundNews = allNews.find((news) => {
-        const titleSlug = slugify(news.title || "")
-        const titleEnSlug = slugify(news.titleEn || "")
-
-        // Check if either slug matches
-        const matches = slug === titleSlug || slug === titleEnSlug
+        const slugToMatch = slugify(news.titleEn || "", news.id)
+        const matches = slug === slugToMatch
         if (matches) {
           console.log(`Found matching news with ID: ${news.id}`)
         }

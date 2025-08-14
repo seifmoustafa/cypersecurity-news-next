@@ -79,7 +79,7 @@ export default function StandardsPageClient({
             {categories.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {categories.map((category, index) => {
-                  const categorySlug = slugify(category.nameEn);
+                  const categorySlug = slugify(category.nameEn, category.id);
 
                   return (
                     <motion.div

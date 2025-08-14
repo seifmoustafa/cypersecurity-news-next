@@ -59,8 +59,8 @@ export default function NewsCard({
   const fullContent = language === "ar" ? fullDescription || summary || "" : fullDescription || summaryEn || ""
 
   // ALWAYS use English title for URL slug (regardless of current language)
-  const englishTitle = titleEn || title || ""
-  const newsSlug = slugify(englishTitle)
+  const englishTitle = titleEn || ""
+  const newsSlug = slugify(englishTitle, id)
 
   // Don't render if no title
   if (!displayTitle) {

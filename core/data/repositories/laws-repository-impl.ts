@@ -54,7 +54,7 @@ export class LawsRepositoryImpl implements LawsRepository {
       const response = await this.getAllCategories(1, 100) // Get all categories
       const category = response.data.find((cat) => {
         const englishName = cat.nameEn || cat.name || ""
-        const categorySlug = slugify(englishName)
+        const categorySlug = slugify(englishName, cat.id)
         return categorySlug === slug
       })
       return category || null
@@ -73,7 +73,7 @@ export class LawsRepositoryImpl implements LawsRepository {
         const laws = await this.getLawsByCategory(category.id, 1, 100)
         const law = laws.data.find((law) => {
           const englishTitle = law.titleEn || law.title || ""
-          const lawSlug = slugify(englishTitle)
+          const lawSlug = slugify(englishTitle, law.id)
           return lawSlug === slug
         })
         if (law) return law

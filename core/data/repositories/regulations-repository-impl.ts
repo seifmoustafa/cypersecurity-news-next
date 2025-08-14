@@ -116,8 +116,12 @@ export class RegulationsRepositoryImpl implements RegulationsRepository {
       // Get all regulations first (with a larger page size to increase chances of finding the right one)
       const allRegulations = await this.getAllRegulations(1, 100)
 
-      // Find the regulation with matching slug (based on English title)
-      const regulation = allRegulations.data.find((reg) => slugify(reg.titleEn) === slug || slugify(reg.title) === slug)
+      // Find the regulation with matching slug (based on English or Arabic title or ID)
+      const regulation = allRegulations.data.find((reg) => {
+        const slugEn = slugify(reg.titleEn || "", reg.id)
+        const slugAr = slugify(reg.title || "", reg.id)
+        return slugEn === slug || slugAr === slug
+      })
 
       return regulation || null
     } catch (error) {

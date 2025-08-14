@@ -166,7 +166,7 @@ export class MediaRepositoryImpl implements MediaRepository {
       // Find lecture by slug
       const foundLecture = transformedData.find((lecture) => {
         const englishTitle = lecture.nameEn || ""
-        const lectureSlug = slugify(englishTitle)
+        const lectureSlug = slugify(englishTitle, lecture.id)
         return lectureSlug === slug
       })
 
@@ -251,7 +251,7 @@ export class MediaRepositoryImpl implements MediaRepository {
       // Find presentation by slug
       const foundPresentation = transformedData.find((presentation) => {
         const englishTitle = presentation.nameEn || ""
-        const presentationSlug = slugify(englishTitle)
+        const presentationSlug = slugify(englishTitle, presentation.id)
         return presentationSlug === slug
       })
 

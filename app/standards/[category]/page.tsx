@@ -18,7 +18,9 @@ async function findCategoryBySlug(slug: string) {
     console.log(`🔍 Finding standard category by slug: ${slug}`)
 
     const categoriesResponse = await container.services.standards.getAllStandardCategories(1, 100)
-    const category = categoriesResponse.data.find((cat) => slugify(cat.nameEn) === slug)
+    const category = categoriesResponse.data.find(
+      (cat) => slugify(cat.nameEn || "", cat.id) === slug,
+    )
 
     if (!category) {
       console.log(`❌ Category not found for slug: ${slug}`)

@@ -72,7 +72,7 @@ export default function SecurityInstructionsContent() {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {categories.map((category, index) => {
         // Create slug from category name
-        const categorySlug = slugify(language === "ar" ? category.nameEn : category.nameEn)
+        const categorySlug = slugify(category.nameEn, category.id)
 
         // Choose icon based on category name
         const isGroup = category.nameEn.toLowerCase().includes("group") || category.name.includes("مجموعة")
