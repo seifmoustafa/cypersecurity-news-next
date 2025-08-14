@@ -172,7 +172,7 @@ function StandardCard({ standard, index }: { standard: any; index: number }) {
   const description =
     language === "ar" ? standard.standardDescription : standard.descriptionEn;
 
-  const slug = createSecurityProcedureSlug(standard.nameEn, standard.id);
+  const slug = createSecurityProcedureSlug(standard.nameEn);
   const formattedDate = standard.approvalDate
     ? new Date(standard.approvalDate).toLocaleDateString()
     : null;

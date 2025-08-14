@@ -229,7 +229,7 @@ function CategoryNewsContent({
       return categoryUrlMap[catId]
     }
     // Always use English name for URL slug
-    return slugify(catNameEn, catId)
+    return slugify(catNameEn)
   }
 
   const categoryUrl = getCategoryUrl(categoryId, categoryNameEn)
@@ -282,7 +282,7 @@ function NewsCard({ item, index }: NewsCardProps) {
 
   // ALWAYS use English title for URL slug (regardless of current language)
   const englishTitle = item.titleEn || item.title || ""
-  const slug = slugify(englishTitle, item.id)
+  const slug = slugify(englishTitle)
 
   console.log(`News card linking to /news/${slug} (ID: ${item.id})`)
 
@@ -363,7 +363,7 @@ function ArticleCard({ item, index }: ArticleCardProps) {
 
   // ALWAYS use English title for URL slug (regardless of current language)
   const englishTitle = item.titleEn || item.title || ""
-  const slug = slugify(englishTitle, item.id)
+  const slug = slugify(englishTitle)
 
   // Don't render if no title
   if (!displayTitle) {
@@ -440,7 +440,7 @@ function CurrentYearAwarenessContent() {
 
   const getSlug = (item: any) => {
     const englishTitle = item.titleEn || item.title || ""
-    return slugify(englishTitle, item.id)
+    return slugify(englishTitle)
   }
 
   if (loading) {

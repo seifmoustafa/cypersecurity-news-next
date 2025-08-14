@@ -114,7 +114,7 @@ export class DefinitionsRepositoryImpl implements DefinitionsRepository {
 
         const foundDefinition = definitionsResponse.data.find((definition) => {
           const englishTerm = definition.termEn || definition.term || ""
-          const definitionSlug = slugify(englishTerm, definition.id)
+          const definitionSlug = slugify(englishTerm)
           return definitionSlug === slug
         })
 
@@ -135,7 +135,7 @@ export class DefinitionsRepositoryImpl implements DefinitionsRepository {
       const response = await this.getAllCategories(1, 100)
       const foundCategory = response.data.find((category) => {
         const englishName = category.nameEn || category.name || ""
-        const categorySlug = slugify(englishName, category.id)
+        const categorySlug = slugify(englishName)
         return categorySlug === slug
       })
 

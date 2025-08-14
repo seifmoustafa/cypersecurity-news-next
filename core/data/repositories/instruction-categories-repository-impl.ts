@@ -57,10 +57,12 @@ export class InstructionCategoriesRepositoryImpl implements InstructionCategorie
       const allCategories = await this.getAllCategories(1, 100)
 
       // Find the category with matching slug
-      const category = allCategories.data.find((cat) => {
-        const slugEn = slugify(cat.nameEn || "", cat.id)
-        return slugEn === slug || slugEn.toLowerCase() === slug.toLowerCase()
-      })
+      const category = allCategories.data.find(
+        (cat) =>
+          slugify(cat.nameEn) === slug ||
+          slugify(cat.nameEn).toLowerCase() === slug.toLowerCase() ||
+          slugify(cat.nameEn) === slug,
+      )
 
       if (category) {
         console.log(`✅ Found category for slug ${slug}:`, category)

@@ -33,8 +33,8 @@ export default function NewsDetailPage() {
 
         // Find news by matching slug (ALWAYS use English title for slug matching)
         const foundNews = allNews.find((item: News) => {
-          const englishTitle = item.titleEn || ""
-          const itemSlug = slugify(englishTitle, item.id)
+          const englishTitle = item.titleEn || item.title || ""
+          const itemSlug = slugify(englishTitle)
           const matches = itemSlug === slug
           if (matches) {
             console.log(`✅ Found matching news: ${englishTitle} (slug: ${itemSlug}, id: ${item.id})`)

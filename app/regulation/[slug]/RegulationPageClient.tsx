@@ -72,9 +72,7 @@ export default function RegulationPageClient({ regulationSlug }: RegulationPageC
 
   // Get category slug for the back link
   const getCategorySlug = () => {
-    return regulation?.categoryNameEn
-      ? slugify(regulation.categoryNameEn, regulation.regulationCategoryId)
-      : "all"
+    return regulation?.categoryNameEn ? slugify(regulation.categoryNameEn) : "all"
   }
 
   const formatDate = (dateString: string) => {

@@ -37,7 +37,7 @@ export default function LawPageClient({ law, category }: LawPageClientProps) {
   const getCategorySlug = () => {
     if (!category) return ""
     const categoryName = category.nameEn || category.name || ""
-    return slugify(categoryName, category.id)
+    return slugify(categoryName)
   }
 
   const lawTitle = getTitle(law)

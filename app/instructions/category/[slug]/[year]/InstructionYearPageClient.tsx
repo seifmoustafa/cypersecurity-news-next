@@ -35,7 +35,7 @@ function InstructionCard({
 }) {
   const title = language === "ar" ? instruction.title : instruction.titleEn
   const summary = language === "ar" ? instruction.summary : instruction.summaryEn
-  const slug = slugify(instruction.titleEn || instruction.title, instruction.id)
+  const slug = slugify(instruction.titleEn || instruction.title)
 
   return (
     <Card className="group hover:shadow-lg transition-all duration-300 border-l-4 border-l-primary/20 hover:border-l-primary">

@@ -63,8 +63,8 @@ function NewsCategoryContent() {
 
         const matchedApiCategory = apiCategories.find((cat: any) => {
           // ALWAYS try to match against English name first
-          const nameEnSlug = slugify(cat.nameEn || "", cat.id)
-          const nameSlug = slugify(cat.name || "", cat.id)
+          const nameEnSlug = slugify(cat.nameEn || cat.name || "")
+          const nameSlug = slugify(cat.name || cat.nameEn || "")
 
           // Prioritize English name matching
           const matches = categoryUrl === nameEnSlug || categoryUrl === nameSlug
@@ -217,8 +217,8 @@ function NewsCard({ item }: { item: News }) {
   }
 
   // ALWAYS use English title for URL slug (regardless of current language)
-  const englishTitle = item?.titleEn || ""
-  const slug = slugify(englishTitle, item.id)
+  const englishTitle = item?.titleEn || item?.title || ""
+  const slug = slugify(englishTitle)
 
   const displayTitle = getDisplayTitle(item)
   const displaySummary = getDisplaySummary(item)

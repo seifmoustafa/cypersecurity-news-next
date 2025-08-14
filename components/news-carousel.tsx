@@ -132,8 +132,8 @@ export default function NewsCarousel() {
       : currentNews.titleEn || currentNews.title || "News"
 
   // ALWAYS use English title for URL slug (regardless of current language)
-  const englishTitle = currentNews.titleEn || ""
-  const newsSlug = slugify(englishTitle, currentNews.id)
+  const englishTitle = currentNews.titleEn || currentNews.title || "news"
+  const newsSlug = slugify(englishTitle)
 
   // ONLY GET SUMMARY - NO FALLBACK TO CONTENT!
   const newsSummary =

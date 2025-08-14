@@ -19,9 +19,7 @@ async function findInstructionBySlugAndYear(instructionSlug: string, categorySlu
 
     // First, get the category and year to get the year ID
     const categoriesResponse = await container.services.instructionCategories.getAllCategories()
-    const category = categoriesResponse.data.find(
-      (cat) => slugify(cat.nameEn || cat.name, cat.id) === categorySlug,
-    )
+    const category = categoriesResponse.data.find((cat) => slugify(cat.nameEn || cat.name) === categorySlug)
 
     if (!category) {
       console.log(`❌ Category not found for slug: ${categorySlug}`)
@@ -47,7 +45,7 @@ async function findInstructionBySlugAndYear(instructionSlug: string, categorySlu
 
     // Find the instruction by slug
     const instruction = instructionsResponse.data.find((inst) => {
-      const instSlug = slugify(inst.titleEn || inst.title, inst.id)
+      const instSlug = slugify(inst.titleEn || inst.title)
       console.log(`🔍 Comparing instruction slug: ${instSlug} with target: ${instructionSlug}`)
       return instSlug === instructionSlug
     })

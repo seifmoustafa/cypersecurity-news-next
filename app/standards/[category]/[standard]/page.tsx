@@ -57,8 +57,8 @@ function StandardPageContent() {
 
         const allStandards = await standardsService.getAllStandards()
         const foundStandard = allStandards.find((s) => {
-          const slugEn = slugify(s.nameEn || "", s.id)
-          const slugAr = slugify(s.nameAr || "", s.id)
+          const slugEn = slugify(s.nameEn)
+          const slugAr = slugify(s.nameAr)
 
           return (
             slugEn === standardSlug ||
@@ -223,7 +223,6 @@ function StandardPageContent() {
                   <Link
                     href={`/standards/${category}/${standardSlug}/${slugify(
                       control.nameEn || control.nameAr || "",
-                      control.id,
                     )}`}
                     key={control.id}
                   >

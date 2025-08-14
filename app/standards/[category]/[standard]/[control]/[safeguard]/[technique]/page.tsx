@@ -61,8 +61,8 @@ function TechniquePageContent() {
         const allStandards = await standardsService.getAllStandards()
         const foundStandard = allStandards.find(
           (s) =>
-            slugify(s.nameEn || "", s.id) === standardSlug ||
-            slugify(s.nameAr || "", s.id) === standardSlug ||
+            slugify(s.nameEn) === standardSlug ||
+            slugify(s.nameAr) === standardSlug ||
             s.id === standardSlug,
         )
 
@@ -78,8 +78,8 @@ function TechniquePageContent() {
         const controlsResponse = await standardsService.getControlsByStandardId(foundStandard.id, 1, 100)
         const foundControl = controlsResponse.data.find(
           (c) =>
-            slugify(c.nameEn || "", c.id) === controlSlug ||
-            slugify(c.nameAr || "", c.id) === controlSlug ||
+            slugify(c.nameEn) === controlSlug ||
+            slugify(c.nameAr) === controlSlug ||
             c.id === controlSlug,
         )
 
@@ -95,8 +95,8 @@ function TechniquePageContent() {
         const safeguardsResponse = await standardsService.getSafeguardsByControlId(foundControl.id, 1, 100)
         const foundSafeguard = safeguardsResponse.data.find(
           (s) =>
-            slugify(s.nameEn || "", s.id) === safeguardSlug ||
-            slugify(s.nameAr || "", s.id) === safeguardSlug ||
+            slugify(s.nameEn) === safeguardSlug ||
+            slugify(s.nameAr) === safeguardSlug ||
             s.id === safeguardSlug,
         )
 
@@ -112,8 +112,8 @@ function TechniquePageContent() {
         const techniquesResponse = await standardsService.getTechniquesBySafeguardId(foundSafeguard.id, 1, 100)
         const foundTechnique = techniquesResponse.data.find(
           (t) =>
-            slugify(t.nameEn || "", t.id) === techniqueSlug ||
-            slugify(t.nameAr || "", t.id) === techniqueSlug ||
+            slugify(t.nameEn) === techniqueSlug ||
+            slugify(t.nameAr) === techniqueSlug ||
             t.id === techniqueSlug,
         )
 
@@ -286,7 +286,7 @@ function TechniquePageContent() {
             ) : implementationSteps.length > 0 ? (
               <div className="grid gap-4">
                 {implementationSteps.map((step) => {
-                  const stepSlug = slugify(step.nameEn || step.nameAr, step.id)
+                  const stepSlug = slugify(step.nameEn || step.nameAr)
                   return (
                     <Link
                       key={step.id}
