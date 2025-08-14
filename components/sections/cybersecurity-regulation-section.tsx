@@ -15,7 +15,7 @@ import { AlertCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import Link from "next/link"
-import { slugify } from "@/lib/utils"
+import { slugify, getLocalizedText } from "@/lib/utils"
 import { cn } from "@/lib/utils"
 
 export default function CybersecurityRegulationSection() {
@@ -59,7 +59,7 @@ export default function CybersecurityRegulationSection() {
   const getActiveCategorySlug = () => {
     if (!activeCategory) return "all"
     const activeItem = categories.find((c) => c.id === activeCategory)
-    return activeItem ? slugify(activeItem.name_En) : "all"
+    return activeItem ? slugify(activeItem.name_En, activeItem.id) : "all"
   }
 
   if (loading && !activeCategory) {
@@ -126,7 +126,7 @@ export default function CybersecurityRegulationSection() {
                 className={cn("px-4 py-2 h-auto whitespace-nowrap", index === 0 && isRtl ? "font-arabic" : "")}
                 dir={index === 0 && isRtl ? "rtl" : undefined}
               >
-                {language === "ar" ? category.name : category.name_En}
+                {getLocalizedText(language, category.name, category.name_En)}
               </TabsTrigger>
             ))}
           </TabsList>
@@ -180,13 +180,13 @@ function RegulationCard({ item, index }: RegulationCardProps) {
   const { language } = useLanguage()
 
   // Get title based on language
-  const title = language === "ar" ? item.title : item.titleEn
+  const title = getLocalizedText(language, item.title, item.titleEn)
 
   // Get summary based on language
-  const summary = language === "ar" ? item.summary : item.summaryEn
+  const summary = getLocalizedText(language, item.summary, item.summaryEn)
 
   // Create slug from English title for URL
-  const slug = slugify(item.titleEn)
+  const slug = slugify(item.titleEn, item.id)
 
   return (
     <motion.div

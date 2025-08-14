@@ -68,8 +68,8 @@ function ControlPageContent() {
         console.log("✅ Found standards:", allStandards.length)
 
         const foundStandard = allStandards.find((s) => {
-          const slugEn = slugify(s.nameEn)
-          const slugAr = slugify(s.nameAr)
+          const slugEn = slugify(s.nameEn || "", s.id)
+          const slugAr = slugify(s.nameAr || "", s.id)
           return (
             slugEn === standardSlug ||
             slugAr === standardSlug ||
@@ -92,8 +92,8 @@ function ControlPageContent() {
         console.log("✅ Found controls:", controlsResponse.data.length)
 
         const foundControl = controlsResponse.data.find((c) => {
-          const slugEn = slugify(c.nameEn)
-          const slugAr = slugify(c.nameAr)
+          const slugEn = slugify(c.nameEn || "", c.id)
+          const slugAr = slugify(c.nameAr || "", c.id)
           return (
             slugEn === controlSlug ||
             slugAr === controlSlug ||
@@ -145,7 +145,7 @@ function ControlPageContent() {
   }, [standardSlug, controlSlug, standardsService])
 
   const handleSafeguardClick = (safeguard: Safeguard) => {
-    const safeguardSlug = slugify(safeguard.nameEn || safeguard.nameAr || "")
+    const safeguardSlug = slugify(safeguard.nameEn || safeguard.nameAr || "", safeguard.id)
 
     console.log("🔗 Navigating to safeguard:", safeguardSlug)
     window.location.href = `/standards/${category}/${standardSlug}/${controlSlug}/${safeguardSlug}`

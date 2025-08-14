@@ -24,7 +24,7 @@ export default function DefinitionPageClient({ definition, category }: Definitio
       ? definition.definitionText || definition.definitionEn
       : definition.definitionEn || definition.definitionText
   const categoryName = category ? (language === "ar" ? category.name : category.nameEn) : ""
-  const categorySlug = category ? slugify(category.nameEn || category.name) : ""
+  const categorySlug = category ? slugify(category.nameEn || category.name, category.id) : ""
 
   const getCategorySlug = () => {
     if (!category) return "#"

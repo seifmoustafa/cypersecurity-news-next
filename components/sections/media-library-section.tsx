@@ -7,7 +7,7 @@ import SectionContainer from "@/components/ui/section-container"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { container } from "@/core/di/container"
 import type { ApiVideo, ApiLecture, ApiPresentation } from "@/core/domain/models/media"
-import { slugify } from "@/lib/utils"
+import { slugify, getLocalizedText } from "@/lib/utils"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, ArrowLeft, Play, BookOpen, Presentation } from "lucide-react"
@@ -240,17 +240,17 @@ export default function MediaLibrarySection() {
         <Dialog open={!!selectedVideo} onOpenChange={(open) => !open && setSelectedVideo(null)}>
           <DialogContent className="max-w-4xl p-0 overflow-hidden">
             <DialogTitle className="sr-only">
-              {language === "ar" ? selectedVideo.nameAr : selectedVideo.nameEn}
+              {getLocalizedText(language, selectedVideo.nameAr, selectedVideo.nameEn)}
             </DialogTitle>
             <DialogDescription className="sr-only">
-              {language === "ar" ? selectedVideo.summaryAr : selectedVideo.summaryEn}
+              {getLocalizedText(language, selectedVideo.summaryAr, selectedVideo.summaryEn)}
             </DialogDescription>
             <div className="p-6">
               <h2 className="text-2xl font-bold mb-2">
-                {language === "ar" ? selectedVideo.nameAr : selectedVideo.nameEn}
+                {getLocalizedText(language, selectedVideo.nameAr, selectedVideo.nameEn)}
               </h2>
               <p className="text-muted-foreground mb-4">
-                {language === "ar" ? selectedVideo.summaryAr : selectedVideo.summaryEn}
+                {getLocalizedText(language, selectedVideo.summaryAr, selectedVideo.summaryEn)}
               </p>
             </div>
             <div className="aspect-video w-full">
@@ -298,10 +298,10 @@ const VideoCard = ({ video, onClick }: { video: ApiVideo; onClick: (video: ApiVi
       </div>
       <div className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
         <h3 className="font-bold text-base sm:text-lg mb-2 line-clamp-2">
-          {language === "ar" ? video.nameAr : video.nameEn}
+          {getLocalizedText(language, video.nameAr, video.nameEn)}
         </h3>
         <p className="text-sm text-muted-foreground line-clamp-2">
-          {language === "ar" ? video.summaryAr : video.summaryEn}
+          {getLocalizedText(language, video.summaryAr, video.summaryEn)}
         </p>
       </div>
     </div>
@@ -315,7 +315,7 @@ const LectureCard = ({ lecture }: { lecture: ApiLecture }) => {
 
   const handleCardClick = () => {
     const englishTitle = lecture.nameEn || ""
-    const slug = slugify(englishTitle)
+    const slug = slugify(englishTitle, lecture.id)
     router.push(`/lectures/${slug}`)
   }
 
@@ -344,10 +344,10 @@ const LectureCard = ({ lecture }: { lecture: ApiLecture }) => {
       </div>
       <div className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
         <h3 className="font-bold text-base sm:text-lg mb-2 line-clamp-2">
-          {language === "ar" ? lecture.nameAr : lecture.nameEn}
+          {getLocalizedText(language, lecture.nameAr, lecture.nameEn)}
         </h3>
         <p className="text-sm text-muted-foreground line-clamp-2">
-          {language === "ar" ? lecture.summaryAr : lecture.summaryEn}
+          {getLocalizedText(language, lecture.summaryAr, lecture.summaryEn)}
         </p>
       </div>
     </div>
@@ -361,7 +361,7 @@ const PresentationCard = ({ presentation }: { presentation: ApiPresentation }) =
 
   const handleCardClick = () => {
     const englishTitle = presentation.nameEn || ""
-    const slug = slugify(englishTitle)
+    const slug = slugify(englishTitle, presentation.id)
     router.push(`/presentations/${slug}`)
   }
 
@@ -390,10 +390,10 @@ const PresentationCard = ({ presentation }: { presentation: ApiPresentation }) =
       </div>
       <div className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
         <h3 className="font-bold text-base sm:text-lg mb-2 line-clamp-2">
-          {language === "ar" ? presentation.nameAr : presentation.nameEn}
+          {getLocalizedText(language, presentation.nameAr, presentation.nameEn)}
         </h3>
         <p className="text-sm text-muted-foreground line-clamp-2">
-          {language === "ar" ? presentation.summaryAr : presentation.summaryEn}
+          {getLocalizedText(language, presentation.summaryAr, presentation.summaryEn)}
         </p>
       </div>
     </div>

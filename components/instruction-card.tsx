@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Calendar, FileText, Eye, Download } from "lucide-react"
 import Link from "next/link"
-import { slugify } from "@/lib/utils"
+import { slugify, getLocalizedText } from "@/lib/utils"
 
 interface InstructionCardProps {
   instruction: Instruction
@@ -18,9 +18,9 @@ interface InstructionCardProps {
 export function InstructionCard({ instruction, categorySlug, yearNumber }: InstructionCardProps) {
   const { language } = useLanguage()
 
-  const title = language === "ar" ? instruction.title : instruction.titleEn
-  const summary = language === "ar" ? instruction.summary : instruction.summaryEn
-  const slug = slugify(instruction.titleEn || instruction.title)
+  const title = getLocalizedText(language, instruction.title, instruction.titleEn)
+  const summary = getLocalizedText(language, instruction.summary, instruction.summaryEn)
+  const slug = slugify(instruction.titleEn || instruction.title, instruction.id)
 
   return (
     <Card className="h-full hover:shadow-lg transition-shadow duration-200">

@@ -10,6 +10,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { motion } from "framer-motion"
+import { getLocalizedText } from "@/lib/utils"
 
 interface InstructionCategoryPageClientProps {
   categorySlug: string
@@ -28,7 +29,7 @@ export default function InstructionCategoryPageClient({
     refetch: refetchYears,
   } = useInstructionYearsByCategory(initialCategory.id)
 
-  const categoryTitle = language === "ar" ? initialCategory.name : initialCategory.nameEn
+  const categoryTitle = getLocalizedText(language, initialCategory.name, initialCategory.nameEn)
 
   if (yearsLoading) {
     return (

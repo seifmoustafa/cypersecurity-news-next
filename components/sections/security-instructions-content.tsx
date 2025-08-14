@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { useLanguage } from "@/components/language-provider"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle, Shield, FileText } from "lucide-react"
-import { slugify } from "@/lib/utils"
+import { slugify, getLocalizedText } from "@/lib/utils"
 import { motion } from "framer-motion"
 
 export default function SecurityInstructionsContent() {
@@ -72,21 +72,23 @@ export default function SecurityInstructionsContent() {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {categories.map((category, index) => {
         // Create slug from category name
-        const categorySlug = slugify(language === "ar" ? category.nameEn : category.nameEn)
+        const categorySlug = slugify(category.nameEn, category.id)
 
         // Choose icon based on category name
-        const isGroup = category.nameEn.toLowerCase().includes("group") || category.name.includes("مجموعة")
+        const isGroup =
+          (category.nameEn ?? "").toLowerCase().includes("group") ||
+          (category.name ?? "").includes("مجموعة")
         const icon = isGroup ? (
           <Shield className="h-10 w-10 text-primary" />
         ) : (
           <FileText className="h-10 w-10 text-primary" />
         )
 
-        const title = language === "ar" ? category.name : category.nameEn
+        const title = getLocalizedText(language, category.name, category.nameEn)
         const description =
           language === "ar"
-            ? `تعليمات الأمن السيبراني ${category.name}`
-            : `${category.nameEn} cybersecurity instructions`
+            ? `تعليمات الأمن السيبراني ${title}`
+            : `${category.nameEn || category.name || ""} cybersecurity instructions`
 
         return (
           <Link key={category.id} href={`/instructions/category/${categorySlug}`} className="block">
