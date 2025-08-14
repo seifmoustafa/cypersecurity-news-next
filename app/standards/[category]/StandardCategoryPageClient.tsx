@@ -33,8 +33,8 @@ export default function StandardCategoryPageClient({
   const [currentPage, setCurrentPage] = useState(initialPage)
   const [loading, setLoading] = useState(false)
 
-  const getCategoryIcon = (categoryName: string) => {
-    const name = categoryName.toLowerCase()
+  const getCategoryIcon = (categoryName?: string) => {
+    const name = (categoryName ?? "").toLowerCase()
     if (name.includes("international")) return <Globe className="h-5 w-5 text-primary" />
     if (name.includes("national") || name.includes("local")) return <Home className="h-5 w-5 text-primary" />
     if (name.includes("internal")) return <Building className="h-5 w-5 text-primary" />
@@ -43,8 +43,8 @@ export default function StandardCategoryPageClient({
 
   const handleStandardClick = (standard: Standard) => {
     console.log("Standard clicked:", standard)
-    const categorySlug = slugify(category.nameEn)
-    const standardSlug = slugify(standard.nameEn)
+    const categorySlug = slugify(category.nameEn, category.id)
+    const standardSlug = slugify(standard.nameEn, standard.id)
     const url = `/standards/${categorySlug}/${standardSlug}`
     console.log("Navigating to:", url)
     router.push(url)

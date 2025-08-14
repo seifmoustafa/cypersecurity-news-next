@@ -56,7 +56,7 @@ export default function PresentationsPageClient({
 
   const getPresentationSlug = (presentation: ApiPresentation) => {
     const englishName = presentation.nameEn || presentation.nameAr || ""
-    return slugify(englishName)
+    return slugify(englishName, presentation.id)
   }
 
   const getPresentationUrl = (presentation: ApiPresentation) => {

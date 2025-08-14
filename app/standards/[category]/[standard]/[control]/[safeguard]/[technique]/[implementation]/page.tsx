@@ -67,8 +67,8 @@ function ImplementationStepPageContent() {
         const allStandards = await standardsService.getAllStandards()
         const foundStandard = allStandards.find(
           (s) =>
-            slugify(s.nameEn) === standardSlug ||
-            slugify(s.nameAr) === standardSlug ||
+            slugify(s.nameEn || "", s.id) === standardSlug ||
+            slugify(s.nameAr || "", s.id) === standardSlug ||
             s.id === standardSlug,
         )
 
@@ -84,8 +84,8 @@ function ImplementationStepPageContent() {
         const controlsResponse = await standardsService.getControlsByStandardId(foundStandard.id, 1, 100)
         const foundControl = controlsResponse.data.find(
           (c) =>
-            slugify(c.nameEn) === controlSlug ||
-            slugify(c.nameAr) === controlSlug ||
+            slugify(c.nameEn || "", c.id) === controlSlug ||
+            slugify(c.nameAr || "", c.id) === controlSlug ||
             c.id === controlSlug,
         )
 
@@ -101,8 +101,8 @@ function ImplementationStepPageContent() {
         const safeguardsResponse = await standardsService.getSafeguardsByControlId(foundControl.id, 1, 100)
         const foundSafeguard = safeguardsResponse.data.find(
           (s) =>
-            slugify(s.nameEn) === safeguardSlug ||
-            slugify(s.nameAr) === safeguardSlug ||
+            slugify(s.nameEn || "", s.id) === safeguardSlug ||
+            slugify(s.nameAr || "", s.id) === safeguardSlug ||
             s.id === safeguardSlug,
         )
 
@@ -118,8 +118,8 @@ function ImplementationStepPageContent() {
         const techniquesResponse = await standardsService.getTechniquesBySafeguardId(foundSafeguard.id, 1, 100)
         const foundTechnique = techniquesResponse.data.find(
           (t) =>
-            slugify(t.nameEn) === techniqueSlug ||
-            slugify(t.nameAr) === techniqueSlug ||
+            slugify(t.nameEn || "", t.id) === techniqueSlug ||
+            slugify(t.nameAr || "", t.id) === techniqueSlug ||
             t.id === techniqueSlug,
         )
 
@@ -135,8 +135,8 @@ function ImplementationStepPageContent() {
         const stepsResponse = await standardsService.getImplementationStepsByTechniqueId(foundTechnique.id, 1, 100)
         const foundImplementationStep = stepsResponse.data.find(
           (step) =>
-            slugify(step.nameEn) === implementationSlug ||
-            slugify(step.nameAr) === implementationSlug ||
+            slugify(step.nameEn || "", step.id) === implementationSlug ||
+            slugify(step.nameAr || "", step.id) === implementationSlug ||
             step.id === implementationSlug,
         )
 

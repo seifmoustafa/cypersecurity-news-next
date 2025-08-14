@@ -73,14 +73,13 @@ export class RegulationCategoriesRepositoryImpl implements RegulationCategoriesR
       // Get all categories first (with a large pageSize to ensure we get all)
       const allCategories = await this.getAllCategories(1, 100)
 
-      // Find the category with matching slug (based on English name)
-      // Make sure to normalize the slugs for comparison
-      const category = allCategories.data.find(
-        (cat) =>
-          slugify(cat.name_En) === slug ||
-          slugify(cat.name_En).toLowerCase() === slug.toLowerCase() ||
-          slugify(cat.name) === slug,
-      )
+      // Find the category with matching slug (based on English or Arabic name or ID)
+      const category = allCategories.data.find((cat) => {
+        const slugEn = slugify(cat.name_En || "", cat.id)
+        const slugAr = slugify(cat.name || "", cat.id)
+        const slugLc = slug?.toLowerCase() ?? ""
+        return slugEn === slug || slugEn.toLowerCase() === slugLc || slugAr === slug
+      })
 
       console.log(`🔍 Category search result:`, category ? `Found: ${category.name_En}` : "Not found")
 
