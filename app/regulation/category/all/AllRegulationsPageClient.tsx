@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { slugify } from "@/lib/utils"
+import { slugify, getLocalizedText } from "@/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
@@ -128,10 +128,10 @@ function RegulationCard({ regulation }: { regulation: any }) {
   const { language, isRtl } = useLanguage()
 
   // Get title based on language
-  const title = language === "ar" ? regulation.title : regulation.titleEn
+  const title = getLocalizedText(language, regulation.title, regulation.titleEn)
 
   // Get summary based on language
-  const summary = language === "ar" ? regulation.summary : regulation.summaryEn
+  const summary = getLocalizedText(language, regulation.summary, regulation.summaryEn)
 
   // Create slug from English title for URL
   const slug = slugify(regulation.titleEn, regulation.id)

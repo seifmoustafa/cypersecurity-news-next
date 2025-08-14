@@ -1,8 +1,17 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+import type { Language } from "@/lib/i18n"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
+}
+
+export function getLocalizedText(
+  language: Language,
+  ar?: string | null,
+  en?: string | null
+): string {
+  return language === "ar" ? ar || en || "" : en || ar || ""
 }
 
 export function slugify(text: string | null | undefined, fallback?: string): string {

@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { useLanguage } from "@/components/language-provider"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle, Shield, FileText } from "lucide-react"
-import { slugify } from "@/lib/utils"
+import { slugify, getLocalizedText } from "@/lib/utils"
 import { motion } from "framer-motion"
 
 export default function SecurityInstructionsContent() {
@@ -84,11 +84,11 @@ export default function SecurityInstructionsContent() {
           <FileText className="h-10 w-10 text-primary" />
         )
 
-        const title = language === "ar" ? category.name : category.nameEn
+        const title = getLocalizedText(language, category.name, category.nameEn)
         const description =
           language === "ar"
-            ? `تعليمات الأمن السيبراني ${category.name}`
-            : `${category.nameEn} cybersecurity instructions`
+            ? `تعليمات الأمن السيبراني ${title}`
+            : `${category.nameEn || category.name || ""} cybersecurity instructions`
 
         return (
           <Link key={category.id} href={`/instructions/category/${categorySlug}`} className="block">
