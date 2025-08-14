@@ -144,7 +144,7 @@ function ArticleCard({ article, index }: ArticleCardProps) {
 
   // ALWAYS use English title for URL slug (regardless of current language)
   const englishTitle = article.titleEn || article.title || ""
-  const slug = slugify(englishTitle, article.id)
+  const slug = slugify(englishTitle)
 
   // Don't render if no title
   if (!displayTitle) {

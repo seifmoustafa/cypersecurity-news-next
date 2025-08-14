@@ -315,7 +315,7 @@ const LectureCard = ({ lecture }: { lecture: ApiLecture }) => {
 
   const handleCardClick = () => {
     const englishTitle = lecture.nameEn || ""
-    const slug = slugify(englishTitle, lecture.id)
+    const slug = slugify(englishTitle)
     router.push(`/lectures/${slug}`)
   }
 
@@ -361,7 +361,7 @@ const PresentationCard = ({ presentation }: { presentation: ApiPresentation }) =
 
   const handleCardClick = () => {
     const englishTitle = presentation.nameEn || ""
-    const slug = slugify(englishTitle, presentation.id)
+    const slug = slugify(englishTitle)
     router.push(`/presentations/${slug}`)
   }
 

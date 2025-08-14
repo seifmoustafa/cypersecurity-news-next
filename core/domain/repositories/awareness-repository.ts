@@ -6,5 +6,4 @@ export interface AwarenessRepository {
   getAwarenessYearById(id: string): Promise<AwarenessYear>
   getAwarenessByYearId(yearId: string, search?: string, page?: number, pageSize?: number): Promise<AwarenessResponse>
   getAwarenessById(id: string): Promise<Awareness>
-  getAwarenessByYearAndSlug(year: string, slug: string): Promise<Awareness | null>
 }

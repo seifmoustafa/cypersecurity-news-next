@@ -119,8 +119,8 @@ function NewsCard({ item }: { item: News }) {
   }
 
   // ALWAYS use English title for URL slug (regardless of current language)
-  const englishTitle = item?.titleEn || ""
-  const slug = slugify(englishTitle, item.id)
+  const englishTitle = item?.titleEn || item?.title || ""
+  const slug = slugify(englishTitle)
 
   const displayTitle = getDisplayTitle(item)
   const displaySummary = getDisplaySummary(item)

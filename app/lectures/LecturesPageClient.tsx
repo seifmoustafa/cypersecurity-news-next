@@ -43,7 +43,7 @@ export default function LecturesPageClient({ initialLectures, initialSearch, ini
 
   const getLectureSlug = (lecture: ApiLecture) => {
     const englishName = lecture.nameEn || lecture.nameAr || ""
-    return slugify(englishName, lecture.id)
+    return slugify(englishName)
   }
 
   const getDocumentUrl = (lecture: ApiLecture) => {

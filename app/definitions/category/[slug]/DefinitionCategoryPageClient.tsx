@@ -59,7 +59,7 @@ export default function DefinitionCategoryPageClient({
           {definitions.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {definitions.map((definition) => {
-                const definitionSlug = slugify(definition.termEn || definition.term, definition.id)
+                const definitionSlug = slugify(definition.termEn || definition.term)
                 const displayTerm =
                   language === "ar" ? definition.term || definition.termEn : definition.termEn || definition.term
                 const displayDefinition =

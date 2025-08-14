@@ -80,7 +80,7 @@ function LawCard({ item }: { item: Law }) {
 
   // ALWAYS use English title for URL slug (regardless of current language)
   const englishTitle = item?.titleEn || item?.title || ""
-  const slug = slugify(englishTitle, item.id)
+  const slug = slugify(englishTitle)
 
   const displayTitle = getDisplayTitle(item)
   const displaySummary = getDisplaySummary(item)

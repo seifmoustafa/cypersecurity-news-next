@@ -20,7 +20,7 @@ export function InstructionCard({ instruction, categorySlug, yearNumber }: Instr
 
   const title = language === "ar" ? instruction.title : instruction.titleEn
   const summary = language === "ar" ? instruction.summary : instruction.summaryEn
-  const slug = slugify(instruction.titleEn || instruction.title, instruction.id)
+  const slug = slugify(instruction.titleEn || instruction.title)
 
   return (
     <Card className="h-full hover:shadow-lg transition-shadow duration-200">

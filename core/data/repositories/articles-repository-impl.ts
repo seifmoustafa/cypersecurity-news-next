@@ -44,8 +44,11 @@ export class ArticlesRepositoryImpl implements ArticlesRepository {
 
       // Find the article item with a matching slug
       const foundArticle = allArticles.find((article) => {
-        const slugToMatch = slugify(article.titleEn || "", article.id)
-        const matches = slug === slugToMatch
+        const titleSlug = slugify(article.title || "")
+        const titleEnSlug = slugify(article.titleEn || "")
+
+        // Check if either slug matches
+        const matches = slug === titleSlug || slug === titleEnSlug
         if (matches) {
           console.log(`Found matching article with ID: ${article.id}`)
         }

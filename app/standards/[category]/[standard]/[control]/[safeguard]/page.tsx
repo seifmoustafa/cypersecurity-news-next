@@ -49,7 +49,7 @@ function SafeguardPageContent() {
   const standardsService = container.standardsService
 
   const handleTechniqueClick = (technique: Technique) => {
-    const techniqueSlug = slugify(technique.nameEn || technique.nameAr, technique.id)
+    const techniqueSlug = slugify(technique.nameEn || technique.nameAr)
     const url = `/standards/${category}/${standardSlug}/${controlSlug}/${safeguardSlug}/${techniqueSlug}`
     console.log("🔗 Navigating to technique:", url)
     window.location.href = url
@@ -67,8 +67,8 @@ function SafeguardPageContent() {
         const allStandards = await standardsService.getAllStandards()
         const foundStandard = allStandards.find(
           (s) =>
-            slugify(s.nameEn || "", s.id) === standardSlug ||
-            slugify(s.nameAr || "", s.id) === standardSlug ||
+            slugify(s.nameEn) === standardSlug ||
+            slugify(s.nameAr) === standardSlug ||
             s.id === standardSlug,
         )
 
@@ -84,8 +84,8 @@ function SafeguardPageContent() {
         const controlsResponse = await standardsService.getControlsByStandardId(foundStandard.id, 1, 100)
         const foundControl = controlsResponse.data.find(
           (c) =>
-            slugify(c.nameEn || "", c.id) === controlSlug ||
-            slugify(c.nameAr || "", c.id) === controlSlug ||
+            slugify(c.nameEn) === controlSlug ||
+            slugify(c.nameAr) === controlSlug ||
             c.id === controlSlug,
         )
 
@@ -101,8 +101,8 @@ function SafeguardPageContent() {
         const safeguardsResponse = await standardsService.getSafeguardsByControlId(foundControl.id, 1, 100)
         const foundSafeguard = safeguardsResponse.data.find(
           (s) =>
-            slugify(s.nameEn || "", s.id) === safeguardSlug ||
-            slugify(s.nameAr || "", s.id) === safeguardSlug ||
+            slugify(s.nameEn) === safeguardSlug ||
+            slugify(s.nameAr) === safeguardSlug ||
             s.id === safeguardSlug,
         )
 

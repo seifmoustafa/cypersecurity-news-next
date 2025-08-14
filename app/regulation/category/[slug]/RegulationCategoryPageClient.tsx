@@ -154,7 +154,7 @@ function RegulationCard({ regulation }: { regulation: any }) {
   const summary = language === "ar" ? regulation.summary : regulation.summaryEn
 
   // Create slug from English title for URL
-  const slug = slugify(regulation.titleEn, regulation.id)
+  const slug = slugify(regulation.titleEn)
 
   return (
     <Link href={`/regulation/${slug}`}>
