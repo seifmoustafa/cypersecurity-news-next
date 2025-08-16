@@ -32,9 +32,9 @@ export class SecurityProceduresRepositoryImpl implements SecurityProceduresRepos
   async getStandards(
     page = 1,
     pageSize = 10,
-    search = "",
+    PageSearch = "",
   ): Promise<PaginatedSecurityProcedureResponse<SecurityProcedureStandard>> {
-    const cacheKey = this.getCacheKey("getStandards", { page, pageSize, search })
+    const cacheKey = this.getCacheKey("getStandards", { page, pageSize, PageSearch })
     const cached = this.cache.get(cacheKey)
 
     if (cached && this.isValidCache(cached)) {
@@ -46,8 +46,8 @@ export class SecurityProceduresRepositoryImpl implements SecurityProceduresRepos
       PageSize: pageSize.toString(),
     })
 
-    if (search) {
-      params.append("PageSearch", search)
+    if (PageSearch) {
+      params.append("PageSearch", PageSearch)
     }
 
     const response = await this.apiDataSource.get<PaginatedSecurityProcedureResponse<SecurityProcedureStandard>>(
@@ -79,8 +79,9 @@ export class SecurityProceduresRepositoryImpl implements SecurityProceduresRepos
     standardId: string,
     page = 1,
     pageSize = 10,
+    PageSearch = "",
   ): Promise<PaginatedSecurityProcedureResponse<SecurityProcedureControl>> {
-    const cacheKey = this.getCacheKey("getControlsByStandardId", { standardId, page, pageSize })
+    const cacheKey = this.getCacheKey("getControlsByStandardId", { standardId, page, pageSize, PageSearch })
     const cached = this.cache.get(cacheKey)
 
     if (cached && this.isValidCache(cached)) {
@@ -92,6 +93,10 @@ export class SecurityProceduresRepositoryImpl implements SecurityProceduresRepos
       PageSize: pageSize.toString(),
       standardId: standardId,
     })
+
+    if (PageSearch) {
+      params.append("PageSearch", PageSearch)
+    }
 
     const response = await this.apiDataSource.get<PaginatedSecurityProcedureResponse<SecurityProcedureControl>>(
       `/WebSite/StandardControl?${params.toString()}`,
@@ -120,16 +125,29 @@ export class SecurityProceduresRepositoryImpl implements SecurityProceduresRepos
   // Safeguards
   async getSafeguardsByControlId(
     controlId: string,
+    page = 1,
+    pageSize = 10,
+    PageSearch = "",
   ): Promise<PaginatedSecurityProcedureResponse<SecurityProcedureSafeguard>> {
-    const cacheKey = this.getCacheKey("getSafeguardsByControlId", { controlId })
+    const cacheKey = this.getCacheKey("getSafeguardsByControlId", { controlId, page, pageSize, PageSearch })
     const cached = this.cache.get(cacheKey)
 
     if (cached && this.isValidCache(cached)) {
       return cached.data
     }
 
+    const params = new URLSearchParams({
+      ControlId: controlId,
+      PageNumber: page.toString(),
+      PageSize: pageSize.toString(),
+    })
+
+    if (PageSearch) {
+      params.append("PageSearch", PageSearch)
+    }
+
     const response = await this.apiDataSource.get<PaginatedSecurityProcedureResponse<SecurityProcedureSafeguard>>(
-      `/WebSite/SafeGuardByControlId?ControlId=${controlId}`,
+      `/WebSite/SafeGuardByControlId?${params.toString()}`,
     )
 
     this.setCache(cacheKey, response)
@@ -157,9 +175,9 @@ export class SecurityProceduresRepositoryImpl implements SecurityProceduresRepos
     safeguardId: string,
     page = 1,
     pageSize = 10,
-    search = "",
+    PageSearch = "",
   ): Promise<PaginatedSecurityProcedureResponse<SecurityProcedureTechnique>> {
-    const cacheKey = this.getCacheKey("getTechniquesBySafeguardId", { safeguardId, page, pageSize, search })
+    const cacheKey = this.getCacheKey("getTechniquesBySafeguardId", { safeguardId, page, pageSize, PageSearch })
     const cached = this.cache.get(cacheKey)
 
     if (cached && this.isValidCache(cached)) {
@@ -172,8 +190,8 @@ export class SecurityProceduresRepositoryImpl implements SecurityProceduresRepos
       SafeGuardId: safeguardId,
     })
 
-    if (search) {
-      params.append("PageSearch", search)
+    if (PageSearch) {
+      params.append("PageSearch", PageSearch)
     }
 
     const response = await this.apiDataSource.get<PaginatedSecurityProcedureResponse<SecurityProcedureTechnique>>(
@@ -205,17 +223,30 @@ export class SecurityProceduresRepositoryImpl implements SecurityProceduresRepos
   // Implementation Steps
   async getImplementationStepsByTechniqueId(
     techniqueId: string,
+    page = 1,
+    pageSize = 10,
+    PageSearch = "",
   ): Promise<PaginatedSecurityProcedureResponse<SecurityProcedureImplementationStep>> {
-    const cacheKey = this.getCacheKey("getImplementationStepsByTechniqueId", { techniqueId })
+    const cacheKey = this.getCacheKey("getImplementationStepsByTechniqueId", { techniqueId, page, pageSize, PageSearch })
     const cached = this.cache.get(cacheKey)
 
     if (cached && this.isValidCache(cached)) {
       return cached.data
     }
 
+    const params = new URLSearchParams({
+      techniqueId: techniqueId,
+      PageNumber: page.toString(),
+      PageSize: pageSize.toString(),
+    })
+
+    if (PageSearch) {
+      params.append("PageSearch", PageSearch)
+    }
+
     const response = await this.apiDataSource.get<
       PaginatedSecurityProcedureResponse<SecurityProcedureImplementationStep>
-    >(`/WebSite/ImplementationStep?techniqueId=${techniqueId}`)
+    >(`/WebSite/ImplementationStep?${params.toString()}`)
 
     this.setCache(cacheKey, response)
     return response

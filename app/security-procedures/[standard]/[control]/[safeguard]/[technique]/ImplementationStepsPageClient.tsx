@@ -65,59 +65,19 @@ export default function ImplementationStepsPageClient({
     getSafeguardsByControlId,
     getTechniquesBySafeguardId,
   } = useSecurityProcedures();
-  const { implementationSteps: allImplementationSteps, loading: stepsLoading, error: stepsError } = useSecurityProcedureImplementationSteps(
-    techniqueId || ""
+  const {
+    implementationSteps: allImplementationSteps,
+    pagination,
+    loading: stepsLoading,
+    error: stepsError,
+  } = useSecurityProcedureImplementationSteps(
+    techniqueId || "",
+    currentPage,
+    pageSize,
+    debouncedSearchTerm
   );
 
-  // Client-side filtering and pagination
-  const [filteredSteps, setFilteredSteps] = useState<any[]>([]);
-  const [paginatedSteps, setPaginatedSteps] = useState<any[]>([]);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
-
-  // Apply search filter and pagination
-  useEffect(() => {
-    if (!allImplementationSteps) {
-      setFilteredSteps([]);
-      setPaginatedSteps([]);
-      setTotalPages(1);
-      setTotalItems(0);
-      return;
-    }
-
-    let filtered = allImplementationSteps;
-    
-    // Apply search filter
-    if (debouncedSearchTerm) {
-      const searchLower = debouncedSearchTerm.toLowerCase();
-      filtered = allImplementationSteps.filter((step: any) => {
-        const nameEn = step.implementationStep?.nameEn?.toLowerCase() || "";
-        const nameAr = step.implementationStep?.implementationStepName?.toLowerCase() || "";
-        const descEn = step.implementationStep?.descriptionEn?.toLowerCase() || "";
-        const descAr = step.implementationStep?.implementationStepDescription?.toLowerCase() || "";
-        
-        return nameEn.includes(searchLower) || nameAr.includes(searchLower) ||
-               descEn.includes(searchLower) || descAr.includes(searchLower);
-      });
-    }
-
-    setFilteredSteps(filtered);
-    setTotalItems(filtered.length);
-    setTotalPages(Math.ceil(filtered.length / pageSize));
-
-    // Apply pagination
-    const startIndex = (currentPage - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-    setPaginatedSteps(filtered.slice(startIndex, endIndex));
-  }, [allImplementationSteps, debouncedSearchTerm, currentPage, pageSize]);
-
-  const pagination = {
-    totalPages,
-    itemsCount: totalItems,
-    currentPage,
-  };
-
-  const implementationSteps = paginatedSteps;
+  const implementationSteps = allImplementationSteps;
 
   // Load data
   useEffect(() => {
@@ -322,7 +282,7 @@ export default function ImplementationStepsPageClient({
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
             <Input
               type="text"
-              placeholder={t("common.search")}
+              placeholder={t("common.searchPlaceholder")}
               value={searchTerm}
               onChange={(e) => handleSearch(e.target.value)}
               className="pl-10 pr-10"
@@ -340,7 +300,7 @@ export default function ImplementationStepsPageClient({
           </div>
           {debouncedSearchTerm && (
             <div className="text-center mt-2 text-sm text-muted-foreground">
-              {finalLoading ? "Searching..." : `Found ${totalItems} results for "${debouncedSearchTerm}"`}
+              {finalLoading ? t("common.searching") : `${t("common.foundResults").replace("{{count}}", String(pagination?.itemsCount || 0)).replace("{{term}}", debouncedSearchTerm)}`}
             </div>
           )}
         </motion.div>

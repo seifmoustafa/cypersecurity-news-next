@@ -179,7 +179,7 @@ export default function StandardControlsPageClient({
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
             <Input
               type="text"
-              placeholder={t("common.search")}
+              placeholder={t("common.searchPlaceholder")}
               value={searchTerm}
               onChange={(e) => handleSearch(e.target.value)}
               className="pl-10 pr-10 bg-white dark:bg-gray-800 border-blue-200 dark:border-blue-800 focus:border-blue-500 dark:focus:border-blue-400"
@@ -197,7 +197,7 @@ export default function StandardControlsPageClient({
           </div>
           {debouncedSearchTerm && (
             <div className="text-center mt-2 text-sm text-muted-foreground">
-              {finalLoading ? "Searching..." : `Found ${pagination?.itemsCount || 0} results for "${debouncedSearchTerm}"`}
+              {finalLoading ? t("common.searching") : `${t("common.foundResults").replace("{{count}}", String(pagination?.itemsCount || 0)).replace("{{term}}", debouncedSearchTerm)}`}
             </div>
           )}
         </motion.div>

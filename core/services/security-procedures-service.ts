@@ -5,8 +5,8 @@ export class SecurityProceduresService {
   constructor(private repository: SecurityProceduresRepository) {}
 
   // Standards
-  async getStandards(page = 1, pageSize = 10, search = "") {
-    const response = await this.repository.getStandards(page, pageSize, search)
+  async getStandards(page = 1, pageSize = 10, PageSearch = "") {
+    const response = await this.repository.getStandards(page, pageSize, PageSearch)
     return {
       standards: response.data,
       pagination: response.pagination,
@@ -24,8 +24,8 @@ export class SecurityProceduresService {
   }
 
   // Controls
-  async getControlsByStandardId(standardId: string, page = 1, pageSize = 10) {
-    const response = await this.repository.getControlsByStandardId(standardId, page, pageSize)
+  async getControlsByStandardId(standardId: string, page = 1, pageSize = 10, PageSearch = "") {
+    const response = await this.repository.getControlsByStandardId(standardId, page, pageSize, PageSearch)
     return {
       controls: response.data,
       pagination: response.pagination,
@@ -43,8 +43,8 @@ export class SecurityProceduresService {
   }
 
   // Safeguards
-  async getSafeguardsByControlId(controlId: string) {
-    const response = await this.repository.getSafeguardsByControlId(controlId)
+  async getSafeguardsByControlId(controlId: string, page = 1, pageSize = 10, PageSearch = "") {
+    const response = await this.repository.getSafeguardsByControlId(controlId, page, pageSize, PageSearch)
     return {
       safeguards: response.data,
       pagination: response.pagination,
@@ -62,8 +62,8 @@ export class SecurityProceduresService {
   }
 
   // Techniques
-  async getTechniquesBySafeguardId(safeguardId: string, page = 1, pageSize = 10, search = "") {
-    const response = await this.repository.getTechniquesBySafeguardId(safeguardId, page, pageSize, search)
+  async getTechniquesBySafeguardId(safeguardId: string, page = 1, pageSize = 10, PageSearch = "") {
+    const response = await this.repository.getTechniquesBySafeguardId(safeguardId, page, pageSize, PageSearch)
     return {
       techniques: response.data,
       pagination: response.pagination,
@@ -81,8 +81,8 @@ export class SecurityProceduresService {
   }
 
   // Implementation Steps
-  async getImplementationStepsByTechniqueId(techniqueId: string) {
-    const response = await this.repository.getImplementationStepsByTechniqueId(techniqueId)
+  async getImplementationStepsByTechniqueId(techniqueId: string, page = 1, pageSize = 10, PageSearch = "") {
+    const response = await this.repository.getImplementationStepsByTechniqueId(techniqueId, page, pageSize, PageSearch)
     return {
       implementationSteps: response.data,
       pagination: response.pagination,

@@ -160,7 +160,7 @@ export function useSecurityProcedureStandards(page = 1, pageSize = 10, search = 
   return { standards, pagination, loading, error }
 }
 
-export function useSecurityProcedureControls(standardId: string, page = 1, pageSize = 10, search = "") {
+export function useSecurityProcedureControls(standardId: string, page = 1, pageSize = 10, PageSearch = "") {
   const [allControls, setAllControls] = useState<SecurityProcedureControl[]>([])
   const [controls, setControls] = useState<SecurityProcedureControl[]>([])
   const [pagination, setPagination] = useState<any>(null)
@@ -177,8 +177,14 @@ export function useSecurityProcedureControls(standardId: string, page = 1, pageS
       try {
         setLoading(true)
         setError(null)
-        const result = await container.services.securityProcedures.getControlsByStandardId(standardId, 1, 1000)
-        setAllControls(result.controls)
+        const result = await container.services.securityProcedures.getControlsByStandardId(standardId, page, pageSize, PageSearch)
+        setControls(result.controls)
+        setPagination({
+          itemsCount: result.pagination.itemsCount,
+          pageSize: result.pagination.pageSize,
+          currentPage: result.pagination.currentPage,
+          totalPages: result.pagination.totalPages,
+        })
       } catch (err) {
         setError("Failed to fetch controls")
         console.error("Error fetching controls:", err)
@@ -188,42 +194,12 @@ export function useSecurityProcedureControls(standardId: string, page = 1, pageS
     }
 
     fetchControls()
-  }, [standardId])
-
-  useEffect(() => {
-    // Apply search filter
-    let filteredControls = allControls
-    if (search.trim()) {
-      const searchLower = search.toLowerCase()
-      filteredControls = allControls.filter(control => 
-        control.nameEn?.toLowerCase().includes(searchLower) ||
-        control.control?.controlName?.toLowerCase().includes(searchLower) ||
-        control.control?.nameEn?.toLowerCase().includes(searchLower) ||
-        control.control?.controlDescription?.toLowerCase().includes(searchLower) ||
-        control.control?.descriptionEn?.toLowerCase().includes(searchLower)
-      )
-    }
-
-    // Apply pagination
-    const totalItems = filteredControls.length
-    const totalPages = Math.ceil(totalItems / pageSize)
-    const startIndex = (page - 1) * pageSize
-    const endIndex = startIndex + pageSize
-    const paginatedControls = filteredControls.slice(startIndex, endIndex)
-
-    setControls(paginatedControls)
-    setPagination({
-      itemsCount: totalItems,
-      pageSize,
-      currentPage: page,
-      totalPages,
-    })
-  }, [allControls, page, pageSize, search])
+  }, [standardId, page, pageSize, PageSearch])
 
   return { controls, pagination, loading, error }
 }
 
-export function useSecurityProcedureSafeguards(controlId: string, page = 1, pageSize = 10, search = "") {
+export function useSecurityProcedureSafeguards(controlId: string, page = 1, pageSize = 10, PageSearch = "") {
   const [allSafeguards, setAllSafeguards] = useState<SecurityProcedureSafeguard[]>([])
   const [safeguards, setSafeguards] = useState<SecurityProcedureSafeguard[]>([])
   const [pagination, setPagination] = useState<any>(null)
@@ -240,8 +216,14 @@ export function useSecurityProcedureSafeguards(controlId: string, page = 1, page
       try {
         setLoading(true)
         setError(null)
-        const result = await container.services.securityProcedures.getSafeguardsByControlId(controlId)
-        setAllSafeguards(result.safeguards)
+        const result = await container.services.securityProcedures.getSafeguardsByControlId(controlId, page, pageSize, PageSearch)
+        setSafeguards(result.safeguards)
+        setPagination({
+          itemsCount: result.pagination.itemsCount,
+          pageSize: result.pagination.pageSize,
+          currentPage: result.pagination.currentPage,
+          totalPages: result.pagination.totalPages,
+        })
       } catch (err) {
         setError("Failed to fetch safeguards")
         console.error("Error fetching safeguards:", err)
@@ -251,39 +233,12 @@ export function useSecurityProcedureSafeguards(controlId: string, page = 1, page
     }
 
     fetchSafeguards()
-  }, [controlId])
-
-  useEffect(() => {
-    // Apply search filter
-    let filteredSafeguards = allSafeguards
-    if (search.trim()) {
-      const searchLower = search.toLowerCase()
-      filteredSafeguards = allSafeguards.filter(safeguard => 
-        safeguard.nameEn?.toLowerCase().includes(searchLower) ||
-        safeguard.descriptionEn?.toLowerCase().includes(searchLower)
-      )
-    }
-
-    // Apply pagination
-    const totalItems = filteredSafeguards.length
-    const totalPages = Math.ceil(totalItems / pageSize)
-    const startIndex = (page - 1) * pageSize
-    const endIndex = startIndex + pageSize
-    const paginatedSafeguards = filteredSafeguards.slice(startIndex, endIndex)
-
-    setSafeguards(paginatedSafeguards)
-    setPagination({
-      itemsCount: totalItems,
-      pageSize,
-      currentPage: page,
-      totalPages,
-    })
-  }, [allSafeguards, page, pageSize, search])
+  }, [controlId, page, pageSize, PageSearch])
 
   return { safeguards, pagination, loading, error }
 }
 
-export function useSecurityProcedureTechniques(safeguardId: string, page = 1, pageSize = 10, search = "") {
+export function useSecurityProcedureTechniques(safeguardId: string, page = 1, pageSize = 10, PageSearch = "") {
   const [techniques, setTechniques] = useState<SecurityProcedureTechnique[]>([])
   const [pagination, setPagination] = useState<any>(null)
   const [loading, setLoading] = useState(true)
@@ -303,7 +258,7 @@ export function useSecurityProcedureTechniques(safeguardId: string, page = 1, pa
           safeguardId,
           page,
           pageSize,
-          search,
+          PageSearch,
         )
         setTechniques(result.techniques)
         setPagination(result.pagination)
@@ -316,12 +271,12 @@ export function useSecurityProcedureTechniques(safeguardId: string, page = 1, pa
     }
 
     fetchTechniques()
-  }, [safeguardId, page, pageSize, search])
+  }, [safeguardId, page, pageSize, PageSearch])
 
   return { techniques, pagination, loading, error }
 }
 
-export function useSecurityProcedureImplementationSteps(techniqueId: string) {
+export function useSecurityProcedureImplementationSteps(techniqueId: string, page = 1, pageSize = 10, PageSearch = "") {
   const [implementationSteps, setImplementationSteps] = useState<SecurityProcedureImplementationStep[]>([])
   const [pagination, setPagination] = useState<any>(null)
   const [loading, setLoading] = useState(true)
@@ -337,7 +292,7 @@ export function useSecurityProcedureImplementationSteps(techniqueId: string) {
       try {
         setLoading(true)
         setError(null)
-        const result = await container.services.securityProcedures.getImplementationStepsByTechniqueId(techniqueId)
+        const result = await container.services.securityProcedures.getImplementationStepsByTechniqueId(techniqueId, page, pageSize, PageSearch)
         setImplementationSteps(result.implementationSteps)
         setPagination(result.pagination)
       } catch (err) {
@@ -349,7 +304,7 @@ export function useSecurityProcedureImplementationSteps(techniqueId: string) {
     }
 
     fetchImplementationSteps()
-  }, [techniqueId])
+  }, [techniqueId, page, pageSize, PageSearch])
 
   return { implementationSteps, pagination, loading, error }
 }

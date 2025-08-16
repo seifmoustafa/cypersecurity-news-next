@@ -93,11 +93,11 @@ const Pagination = ({ className, currentPage, totalPages, onPageChange, showFirs
             size="sm"
             onClick={() => onPageChange(1)}
             disabled={currentPage === 1}
-            aria-label={t ? t("pagination.first") : "First page"}
+            aria-label={t ? t("common.first") : "First page"}
             className="hidden sm:flex"
           >
             {isRtl ? <ChevronsRight className="h-4 w-4" /> : <ChevronsLeft className="h-4 w-4" />}
-            <span className="ml-1 hidden md:inline">{t ? t("pagination.first") : "First"}</span>
+            <span className="ml-1 hidden md:inline">{t ? t("common.first") : "First"}</span>
           </Button>
         )}
 
@@ -107,10 +107,10 @@ const Pagination = ({ className, currentPage, totalPages, onPageChange, showFirs
           size="sm"
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          aria-label={t ? t("pagination.previous") : "Previous page"}
+          aria-label={t ? t("common.previous") : "Previous page"}
         >
           {isRtl ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-          <span className="ml-1 hidden sm:inline">{t ? t("pagination.previous") : "Prev"}</span>
+          <span className="ml-1 hidden sm:inline">{t ? t("common.previous") : "Prev"}</span>
         </Button>
 
         {/* Page Numbers */}
@@ -136,7 +136,7 @@ const Pagination = ({ className, currentPage, totalPages, onPageChange, showFirs
                 variant={currentPage === page ? "default" : "outline"}
                 size="sm"
                 onClick={() => onPageChange(page as number)}
-                aria-label={`${t ? t("pagination.page") : "Page"} ${page}`}
+                aria-label={`${t ? t("common.page") : "Page"} ${page}`}
                 aria-current={currentPage === page ? "page" : undefined}
                 className={cn(
                   "min-w-[40px]",
@@ -155,9 +155,9 @@ const Pagination = ({ className, currentPage, totalPages, onPageChange, showFirs
           size="sm"
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          aria-label={t ? t("pagination.next") : "Next page"}
+          aria-label={t ? t("common.next") : "Next page"}
         >
-          <span className="mr-1 hidden sm:inline">{t ? t("pagination.next") : "Next"}</span>
+          <span className="mr-1 hidden sm:inline">{t ? t("common.next") : "Next"}</span>
           {isRtl ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
         </Button>
 
@@ -168,10 +168,10 @@ const Pagination = ({ className, currentPage, totalPages, onPageChange, showFirs
             size="sm"
             onClick={() => onPageChange(totalPages)}
             disabled={currentPage === totalPages}
-            aria-label={t ? t("pagination.last") : "Last page"}
+            aria-label={t ? t("common.last") : "Last page"}
             className="hidden sm:flex"
           >
-            <span className="mr-1 hidden md:inline">{t ? t("pagination.last") : "Last"}</span>
+            <span className="mr-1 hidden md:inline">{t ? t("common.last") : "Last"}</span>
             {isRtl ? <ChevronsLeft className="h-4 w-4" /> : <ChevronsRight className="h-4 w-4" />}
           </Button>
         )}
@@ -179,7 +179,7 @@ const Pagination = ({ className, currentPage, totalPages, onPageChange, showFirs
 
       {/* Page Info */}
       <div className="ml-4 hidden lg:flex items-center text-sm text-muted-foreground">
-        {`Page ${currentPage} of ${totalPages}`}
+        {t ? t("common.pageInfo").replace("{{current}}", String(currentPage)).replace("{{total}}", String(totalPages)) : `Page ${currentPage} of ${totalPages}`}
       </div>
     </nav>
   )

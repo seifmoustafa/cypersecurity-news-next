@@ -13,7 +13,7 @@ export interface SecurityProceduresRepository {
   getStandards(
     page?: number,
     pageSize?: number,
-    search?: string,
+    PageSearch?: string,
   ): Promise<PaginatedSecurityProcedureResponse<SecurityProcedureStandard>>
   getStandardById(id: string): Promise<SingleSecurityProcedureResponse<SecurityProcedureStandard>>
 
@@ -22,11 +22,17 @@ export interface SecurityProceduresRepository {
     standardId: string,
     page?: number,
     pageSize?: number,
+    PageSearch?: string,
   ): Promise<PaginatedSecurityProcedureResponse<SecurityProcedureControl>>
   getControlById(id: string): Promise<SingleSecurityProcedureResponse<SecurityProcedureControl["control"]>>
 
   // Safeguards
-  getSafeguardsByControlId(controlId: string): Promise<PaginatedSecurityProcedureResponse<SecurityProcedureSafeguard>>
+  getSafeguardsByControlId(
+    controlId: string,
+    page?: number,
+    pageSize?: number,
+    PageSearch?: string,
+  ): Promise<PaginatedSecurityProcedureResponse<SecurityProcedureSafeguard>>
   getSafeguardById(id: string): Promise<SingleSecurityProcedureResponse<SecurityProcedureSafeguard>>
 
   // Techniques
@@ -34,13 +40,16 @@ export interface SecurityProceduresRepository {
     safeguardId: string,
     page?: number,
     pageSize?: number,
-    search?: string,
+    PageSearch?: string,
   ): Promise<PaginatedSecurityProcedureResponse<SecurityProcedureTechnique>>
   getTechniqueById(id: string): Promise<SingleSecurityProcedureResponse<SecurityProcedureTechnique["technique"]>>
 
   // Implementation Steps
   getImplementationStepsByTechniqueId(
     techniqueId: string,
+    page?: number,
+    pageSize?: number,
+    PageSearch?: string,
   ): Promise<PaginatedSecurityProcedureResponse<SecurityProcedureImplementationStep>>
   getImplementationStepById(
     id: string,
