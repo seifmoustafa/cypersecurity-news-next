@@ -202,8 +202,8 @@ function RegulationCard({ item, index }: RegulationCardProps) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
       <Link href={`/regulation/${slug}`}>
-        <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:border-primary/50 cursor-pointer border border-blue-200/30 dark:border-blue-800/30">
-          <div className="relative h-48">
+        <Card className="overflow-hidden h-[280px] transition-all duration-300 hover:shadow-lg hover:border-primary/50 cursor-pointer border border-blue-200/30 dark:border-blue-800/30 flex flex-col">
+          <div className="relative h-32 flex-shrink-0">
             <Image
               src={item.imageUrl || "/placeholder.svg?height=200&width=400"}
               alt={title}
@@ -211,12 +211,12 @@ function RegulationCard({ item, index }: RegulationCardProps) {
               className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-            <div className="absolute bottom-0 left-0 right-0 p-4">
-              <h3 className={`text-xl font-bold text-white drop-shadow-md ${isRtl ? "text-right" : "text-left"}`}>{title}</h3>
+            <div className="absolute bottom-0 left-0 right-0 p-3">
+              <h3 className={`text-lg font-bold text-white drop-shadow-md line-clamp-2 ${isRtl ? "text-right" : "text-left"}`}>{title}</h3>
             </div>
           </div>
-          <CardContent className={`p-6 bg-gradient-to-br from-white to-blue-50/50 dark:from-gray-900 dark:to-blue-950/30 ${isRtl ? "text-right" : "text-left"}`}>
-            <p className="text-muted-foreground line-clamp-2">{summary}</p>
+          <CardContent className={`p-4 bg-gradient-to-br from-white to-blue-50/50 dark:from-gray-900 dark:to-blue-950/30 ${isRtl ? "text-right" : "text-left"} flex-1 overflow-hidden`}>
+            <p className="text-muted-foreground line-clamp-4 text-sm text-ellipsis overflow-hidden">{summary}</p>
           </CardContent>
         </Card>
       </Link>

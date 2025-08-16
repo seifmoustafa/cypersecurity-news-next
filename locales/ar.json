@@ -218,11 +218,11 @@
     "explore": "استكشف إطار العمل"
   },
   "securityProcedures": {
-    "title": "إجراءات الأمان",
-    "description": "إجراءات الأمان الشاملة وإرشادات التنفيذ",
+    "title": "معايير التأمين",
+    "description": "معايير التأمين الشاملة وإرشادات التنفيذ",
     "standards": "المعايير",
-    "controls": "الضوابط",
-    "safeguards": "الضمانات",
+    "controls": "إجراءات التحكم",
+    "safeguards": "إجراءات الحماية",
     "techniques": "التقنيات",
     "implementationSteps": "خطوات التنفيذ",
     "implementationStepDetail": "تفاصيل خطوة التنفيذ",

@@ -15,12 +15,14 @@ import { Input } from "@/components/ui/input";
 import { Pagination } from "@/components/ui/pagination";
 import { useLanguage } from "@/components/language-provider";
 import { useSecurityProcedureStandards } from "@/core/hooks/use-security-procedures";
+import { useDebouncedSearch } from "@/core/hooks/use-debounced-search";
 import {
   Search,
   AlertCircle,
   RefreshCw,
   ChevronRight,
   Shield,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -29,19 +31,25 @@ import { createSecurityProcedureSlug } from "@/lib/security-procedures-utils";
 export default function SecurityProceduresPageClient() {
   const { t } = useLanguage();
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState("");
   const pageSize = 12;
+  
+  const { searchTerm, debouncedSearchTerm, handleSearchChange, clearSearch } = useDebouncedSearch("", 300);
 
   const { standards, pagination, loading, error } =
-    useSecurityProcedureStandards(currentPage, pageSize, searchTerm);
+    useSecurityProcedureStandards(currentPage, pageSize, debouncedSearchTerm);
 
   const handleSearch = (value: string) => {
-    setSearchTerm(value);
+    handleSearchChange(value);
     setCurrentPage(1);
   };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+  };
+
+  const handleClearSearch = () => {
+    clearSearch();
+    setCurrentPage(1);
   };
 
   if (error) {
@@ -100,9 +108,24 @@ export default function SecurityProceduresPageClient() {
               placeholder={t("common.search")}
               value={searchTerm}
               onChange={(e) => handleSearch(e.target.value)}
-              className="pl-10 bg-white dark:bg-gray-800 border-blue-200 dark:border-blue-800 focus:border-blue-500 dark:focus:border-blue-400"
+              className="pl-10 pr-10 bg-white dark:bg-gray-800 border-blue-200 dark:border-blue-800 focus:border-blue-500 dark:focus:border-blue-400"
             />
+            {searchTerm && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleClearSearch}
+                className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            )}
           </div>
+          {debouncedSearchTerm && (
+            <div className="text-center mt-2 text-sm text-muted-foreground">
+              {loading ? "Searching..." : `Found ${pagination?.itemsCount || 0} results for "${debouncedSearchTerm}"`}
+            </div>
+          )}
         </motion.div>
 
         {/* Standards Grid */}
@@ -151,12 +174,14 @@ export default function SecurityProceduresPageClient() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="flex justify-center"
+            className="flex justify-center mt-8"
           >
             <Pagination
               currentPage={currentPage}
               totalPages={Math.ceil(pagination.itemsCount / pageSize)}
               onPageChange={handlePageChange}
+              showFirstLast={true}
+              className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-blue-100 dark:border-blue-800"
             />
           </motion.div>
         )}

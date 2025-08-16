@@ -11,15 +11,19 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Pagination } from "@/components/ui/pagination";
 import { useLanguage } from "@/components/language-provider";
-import { useSecurityProcedures } from "@/core/hooks/use-security-procedures";
+import { useSecurityProcedures, useSecurityProcedureControls } from "@/core/hooks/use-security-procedures";
+import { useDebouncedSearch } from "@/core/hooks/use-debounced-search";
 import {
   ArrowLeft,
   AlertCircle,
   RefreshCw,
   ChevronRight,
   Settings,
+  Search,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -40,16 +44,22 @@ export default function StandardControlsPageClient({
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [standard, setStandard] = useState<any>(null);
-  const [controls, setControls] = useState<any[]>([]);
-  const [pagination, setPagination] = useState<any>(null);
+  const [standardId, setStandardId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const pageSize = 12;
 
-  const { getStandards, getControlsByStandardId } = useSecurityProcedures();
+  const { searchTerm, debouncedSearchTerm, handleSearchChange, clearSearch } = useDebouncedSearch("", 300);
+  const { getStandards } = useSecurityProcedures();
+  const { controls, pagination, loading: controlsLoading, error: controlsError } = useSecurityProcedureControls(
+    standardId || "",
+    currentPage,
+    pageSize,
+    debouncedSearchTerm
+  );
 
   useEffect(() => {
-    const loadData = async () => {
+    const loadStandard = async () => {
       try {
         setLoading(true);
         setError(null);
@@ -62,32 +72,28 @@ export default function StandardControlsPageClient({
         }
 
         setStandard(found);
-        const result = await getControlsByStandardId(
-          found.id,
-          currentPage,
-          pageSize
-        );
-        setControls(result);
-        setPagination({
-          itemsCount: result.length,
-          pageSize,
-          currentPage,
-        });
+        setStandardId(found.id);
       } catch {
         setError(t("securityProcedures.errorLoadControls"));
       } finally {
         setLoading(false);
       }
     };
-    loadData();
-  }, [
-    standardSlug,
-    currentPage,
-    pageSize,
-    getStandards,
-    getControlsByStandardId,
-    t,
-  ]);
+    loadStandard();
+  }, [standardSlug, getStandards, t]);
+
+  const handleSearch = (value: string) => {
+    handleSearchChange(value);
+    setCurrentPage(1);
+  };
+
+  const handleClearSearch = () => {
+    clearSearch();
+    setCurrentPage(1);
+  };
+
+  const finalError = error || controlsError;
+  const finalLoading = loading || controlsLoading;
 
   if (error) {
     return (
@@ -134,7 +140,7 @@ export default function StandardControlsPageClient({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-12"
+          className="mb-8"
         >
           <div className="flex items-center mb-4">
             <Settings className="h-8 w-8 text-blue-600 dark:text-blue-400 mr-3" />
@@ -162,8 +168,42 @@ export default function StandardControlsPageClient({
           )}
         </motion.div>
 
+        {/* Search Bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="mb-8"
+        >
+          <div className="relative max-w-md mx-auto">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+            <Input
+              type="text"
+              placeholder={t("common.search")}
+              value={searchTerm}
+              onChange={(e) => handleSearch(e.target.value)}
+              className="pl-10 pr-10 bg-white dark:bg-gray-800 border-blue-200 dark:border-blue-800 focus:border-blue-500 dark:focus:border-blue-400"
+            />
+            {searchTerm && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleClearSearch}
+                className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
+          {debouncedSearchTerm && (
+            <div className="text-center mt-2 text-sm text-muted-foreground">
+              {finalLoading ? "Searching..." : `Found ${pagination?.itemsCount || 0} results for "${debouncedSearchTerm}"`}
+            </div>
+          )}
+        </motion.div>
+
         {/* Controls Grid */}
-        {loading ? (
+        {finalLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {Array.from({ length: pageSize }).map((_, i) => (
               <ControlCardSkeleton key={i} />
@@ -207,12 +247,14 @@ export default function StandardControlsPageClient({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="flex justify-center"
+            className="flex justify-center mt-8"
           >
             <Pagination
               currentPage={currentPage}
               totalPages={Math.ceil(pagination.itemsCount / pageSize)}
               onPageChange={(p) => setCurrentPage(p)}
+              showFirstLast={true}
+              className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-blue-100 dark:border-blue-800"
             />
           </motion.div>
         )}
@@ -252,7 +294,7 @@ function ControlCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
     >
-      <Link href={urls.controlUrl}>
+      <Link href={urls.controlUrl!}>
         <Card className="h-full bg-white dark:bg-gray-800 border-blue-100 dark:border-blue-800 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 hover:shadow-lg group cursor-pointer">
           <CardHeader className="pb-3">
             <div className="flex items-start justify-between">

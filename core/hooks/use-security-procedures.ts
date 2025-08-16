@@ -160,7 +160,8 @@ export function useSecurityProcedureStandards(page = 1, pageSize = 10, search = 
   return { standards, pagination, loading, error }
 }
 
-export function useSecurityProcedureControls(standardId: string, page = 1, pageSize = 10) {
+export function useSecurityProcedureControls(standardId: string, page = 1, pageSize = 10, search = "") {
+  const [allControls, setAllControls] = useState<SecurityProcedureControl[]>([])
   const [controls, setControls] = useState<SecurityProcedureControl[]>([])
   const [pagination, setPagination] = useState<any>(null)
   const [loading, setLoading] = useState(true)
@@ -176,9 +177,8 @@ export function useSecurityProcedureControls(standardId: string, page = 1, pageS
       try {
         setLoading(true)
         setError(null)
-        const result = await container.services.securityProcedures.getControlsByStandardId(standardId, page, pageSize)
-        setControls(result.controls)
-        setPagination(result.pagination)
+        const result = await container.services.securityProcedures.getControlsByStandardId(standardId, 1, 1000)
+        setAllControls(result.controls)
       } catch (err) {
         setError("Failed to fetch controls")
         console.error("Error fetching controls:", err)
@@ -188,12 +188,43 @@ export function useSecurityProcedureControls(standardId: string, page = 1, pageS
     }
 
     fetchControls()
-  }, [standardId, page, pageSize])
+  }, [standardId])
+
+  useEffect(() => {
+    // Apply search filter
+    let filteredControls = allControls
+    if (search.trim()) {
+      const searchLower = search.toLowerCase()
+      filteredControls = allControls.filter(control => 
+        control.nameEn?.toLowerCase().includes(searchLower) ||
+        control.control?.controlName?.toLowerCase().includes(searchLower) ||
+        control.control?.nameEn?.toLowerCase().includes(searchLower) ||
+        control.control?.controlDescription?.toLowerCase().includes(searchLower) ||
+        control.control?.descriptionEn?.toLowerCase().includes(searchLower)
+      )
+    }
+
+    // Apply pagination
+    const totalItems = filteredControls.length
+    const totalPages = Math.ceil(totalItems / pageSize)
+    const startIndex = (page - 1) * pageSize
+    const endIndex = startIndex + pageSize
+    const paginatedControls = filteredControls.slice(startIndex, endIndex)
+
+    setControls(paginatedControls)
+    setPagination({
+      itemsCount: totalItems,
+      pageSize,
+      currentPage: page,
+      totalPages,
+    })
+  }, [allControls, page, pageSize, search])
 
   return { controls, pagination, loading, error }
 }
 
-export function useSecurityProcedureSafeguards(controlId: string) {
+export function useSecurityProcedureSafeguards(controlId: string, page = 1, pageSize = 10, search = "") {
+  const [allSafeguards, setAllSafeguards] = useState<SecurityProcedureSafeguard[]>([])
   const [safeguards, setSafeguards] = useState<SecurityProcedureSafeguard[]>([])
   const [pagination, setPagination] = useState<any>(null)
   const [loading, setLoading] = useState(true)
@@ -210,8 +241,7 @@ export function useSecurityProcedureSafeguards(controlId: string) {
         setLoading(true)
         setError(null)
         const result = await container.services.securityProcedures.getSafeguardsByControlId(controlId)
-        setSafeguards(result.safeguards)
-        setPagination(result.pagination)
+        setAllSafeguards(result.safeguards)
       } catch (err) {
         setError("Failed to fetch safeguards")
         console.error("Error fetching safeguards:", err)
@@ -222,6 +252,33 @@ export function useSecurityProcedureSafeguards(controlId: string) {
 
     fetchSafeguards()
   }, [controlId])
+
+  useEffect(() => {
+    // Apply search filter
+    let filteredSafeguards = allSafeguards
+    if (search.trim()) {
+      const searchLower = search.toLowerCase()
+      filteredSafeguards = allSafeguards.filter(safeguard => 
+        safeguard.nameEn?.toLowerCase().includes(searchLower) ||
+        safeguard.descriptionEn?.toLowerCase().includes(searchLower)
+      )
+    }
+
+    // Apply pagination
+    const totalItems = filteredSafeguards.length
+    const totalPages = Math.ceil(totalItems / pageSize)
+    const startIndex = (page - 1) * pageSize
+    const endIndex = startIndex + pageSize
+    const paginatedSafeguards = filteredSafeguards.slice(startIndex, endIndex)
+
+    setSafeguards(paginatedSafeguards)
+    setPagination({
+      itemsCount: totalItems,
+      pageSize,
+      currentPage: page,
+      totalPages,
+    })
+  }, [allSafeguards, page, pageSize, search])
 
   return { safeguards, pagination, loading, error }
 }

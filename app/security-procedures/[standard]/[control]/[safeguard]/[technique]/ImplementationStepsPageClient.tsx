@@ -11,14 +11,19 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Pagination } from "@/components/ui/pagination";
 import { useLanguage } from "@/components/language-provider";
-import { useSecurityProcedures } from "@/core/hooks/use-security-procedures";
+import { useSecurityProcedures, useSecurityProcedureImplementationSteps } from "@/core/hooks/use-security-procedures";
+import { useDebouncedSearch } from "@/core/hooks/use-debounced-search";
 import {
   ArrowLeft,
   AlertCircle,
   RefreshCw,
   ChevronRight,
   CheckCircle,
+  Search,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -43,21 +48,76 @@ export default function ImplementationStepsPageClient({
 }: ImplementationStepsPageClientProps) {
   const { language, t } = useLanguage();
   const router = useRouter();
+  const [currentPage, setCurrentPage] = useState(1);
   const [standard, setStandard] = useState<any>(null);
   const [control, setControl] = useState<any>(null);
   const [safeguard, setSafeguard] = useState<any>(null);
   const [technique, setTechnique] = useState<any>(null);
-  const [implementationSteps, setImplementationSteps] = useState<any[]>([]);
+  const [techniqueId, setTechniqueId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const pageSize = 12;
 
+  const { searchTerm, debouncedSearchTerm, handleSearchChange, clearSearch } = useDebouncedSearch("", 300);
   const {
     getStandards,
     getControlsByStandardId,
     getSafeguardsByControlId,
     getTechniquesBySafeguardId,
-    getImplementationStepsByTechniqueId,
   } = useSecurityProcedures();
+  const { implementationSteps: allImplementationSteps, loading: stepsLoading, error: stepsError } = useSecurityProcedureImplementationSteps(
+    techniqueId || ""
+  );
+
+  // Client-side filtering and pagination
+  const [filteredSteps, setFilteredSteps] = useState<any[]>([]);
+  const [paginatedSteps, setPaginatedSteps] = useState<any[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+
+  // Apply search filter and pagination
+  useEffect(() => {
+    if (!allImplementationSteps) {
+      setFilteredSteps([]);
+      setPaginatedSteps([]);
+      setTotalPages(1);
+      setTotalItems(0);
+      return;
+    }
+
+    let filtered = allImplementationSteps;
+    
+    // Apply search filter
+    if (debouncedSearchTerm) {
+      const searchLower = debouncedSearchTerm.toLowerCase();
+      filtered = allImplementationSteps.filter((step: any) => {
+        const nameEn = step.implementationStep?.nameEn?.toLowerCase() || "";
+        const nameAr = step.implementationStep?.implementationStepName?.toLowerCase() || "";
+        const descEn = step.implementationStep?.descriptionEn?.toLowerCase() || "";
+        const descAr = step.implementationStep?.implementationStepDescription?.toLowerCase() || "";
+        
+        return nameEn.includes(searchLower) || nameAr.includes(searchLower) ||
+               descEn.includes(searchLower) || descAr.includes(searchLower);
+      });
+    }
+
+    setFilteredSteps(filtered);
+    setTotalItems(filtered.length);
+    setTotalPages(Math.ceil(filtered.length / pageSize));
+
+    // Apply pagination
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    setPaginatedSteps(filtered.slice(startIndex, endIndex));
+  }, [allImplementationSteps, debouncedSearchTerm, currentPage, pageSize]);
+
+  const pagination = {
+    totalPages,
+    itemsCount: totalItems,
+    currentPage,
+  };
+
+  const implementationSteps = paginatedSteps;
 
   // Load data
   useEffect(() => {
@@ -80,7 +140,7 @@ export default function ImplementationStepsPageClient({
         // Get controls for this standard
         const controls = await getControlsByStandardId(foundStandard.id);
         const foundControl = findEntityBySlugOrId(
-          controls.map((c) => ({ id: c.control.id, nameEn: c.control.nameEn })),
+          controls.map((c: any) => ({ id: c.control.id, nameEn: c.control.nameEn })),
           controlSlug
         );
 
@@ -91,7 +151,7 @@ export default function ImplementationStepsPageClient({
 
         // Find the full control object
         const fullControl = controls.find(
-          (c) => c.control.id === foundControl.id
+          (c: any) => c.control.id === foundControl.id
         )?.control;
         setControl(fullControl);
 
@@ -109,7 +169,7 @@ export default function ImplementationStepsPageClient({
         // Get techniques for this safeguard
         const techniques = await getTechniquesBySafeguardId(foundSafeguard.id);
         const foundTechnique = findEntityBySlugOrId(
-          techniques.map((t) => ({
+          techniques.map((t: any) => ({
             id: t.technique.id,
             nameEn: t.technique.nameEn,
           })),
@@ -123,14 +183,10 @@ export default function ImplementationStepsPageClient({
 
         // Find the full technique object
         const fullTechnique = techniques.find(
-          (t) => t.technique.id === foundTechnique.id
+          (t: any) => t.technique.id === foundTechnique.id
         )?.technique;
         setTechnique(fullTechnique);
-
-        // Get implementation steps for this technique
-        const implementationStepsData =
-          await getImplementationStepsByTechniqueId(foundTechnique.id);
-        setImplementationSteps(implementationStepsData);
+        setTechniqueId(foundTechnique.id);
       } catch (err) {
         console.error("Error loading implementation steps:", err);
         setError("Failed to load implementation steps");
@@ -149,19 +205,35 @@ export default function ImplementationStepsPageClient({
     getControlsByStandardId,
     getSafeguardsByControlId,
     getTechniquesBySafeguardId,
-    getImplementationStepsByTechniqueId,
   ]);
+
+  const handleSearch = (value: string) => {
+    handleSearchChange(value);
+    setCurrentPage(1);
+  };
+
+  const handleClearSearch = () => {
+    clearSearch();
+    setCurrentPage(1);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const finalError = error || stepsError;
+  const finalLoading = loading || stepsLoading;
 
   const handleBack = () => {
     if (standard && control && safeguard) {
       const urls = generateSecurityProcedureUrls(standard, control, safeguard);
-      router.push(urls.safeguardUrl);
+      router.push(urls.safeguardUrl!);
     } else {
       router.back();
     }
   };
 
-  if (error) {
+  if (finalError) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 dark:from-blue-950 dark:via-gray-900 dark:to-cyan-950">
         <div className="container mx-auto px-4 py-8">
@@ -171,7 +243,7 @@ export default function ImplementationStepsPageClient({
               {t("common.error")}
             </h2>
             <p className="text-gray-600 dark:text-gray-400 mb-4 text-center">
-              {error}
+              {finalError}
             </p>
             <Button onClick={() => window.location.reload()} variant="outline">
               <RefreshCw className="h-4 w-4 mr-2" />
@@ -240,14 +312,47 @@ export default function ImplementationStepsPageClient({
           )}
         </motion.div>
 
+        {/* Search Bar */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
+        >
+          <div className="relative max-w-md mx-auto">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+            <Input
+              type="text"
+              placeholder={t("common.search")}
+              value={searchTerm}
+              onChange={(e) => handleSearch(e.target.value)}
+              className="pl-10 pr-10"
+            />
+            {searchTerm && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleClearSearch}
+                className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
+          {debouncedSearchTerm && (
+            <div className="text-center mt-2 text-sm text-muted-foreground">
+              {finalLoading ? "Searching..." : `Found ${totalItems} results for "${debouncedSearchTerm}"`}
+            </div>
+          )}
+        </motion.div>
+
         {/* Implementation Steps Grid */}
-        {loading ? (
+        {finalLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {Array.from({ length: 6 }).map((_, i) => (
               <ImplementationStepCardSkeleton key={i} />
             ))}
           </div>
-        ) : implementationSteps.length === 0 ? (
+        ) : implementationSteps.length === 0 && !finalLoading ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -279,6 +384,24 @@ export default function ImplementationStepsPageClient({
                 index={index}
               />
             ))}
+          </motion.div>
+        )}
+
+        {/* Pagination */}
+        {pagination && pagination.totalPages > 1 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="flex justify-center mt-8"
+          >
+            <Pagination
+              currentPage={currentPage}
+              totalPages={pagination?.totalPages || 1}
+              onPageChange={handlePageChange}
+              showFirstLast={true}
+              className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-blue-100 dark:border-blue-800"
+            />
           </motion.div>
         )}
       </div>
@@ -330,7 +453,7 @@ function ImplementationStepCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
     >
-      <Link href={urls.implementationUrl}>
+      <Link href={urls.implementationUrl!}>
         <Card className="h-full bg-white dark:bg-gray-800 border-blue-100 dark:border-blue-800 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 hover:shadow-lg group cursor-pointer">
           <CardHeader className="pb-3">
             <div className="flex items-start justify-between">

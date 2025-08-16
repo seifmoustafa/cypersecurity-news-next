@@ -77,7 +77,7 @@ export default function ImplementationStepDetailPageClient({
         // Get controls for this standard
         const controls = await getControlsByStandardId(foundStandard.id);
         const foundControl = findEntityBySlugOrId(
-          controls.map((c) => ({ id: c.control.id, nameEn: c.control.nameEn })),
+          controls.map((c: any) => ({ id: c.control.id, nameEn: c.control.nameEn })),
           controlSlug
         );
 
@@ -88,7 +88,7 @@ export default function ImplementationStepDetailPageClient({
 
         // Find the full control object
         const fullControl = controls.find(
-          (c) => c.control.id === foundControl.id
+          (c: any) => c.control.id === foundControl.id
         )?.control;
         setControl(fullControl);
 
@@ -106,7 +106,7 @@ export default function ImplementationStepDetailPageClient({
         // Get techniques for this safeguard
         const techniques = await getTechniquesBySafeguardId(foundSafeguard.id);
         const foundTechnique = findEntityBySlugOrId(
-          techniques.map((t) => ({
+          techniques.map((t: any) => ({
             id: t.technique.id,
             nameEn: t.technique.nameEn,
           })),
@@ -120,14 +120,15 @@ export default function ImplementationStepDetailPageClient({
 
         // Find the full technique object
         const fullTechnique = techniques.find(
-          (t) => t.technique.id === foundTechnique.id
+          (t: any) => t.technique.id === foundTechnique.id
         )?.technique;
         setTechnique(fullTechnique);
 
         // Get implementation steps for this technique
-        const implementationSteps = await getImplementationStepsByTechniqueId(
+        const implementationStepsResult = await getImplementationStepsByTechniqueId(
           foundTechnique.id
         );
+        const implementationSteps = implementationStepsResult.implementationSteps || implementationStepsResult;
         const foundImplementationStep = findEntityBySlugOrId(
           implementationSteps,
           implementationSlug
@@ -169,7 +170,7 @@ export default function ImplementationStepDetailPageClient({
         safeguard,
         technique
       );
-      router.push(urls.techniqueUrl);
+      router.push(urls.techniqueUrl!);
     } else {
       router.back();
     }
@@ -285,7 +286,7 @@ export default function ImplementationStepDetailPageClient({
                       {title}
                     </CardTitle>
                     <div className="flex flex-wrap gap-2">
-                      {implementationStep?.approval && (
+                      {implementationStep?.implementationStep?.approval && (
                         <Badge
                           variant="secondary"
                           className="bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300"
@@ -293,7 +294,7 @@ export default function ImplementationStepDetailPageClient({
                           {t("common.approved")}
                         </Badge>
                       )}
-                      {implementationStep?.online && (
+                      {implementationStep?.implementationStep?.online && (
                         <Badge
                           variant="outline"
                           className="border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-300"
@@ -306,7 +307,7 @@ export default function ImplementationStepDetailPageClient({
                         className="border-gray-200 dark:border-gray-700"
                       >
                         {`${t("common.order")}: ${
-                          implementationStep?.order || 0
+                          implementationStep?.implementationStep?.order || 0
                         }`}
                       </Badge>
                     </div>
@@ -349,7 +350,7 @@ export default function ImplementationStepDetailPageClient({
                       {t("common.order")}
                     </span>
                     <Badge variant="outline">
-                      {implementationStep?.implementationStep.order || 0}
+                      {implementationStep?.implementationStep?.order || 0}
                     </Badge>
                   </div>
 
@@ -360,7 +361,7 @@ export default function ImplementationStepDetailPageClient({
                       {t("common.status")}
                     </span>
                     <div className="flex gap-1">
-                      {implementationStep?.implementationStep.approval ? (
+                      {implementationStep?.implementationStep?.approval ? (
                         <Badge
                           variant="secondary"
                           className="bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300"
@@ -387,18 +388,18 @@ export default function ImplementationStepDetailPageClient({
                     <Badge
                       variant="outline"
                       className={
-                        implementationStep?.implementationStep.online
+                        implementationStep?.implementationStep?.online
                           ? "border-green-200 dark:border-green-700 text-green-700 dark:text-green-300"
                           : "border-gray-200 dark:border-gray-700"
                       }
                     >
-                      {implementationStep?.implementationStep.online
+                      {implementationStep?.implementationStep?.online
                         ? t("common.online")
                         : t("common.offline")}
                     </Badge>
                   </div>
 
-                  {implementationStep?.implementationStep.approvalDate && (
+                  {implementationStep?.implementationStep?.approvalDate && (
                     <>
                       <Separator />
                       <div className="flex items-center justify-between">
@@ -410,7 +411,7 @@ export default function ImplementationStepDetailPageClient({
                           {new Date(
                             implementationStep.implementationStep.approvalDate
                           ).toLocaleDateString(
-                            "en-US"
+                            language === "ar" ? "ar-SA" : "en-US"
                           )}
                         </span>
                       </div>

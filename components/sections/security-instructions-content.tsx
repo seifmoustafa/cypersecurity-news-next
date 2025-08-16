@@ -98,13 +98,13 @@ export default function SecurityInstructionsContent() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:border-primary/50 cursor-pointer group">
-                <CardContent className="p-6 flex flex-col items-center text-center">
+              <Card className="overflow-hidden h-[280px] transition-all duration-300 hover:shadow-lg hover:border-primary/50 cursor-pointer group flex flex-col">
+                <CardContent className="p-6 flex flex-col items-center text-center flex-1">
                   <div className="mb-4 p-4 rounded-full bg-blue-50 dark:bg-blue-900/20 group-hover:bg-blue-100 dark:group-hover:bg-blue-800/30 transition-colors">
                     <div className="text-primary group-hover:scale-110 transition-transform duration-300">{icon}</div>
                   </div>
                   <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{title}</h3>
-                  <p className="text-muted-foreground">{description}</p>
+                  <p className="text-muted-foreground text-sm line-clamp-3 text-ellipsis overflow-hidden">{description}</p>
                 </CardContent>
               </Card>
             </motion.div>

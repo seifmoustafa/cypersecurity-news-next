@@ -246,14 +246,14 @@ export default function CybersecurityConceptsSection() {
                                 viewport={{ once: true, margin: "-100px" }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
                               >
-                                <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                                <Card className="h-[280px] hover:shadow-md transition-shadow cursor-pointer flex flex-col">
                                   <CardHeader className="pb-2">
                                     <CardTitle className={`text-xl ${isRtl ? "text-right" : "text-left"}`}>
                                       {language === "ar" ? item.term || item.termEn : item.termEn || item.term}
                                     </CardTitle>
                                   </CardHeader>
-                                  <CardContent className={isRtl ? "text-right" : "text-left"}>
-                                    <p className="text-muted-foreground line-clamp-4">
+                                  <CardContent className={`${isRtl ? "text-right" : "text-left"} flex-1 overflow-hidden`}>
+                                    <p className="text-muted-foreground line-clamp-4 text-ellipsis overflow-hidden">
                                       {language === "ar"
                                         ? item.definitionText || item.definitionEn
                                         : item.definitionEn || item.definitionText}
@@ -322,14 +322,14 @@ export default function CybersecurityConceptsSection() {
                                 viewport={{ once: true, margin: "-100px" }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
                               >
-                                <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                                <Card className="h-[280px] hover:shadow-md transition-shadow cursor-pointer flex flex-col">
                                   <CardHeader className="pb-2">
                                     <CardTitle className={`text-xl ${isRtl ? "text-right" : "text-left"}`}>
                                       {language === "ar" ? item.title || item.titleEn : item.titleEn || item.title}
                                     </CardTitle>
                                   </CardHeader>
-                                  <CardContent className={isRtl ? "text-right" : "text-left"}>
-                                    <p className="text-muted-foreground line-clamp-4">
+                                  <CardContent className={`${isRtl ? "text-right" : "text-left"} flex-1 overflow-hidden flex flex-col`}>
+                                    <p className="text-muted-foreground line-clamp-3 text-ellipsis overflow-hidden flex-1">
                                       {language === "ar"
                                         ? item.summary || item.summaryEn
                                         : item.summaryEn || item.summary}
@@ -435,7 +435,7 @@ export default function CybersecurityConceptsSection() {
                       transition={{ duration: 0.5, delay: index * 0.1 }}
                       className="w-full md:w-80 lg:w-96"
                     >
-                      <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
+                      <Card className="h-[280px] hover:shadow-md transition-shadow cursor-pointer flex flex-col">
                         <CardHeader className="pb-2">
                           <div
                             className={`flex items-center gap-2 ${
@@ -443,13 +443,13 @@ export default function CybersecurityConceptsSection() {
                             }`}
                           >
                             {icon}
-                            <CardTitle className={isRtl ? "text-right" : "text-left"}>
+                            <CardTitle className={`${isRtl ? "text-right" : "text-left"} text-lg`}>
                               {language === "ar" ? category.nameAr : category.nameEn}
                             </CardTitle>
                           </div>
                         </CardHeader>
-                        <CardContent className={isRtl ? "text-right" : "text-left"}>
-                          <div className="space-y-2">
+                        <CardContent className={`${isRtl ? "text-right" : "text-left"} flex-1 overflow-hidden`}>
+                          <div className="space-y-2 h-full">
                             {displayStandards.length > 0 ? (
                               <>
                                 {displayStandards.map((standard, standardIndex) => (
@@ -457,11 +457,11 @@ export default function CybersecurityConceptsSection() {
                                     key={standardIndex}
                                     className={`p-3 bg-muted rounded-md ${isRtl ? "text-right" : "text-left"}`}
                                   >
-                                    <h4 className={`font-medium ${isRtl ? "text-right" : "text-left"}`}>
+                                    <h4 className={`font-medium text-sm ${isRtl ? "text-right" : "text-left"}`}>
                                       {language === "ar" ? standard.nameAr : standard.nameEn}
                                     </h4>
                                     <p
-                                      className={`text-sm text-muted-foreground mt-1 line-clamp-2 ${
+                                      className={`text-xs text-muted-foreground mt-1 line-clamp-2 text-ellipsis overflow-hidden ${
                                         isRtl ? "text-right" : "text-left"
                                       }`}
                                     >

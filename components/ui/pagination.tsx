@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react"
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, MoreHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/components/language-provider"
 
@@ -12,15 +12,20 @@ interface PaginationProps {
   currentPage: number
   totalPages: number
   onPageChange: (page: number) => void
+  showFirstLast?: boolean
+  className?: string
 }
 
-const Pagination = ({ className, currentPage, totalPages, onPageChange, ...props }: PaginationProps) => {
-  const { isRtl } = useLanguage()
+const Pagination = ({ className, currentPage, totalPages, onPageChange, showFirstLast = true, ...props }: PaginationProps) => {
+  const { isRtl, t } = useLanguage()
+
+  // Don't render pagination if there's only one page or no pages
+  if (totalPages <= 1) return null
 
   // Generate page numbers to display
   const getPageNumbers = () => {
     const pages = []
-    const maxPagesToShow = 5
+    const maxPagesToShow = 7
 
     if (totalPages <= maxPagesToShow) {
       // Show all pages if there are fewer than maxPagesToShow
@@ -32,18 +37,18 @@ const Pagination = ({ className, currentPage, totalPages, onPageChange, ...props
       pages.push(1)
 
       // Calculate start and end of page range
-      let startPage = Math.max(2, currentPage - 1)
-      let endPage = Math.min(totalPages - 1, currentPage + 1)
+      let startPage = Math.max(2, currentPage - 2)
+      let endPage = Math.min(totalPages - 1, currentPage + 2)
 
       // Adjust if at the beginning
-      if (currentPage <= 3) {
+      if (currentPage <= 4) {
         startPage = 2
-        endPage = 4
+        endPage = Math.min(6, totalPages - 1)
       }
 
       // Adjust if at the end
-      if (currentPage >= totalPages - 2) {
-        startPage = totalPages - 3
+      if (currentPage >= totalPages - 3) {
+        startPage = Math.max(totalPages - 5, 2)
         endPage = totalPages - 1
       }
 
@@ -62,8 +67,10 @@ const Pagination = ({ className, currentPage, totalPages, onPageChange, ...props
         pages.push("ellipsis-end")
       }
 
-      // Always include last page
-      pages.push(totalPages)
+      // Always include last page if more than 1 page
+      if (totalPages > 1) {
+        pages.push(totalPages)
+      }
     }
 
     return pages
@@ -78,47 +85,102 @@ const Pagination = ({ className, currentPage, totalPages, onPageChange, ...props
       className={cn("mx-auto flex w-full justify-center", className)}
       {...props}
     >
-      <Button
-        variant="outline"
-        size="icon"
-        onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-        aria-label="Previous page"
-      >
-        {isRtl ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-      </Button>
-
-      {pageNumbers.map((page, index) => {
-        if (page === "ellipsis-start" || page === "ellipsis-end") {
-          return (
-            <Button key={`ellipsis-${index}`} variant="outline" size="icon" disabled>
-              ...
-            </Button>
-          )
-        }
-
-        return (
+      <div className="flex items-center gap-1">
+        {/* First Page Button */}
+        {showFirstLast && (
           <Button
-            key={page}
-            variant={currentPage === page ? "default" : "outline"}
-            onClick={() => onPageChange(page as number)}
-            aria-label={`Page ${page}`}
-            aria-current={currentPage === page ? "page" : undefined}
+            variant="outline"
+            size="sm"
+            onClick={() => onPageChange(1)}
+            disabled={currentPage === 1}
+            aria-label={t ? t("pagination.first") : "First page"}
+            className="hidden sm:flex"
           >
-            {page}
+            {isRtl ? <ChevronsRight className="h-4 w-4" /> : <ChevronsLeft className="h-4 w-4" />}
+            <span className="ml-1 hidden md:inline">{t ? t("pagination.first") : "First"}</span>
           </Button>
-        )
-      })}
+        )}
 
-      <Button
-        variant="outline"
-        size="icon"
-        onClick={() => onPageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
-        aria-label="Next page"
-      >
-        {isRtl ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-      </Button>
+        {/* Previous Page Button */}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          aria-label={t ? t("pagination.previous") : "Previous page"}
+        >
+          {isRtl ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+          <span className="ml-1 hidden sm:inline">{t ? t("pagination.previous") : "Prev"}</span>
+        </Button>
+
+        {/* Page Numbers */}
+        <div className="flex items-center gap-1">
+          {pageNumbers.map((page, index) => {
+            if (page === "ellipsis-start" || page === "ellipsis-end") {
+              return (
+                <Button 
+                  key={`ellipsis-${index}`} 
+                  variant="ghost" 
+                  size="sm" 
+                  disabled
+                  className="cursor-default"
+                >
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              )
+            }
+
+            return (
+              <Button
+                key={page}
+                variant={currentPage === page ? "default" : "outline"}
+                size="sm"
+                onClick={() => onPageChange(page as number)}
+                aria-label={`${t ? t("pagination.page") : "Page"} ${page}`}
+                aria-current={currentPage === page ? "page" : undefined}
+                className={cn(
+                  "min-w-[40px]",
+                  currentPage === page && "bg-blue-600 hover:bg-blue-700 text-white"
+                )}
+              >
+                {page}
+              </Button>
+            )
+          })}
+        </div>
+
+        {/* Next Page Button */}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          aria-label={t ? t("pagination.next") : "Next page"}
+        >
+          <span className="mr-1 hidden sm:inline">{t ? t("pagination.next") : "Next"}</span>
+          {isRtl ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+        </Button>
+
+        {/* Last Page Button */}
+        {showFirstLast && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onPageChange(totalPages)}
+            disabled={currentPage === totalPages}
+            aria-label={t ? t("pagination.last") : "Last page"}
+            className="hidden sm:flex"
+          >
+            <span className="mr-1 hidden md:inline">{t ? t("pagination.last") : "Last"}</span>
+            {isRtl ? <ChevronsLeft className="h-4 w-4" /> : <ChevronsRight className="h-4 w-4" />}
+          </Button>
+        )}
+      </div>
+
+      {/* Page Info */}
+      <div className="ml-4 hidden lg:flex items-center text-sm text-muted-foreground">
+        {`Page ${currentPage} of ${totalPages}`}
+      </div>
     </nav>
   )
 }
