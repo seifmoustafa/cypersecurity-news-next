@@ -92,3 +92,47 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  /* RTL Support */
+  body.rtl {
+    direction: rtl !important;
+  }
+  
+  
+  /* Tab Lists RTL */
+  body.rtl [role="tablist"] {
+    flex-direction: row-reverse !important;
+  }
+  
+  /* Text Alignment for RTL */
+  body.rtl .text-left {
+    text-align: right !important;
+  }
+  
+  body.rtl .text-right {
+    text-align: left !important;
+  }
+  
+  /* Positioning RTL */
+  body.rtl .left-2 {
+    left: auto !important;
+    right: 0.5rem !important;
+  }
+  
+  body.rtl .right-2 {
+    right: auto !important;
+    left: 0.5rem !important;
+  }
+  
+  /* Margins and Padding RTL */
+  body.rtl .ml-1 {
+    margin-left: 0 !important;
+    margin-right: 0.25rem !important;
+  }
+  
+  body.rtl .mr-1 {
+    margin-right: 0 !important;
+    margin-left: 0.25rem !important;
+  }
+}

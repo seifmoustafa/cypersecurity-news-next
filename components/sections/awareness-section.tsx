@@ -17,6 +17,7 @@ import { slugify } from "@/lib/utils"
 import { useCurrentYearAwareness } from "@/core/hooks/use-awareness"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Calendar, FileText } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 // Map category IDs to URL-friendly names
 const categoryUrlMap: { [key: string]: string } = {
@@ -80,7 +81,7 @@ export default function AwarenessSection() {
         </TabsList>
 
         <TabsContent value="news">
-          <Tabs value={activeNewsCategory} onValueChange={setActiveNewsCategory} className="w-full">
+          <Tabs value={activeNewsCategory} onValueChange={setActiveNewsCategory} className="w-full mb-8">
             <TabsList
               className={`w-full max-w-4xl mx-auto mb-8 flex flex-wrap justify-center ${isRtl ? "flex-row-reverse" : ""}`}
             >
@@ -116,18 +117,20 @@ export default function AwarenessSection() {
         </TabsContent>
 
         <TabsContent value="articles">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={isRtl ? { direction: 'rtl' } : {}}>
             {articlesLoading ? (
               // Loading skeleton
-              [1, 2, 3].map((i) => (
-                <Card key={i} className="h-[300px] animate-pulse">
-                  <div className="h-48 bg-gray-300 dark:bg-gray-700"></div>
-                  <CardContent className="p-6">
-                    <div className="h-4 bg-gray-300 rounded w-3/4 mb-4"></div>
-                    <div className="h-4 bg-gray-300 rounded w-full"></div>
-                  </CardContent>
-                </Card>
-              ))
+              Array(3)
+                .fill(0)
+                .map((_, i) => (
+                  <Card key={i} className="h-[300px] animate-pulse">
+                    <div className="h-48 bg-gray-300 dark:bg-gray-700"></div>
+                    <CardContent className="p-6">
+                      <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
+                      <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full"></div>
+                    </CardContent>
+                  </Card>
+                ))
             ) : articles.length > 0 ? (
               articles.map((item, idx) => <ArticleCard key={item.id} item={item} index={idx} />)
             ) : (
@@ -135,18 +138,15 @@ export default function AwarenessSection() {
                 <p className="text-muted-foreground">{t("common.noData")}</p>
               </div>
             )}
-            {/* View All Articles Button */}
-            {articles.length > 0 && (
-              <div className="col-span-full flex justify-center mt-6">
-                <Link
-                  href="/articles"
-                  className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-md font-medium transition-colors"
-                >
-                  {language === "ar" ? "عرض جميع المقالات" : "View All Articles"}
-                </Link>
-              </div>
-            )}
           </div>
+          {/* View All Articles Button */}
+          {articles.length > 0 && !articlesLoading && (
+            <div className="mt-8 text-center">
+              <Link href="/articles">
+                <Button variant="outline">{language === "ar" ? "عرض جميع المقالات" : "View All Articles"}</Button>
+              </Link>
+            </div>
+          )}
         </TabsContent>
       </Tabs>
     </SectionContainer>
@@ -155,7 +155,7 @@ export default function AwarenessSection() {
 
 // ALL NEWS CONTENT - Shows preview and "View All News" button
 function AllNewsContent() {
-  const { language } = useLanguage()
+  const { language, isRtl } = useLanguage()
   const [allNews, setAllNews] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -176,36 +176,31 @@ function AllNewsContent() {
     load()
   }, [])
 
-  if (loading) {
-    return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {[1, 2, 3].map((i) => (
-          <Card key={i} className="h-[300px] animate-pulse">
-            <div className="h-48 bg-gray-300 dark:bg-gray-700"></div>
-            <CardContent className="p-6">
-              <div className="h-4 bg-gray-300 rounded w-3/4 mb-4"></div>
-              <div className="h-4 bg-gray-300 rounded w-full"></div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    )
-  }
-
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {allNews.map((item, idx) => (
-        <NewsCard key={item.id} item={item} index={idx} />
-      ))}
-      <div className="col-span-full flex justify-center mt-6">
-        <Link
-          href="/news"
-          className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-md font-medium transition-colors"
-        >
-          {language === "ar" ? "عرض جميع الأخبار" : "View All News"}
-        </Link>
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={isRtl ? { direction: 'rtl' } : {}}>
+        {loading
+          ? Array(3)
+              .fill(0)
+              .map((_, i) => (
+                <Card key={i} className="h-[300px] animate-pulse">
+                  <div className="h-48 bg-gray-300 dark:bg-gray-700"></div>
+                  <CardContent className="p-6">
+                    <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
+                    <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full"></div>
+                  </CardContent>
+                </Card>
+              ))
+          : allNews.map((item, idx) => <NewsCard key={item.id} item={item} index={idx} />)}
       </div>
-    </div>
+      {allNews.length > 0 && !loading && (
+        <div className="mt-8 text-center">
+          <Link href="/news">
+            <Button variant="outline">{language === "ar" ? "عرض جميع الأخبار" : "View All News"}</Button>
+          </Link>
+        </div>
+      )}
+    </>
   )
 }
 
@@ -219,7 +214,7 @@ function CategoryNewsContent({
   categoryName: string
   categoryNameEn: string
 }) {
-  const { language } = useLanguage()
+  const { language, isRtl } = useLanguage()
   const { news, loading } = useNewsByCategory(categoryId, 1, 6)
 
   // ALWAYS use English name for URL generation (regardless of current language)
@@ -234,36 +229,31 @@ function CategoryNewsContent({
 
   const categoryUrl = getCategoryUrl(categoryId, categoryNameEn)
 
-  if (loading) {
-    return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {[1, 2, 3].map((i) => (
-          <Card key={i} className="h-[300px] animate-pulse">
-            <div className="h-48 bg-gray-300 dark:bg-gray-700"></div>
-            <CardContent className="p-6">
-              <div className="h-4 bg-gray-300 rounded w-3/4 mb-4"></div>
-              <div className="h-4 bg-gray-300 rounded w-full"></div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    )
-  }
-
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {news.map((item, idx) => (
-        <NewsCard key={item.id} item={item} index={idx} />
-      ))}
-      <div className="col-span-full flex justify-center mt-6">
-        <Link
-          href={`/news/category/${categoryUrl}`}
-          className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-md font-medium transition-colors"
-        >
-          {language === "ar" ? `عرض جميع أخبار ${categoryName}` : `View All ${categoryName} News`}
-        </Link>
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={isRtl ? { direction: 'rtl' } : {}}>
+        {loading
+          ? Array(3)
+              .fill(0)
+              .map((_, i) => (
+                <Card key={i} className="h-[300px] animate-pulse">
+                  <div className="h-48 bg-gray-300 dark:bg-gray-700"></div>
+                  <CardContent className="p-6">
+                    <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
+                    <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full"></div>
+                  </CardContent>
+                </Card>
+              ))
+          : news.map((item, idx) => <NewsCard key={item.id} item={item} index={idx} />)}
       </div>
-    </div>
+      {news.length > 0 && !loading && (
+        <div className="mt-8 text-center">
+          <Link href={`/news/category/${categoryUrl}`}>
+            <Button variant="outline">{language === "ar" ? `عرض جميع أخبار ${categoryName}` : `View All ${categoryName} News`}</Button>
+          </Link>
+        </div>
+      )}
+    </>
   )
 }
 
@@ -445,7 +435,7 @@ function CurrentYearAwarenessContent() {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={isRtl ? { direction: 'rtl' } : {}}>
         {[1, 2, 3].map((i) => (
           <Card key={i} className="h-[250px] animate-pulse dark:bg-slate-900">
             <CardContent className="p-6">
@@ -469,7 +459,7 @@ function CurrentYearAwarenessContent() {
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={isRtl ? { direction: 'rtl' } : {}}>
         {data && data.data.length > 0 ? (
           data.data.map((item, idx) => (
             <motion.div

@@ -30,7 +30,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
   };
 
   return (
-    <div className={`flex flex-col min-h-screen ${isRtl ? "rtl" : "ltr"}`}>
+    <div className="flex flex-col min-h-screen">
       <Header onToggleTheme={toggleTheme} onToggleLanguage={toggleLanguage} />
       <main className="flex-grow pt-16 w-full">{children}</main>
       <Footer />

@@ -31,13 +31,6 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
 
   // Navigation groups
   const navGroups = [
-    // Changed from a group to a single item for cybersecurity regulations
-    {
-      title: "cybersecurityRegulation",
-      isSingleItem: true, // New flag to indicate this is a single item, not a dropdown
-      href: "/#regulation",
-      isScroll: true,
-    },
     {
       title: "awareness",
       items: [
@@ -58,6 +51,7 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
       items: [
         { key: "section.definitions", href: "#standards", isScroll: true, tab: "definitions" },
         { key: "section.laws", href: "#standards", isScroll: true, tab: "laws" },
+        { key: "section.regulation", href: "#standards", isScroll: true, tab: "regulation" },
         { key: "section.framework", href: "#standards", isScroll: true, tab: "framework" },
         { key: "section.standards", href: "#standards", isScroll: true, tab: "standards" },
       ],

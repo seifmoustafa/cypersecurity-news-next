@@ -7,7 +7,7 @@ import SectionHeader from "@/components/ui/section-header"
 import SectionContainer from "@/components/ui/section-container"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Globe, Home, Building, BookOpen, FileCode, Shield, Scale } from "lucide-react"
+import { Globe, Home, Building, BookOpen, FileCode, Shield, Scale, FileText } from "lucide-react"
 import Link from "next/link"
 import { container } from "@/core/di/container"
 import type { Definition, DefinitionCategory } from "@/core/domain/models/definition"
@@ -15,6 +15,7 @@ import type { Domain } from "@/core/domain/models/framework"
 import type { StandardCategory, Standard } from "@/core/domain/models/standard"
 import type { Law } from "@/core/domain/models/law"
 import type { LawCategory } from "@/core/domain/models/law-category"
+import CyberSecurityRegulationSection from "@/components/sections/cybersecurity-regulation-section"
 import Image from "next/image"
 import { slugify } from "@/lib/utils"
 
@@ -107,6 +108,7 @@ export default function CybersecurityConceptsSection() {
           setLawCategories([])
           setLaws({})
         }
+
       } catch (error) {
         console.error("Error fetching cybersecurity concepts data:", error)
       } finally {
@@ -144,6 +146,7 @@ export default function CybersecurityConceptsSection() {
   const tabIcons = {
     definitions: <BookOpen className="h-5 w-5" />,
     laws: <Scale className="h-5 w-5" />,
+    regulation: <FileText className="h-5 w-5" />,
     framework: <FileCode className="h-5 w-5" />,
     standards: <Shield className="h-5 w-5" />,
   }
@@ -154,7 +157,7 @@ export default function CybersecurityConceptsSection() {
         <SectionHeader title={t("section.cybersecurityConcepts")} subtitle={t("cybersecurityConcepts.subtitle")} />
         <div className="animate-pulse">
           <div className="h-10 bg-gray-300 dark:bg-gray-700 rounded max-w-md mx-auto mb-8"></div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={isRtl ? { direction: 'rtl' } : {}}>
             {[1, 2, 3].map((i) => (
               <Card key={i} className="h-[300px]">
                 <CardHeader className="pb-2">
@@ -192,6 +195,12 @@ export default function CybersecurityConceptsSection() {
                 <span>{t("section.laws")}</span>
               </span>
             </TabsTrigger>
+            <TabsTrigger value="regulation" className="flex-1">
+              <span className={`flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}>
+                {tabIcons.regulation}
+                <span>{t("section.regulation")}</span>
+              </span>
+            </TabsTrigger>
             <TabsTrigger value="framework" className="flex-1">
               <span className={`flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}>
                 {tabIcons.framework}
@@ -224,7 +233,7 @@ export default function CybersecurityConceptsSection() {
 
                 {definitionCategories.map((category) => (
                   <TabsContent key={category.id} value={category.id} className="mt-0">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={isRtl ? { direction: 'rtl' } : {}}>
                       {(isRtl ? [...(definitions[category.id] || [])].reverse() : definitions[category.id] || [])
                         .slice(0, 6)
                         .map((item, index) => {
@@ -300,7 +309,7 @@ export default function CybersecurityConceptsSection() {
 
                 {lawCategories.map((category) => (
                   <TabsContent key={category.id} value={category.id} className="mt-0">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={isRtl ? { direction: 'rtl' } : {}}>
                       {(isRtl ? [...(laws[category.id] || [])].reverse() : laws[category.id] || [])
                         .slice(0, 6)
                         .map((item, index) => {
@@ -359,6 +368,11 @@ export default function CybersecurityConceptsSection() {
                 </p>
               </div>
             )}
+          </TabsContent>
+
+          {/* Regulation Tab Content */}
+          <TabsContent value="regulation" className="mt-0">
+            <CyberSecurityRegulationSection />
           </TabsContent>
 
           {/* Framework Tab Content */}

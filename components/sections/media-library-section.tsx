@@ -131,7 +131,7 @@ export default function MediaLibrarySection() {
         </TabsList>
 
         <TabsContent value="videos" className="mt-0">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={isRtl ? { direction: 'rtl' } : {}}>
             {videosLoading ? (
               // Loading skeletons
               Array.from({ length: 6 }).map((_, index) => (
@@ -165,7 +165,7 @@ export default function MediaLibrarySection() {
         </TabsContent>
 
         <TabsContent value="lectures" className="mt-0">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={isRtl ? { direction: 'rtl' } : {}}>
             {lecturesLoading ? (
               // Loading skeletons
               Array.from({ length: 6 }).map((_, index) => (
@@ -199,7 +199,7 @@ export default function MediaLibrarySection() {
         </TabsContent>
 
         <TabsContent value="presentations" className="mt-0">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={isRtl ? { direction: 'rtl' } : {}}>
             {presentationsLoading ? (
               // Loading skeletons
               Array.from({ length: 6 }).map((_, index) => (

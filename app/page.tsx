@@ -8,10 +8,9 @@ import NewsCarousel from "@/components/news-carousel"
 import TipOfTheDayPopup from "@/components/tip-of-the-day-popup"
 import SystemsSection from "@/components/sections/systems-section"
 import HelperSystemsSection from "@/components/sections/helper-systems-section"
-import CyberSecurityRegulationSection from "@/components/sections/cybersecurity-regulation-section"
 import AwarenessSection from "@/components/sections/awareness-section"
 import SecurityRequirementsSection from "@/components/sections/security-requirements-section"
-import CybersecurityConceptsSection from "@/components/sections/standards-section"
+import CybersecurityConceptsSection from "@/components/sections/cybersecurity-concepts"
 import MediaLibrarySection from "@/components/sections/media-library-section"
 import HeroSection from "@/components/hero-section"
 
@@ -73,8 +72,6 @@ export default function Home() {
       {/* Latest news section */}
       <NewsCarousel articles={[]} />
 
-      <div id="regulation" className="section-anchor pt-16 -mt-16"></div>
-      <CyberSecurityRegulationSection />
 
       <div id="awareness" className="section-anchor pt-16 -mt-16"></div>
       <AwarenessSection />
