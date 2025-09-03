@@ -49,3 +49,23 @@ export function createNewsSlug(news: any, language: string): string {
 
   return slugifiedTitle
 }
+
+/**
+ * Purifies HTML content by removing HTML tags and returning clean text
+ * @param html - The HTML string to purify
+ * @returns Clean text without HTML tags
+ */
+export function purifyHtml(html: string | null | undefined): string {
+  if (!html) return ""
+  return html.replace(/<\/?[^>]+(>|$)/g, "").trim()
+}
+
+/**
+ * Checks if purified HTML content is valid (not empty and not just "string")
+ * @param html - The HTML string to check
+ * @returns True if the content is valid
+ */
+export function isValidHtmlContent(html: string | null | undefined): boolean {
+  const purified = purifyHtml(html)
+  return purified && purified !== "string" && purified.length > 0
+}

@@ -21,6 +21,7 @@ import { StandardsRepositoryImpl } from "../data/repositories/standards-reposito
 import { ArticlesRepositoryImpl } from "../data/repositories/articles-repository-impl";
 import { AwarenessRepositoryImpl } from "../data/repositories/awareness-repository-impl";
 import { SecurityProceduresRepositoryImpl } from "../data/repositories/security-procedures-repository-impl";
+import { HttpProceduresRepository } from "../data/repositories/http-procedures-repository";
 
 // Services
 import { NewsService } from "../services/news-service";
@@ -41,6 +42,7 @@ import { StandardsService } from "../services/standards-service";
 import { ArticlesService } from "../services/articles-service";
 import { AwarenessService } from "../services/awareness-service";
 import { SecurityProceduresService } from "../services/security-procedures-service";
+import { ProceduresService } from "../services/procedures-service";
 
 class Container {
   private _apiDataSource: ApiDataSource | null = null;
@@ -122,6 +124,9 @@ class Container {
             this.securityProceduresApiDataSource
           )
         ),
+        procedures: new ProceduresService(
+          new HttpProceduresRepository(this.apiDataSource)
+        ),
       };
     }
     return this._services;
@@ -150,6 +155,10 @@ class Container {
 
   get securityProceduresService() {
     return this.services.securityProcedures;
+  }
+
+  get proceduresService() {
+    return this.services.procedures;
   }
 
   get tipsService() {
