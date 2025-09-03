@@ -51,6 +51,9 @@
     "viewAll": "عرض الكل"
   },
   "regulation": {
+    "viewFullDocument":"فتح الملف",
+    "downloadDocument":"تحميل الملف",
+    "summary":"الملخص",
     "council": "المجلس الأعلى للأمن السيبراني",
     "strategy": "الاستراتيجية",
     "executive": "اللائحة التنفيذية",
@@ -118,6 +121,8 @@
     "viewAll": "عرض الكل"
   },
   "common": {
+    
+    "backToList":"العودة للقائمة",
     "order": "ترتيب",
     "description": "وصف",
     "status": "الحالة",
@@ -145,7 +150,8 @@
     "first": "الأول",
     "last": "الأخير",
     "page": "صفحة",
-    "pageOf": "صفحة {{current}} من {{total}}",
+    "pageOf": "صفحة",
+    "of":"من",
     "pageInfo": "صفحة {{current}} من {{total}}",
     "showingPage": "عرض صفحة {{current}} من {{total}}",
     "itemsPerPage": "{{count}} عنصر في الصفحة",

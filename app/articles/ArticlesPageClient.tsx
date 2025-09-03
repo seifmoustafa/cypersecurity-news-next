@@ -143,7 +143,7 @@ function ArticleCard({ article, index }: ArticleCardProps) {
     language === "ar" ? article.summary || article.summaryEn || "" : article.summaryEn || article.summary || ""
 
   // ALWAYS use English title for URL slug (regardless of current language)
-  const englishTitle = article.titleEn || article.title || ""
+  const englishTitle = article.titleEn 
   const slug = slugify(englishTitle, article.id)
 
   // Don't render if no title
@@ -162,7 +162,7 @@ function ArticleCard({ article, index }: ArticleCardProps) {
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
-      <Link href={`/articles/${slug}`} className="group">
+      <Link href={`/articles/${article.id}`} className="group">
         <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:border-primary/50">
           <div className="relative h-48">
             <Image

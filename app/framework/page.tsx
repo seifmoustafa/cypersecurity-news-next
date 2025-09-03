@@ -393,7 +393,7 @@ export default function FrameworkPage() {
                     <CardHeader className="pb-2">
                       <CardTitle
                         className={`text-xl flex items-center gap-2 ${
-                          isRtl ? "justify-end" : "justify-start"
+                          isRtl ? "text-right" : "justify-start"
                         }`}
                       >
                         <CheckCircle2 className="h-5 w-5 text-primary" />
@@ -454,7 +454,7 @@ export default function FrameworkPage() {
                   {/* Anomalies and Events */}
                   <div className="bg-yellow-100 dark:bg-yellow-900/30 p-2 rounded-md text-sm">
                     {language === "ar"
-                      ? "الشذوذ والأحداث"
+                      ? "الإنحرافات والأحداث"
                       : "Anomalies and Events"}
                   </div>
 
@@ -585,11 +585,11 @@ export default function FrameworkPage() {
           </div>
 
           {/* Framework Domains */}
-          <h2 className="text-2xl font-bold mb-8 text-center">
+          {/* <h2 className="text-2xl font-bold mb-8 text-center">
             {language === "ar" ? "مجالات إطار العمل" : "Framework Domains"}
-          </h2>
+          </h2> */}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {domains.map((domain, index) => (
               <motion.div
                 key={domain.id}
@@ -634,7 +634,7 @@ export default function FrameworkPage() {
                 </Link>
               </motion.div>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </MainLayout>

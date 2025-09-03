@@ -104,7 +104,7 @@ function HelperSystemCard({ system, index }: HelperSystemCardProps) {
       // Create a temporary anchor element to trigger download
       const link = document.createElement("a")
       link.href = system.downloadUrl
-      link.download = system.name
+      link.download = decodeURIComponent((new URL(system.downloadUrl).pathname.split("/").pop() || "download"));
       link.target = "_blank"
       document.body.appendChild(link)
       link.click()

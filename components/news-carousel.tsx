@@ -134,7 +134,6 @@ export default function NewsCarousel() {
   // ALWAYS use English title for URL slug (regardless of current language)
   const englishTitle = currentNews.titleEn || ""
   const newsSlug = slugify(englishTitle, currentNews.id)
-
   // ONLY GET SUMMARY - NO FALLBACK TO CONTENT!
   const newsSummary =
     language === "ar"
@@ -191,7 +190,7 @@ export default function NewsCarousel() {
                         isRtl ? "float-right" : "float-left"
                       }`}
                     >
-                      {new Date(currentNews.date).toLocaleDateString("en-US")}
+                      {new Date(currentNews.date||currentNews.createdAt).toLocaleDateString("en-US")}
                     </div>
                     <div className="clear-both"></div>
                     <h2 className="text-xl md:text-3xl font-bold mb-2 line-clamp-2">{displayTitle}</h2>

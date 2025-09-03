@@ -134,7 +134,7 @@ export default function VideosPageClient({
             />
             <Input
               type="text"
-              placeholder={t("common.searchVideos")}
+              placeholder={t("common.searchPlaceholder")}
               value={searchTerm}
               onChange={(e) => handleSearchChange(e.target.value)}
               className={isRtl ? "pr-10" : "pl-10"}
@@ -174,7 +174,7 @@ export default function VideosPageClient({
                 </Button>
 
                 <span className="text-sm text-muted-foreground px-4">
-                  {t("common.pageOf", { current: currentPage, total: pagination.pagesCount })}
+                  {t("common.pageOf")}{" "}{currentPage}{t("common.of")}{" "}{pagination.pagesCount}
                 </span>
 
                 <Button
@@ -243,7 +243,7 @@ const VideoCard = ({
   video: ApiVideo
   onClick: (video: ApiVideo) => void
 }) => {
-  const { language, isRtl } = useLanguage()
+  const { t,language, isRtl } = useLanguage()
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
