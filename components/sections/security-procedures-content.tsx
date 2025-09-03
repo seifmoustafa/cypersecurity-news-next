@@ -10,6 +10,7 @@ import { Shield, Users, Settings, FileText } from "lucide-react"
 import Link from "next/link"
 import { slugify, getLocalizedText } from "@/lib/utils"
 import { useProcedures } from "@/core/hooks/use-procedures"
+import PersonalProtectProceduresContent from "./personal-protect-procedures-content"
 
 export default function SecurityProceduresContent() {
   const { language, isRtl } = useLanguage()
@@ -169,41 +170,7 @@ export default function SecurityProceduresContent() {
         )}
 
         {activeCategory === "personal" && (
-          <motion.div
-            initial={{ opacity: 0, x: isRtl ? 20 : -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: isRtl ? -20 : 20 }}
-            transition={{ duration: 0.5 }}
-            className="space-y-6"
-          >
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-50 dark:bg-green-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="h-8 w-8 text-green-600 dark:text-green-400" />
-              </div>
-              <h3 className="text-2xl font-bold mb-2">
-                {language === "ar" ? "إجراءات الحماية الشخصية" : "Personal Protect Procedures"}
-              </h3>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                {language === "ar"
-                  ? "إجراءات الحماية الشخصية للأفراد والمستخدمين لحماية بياناتهم ومعلوماتهم"
-                  : "Personal protection procedures for individuals and users to protect their data and information"}
-              </p>
-            </div>
-            
-            {/* Placeholder for Personal Protect Procedures content */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <Card className="h-48 border-dashed border-2 border-muted-foreground/30">
-                <CardContent className="flex items-center justify-center h-full">
-                  <div className="text-center">
-                    <Shield className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                    <p className="text-muted-foreground">
-                      {language === "ar" ? "سيتم إضافة المحتوى قريباً" : "Content will be added soon"}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </motion.div>
+          <PersonalProtectProceduresContent />
         )}
       </div>
     </div>
