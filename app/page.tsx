@@ -13,10 +13,14 @@ import SecurityRequirementsSection from "@/components/sections/security-requirem
 import CybersecurityConceptsSection from "@/components/sections/cybersecurity-concepts"
 import MediaLibrarySection from "@/components/sections/media-library-section"
 import HeroSection from "@/components/hero-section"
+import { useScrollUrl } from "@/core/hooks/use-scroll-url"
 
 export default function Home() {
   const router = useRouter()
   const initialScrollDone = useRef(false)
+  
+  // Use the scroll URL hook for dynamic URL updates
+  useScrollUrl()
 
   // Force client-side navigation
   useEffect(() => {
@@ -70,7 +74,7 @@ export default function Home() {
       <TipOfTheDayPopup />
 
       {/* Latest news section */}
-      <NewsCarousel articles={[]} />
+      <NewsCarousel />
 
 
       <div id="awareness" className="section-anchor pt-16 -mt-16"></div>

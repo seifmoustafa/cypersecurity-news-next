@@ -85,19 +85,34 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
     const handleScroll = () => {
       const sections = document.querySelectorAll(".section-anchor")
       let currentActiveSection = ""
+      const windowHeight = window.innerHeight
 
       sections.forEach((section) => {
         const sectionTop = section.getBoundingClientRect().top
-        if (sectionTop <= 100) {
+
+        // Consider a section active if it's in the top portion of the viewport
+        if (sectionTop <= windowHeight * 0.3) {
           currentActiveSection = section.id
         }
       })
+
+      // If we're at the bottom of the page and no section is active,
+      // use the last section
+      if (!currentActiveSection && sections.length > 0) {
+        const lastSection = sections[sections.length - 1] as HTMLElement
+        const lastSectionBottom = lastSection.getBoundingClientRect().bottom
+        if (lastSectionBottom <= windowHeight) {
+          currentActiveSection = lastSection.id
+        }
+      }
 
       setActiveSection(currentActiveSection)
     }
 
     if (isHomePage) {
-      window.addEventListener("scroll", handleScroll)
+      window.addEventListener("scroll", handleScroll, { passive: true })
+      // Initial check
+      handleScroll()
       return () => window.removeEventListener("scroll", handleScroll)
     }
   }, [isHomePage])
@@ -156,20 +171,20 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
       console.log("Scrolling to section:", sectionId)
 
       const element = document.getElementById(sectionId)
-      if (element) {
-        console.log("Element found, scrolling...")
-        element.scrollIntoView({ behavior: "smooth", block: "start" })
-        window.history.pushState(null, "", hashPart)
+              if (element) {
+          console.log("Element found, scrolling...")
+          element.scrollIntoView({ behavior: "smooth", block: "start" })
+          window.history.replaceState(null, "", hashPart)
 
-        if (tab) {
-          const tabChangeEvent = new CustomEvent("tabchange", {
-            detail: { sectionId, tab },
-          })
-          window.dispatchEvent(tabChangeEvent)
+          if (tab) {
+            const tabChangeEvent = new CustomEvent("tabchange", {
+              detail: { sectionId, tab },
+            })
+            window.dispatchEvent(tabChangeEvent)
+          }
+        } else {
+          console.log("Element not found for ID:", sectionId)
         }
-      } else {
-        console.log("Element not found for ID:", sectionId)
-      }
     } else if (isScroll && !isHomePage) {
       console.log("Not on homepage, navigating to homepage with hash")
       const baseUrl = "/"
@@ -187,27 +202,7 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
     }
   }
 
-  // Special handler for the regulation section
-  const handleRegulationNavigation = (e: React.MouseEvent) => {
-    e.preventDefault()
-    setMobileMenuOpen(false)
 
-    console.log("Regulation navigation triggered")
-
-    if (isHomePage) {
-      console.log("On homepage, scrolling to regulation section")
-      const element = document.getElementById("regulation")
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" })
-        window.history.pushState(null, "", "#regulation")
-      } else {
-        console.log("Regulation element not found")
-      }
-    } else {
-      console.log("Not on homepage, navigating to homepage with regulation hash")
-      window.location.href = "/#regulation"
-    }
-  }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-blue-200/20 dark:border-blue-800/20 shadow-sm">
@@ -243,70 +238,54 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
               {t("nav.home")}
             </Button>
 
-            {navGroups.map((group) =>
-              group.isSingleItem ? (
-                // Single item navigation - Using special handler for regulation
+            {navGroups.map((group) => (
+              // Dropdown navigation
+              <div key={group.title} className="relative">
                 <Button
-                  key={group.title}
                   variant="ghost"
                   size="sm"
                   className={cn(
-                    "hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-xs xl:text-sm",
-                    activeSection === "regulation" ? "bg-blue-50/50 dark:bg-blue-900/20" : "",
+                    "flex items-center gap-1 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-xs xl:text-sm",
+                    openDropdown === group.title ? "bg-blue-50/50 dark:bg-blue-900/20" : "",
                   )}
-                  onClick={handleRegulationNavigation}
+                  onClick={(e) => handleDropdownToggle(group.title, e)}
                 >
                   {t(`section.${group.title}`)}
-                </Button>
-              ) : (
-                // Dropdown navigation
-                <div key={group.title} className="relative">
-                  <Button
-                    variant="ghost"
-                    size="sm"
+                  <ChevronDown
                     className={cn(
-                      "flex items-center gap-1 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-xs xl:text-sm",
-                      openDropdown === group.title ? "bg-blue-50/50 dark:bg-blue-900/20" : "",
+                      "h-3 w-3 xl:h-4 xl:w-4 opacity-50 transition-transform",
+                      openDropdown === group.title ? "rotate-180" : "",
                     )}
-                    onClick={(e) => handleDropdownToggle(group.title, e)}
-                  >
-                    {t(`section.${group.title}`)}
-                    <ChevronDown
-                      className={cn(
-                        "h-3 w-3 xl:h-4 xl:w-4 opacity-50 transition-transform",
-                        openDropdown === group.title ? "rotate-180" : "",
-                      )}
-                    />
-                  </Button>
+                  />
+                </Button>
 
-                  {/* Custom Dropdown */}
-                  {openDropdown === group.title && (
-                    <div
-                      className={cn(
-                        "absolute top-full mt-1 min-w-[200px] bg-background/95 backdrop-blur-md border border-blue-200/30 dark:border-blue-800/30 shadow-lg rounded-md py-1 z-[100]",
-                        isRtl ? "right-0" : "left-0",
-                      )}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      {group.items.map((item) => (
-                        <button
-                          key={item.key}
-                          className={cn(
-                            "w-full px-3 py-2 text-left text-xs xl:text-sm hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-colors",
-                            item.href.split("?")[0].substring(1) === activeSection
-                              ? "font-medium text-primary"
-                              : "text-foreground",
-                          )}
-                          onClick={(e) => handleNavigation(e, item.href, item.isScroll, item.tab)}
-                        >
-                          {t(item.key)}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ),
-            )}
+                {/* Custom Dropdown */}
+                {openDropdown === group.title && (
+                  <div
+                    className={cn(
+                      "absolute top-full mt-1 min-w-[200px] bg-background/95 backdrop-blur-md border border-blue-200/30 dark:border-blue-800/30 shadow-lg rounded-md py-1 z-[100]",
+                      isRtl ? "right-0" : "left-0",
+                    )}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {group.items.map((item) => (
+                      <button
+                        key={item.key}
+                        className={cn(
+                          "w-full px-3 py-2 text-left text-xs xl:text-sm hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-colors",
+                          item.href.split("?")[0].substring(1) === activeSection
+                            ? "font-medium text-primary"
+                            : "text-foreground",
+                        )}
+                        onClick={(e) => handleNavigation(e, item.href, item.isScroll, (item as any).tab)}
+                      >
+                        {t(item.key)}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
           </nav>
 
           {/* Theme, Tips, and Language Toggles */}
@@ -397,36 +376,26 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
 
               {navGroups.map((group) => (
                 <div key={group.title} className="py-2">
-                  {group.isSingleItem ? (
-                    // Single item in mobile menu - Using special handler for regulation
-                    <button
-                      className="block px-3 py-1.5 text-sm rounded-md transition-colors hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-foreground/80 w-full text-left"
-                      onClick={handleRegulationNavigation}
-                    >
-                      {t(`section.${group.title}`)}
-                    </button>
-                  ) : (
-                    // Group with items in mobile menu
-                    <>
-                      <h3 className="text-sm font-medium text-muted-foreground mb-1">{t(`section.${group.title}`)}</h3>
-                      <div className="space-y-1 pl-2 rtl:pr-2 rtl:pl-0">
-                        {group.items.map((item) => (
-                          <button
-                            key={item.key}
-                            className={cn(
-                              "block px-3 py-1.5 text-sm rounded-md transition-colors hover:bg-blue-50/50 dark:hover:bg-blue-900/20 w-full text-left",
-                              item.href.split("?")[0].substring(1) === activeSection
-                                ? "text-primary font-medium"
-                                : "text-foreground/80",
-                            )}
-                            onClick={(e) => handleNavigation(e, item.href, item.isScroll, item.tab)}
-                          >
-                            {t(item.key)}
-                          </button>
-                        ))}
-                      </div>
-                    </>
-                  )}
+                  {/* Group with items in mobile menu */}
+                  <>
+                    <h3 className="text-sm font-medium text-muted-foreground mb-1">{t(`section.${group.title}`)}</h3>
+                    <div className="space-y-1 pl-2 rtl:pr-2 rtl:pl-0">
+                      {group.items.map((item) => (
+                        <button
+                          key={item.key}
+                          className={cn(
+                            "block px-3 py-1.5 text-sm rounded-md transition-colors hover:bg-blue-50/50 dark:hover:bg-blue-900/20 w-full text-left",
+                            item.href.split("?")[0].substring(1) === activeSection
+                              ? "text-primary font-medium"
+                              : "text-foreground/80",
+                          )}
+                          onClick={(e) => handleNavigation(e, item.href, item.isScroll, (item as any).tab)}
+                        >
+                          {t(item.key)}
+                        </button>
+                      ))}
+                    </div>
+                  </>
                 </div>
               ))}
             </nav>
