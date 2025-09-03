@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import MainLayout from "@/components/layouts/main-layout"
 import NewsTicker from "@/components/news-ticker"
-import NewsCarousel from "@/components/news-carousel"
 import TipOfTheDayPopup from "@/components/tip-of-the-day-popup"
 import SystemsSection from "@/components/sections/systems-section"
 import HelperSystemsSection from "@/components/sections/helper-systems-section"
@@ -12,7 +11,7 @@ import AwarenessSection from "@/components/sections/awareness-section"
 import SecurityRequirementsSection from "@/components/sections/security-requirements-section"
 import CybersecurityConceptsSection from "@/components/sections/cybersecurity-concepts"
 import MediaLibrarySection from "@/components/sections/media-library-section"
-import HeroSection from "@/components/hero-section"
+import HeroNewsSection from "@/components/sections/hero-news-section"
 import { useScrollUrl } from "@/core/hooks/use-scroll-url"
 
 export default function Home() {
@@ -66,15 +65,12 @@ export default function Home() {
 
   return (
     <MainLayout>
-      {/* Hero Section with background animation */}
-      <HeroSection />
-
       <NewsTicker />
       {/* The TipOfTheDayPopup will now show every time the page loads unless disabled */}
       <TipOfTheDayPopup />
 
-      {/* Latest news section */}
-      <NewsCarousel />
+      {/* Hero and News Carousel combined section */}
+      <HeroNewsSection />
 
 
       <div id="awareness" className="section-anchor pt-16 -mt-16"></div>

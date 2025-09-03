@@ -24,7 +24,7 @@ export default function TechniqueDetailPageClient() {
   const controlSlug = params.control as string
   const safeguardSlug = params.safeguard as string
   const techniqueSlug = params.technique as string
-  const { language, isRtl } = useLanguage()
+  const { language, isRtl,t } = useLanguage()
   const [technique, setTechnique] = useState<ProcedureTechnique | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -299,7 +299,7 @@ export default function TechniqueDetailPageClient() {
                          <CardHeader className="pb-3">
                            <div className="flex items-start justify-between gap-3">
                              <Badge variant="secondary" className="font-mono text-xs shrink-0">
-                               Step {step.orderNum + 1}
+                               {t("securityProcedures.step")} {step.orderNum + 1}
                              </Badge>
                            </div>
                            <CardTitle className={`text-lg leading-tight ${isRtl ? "text-right" : "text-left"}`}>
@@ -346,7 +346,7 @@ export default function TechniqueDetailPageClient() {
                                  className="gap-1 bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm"
                                  onClick={(e) => {
                                    e.preventDefault()
-                                   window.open(step.documentUrl, "_blank")
+                                   window.open(step.documentUrl!, "_blank")
                                  }}
                                >
                                  <Download className="h-3 w-3" />

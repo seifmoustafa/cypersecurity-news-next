@@ -16,8 +16,14 @@ export default function HeroBackground() {
 
     // Set canvas dimensions
     const setCanvasDimensions = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight < 500 ? window.innerHeight : 400; // Reduced fixed height for hero section
+      const container = canvas.parentElement;
+      if (container) {
+        canvas.width = container.clientWidth;
+        canvas.height = container.clientHeight;
+      } else {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight < 500 ? window.innerHeight : 400;
+      }
     };
 
     // Call once and add resize listener
@@ -126,19 +132,19 @@ export default function HeroBackground() {
 
     // Initialize servers in a structured layout
     const initializeServers = () => {
-      const numServers = 6;
+      const numServers = 5; // Reduced number of servers for smaller space
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
-      const radius = Math.min(canvas.width, canvas.height) * 0.25;
+      const radius = Math.min(canvas.width, canvas.height) * 0.2; // Smaller radius for better fit
 
       // Create a central server
       servers.push({
         x: centerX,
         y: centerY,
-        size: 35,
+        size: 28, // Smaller size for better fit
         type: "database",
         isProtected: true,
-        shieldRadius: 55,
+        shieldRadius: 45, // Smaller shield radius
         shieldOpacity: 0.8,
         shieldPulse: 0,
         dataStored: 100,
@@ -164,10 +170,10 @@ export default function HeroBackground() {
         servers.push({
           x,
           y,
-          size: 25 + Math.random() * 5,
+          size: 20 + Math.random() * 4, // Smaller size range
           type: serverType,
           isProtected: true,
-          shieldRadius: 40,
+          shieldRadius: 32, // Smaller shield radius
           shieldOpacity: 0.6,
           shieldPulse: Math.random(),
           dataStored: 70 + Math.random() * 30,
@@ -257,7 +263,7 @@ export default function HeroBackground() {
 
     // Create attackers
     const createAttackers = () => {
-      const numAttackers = 4;
+      const numAttackers = 2; // Reduced number of attackers for smaller space
       const attackerTypes: (
         | "malware"
         | "ransomware"

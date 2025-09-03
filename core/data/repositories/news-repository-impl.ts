@@ -165,10 +165,10 @@ export class NewsRepositoryImpl implements NewsRepository {
       summaryEn: null,
       // Apply the same image URL transformation
       imageUrl: item.imageUrl ? `${this.baseImageUrl}${item.imageUrl}` : null,
-      date: new Date().toISOString(),
+      date: item.date || item.createdAt || new Date().toISOString(),
       tags: [],
       isActive: true,
-      createdAt: new Date().toISOString(),
+      createdAt: item.createdAt || new Date().toISOString(),
       updatedAt: null,
       featured: true,
       category: "latest",

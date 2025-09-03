@@ -245,6 +245,7 @@
     "control": "الضابط",
     "safeguard": "الضمان",
     "technique": "التقنية",
+    "step":"خطوة",
     "implementationStep": "خطوة التنفيذ",
     "noStandards": "لا توجد معايير متاحة",
     "noStandardsDescription": "لا توجد حالياً معايير إجراءات أمان متاحة.",
