@@ -93,7 +93,7 @@ export const frameworkFunctionsData = [
     textColor: "text-purple-600",
     borderColor: "border-purple-600",
     description: {
-      ar: "تطوير وتنفيذ الضمانات المناسبة لضمان تقديم الخدمات الحيوية.",
+      ar: "تطوير وتنفيذ إجراءات الحماية المناسبة لإجراء حماية تقديم الخدمات الحيوية.",
       en: "Develop and implement appropriate safeguards to ensure delivery of critical services.",
     },
     categories: [
@@ -159,7 +159,7 @@ export const frameworkFunctionsData = [
           en: "Protective Technology",
         },
         description: {
-          ar: "يتم تشغيل الحلول التقنية الأمنية وإدارتها لضمان أمن وصمود الأنظمة والأصول، بما يتفق مع السياسات والإجراءات والاتفاقيات ذات الصلة.",
+          ar: "يتم تشغيل الحلول التقنية الأمنية وإدارتها لإجراء حماية أمن وصمود الأنظمة والأصول، بما يتفق مع السياسات والإجراءات والاتفاقيات ذات الصلة.",
           en: "Technical security solutions are managed to ensure the security and resilience of systems and assets, consistent with related policies, procedures, and agreements.",
         },
       },
@@ -208,7 +208,7 @@ export const frameworkFunctionsData = [
           en: "Detection Processes",
         },
         description: {
-          ar: "يتم الحفاظ على عمليات وإجراءات الكشف واختبارها لضمان الوعي في الوقت المناسب بالأحداث الشاذة.",
+          ar: "يتم الحفاظ على عمليات وإجراءات الكشف واختبارها لإجراء حماية الوعي في الوقت المناسب بالأحداث الشاذة.",
           en: "Detection processes and procedures are maintained and tested to ensure awareness of anomalous events.",
         },
       },
@@ -257,7 +257,7 @@ export const frameworkFunctionsData = [
           en: "Analysis",
         },
         description: {
-          ar: "يتم إجراء التحليل لضمان استجابة فعالة واستعادة الدعم.",
+          ar: "يتم إجراء التحليل لإجراء حماية استجابة فعالة واستعادة الدعم.",
           en: "Analysis is conducted to ensure effective response and support recovery activities.",
         },
       },
@@ -306,7 +306,7 @@ export const frameworkFunctionsData = [
           en: "Recovery Planning",
         },
         description: {
-          ar: "يتم تنفيذ عمليات وإجراءات الاستعادة وصيانتها لضمان استعادة الأنظمة أو الأصول المتأثرة بحوادث الأمن السيبراني.",
+          ar: "يتم تنفيذ عمليات وإجراءات الاستعادة وصيانتها لإجراء حماية استعادة الأنظمة أو الأصول المتأثرة بحوادث الأمن السيبراني.",
           en: "Recovery processes and procedures are executed and maintained to ensure restoration of systems or assets affected by cybersecurity incidents.",
         },
       },
@@ -453,7 +453,7 @@ export const domainsData = [
       en: "Protection",
     },
     description: {
-      ar: "تنفيذ الضمانات المناسبة لحماية الأنظمة والبيانات",
+      ar: "تنفيذ إجراءات الحماية المناسبة لحماية الأنظمة والبيانات",
       en: "Implementing appropriate safeguards to protect systems and data",
     },
     components: [
@@ -567,7 +567,7 @@ export const domainsData = [
           en: "Business Continuity",
         },
         description: {
-          ar: "خطط وإجراءات لضمان استمرار العمليات الحيوية أثناء وبعد الحوادث.",
+          ar: "خطط وإجراءات لإجراء حماية استمرار العمليات الحيوية أثناء وبعد الحوادث.",
           en: "Plans and procedures to ensure critical operations continue during and after incidents.",
         },
       },
@@ -760,7 +760,7 @@ export const componentsData = [
       en: "Business Continuity",
     },
     description: {
-      ar: "خطط وإجراءات لضمان استمرار العمليات الحيوية أثناء وبعد الحوادث.",
+      ar: "خطط وإجراءات لإجراء حماية استمرار العمليات الحيوية أثناء وبعد الحوادث.",
       en: "Plans and procedures to ensure critical operations continue during and after incidents.",
     },
   },
@@ -820,7 +820,7 @@ export const componentsData = [
       en: "Regulatory Compliance",
     },
     description: {
-      ar: "ضمان الامتثال للقوانين واللوائح المتعلقة بالأمن السيبراني.",
+      ar: "إجراء حماية الامتثال للقوانين واللوائح المتعلقة بالأمن السيبراني.",
       en: "Ensuring compliance with laws and regulations related to cybersecurity.",
     },
   },
@@ -844,7 +844,7 @@ export const componentsData = [
       en: "Audit Management",
     },
     description: {
-      ar: "إجراء عمليات تدقيق منتظمة لضمان الامتثال للسياسات والمعايير.",
+      ar: "إجراء عمليات تدقيق منتظمة لإجراء حماية الامتثال للسياسات والمعايير.",
       en: "Conducting regular audits to ensure compliance with policies and standards.",
     },
   },

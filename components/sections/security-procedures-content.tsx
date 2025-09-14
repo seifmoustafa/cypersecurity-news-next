@@ -41,7 +41,7 @@ export default function SecurityProceduresContent() {
               <span className={`flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}>
                 {tabIcons.general}
                 <span>
-                  {language === "ar" ? "الإجراءات العامة" : "General Procedures"}
+                  {language === "ar" ? "تأمين البنية التحتية المعلوماتية لجهات ق.م" : "General Procedures"}
                 </span>
               </span>
             </button>
@@ -57,7 +57,7 @@ export default function SecurityProceduresContent() {
               <span className={`flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}>
                 {tabIcons.personal}
                 <span>
-                  {language === "ar" ? "إجراءات الحماية الشخصية" : "Personal Protect Procedures"}
+                  {language === "ar" ? "الحماية الشخصية" : "Personal Protect Procedures"}
                 </span>
               </span>
             </button>
@@ -80,11 +80,11 @@ export default function SecurityProceduresContent() {
                 <Settings className="h-8 w-8 text-primary" />
               </div>
               <h3 className="text-2xl font-bold mb-2">
-                {language === "ar" ? "الإجراءات العامة" : "General Procedures"}
+                {language === "ar" ? "تأمين البنية التحتية المعلوماتية لجهات ق.م" : "General Procedures"}
               </h3>
               <p className="text-muted-foreground max-w-2xl mx-auto">
                 {language === "ar"
-                  ? "الإجراءات العامة للأمن السيبراني التي تنطبق على جميع المستخدمين والأنظمة"
+                  ? "تأمين البنية التحتية المعلوماتية لجهات ق.م التي تنطبق على جميع المستخدمين والأنظمة"
                   : "General cybersecurity procedures that apply to all users and systems"}
               </p>
             </div>

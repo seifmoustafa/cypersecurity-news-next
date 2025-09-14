@@ -69,11 +69,11 @@ export default function ProceduresPageClient() {
                 <FileText className="h-8 w-8 text-primary" />
               </div>
               <h1 className="text-3xl font-bold mb-3">
-                {language === "ar" ? "الإجراءات العامة" : "General Procedures"}
+                {language === "ar" ? "تأمين البنية التحتية المعلوماتية لجهات ق.م" : "General Procedures"}
               </h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 {language === "ar"
-                  ? "الإجراءات العامة للأمن السيبراني التي تنطبق على جميع المستخدمين والأنظمة"
+                  ? "تأمين البنية التحتية المعلوماتية لجهات ق.م التي تنطبق على جميع المستخدمين والأنظمة"
                   : "General cybersecurity procedures that apply to all users and systems"}
               </p>
             </div>

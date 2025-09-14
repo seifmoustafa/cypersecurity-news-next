@@ -171,7 +171,7 @@ export default function TechniqueDetailPageClient() {
               <Link href={`/procedures/${procedureSlug}/${controlSlug}/${safeguardSlug}`}>
                 <Button variant="outline" size="sm" className="gap-2">
                   <ChevronLeft className="h-4 w-4" />
-                  <span>{language === "ar" ? "رجوع إلى الضمان" : "Back to Safeguard"}</span>
+                  <span>{language === "ar" ? "رجوع إلى الإجراء حماية" : "Back to Safeguard"}</span>
                 </Button>
               </Link>
             </div>

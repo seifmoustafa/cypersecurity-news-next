@@ -32,6 +32,12 @@ export default function HeroNewsSection() {
     <section className="relative w-full overflow-hidden mt-16">
       {/* Container for Hero and News Carousel */}
       <div className="grid grid-cols-12 w-full h-[60vh] lg:h-[70vh]">
+        
+
+        {/* News Carousel - 7 columns */}
+        <div className="col-span-12 lg:col-span-7 h-full">
+          <NewsCarousel />
+        </div>
         {/* Hero Section - 5 columns */}
         <div className="col-span-12 lg:col-span-5 relative h-full overflow-hidden">
           {/* Animated background */}
@@ -134,11 +140,6 @@ export default function HeroNewsSection() {
               </motion.div>
             </motion.div>
           </div>
-        </div>
-
-        {/* News Carousel - 7 columns */}
-        <div className="col-span-12 lg:col-span-7 h-full">
-          <NewsCarousel />
         </div>
       </div>
     </section>

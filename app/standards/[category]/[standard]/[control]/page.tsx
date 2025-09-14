@@ -283,7 +283,7 @@ function ControlPageContent() {
                 </h3>
                 <p className="text-muted-foreground">
                   {language === "ar"
-                    ? "لم يتم العثور على إجراءات وقائية لهذا الضابط حالياً"
+                    ? "لم يتم العثور على إجراءات وقائية لهذا الإجراء التحكم حالياً"
                     : "No safeguards found for this control at the moment"}
                 </p>
               </div>

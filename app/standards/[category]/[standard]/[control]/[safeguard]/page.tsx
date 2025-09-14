@@ -170,7 +170,7 @@ function SafeguardPageContent() {
               <Link href={`/standards/${category}/${standardSlug}/${controlSlug}`}>
                 <Button variant="ghost" size="sm" className="gap-2 hover:bg-primary/10">
                   <ChevronLeft className="h-4 w-4" />
-                  <span>{language === "ar" ? "رجوع إلى الضابط" : "Back to Control"}</span>
+                  <span>{language === "ar" ? "رجوع إلى الإجراء التحكم" : "Back to Control"}</span>
                 </Button>
               </Link>
             </div>
@@ -217,7 +217,7 @@ function SafeguardPageContent() {
                 </div>
                 <div className="bg-green-50 dark:bg-green-950/50 rounded-lg p-4 border border-green-200 dark:border-green-800">
                   <h3 className="font-semibold text-green-900 dark:text-green-100 mb-2">
-                    {language === "ar" ? "الضابط المرتبط" : "Related Control"}
+                    {language === "ar" ? "الإجراء التحكم المرتبط" : "Related Control"}
                   </h3>
                   <p className="font-mono bg-background px-3 py-2 rounded border border-border text-green-800 dark:text-green-200 font-semibold">
                     {control.code || "N/A"} -{" "}

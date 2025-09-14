@@ -173,11 +173,11 @@ export default function ProcedureDetailPageClient() {
                 <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
                   <Shield className="h-5 w-5 text-primary" />
                 </div>
-                {language === "ar" ? "الضوابط" : "Controls"}
+                {language === "ar" ? "إجراءات التحكم" : "Controls"}
               </h2>
               {controls.length > 0 && (
                 <Badge variant="outline" className="text-sm">
-                  {pagination.itemsCount} {language === "ar" ? "ضابط" : "Controls"}
+                  {pagination.itemsCount} {language === "ar" ? "إجراء التحكم" : "Controls"}
                 </Badge>
               )}
             </div>
@@ -188,7 +188,7 @@ export default function ProcedureDetailPageClient() {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                 <Input
                   type="text"
-                  placeholder={language === "ar" ? "البحث في الضوابط..." : "Search controls..."}
+                  placeholder={language === "ar" ? "البحث في إجراءات التحكم..." : "Search controls..."}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
@@ -256,7 +256,7 @@ export default function ProcedureDetailPageClient() {
                           </p>
                           <div className="mt-4 flex items-center justify-between">
                             <span className="text-xs text-muted-foreground">
-                              {language === "ar" ? `الضابط ${index + 1}` : `Control ${index + 1}`}
+                              {language === "ar" ? `الإجراء التحكم ${index + 1}` : `Control ${index + 1}`}
                             </span>
                             <div className="w-2 h-2 bg-primary/30 rounded-full group-hover:bg-primary transition-colors"></div>
                           </div>

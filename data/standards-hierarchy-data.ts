@@ -108,7 +108,7 @@ export const iso27001Controls = [
       en: "Human Resource Security",
     },
     description: {
-      ar: "ضمان فهم الموظفين والمتعاقدين لمسؤولياتهم وملاءمتهم للأدوار التي يتم النظر فيها.",
+      ar: "إجراء حماية فهم الموظفين والمتعاقدين لمسؤولياتهم وملاءمتهم للأدوار التي يتم النظر فيها.",
       en: "Ensuring that employees and contractors understand their responsibilities and are suitable for the roles for which they are considered.",
     },
   },
@@ -160,7 +160,7 @@ export const accessControlSafeguards = [
       en: "User Access Management",
     },
     description: {
-      ar: "ضمان الوصول المصرح به للمستخدمين ومنع الوصول غير المصرح به إلى الأنظمة والخدمات.",
+      ar: "إجراء حماية الوصول المصرح به للمستخدمين ومنع الوصول غير المصرح به إلى الأنظمة والخدمات.",
       en: "Ensuring authorized user access and preventing unauthorized access to systems and services.",
     },
   },
@@ -374,12 +374,12 @@ export const privilegedAccountSeparationDetails = {
     en: "Separate Regular Accounts from Privileged Accounts",
   },
   description: {
-    ar: "إجراءات تفصيلية لضمان الفصل الفعال بين الحسابات العادية والحسابات المميزة للمستخدمين الذين يحتاجون إلى كلا النوعين من الوصول.",
+    ar: "إجراءات تفصيلية لإجراء حماية الفصل الفعال بين الحسابات العادية والحسابات المميزة للمستخدمين الذين يحتاجون إلى كلا النوعين من الوصول.",
     en: "Detailed procedures to ensure effective separation between regular and privileged accounts for users who need both types of access.",
   },
   content: {
     ar: `<h3>الغرض</h3>
-    <p>يهدف هذا الإجراء إلى تقليل مخاطر الأمن السيبراني من خلال ضمان عدم استخدام الحسابات ذات الامتيازات العالية للأنشطة اليومية العادية، مما يقلل من فرص الاستغلال والوصول غير المصرح به.</p>
+    <p>يهدف هذا الإجراء إلى تقليل مخاطر الأمن السيبراني من خلال إجراء حماية عدم استخدام الحسابات ذات الامتيازات العالية للأنشطة اليومية العادية، مما يقلل من فرص الاستغلال والوصول غير المصرح به.</p>
     
     <h3>النطاق</h3>
     <p>ينطبق هذا الإجراء على جميع الموظفين والمتعاقدين الذين يحتاجون إلى وصول مميز إلى أنظمة تكنولوجيا المعلومات والشبكات والتطبيقات.</p>
@@ -450,7 +450,7 @@ export const privilegedAccountSeparationDetails = {
     <ul>
       <li><strong>مدير تكنولوجيا المعلومات:</strong> الإشراف العام على تنفيذ وصيانة فصل الحسابات.</li>
       <li><strong>مسؤول أمن المعلومات:</strong> تطوير وصيانة ��لسياسات والإجراءات المتعلقة بالحسابات المميزة.</li>
-      <li><strong>مسؤولو النظام:</strong> تنفيذ الضوابط التقنية وإدارة الحسابات المميزة.</li>
+      <li><strong>مسؤولو النظام:</strong> تنفيذ إجراءات التحكم التقنية وإدارة الحسابات المميزة.</li>
       <li><strong>المستخدمون:</strong> الالتزام بالسياسات والإجراءات المتعلقة باستخدام الحسابات المميزة.</li>
     </ul>
     
@@ -782,7 +782,7 @@ export const definitionsData = {
         en: "Data Protection",
       },
       definition: {
-        ar: "القوانين والسياسات والإجراءات التي تهدف إلى ضمان خصوصية وسلامة البيانات الشخصية، وتنظيم كيفية جمعها واستخدامها وتخزينها ومشاركتها.",
+        ar: "القوانين والسياسات والإجراءات التي تهدف إلى إجراء حماية خصوصية وسلامة البيانات الشخصية، وتنظيم كيفية جمعها واستخدامها وتخزينها ومشاركتها.",
         en: "Laws, policies, and procedures aimed at ensuring the privacy and integrity of personal data, and regulating how it is collected, used, stored, and shared.",
       },
     },
@@ -793,7 +793,7 @@ export const definitionsData = {
         en: "Cyber Compliance",
       },
       definition: {
-        ar: "عملية ضمان التزام المؤسسة بالمعايير والقوانين واللوائح المتعلقة بالأمن السيبراني وحماية البيانات، مثل GDPR و HIPAA و PCI DSS وغيرها.",
+        ar: "عملية إجراء حماية التزام المؤسسة بالمعايير والقوانين واللوائح المتعلقة بالأمن السيبراني وحماية البيانات، مثل GDPR و HIPAA و PCI DSS وغيرها.",
         en: "The process of ensuring an organization's adherence to cybersecurity and data protection standards, laws, and regulations, such as GDPR, HIPAA, PCI DSS, and others.",
       },
     },

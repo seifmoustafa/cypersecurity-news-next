@@ -192,11 +192,11 @@ export default function ControlDetailPageClient() {
                 <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
                   <Shield className="h-5 w-5 text-primary" />
                 </div>
-                {language === "ar" ? "الضمانات" : "Safeguards"}
+                {language === "ar" ? "إجراءات الحماية" : "Safeguards"}
               </h2>
               {safeguards.length > 0 && (
                 <Badge variant="outline" className="text-sm">
-                  {pagination.itemsCount} {language === "ar" ? "ضمان" : "Safeguards"}
+                  {pagination.itemsCount} {language === "ar" ? "إجراء حماية" : "Safeguards"}
                 </Badge>
               )}
             </div>
@@ -207,7 +207,7 @@ export default function ControlDetailPageClient() {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                 <Input
                   type="text"
-                  placeholder={language === "ar" ? "البحث في الضمانات..." : "Search safeguards..."}
+                  placeholder={language === "ar" ? "البحث في إجراءات الحماية..." : "Search safeguards..."}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
@@ -235,11 +235,11 @@ export default function ControlDetailPageClient() {
                 <CardContent className="p-12 text-center">
                   <div className="text-muted-foreground text-6xl mb-4">🛡️</div>
                   <h3 className="text-xl font-semibold mb-2">
-                    {language === "ar" ? "لا توجد ضمانات متاحة" : "No Safeguards Available"}
+                    {language === "ar" ? "لا توجد إجراء حمايةات متاحة" : "No Safeguards Available"}
                   </h3>
                   <p className="text-muted-foreground">
                     {language === "ar"
-                      ? "لم يتم العثور على ضمانات لهذا الضابط حالياً"
+                      ? "لم يتم العثور على إجراء حمايةات لهذا الإجراء التحكم حالياً"
                       : "No safeguards found for this control currently"}
                   </p>
                 </CardContent>
@@ -275,7 +275,7 @@ export default function ControlDetailPageClient() {
                           </p>
                           <div className="mt-4 flex items-center justify-between">
                             <span className="text-xs text-muted-foreground">
-                              {language === "ar" ? `الضمان ${index + 1}` : `Safeguard ${index + 1}`}
+                              {language === "ar" ? `الإجراء حماية ${index + 1}` : `Safeguard ${index + 1}`}
                             </span>
                             <div className="w-2 h-2 bg-primary/30 rounded-full group-hover:bg-primary transition-colors"></div>
                           </div>

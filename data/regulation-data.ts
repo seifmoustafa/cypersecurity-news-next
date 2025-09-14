@@ -72,11 +72,11 @@ export const regulationData = [
       en: "Executive Regulations",
     },
     shortDescription: {
-      ar: "اللائحة التنفيذية للأمن السيبراني والضوابط الأساسية",
+      ar: "اللائحة التنفيذية للأمن السيبراني وإجراءات التحكم الأساسية",
       en: "Cybersecurity Executive Regulations and essential controls",
     },
     fullDescription: {
-      ar: `<p>تحدد اللائحة التنفيذية للأمن السيبراني الضوابط والمتطلبات الأساسية التي يجب على الجهات الالتزام بها لتعزيز أمنها السيبراني وحماية أنظمتها وبياناتها من المخاطر السيبرانية.</p>
+      ar: `<p>تحدد اللائحة التنفيذية للأمن السيبراني إجراءات التحكم والمتطلبات الأساسية التي يجب على الجهات الالتزام بها لتعزيز أمنها السيبراني وحماية أنظمتها وبياناتها من المخاطر السيبرانية.</p>
       <p>تشمل اللائحة المجالات التالية:</p>
       <ul>
         <li><strong>حوكمة الأمن السيبراني:</strong> تحديد الأدوار والمسؤوليات وآليات اتخاذ القرار.</li>
@@ -86,7 +86,7 @@ export const regulationData = [
         <li><strong>إدارة الحوادث السيبرانية:</strong> الاستجابة للحوادث السيبرانية والتعافي منها.</li>
         <li><strong>الأمن المادي:</strong> حماية المرافق والأجهزة من الوصول غير المصرح به.</li>
         <li><strong>أمن الموارد البشرية:</strong> التوعية والتدريب وإجراءات التوظيف الآمنة.</li>
-        <li><strong>إدارة استمرارية الأعمال:</strong> ضمان استمرار العمليات الحيوية أثناء الحوادث.</li>
+        <li><strong>إدارة استمرارية الأعمال:</strong> إجراء حماية استمرار العمليات الحيوية أثناء الحوادث.</li>
       </ul>`,
       en: `<p>The Cybersecurity Executive Regulations define the essential controls and requirements that entities must comply with to enhance their cybersecurity and protect their systems and data from cyber risks.</p>
       <p>The regulations cover the following areas:</p>

@@ -88,7 +88,7 @@ export const definitionsData = {
         en: "Data Protection",
       },
       definition: {
-        ar: "القوانين والسياسات والإجراءات التي تهدف إلى ضمان خصوصية وسلامة البيانات الشخصية، وتنظيم كيفية جمعها واستخدامها وتخزينها ومشاركتها.",
+        ar: "القوانين والسياسات والإجراءات التي تهدف إلى إجراء حماية خصوصية وسلامة البيانات الشخصية، وتنظيم كيفية جمعها واستخدامها وتخزينها ومشاركتها.",
         en: "Laws, policies, and procedures aimed at ensuring the privacy and integrity of personal data, and regulating how it is collected, used, stored, and shared.",
       },
     },
@@ -99,7 +99,7 @@ export const definitionsData = {
         en: "Cyber Compliance",
       },
       definition: {
-        ar: "عملية ضمان التزام المؤسسة بالمعايير والقوانين واللوائح المتعلقة بالأمن السيبراني وحماية البيانات، مثل GDPR و HIPAA و PCI DSS وغيرها.",
+        ar: "عملية إجراء حماية التزام المؤسسة بالمعايير والقوانين واللوائح المتعلقة بالأمن السيبراني وحماية البيانات، مثل GDPR و HIPAA و PCI DSS وغيرها.",
         en: "The process of ensuring an organization's adherence to cybersecurity and data protection standards, laws, and regulations, such as GDPR, HIPAA, PCI DSS, and others.",
       },
     },

@@ -246,11 +246,11 @@ export default function PersonalProtectSubCategoryDetailPageClient() {
                 <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
                   <Shield className="h-5 w-5 text-green-600 dark:text-green-400" />
                 </div>
-                {language === "ar" ? "الضوابط" : "Controls"}
+                {language === "ar" ? "إجراءات التحكم" : "Controls"}
               </h2>
               {controls.length > 0 && (
                 <Badge variant="outline" className="text-sm">
-                  {pagination.itemsCount} {language === "ar" ? "ضابط" : "Controls"}
+                  {pagination.itemsCount} {language === "ar" ? "إجراء التحكم" : "Controls"}
                 </Badge>
               )}
             </div>
@@ -261,7 +261,7 @@ export default function PersonalProtectSubCategoryDetailPageClient() {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                 <Input
                   type="text"
-                  placeholder={language === "ar" ? "البحث في الضوابط..." : "Search controls..."}
+                  placeholder={language === "ar" ? "البحث في إجراءات التحكم..." : "Search controls..."}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
@@ -289,7 +289,7 @@ export default function PersonalProtectSubCategoryDetailPageClient() {
                 <Alert variant="destructive" className="max-w-md mx-auto mb-4">
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription>
-                    {language === "ar" ? "حدث خطأ في تحميل الضوابط" : "Error loading controls"}
+                    {language === "ar" ? "حدث خطأ في تحميل إجراءات التحكم" : "Error loading controls"}
                   </AlertDescription>
                 </Alert>
                 <Button onClick={refetchControls} variant="outline" className="gap-2">

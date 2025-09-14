@@ -250,12 +250,12 @@ function FrameworkDomainContent() {
                       <li>
                         <strong>
                           {language === "ar"
-                            ? "تنفيذ الضوابط"
+                            ? "تنفيذ إجراءات التحكم"
                             : "Implement Controls"}
                         </strong>
                         <p>
                           {language === "ar"
-                            ? "قم بتنفيذ الضوابط التقنية والتنظيمية اللازمة."
+                            ? "قم بتنفيذ إجراءات التحكم التقنية والتنظيمية اللازمة."
                             : "Implement necessary technical and organizational controls."}
                         </p>
                       </li>
@@ -279,7 +279,7 @@ function FrameworkDomainContent() {
                         </strong>
                         <p>
                           {language === "ar"
-                            ? "قم بمراقبة الامتثال وفعالية الضوابط وإجراء التحسينات المستمرة."
+                            ? "قم بمراقبة الامتثال وفعالية إجراءات التحكم وإجراء التحسينات المستمرة."
                             : "Monitor compliance and control effectiveness and make continuous improvements."}
                         </p>
                       </li>
@@ -299,7 +299,7 @@ function FrameworkDomainContent() {
                         </h4>
                         <p>
                           {language === "ar"
-                            ? "الحل: حدد أولويات الضوابط بناءً على تقييم المخاطر وقم بالتنفيذ على مراحل."
+                            ? "الحل: حدد أولويات إجراءات التحكم بناءً على تقييم المخاطر وقم بالتنفيذ على مراحل."
                             : "Solution: Prioritize controls based on risk assessment and implement in phases."}
                         </p>
                       </div>

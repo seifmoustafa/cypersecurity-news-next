@@ -189,7 +189,7 @@ export const instructionsData = {
             <li>وضع خطة أساسية للاستجابة للحوادث.</li>
             <li>تحديد وتقييم المخاطر السيبرا��ية الرئيسية.</li>
             <li>إنشاء سجل للمخاطر وتحديثه بشكل ربع سنوي.</li>
-            <li>تطبيق الضوابط الأساسية للحد من المخاطر المحددة.</li>
+            <li>تطبيق إجراءات التحكم الأساسية للحد من المخاطر المحددة.</li>
           </ul>`,
           en: `<h3>Group Cybersecurity Instructions No. 2 - 2022</h3>
           <p>This document addresses incident response procedures and risk management.</p>

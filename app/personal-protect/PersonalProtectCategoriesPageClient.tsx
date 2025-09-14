@@ -90,11 +90,11 @@ export default function PersonalProtectCategoriesPageClient() {
                 <Users className="h-8 w-8 text-green-600 dark:text-green-400" />
               </div>
               <h1 className="text-3xl font-bold mb-3">
-                {language === "ar" ? "إجراءات الحماية الشخصية" : "Personal Protect Procedures"}
+                {language === "ar" ? "الحماية الشخصية" : "Personal Protect Procedures"}
               </h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 {language === "ar"
-                  ? "إجراءات الحماية الشخصية للأفراد والمستخدمين لحماية بياناتهم ومعلوماتهم"
+                  ? "الحماية الشخصية للأفراد والمستخدمين لحماية بياناتهم ومعلوماتهم"
                   : "Personal protection procedures for individuals and users to protect their data and information"}
               </p>
             </div>

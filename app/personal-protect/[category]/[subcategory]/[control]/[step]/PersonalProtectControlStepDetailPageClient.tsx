@@ -178,7 +178,7 @@ export default function PersonalProtectControlStepDetailPageClient() {
               <Link href={`/personal-protect/${categorySlug}/${subCategorySlug}/${controlSlug}`}>
                 <Button variant="outline" size="sm" className="gap-2">
                   <ChevronLeft className="h-4 w-4" />
-                  <span>{language === "ar" ? "رجوع إلى الضابط" : "Back to Control"}</span>
+                  <span>{language === "ar" ? "رجوع إلى الإجراء التحكم" : "Back to Control"}</span>
                 </Button>
               </Link>
             </div>

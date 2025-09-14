@@ -156,7 +156,7 @@ export default function SafeguardDetailPageClient() {
               <Link href={`/procedures/${procedureSlug}/${controlSlug}`}>
                 <Button variant="outline" size="sm" className="gap-2">
                   <ChevronLeft className="h-4 w-4" />
-                  <span>{language === "ar" ? "رجوع إلى الضابط" : "Back to Control"}</span>
+                  <span>{language === "ar" ? "رجوع إلى الإجراء التحكم" : "Back to Control"}</span>
                 </Button>
               </Link>
             </div>
@@ -253,7 +253,7 @@ export default function SafeguardDetailPageClient() {
                   </h3>
                   <p className="text-muted-foreground">
                     {language === "ar"
-                      ? "لم يتم العثور على تقنيات لهذا الضمان حالياً"
+                      ? "لم يتم العثور على تقنيات لهذا الإجراء حماية حالياً"
                       : "No techniques found for this safeguard currently"}
                   </p>
                 </CardContent>

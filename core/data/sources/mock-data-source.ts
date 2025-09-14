@@ -70,11 +70,11 @@ export class MockDataSource {
         id: "essential-controls",
         name: {
           en: "Essential Cybersecurity Controls",
-          ar: "الضوابط الأساسية للأمن السيبراني",
+          ar: "إجراءات التحكم الأساسية للأمن السيبراني",
         },
         description: {
           en: "Essential cybersecurity controls for organizations",
-          ar: "الضوابط الأساسية للأمن السيبراني للمؤسسات",
+          ar: "إجراءات التحكم الأساسية للأمن السيبراني للمؤسسات",
         },
         category: "national",
         status: "active",
@@ -117,7 +117,7 @@ export class MockDataSource {
         },
         description: {
           en: "National cybersecurity standards and controls",
-          ar: "المعايير والضوابط الوطنية للأمن السيبراني",
+          ar: "المعايير وإجراءات التحكم الوطنية للأمن السيبراني",
         },
         items: [],
       },
