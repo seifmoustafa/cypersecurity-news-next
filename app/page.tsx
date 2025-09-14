@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import MainLayout from "@/components/layouts/main-layout"
-import NewsTicker from "@/components/news-ticker"
+import TipsTicker from "@/components/tips-ticker"
 import TipOfTheDayPopup from "@/components/tip-of-the-day-popup"
 import SystemsSection from "@/components/sections/systems-section"
 import HelperSystemsSection from "@/components/sections/helper-systems-section"
@@ -65,7 +65,7 @@ export default function Home() {
 
   return (
     <MainLayout>
-      <NewsTicker />
+      <TipsTicker />
       {/* The TipOfTheDayPopup will now show every time the page loads unless disabled */}
       <TipOfTheDayPopup />
 

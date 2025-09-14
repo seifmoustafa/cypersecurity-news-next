@@ -1,11 +1,11 @@
 export interface Tip {
   id: string
   title: string
-  titleEn: string
+  titleEn: string | null
   subtitle: string
-  subtitleEn: string
+  subtitleEn: string | null
   summary: string
-  summaryEn: string
+  summaryEn: string | null
   isActive: boolean
   createdAt: string
   updatedAt: string | null
@@ -14,11 +14,11 @@ export interface Tip {
 export interface TipResponse {
   id: string
   title: string
-  titleEn: string
+  titleEn: string | null
   subtitle: string
-  subtitleEn: string
+  subtitleEn: string | null
   summary: string
-  summaryEn: string
+  summaryEn: string | null
   isActive: boolean
   createdAt: string
   updatedAt: string | null

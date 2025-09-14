@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { LightbulbIcon } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
@@ -40,6 +40,7 @@ export default function TipOfTheDayPopup() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-2xl p-0 overflow-hidden border-primary/20" hideCloseButton>
+        <DialogTitle className="sr-only">{t("common.tipOfTheDay")}</DialogTitle>
         {/* Header section with colored background */}
         <div className="bg-primary/10 dark:bg-primary/20 p-6 flex items-center gap-4 border-b border-primary/20">
           <div className="bg-primary/20 dark:bg-primary/30 p-3 rounded-full">
