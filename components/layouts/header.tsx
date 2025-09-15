@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { MoonIcon, SunIcon, MenuIcon, XIcon, Globe, ChevronDown, Shield, LightbulbIcon } from "lucide-react"
+import { MoonIcon, SunIcon, MenuIcon, XIcon, Globe, ChevronDown, Shield, LightbulbIcon, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import { useLanguage } from "@/components/language-provider"
@@ -24,6 +24,7 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
   const [activeSection, setActiveSection] = useState("")
   const [tipsDisabled, setTipsDisabled] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+  const [searchOpen, setSearchOpen] = useState(false)
 
   const pathname = usePathname()
   const router = useRouter()
@@ -151,6 +152,12 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
   const handleDropdownToggle = (groupTitle: string, e: React.MouseEvent) => {
     e.stopPropagation()
     setOpenDropdown(openDropdown === groupTitle ? null : groupTitle)
+  }
+
+  const handleSearchToggle = () => {
+    setSearchOpen(!searchOpen)
+    setOpenDropdown(null)
+    setMobileMenuOpen(false)
   }
 
   const handleNavigation = (e: React.MouseEvent, href: string, isScroll: boolean, tab?: string) => {
@@ -288,8 +295,28 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
             ))}
           </nav>
 
-          {/* Theme, Tips, and Language Toggles */}
+          {/* Search, Theme, Tips, and Language Toggles */}
           <div className="flex items-center gap-1 md:gap-2">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleSearchToggle}
+                    title={t("common.search")}
+                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-8 w-8 md:h-10 md:w-10"
+                  >
+                    <Search className="h-4 w-4 md:h-5 md:w-5" />
+                    <span className="sr-only">{t("common.search")}</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{t("common.search")}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -355,6 +382,42 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
           </div>
         </div>
       </div>
+
+      {/* Animated Search Bar */}
+      {searchOpen && (
+        <div className="absolute top-full left-0 right-0 z-40 bg-background/95 backdrop-blur-md border-b border-blue-200/20 dark:border-blue-800/20 shadow-lg animate-in slide-in-from-top-2 duration-300">
+          <div className="container mx-auto px-4 py-4 max-w-full 2xl:max-w-[1600px]">
+            <div className="flex items-center gap-2">
+              <Search className="h-5 w-5 text-muted-foreground" />
+              <input
+                type="text"
+                placeholder={t("common.searchPlaceholder")}
+                className="flex-1 bg-transparent border-none outline-none text-lg placeholder:text-muted-foreground"
+                autoFocus
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    const query = e.currentTarget.value.trim()
+                    if (query) {
+                      router.push(`/search?q=${encodeURIComponent(query)}`)
+                      setSearchOpen(false)
+                    }
+                  } else if (e.key === 'Escape') {
+                    setSearchOpen(false)
+                  }
+                }}
+              />
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setSearchOpen(false)}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                {t("common.cancel")}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Mobile Navigation */}
       {mobileMenuOpen && (

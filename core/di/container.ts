@@ -45,6 +45,7 @@ import { AwarenessService } from "../services/awareness-service";
 import { SecurityProceduresService } from "../services/security-procedures-service";
 import { ProceduresService } from "../services/procedures-service";
 import { PersonalProtectService } from "../services/personal-protect-service";
+import { SearchService } from "../services/search-service";
 
 class Container {
   private _apiDataSource: ApiDataSource | null = null;
@@ -132,6 +133,7 @@ class Container {
         personalProtect: new PersonalProtectService(
           new HttpPersonalProtectRepository(this.apiDataSource)
         ),
+        search: new SearchService(),
       };
     }
     return this._services;
@@ -216,6 +218,10 @@ class Container {
 
   get instructionYearsService() {
     return this.services.instructionYears;
+  }
+
+  get searchService() {
+    return this.services.search;
   }
 }
 
