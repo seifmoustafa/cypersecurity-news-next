@@ -28,6 +28,7 @@ export default function RegulationCategoryPageClient({ categoryId }: RegulationC
 
         // Fetch category details
         const categoryData = await container.services.regulationCategories.getCategoryById(categoryId)
+        console.log("Category data:", categoryData)
         
         if (!categoryData) {
           setError("Category not found")
@@ -37,8 +38,9 @@ export default function RegulationCategoryPageClient({ categoryId }: RegulationC
         setCategory(categoryData)
 
         // Fetch regulations for this category
-        const regulationsData = await container.services.regulations.getRegulationsByCategory(categoryData.id, 1, 100)
-        setRegulations(regulationsData)
+        const regulationsResponse = await container.services.regulations.getRegulationsByCategory(categoryData.id, 1, 100)
+        console.log("Regulations response:", regulationsResponse)
+        setRegulations(regulationsResponse?.data || [])
       } catch (error) {
         console.error("Error fetching category data:", error)
         setError("Failed to load category data")
@@ -93,7 +95,7 @@ export default function RegulationCategoryPageClient({ categoryId }: RegulationC
     )
   }
 
-  const displayCategoryName = language === "ar" ? category.name_Ar : category.name_En
+  const displayCategoryName = language === "ar" ? category.name : category.name_En
 
   return (
     <div className="pt-24 pb-16">
@@ -101,7 +103,7 @@ export default function RegulationCategoryPageClient({ categoryId }: RegulationC
         <div className="mb-12 text-center">
           <h1 className="text-3xl md:text-4xl font-bold mb-2 text-foreground">{displayCategoryName}</h1>
           <h2 className="text-xl text-foreground/80">
-            {language === "ar" ? category.name_En : category.name_Ar}
+            {language === "ar" ? category.name_En : category.name}
           </h2>
           <div className="mt-4 text-sm text-muted-foreground">
             {language === "ar" ? `${regulations.length} لائحة متاحة` : `${regulations.length} regulations available`}
@@ -135,9 +137,9 @@ export default function RegulationCategoryPageClient({ categoryId }: RegulationC
 function RegulationCard({ regulation }: { regulation: any }) {
   const { language, isRtl } = useLanguage()
 
-  const displayTitle = language === "ar" ? regulation.titleAr || regulation.titleEn : regulation.titleEn || regulation.titleAr
-  const displaySummary = language === "ar" ? regulation.summaryAr || regulation.summaryEn : regulation.summaryEn || regulation.summaryAr
-  const date = regulation.date ? new Date(regulation.date) : regulation.createdAt ? new Date(regulation.createdAt) : new Date()
+  const displayTitle = language === "ar" ? regulation.title || regulation.titleEn : regulation.titleEn || regulation.title
+  const displaySummary = language === "ar" ? regulation.summary || regulation.summaryEn : regulation.summaryEn || regulation.summary
+  const date = regulation.issueDate ? new Date(regulation.issueDate) : regulation.createdAt ? new Date(regulation.createdAt) : new Date()
 
   // Don't render if no title
   if (!displayTitle) {
