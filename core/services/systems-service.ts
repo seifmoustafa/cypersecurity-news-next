@@ -15,4 +15,8 @@ export class SystemsService {
   async getSystemById(id: string): Promise<System | null> {
     return this.repository.getSystemById(id)
   }
+
+  async getPinnedSystem(): Promise<System | null> {
+    return this.repository.getPinnedSystem()
+  }
 }

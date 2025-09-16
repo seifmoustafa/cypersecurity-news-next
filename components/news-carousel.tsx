@@ -18,45 +18,15 @@ export default function NewsCarousel() {
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null)
   const carouselRef = useRef<HTMLDivElement>(null)
 
-  // Enhanced aspect ratio handling utility with responsive design
+  // Simplified aspect ratio handling for better image display
   const getImageAspectRatio = (imageUrl: string) => {
-    // Different aspect ratios for different content types
-    const aspectRatios = {
-      'landscape': 'aspect-[16/9]', // 16:9 for landscape images
-      'portrait': 'aspect-[4/5]',   // 4:5 for portrait images
-      'square': 'aspect-square',    // 1:1 for square images
-      'wide': 'aspect-[21/9]',      // 21:9 for ultra-wide images
-      'news': 'aspect-[16/10]',     // 16:10 for news images
-      'cinema': 'aspect-[2.35/1]',  // Cinema widescreen
-      'default': 'aspect-[16/9]'    // 16:9 default ratio
-    }
-    
-    // Advanced detection based on image URL patterns and content
-    if (imageUrl.includes('landscape') || imageUrl.includes('wide') || imageUrl.includes('banner')) {
-      return aspectRatios.landscape
-    } else if (imageUrl.includes('portrait') || imageUrl.includes('vertical') || imageUrl.includes('profile')) {
-      return aspectRatios.portrait
-    } else if (imageUrl.includes('square') || imageUrl.includes('thumbnail')) {
-      return aspectRatios.square
-    } else if (imageUrl.includes('cinema') || imageUrl.includes('ultra-wide')) {
-      return aspectRatios.cinema
-    } else {
-      return aspectRatios.news // Default for news images - optimized for content readability
-    }
+    // Use a flexible aspect ratio that works well for most images
+    return 'aspect-[16/9]' // Standard widescreen ratio that works for most content
   }
 
   const getImageObjectFit = (imageUrl: string) => {
-    // Different object-fit strategies for different image types
-    const objectFitOptions = {
-      'cover': 'object-cover',     // Maintains aspect ratio, covers container
-      'contain': 'object-contain', // Maintains aspect ratio, fits within container
-      'fill': 'object-fill',       // Stretches to fill container
-      'scale-down': 'object-scale-down', // Scales down if needed
-      'none': 'object-none'        // Original size
-    }
-    
-    // Default to cover for news images to ensure consistent layout
-    return objectFitOptions.cover
+    // Use contain to show the whole image without cropping
+    return 'object-contain'
   }
 
   const getImageObjectPosition = (imageUrl: string) => {
@@ -263,17 +233,8 @@ export default function NewsCarousel() {
             className="absolute inset-0"
           >
             <div className="relative w-full h-full overflow-hidden">
-              {/* Enhanced Image Container with Responsive Aspect Ratio Control */}
-              <div 
-                className={`relative w-full h-full ${getImageAspectRatio(currentNews.imageUrl || "")} min-h-[400px] md:min-h-[500px] lg:min-h-[600px] xl:min-h-[700px]`}
-                style={{
-                  '--aspect-ratio': '16/10', // Default aspect ratio
-                  '--object-position': getImageObjectPosition(currentNews.imageUrl || ""),
-                  '--mobile-aspect': '4/3',   // Mobile optimized ratio
-                  '--tablet-aspect': '16/10', // Tablet optimized ratio
-                  '--desktop-aspect': '16/9'  // Desktop optimized ratio
-                } as React.CSSProperties}
-              >
+              {/* Enhanced Image Container with Clear Image Display */}
+              <div className="relative w-full h-full aspect-[16/9] bg-gray-100 dark:bg-gray-800">
                 <Image
                   src={currentNews.imageUrl || "/placeholder.svg"}
                   alt={displayTitle}
@@ -281,7 +242,7 @@ export default function NewsCarousel() {
                   className={`${getImageObjectFit(currentNews.imageUrl || "")} transition-transform duration-700 hover:scale-105`}
                   priority
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-                  quality={90}
+                  quality={95}
                   style={{
                     objectPosition: getImageObjectPosition(currentNews.imageUrl || "")
                   }}
@@ -299,11 +260,8 @@ export default function NewsCarousel() {
                   blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                 />
                 
-                {/* Aspect Ratio Overlay for Better Control */}
-                <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-black/10 pointer-events-none"></div>
-                
-                {/* Image Loading State */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-100/20 to-cyan-100/20 dark:from-blue-900/20 dark:to-cyan-900/20 animate-pulse"></div>
+                {/* Subtle overlay for better text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
               </div>
 
               {/* Enhanced Gradient overlay */}

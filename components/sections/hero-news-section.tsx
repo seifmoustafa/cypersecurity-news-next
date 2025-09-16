@@ -18,7 +18,7 @@ export default function HeroNewsSection() {
   if (!mounted) return null;
 
   return (
-    <section className="relative w-full overflow-hidden mt-36">
+    <section className="relative w-full overflow-hidden ">
       {/* Enhanced Full-Width News Carousel */}
       <div className="w-full h-[70vh] lg:h-[80vh]">
         <div className="h-full rounded-2xl overflow-hidden shadow-2xl shadow-blue-500/20 dark:shadow-blue-500/30 border border-blue-200/30 dark:border-blue-800/30 relative">

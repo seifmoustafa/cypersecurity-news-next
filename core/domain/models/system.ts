@@ -5,6 +5,7 @@ export interface System {
   imageUrl: string | null
   navigationUrl: string
   isActive: boolean
+  isPinned?: boolean
   createdAt: string
   updatedAt: string | null
 }

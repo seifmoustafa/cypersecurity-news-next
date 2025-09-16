@@ -87,6 +87,10 @@ const config = {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.5" },
         },
+        "ticker-scroll": {
+          "0%": { transform: "translateX(100vw)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
         float: {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-10px)" },
@@ -108,6 +112,7 @@ const config = {
         float: "float 3s ease-in-out infinite",
         blink: "blink 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         typing: "typing 3.5s steps(40, end)",
+        "ticker-scroll": "ticker-scroll linear infinite",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -151,6 +156,15 @@ const config = {
           textShadow: "0 0 10px rgba(0, 120, 255, 0.7)",
         },
       }
+      
+      // Add ticker pause utility
+      const tickerPause = {
+        ".animate-pause": {
+          animationPlayState: "paused",
+        },
+      }
+      
+      addUtilities(tickerPause)
       addUtilities(newUtilities)
     },
   ],

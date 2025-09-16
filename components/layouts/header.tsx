@@ -283,7 +283,7 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
                 {openDropdown === group.title && (
                   <div
                     className={cn(
-                      "absolute top-full mt-2 min-w-[220px] bg-background/98 backdrop-blur-xl border border-blue-200/40 dark:border-blue-800/40 shadow-xl shadow-blue-500/10 dark:shadow-blue-500/20 rounded-xl py-2 z-[100] animate-in slide-in-from-top-2 duration-300",
+                      "absolute top-full mt-2 min-w-[220px] bg-white dark:bg-gray-900 border border-blue-200/40 dark:border-blue-800/40 shadow-xl shadow-blue-500/10 dark:shadow-blue-500/20 rounded-xl py-2 z-[100] animate-in slide-in-from-top-2 duration-300",
                       isRtl ? "right-0" : "left-0",
                     )}
                     onClick={(e) => e.stopPropagation()}
@@ -423,9 +423,9 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
 
       {/* Enhanced Animated Search Bar */}
       {searchOpen && (
-        <div className="absolute top-full left-0 right-0 z-40 bg-background/98 backdrop-blur-xl border-b border-blue-200/30 dark:border-blue-800/30 shadow-xl shadow-blue-500/10 dark:shadow-blue-500/20 animate-in slide-in-from-top-2 duration-300">
+        <div className="absolute top-full left-0 right-0 z-40 bg-white dark:bg-gray-900 border-b border-blue-200/30 dark:border-blue-800/30 shadow-xl shadow-blue-500/10 dark:shadow-blue-500/20 animate-in slide-in-from-top-2 duration-300">
           <div className="container mx-auto px-4 py-6 max-w-full 2xl:max-w-[1600px]">
-            <div className="flex items-center gap-3 bg-muted/50 dark:bg-muted/30 rounded-xl p-4 border border-blue-200/30 dark:border-blue-800/30">
+            <div className="flex items-center gap-3 bg-gray-50 dark:bg-gray-800 rounded-xl p-4 border border-blue-200/30 dark:border-blue-800/30">
               <Search className="h-5 w-5 text-primary" />
               <input
                 type="text"
@@ -459,7 +459,7 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
 
       {/* Enhanced Mobile Navigation */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-background/98 backdrop-blur-xl border-b border-blue-200/30 dark:border-blue-800/30 max-h-[80vh] overflow-y-auto shadow-xl shadow-blue-500/10 dark:shadow-blue-500/20 animate-in slide-in-from-top-2 duration-300">
+        <div className="lg:hidden bg-white dark:bg-gray-900 border-b border-blue-200/30 dark:border-blue-800/30 max-h-[80vh] overflow-y-auto shadow-xl shadow-blue-500/10 dark:shadow-blue-500/20 animate-in slide-in-from-top-2 duration-300">
           <div className="container mx-auto px-4 py-6">
             <nav className="flex flex-col space-y-4">
               <div className="py-2">

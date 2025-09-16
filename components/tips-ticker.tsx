@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { motion, useAnimation } from "framer-motion"
 import { Shield, AlertTriangle } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useLanguage } from "@/components/language-provider"
@@ -14,7 +13,6 @@ import type { Tip } from "@/entities"
 export default function TipsTicker() {
   const containerRef = useRef<HTMLDivElement>(null)
   const textRef = useRef<HTMLDivElement>(null)
-  const controls = useAnimation()
   const { theme } = useTheme()
   const { language, t } = useLanguage()
   const isDark = theme === "dark"
@@ -27,21 +25,9 @@ export default function TipsTicker() {
   const [isPaused, setIsPaused] = useState(false)
   const [selectedTip, setSelectedTip] = useState<Tip | null>(null)
   const [tipDialogOpen, setTipDialogOpen] = useState(false)
-  const [isInitialized, setIsInitialized] = useState(false)
-  const animationRef = useRef<{
-    startTime: number
-    pausedAt: number
-    currentPosition: number
-    animationId: number | null
-  }>({
-    startTime: 0,
-    pausedAt: 0,
-    currentPosition: 0,
-    animationId: null
-  })
 
-  // Fixed speed in pixels per second
-  const speed = 100
+  // Fixed speed in pixels per second - increased for faster animation
+  const speed = 300
 
   useEffect(() => {
     const fetchTickerItems = async () => {
@@ -74,98 +60,6 @@ export default function TipsTicker() {
       setTextWidth(textRef.current.scrollWidth)
     }
   }, [tickerItems, language])
-
-  // Manual animation function
-  const startAnimation = () => {
-    if (containerWidth > 0 && textWidth > 0) {
-      const totalDistance = containerWidth + textWidth
-      
-      // Calculate start and target positions
-      let startPosition: number
-      let targetPosition: number
-      
-      if (isRtl) {
-        // Arabic: Left to right animation
-        startPosition = -textWidth
-        targetPosition = containerWidth
-      } else {
-        // English: Right to left animation
-        startPosition = containerWidth
-        targetPosition = -textWidth
-      }
-
-      // Get current position from DOM
-      const currentPos = animationRef.current.currentPosition
-      
-      // Start animation from current position
-      controls.start({
-        x: targetPosition,
-        transition: {
-          duration: (Math.abs(targetPosition - currentPos)) / speed,
-          ease: "linear",
-          repeat: Number.POSITIVE_INFINITY,
-          repeatType: "loop",
-          repeatDelay: 0,
-        },
-      })
-      
-      animationRef.current.startTime = Date.now()
-    }
-  }
-
-  // Initialize animation once when dimensions are available
-  useEffect(() => {
-    if (containerWidth > 0 && textWidth > 0 && !isInitialized) {
-      const totalDistance = containerWidth + textWidth
-      
-      // Calculate start position
-      let startPosition: number
-      
-      if (isRtl) {
-        startPosition = -textWidth
-      } else {
-        startPosition = containerWidth
-      }
-
-      // Set initial position
-      controls.set({ x: startPosition })
-      animationRef.current.currentPosition = startPosition
-      animationRef.current.startTime = Date.now()
-      setIsInitialized(true)
-      
-      // Start animation
-      startAnimation()
-    }
-  }, [containerWidth, textWidth, controls, speed, isRtl, isInitialized])
-
-  // Handle pause/resume
-  useEffect(() => {
-    if (isInitialized && containerWidth > 0 && textWidth > 0) {
-      if (isPaused) {
-        // Paused - stop animation and get current position
-        controls.stop()
-        
-        // Get current position from DOM
-        if (textRef.current) {
-          const transform = textRef.current.style.transform
-          const match = transform.match(/translateX\(([^)]+)\)/)
-          if (match) {
-            animationRef.current.currentPosition = parseFloat(match[1])
-          }
-        }
-        
-        if (animationRef.current.startTime > 0) {
-          const now = Date.now()
-          const elapsedTime = now - animationRef.current.startTime
-          animationRef.current.pausedAt = elapsedTime
-        }
-      } else if (animationRef.current.pausedAt > 0) {
-        // Resuming from pause - continue from current position
-        startAnimation()
-        animationRef.current.pausedAt = 0
-      }
-    }
-  }, [isPaused, isInitialized, containerWidth, textWidth, controls, speed, isRtl])
 
   if (loading || tickerItems.length === 0) {
     return null
@@ -226,7 +120,17 @@ export default function TipsTicker() {
           <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.1)_50%,transparent_100%)] animate-pulse"></div>
         </div>
         
-        <motion.div ref={textRef} animate={controls} className="inline-flex whitespace-nowrap relative z-10">
+        <div 
+          ref={textRef} 
+          className="inline-flex whitespace-nowrap relative z-10 animate-ticker-scroll"
+          style={{
+            animationDuration: `${(containerWidth + textWidth) / speed}s`,
+            animationTimingFunction: 'linear',
+            animationIterationCount: 'infinite',
+            animationDirection: isRtl ? 'reverse' : 'normal',
+            animationPlayState: isPaused ? 'paused' : 'running'
+          }}
+        >
           {tickerItems.map((item, idx) => (
             <span
               key={idx}
@@ -243,7 +147,7 @@ export default function TipsTicker() {
               {item.text?.[language] || ""}
             </span>
           ))}
-        </motion.div>
+        </div>
       </div>
 
     {/* Custom Tip Modal */}
@@ -301,3 +205,4 @@ export default function TipsTicker() {
     </>
   )
 }
+
