@@ -60,7 +60,7 @@ interface SitemapSection {
 }
 
 export default function SitemapPage() {
-  const { language, isRtl } = useLanguage();
+  const { language, isRtl, t } = useLanguage();
 
   const sitemapData: Record<string, SitemapSection> = {
     main: {
@@ -155,40 +155,51 @@ export default function SitemapPage() {
 
   return (
     <MainLayout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 dark:from-slate-900 dark:via-slate-800/30 dark:to-slate-900">
-        <div className="pt-24 pb-16">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50/30 via-white to-purple-50/30 dark:from-blue-950/30 dark:via-slate-900 dark:to-purple-950/30">
+        {/* Enhanced background pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(59,130,246,0.3),transparent_50%)]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_75%,rgba(147,51,234,0.3),transparent_50%)]"></div>
+          <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(45deg,transparent_25%,rgba(99,102,241,0.02)_50%,transparent_75%)] bg-[length:40px_40px]"></div>
+        </div>
+        
+        <div className="relative pt-36 pb-16">
           <div className="container mx-auto px-4">
-            {/* Hero Header */}
+            {/* Enhanced Hero Header */}
             <div className="text-center mb-16">
               <div className="relative inline-block mb-8">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur-xl opacity-20 dark:opacity-30"></div>
-                <div className="relative bg-gradient-to-r from-blue-500 to-purple-600 p-6 rounded-full">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur-xl opacity-30 dark:opacity-40 animate-pulse"></div>
+                <div className="relative bg-gradient-to-r from-blue-500 to-purple-600 p-6 rounded-full shadow-2xl shadow-blue-500/30">
                   <Map className="h-12 w-12 text-white" />
                 </div>
               </div>
               
-              <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 dark:from-blue-400 dark:via-purple-400 dark:to-blue-400 bg-clip-text text-transparent">
                 {language === "ar" ? "خريطة الموقع" : "Site Map"}
               </h1>
               
-              <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed mb-8">
-                {language === "ar" 
-                  ? "استكشف جميع صفحات ومحتويات بوابة الأمن السيبراني بطريقة منظمة ومرتبة. تصفح المحتوى بسهولة ووضوح"
-                  : "Explore all pages and content of the cybersecurity portal in an organized and structured way. Browse content with ease and clarity"
-                }
-              </p>
+              <div className="max-w-4xl mx-auto mb-8">
+                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-blue-200/30 dark:border-blue-800/30 shadow-lg shadow-blue-500/10 dark:shadow-blue-500/20">
+                  <p className="text-xl text-muted-foreground leading-relaxed">
+                    {language === "ar" 
+                      ? "استكشف جميع صفحات ومحتويات بوابة الأمن السيبراني بطريقة منظمة ومرتبة. تصفح المحتوى بسهولة ووضوح"
+                      : "Explore all pages and content of the cybersecurity portal in an organized and structured way. Browse content with ease and clarity"
+                    }
+                  </p>
+                </div>
+              </div>
 
-              {/* Quick Stats */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
-                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 dark:border-slate-700/50 shadow-lg dark:shadow-slate-900/50">
-                  <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">{totalStats.sections}</div>
-                  <div className="text-sm text-slate-600 dark:text-slate-300 font-medium">
+              {/* Enhanced Quick Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-blue-200/30 dark:border-blue-800/30 shadow-lg shadow-blue-500/10 dark:shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/20 dark:hover:shadow-blue-500/30 transition-all duration-300">
+                  <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-3">{totalStats.sections}</div>
+                  <div className="text-sm text-muted-foreground font-semibold">
                     {language === "ar" ? "المجموعات الرئيسية" : "Main Groups"}
                   </div>
                 </div>
-                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 dark:border-slate-700/50 shadow-lg dark:shadow-slate-900/50">
-                  <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">{totalStats.subsections}</div>
-                  <div className="text-sm text-slate-600 dark:text-slate-300 font-medium">
+                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-purple-200/30 dark:border-purple-800/30 shadow-lg shadow-purple-500/10 dark:shadow-purple-500/20 hover:shadow-xl hover:shadow-purple-500/20 dark:hover:shadow-purple-500/30 transition-all duration-300">
+                  <div className="text-4xl font-bold text-purple-600 dark:text-purple-400 mb-3">{totalStats.subsections}</div>
+                  <div className="text-sm text-muted-foreground font-semibold">
                     {language === "ar" ? "الصفحات الفرعية" : "Sub Pages"}
                   </div>
                 </div>

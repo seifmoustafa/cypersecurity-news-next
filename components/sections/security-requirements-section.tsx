@@ -8,6 +8,7 @@ import SectionContainer from "@/components/ui/section-container";
 import { cn } from "@/lib/utils";
 import SecurityInstructionsContent from "@/components/sections/security-instructions-content";
 import SecurityProceduresContent from "@/components/sections/security-procedures-content";
+import { FileText, Shield, ChevronRight } from "lucide-react";
 
 export default function SecurityRequirementsSection() {
   const { t, language, isRtl } = useLanguage();
@@ -31,7 +32,7 @@ export default function SecurityRequirementsSection() {
   }, []);
 
   return (
-    <SectionContainer id="security-requirements">
+    <SectionContainer id="security-requirements" className="bg-gradient-to-br from-green-50/50 via-white to-emerald-50/30 dark:from-green-950/30 dark:via-slate-900 dark:to-emerald-950/20">
       <SectionHeader
         title={t("section.securityRequirements")}
         subtitle={
@@ -41,38 +42,40 @@ export default function SecurityRequirementsSection() {
         }
       />
 
-      {/* Custom styled tabs */}
-      <div className="w-full mb-8">
+      {/* Enhanced Professional Tabs */}
+      <div className="w-full mb-12">
         <div className="flex justify-center">
-          <div className="inline-flex rounded-lg bg-blue-50/50 dark:bg-blue-900/10 p-1 border border-blue-100/50 dark:border-blue-800/30 shadow-sm">
+          <div className="inline-flex rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm p-2 border border-green-200/50 dark:border-green-800/50 shadow-lg shadow-green-500/10 dark:shadow-green-500/20">
             <button
               onClick={() => setActiveTab("instructions")}
               className={cn(
-                "px-6 py-3 text-sm font-medium rounded-md transition-all duration-200 min-w-[160px]",
+                "px-8 py-4 text-sm font-semibold rounded-xl transition-all duration-300 min-w-[180px] flex items-center justify-center gap-3 hover:scale-105",
                 isRtl ? "ml-1" : "mr-1",
                 activeTab === "instructions"
-                  ? "bg-white dark:bg-gray-800 text-primary shadow-sm"
-                  : "text-gray-600 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50"
+                  ? "bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-lg shadow-green-500/30 dark:shadow-green-500/40"
+                  : "text-gray-600 dark:text-gray-300 hover:bg-green-50/50 dark:hover:bg-green-900/20"
               )}
             >
+              <FileText className="h-5 w-5" />
               {t("nav.instructions")}
             </button>
             <button
               onClick={() => setActiveTab("procedures")}
               className={cn(
-                "px-6 py-3 text-sm font-medium rounded-md transition-all duration-200 min-w-[160px]",
+                "px-8 py-4 text-sm font-semibold rounded-xl transition-all duration-300 min-w-[180px] flex items-center justify-center gap-3 hover:scale-105",
                 activeTab === "procedures"
-                  ? "bg-white dark:bg-gray-800 text-primary shadow-sm"
-                  : "text-gray-600 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50"
+                  ? "bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-lg shadow-green-500/30 dark:shadow-green-500/40"
+                  : "text-gray-600 dark:text-gray-300 hover:bg-green-50/50 dark:hover:bg-green-900/20"
               )}
             >
+              <Shield className="h-5 w-5" />
               {t("nav.securityProcedures")}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Tab content with animations */}
+      {/* Enhanced Tab content with animations */}
       <div className="w-full">
         {activeTab === "instructions" && (
           <motion.div
@@ -80,7 +83,10 @@ export default function SecurityRequirementsSection() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: isRtl ? -20 : 20 }}
             transition={{ duration: 0.5 }}
+            className="relative"
           >
+            {/* Enhanced gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 via-transparent to-emerald-500/5 rounded-2xl pointer-events-none"></div>
             <SecurityInstructionsContent />
           </motion.div>
         )}
@@ -91,7 +97,10 @@ export default function SecurityRequirementsSection() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: isRtl ? -20 : 20 }}
             transition={{ duration: 0.5 }}
+            className="relative"
           >
+            {/* Enhanced gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 via-transparent to-green-500/5 rounded-2xl pointer-events-none"></div>
             <SecurityProceduresContent />
           </motion.div>
         )}

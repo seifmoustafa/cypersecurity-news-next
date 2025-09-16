@@ -16,7 +16,7 @@ import { container } from "@/core/di/container"
 import { slugify } from "@/lib/utils"
 import { useCurrentYearAwareness } from "@/core/hooks/use-awareness"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Calendar, FileText } from "lucide-react"
+import { ArrowRight, Calendar, FileText, AlertTriangle, BookOpen, Globe } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 // Map category IDs to URL-friendly names
@@ -64,34 +64,49 @@ export default function AwarenessSection() {
   }, [])
 
   return (
-    <SectionContainer id="awareness" className="bg-muted/30">
+    <SectionContainer id="awareness" className="bg-gradient-to-br from-blue-50/50 via-white to-cyan-50/30 dark:from-blue-950/30 dark:via-slate-900 dark:to-cyan-950/20">
       <SectionHeader title={t("section.awareness")} subtitle={t("awareness.subtitle")} />
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className={`w-full max-w-md mx-auto mb-8 ${isRtl ? "flex-row-reverse" : ""}`}>
-          <TabsTrigger value="news" className="flex-1">
-            {language === "ar" ? "الأخبار" : "News"}
+        <TabsList className={`w-full max-w-lg mx-auto mb-12 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-blue-200/50 dark:border-blue-800/50 shadow-lg shadow-blue-500/10 dark:shadow-blue-500/20 ${isRtl ? "flex-row-reverse" : ""}`}>
+          <TabsTrigger value="news" className="flex-1 font-semibold transition-all duration-300 hover:scale-105">
+            <span className="flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4" />
+              {language === "ar" ? "الأخبار" : "News"}
+            </span>
           </TabsTrigger>
-          <TabsTrigger value="bulletins" className="flex-1">
-            {t("awareness.bulletins")}
+          <TabsTrigger value="bulletins" className="flex-1 font-semibold transition-all duration-300 hover:scale-105">
+            <span className="flex items-center gap-2">
+              <FileText className="h-4 w-4" />
+              {t("awareness.bulletins")}
+            </span>
           </TabsTrigger>
-          <TabsTrigger value="articles" className="flex-1">
-            {t("awareness.articles")}
+          <TabsTrigger value="articles" className="flex-1 font-semibold transition-all duration-300 hover:scale-105">
+            <span className="flex items-center gap-2">
+              <BookOpen className="h-4 w-4" />
+              {t("awareness.articles")}
+            </span>
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="news">
           <Tabs value={activeNewsCategory} onValueChange={setActiveNewsCategory} className="w-full mb-8">
             <TabsList
-              className={`w-full max-w-4xl mx-auto mb-8 flex flex-wrap justify-center ${isRtl ? "flex-row-reverse" : ""}`}
+              className={`w-full max-w-5xl mx-auto mb-12 flex flex-wrap justify-center bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-blue-200/40 dark:border-blue-800/40 shadow-md shadow-blue-500/10 dark:shadow-blue-500/20 ${isRtl ? "flex-row-reverse" : ""}`}
             >
-              <TabsTrigger value="all" className="flex-grow">
-                {language === "ar" ? "الكل" : "All"}
+              <TabsTrigger value="all" className="flex-grow font-medium transition-all duration-300 hover:scale-105">
+                <span className="flex items-center gap-2">
+                  <Globe className="h-4 w-4" />
+                  {language === "ar" ? "الكل" : "All"}
+                </span>
               </TabsTrigger>
               {!categoriesLoading &&
                 categories.map((cat) => (
-                  <TabsTrigger key={cat.id} value={cat.id} className="flex-grow">
-                    {language === "ar" ? cat.name || cat.nameEn : cat.nameEn || cat.name}
+                  <TabsTrigger key={cat.id} value={cat.id} className="flex-grow font-medium transition-all duration-300 hover:scale-105">
+                    <span className="flex items-center gap-2">
+                      <AlertTriangle className="h-4 w-4" />
+                      {language === "ar" ? cat.name || cat.nameEn : cat.nameEn || cat.name}
+                    </span>
                   </TabsTrigger>
                 ))}
             </TabsList>
@@ -291,34 +306,36 @@ function NewsCard({ item, index }: NewsCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileHover={{ y: -5 }}
     >
       <Link href={`/news/${slug}`} className="group">
-        <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:border-primary/50">
+        <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 dark:hover:shadow-blue-500/30 hover:border-primary/50 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-blue-200/30 dark:border-blue-800/30">
           <div className="relative h-48">
             <Image
               src={item.imageUrl || "/placeholder.svg"}
               alt={displayTitle}
               fill
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div
-              className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} bg-primary text-white text-xs px-2 py-1 rounded`}
+              className={`absolute top-3 ${isRtl ? "right-3" : "left-3"} bg-blue-600/95 dark:bg-blue-700/95 text-white text-xs px-3 py-1.5 rounded-full backdrop-blur-sm border border-blue-500/30 dark:border-blue-400/30 shadow-lg`}
             >
               {new Date(item.date || item.createdAt).toLocaleDateString("en-US")}
             </div>
           </div>
 
-          <CardContent className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
-            <h3 className="text-lg font-bold mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+          <CardContent className={`p-6 ${isRtl ? "text-right" : "text-left"}`}>
+            <h3 className="text-lg font-bold mb-3 line-clamp-2 group-hover:text-primary transition-colors duration-300">
               {displayTitle}
             </h3>
             {/* ALWAYS show summary area - empty string if no summary */}
-            <p className="text-sm text-muted-foreground mb-4 line-clamp-3">{hasValidSummary ? cleanSummary : ""}</p>
-            <div className="mt-auto inline-flex items-center text-primary font-medium">
+            <p className="text-sm text-muted-foreground mb-4 line-clamp-3 leading-relaxed">{hasValidSummary ? cleanSummary : ""}</p>
+            <div className="mt-auto inline-flex items-center text-primary font-semibold group-hover:gap-2 transition-all duration-300">
               {language === "ar" ? "اقرأ المزيد" : "Read More"}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className={`h-4 w-4 ${isRtl ? "mr-1 rotate-180" : "ml-1"}`}
+                className={`h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 ${isRtl ? "mr-2 rotate-180" : "ml-2"}`}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -370,33 +387,35 @@ function ArticleCard({ item, index }: ArticleCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileHover={{ y: -5 }}
     >
       <Link href={`/articles/${item.id}`} className="group">
-        <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:border-primary/50">
+        <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-2xl hover:shadow-green-500/20 dark:hover:shadow-green-500/30 hover:border-primary/50 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-green-200/30 dark:border-green-800/30">
           <div className="relative h-48">
             <Image
               src={item.imageUrl || "/placeholder.svg"}
               alt={displayTitle}
               fill
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div
-              className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} bg-primary text-white text-xs px-2 py-1 rounded`}
+              className={`absolute top-3 ${isRtl ? "right-3" : "left-3"} bg-green-600/95 dark:bg-green-700/95 text-white text-xs px-3 py-1.5 rounded-full backdrop-blur-sm border border-green-500/30 dark:border-green-400/30 shadow-lg`}
             >
               {new Date(item.createdAt).toLocaleDateString("en-US")}
             </div>
           </div>
 
-          <CardContent className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
-            <h3 className="text-lg font-bold mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+          <CardContent className={`p-6 ${isRtl ? "text-right" : "text-left"}`}>
+            <h3 className="text-lg font-bold mb-3 line-clamp-2 group-hover:text-primary transition-colors duration-300">
               {displayTitle}
             </h3>
-            <p className="text-sm text-muted-foreground mb-4 line-clamp-3">{hasValidSummary ? cleanSummary : ""}</p>
-            <div className="mt-auto inline-flex items-center text-primary font-medium">
+            <p className="text-sm text-muted-foreground mb-4 line-clamp-3 leading-relaxed">{hasValidSummary ? cleanSummary : ""}</p>
+            <div className="mt-auto inline-flex items-center text-primary font-semibold group-hover:gap-2 transition-all duration-300">
               {language === "ar" ? "اقرأ المزيد" : "Read More"}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className={`h-4 w-4 ${isRtl ? "mr-1 rotate-180" : "ml-1"}`}
+                className={`h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 ${isRtl ? "mr-2 rotate-180" : "ml-2"}`}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -470,36 +489,36 @@ function CurrentYearAwarenessContent() {
               transition={{ duration: 0.5, delay: idx * 0.1 }}
             >
               <Link href={`/awareness/${item.year}/${getSlug(item)}`} className="group">
-                <Card className="h-full transition-all duration-300 hover:shadow-lg hover:border-primary/50 dark:bg-slate-900 dark:border-slate-800 dark:hover:border-primary/50">
+                <Card className="h-full transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/20 dark:hover:shadow-orange-500/30 hover:border-primary/50 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-orange-200/30 dark:border-orange-800/30">
                   <CardContent className={`p-6 ${isRtl ? "text-right" : "text-left"}`}>
-                    {/* Header with icon and badge */}
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-primary/10 dark:bg-primary/5 rounded-lg flex items-center justify-center">
-                          <FileText className="h-5 w-5 text-primary" />
+                    {/* Enhanced Header with icon and badge */}
+                    <div className="flex items-start justify-between mb-6">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-orange-500/20 dark:bg-orange-500/10 rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/20 dark:shadow-orange-500/10">
+                          <FileText className="h-6 w-6 text-orange-600 dark:text-orange-400" />
                         </div>
-                        <Badge className="bg-primary/10 dark:bg-primary/5 text-primary border-primary/20 dark:border-primary/10">
+                        <Badge className="bg-orange-500/20 dark:bg-orange-500/10 text-orange-700 dark:text-orange-300 border-orange-500/30 dark:border-orange-500/20 px-3 py-1 font-semibold shadow-sm">
                           {item.year}
                         </Badge>
                       </div>
                     </div>
 
-                    {/* Title */}
-                    <h3 className="text-lg font-bold mb-3 line-clamp-2 group-hover:text-primary transition-colors dark:text-slate-200">
+                    {/* Enhanced Title */}
+                    <h3 className="text-lg font-bold mb-4 line-clamp-2 group-hover:text-primary transition-colors duration-300 dark:text-slate-200">
                       {getDisplayTitle(item)}
                     </h3>
 
-                    {/* Summary */}
-                    <p className="text-sm text-muted-foreground dark:text-slate-400 mb-4 line-clamp-3">
+                    {/* Enhanced Summary */}
+                    <p className="text-sm text-muted-foreground dark:text-slate-400 mb-6 line-clamp-3 leading-relaxed">
                       {getDisplaySummary(item)}
                     </p>
 
-                    {/* Read more link */}
-                    <div className="mt-auto inline-flex items-center text-primary font-medium">
+                    {/* Enhanced Read more link */}
+                    <div className="mt-auto inline-flex items-center text-primary font-semibold group-hover:gap-2 transition-all duration-300">
                       {language === "ar" ? "اقرأ المزيد" : "Read More"}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className={`h-4 w-4 ${isRtl ? "mr-1 rotate-180" : "ml-1"}`}
+                        className={`h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 ${isRtl ? "mr-2 rotate-180" : "ml-2"}`}
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -524,18 +543,18 @@ function CurrentYearAwarenessContent() {
         )}
       </div>
 
-      {/* Action Buttons */}
+      {/* Enhanced Action Buttons */}
       {data && data.data.length > 0 && (
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+        <div className="flex flex-col sm:flex-row gap-6 justify-center mt-12">
           <Link href={`/awareness/${new Date().getFullYear()}`}>
-            <Button className="flex items-center gap-2">
+            <Button className="flex items-center gap-3 bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-xl shadow-orange-500/30 dark:shadow-orange-500/40 border border-orange-500/30 dark:border-orange-400/30">
               {language === "ar" ? "المزيد من هذا العام" : "More This Year"}
-              <ArrowRight className={`h-4 w-4 ${isRtl ? "rotate-180" : ""}`} />
+              <ArrowRight className={`h-5 w-5 transition-transform duration-300 group-hover:translate-x-1 ${isRtl ? "rotate-180" : ""}`} />
             </Button>
           </Link>
           <Link href="/awareness/years">
-            <Button variant="outline" className="flex items-center gap-2">
-              <Calendar className="h-4 w-4" />
+            <Button variant="outline" className="flex items-center gap-3 border-orange-500/30 dark:border-orange-400/30 text-orange-700 dark:text-orange-300 hover:bg-orange-50/50 dark:hover:bg-orange-900/20 px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-orange-500/20 dark:shadow-orange-500/30">
+              <Calendar className="h-5 w-5" />
               {language === "ar" ? "جميع السنوات" : "All Years"}
             </Button>
           </Link>

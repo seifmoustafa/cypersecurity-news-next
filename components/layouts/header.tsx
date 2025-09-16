@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { MoonIcon, SunIcon, MenuIcon, XIcon, Globe, ChevronDown, Shield, LightbulbIcon, Search } from "lucide-react"
+import { MoonIcon, SunIcon, MenuIcon, XIcon, Globe, ChevronDown, Shield, LightbulbIcon, Search, Home, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import { useLanguage } from "@/components/language-provider"
@@ -212,36 +212,49 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
 
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-blue-200/20 dark:border-blue-800/20 shadow-sm">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-xl border-b border-blue-200/30 dark:border-blue-800/30 shadow-lg shadow-blue-500/10 dark:shadow-blue-500/20">
       <div className="container mx-auto px-4 max-w-full 2xl:max-w-[1600px]">
-        <div className="h-16 flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center">
+        <div className="h-20 flex items-center justify-between">
+          {/* Enhanced Logo */}
+          <div className="flex items-center group">
             <Link
               href="/"
-              className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 flex items-center"
+              className="flex items-center space-x-3 rtl:space-x-reverse group-hover:scale-105 transition-all duration-300"
               onClick={(e) => {
                 e.preventDefault()
                 router.push("/")
               }}
             >
-              <Shield className="h-6 w-6 text-primary mr-2 rtl:ml-2 rtl:mr-0" />
-              <span className="hidden sm:inline">{t("hero.title")}</span>
-              <span className="sm:hidden">CyberSec</span>
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl blur-md opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
+                <div className="relative bg-gradient-to-r from-blue-500 to-cyan-500 p-2.5 rounded-xl shadow-lg">
+                  <Shield className="h-6 w-6 text-white" />
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 group-hover:from-blue-700 group-hover:to-cyan-600 transition-all duration-300">
+                  <span className="hidden sm:inline">{t("hero.title")}</span>
+                  <span className="sm:hidden">CyberSec</span>
+                </span>
+                <span className="text-xs text-muted-foreground font-medium hidden lg:block">
+                  {language === "ar" ? "بوابة الأمن السيبراني" : "Cybersecurity Portal"}
+                </span>
+              </div>
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
+          {/* Enhanced Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-1 rtl:space-x-reverse xl:space-x-2">
             <Button
               variant="ghost"
               size="sm"
-              className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-xs xl:text-sm"
+              className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-xs xl:text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-md"
               onClick={(e) => {
                 e.preventDefault()
                 router.push("/")
               }}
             >
+              <Home className="h-4 w-4 mr-1 rtl:ml-1 rtl:mr-0" />
               {t("nav.home")}
             </Button>
 
@@ -252,41 +265,48 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
                   variant="ghost"
                   size="sm"
                   className={cn(
-                    "flex items-center gap-1 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-xs xl:text-sm",
-                    openDropdown === group.title ? "bg-blue-50/50 dark:bg-blue-900/20" : "",
+                    "flex items-center gap-2 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-xs xl:text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-md",
+                    openDropdown === group.title ? "bg-blue-50/50 dark:bg-blue-900/20 shadow-md" : "",
                   )}
                   onClick={(e) => handleDropdownToggle(group.title, e)}
                 >
                   {t(`section.${group.title}`)}
                   <ChevronDown
                     className={cn(
-                      "h-3 w-3 xl:h-4 xl:w-4 opacity-50 transition-transform",
-                      openDropdown === group.title ? "rotate-180" : "",
+                      "h-3 w-3 xl:h-4 xl:w-4 opacity-50 transition-all duration-300",
+                      openDropdown === group.title ? "rotate-180 opacity-100" : "",
                     )}
                   />
                 </Button>
 
-                {/* Custom Dropdown */}
+                {/* Enhanced Custom Dropdown */}
                 {openDropdown === group.title && (
                   <div
                     className={cn(
-                      "absolute top-full mt-1 min-w-[200px] bg-background/95 backdrop-blur-md border border-blue-200/30 dark:border-blue-800/30 shadow-lg rounded-md py-1 z-[100]",
+                      "absolute top-full mt-2 min-w-[220px] bg-background/98 backdrop-blur-xl border border-blue-200/40 dark:border-blue-800/40 shadow-xl shadow-blue-500/10 dark:shadow-blue-500/20 rounded-xl py-2 z-[100] animate-in slide-in-from-top-2 duration-300",
                       isRtl ? "right-0" : "left-0",
                     )}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    {group.items.map((item) => (
+                    {group.items.map((item, index) => (
                       <button
                         key={item.key}
                         className={cn(
-                          "w-full px-3 py-2 text-left text-xs xl:text-sm hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-colors",
+                          "w-full px-4 py-3 text-left text-xs xl:text-sm hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-sm group",
                           item.href.split("?")[0].substring(1) === activeSection
-                            ? "font-medium text-primary"
+                            ? "font-medium text-primary bg-blue-50/30 dark:bg-blue-900/10"
                             : "text-foreground",
                         )}
                         onClick={(e) => handleNavigation(e, item.href, item.isScroll, (item as any).tab)}
+                        style={{ animationDelay: `${index * 50}ms` }}
                       >
-                        {t(item.key)}
+                        <div className="flex items-center justify-between">
+                          <span>{t(item.key)}</span>
+                          <ChevronRight className={cn(
+                            "h-3 w-3 opacity-0 group-hover:opacity-100 transition-all duration-300",
+                            isRtl ? "rotate-180" : ""
+                          )} />
+                        </div>
                       </button>
                     ))}
                   </div>
@@ -295,7 +315,7 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
             ))}
           </nav>
 
-          {/* Search, Theme, Tips, and Language Toggles */}
+          {/* Enhanced Action Buttons */}
           <div className="flex items-center gap-1 md:gap-2">
             <TooltipProvider>
               <Tooltip>
@@ -305,9 +325,9 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
                     size="icon"
                     onClick={handleSearchToggle}
                     title={t("common.search")}
-                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-8 w-8 md:h-10 md:w-10"
+                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-9 w-9 md:h-11 md:w-11 transition-all duration-300 hover:scale-110 hover:shadow-md group"
                   >
-                    <Search className="h-4 w-4 md:h-5 md:w-5" />
+                    <Search className="h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-transform duration-300" />
                     <span className="sr-only">{t("common.search")}</span>
                   </Button>
                 </TooltipTrigger>
@@ -325,10 +345,10 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
                     size="icon"
                     onClick={toggleTips}
                     title={tipsDisabled ? t("tips.enable") : t("tips.disable")}
-                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-8 w-8 md:h-10 md:w-10"
+                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-9 w-9 md:h-11 md:w-11 transition-all duration-300 hover:scale-110 hover:shadow-md group"
                   >
                     <LightbulbIcon
-                      className={`h-4 w-4 md:h-5 md:w-5 ${tipsDisabled ? "opacity-50" : "text-yellow-500"}`}
+                      className={`h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-all duration-300 ${tipsDisabled ? "opacity-50" : "text-yellow-500"}`}
                     />
                     <span className="sr-only">{tipsDisabled ? t("tips.enable") : t("tips.disable")}</span>
                   </Button>
@@ -339,43 +359,61 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
               </Tooltip>
             </TooltipProvider>
 
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleLanguageToggle}
-              title={t("common.language")}
-              className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-8 w-8 md:h-10 md:w-10"
-            >
-              <Globe className="h-4 w-4 md:h-5 md:w-5" />
-              <span className="sr-only">{t("common.language")}</span>
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleLanguageToggle}
+                    title={t("common.language")}
+                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-9 w-9 md:h-11 md:w-11 transition-all duration-300 hover:scale-110 hover:shadow-md group"
+                  >
+                    <Globe className="h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-transform duration-300" />
+                    <span className="sr-only">{t("common.language")}</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{t("common.language")}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
 
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleThemeToggle}
-              title={isDarkMode ? t("common.lightMode") : t("common.darkMode")}
-              className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-8 w-8 md:h-10 md:w-10"
-            >
-              {isDarkMode ? (
-                <SunIcon className="h-4 w-4 md:h-5 md:w-5" />
-              ) : (
-                <MoonIcon className="h-4 w-4 md:h-5 md:w-5" />
-              )}
-              <span className="sr-only">{isDarkMode ? t("common.lightMode") : t("common.darkMode")}</span>
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleThemeToggle}
+                    title={isDarkMode ? t("common.lightMode") : t("common.darkMode")}
+                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-9 w-9 md:h-11 md:w-11 transition-all duration-300 hover:scale-110 hover:shadow-md group"
+                  >
+                    {isDarkMode ? (
+                      <SunIcon className="h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-transform duration-300" />
+                    ) : (
+                      <MoonIcon className="h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-transform duration-300" />
+                    )}
+                    <span className="sr-only">{isDarkMode ? t("common.lightMode") : t("common.darkMode")}</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{isDarkMode ? t("common.lightMode") : t("common.darkMode")}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
 
-            {/* Mobile menu button */}
+            {/* Enhanced Mobile menu button */}
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-8 w-8 md:h-10 md:w-10"
+              className="lg:hidden hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-9 w-9 md:h-11 md:w-11 transition-all duration-300 hover:scale-110 hover:shadow-md group"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? (
-                <XIcon className="h-4 w-4 md:h-5 md:w-5" />
+                <XIcon className="h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-transform duration-300" />
               ) : (
-                <MenuIcon className="h-4 w-4 md:h-5 md:w-5" />
+                <MenuIcon className="h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-transform duration-300" />
               )}
               <span className="sr-only">Menu</span>
             </Button>
@@ -383,16 +421,16 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
         </div>
       </div>
 
-      {/* Animated Search Bar */}
+      {/* Enhanced Animated Search Bar */}
       {searchOpen && (
-        <div className="absolute top-full left-0 right-0 z-40 bg-background/95 backdrop-blur-md border-b border-blue-200/20 dark:border-blue-800/20 shadow-lg animate-in slide-in-from-top-2 duration-300">
-          <div className="container mx-auto px-4 py-4 max-w-full 2xl:max-w-[1600px]">
-            <div className="flex items-center gap-2">
-              <Search className="h-5 w-5 text-muted-foreground" />
+        <div className="absolute top-full left-0 right-0 z-40 bg-background/98 backdrop-blur-xl border-b border-blue-200/30 dark:border-blue-800/30 shadow-xl shadow-blue-500/10 dark:shadow-blue-500/20 animate-in slide-in-from-top-2 duration-300">
+          <div className="container mx-auto px-4 py-6 max-w-full 2xl:max-w-[1600px]">
+            <div className="flex items-center gap-3 bg-muted/50 dark:bg-muted/30 rounded-xl p-4 border border-blue-200/30 dark:border-blue-800/30">
+              <Search className="h-5 w-5 text-primary" />
               <input
                 type="text"
                 placeholder={t("common.searchPlaceholder")}
-                className="flex-1 bg-transparent border-none outline-none text-lg placeholder:text-muted-foreground"
+                className="flex-1 bg-transparent border-none outline-none text-lg placeholder:text-muted-foreground focus:text-foreground transition-colors duration-300"
                 autoFocus
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
@@ -410,7 +448,7 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
                 variant="ghost"
                 size="sm"
                 onClick={() => setSearchOpen(false)}
-                className="text-muted-foreground hover:text-foreground"
+                className="text-muted-foreground hover:text-foreground hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-all duration-300"
               >
                 {t("common.cancel")}
               </Button>
@@ -419,42 +457,52 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
         </div>
       )}
 
-      {/* Mobile Navigation */}
+      {/* Enhanced Mobile Navigation */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-background/95 backdrop-blur-md border-b border-blue-200/20 dark:border-blue-800/20 max-h-[80vh] overflow-y-auto">
-          <div className="container mx-auto px-4 py-3">
-            <nav className="flex flex-col space-y-2">
+        <div className="lg:hidden bg-background/98 backdrop-blur-xl border-b border-blue-200/30 dark:border-blue-800/30 max-h-[80vh] overflow-y-auto shadow-xl shadow-blue-500/10 dark:shadow-blue-500/20 animate-in slide-in-from-top-2 duration-300">
+          <div className="container mx-auto px-4 py-6">
+            <nav className="flex flex-col space-y-4">
               <div className="py-2">
                 <button
-                  className="block px-3 py-1.5 text-sm rounded-md transition-colors hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-foreground/80 w-full text-left"
+                  className="flex items-center gap-3 px-4 py-3 text-sm rounded-xl transition-all duration-300 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 hover:scale-[1.02] hover:shadow-md text-foreground/80 w-full text-left group"
                   onClick={(e) => {
                     e.preventDefault()
                     setMobileMenuOpen(false)
                     router.push("/")
                   }}
                 >
+                  <Home className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
                   {t("nav.home")}
+                  <ChevronRight className={cn(
+                    "h-4 w-4 ml-auto opacity-0 group-hover:opacity-100 transition-all duration-300",
+                    isRtl ? "rotate-180" : ""
+                  )} />
                 </button>
               </div>
 
               {navGroups.map((group) => (
                 <div key={group.title} className="py-2">
-                  {/* Group with items in mobile menu */}
+                  {/* Enhanced Group with items in mobile menu */}
                   <>
-                    <h3 className="text-sm font-medium text-muted-foreground mb-1">{t(`section.${group.title}`)}</h3>
-                    <div className="space-y-1 pl-2 rtl:pr-2 rtl:pl-0">
-                      {group.items.map((item) => (
+                    <h3 className="text-sm font-bold text-primary mb-3 px-2 py-1 bg-blue-50/50 dark:bg-blue-900/20 rounded-lg">{t(`section.${group.title}`)}</h3>
+                    <div className="space-y-2 pl-4 rtl:pr-4 rtl:pl-0">
+                      {group.items.map((item, index) => (
                         <button
                           key={item.key}
                           className={cn(
-                            "block px-3 py-1.5 text-sm rounded-md transition-colors hover:bg-blue-50/50 dark:hover:bg-blue-900/20 w-full text-left",
+                            "flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-all duration-300 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 hover:scale-[1.02] hover:shadow-sm w-full text-left group",
                             item.href.split("?")[0].substring(1) === activeSection
-                              ? "text-primary font-medium"
+                              ? "text-primary font-medium bg-blue-50/30 dark:bg-blue-900/10"
                               : "text-foreground/80",
                           )}
                           onClick={(e) => handleNavigation(e, item.href, item.isScroll, (item as any).tab)}
+                          style={{ animationDelay: `${index * 50}ms` }}
                         >
-                          {t(item.key)}
+                          <span>{t(item.key)}</span>
+                          <ChevronRight className={cn(
+                            "h-3 w-3 ml-auto opacity-0 group-hover:opacity-100 transition-all duration-300",
+                            isRtl ? "rotate-180" : ""
+                          )} />
                         </button>
                       ))}
                     </div>

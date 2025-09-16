@@ -178,36 +178,36 @@ export default function CybersecurityConceptsSection() {
 
   return (
     <div className={isRtl ? "rtl" : "ltr"} dir={isRtl ? "rtl" : "ltr"}>
-      <SectionContainer id="standards" className="bg-muted/30">
+      <SectionContainer id="standards" className="bg-gradient-to-br from-slate-50/50 via-white to-blue-50/30 dark:from-slate-950/30 dark:via-slate-900 dark:to-blue-950/20">
         <SectionHeader title={t("section.cybersecurityConcepts")} subtitle={t("cybersecurityConcepts.subtitle")} />
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className={`mx-auto mb-8 ${isRtl ? "flex-row-reverse" : ""}`}>
-            <TabsTrigger value="definitions" className="flex-1">
+          <TabsList className={`mx-auto mb-12 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-blue-200/50 dark:border-blue-800/50 shadow-lg shadow-blue-500/10 dark:shadow-blue-500/20 ${isRtl ? "flex-row-reverse" : ""}`}>
+            <TabsTrigger value="definitions" className="flex-1 font-semibold transition-all duration-300 hover:scale-105">
               <span className={`flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}>
                 {tabIcons.definitions}
                 <span>{t("section.definitions")}</span>
               </span>
             </TabsTrigger>
-            <TabsTrigger value="laws" className="flex-1">
+            <TabsTrigger value="laws" className="flex-1 font-semibold transition-all duration-300 hover:scale-105">
               <span className={`flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}>
                 {tabIcons.laws}
                 <span>{t("section.laws")}</span>
               </span>
             </TabsTrigger>
-            <TabsTrigger value="regulation" className="flex-1">
+            <TabsTrigger value="regulation" className="flex-1 font-semibold transition-all duration-300 hover:scale-105">
               <span className={`flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}>
                 {tabIcons.regulation}
                 <span>{t("section.regulation")}</span>
               </span>
             </TabsTrigger>
-            <TabsTrigger value="framework" className="flex-1">
+            <TabsTrigger value="framework" className="flex-1 font-semibold transition-all duration-300 hover:scale-105">
               <span className={`flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}>
                 {tabIcons.framework}
                 <span>{t("section.framework")}</span>
               </span>
             </TabsTrigger>
-            <TabsTrigger value="standards" className="flex-1">
+            <TabsTrigger value="standards" className="flex-1 font-semibold transition-all duration-300 hover:scale-105">
               <span className={`flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}>
                 {tabIcons.standards}
                 <span>{t("section.standards")}</span>
@@ -245,19 +245,37 @@ export default function CybersecurityConceptsSection() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "-100px" }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
+                                whileHover={{ y: -5 }}
                               >
-                                <Card className="h-[280px] hover:shadow-md transition-shadow cursor-pointer flex flex-col">
-                                  <CardHeader className="pb-2">
-                                    <CardTitle className={`text-xl ${isRtl ? "text-right" : "text-left"}`}>
+                                <Card className="h-[320px] hover:shadow-2xl hover:shadow-blue-500/20 dark:hover:shadow-blue-500/30 transition-all duration-300 cursor-pointer flex flex-col bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-blue-200/30 dark:border-blue-800/30">
+                                  <CardHeader className="pb-4">
+                                    <CardTitle className={`text-xl font-bold ${isRtl ? "text-right" : "text-left"} group-hover:text-primary transition-colors duration-300`}>
                                       {language === "ar" ? item.term || item.termEn : item.termEn || item.term}
                                     </CardTitle>
                                   </CardHeader>
-                                  <CardContent className={`${isRtl ? "text-right" : "text-left"} flex-1 overflow-hidden`}>
-                                    <p className="text-muted-foreground line-clamp-4 text-ellipsis overflow-hidden">
+                                  <CardContent className={`${isRtl ? "text-right" : "text-left"} flex-1 overflow-hidden p-6 pt-0`}>
+                                    <p className="text-muted-foreground line-clamp-5 text-ellipsis overflow-hidden leading-relaxed">
                                       {language === "ar"
                                         ? item.definitionText || item.definitionEn
                                         : item.definitionEn || item.definitionText}
                                     </p>
+                                    <div className="mt-4 inline-flex items-center text-primary font-semibold group-hover:gap-2 transition-all duration-300">
+                                      {language === "ar" ? "اقرأ المزيد" : "Read More"}
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className={`h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 ${isRtl ? "mr-2 rotate-180" : "ml-2"}`}
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                      >
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          strokeWidth={2}
+                                          d={isRtl ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"}
+                                        />
+                                      </svg>
+                                    </div>
                                   </CardContent>
                                 </Card>
                               </motion.div>
@@ -265,12 +283,15 @@ export default function CybersecurityConceptsSection() {
                           )
                         })}
                     </div>
-                    <div className="mt-8 text-center">
+                    <div className="mt-12 text-center">
                       <Link
                         href={`/definitions/category/${slugify(category.nameEn || category.name, category.id)}`}
-                        className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
+                        className="inline-flex items-center gap-3 justify-center rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 px-8 py-4 text-base font-semibold text-white transition-all duration-300 transform hover:scale-105 shadow-xl shadow-blue-500/30 dark:shadow-blue-500/40 border border-blue-500/30 dark:border-blue-400/30"
                       >
                         {t("common.viewAll")} {language === "ar" ? category.name : category.nameEn}
+                        <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
                       </Link>
                     </div>
                   </TabsContent>
@@ -375,20 +396,25 @@ export default function CybersecurityConceptsSection() {
             <CyberSecurityRegulationSection />
           </TabsContent>
 
-          {/* Framework Tab Content */}
+          {/* Enhanced Framework Tab Content */}
           <TabsContent value="framework" className="mt-0">
             <div className="flex flex-col items-center">
-              <div className="relative w-full max-w-md mx-auto mb-6">
-                <Image
-                  src="/images/cybersecurity-framework-circle.png"
-                  alt="Cybersecurity Framework"
-                  width={500}
-                  height={500}
-                  className="w-full h-auto"
-                />
+              <div className="relative w-full max-w-lg mx-auto mb-8">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-3xl blur-xl"></div>
+                  <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-3xl p-8 shadow-2xl shadow-blue-500/20 dark:shadow-blue-500/30 border border-blue-200/30 dark:border-blue-800/30">
+                    <Image
+                      src="/images/cybersecurity-framework-circle.png"
+                      alt="Cybersecurity Framework"
+                      width={500}
+                      height={500}
+                      className="w-full h-auto rounded-2xl"
+                    />
+                  </div>
+                </div>
               </div>
-              <div className={`prose dark:prose-invert max-w-3xl mx-auto ${isRtl ? "text-right" : "text-left"}`}>
-                <p className="text-lg mb-6">
+              <div className={`prose dark:prose-invert max-w-4xl mx-auto ${isRtl ? "text-right" : "text-left"}`}>
+                <p className="text-xl mb-8 leading-relaxed font-medium">
                   {language === "ar"
                     ? "يوفر إطار عمل الأمن السيبراني نهجًا منظمًا لفهم وإدارة وتقليل مخاطر الأمن السيبراني."
                     : "The Cybersecurity Framework provides a structured approach to understanding, managing, and reducing cybersecurity risks."}
@@ -396,15 +422,12 @@ export default function CybersecurityConceptsSection() {
                 <div className="flex justify-center">
                   <Link
                     href="/framework"
-                    className="
-      inline-flex items-center justify-center
-      rounded-md bg-blue-500 px-6 py-3
-      text-base font-medium text-white
-      no-underline
-      hover:bg-blue-600 hover:no-underline
-    "
+                    className="inline-flex items-center gap-3 justify-center rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 px-10 py-4 text-lg font-semibold text-white transition-all duration-300 transform hover:scale-105 shadow-xl shadow-blue-500/30 dark:shadow-blue-500/40 border border-blue-500/30 dark:border-blue-400/30"
                   >
                     {language === "ar" ? "استكشف" : "Explore"}
+                    <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
                   </Link>
                 </div>
               </div>
@@ -435,33 +458,35 @@ export default function CybersecurityConceptsSection() {
                       transition={{ duration: 0.5, delay: index * 0.1 }}
                       className="w-full md:w-80 lg:w-96"
                     >
-                      <Card className="h-[280px] hover:shadow-md transition-shadow cursor-pointer flex flex-col">
-                        <CardHeader className="pb-2">
+                      <Card className="h-[320px] hover:shadow-2xl hover:shadow-purple-500/20 dark:hover:shadow-purple-500/30 transition-all duration-300 cursor-pointer flex flex-col bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-purple-200/30 dark:border-purple-800/30">
+                        <CardHeader className="pb-4">
                           <div
-                            className={`flex items-center gap-2 ${
+                            className={`flex items-center gap-3 ${
                               isRtl ? "justify-end flex-row-reverse" : "justify-start"
                             }`}
                           >
-                            {icon}
-                            <CardTitle className={`${isRtl ? "text-right" : "text-left"} text-lg`}>
+                            <div className="p-2 bg-purple-500/20 dark:bg-purple-500/10 rounded-lg">
+                              {icon}
+                            </div>
+                            <CardTitle className={`${isRtl ? "text-right" : "text-left"} text-lg font-bold group-hover:text-primary transition-colors duration-300`}>
                               {language === "ar" ? category.nameAr : category.nameEn}
                             </CardTitle>
                           </div>
                         </CardHeader>
-                        <CardContent className={`${isRtl ? "text-right" : "text-left"} flex-1 overflow-hidden`}>
-                          <div className="space-y-2 h-full">
+                        <CardContent className={`${isRtl ? "text-right" : "text-left"} flex-1 overflow-hidden p-6 pt-0`}>
+                          <div className="space-y-3 h-full">
                             {displayStandards.length > 0 ? (
                               <>
                                 {displayStandards.map((standard, standardIndex) => (
                                   <div
                                     key={standardIndex}
-                                    className={`p-3 bg-muted rounded-md ${isRtl ? "text-right" : "text-left"}`}
+                                    className={`p-4 bg-purple-50/50 dark:bg-purple-900/20 rounded-lg border border-purple-200/30 dark:border-purple-800/30 ${isRtl ? "text-right" : "text-left"}`}
                                   >
-                                    <h4 className={`font-medium text-sm ${isRtl ? "text-right" : "text-left"}`}>
+                                    <h4 className={`font-semibold text-sm ${isRtl ? "text-right" : "text-left"}`}>
                                       {language === "ar" ? standard.nameAr : standard.nameEn}
                                     </h4>
                                     <p
-                                      className={`text-xs text-muted-foreground mt-1 line-clamp-2 text-ellipsis overflow-hidden ${
+                                      className={`text-xs text-muted-foreground mt-2 line-clamp-2 text-ellipsis overflow-hidden leading-relaxed ${
                                         isRtl ? "text-right" : "text-left"
                                       }`}
                                     >
@@ -471,7 +496,7 @@ export default function CybersecurityConceptsSection() {
                                 ))}
                                 {remainingCount > 0 && (
                                   <div
-                                    className={`text-primary text-sm font-medium ${
+                                    className={`text-primary text-sm font-semibold ${
                                       isRtl ? "text-right" : "text-center"
                                     }`}
                                   >
@@ -480,7 +505,7 @@ export default function CybersecurityConceptsSection() {
                                 )}
                               </>
                             ) : (
-                              <div className={`p-3 bg-muted rounded-md ${isRtl ? "text-right" : "text-center"}`}>
+                              <div className={`p-4 bg-purple-50/50 dark:bg-purple-900/20 rounded-lg border border-purple-200/30 dark:border-purple-800/30 ${isRtl ? "text-right" : "text-center"}`}>
                                 <p className={`text-muted-foreground ${isRtl ? "text-right" : "text-left"}`}>
                                   {language === "ar" ? "لا توجد معايير" : "No Standards"}
                                 </p>

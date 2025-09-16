@@ -53,7 +53,7 @@ export default function SystemsSection() {
   }
 
   return (
-    <SectionContainer id="systems" className="bg-muted/30">
+    <SectionContainer id="systems" className="bg-gradient-to-br from-indigo-50/50 via-white to-blue-50/30 dark:from-indigo-950/30 dark:via-slate-900 dark:to-blue-950/20">
       <SectionHeader title={t("section.systems")} subtitle={t("systems.subtitle")} />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -62,19 +62,18 @@ export default function SystemsSection() {
         ))}
       </div>
 
-      {/* View All Systems Button */}
+      {/* Enhanced View All Systems Button */}
       <div className="flex justify-center mt-12">
         <Link href="/systems">
           <Button
-            variant="outline"
             size="lg"
-            className="group border-blue-300 dark:border-blue-700 hover:border-blue-500 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all duration-300"
+            className="group bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 px-8 py-4 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-xl shadow-indigo-500/30 dark:shadow-indigo-500/40 border border-indigo-500/30 dark:border-indigo-400/30"
           >
             <span className={`${isRtl ? "ml-2" : "mr-2"}`}>{t("systems.viewAll")}</span>
             {isRtl ? (
-              <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+              <ArrowLeft className="h-5 w-5 transition-transform group-hover:-translate-x-1" />
             ) : (
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             )}
           </Button>
         </Link>
@@ -105,33 +104,35 @@ function SystemCard({ system, index }: SystemCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileHover={{ y: -5 }}
     >
-      <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg group border border-blue-200/30 dark:border-blue-800/30">
-        <div className="relative h-48">
+      <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/20 dark:hover:shadow-indigo-500/30 group border border-indigo-200/30 dark:border-indigo-800/30 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm">
+        <div className="relative h-56">
           <Image
             src={system.imageUrl || "/placeholder.svg?height=300&width=400"}
             alt={system.name}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-          <div className="absolute bottom-0 left-0 right-0 p-4">
-            <h3 className={`text-xl font-bold text-white drop-shadow-md ${isRtl ? "text-right" : "text-left"}`}>
-              {system.name}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
+          <div className="absolute bottom-0 left-0 right-0 p-6">
+            <h3 className={`text-2xl font-bold text-white drop-shadow-2xl ${isRtl ? "text-right" : "text-left"}`}>
+              <span className="bg-gradient-to-r from-white via-indigo-100 to-white bg-clip-text text-transparent">
+                {system.name}
+              </span>
             </h3>
           </div>
         </div>
-        <CardContent className="p-6 bg-gradient-to-br from-white to-blue-50/50 dark:from-gray-900 dark:to-blue-950/30">
-          <p className={`text-muted-foreground mb-6 ${isRtl ? "text-right" : "text-left"}`}>{system.summary}</p>
+        <CardContent className="p-8 bg-gradient-to-br from-white to-indigo-50/50 dark:from-slate-800 dark:to-indigo-950/30">
+          <p className={`text-muted-foreground mb-8 leading-relaxed ${isRtl ? "text-right" : "text-left"}`}>{system.summary}</p>
           <div className={`flex ${isRtl ? "justify-start" : "justify-end"}`}>
             <Button
-              variant="outline"
-              className="group/button border-blue-300 dark:border-blue-700 hover:border-blue-500 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all duration-300"
+              className="group/button bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 px-6 py-3 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-indigo-500/30 dark:shadow-indigo-500/40 border border-indigo-500/30 dark:border-indigo-400/30"
               onClick={handleVisitSystem}
             >
               <span className={`${isRtl ? "ml-2" : "mr-2"}`}>{t("systems.visitSystem")}</span>
               <ExternalLink
-                className={`h-4 w-4 transition-transform ${
+                className={`h-5 w-5 transition-transform ${
                   isRtl ? "group-hover/button:-translate-x-1" : "group-hover/button:translate-x-1"
                 }`}
               />

@@ -80,7 +80,7 @@ export default function StandardsCategoryPageClient({
   return (
     <div className={isRtl ? "rtl" : "ltr"} dir={isRtl ? "rtl" : "ltr"}>
       <MainLayout>
-        <div className="pt-24 pb-16">
+        <div className="pt-36 pb-16">
           <div className="container mx-auto px-4">
             {/* Breadcrumb */}
             <div className={`mb-8 ${isRtl ? "text-right" : "text-left"}`}>

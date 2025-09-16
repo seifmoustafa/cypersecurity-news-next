@@ -216,25 +216,35 @@ export default function TipsTicker() {
     <>
       <div
         ref={containerRef}
-        className="fixed top-16 w-full h-12 overflow-hidden flex items-center px-4 z-40 bg-gradient-to-r from-blue-100/90 to-cyan-100/90 dark:from-blue-950/90 dark:to-cyan-950/90 backdrop-blur-sm border-b border-blue-200/30 dark:border-blue-800/30"
+        className="fixed top-20 w-full h-14 overflow-hidden flex items-center px-6 z-40 bg-gradient-to-r from-blue-600/95 via-cyan-600/90 to-blue-700/95 dark:from-blue-800/95 dark:via-cyan-800/90 dark:to-blue-900/95 backdrop-blur-xl border-b border-blue-400/40 dark:border-blue-300/40 shadow-lg shadow-blue-500/20 dark:shadow-blue-500/30"
         style={{ direction: "ltr" }} // Always LTR for animation control
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
-      <motion.div ref={textRef} animate={controls} className="inline-flex whitespace-nowrap">
-        {tickerItems.map((item, idx) => (
-          <span
-            key={idx}
-            className="mx-5 inline-flex items-center text-sm text-gray-900 dark:text-white cursor-pointer hover:text-primary transition-colors"
-            style={{ direction: isRtl ? "rtl" : "ltr" }} // RTL/LTR for text display
-            onClick={() => handleTipClick(item.id)}
-          >
-            {getIcon(item.type || "info")}
-            {item.text?.[language] || ""}
-          </span>
-        ))}
-      </motion.div>
-    </div>
+        {/* Enhanced animated background pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.1)_50%,transparent_100%)] animate-pulse"></div>
+        </div>
+        
+        <motion.div ref={textRef} animate={controls} className="inline-flex whitespace-nowrap relative z-10">
+          {tickerItems.map((item, idx) => (
+            <span
+              key={idx}
+              className="mx-8 inline-flex items-center text-base font-semibold text-white cursor-pointer hover:text-yellow-300 transition-all duration-300 hover:scale-105 drop-shadow-sm"
+              style={{ direction: isRtl ? "rtl" : "ltr" }} // RTL/LTR for text display
+              onClick={() => handleTipClick(item.id)}
+            >
+              <div className="relative">
+                <div className="absolute inset-0 bg-yellow-400 rounded-full blur-sm opacity-50"></div>
+                <div className="relative">
+                  {getIcon(item.type || "info")}
+                </div>
+              </div>
+              {item.text?.[language] || ""}
+            </span>
+          ))}
+        </motion.div>
+      </div>
 
     {/* Custom Tip Modal */}
     {tipDialogOpen && selectedTip && (

@@ -55,7 +55,7 @@ export default function HelperSystemsSection() {
   }
 
   return (
-    <SectionContainer id="helpers" className="bg-muted/50">
+    <SectionContainer id="helpers" className="bg-gradient-to-br from-orange-50/50 via-white to-amber-50/30 dark:from-orange-950/30 dark:via-slate-900 dark:to-amber-950/20">
       <SectionHeader title={t("section.helperSystems")} subtitle={t("helperSystems.subtitle")} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
@@ -70,19 +70,18 @@ export default function HelperSystemsSection() {
         </div>
       )}
 
-      {/* View All Helper Systems Button */}
+      {/* Enhanced View All Helper Systems Button */}
       <div className="flex justify-center mt-12">
         <Link href="/helper-systems">
           <Button
-            variant="outline"
             size="lg"
-            className="group border-blue-300 dark:border-blue-700 hover:border-blue-500 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all duration-300"
+            className="group bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 px-8 py-4 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-xl shadow-orange-500/30 dark:shadow-orange-500/40 border border-orange-500/30 dark:border-orange-400/30"
           >
             <span className={`${isRtl ? "ml-2" : "mr-2"}`}>{t("helperSystems.viewAll")}</span>
             {isRtl ? (
-              <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+              <ArrowLeft className="h-5 w-5 transition-transform group-hover:-translate-x-1" />
             ) : (
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             )}
           </Button>
         </Link>
@@ -118,16 +117,17 @@ function HelperSystemCard({ system, index }: HelperSystemCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileHover={{ y: -5 }}
     >
-      <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg group border border-blue-200/30 dark:border-blue-800/30 h-full">
-        <CardContent className="p-6 flex flex-col items-center h-full">
-          <div className="w-16 h-16 mb-4 relative flex-shrink-0">
+      <Card className="overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/20 dark:hover:shadow-orange-500/30 group border border-orange-200/30 dark:border-orange-800/30 h-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm">
+        <CardContent className="p-8 flex flex-col items-center h-full">
+          <div className="w-20 h-20 mb-6 relative flex-shrink-0">
             {system.iconUrl ? (
               <Image
                 src={system.iconUrl || "/placeholder.svg"}
                 alt={system.name}
                 fill
-                className="object-contain rounded-md"
+                className="object-contain rounded-xl"
                 onError={(e) => {
                   console.error("Error loading helper system icon:", e)
                   const target = e.target as HTMLImageElement
@@ -135,8 +135,8 @@ function HelperSystemCard({ system, index }: HelperSystemCardProps) {
                 }}
               />
             ) : (
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900/50 dark:to-blue-800/50 rounded-md flex items-center justify-center">
-                <span className="text-blue-600 dark:text-blue-300 text-xs font-medium">
+              <div className="w-20 h-20 bg-gradient-to-br from-orange-100 to-amber-100 dark:from-orange-900/50 dark:to-amber-800/50 rounded-xl flex items-center justify-center border border-orange-200/50 dark:border-orange-800/50 shadow-lg">
+                <span className="text-orange-600 dark:text-orange-300 text-sm font-bold">
                   {system.name.substring(0, 2).toUpperCase()}
                 </span>
               </div>
@@ -144,18 +144,18 @@ function HelperSystemCard({ system, index }: HelperSystemCardProps) {
           </div>
 
           <div className="flex-grow text-center">
-            <h3 className="text-lg font-semibold mb-2 text-foreground">{system.name}</h3>
-            <p className="text-sm text-muted-foreground mb-4 line-clamp-3">{system.summary}</p>
+            <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-300">{system.name}</h3>
+            <p className="text-sm text-muted-foreground mb-6 line-clamp-3 leading-relaxed">{system.summary}</p>
           </div>
 
           <div className="w-full mt-auto">
             <Button
               onClick={handleDownload}
               disabled={!system.downloadUrl || !system.isActive}
-              className="w-full group/button bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 disabled:from-gray-400 disabled:to-gray-500 transition-all duration-300"
+              className="w-full group/button bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 disabled:from-gray-400 disabled:to-gray-500 transition-all duration-300 py-3 rounded-xl font-semibold shadow-lg shadow-orange-500/30 dark:shadow-orange-500/40 border border-orange-500/30 dark:border-orange-400/30"
             >
               <Download
-                className={`h-4 w-4 transition-transform group-hover/button:scale-110 ${isRtl ? "ml-2" : "mr-2"}`}
+                className={`h-5 w-5 transition-transform group-hover/button:scale-110 ${isRtl ? "ml-2" : "mr-2"}`}
               />
               {t("helperSystems.download")}
             </Button>

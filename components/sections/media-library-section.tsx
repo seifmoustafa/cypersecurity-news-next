@@ -114,19 +114,28 @@ export default function MediaLibrarySection() {
   }, [router])
 
   return (
-    <SectionContainer id="media">
+    <SectionContainer id="media" className="bg-gradient-to-br from-purple-50/50 via-white to-violet-50/30 dark:from-purple-950/30 dark:via-slate-900 dark:to-violet-950/20">
       <SectionHeader title={t("section.media")} subtitle={t("media.subtitle")} />
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className={`w-full max-w-md mx-auto mb-8 ${isRtl ? "flex-row-reverse" : ""}`}>
-          <TabsTrigger value="videos" className="flex-1">
-            {t("media.videos")}
+        <TabsList className={`w-full max-w-2xl mx-auto mb-12 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-purple-200/50 dark:border-purple-800/50 shadow-lg shadow-purple-500/10 dark:shadow-purple-500/20 ${isRtl ? "flex-row-reverse" : ""}`}>
+          <TabsTrigger value="videos" className="flex-1 font-semibold transition-all duration-300 hover:scale-105">
+            <span className="flex items-center gap-2">
+              <Play className="h-4 w-4" />
+              {t("media.videos")}
+            </span>
           </TabsTrigger>
-          <TabsTrigger value="lectures" className="flex-1">
-            {t("media.lectures")}
+          <TabsTrigger value="lectures" className="flex-1 font-semibold transition-all duration-300 hover:scale-105">
+            <span className="flex items-center gap-2">
+              <BookOpen className="h-4 w-4" />
+              {t("media.lectures")}
+            </span>
           </TabsTrigger>
-          <TabsTrigger value="presentations" className="flex-1">
-            {t("media.presentations")}
+          <TabsTrigger value="presentations" className="flex-1 font-semibold transition-all duration-300 hover:scale-105">
+            <span className="flex items-center gap-2">
+              <Presentation className="h-4 w-4" />
+              {t("media.presentations")}
+            </span>
           </TabsTrigger>
         </TabsList>
 
@@ -151,13 +160,16 @@ export default function MediaLibrarySection() {
           </div>
 
           {videos.length > 0 && (
-            <div className="flex justify-center mt-8">
-              <Button onClick={() => router.push("/videos")} variant="outline" className="group">
+            <div className="flex justify-center mt-12">
+              <Button 
+                onClick={() => router.push("/videos")} 
+                className="group bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 px-8 py-4 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-xl shadow-purple-500/30 dark:shadow-purple-500/40 border border-purple-500/30 dark:border-purple-400/30"
+              >
                 {t("common.viewAll")}
                 {isRtl ? (
-                  <ArrowLeft className="ml-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+                  <ArrowLeft className="ml-2 h-5 w-5 transition-transform group-hover:-translate-x-1" />
                 ) : (
-                  <ArrowRight className="mr-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="mr-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 )}
               </Button>
             </div>
@@ -185,13 +197,16 @@ export default function MediaLibrarySection() {
           </div>
 
           {lectures.length > 0 && (
-            <div className="flex justify-center mt-8">
-              <Button onClick={() => router.push("/lectures")} variant="outline" className="group">
+            <div className="flex justify-center mt-12">
+              <Button 
+                onClick={() => router.push("/lectures")} 
+                className="group bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 px-8 py-4 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-xl shadow-purple-500/30 dark:shadow-purple-500/40 border border-purple-500/30 dark:border-purple-400/30"
+              >
                 {t("common.viewAll")}
                 {isRtl ? (
-                  <ArrowLeft className="ml-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+                  <ArrowLeft className="ml-2 h-5 w-5 transition-transform group-hover:-translate-x-1" />
                 ) : (
-                  <ArrowRight className="mr-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="mr-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 )}
               </Button>
             </div>
@@ -221,13 +236,16 @@ export default function MediaLibrarySection() {
           </div>
 
           {presentations.length > 0 && (
-            <div className="flex justify-center mt-8">
-              <Button onClick={() => router.push("/presentations")} variant="outline" className="group">
+            <div className="flex justify-center mt-12">
+              <Button 
+                onClick={() => router.push("/presentations")} 
+                className="group bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 px-8 py-4 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-xl shadow-purple-500/30 dark:shadow-purple-500/40 border border-purple-500/30 dark:border-purple-400/30"
+              >
                 {t("common.viewAll")}
                 {isRtl ? (
-                  <ArrowLeft className="ml-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+                  <ArrowLeft className="ml-2 h-5 w-5 transition-transform group-hover:-translate-x-1" />
                 ) : (
-                  <ArrowRight className="mr-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="mr-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 )}
               </Button>
             </div>
@@ -265,7 +283,7 @@ export default function MediaLibrarySection() {
   )
 }
 
-// Video Card Component for API videos
+// Enhanced Video Card Component for API videos
 const VideoCard = ({ video, onClick }: { video: ApiVideo; onClick: (video: ApiVideo) => void }) => {
   const { language, isRtl } = useLanguage()
 
@@ -285,22 +303,30 @@ const VideoCard = ({ video, onClick }: { video: ApiVideo; onClick: (video: ApiVi
 
   return (
     <div
-      className="card group cursor-pointer transition-all duration-300 hover:shadow-lg border border-border/50 overflow-hidden rounded-lg bg-card"
+      className="group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/20 dark:hover:shadow-purple-500/30 border border-purple-200/30 dark:border-purple-800/30 overflow-hidden rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm hover:scale-105"
       onClick={handleCardClick}
     >
-      <div className="relative aspect-video overflow-hidden bg-muted flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
-        <Play className="h-12 w-12 text-white/80 group-hover:text-white transition-colors" />
-        <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between">
-          <span className="text-xs font-medium text-white bg-primary/80 px-2 py-1 rounded">Video</span>
-          <span className="text-xs text-white/90">{formatDate(video.createdAt)}</span>
+      <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-purple-100 to-violet-100 dark:from-purple-900/50 dark:to-violet-900/50 flex items-center justify-center">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+        <div className="relative z-10">
+          <div className="w-16 h-16 bg-purple-600/90 dark:bg-purple-700/90 rounded-full flex items-center justify-center backdrop-blur-sm border border-purple-400/50 dark:border-purple-300/50 shadow-xl shadow-purple-500/30 dark:shadow-purple-500/40 group-hover:scale-110 transition-transform duration-300">
+            <Play className="h-8 w-8 text-white ml-1" />
+          </div>
+        </div>
+        <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+          <span className="text-xs font-semibold text-white bg-purple-600/95 dark:bg-purple-700/95 px-3 py-1.5 rounded-full backdrop-blur-sm border border-purple-400/50 dark:border-purple-300/50 shadow-lg">
+            Video
+          </span>
+          <span className="text-xs text-white/90 bg-black/30 px-2 py-1 rounded-md backdrop-blur-sm">
+            {formatDate(video.createdAt)}
+          </span>
         </div>
       </div>
-      <div className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
-        <h3 className="font-bold text-base sm:text-lg mb-2 line-clamp-2">
+      <div className={`p-6 ${isRtl ? "text-right" : "text-left"}`}>
+        <h3 className="font-bold text-lg mb-3 line-clamp-2 text-foreground group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300">
           {getLocalizedText(language, video.nameAr, video.nameEn)}
         </h3>
-        <p className="text-sm text-muted-foreground line-clamp-2">
+        <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
           {getLocalizedText(language, video.summaryAr, video.summaryEn)}
         </p>
       </div>
@@ -308,7 +334,7 @@ const VideoCard = ({ video, onClick }: { video: ApiVideo; onClick: (video: ApiVi
   )
 }
 
-// Lecture Card Component for API lectures with slug-based navigation
+// Enhanced Lecture Card Component for API lectures with slug-based navigation
 const LectureCard = ({ lecture }: { lecture: ApiLecture }) => {
   const { language, isRtl } = useLanguage()
   const router = useRouter()
@@ -331,22 +357,30 @@ const LectureCard = ({ lecture }: { lecture: ApiLecture }) => {
 
   return (
     <div
-      className="card group cursor-pointer transition-all duration-300 hover:shadow-lg border border-border/50 overflow-hidden rounded-lg bg-card"
+      className="group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/20 dark:hover:shadow-purple-500/30 border border-purple-200/30 dark:border-purple-800/30 overflow-hidden rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm hover:scale-105"
       onClick={handleCardClick}
     >
-      <div className="relative aspect-video overflow-hidden bg-muted flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
-        <BookOpen className="h-12 w-12 text-white/80 group-hover:text-white transition-colors" />
-        <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between">
-          <span className="text-xs font-medium text-white bg-primary/80 px-2 py-1 rounded">Lecture</span>
-          <span className="text-xs text-white/90">{formatDate(lecture.createdAt)}</span>
+      <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-purple-100 to-violet-100 dark:from-purple-900/50 dark:to-violet-900/50 flex items-center justify-center">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+        <div className="relative z-10">
+          <div className="w-16 h-16 bg-purple-600/90 dark:bg-purple-700/90 rounded-full flex items-center justify-center backdrop-blur-sm border border-purple-400/50 dark:border-purple-300/50 shadow-xl shadow-purple-500/30 dark:shadow-purple-500/40 group-hover:scale-110 transition-transform duration-300">
+            <BookOpen className="h-8 w-8 text-white" />
+          </div>
+        </div>
+        <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+          <span className="text-xs font-semibold text-white bg-purple-600/95 dark:bg-purple-700/95 px-3 py-1.5 rounded-full backdrop-blur-sm border border-purple-400/50 dark:border-purple-300/50 shadow-lg">
+            Lecture
+          </span>
+          <span className="text-xs text-white/90 bg-black/30 px-2 py-1 rounded-md backdrop-blur-sm">
+            {formatDate(lecture.createdAt)}
+          </span>
         </div>
       </div>
-      <div className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
-        <h3 className="font-bold text-base sm:text-lg mb-2 line-clamp-2">
+      <div className={`p-6 ${isRtl ? "text-right" : "text-left"}`}>
+        <h3 className="font-bold text-lg mb-3 line-clamp-2 text-foreground group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300">
           {getLocalizedText(language, lecture.nameAr, lecture.nameEn)}
         </h3>
-        <p className="text-sm text-muted-foreground line-clamp-2">
+        <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
           {getLocalizedText(language, lecture.summaryAr, lecture.summaryEn)}
         </p>
       </div>
@@ -354,7 +388,7 @@ const LectureCard = ({ lecture }: { lecture: ApiLecture }) => {
   )
 }
 
-// Presentation Card Component for API presentations with slug-based navigation
+// Enhanced Presentation Card Component for API presentations with slug-based navigation
 const PresentationCard = ({ presentation }: { presentation: ApiPresentation }) => {
   const { language, isRtl } = useLanguage()
   const router = useRouter()
@@ -377,22 +411,30 @@ const PresentationCard = ({ presentation }: { presentation: ApiPresentation }) =
 
   return (
     <div
-      className="card group cursor-pointer transition-all duration-300 hover:shadow-lg border border-border/50 overflow-hidden rounded-lg bg-card"
+      className="group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/20 dark:hover:shadow-purple-500/30 border border-purple-200/30 dark:border-purple-800/30 overflow-hidden rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm hover:scale-105"
       onClick={handleCardClick}
     >
-      <div className="relative aspect-video overflow-hidden bg-muted flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
-        <Presentation className="h-12 w-12 text-white/80 group-hover:text-white transition-colors" />
-        <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between">
-          <span className="text-xs font-medium text-white bg-primary/80 px-2 py-1 rounded">Presentation</span>
-          <span className="text-xs text-white/90">{formatDate(presentation.createdAt)}</span>
+      <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-purple-100 to-violet-100 dark:from-purple-900/50 dark:to-violet-900/50 flex items-center justify-center">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+        <div className="relative z-10">
+          <div className="w-16 h-16 bg-purple-600/90 dark:bg-purple-700/90 rounded-full flex items-center justify-center backdrop-blur-sm border border-purple-400/50 dark:border-purple-300/50 shadow-xl shadow-purple-500/30 dark:shadow-purple-500/40 group-hover:scale-110 transition-transform duration-300">
+            <Presentation className="h-8 w-8 text-white" />
+          </div>
+        </div>
+        <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+          <span className="text-xs font-semibold text-white bg-purple-600/95 dark:bg-purple-700/95 px-3 py-1.5 rounded-full backdrop-blur-sm border border-purple-400/50 dark:border-purple-300/50 shadow-lg">
+            Presentation
+          </span>
+          <span className="text-xs text-white/90 bg-black/30 px-2 py-1 rounded-md backdrop-blur-sm">
+            {formatDate(presentation.createdAt)}
+          </span>
         </div>
       </div>
-      <div className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>
-        <h3 className="font-bold text-base sm:text-lg mb-2 line-clamp-2">
+      <div className={`p-6 ${isRtl ? "text-right" : "text-left"}`}>
+        <h3 className="font-bold text-lg mb-3 line-clamp-2 text-foreground group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300">
           {getLocalizedText(language, presentation.nameAr, presentation.nameEn)}
         </h3>
-        <p className="text-sm text-muted-foreground line-clamp-2">
+        <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
           {getLocalizedText(language, presentation.summaryAr, presentation.summaryEn)}
         </p>
       </div>

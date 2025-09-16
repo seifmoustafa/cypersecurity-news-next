@@ -56,7 +56,7 @@ export default function RegulationCategoryPageClient({ categoryId }: RegulationC
 
   if (loading) {
     return (
-      <div className="pt-24 pb-16">
+      <div className="pt-36 pb-16">
         <div className="container mx-auto px-4">
           <div className="animate-pulse">
             <div className="h-8 bg-gray-300 rounded w-1/2 mb-4"></div>
@@ -74,7 +74,7 @@ export default function RegulationCategoryPageClient({ categoryId }: RegulationC
 
   if (error || !category) {
     return (
-      <div className="pt-24 pb-16">
+      <div className="pt-36 pb-16">
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <div className="py-12">
             <h1 className="text-2xl font-bold mb-4 text-foreground">

@@ -49,7 +49,7 @@ export default function PersonalProtectControlPageClient({ control, categoryId, 
 
   return (
     <MainLayout>
-      <div className="pt-24 pb-16">
+      <div className="pt-36 pb-16">
         <div className="container mx-auto px-4 max-w-6xl">
           {/* Header */}
           <div className="mb-8">

@@ -34,13 +34,13 @@ export default function ArticlesPageClient() {
 
   return (
     <MainLayout>
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gradient-to-br from-green-50/30 via-white to-blue-50/30 dark:from-green-950/30 dark:via-slate-900 dark:to-blue-950/30">
       <div className="container mx-auto px-4 py-8">
-        {/* Breadcrumb */}
+        {/* Enhanced Breadcrumb */}
         <div className={`mb-8 ${isRtl ? "text-right" : "text-left"}`}>
           <Link
             href="/"
-            className={`inline-flex items-center text-primary hover:text-primary/80 transition-colors ${
+            className={`inline-flex items-center px-4 py-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl border border-blue-200/30 dark:border-blue-800/30 shadow-md shadow-blue-500/10 dark:shadow-blue-500/20 text-primary hover:text-primary/80 transition-all duration-300 hover:scale-105 hover:shadow-lg ${
               isRtl ? "flex-row-reverse" : ""
             }`}
           >
@@ -49,17 +49,24 @@ export default function ArticlesPageClient() {
           </Link>
         </div>
 
-        {/* Header */}
+        {/* Enhanced Header */}
         <div className={`mb-12 ${isRtl ? "text-right" : "text-left"}`}>
-          <div className={`flex items-center gap-4 mb-4 ${isRtl ? "flex-row-reverse justify-end" : "justify-start"}`}>
-            <div className="p-3 bg-primary/10 rounded-full">
-              <FileText className="h-8 w-8 text-primary" />
+          <div className={`flex items-center gap-6 mb-6 ${isRtl ? "flex-row-reverse justify-end" : "justify-start"}`}>
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-blue-500 rounded-2xl blur-lg opacity-30"></div>
+              <div className="relative p-4 bg-gradient-to-r from-green-500 to-blue-500 rounded-2xl shadow-lg shadow-green-500/30">
+                <FileText className="h-10 w-10 text-white" />
+              </div>
             </div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
+            <h1 className="text-5xl font-bold bg-gradient-to-r from-green-600 via-blue-600 to-green-600 dark:from-green-400 dark:via-blue-400 dark:to-green-400 bg-clip-text text-transparent">
               {t("articles.title")}
             </h1>
           </div>
-          <p className={`text-lg text-muted-foreground max-w-2xl ${isRtl ? "mr-auto" : "ml-auto"}`}>{t("articles.subtitle")}</p>
+          <div className="max-w-3xl">
+            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-6 border border-green-200/30 dark:border-green-800/30 shadow-lg shadow-green-500/10 dark:shadow-green-500/20">
+              <p className={`text-lg text-muted-foreground ${isRtl ? "text-right" : "text-left"}`}>{t("articles.subtitle")}</p>
+            </div>
+          </div>
         </div>
 
         {/* Articles Grid */}
