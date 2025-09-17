@@ -18,6 +18,15 @@ export default function Home() {
   const router = useRouter()
   const initialScrollDone = useRef(false)
   
+  // Check if beginners mode is enabled (default to true for new users)
+  useEffect(() => {
+    const beginnersMode = localStorage.getItem("beginnersMode")
+    if (beginnersMode === "true" || beginnersMode === null) {
+      router.push("/beginners")
+      return
+    }
+  }, [router])
+  
   // Use the scroll URL hook for dynamic URL updates
   useScrollUrl()
 

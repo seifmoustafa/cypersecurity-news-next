@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { MoonIcon, SunIcon, MenuIcon, XIcon, Globe, ChevronDown, Shield, LightbulbIcon, Search, Home, ChevronRight } from "lucide-react"
+import { MoonIcon, SunIcon, MenuIcon, XIcon, Globe, ChevronDown, Shield, LightbulbIcon, Search, Home, ChevronRight, ToggleLeft, ToggleRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import { useLanguage } from "@/components/language-provider"
@@ -25,6 +25,7 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
   const [tipsDisabled, setTipsDisabled] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const [searchOpen, setSearchOpen] = useState(false)
+  const [isBeginnersMode, setIsBeginnersMode] = useState(false)
 
   const pathname = usePathname()
   const router = useRouter()
@@ -74,10 +75,12 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
     },
   ]
 
-  // Check if tips are disabled on mount
+  // Check if tips are disabled on mount and beginners mode
   useEffect(() => {
     const disabled = localStorage.getItem("tipOfTheDayDisabled") === "true"
+    const beginnersMode = localStorage.getItem("beginnersMode") === "true"
     setTipsDisabled(disabled)
+    setIsBeginnersMode(beginnersMode)
     setMounted(true)
   }, [])
 
@@ -158,6 +161,17 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
     setSearchOpen(!searchOpen)
     setOpenDropdown(null)
     setMobileMenuOpen(false)
+  }
+
+  const handleLayoutSwitch = () => {
+    const newMode = !isBeginnersMode
+    setIsBeginnersMode(newMode)
+    localStorage.setItem("beginnersMode", newMode.toString())
+    
+    // If switching to beginners mode, redirect to beginners layout
+    if (newMode) {
+      window.location.href = "/beginners"
+    }
   }
 
   const handleNavigation = (e: React.MouseEvent, href: string, isScroll: boolean, tab?: string) => {
@@ -317,6 +331,31 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
 
           {/* Enhanced Action Buttons */}
           <div className="flex items-center gap-1 md:gap-2">
+            {/* Layout Switch Button */}
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleLayoutSwitch}
+                    title={isBeginnersMode ? t("nav.advancedMode") : t("nav.beginnersMode")}
+                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-9 w-9 md:h-11 md:w-11 transition-all duration-300 hover:scale-110 hover:shadow-md group"
+                  >
+                    {isBeginnersMode ? (
+                      <ToggleRight className="h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-transform duration-300 text-green-500" />
+                    ) : (
+                      <ToggleLeft className="h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-transform duration-300 text-blue-500" />
+                    )}
+                    <span className="sr-only">{isBeginnersMode ? t("nav.advancedMode") : t("nav.beginnersMode")}</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{isBeginnersMode ? t("nav.advancedMode") : t("nav.beginnersMode")}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -462,6 +501,25 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
         <div className="lg:hidden bg-white dark:bg-gray-900 border-b border-blue-200/30 dark:border-blue-800/30 max-h-[80vh] overflow-y-auto shadow-xl shadow-blue-500/10 dark:shadow-blue-500/20 animate-in slide-in-from-top-2 duration-300">
           <div className="container mx-auto px-4 py-6">
             <nav className="flex flex-col space-y-4">
+              {/* Layout Switch in Mobile */}
+              <div className="py-2 border-b border-blue-200/30 dark:border-blue-800/30">
+                <button
+                  className="flex items-center gap-3 px-4 py-3 text-sm rounded-xl transition-all duration-300 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 hover:scale-[1.02] hover:shadow-md text-foreground/80 w-full text-left group"
+                  onClick={handleLayoutSwitch}
+                >
+                  {isBeginnersMode ? (
+                    <ToggleRight className="h-4 w-4 text-green-500 group-hover:scale-110 transition-transform duration-300" />
+                  ) : (
+                    <ToggleLeft className="h-4 w-4 text-blue-500 group-hover:scale-110 transition-transform duration-300" />
+                  )}
+                  {isBeginnersMode ? t("nav.advancedMode") : t("nav.beginnersMode")}
+                  <ChevronRight className={cn(
+                    "h-4 w-4 ml-auto opacity-0 group-hover:opacity-100 transition-all duration-300",
+                    isRtl ? "rotate-180" : ""
+                  )} />
+                </button>
+              </div>
+
               <div className="py-2">
                 <button
                   className="flex items-center gap-3 px-4 py-3 text-sm rounded-xl transition-all duration-300 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 hover:scale-[1.02] hover:shadow-md text-foreground/80 w-full text-left group"

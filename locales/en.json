@@ -17,7 +17,65 @@
     "standards": "Standards",
     "cybersecurityRegulation": "Cybersecurity Regulation",
     "documentLibrary": "Document Library",
-    "laws": "Laws and Regulations"
+    "laws": "Laws and Regulations",
+    "media": "Media",
+    "personalProtect": "Personal Protection",
+    "beginnersMode": "Beginners Mode",
+    "advancedMode": "Advanced Mode"
+  },
+  "beginners": {
+    "title": "Cybersecurity Portal for Beginners",
+    "subtitle": "Start your cybersecurity journey with simplified and beginner-friendly resources",
+    "hero": {
+      "title": "Cybersecurity Portal for Beginners",
+      "subtitle": "Start your cybersecurity journey with simplified and beginner-friendly resources",
+      "features": {
+        "simplified": "Simplified Content",
+        "easy": "Easy to Understand", 
+        "interactive": "Interactive Resources"
+      }
+    },
+    "cards": {
+      "media": {
+        "title": "Media",
+        "description": "Comprehensive library of educational videos, lectures, and presentations",
+        "videos": "Videos",
+        "lectures": "Lectures",
+        "presentations": "Presentations"
+      },
+      "definitions": {
+        "title": "Definitions",
+        "description": "Comprehensive dictionary of cybersecurity terms and basic concepts",
+        "terms": "Basic Terms",
+        "categories": "Categories"
+      },
+      "personalProtect": {
+        "title": "Personal Protection",
+        "description": "Tools and tips to protect yourself and your devices from cyber threats",
+        "tips": "Safety Tips",
+        "tools": "Protection Tools"
+      }
+    },
+    "cta": {
+      "title": "Want more advanced content?",
+      "description": "You can switch to advanced mode to access all available features and resources",
+      "button": "Switch to Advanced Mode"
+    },
+    "navigation": {
+      "home": "Home",
+      "media": "Media",
+      "definitions": "Definitions", 
+      "personalProtect": "Personal Protection",
+      "search": "Search",
+      "sitemap": "Site Map"
+    },
+    "footer": {
+      "title": "Cybersecurity Portal for Beginners",
+      "subtitle": "A simplified cybersecurity platform providing basic knowledge and simple tools for cybersecurity beginners",
+      "quickLinks": "Quick Links",
+      "contactInfo": "Contact Information",
+      "copyright": "Copyright © 2025 / Technical Insurance Center MMC. All rights reserved."
+    }
   },
   "section": {
     "news": "News",
