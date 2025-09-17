@@ -149,11 +149,19 @@ export default function BeginnersSearchPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
+      {/* Cybersecurity Pattern Background */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(34,197,94,0.1)_50%,transparent_75%)] bg-[length:20px_20px]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(59,130,246,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_75%,rgba(147,51,234,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_25%,rgba(34,197,94,0.05)_50%,transparent_75%)] bg-[length:40px_40px]"></div>
+      </div>
+
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-slate-900 via-gray-900 to-slate-800 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900 text-white py-20">
+      <div className="relative z-10 bg-gradient-to-r from-slate-900 via-gray-900 to-slate-800 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900 text-white py-20">
         <div className="container mx-auto px-4">
           <div className="text-center">
-            <div className="inline-flex items-center justify-center mb-6">
+            <div className="inline-flex items-center justify-center mb-8">
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl blur-lg opacity-30"></div>
                 <div className="relative bg-gradient-to-r from-green-500 to-blue-500 p-4 rounded-xl">
@@ -174,7 +182,7 @@ export default function BeginnersSearchPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="relative z-10 container mx-auto px-4 py-12">
         {/* Search Section */}
         <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8">
           <div className="flex flex-col md:flex-row gap-4 items-center">

@@ -12,6 +12,11 @@ export const metadata = {
   title: "بوابة الأمن السيبراني | Cybersecurity Portal",
   description:
     "أحدث المستجدات والتحليلات حول التهديدات السيبرانية وتقنيات الحماية",
+  icons: {
+    icon: '/app-icon.png',
+    shortcut: '/app-icon.png',
+    apple: '/app-icon.png',
+  },
 };
 
 // Add this function to improve page loading performance

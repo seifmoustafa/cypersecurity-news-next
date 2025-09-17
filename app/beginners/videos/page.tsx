@@ -1,172 +1,170 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { useLanguage } from "@/components/language-provider"
 import { 
   Video, 
   Play, 
-  Clock, 
-  Eye, 
-  Star,
   ArrowRight,
   ArrowLeft,
   Search,
   Filter,
-  Grid,
-  List,
+  Clock,
+  Eye,
+  Star,
   Download,
   Share2,
-  Bookmark,
-  ThumbsUp,
-  MessageCircle,
-  Calendar,
-  User,
-  Tag
+  Bookmark
 } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { container } from "@/core/di/container"
+
+interface VideoItem {
+  id: string
+  title: string
+  description: string
+  duration: string
+  views: number
+  rating: number
+  thumbnail: string
+  url: string
+  category: string
+  createdAt: string
+}
 
 export default function BeginnersVideosPage() {
   const { language, t } = useLanguage()
   const isRtl = language === "ar"
+  const [videos, setVideos] = useState<VideoItem[]>([])
+  const [loading, setLoading] = useState(true)
+  const [searchQuery, setSearchQuery] = useState("")
 
-  const videoCategories = [
-    {
-      id: "basics",
-      title: language === "ar" ? "الأساسيات" : "Basics",
-      count: 15
-    },
-    {
-      id: "passwords",
-      title: language === "ar" ? "كلمات المرور" : "Passwords",
-      count: 8
-    },
-    {
-      id: "phishing",
-      title: language === "ar" ? "التصيد الاحتيالي" : "Phishing",
-      count: 12
-    },
-    {
-      id: "malware",
-      title: language === "ar" ? "البرمجيات الضارة" : "Malware",
-      count: 10
-    },
-    {
-      id: "privacy",
-      title: language === "ar" ? "الخصوصية" : "Privacy",
-      count: 7
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        setLoading(true)
+        // Fetch real videos from backend
+        const mediaData = await container.services.media.getAllMedia(1, 50)
+        const videoItems = mediaData
+          ?.filter((item: any) => item.type === 'video')
+          ?.map((item: any) => ({
+            id: item.id,
+            title: item.title?.[language] || item.title || 'Untitled Video',
+            description: item.description?.[language] || item.description || '',
+            duration: item.duration || '0:00',
+            views: item.views || 0,
+            rating: item.rating || 4.5,
+            thumbnail: item.thumbnail || '/placeholder.jpg',
+            url: item.url || '#',
+            category: item.category || 'general',
+            createdAt: item.createdAt || new Date().toISOString()
+          })) || []
+        
+        setVideos(videoItems)
+      } catch (error) {
+        console.error('Error fetching videos:', error)
+        // Fallback to mock data
+        setVideos([
+          {
+            id: '1',
+            title: language === "ar" ? "مقدمة في الأمن السيبراني" : "Introduction to Cybersecurity",
+            description: language === "ar" ? "تعلم أساسيات الأمن السيبراني من الصفر" : "Learn cybersecurity fundamentals from scratch",
+            duration: "15:30",
+            views: 2500,
+            rating: 4.8,
+            thumbnail: "/placeholder.jpg",
+            url: "#",
+            category: "general",
+            createdAt: new Date().toISOString()
+          },
+          {
+            id: '2',
+            title: language === "ar" ? "كيفية إنشاء كلمة مرور قوية" : "How to Create Strong Passwords",
+            description: language === "ar" ? "نصائح لإنشاء كلمات مرور آمنة" : "Tips for creating secure passwords",
+            duration: "8:45",
+            views: 1800,
+            rating: 4.9,
+            thumbnail: "/placeholder.jpg",
+            url: "#",
+            category: "security",
+            createdAt: new Date().toISOString()
+          }
+        ])
+      } finally {
+        setLoading(false)
+      }
     }
-  ]
 
-  const videos = [
-    {
-      id: 1,
-      title: language === "ar" ? "مقدمة في الأمن السيبراني للمبتدئين" : "Introduction to Cybersecurity for Beginners",
-      description: language === "ar" ? "تعلم أساسيات الأمن السيبراني وأهميته في حياتنا اليومية" : "Learn the fundamentals of cybersecurity and its importance in our daily lives",
-      duration: "15:30",
-      views: "2.5K",
-      rating: 4.8,
-      thumbnail: "/placeholder.jpg",
-      category: "basics",
-      instructor: language === "ar" ? "أحمد محمد" : "Ahmed Mohammed",
-      date: "2024-01-15",
-      tags: [language === "ar" ? "أساسيات" : "Basics", language === "ar" ? "مقدمة" : "Introduction"]
-    },
-    {
-      id: 2,
-      title: language === "ar" ? "كيفية إنشاء كلمة مرور قوية وآمنة" : "How to Create Strong and Secure Passwords",
-      description: language === "ar" ? "تعلم أفضل الممارسات لإنشاء كلمات مرور قوية وحماية حساباتك" : "Learn best practices for creating strong passwords and protecting your accounts",
-      duration: "8:45",
-      views: "1.8K",
-      rating: 4.9,
-      thumbnail: "/placeholder.jpg",
-      category: "passwords",
-      instructor: language === "ar" ? "فاطمة أحمد" : "Fatima Ahmed",
-      date: "2024-01-12",
-      tags: [language === "ar" ? "كلمات المرور" : "Passwords", language === "ar" ? "أمان" : "Security"]
-    },
-    {
-      id: 3,
-      title: language === "ar" ? "كيفية التعرف على رسائل التصيد الاحتيالي" : "How to Identify Phishing Emails",
-      description: language === "ar" ? "تعلم كيفية التعرف على رسائل التصيد الاحتيالي وحماية نفسك منها" : "Learn how to identify phishing emails and protect yourself from them",
-      duration: "12:20",
-      views: "3.2K",
-      rating: 4.7,
-      thumbnail: "/placeholder.jpg",
-      category: "phishing",
-      instructor: language === "ar" ? "محمد علي" : "Mohammed Ali",
-      date: "2024-01-10",
-      tags: [language === "ar" ? "التصيد" : "Phishing", language === "ar" ? "البريد الإلكتروني" : "Email"]
-    },
-    {
-      id: 4,
-      title: language === "ar" ? "حماية البيانات الشخصية على الإنترنت" : "Protecting Personal Data Online",
-      description: language === "ar" ? "تعلم كيفية حماية بياناتك الشخصية عند استخدام الإنترنت" : "Learn how to protect your personal data when using the internet",
-      duration: "18:15",
-      views: "2.1K",
-      rating: 4.6,
-      thumbnail: "/placeholder.jpg",
-      category: "privacy",
-      instructor: language === "ar" ? "سارة حسن" : "Sara Hassan",
-      date: "2024-01-08",
-      tags: [language === "ar" ? "الخصوصية" : "Privacy", language === "ar" ? "البيانات" : "Data"]
-    },
-    {
-      id: 5,
-      title: language === "ar" ? "أنواع البرمجيات الضارة وكيفية الوقاية منها" : "Types of Malware and How to Prevent Them",
-      description: language === "ar" ? "تعرف على أنواع البرمجيات الضارة المختلفة وطرق الوقاية منها" : "Learn about different types of malware and prevention methods",
-      duration: "14:30",
-      views: "1.9K",
-      rating: 4.8,
-      thumbnail: "/placeholder.jpg",
-      category: "malware",
-      instructor: language === "ar" ? "خالد إبراهيم" : "Khalid Ibrahim",
-      date: "2024-01-05",
-      tags: [language === "ar" ? "البرمجيات الضارة" : "Malware", language === "ar" ? "الوقاية" : "Prevention"]
-    },
-    {
-      id: 6,
-      title: language === "ar" ? "استخدام المصادقة الثنائية" : "Using Two-Factor Authentication",
-      description: language === "ar" ? "تعلم كيفية تفعيل واستخدام المصادقة الثنائية لحماية حساباتك" : "Learn how to enable and use two-factor authentication to protect your accounts",
-      duration: "10:45",
-      views: "2.3K",
-      rating: 4.9,
-      thumbnail: "/placeholder.jpg",
-      category: "basics",
-      instructor: language === "ar" ? "نور الدين" : "Nour Al-Din",
-      date: "2024-01-03",
-      tags: [language === "ar" ? "المصادقة الثنائية" : "2FA", language === "ar" ? "الحماية" : "Protection"]
-    }
-  ]
+    fetchVideos()
+  }, [language])
+
+  const filteredVideos = videos.filter(video =>
+    video.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    video.description.toLowerCase().includes(searchQuery.toLowerCase())
+  )
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
-      {/* Header Section */}
-      <div className="bg-gradient-to-r from-slate-900 via-gray-900 to-slate-800 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900 text-white py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <div className="inline-flex items-center justify-center mb-6">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl blur-lg opacity-30"></div>
-                <div className="relative bg-gradient-to-r from-green-500 to-blue-500 p-4 rounded-xl">
-                  <Video className="h-8 w-8 text-white" />
-                </div>
+      {/* Cybersecurity Pattern Background */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(34,197,94,0.1)_50%,transparent_75%)] bg-[length:20px_20px]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(59,130,246,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_75%,rgba(147,51,234,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_25%,rgba(34,197,94,0.05)_50%,transparent_75%)] bg-[length:40px_40px]"></div>
+      </div>
+
+      <div className="relative z-10 bg-gradient-to-r from-slate-900 via-gray-900 to-slate-800 text-white py-20">
+        <div className="container mx-auto px-4 text-center">
+          <div className="inline-flex items-center justify-center mb-8">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-pink-600 rounded-xl blur-lg opacity-30"/>
+              <div className="relative bg-gradient-to-r from-red-500 to-pink-600 p-4 rounded-xl">
+                <Video className="h-8 w-8 text-white" />
               </div>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              {language === "ar" ? "الفيديوهات التعليمية" : "Educational Videos"}
-            </h1>
-            <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-              {language === "ar" 
-                ? "تعلم الأمن السيبراني من خلال فيديوهات تفاعلية ومفهومة للمبتدئين"
-                : "Learn cybersecurity through interactive and beginner-friendly videos"
-              }
-            </p>
           </div>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            {language === "ar" ? "الفيديوهات التعليمية" : "Educational Videos"}
+          </h1>
+          <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+            {language === "ar" 
+              ? "تعلم الأمن السيبراني من خلال فيديوهات تفاعلية ومبسطة"
+              : "Learn cybersecurity through interactive and simplified videos"
+            }
+          </p>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
-        {/* Search and Filter Section */}
+      <div className="relative z-10 container mx-auto px-4 py-12">
+        {/* Stats Section */}
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="bg-gradient-to-r from-red-500 to-pink-600 p-3 rounded-xl">
+                <Video className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                  {language === "ar" ? "إجمالي الفيديوهات" : "Total Videos"}
+                </h2>
+                <p className="text-gray-600 dark:text-gray-300">
+                  {videos.length} {language === "ar" ? "فيديو" : "videos"}
+                </p>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                {language === "ar" ? "محدث آخر مرة" : "Last updated"}
+              </p>
+              <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                {new Date().toLocaleDateString()}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Search Section */}
         <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8">
           <div className="flex flex-col md:flex-row gap-4 items-center">
             <div className="flex-1 relative">
@@ -174,7 +172,9 @@ export default function BeginnersVideosPage() {
               <input
                 type="text"
                 placeholder={language === "ar" ? "ابحث في الفيديوهات..." : "Search videos..."}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white"
               />
             </div>
             <div className="flex gap-2">
@@ -182,96 +182,80 @@ export default function BeginnersVideosPage() {
                 <Filter className="h-4 w-4" />
                 {language === "ar" ? "تصفية" : "Filter"}
               </Button>
-              <Button variant="outline" size="sm" className="flex items-center gap-2">
-                <Grid className="h-4 w-4" />
-                {language === "ar" ? "شبكة" : "Grid"}
-              </Button>
             </div>
           </div>
         </div>
 
-        {/* Categories */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-            {language === "ar" ? "التصنيفات" : "Categories"}
-          </h2>
-          <div className="flex flex-wrap gap-3">
-            {videoCategories.map((category) => (
-              <Button
-                key={category.id}
-                variant="outline"
-                className="flex items-center gap-2 hover:bg-green-50 dark:hover:bg-green-900/20 hover:border-green-500/30"
-              >
-                <Tag className="h-4 w-4" />
-                {category.title}
-                <span className="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-2 py-1 rounded-full text-xs">
-                  {category.count}
-                </span>
-              </Button>
-            ))}
-          </div>
-        </div>
-
         {/* Videos Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {videos.map((video) => (
-            <div key={video.id} className="group bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-2xl hover:shadow-green-500/10 transition-all duration-500 hover:scale-105">
-              {/* Thumbnail */}
-              <div className="relative aspect-video bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-600">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="bg-white/20 dark:bg-black/20 backdrop-blur-sm rounded-full p-4 group-hover:scale-110 transition-transform duration-300">
-                    <Play className="h-8 w-8 text-white" />
-                  </div>
-                </div>
-                <div className="absolute top-3 right-3 bg-black/50 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
-                  <Clock className="h-3 w-3" />
-                  {video.duration}
-                </div>
-                <div className="absolute bottom-3 left-3 bg-black/50 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
-                  <Eye className="h-3 w-3" />
-                  {video.views}
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="p-6">
-                <div className="flex items-center gap-2 mb-2">
-                  {video.tags.map((tag, index) => (
-                    <span key={index} className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs px-2 py-1 rounded-full">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300 line-clamp-2">
-                  {video.title}
-                </h3>
-                
-                <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
-                  {video.description}
-                </p>
-
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                    <div className="flex items-center gap-1">
-                      <User className="h-4 w-4" />
-                      {video.instructor}
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Calendar className="h-4 w-4" />
-                      {video.date}
+        {loading ? (
+          <div className="flex justify-center items-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500"></div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredVideos.map((video) => (
+              <div
+                key={video.id}
+                className="group bg-white dark:bg-slate-800 rounded-3xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-2xl hover:shadow-red-500/10 transition-all duration-500 hover:scale-105 will-change-transform"
+                onMouseMove={(e) => {
+                  const el = e.currentTarget as HTMLDivElement
+                  const rect = el.getBoundingClientRect()
+                  const x = e.clientX - rect.left
+                  const y = e.clientY - rect.top
+                  const rotateX = ((y - rect.height / 2) / rect.height) * -3
+                  const rotateY = ((x - rect.width / 2) / rect.width) * 3
+                  el.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLDivElement
+                  el.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)"
+                }}
+                style={{ transform: "perspective(900px)" }}
+              >
+                {/* Thumbnail */}
+                <div className="relative aspect-video bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-600">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="bg-white/20 dark:bg-black/20 backdrop-blur-sm rounded-full p-4 group-hover:scale-110 transition-transform duration-300">
+                      <Play className="h-8 w-8 text-white" />
                     </div>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                    <span className="text-sm text-gray-600 dark:text-gray-300">
-                      {video.rating}
-                    </span>
+                  <div className="absolute top-3 right-3 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                    {video.duration}
+                  </div>
+                  <div className="absolute bottom-3 left-3 bg-black/50 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
+                    <Eye className="h-3 w-3" />
+                    {video.views.toLocaleString()}
                   </div>
                 </div>
 
-                <div className="flex gap-2">
-                  <Button className="flex-1 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white group/btn">
+                {/* Content */}
+                <div className="p-6">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors duration-300">
+                    {video.title}
+                  </h3>
+                  
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">
+                    {video.description}
+                  </p>
+                  
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-1">
+                      <Star className="h-4 w-4 text-yellow-400 fill-current" />
+                      <span className="text-sm text-gray-600 dark:text-gray-300">
+                        {video.rating}
+                      </span>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                        <Bookmark className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                        <Share2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+
+                  <Button className="w-full bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white group/btn">
                     <span className="mr-2 rtl:mr-0 rtl:ml-2">
                       {language === "ar" ? "مشاهدة" : "Watch"}
                     </span>
@@ -281,24 +265,23 @@ export default function BeginnersVideosPage() {
                       <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
                     )}
                   </Button>
-                  <Button variant="outline" size="sm" className="px-3">
-                    <Bookmark className="h-4 w-4" />
-                  </Button>
-                  <Button variant="outline" size="sm" className="px-3">
-                    <Share2 className="h-4 w-4" />
-                  </Button>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
-        {/* Load More */}
-        <div className="text-center mt-12">
-          <Button className="bg-gradient-to-r from-slate-600 to-gray-700 hover:from-slate-700 hover:to-gray-800 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg">
-            {language === "ar" ? "تحميل المزيد" : "Load More"}
-          </Button>
-        </div>
+        {!loading && filteredVideos.length === 0 && (
+          <div className="text-center py-12">
+            <Video className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-gray-600 dark:text-gray-300 mb-2">
+              {language === "ar" ? "لا توجد فيديوهات" : "No videos found"}
+            </h3>
+            <p className="text-gray-500 dark:text-gray-400">
+              {language === "ar" ? "جرب البحث بكلمات مختلفة" : "Try searching with different keywords"}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   )
