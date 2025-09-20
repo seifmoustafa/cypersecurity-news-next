@@ -140,149 +140,126 @@ export default function BeginnersHome() {
       <BeginnersTipsTicker />
       <BeginnersTipOfTheDayPopup />
       
-      {/* Compact Hero + Cards above the fold */}
-      <div className="relative overflow-hidden mt-6">
-        {/* Cybersecurity Pattern Background */}
+      {/* GIF-Focused Interactive Section */}
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+        {/* Subtle Background Animation */}
         <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(34,197,94,0.1)_50%,transparent_75%)] bg-[length:20px_20px]"></div>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(59,130,246,0.1),transparent_50%)]"></div>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_75%,rgba(147,51,234,0.1),transparent_50%)]"></div>
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_25%,rgba(34,197,94,0.05)_50%,transparent_75%)] bg-[length:40px_40px]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(34,197,94,0.1),transparent_50%)] animate-pulse"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(59,130,246,0.1),transparent_50%)] animate-pulse" style={{animationDelay: '1s'}}></div>
         </div>
 
-        <div className="relative z-10 container mx-auto px-4 pt-10 pb-6">
-          {/* Compact heading so the grid is visible immediately */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center mb-8">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl blur-lg opacity-30"></div>
-                <div className="relative bg-gradient-to-r from-green-500 to-blue-500 p-4 rounded-xl">
-                  <div className="flex items-center gap-2">
-                    <Shield className="h-12 w-12 text-white" />
-                    <Lock className="h-8 w-8 text-white" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <h1 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 mb-3">
-              {t("beginners.hero.title")}
-            </h1>
-            <p className="text-base md:text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              {t("beginners.hero.subtitle")}
-            </p>
-            
-          </div>
-
-
-          {/* Main Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="relative z-10 container mx-auto px-4 pt-24 pb-8">
+          {/* Main Interactive Cards */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
             {mainCards.map((card, index) => {
-              const IconComponent = card.icon;
+              const gifPath = card.id === 'media' ? '/images/media.gif' : 
+                             card.id === 'definitions' ? '/images/definitions.gif' : 
+                             '/images/personal_protect.gif';
+              
               return (
-                <div key={card.id} className="group">
+                <div key={card.id} className="group h-full">
                   <div
-                    className={`${card.bgColor} p-6 md:p-8 rounded-3xl border-2 ${card.borderColor} transition-all duration-500 hover:shadow-2xl hover:shadow-green-500/10 h-full will-change-transform`}
+                    className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden transition-all duration-500 hover:bg-white/10 hover:border-white/20 hover:shadow-2xl hover:shadow-green-500/20 h-full flex flex-col"
                     onMouseMove={(e) => {
                       const el = e.currentTarget as HTMLDivElement
                       const rect = el.getBoundingClientRect()
                       const x = e.clientX - rect.left
                       const y = e.clientY - rect.top
-                      const rotateX = ((y - rect.height / 2) / rect.height) * -6
-                      const rotateY = ((x - rect.width / 2) / rect.width) * 6
-                      el.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`
+                      const rotateX = ((y - rect.height / 2) / rect.height) * -5
+                      const rotateY = ((x - rect.width / 2) / rect.width) * 5
+                      el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`
                     }}
                     onMouseLeave={(e) => {
                       const el = e.currentTarget as HTMLDivElement
-                      el.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)"
+                      el.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)"
                     }}
-                    style={{ transform: "perspective(900px)" }}
+                    style={{ transform: "perspective(1000px)" }}
                   >
-                    {/* Card Header */}
-                    <div className="flex items-center mb-6">
-                      <div className={`bg-gradient-to-r ${card.color} p-4 rounded-2xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg`}>
-                        <IconComponent className="h-8 w-8 text-white" />
+                    {/* GIF Hero Section - Optimized for Full Display */}
+                    <div className="relative h-80 overflow-hidden flex-shrink-0">
+                      <img 
+                        src={gifPath} 
+                        alt={`${card.title} animation`}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                      
+                      {/* Floating Action Button */}
+                      <div className="absolute top-4 right-4">
+                        <Link
+                          href={card.href}
+                          className="inline-flex items-center px-4 py-2 bg-white/20 backdrop-blur-md border border-white/30 rounded-full text-white text-sm font-medium hover:bg-white/30 transition-all duration-300"
+                        >
+                          <span className="mr-2">{language === "ar" ? "استكشف" : "Explore"}</span>
+                          {isRtl ? (
+                            <ArrowLeft className="h-4 w-4" />
+                          ) : (
+                            <ArrowRight className="h-4 w-4" />
+                          )}
+                        </Link>
                       </div>
-                      <div>
-                        <h3 className="text-2xl font-bold text-gray-800 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
+                    </div>
+
+                    {/* Content Section - Flexible Height */}
+                    <div className="p-6 flex-1 flex flex-col">
+                      <div className="flex-shrink-0 mb-4">
+                        <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-green-400 transition-colors duration-300">
                           {card.title}
                         </h3>
-                        <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">
+                        <p className="text-gray-300 text-sm leading-relaxed">
                           {card.description}
                         </p>
                       </div>
-                    </div>
 
-                    {/* Card Items */}
-                    <div className="space-y-3 mb-6">
-                      {card.items.map((item, itemIndex) => {
-                        const ItemIcon = item.icon;
-                        return (
+                      {/* Quick Access Links - Flexible */}
+                      <div className="space-y-2 flex-1 flex flex-col justify-center">
+                        {card.items.map((item, itemIndex) => (
                           <Link
                             key={itemIndex}
                             href={item.href}
-                            className="flex items-center justify-between p-3 rounded-xl bg-white/60 dark:bg-slate-800/60 hover:bg-green-50 dark:hover:bg-green-900/20 transition-all duration-300 group/item border border-slate-200 dark:border-slate-700 hover:border-green-500/30 focus:outline-none focus:ring-2 focus:ring-green-400 dark:focus:ring-green-500"
+                            className="flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 rounded-lg transition-all duration-300 group/item"
                           >
+                            <span className="text-white text-sm font-medium group-hover/item:text-green-400 transition-colors duration-300">
+                              {item.title}
+                            </span>
                             <div className="flex items-center">
-                              <ItemIcon className="h-5 w-5 text-gray-600 dark:text-gray-400 mr-3 rtl:mr-0 rtl:ml-3 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
-                              <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover/item:text-green-700 dark:group-hover/item:text-green-300 transition-colors duration-300">
-                                {item.title}
-                              </span>
-                            </div>
-                            <div className="flex items-center">
-                              <span className="text-xs text-gray-500 dark:text-gray-400 mr-2 rtl:mr-0 rtl:ml-2">
-                                {item.count}
-                              </span>
+                              {item.count && (
+                                <span className="text-xs text-gray-400 mr-2 bg-white/10 px-2 py-1 rounded-full">
+                                  {item.count}
+                                </span>
+                              )}
                               {isRtl ? (
-                                <ArrowLeft className="h-4 w-4 text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
+                                <ArrowLeft className="h-4 w-4 text-gray-400 group-hover/item:text-green-400 transition-colors duration-300" />
                               ) : (
-                                <ArrowRight className="h-4 w-4 text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
+                                <ArrowRight className="h-4 w-4 text-gray-400 group-hover/item:text-green-400 transition-colors duration-300" />
                               )}
                             </div>
                           </Link>
-                        );
-                      })}
+                        ))}
+                      </div>
                     </div>
-
-                    {/* Card Footer */}
-                    <Link
-                      href={card.href}
-                      className={`inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r ${card.color} text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-green-400`}
-                    >
-                      <span className="mr-2 rtl:mr-0 rtl:ml-2">
-                        {language === "ar" ? "استكشف الآن" : "Explore Now"}
-                      </span>
-                      {isRtl ? (
-                        <ArrowLeft className="h-5 w-5 group-hover/btn:-translate-x-1 transition-transform duration-300" />
-                      ) : (
-                        <ArrowRight className="h-5 w-5 group-hover/btn:translate-x-1 transition-transform duration-300" />
-                      )}
-                    </Link>
                   </div>
                 </div>
               );
             })}
           </div>
 
-          {/* Bottom CTA */}
+          {/* Bottom Navigation */}
           <div className="text-center mt-12">
-            <div className="bg-gradient-to-r from-slate-50 to-gray-50 dark:from-slate-800/50 dark:to-gray-800/50 rounded-2xl p-8 border border-slate-200 dark:border-slate-700">
-              <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
-                {t("beginners.cta.title")}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300 mb-6">
-                {t("beginners.cta.description")}
-              </p>
-              <button
-                onClick={() => {
-                  localStorage.setItem("beginnersMode", "false")
-                  window.location.href = "/"
-                }}
-                className="bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg"
-              >
-                {t("beginners.cta.button")}
-              </button>
-            </div>
+            <button
+              onClick={() => {
+                localStorage.setItem("beginnersMode", "false")
+                window.location.href = "/"
+              }}
+              className="inline-flex items-center px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-white font-medium transition-all duration-300 hover:scale-105"
+            >
+              <span className="mr-2">{t("beginners.cta.button")}</span>
+              {isRtl ? (
+                <ArrowLeft className="h-5 w-5" />
+              ) : (
+                <ArrowRight className="h-5 w-5" />
+              )}
+            </button>
           </div>
         </div>
       </div>

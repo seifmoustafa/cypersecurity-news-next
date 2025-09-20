@@ -37,7 +37,7 @@ export default function BeginnersRootLayout({
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
-            enableSystem
+            enableSystem={false}
             disableTransitionOnChange
           >
             <ErrorBoundary>

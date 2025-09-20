@@ -202,7 +202,7 @@ export default function BeginnersSitemapPage() {
       </div>
 
       {/* Header Section */}
-      <div className="relative z-10 bg-gradient-to-r from-slate-900 via-gray-900 to-slate-800 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900 text-white py-20">
+      <div className="relative z-10 bg-gradient-to-r from-slate-900 via-gray-900 to-slate-800 text-white py-20">
         <div className="container mx-auto px-4">
           <div className="text-center">
             <div className="inline-flex items-center justify-center mb-8">
