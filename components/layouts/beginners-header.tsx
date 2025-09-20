@@ -108,12 +108,12 @@ export default function BeginnersHeader({ onToggleTheme, onToggleLanguage }: Beg
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-slate-900 via-gray-900 to-slate-800 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900 backdrop-blur-xl border-b border-slate-700/50 dark:border-slate-600/50 shadow-2xl shadow-slate-900/20">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-gray-100 via-white to-gray-100 dark:from-slate-900 dark:via-gray-900 dark:to-slate-800 backdrop-blur-xl border-b border-gray-200 dark:border-slate-700/50 shadow-2xl shadow-gray-900/10 dark:shadow-slate-900/20">
       {/* Cybersecurity Pattern Background */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(34,197,94,0.1)_50%,transparent_75%)] bg-[length:20px_20px]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(34,197,94,0.1),transparent_70%)]"></div>
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_25%,rgba(59,130,246,0.05)_50%,transparent_75%)] bg-[length:40px_40px]"></div>
+      <div className="absolute inset-0 opacity-5 dark:opacity-5">
+        <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(34,197,94,0.05)_50%,transparent_75%)] dark:bg-[linear-gradient(45deg,transparent_25%,rgba(34,197,94,0.1)_50%,transparent_75%)] bg-[length:20px_20px]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(34,197,94,0.05),transparent_70%)] dark:bg-[radial-gradient(circle_at_50%_50%,rgba(34,197,94,0.1),transparent_70%)]"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_25%,rgba(59,130,246,0.03)_50%,transparent_75%)] dark:bg-[linear-gradient(90deg,transparent_25%,rgba(59,130,246,0.05)_50%,transparent_75%)] bg-[length:40px_40px]"></div>
       </div>
 
       <div className="relative z-10 container mx-auto px-4 max-w-full 2xl:max-w-[1600px]">
@@ -128,22 +128,15 @@ export default function BeginnersHeader({ onToggleTheme, onToggleLanguage }: Beg
                 router.push("/beginners")
               }}
             >
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-500"></div>
-                <div className="relative bg-gradient-to-r from-green-500 to-blue-500 p-3 rounded-xl shadow-xl group-hover:shadow-2xl transition-all duration-500">
-                  <div className="flex items-center gap-2">
-                    <Shield className="h-6 w-6 text-white" />
-                    <Lock className="h-4 w-4 text-white" />
-                  </div>
-                </div>
-              </div>
+              <img 
+                src="/app-icon.png" 
+                alt="Cybersecurity Portal" 
+                className="h-12 w-12 object-contain group-hover:scale-110 transition-all duration-500"
+              />
               <div className="flex flex-col">
-                <span className="text-xl font-bold text-white group-hover:text-green-300 transition-all duration-500 drop-shadow-lg">
+                <span className="text-xl font-bold text-gray-800 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-300 transition-all duration-500 drop-shadow-lg">
                   <span className="hidden sm:inline">{t("beginners.title")}</span>
                   <span className="sm:hidden">CyberSec</span>
-                </span>
-                <span className="text-xs text-slate-300 font-medium hidden lg:block opacity-80 group-hover:opacity-100 transition-opacity duration-500">
-                  {language === "ar" ? "بوابة الأمن السيبراني للمبتدئين" : "Cybersecurity Portal for Beginners"}
                 </span>
               </div>
             </Link>
@@ -162,8 +155,8 @@ export default function BeginnersHeader({ onToggleTheme, onToggleLanguage }: Beg
                   className={cn(
                     "flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg",
                     isActive 
-                      ? "bg-green-500/20 text-green-300 shadow-lg backdrop-blur-sm border border-green-500/30" 
-                      : "text-slate-300 hover:bg-slate-800/50 hover:text-white"
+                      ? "bg-green-500/20 text-green-600 dark:text-green-300 shadow-lg backdrop-blur-sm border border-green-500/30" 
+                      : "text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
                   )}
                   onClick={(e) => handleNavigation(e, item.href)}
                 >
@@ -185,12 +178,12 @@ export default function BeginnersHeader({ onToggleTheme, onToggleLanguage }: Beg
                     size="icon"
                     onClick={handleLayoutSwitch}
                     title={isBeginnersMode ? t("nav.advancedMode") : t("nav.beginnersMode")}
-                    className="hover:bg-slate-800/50 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
+                    className="hover:bg-gray-100 dark:hover:bg-slate-800/50 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
                   >
                     {isBeginnersMode ? (
-                      <ToggleRight className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-slate-300 group-hover:text-green-300" />
+                      <ToggleRight className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-gray-600 dark:text-slate-300 group-hover:text-green-600 dark:group-hover:text-green-300" />
                     ) : (
-                      <ToggleLeft className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-slate-300 group-hover:text-green-300" />
+                      <ToggleLeft className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-gray-600 dark:text-slate-300 group-hover:text-green-600 dark:group-hover:text-green-300" />
                     )}
                     <span className="sr-only">{isBeginnersMode ? t("nav.advancedMode") : t("nav.beginnersMode")}</span>
                   </Button>
@@ -210,11 +203,11 @@ export default function BeginnersHeader({ onToggleTheme, onToggleLanguage }: Beg
                     size="icon"
                     onClick={toggleTips}
                     title={tipsDisabled ? t("tips.enable") : t("tips.disable")}
-                    className="hover:bg-slate-800/50 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
+                    className="hover:bg-gray-100 dark:hover:bg-slate-800/50 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
                   >
                     <LightbulbIcon
                       className={`h-5 w-5 group-hover:scale-110 transition-all duration-300 ${
-                        tipsDisabled ? "opacity-50 text-slate-400" : "text-yellow-400"
+                        tipsDisabled ? "opacity-50 text-gray-400 dark:text-slate-400" : "text-yellow-500 dark:text-yellow-400"
                       }`}
                     />
                     <span className="sr-only">{tipsDisabled ? t("tips.enable") : t("tips.disable")}</span>
@@ -235,9 +228,9 @@ export default function BeginnersHeader({ onToggleTheme, onToggleLanguage }: Beg
                     size="icon"
                     onClick={handleSearchToggle}
                     title={t("common.search")}
-                    className="hover:bg-slate-800/50 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
+                    className="hover:bg-gray-100 dark:hover:bg-slate-800/50 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
                   >
-                    <Search className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-slate-300 group-hover:text-green-300" />
+                    <Search className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-gray-600 dark:text-slate-300 group-hover:text-green-600 dark:group-hover:text-green-300" />
                     <span className="sr-only">{t("common.search")}</span>
                   </Button>
                 </TooltipTrigger>
@@ -256,9 +249,9 @@ export default function BeginnersHeader({ onToggleTheme, onToggleLanguage }: Beg
                     size="icon"
                     onClick={handleLanguageToggle}
                     title={t("common.language")}
-                    className="hover:bg-slate-800/50 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
+                    className="hover:bg-gray-100 dark:hover:bg-slate-800/50 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
                   >
-                    <Globe className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-slate-300 group-hover:text-green-300" />
+                    <Globe className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-gray-600 dark:text-slate-300 group-hover:text-green-600 dark:group-hover:text-green-300" />
                     <span className="sr-only">{t("common.language")}</span>
                   </Button>
                 </TooltipTrigger>
@@ -277,12 +270,12 @@ export default function BeginnersHeader({ onToggleTheme, onToggleLanguage }: Beg
                     size="icon"
                     onClick={handleThemeToggle}
                     title={isDarkMode ? t("common.lightMode") : t("common.darkMode")}
-                    className="hover:bg-slate-800/50 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
+                    className="hover:bg-gray-100 dark:hover:bg-slate-800/50 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
                   >
                     {isDarkMode ? (
-                      <SunIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-slate-300 group-hover:text-yellow-400" />
+                      <SunIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-gray-600 dark:text-slate-300 group-hover:text-yellow-500 dark:group-hover:text-yellow-400" />
                     ) : (
-                      <MoonIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-slate-300 group-hover:text-blue-400" />
+                      <MoonIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-gray-600 dark:text-slate-300 group-hover:text-blue-500 dark:group-hover:text-blue-400" />
                     )}
                     <span className="sr-only">{isDarkMode ? t("common.lightMode") : t("common.darkMode")}</span>
                   </Button>
@@ -297,13 +290,13 @@ export default function BeginnersHeader({ onToggleTheme, onToggleLanguage }: Beg
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden hover:bg-slate-800/50 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
+              className="lg:hidden hover:bg-gray-100 dark:hover:bg-slate-800/50 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? (
-                <XIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-slate-300 group-hover:text-red-400" />
+                <XIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-gray-600 dark:text-slate-300 group-hover:text-red-500 dark:group-hover:text-red-400" />
               ) : (
-                <MenuIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-slate-300 group-hover:text-green-300" />
+                <MenuIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-gray-600 dark:text-slate-300 group-hover:text-green-600 dark:group-hover:text-green-300" />
               )}
               <span className="sr-only">Menu</span>
             </Button>
@@ -313,14 +306,14 @@ export default function BeginnersHeader({ onToggleTheme, onToggleLanguage }: Beg
 
       {/* Search Bar */}
       {searchOpen && (
-        <div className="absolute top-full left-0 right-0 z-40 bg-gradient-to-r from-slate-900 to-gray-900 dark:from-slate-950 dark:to-gray-950 border-b border-slate-700/50 dark:border-slate-600/50 shadow-2xl shadow-slate-900/20 animate-in slide-in-from-top-2 duration-300">
+        <div className="absolute top-full left-0 right-0 z-40 bg-gradient-to-r from-gray-100 to-white dark:from-slate-900 dark:to-gray-900 border-b border-gray-200 dark:border-slate-700/50 shadow-2xl shadow-gray-900/10 dark:shadow-slate-900/20 animate-in slide-in-from-top-2 duration-300">
           <div className="container mx-auto px-4 py-6 max-w-full 2xl:max-w-[1600px]">
-            <div className="flex items-center gap-3 bg-slate-800/50 backdrop-blur-sm rounded-2xl p-4 border border-slate-700/50">
-              <Search className="h-6 w-6 text-green-400" />
+            <div className="flex items-center gap-3 bg-gray-200/50 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-4 border border-gray-300/50 dark:border-slate-700/50">
+              <Search className="h-6 w-6 text-green-600 dark:text-green-400" />
               <input
                 type="text"
                 placeholder={t("common.searchPlaceholder")}
-                className="flex-1 bg-transparent border-none outline-none text-lg placeholder:text-slate-400 text-white focus:text-white transition-colors duration-300"
+                className="flex-1 bg-transparent border-none outline-none text-lg placeholder:text-gray-500 dark:placeholder:text-slate-400 text-gray-800 dark:text-white focus:text-gray-900 dark:focus:text-white transition-colors duration-300"
                 autoFocus
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
@@ -338,7 +331,7 @@ export default function BeginnersHeader({ onToggleTheme, onToggleLanguage }: Beg
                 variant="ghost"
                 size="sm"
                 onClick={() => setSearchOpen(false)}
-                className="text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all duration-300"
+                className="text-gray-500 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-slate-700/50 transition-all duration-300"
               >
                 {t("common.cancel")}
               </Button>
@@ -349,31 +342,31 @@ export default function BeginnersHeader({ onToggleTheme, onToggleLanguage }: Beg
 
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-gradient-to-r from-slate-900 to-gray-900 dark:from-slate-950 dark:to-gray-950 border-b border-slate-700/50 dark:border-slate-600/50 max-h-[80vh] overflow-y-auto shadow-2xl shadow-slate-900/20 animate-in slide-in-from-top-2 duration-300">
+        <div className="lg:hidden bg-gradient-to-r from-gray-100 to-white dark:from-slate-900 dark:to-gray-900 border-b border-gray-200 dark:border-slate-700/50 max-h-[80vh] overflow-y-auto shadow-2xl shadow-gray-900/10 dark:shadow-slate-900/20 animate-in slide-in-from-top-2 duration-300">
           <div className="container mx-auto px-4 py-6">
             <nav className="flex flex-col space-y-4">
               {/* Layout Switch in Mobile */}
-              <div className="py-2 border-b border-slate-700/50">
+              <div className="py-2 border-b border-gray-300/50 dark:border-slate-700/50">
                 <button
-                  className="flex items-center gap-3 px-4 py-3 text-sm rounded-xl transition-all duration-300 hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-md text-slate-300 hover:text-white w-full text-left group"
+                  className="flex items-center gap-3 px-4 py-3 text-sm rounded-xl transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-md text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white w-full text-left group"
                   onClick={handleLayoutSwitch}
                 >
                   {isBeginnersMode ? (
-                    <ToggleRight className="h-4 w-4 text-slate-300 group-hover:text-green-300 group-hover:scale-110 transition-all duration-300" />
+                    <ToggleRight className="h-4 w-4 text-gray-600 dark:text-slate-300 group-hover:text-green-600 dark:group-hover:text-green-300 group-hover:scale-110 transition-all duration-300" />
                   ) : (
-                    <ToggleLeft className="h-4 w-4 text-slate-300 group-hover:text-green-300 group-hover:scale-110 transition-all duration-300" />
+                    <ToggleLeft className="h-4 w-4 text-gray-600 dark:text-slate-300 group-hover:text-green-600 dark:group-hover:text-green-300 group-hover:scale-110 transition-all duration-300" />
                   )}
                   {isBeginnersMode ? t("nav.advancedMode") : t("nav.beginnersMode")}
                 </button>
               </div>
 
               {/* Tips Toggle in Mobile */}
-              <div className="py-2 border-b border-slate-700/50">
+              <div className="py-2 border-b border-gray-300/50 dark:border-slate-700/50">
                 <button
-                  className="flex items-center gap-3 px-4 py-3 text-sm rounded-xl transition-all duration-300 hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-md text-slate-300 hover:text-white w-full text-left group"
+                  className="flex items-center gap-3 px-4 py-3 text-sm rounded-xl transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-md text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white w-full text-left group"
                   onClick={toggleTips}
                 >
-                  <LightbulbIcon className={`h-4 w-4 group-hover:scale-110 transition-transform duration-300 ${tipsDisabled ? "opacity-50 text-slate-400" : "text-yellow-400"}`} />
+                  <LightbulbIcon className={`h-4 w-4 group-hover:scale-110 transition-transform duration-300 ${tipsDisabled ? "opacity-50 text-gray-400 dark:text-slate-400" : "text-yellow-500 dark:text-yellow-400"}`} />
                   {tipsDisabled ? t("tips.enable") : t("tips.disable")}
                 </button>
               </div>
@@ -388,8 +381,8 @@ export default function BeginnersHeader({ onToggleTheme, onToggleLanguage }: Beg
                       <button
                         key={item.key}
                         className={cn(
-                          "flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-all duration-300 hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group",
-                          isActive ? "bg-green-500/20 text-green-300 border border-green-500/30" : "text-slate-300 hover:text-white"
+                          "flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group",
+                          isActive ? "bg-green-500/20 text-green-600 dark:text-green-300 border border-green-500/30" : "text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white"
                         )}
                         onClick={(e) => handleNavigation(e, item.href)}
                         style={{ animationDelay: `${index * 50}ms` }}

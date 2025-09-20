@@ -52,7 +52,7 @@ export default function BeginnersSitemapPage() {
       icon: Home,
       color: "from-green-500 to-emerald-600",
       href: "/beginners",
-      description: language === "ar" ? "الصفحة الرئيسية للمبتدئين" : "Main page for beginners"
+      description: language === "ar" ? "الصفحة الرئيسية " : "Main page"
     },
     {
       id: "media",

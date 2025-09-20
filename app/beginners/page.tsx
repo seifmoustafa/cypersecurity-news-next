@@ -141,11 +141,11 @@ export default function BeginnersHome() {
       <BeginnersTipOfTheDayPopup />
       
       {/* GIF-Focused Interactive Section */}
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative overflow-hidden">
         {/* Subtle Background Animation */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(34,197,94,0.1),transparent_50%)] animate-pulse"></div>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(59,130,246,0.1),transparent_50%)] animate-pulse" style={{animationDelay: '1s'}}></div>
+        <div className="absolute inset-0 opacity-10 dark:opacity-5">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(34,197,94,0.05),transparent_50%)] dark:bg-[radial-gradient(circle_at_20%_20%,rgba(34,197,94,0.1),transparent_50%)] animate-pulse"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(59,130,246,0.05),transparent_50%)] dark:bg-[radial-gradient(circle_at_80%_80%,rgba(59,130,246,0.1),transparent_50%)] animate-pulse" style={{animationDelay: '1s'}}></div>
         </div>
 
         <div className="relative z-10 container mx-auto px-4 pt-24 pb-8">
@@ -159,7 +159,7 @@ export default function BeginnersHome() {
               return (
                 <div key={card.id} className="group h-full">
                   <div
-                    className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden transition-all duration-500 hover:bg-white/10 hover:border-white/20 hover:shadow-2xl hover:shadow-green-500/20 h-full flex flex-col"
+                    className="relative bg-white/80 dark:bg-white/5 backdrop-blur-sm border border-gray-200 dark:border-white/10 rounded-2xl overflow-hidden transition-all duration-500 hover:bg-white dark:hover:bg-white/10 hover:border-gray-300 dark:hover:border-white/20 hover:shadow-2xl hover:shadow-green-500/20 h-full flex flex-col"
                     onMouseMove={(e) => {
                       const el = e.currentTarget as HTMLDivElement
                       const rect = el.getBoundingClientRect()
@@ -182,13 +182,13 @@ export default function BeginnersHome() {
                         alt={`${card.title} animation`}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent dark:from-black/60 dark:via-transparent dark:to-transparent"></div>
                       
                       {/* Floating Action Button */}
                       <div className="absolute top-4 right-4">
                         <Link
                           href={card.href}
-                          className="inline-flex items-center px-4 py-2 bg-white/20 backdrop-blur-md border border-white/30 rounded-full text-white text-sm font-medium hover:bg-white/30 transition-all duration-300"
+                          className="inline-flex items-center px-4 py-2 bg-white/90 dark:bg-white/20 backdrop-blur-md border border-white/50 dark:border-white/30 rounded-full text-gray-800 dark:text-white text-sm font-medium hover:bg-white dark:hover:bg-white/30 transition-all duration-300 shadow-lg dark:shadow-none"
                         >
                           <span className="mr-2">{language === "ar" ? "استكشف" : "Explore"}</span>
                           {isRtl ? (
@@ -203,10 +203,10 @@ export default function BeginnersHome() {
                     {/* Content Section - Flexible Height */}
                     <div className="p-6 flex-1 flex flex-col">
                       <div className="flex-shrink-0 mb-4">
-                        <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-green-400 transition-colors duration-300">
+                        <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-3 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
                           {card.title}
                         </h3>
-                        <p className="text-gray-300 text-sm leading-relaxed">
+                        <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
                           {card.description}
                         </p>
                       </div>
@@ -217,21 +217,21 @@ export default function BeginnersHome() {
                           <Link
                             key={itemIndex}
                             href={item.href}
-                            className="flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 rounded-lg transition-all duration-300 group/item"
+                            className="flex items-center justify-between p-3 bg-gray-50 dark:bg-white/5 hover:bg-green-50 dark:hover:bg-white/10 rounded-lg transition-all duration-300 group/item border border-gray-100 dark:border-transparent hover:border-green-200 dark:hover:border-transparent"
                           >
-                            <span className="text-white text-sm font-medium group-hover/item:text-green-400 transition-colors duration-300">
+                            <span className="text-gray-700 dark:text-white text-sm font-medium group-hover/item:text-green-700 dark:group-hover/item:text-green-400 transition-colors duration-300">
                               {item.title}
                             </span>
                             <div className="flex items-center">
                               {item.count && (
-                                <span className="text-xs text-gray-400 mr-2 bg-white/10 px-2 py-1 rounded-full">
+                                <span className="text-xs text-gray-500 dark:text-gray-400 mr-2 bg-gray-200 dark:bg-white/10 px-2 py-1 rounded-full group-hover/item:bg-green-200 dark:group-hover/item:bg-green-800 group-hover/item:text-green-700 dark:group-hover/item:text-green-200 transition-colors duration-300">
                                   {item.count}
                                 </span>
                               )}
                               {isRtl ? (
-                                <ArrowLeft className="h-4 w-4 text-gray-400 group-hover/item:text-green-400 transition-colors duration-300" />
+                                <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
                               ) : (
-                                <ArrowRight className="h-4 w-4 text-gray-400 group-hover/item:text-green-400 transition-colors duration-300" />
+                                <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
                               )}
                             </div>
                           </Link>
@@ -251,7 +251,7 @@ export default function BeginnersHome() {
                 localStorage.setItem("beginnersMode", "false")
                 window.location.href = "/"
               }}
-              className="inline-flex items-center px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-white font-medium transition-all duration-300 hover:scale-105"
+              className="inline-flex items-center px-6 py-3 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 border border-gray-300 dark:border-white/20 rounded-xl text-gray-700 dark:text-white font-medium transition-all duration-300 hover:scale-105 shadow-lg dark:shadow-none hover:shadow-xl dark:hover:shadow-none"
             >
               <span className="mr-2">{t("beginners.cta.button")}</span>
               {isRtl ? (

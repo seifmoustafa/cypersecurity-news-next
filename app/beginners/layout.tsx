@@ -10,9 +10,9 @@ import BeginnersLayout from "@/components/layouts/beginners-layout";
 
 // Add a cache control header to improve caching
 export const metadata = {
-  title: "بوابة الأمن السيبراني للمبتدئين | Cybersecurity Portal for Beginners",
+  title: "بوابة الأمن السيبراني  | Cybersecurity Portal",
   description:
-    "منصة مبسطة للأمن السيبراني تقدم المعرفة الأساسية والأدوات البسيطة للمبتدئين",
+    "منصة مبسطة للأمن السيبراني تقدم المعرفة الأساسية والأدوات البسيطة ",
 };
 
 // Add this function to improve page loading performance
@@ -26,10 +26,10 @@ export default function BeginnersRootLayout({
   return (
     <html lang="ar" suppressHydrationWarning>
       <head>
-        <title>بوابة الأمن السيبراني للمبتدئين | Cybersecurity Portal for Beginners</title>
+        <title>بوابة الأمن السيبراني  | Cybersecurity Portal for Beginners</title>
         <meta
           name="description"
-          content="منصة مبسطة للأمن السيبراني تقدم المعرفة الأساسية والأدوات البسيطة للمبتدئين"
+          content="منصة مبسطة للأمن السيبراني تقدم المعرفة الأساسية والأدوات البسيطة "
         />
       </head>
       <body className={`${cairo.variable} ${roboto.variable}`}>

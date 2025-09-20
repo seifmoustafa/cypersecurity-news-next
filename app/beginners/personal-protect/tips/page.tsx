@@ -209,7 +209,7 @@ export default function PersonalProtectTipsPage() {
                 {language === "ar" ? "نصيحة اليوم" : "Tip of the Day"}
               </h2>
               <p className="text-gray-600 dark:text-gray-300">
-                {language === "ar" ? "نصائح أمنية مهمة للمبتدئين" : "Important security tips for beginners"}
+                {language === "ar" ? "نصائح أمنية مهمة " : "Important security tips"}
               </p>
             </div>
             

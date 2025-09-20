@@ -29,7 +29,7 @@ export default function BeginnersLayout({ children }: BeginnersLayoutProps) {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
       <BeginnersHeader onToggleTheme={toggleTheme} onToggleLanguage={toggleLanguage} />
       <main className="flex-grow pt-24 w-full relative">
         {children}

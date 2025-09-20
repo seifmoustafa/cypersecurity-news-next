@@ -42,7 +42,7 @@ export default function BeginnersLecturesPage() {
             </div>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">{language === "ar" ? "المحاضرات" : "Lectures"}</h1>
-          <p className="text-xl text-slate-300 max-w-3xl mx-auto">{language === "ar" ? "محاضرات مبسطة للمبتدئين في الأمن السيبراني" : "Beginner-friendly cybersecurity lectures"}</p>
+          <p className="text-xl text-slate-300 max-w-3xl mx-auto">{language === "ar" ? "محاضرات مبسطة  في الأمن السيبراني" : "cybersecurity lectures"}</p>
         </div>
       </div>
 

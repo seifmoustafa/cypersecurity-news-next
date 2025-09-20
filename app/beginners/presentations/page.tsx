@@ -42,7 +42,7 @@ export default function BeginnersPresentationsPage() {
             </div>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">{language === "ar" ? "العروض التقديمية" : "Presentations"}</h1>
-          <p className="text-xl text-slate-300 max-w-3xl mx-auto">{language === "ar" ? "مواد عرض مبسطة للمبتدئين" : "Beginner-friendly presentation materials"}</p>
+          <p className="text-xl text-slate-300 max-w-3xl mx-auto">{language === "ar" ? "مواد عرض مبسطة " : "Presentation materials"}</p>
         </div>
       </div>
 

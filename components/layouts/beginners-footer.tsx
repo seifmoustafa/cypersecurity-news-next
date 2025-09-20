@@ -95,13 +95,13 @@ export default function BeginnersFooter() {
   
 
   return (
-    <footer className="relative bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900 text-white overflow-hidden">
+    <footer className="relative bg-gradient-to-br from-gray-100 via-white to-gray-100 dark:from-slate-900 dark:via-gray-900 dark:to-slate-800 text-gray-800 dark:text-white overflow-hidden">
       {/* Cybersecurity Pattern Background */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(34,197,94,0.1)_50%,transparent_75%)] bg-[length:20px_20px]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(59,130,246,0.1),transparent_50%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_75%,rgba(147,51,234,0.1),transparent_50%)]"></div>
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_25%,rgba(34,197,94,0.05)_50%,transparent_75%)] bg-[length:40px_40px]"></div>
+      <div className="absolute inset-0 opacity-5 dark:opacity-5">
+        <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(34,197,94,0.05)_50%,transparent_75%)] dark:bg-[linear-gradient(45deg,transparent_25%,rgba(34,197,94,0.1)_50%,transparent_75%)] bg-[length:20px_20px]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(59,130,246,0.05),transparent_50%)] dark:bg-[radial-gradient(circle_at_25%_25%,rgba(59,130,246,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_75%,rgba(147,51,234,0.05),transparent_50%)] dark:bg-[radial-gradient(circle_at_75%_75%,rgba(147,51,234,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_25%,rgba(34,197,94,0.03)_50%,transparent_75%)] dark:bg-[linear-gradient(90deg,transparent_25%,rgba(34,197,94,0.05)_50%,transparent_75%)] bg-[length:40px_40px]"></div>
       </div>
 
       {/* Floating Security Elements */}
@@ -127,11 +127,11 @@ export default function BeginnersFooter() {
                   </div>
                 </div>
               </div>
-              <h2 className="ml-4 text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-blue-300">
+              <h2 className="ml-4 text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-blue-600 dark:from-green-300 dark:to-blue-300">
                 {t("beginners.footer.title")}
               </h2>
             </div>
-            <p className="text-slate-300 text-xl max-w-4xl mx-auto leading-relaxed">
+            <p className="text-gray-600 dark:text-slate-300 text-xl max-w-4xl mx-auto leading-relaxed">
               {t("beginners.footer.subtitle")}
             </p>
           </div>
@@ -157,9 +157,9 @@ export default function BeginnersFooter() {
                         <li key={linkIndex}>
                           <Link
                             href={link.href}
-                            className="flex items-center text-slate-300 hover:text-white transition-all duration-300 group/link py-3 px-4 rounded-xl hover:bg-slate-800/50 shadow-sm hover:shadow-lg border border-transparent hover:border-slate-700/50"
+                            className="flex items-center text-gray-600 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white transition-all duration-300 group/link py-3 px-4 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-800/50 shadow-sm hover:shadow-lg border border-transparent hover:border-gray-200 dark:hover:border-slate-700/50"
                           >
-                            <LinkIcon className={`h-5 w-5 mr-3 rtl:mr-0 rtl:ml-3 text-slate-400 group-hover/link:text-green-400 transition-colors duration-300`} />
+                            <LinkIcon className={`h-5 w-5 mr-3 rtl:mr-0 rtl:ml-3 text-gray-500 dark:text-slate-400 group-hover/link:text-green-500 dark:group-hover/link:text-green-400 transition-colors duration-300`} />
                             <span className="text-sm font-medium">{link.title}</span>
                             {isRtl ? (
                               <ArrowLeft className="h-4 w-4 mr-auto opacity-0 group-hover/link:opacity-100 group-hover/link:-translate-x-1 transition-all duration-300" />
@@ -176,8 +176,8 @@ export default function BeginnersFooter() {
             })}
           </div>
           {/* Quick Links Section */}
-          <div className="bg-gradient-to-r from-slate-800/50 to-gray-800/50 rounded-3xl p-10 mb-16 backdrop-blur-sm border border-slate-700/50 shadow-2xl shadow-slate-900/20">
-            <h3 className="text-2xl font-bold text-center mb-8 text-white">
+          <div className="bg-gradient-to-r from-gray-200/50 to-gray-100/50 dark:from-slate-800/50 dark:to-gray-800/50 rounded-3xl p-10 mb-16 backdrop-blur-sm border border-gray-300/50 dark:border-slate-700/50 shadow-2xl shadow-gray-900/10 dark:shadow-slate-900/20">
+            <h3 className="text-2xl font-bold text-center mb-8 text-gray-800 dark:text-white">
               {t("beginners.footer.quickLinks")}
             </h3>
             <div className="flex flex-wrap justify-center gap-6">
@@ -187,10 +187,10 @@ export default function BeginnersFooter() {
                   <Link
                     key={index}
                     href={link.href}
-                    className="flex items-center px-8 py-4 bg-gradient-to-r from-slate-700/50 to-gray-700/50 hover:from-green-500/20 hover:to-blue-500/20 rounded-2xl transition-all duration-300 group border border-slate-600/50 hover:border-green-500/30 shadow-lg hover:shadow-xl hover:scale-105"
+                    className="flex items-center px-8 py-4 bg-gradient-to-r from-gray-300/50 to-gray-200/50 dark:from-slate-700/50 dark:to-gray-700/50 hover:from-green-500/20 hover:to-blue-500/20 rounded-2xl transition-all duration-300 group border border-gray-400/50 dark:border-slate-600/50 hover:border-green-500/30 shadow-lg hover:shadow-xl hover:scale-105"
                   >
-                    <LinkIcon className={`h-6 w-6 mr-3 rtl:mr-0 rtl:ml-3 text-slate-300 group-hover:text-green-400 transition-colors duration-300`} />
-                    <span className="font-medium text-slate-200 group-hover:text-white">{link.title}</span>
+                    <LinkIcon className={`h-6 w-6 mr-3 rtl:mr-0 rtl:ml-3 text-gray-600 dark:text-slate-300 group-hover:text-green-500 dark:group-hover:text-green-400 transition-colors duration-300`} />
+                    <span className="font-medium text-gray-700 dark:text-slate-200 group-hover:text-gray-900 dark:group-hover:text-white">{link.title}</span>
                     {isRtl ? (
                       <ArrowLeft className="h-5 w-5 mr-2 opacity-0 group-hover:opacity-100 group-hover:-translate-x-1 transition-all duration-300" />
                     ) : (
@@ -205,23 +205,23 @@ export default function BeginnersFooter() {
           {/* Contact Section */}
           <div className="flex justify-center mb-16">
             <div className="text-center">
-              <h3 className="text-2xl font-bold mb-6 text-white">
+              <h3 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
                 {t("beginners.footer.contactInfo")}
               </h3>
               <div className="space-y-4">
                 <div className="flex items-center justify-center">
-                  <Building2 className={`h-6 w-6 text-green-400 mr-3 rtl:mr-0 rtl:ml-3`} />
-                  <span className="text-slate-300">
+                  <Building2 className={`h-6 w-6 text-green-600 dark:text-green-400 mr-3 rtl:mr-0 rtl:ml-3`} />
+                  <span className="text-gray-600 dark:text-slate-300">
                     {language === "ar" ? "مركز التأمين الفني MMC" : "Technical Insurance Center MMC"}
                   </span>
                 </div>
                 <div className="flex items-center justify-center">
-                  <Mail className={`h-6 w-6 text-green-400 mr-3 rtl:mr-0 rtl:ml-3`} />
-                  <span className="text-slate-300">info@cybersecurity.gov</span>
+                  <Mail className={`h-6 w-6 text-green-600 dark:text-green-400 mr-3 rtl:mr-0 rtl:ml-3`} />
+                  <span className="text-gray-600 dark:text-slate-300">info@cybersecurity.gov</span>
                 </div>
                 <div className="flex items-center justify-center">
-                  <Phone className={`h-6 w-6 text-green-400 mr-3 rtl:mr-0 rtl:ml-3`} />
-                  <span className="text-slate-300">+966 11 123 4567</span>
+                  <Phone className={`h-6 w-6 text-green-600 dark:text-green-400 mr-3 rtl:mr-0 rtl:ml-3`} />
+                  <span className="text-gray-600 dark:text-slate-300">+966 11 123 4567</span>
                 </div>
               </div>
             </div>
@@ -229,12 +229,12 @@ export default function BeginnersFooter() {
         </div>
 
         {/* Bottom Section */}
-        <div className="border-t border-slate-700/50 bg-gradient-to-r from-slate-800/50 to-gray-800/50 backdrop-blur-sm">
+        <div className="border-t border-gray-300/50 dark:border-slate-700/50 bg-gradient-to-r from-gray-200/50 to-gray-100/50 dark:from-slate-800/50 dark:to-gray-800/50 backdrop-blur-sm">
           <div className="container mx-auto px-4 py-8">
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               {/* Copyright */}
               <div className="text-center md:text-right rtl:md:text-left">
-                <p className="text-slate-400 text-sm">
+                <p className="text-gray-500 dark:text-slate-400 text-sm">
                   {t("beginners.footer.copyright")}
                 </p>
               </div>
