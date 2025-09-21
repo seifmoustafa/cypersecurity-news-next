@@ -54,6 +54,11 @@
         "description": "Tools and tips to protect yourself and your devices from cyber threats",
         "tips": "Safety Tips",
         "tools": "Protection Tools"
+      },
+      "incidentReport": {
+        "title": "Incident Report",
+        "description": "Cybersecurity incident reporting form for rapid review",
+        "reportNewIncident": "Report New Incident"
       }
     },
     "cta": {
@@ -75,6 +80,77 @@
       "quickLinks": "Quick Links",
       "contactInfo": "Contact Information",
       "copyright": "Copyright © 2025 / Technical Insurance Center MMC. All rights reserved."
+    },
+    "incidentReport": {
+      "title": "Cybersecurity Incident Report",
+      "subtitle": "Use this form to report any suspicious or confirmed cybersecurity incident. The report will be sent to decision makers for immediate review.",
+      "reportInformation": "Report Information",
+      "reportInformationDescription": "Please fill in all required fields accurately to ensure prompt review",
+      "personalInformation": "Personal Information",
+      "incidentInformation": "Incident Information",
+      "rank": "Rank",
+      "selectRank": "Select rank",
+      "fullName": "Full Name",
+      "enterFullName": "Enter your full name",
+      "militaryNumber": "Military Number",
+      "enterMilitaryNumber": "Enter military number",
+      "nationalNumber": "National Number",
+      "enterNationalNumber": "Enter national number",
+      "unit": "Unit",
+      "enterUnitName": "Enter unit name",
+      "incidentCategory": "Incident Category",
+      "selectIncidentCategory": "Select incident category",
+      "priority": "Priority",
+      "selectPriority": "Select priority",
+      "incidentTitle": "Incident Title",
+      "enterIncidentTitle": "Enter a brief title for the incident",
+      "incidentDescription": "Incident Description",
+      "enterIncidentDescription": "Describe the incident in detail, when it occurred, what symptoms were observed, and what actions have been taken so far...",
+      "submitReport": "Submit Report",
+      "submitting": "Submitting...",
+      "successTitle": "Report Submitted Successfully",
+      "successDescription": "Your cybersecurity incident report has been sent to decision makers for review",
+      "errorTitle": "Submission Error",
+      "errorDescription": "An error occurred while submitting the report. Please try again",
+      "securityNote": "All reports are protected and encrypted. Information will be handled with high sensitivity.",
+      "ranks": {
+        "private": "Private",
+        "corporal": "Corporal",
+        "sergeant": "Sergeant",
+        "staffSergeant": "Staff Sergeant",
+        "warrantOfficer": "Warrant Officer",
+        "secondLieutenant": "Second Lieutenant",
+        "firstLieutenant": "First Lieutenant",
+        "captain": "Captain",
+        "major": "Major",
+        "lieutenantColonel": "Lieutenant Colonel",
+        "colonel": "Colonel",
+        "brigadierGeneral": "Brigadier General",
+        "majorGeneral": "Major General",
+        "lieutenantGeneral": "Lieutenant General",
+        "general": "General"
+      },
+      "priorities": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High",
+        "critical": "Critical"
+      },
+      "categories": {
+        "malware": "Malware",
+        "phishing": "Phishing",
+        "dataBreach": "Data Breach",
+        "unauthorizedAccess": "Unauthorized Access",
+        "systemCompromise": "System Compromise",
+        "networkIntrusion": "Network Intrusion",
+        "socialEngineering": "Social Engineering",
+        "insiderThreat": "Insider Threat",
+        "other": "Other"
+      }
+    },
+    "floatingButton": {
+      "reportIncident": "Report Incident",
+      "cybersecurity": "Cybersecurity"
     }
   },
   "section": {

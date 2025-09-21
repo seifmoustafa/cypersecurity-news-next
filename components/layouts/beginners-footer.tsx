@@ -1,12 +1,11 @@
 "use client";
 
 import { useLanguage } from "@/components/language-provider";
-import { 
-  Shield, 
-  ArrowRight, 
+import {
+  ArrowRight,
   ArrowLeft,
-  Mail, 
-  Phone, 
+  Mail,
+  Phone,
   Building2,
   Video,
   BookOpen,
@@ -18,7 +17,7 @@ import {
   Clock,
   CheckCircle,
   Eye,
-  Lock
+  Lock,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -35,11 +34,27 @@ export default function BeginnersFooter() {
       bgColor: "bg-green-400/10",
       borderColor: "border-green-400/20",
       links: [
-        { title: language === "ar" ? "الفيديوهات" : "Videos", href: "/beginners/videos", icon: Video },
-        { title: language === "ar" ? "المحاضرات" : "Lectures", href: "/beginners/lectures", icon: BookOpen },
-        { title: language === "ar" ? "العروض التقديمية" : "Presentations", href: "/beginners/presentations", icon: ShieldCheck },
-        { title: language === "ar" ? "الأخبار" : "News", href: "/beginners/news", icon: CheckCircle }
-      ]
+        {
+          title: language === "ar" ? "الفيديوهات" : "Videos",
+          href: "/beginners/videos",
+          icon: Video,
+        },
+        {
+          title: language === "ar" ? "المحاضرات" : "Lectures",
+          href: "/beginners/lectures",
+          icon: BookOpen,
+        },
+        {
+          title: language === "ar" ? "العروض التقديمية" : "Presentations",
+          href: "/beginners/presentations",
+          icon: ShieldCheck,
+        },
+        {
+          title: language === "ar" ? "الأخبار" : "News",
+          href: "/beginners/news",
+          icon: CheckCircle,
+        },
+      ],
     },
     {
       title: language === "ar" ? "التعريفات" : "Definitions",
@@ -48,9 +63,17 @@ export default function BeginnersFooter() {
       bgColor: "bg-blue-400/10",
       borderColor: "border-blue-400/20",
       links: [
-        { title: language === "ar" ? "المصطلحات الأساسية" : "Basic Terms", href: "/beginners/definitions", icon: BookOpen },
-        { title: language === "ar" ? "التصنيفات" : "Categories", href: "/beginners/definitions/categories", icon: CheckCircle }
-      ]
+        {
+          title: language === "ar" ? "المصطلحات الأساسية" : "Basic Terms",
+          href: "/beginners/definitions",
+          icon: BookOpen,
+        },
+        {
+          title: language === "ar" ? "التصنيفات" : "Categories",
+          href: "/beginners/definitions/categories",
+          icon: CheckCircle,
+        },
+      ],
     },
     {
       title: language === "ar" ? "الحماية الشخصية" : "Personal Protection",
@@ -59,40 +82,66 @@ export default function BeginnersFooter() {
       bgColor: "bg-purple-400/10",
       borderColor: "border-purple-400/20",
       links: [
-        { title: language === "ar" ? "نصائح الأمان" : "Safety Tips", href: "/beginners/personal-protect", icon: ShieldCheck },
-        { title: language === "ar" ? "أدوات الحماية" : "Protection Tools", href: "/beginners/personal-protect/tools", icon: ShieldCheck }
-      ]
-    }
+        {
+          title: language === "ar" ? "نصائح الأمان" : "Safety Tips",
+          href: "/beginners/personal-protect",
+          icon: ShieldCheck,
+        },
+        {
+          title: language === "ar" ? "أدوات الحماية" : "Protection Tools",
+          href: "/beginners/personal-protect/tools",
+          icon: ShieldCheck,
+        },
+      ],
+    },
   ];
   const quickLinks = [
-    { title: language === "ar" ? "البحث" : "Search", href: "/beginners/search", icon: Search },
-    { title: language === "ar" ? "خريطة الموقع" : "Site Map", href: "/beginners/sitemap", icon: Map }
+    {
+      title: language === "ar" ? "البحث" : "Search",
+      href: "/beginners/search",
+      icon: Search,
+    },
+    {
+      title: language === "ar" ? "خريطة الموقع" : "Site Map",
+      href: "/beginners/sitemap",
+      icon: Map,
+    },
   ];
 
   const securityFeatures = [
     {
-      icon: Shield,
+      icon: ShieldCheck,
       title: language === "ar" ? "حماية متقدمة" : "Advanced Protection",
-      description: language === "ar" ? "أنظمة حماية متطورة ضد التهديدات السيبرانية" : "Advanced protection systems against cyber threats"
+      description:
+        language === "ar"
+          ? "أنظمة حماية متطورة ضد التهديدات السيبرانية"
+          : "Advanced protection systems against cyber threats",
     },
     {
       icon: Eye,
       title: language === "ar" ? "مراقبة مستمرة" : "Continuous Monitoring",
-      description: language === "ar" ? "مراقبة مستمرة للأنظمة والشبكات" : "Continuous monitoring of systems and networks"
+      description:
+        language === "ar"
+          ? "مراقبة مستمرة للأنظمة والشبكات"
+          : "Continuous monitoring of systems and networks",
     },
     {
       icon: Lock,
       title: language === "ar" ? "تشفير قوي" : "Strong Encryption",
-      description: language === "ar" ? "تشفير قوي لحماية البيانات الحساسة" : "Strong encryption to protect sensitive data"
+      description:
+        language === "ar"
+          ? "تشفير قوي لحماية البيانات الحساسة"
+          : "Strong encryption to protect sensitive data",
     },
     {
       icon: AlertTriangle,
       title: language === "ar" ? "استجابة سريعة" : "Rapid Response",
-      description: language === "ar" ? "استجابة سريعة للحوادث الأمنية" : "Rapid response to security incidents"
-    }
+      description:
+        language === "ar"
+          ? "استجابة سريعة للحوادث الأمنية"
+          : "Rapid response to security incidents",
+    },
   ];
-
-  
 
   return (
     <footer className="relative bg-gradient-to-br from-gray-100 via-white to-gray-100 dark:from-slate-900 dark:via-gray-900 dark:to-slate-800 text-gray-800 dark:text-white overflow-hidden">
@@ -106,10 +155,22 @@ export default function BeginnersFooter() {
 
       {/* Floating Security Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-10 left-10 w-20 h-20 bg-green-500/10 rounded-full blur-xl animate-pulse" style={{ animationDelay: '0s', animationDuration: '3s' }}></div>
-        <div className="absolute top-20 right-20 w-16 h-16 bg-blue-500/10 rounded-full blur-xl animate-pulse" style={{ animationDelay: '1s', animationDuration: '4s' }}></div>
-        <div className="absolute bottom-20 left-20 w-24 h-24 bg-purple-500/10 rounded-full blur-xl animate-pulse" style={{ animationDelay: '2s', animationDuration: '5s' }}></div>
-        <div className="absolute bottom-10 right-10 w-18 h-18 bg-green-400/10 rounded-full blur-xl animate-pulse" style={{ animationDelay: '0.5s', animationDuration: '3.5s' }}></div>
+        <div
+          className="absolute top-10 left-10 w-20 h-20 bg-green-500/10 rounded-full blur-xl animate-pulse"
+          style={{ animationDelay: "0s", animationDuration: "3s" }}
+        ></div>
+        <div
+          className="absolute top-20 right-20 w-16 h-16 bg-blue-500/10 rounded-full blur-xl animate-pulse"
+          style={{ animationDelay: "1s", animationDuration: "4s" }}
+        ></div>
+        <div
+          className="absolute bottom-20 left-20 w-24 h-24 bg-purple-500/10 rounded-full blur-xl animate-pulse"
+          style={{ animationDelay: "2s", animationDuration: "5s" }}
+        ></div>
+        <div
+          className="absolute bottom-10 right-10 w-18 h-18 bg-green-400/10 rounded-full blur-xl animate-pulse"
+          style={{ animationDelay: "0.5s", animationDuration: "3.5s" }}
+        ></div>
       </div>
 
       <div className="relative z-10">
@@ -118,15 +179,11 @@ export default function BeginnersFooter() {
           {/* Header Section */}
           <div className="text-center mb-20">
             <div className="flex items-center justify-center mb-8">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl blur-lg opacity-30"></div>
-                <div className="relative bg-gradient-to-r from-green-500 to-blue-500 p-4 rounded-xl">
-                  <div className="flex items-center gap-2">
-                    <Shield className="h-8 w-8 text-white" />
-                    <Lock className="h-6 w-6 text-white" />
-                  </div>
-                </div>
-              </div>
+              <img
+                src="/app-icon.png"
+                alt="Cybersecurity Portal"
+                className="h-12 w-12 object-contain mx-4"
+              />
               <h2 className="ml-4 text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-blue-600 dark:from-green-300 dark:to-blue-300">
                 {t("beginners.footer.title")}
               </h2>
@@ -143,10 +200,14 @@ export default function BeginnersFooter() {
               return (
                 <div key={index} className="group">
                   <div className="flex items-center mb-8">
-                    <div className={`p-4 rounded-2xl ${section.bgColor} mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg border ${section.borderColor}`}>
+                    <div
+                      className={`p-4 rounded-2xl ${section.bgColor} mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg border ${section.borderColor}`}
+                    >
                       <IconComponent className={`h-8 w-8 ${section.color}`} />
                     </div>
-                    <h3 className={`font-bold text-2xl ${section.color} group-hover:scale-105 transition-transform duration-500`}>
+                    <h3
+                      className={`font-bold text-2xl ${section.color} group-hover:scale-105 transition-transform duration-500`}
+                    >
                       {section.title}
                     </h3>
                   </div>
@@ -159,8 +220,12 @@ export default function BeginnersFooter() {
                             href={link.href}
                             className="flex items-center text-gray-600 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white transition-all duration-300 group/link py-3 px-4 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-800/50 shadow-sm hover:shadow-lg border border-transparent hover:border-gray-200 dark:hover:border-slate-700/50"
                           >
-                            <LinkIcon className={`h-5 w-5 mr-3 rtl:mr-0 rtl:ml-3 text-gray-500 dark:text-slate-400 group-hover/link:text-green-500 dark:group-hover/link:text-green-400 transition-colors duration-300`} />
-                            <span className="text-sm font-medium">{link.title}</span>
+                            <LinkIcon
+                              className={`h-5 w-5 mr-3 rtl:mr-0 rtl:ml-3 text-gray-500 dark:text-slate-400 group-hover/link:text-green-500 dark:group-hover/link:text-green-400 transition-colors duration-300`}
+                            />
+                            <span className="text-sm font-medium">
+                              {link.title}
+                            </span>
                             {isRtl ? (
                               <ArrowLeft className="h-4 w-4 mr-auto opacity-0 group-hover/link:opacity-100 group-hover/link:-translate-x-1 transition-all duration-300" />
                             ) : (
@@ -189,8 +254,12 @@ export default function BeginnersFooter() {
                     href={link.href}
                     className="flex items-center px-8 py-4 bg-gradient-to-r from-gray-300/50 to-gray-200/50 dark:from-slate-700/50 dark:to-gray-700/50 hover:from-green-500/20 hover:to-blue-500/20 rounded-2xl transition-all duration-300 group border border-gray-400/50 dark:border-slate-600/50 hover:border-green-500/30 shadow-lg hover:shadow-xl hover:scale-105"
                   >
-                    <LinkIcon className={`h-6 w-6 mr-3 rtl:mr-0 rtl:ml-3 text-gray-600 dark:text-slate-300 group-hover:text-green-500 dark:group-hover:text-green-400 transition-colors duration-300`} />
-                    <span className="font-medium text-gray-700 dark:text-slate-200 group-hover:text-gray-900 dark:group-hover:text-white">{link.title}</span>
+                    <LinkIcon
+                      className={`h-6 w-6 mr-3 rtl:mr-0 rtl:ml-3 text-gray-600 dark:text-slate-300 group-hover:text-green-500 dark:group-hover:text-green-400 transition-colors duration-300`}
+                    />
+                    <span className="font-medium text-gray-700 dark:text-slate-200 group-hover:text-gray-900 dark:group-hover:text-white">
+                      {link.title}
+                    </span>
                     {isRtl ? (
                       <ArrowLeft className="h-5 w-5 mr-2 opacity-0 group-hover:opacity-100 group-hover:-translate-x-1 transition-all duration-300" />
                     ) : (
@@ -210,18 +279,30 @@ export default function BeginnersFooter() {
               </h3>
               <div className="space-y-4">
                 <div className="flex items-center justify-center">
-                  <Building2 className={`h-6 w-6 text-green-600 dark:text-green-400 mr-3 rtl:mr-0 rtl:ml-3`} />
+                  <Building2
+                    className={`h-6 w-6 text-green-600 dark:text-green-400 mr-3 rtl:mr-0 rtl:ml-3`}
+                  />
                   <span className="text-gray-600 dark:text-slate-300">
-                    {language === "ar" ? "مركز التأمين الفني MMC" : "Technical Insurance Center MMC"}
+                    {language === "ar"
+                      ? "مركز التأمين الفني MMC"
+                      : "Technical Insurance Center MMC"}
                   </span>
                 </div>
                 <div className="flex items-center justify-center">
-                  <Mail className={`h-6 w-6 text-green-600 dark:text-green-400 mr-3 rtl:mr-0 rtl:ml-3`} />
-                  <span className="text-gray-600 dark:text-slate-300">info@cybersecurity.gov</span>
+                  <Mail
+                    className={`h-6 w-6 text-green-600 dark:text-green-400 mr-3 rtl:mr-0 rtl:ml-3`}
+                  />
+                  <span className="text-gray-600 dark:text-slate-300">
+                    info@cybersecurity.gov
+                  </span>
                 </div>
                 <div className="flex items-center justify-center">
-                  <Phone className={`h-6 w-6 text-green-600 dark:text-green-400 mr-3 rtl:mr-0 rtl:ml-3`} />
-                  <span className="text-gray-600 dark:text-slate-300">+966 11 123 4567</span>
+                  <Phone
+                    className={`h-6 w-6 text-green-600 dark:text-green-400 mr-3 rtl:mr-0 rtl:ml-3`}
+                  />
+                  <span className="text-gray-600 dark:text-slate-300">
+                    +966 11 123 4567
+                  </span>
                 </div>
               </div>
             </div>
@@ -238,7 +319,7 @@ export default function BeginnersFooter() {
                   {t("beginners.footer.copyright")}
                 </p>
               </div>
-              
+
               {/* No social links as requested */}
             </div>
           </div>

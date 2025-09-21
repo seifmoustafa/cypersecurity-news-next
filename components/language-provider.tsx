@@ -15,6 +15,7 @@ interface LanguageContextType {
 export const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
+  // Initialize with default language to prevent hydration mismatch
   const [language, setLanguage] = useState<Language>("ar")
   const [mounted, setMounted] = useState(false)
 

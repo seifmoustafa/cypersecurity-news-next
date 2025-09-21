@@ -28,7 +28,9 @@ import {
   Search,
   Map,
   ArrowRight,
-  ArrowLeft
+  ArrowLeft,
+  FileText,
+  Send
 } from "lucide-react"
 import Link from "next/link"
 import { useLanguage } from "@/components/language-provider"
@@ -131,6 +133,24 @@ export default function BeginnersHome() {
           count: "20+"
         }
       ]
+    },
+    {
+      id: "incident-report",
+      title: t("beginners.cards.incidentReport.title"),
+      description: t("beginners.cards.incidentReport.description"),
+      icon: AlertTriangle,
+      color: "from-red-500 to-rose-600",
+      bgColor: "bg-red-50 dark:bg-red-900/20",
+      borderColor: "border-red-200 dark:border-red-800",
+      href: "/beginners/incident-report",
+      items: [
+        {
+          title: t("beginners.cards.incidentReport.reportNewIncident"),
+          href: "/beginners/incident-report",
+          icon: Send,
+          count: ""
+        }
+      ]
     }
   ]
 
@@ -150,11 +170,12 @@ export default function BeginnersHome() {
 
         <div className="relative z-10 container mx-auto px-4 pt-24 pb-8">
           {/* Main Interactive Cards */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 max-w-7xl mx-auto items-stretch">
             {mainCards.map((card, index) => {
               const gifPath = card.id === 'media' ? '/images/media.gif' : 
                              card.id === 'definitions' ? '/images/definitions.gif' : 
-                             '/images/personal_protect.gif';
+                             card.id === 'personal-protect' ? '/images/personal_protect.gif' :
+                             '/images/news-events.gif';
               
               return (
                 <div key={card.id} className="group h-full">

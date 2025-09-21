@@ -24,7 +24,7 @@ export default function BeginnersRootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" suppressHydrationWarning>
+    <html lang="ar" className={`${cairo.variable} ${roboto.variable}`} suppressHydrationWarning>
       <head>
         <title>بوابة الأمن السيبراني  | Cybersecurity Portal for Beginners</title>
         <meta
@@ -32,7 +32,7 @@ export default function BeginnersRootLayout({
           content="منصة مبسطة للأمن السيبراني تقدم المعرفة الأساسية والأدوات البسيطة "
         />
       </head>
-      <body className={`${cairo.variable} ${roboto.variable}`}>
+      <body className="rtl">
         <LanguageProvider>
           <ThemeProvider
             attribute="class"

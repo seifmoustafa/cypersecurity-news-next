@@ -5,7 +5,7 @@ import BeginnersHeader from "./beginners-header";
 import BeginnersFooter from "./beginners-footer";
 import { useTheme } from "next-themes";
 import { useLanguage } from "@/components/language-provider";
-import FloatingSystemButton from "@/components/floating-system-button";
+import FloatingIncidentButton from "@/components/floating-incident-button";
 import { useEffect } from "react";
 
 interface BeginnersLayoutProps {
@@ -33,8 +33,8 @@ export default function BeginnersLayout({ children }: BeginnersLayoutProps) {
       <BeginnersHeader onToggleTheme={toggleTheme} onToggleLanguage={toggleLanguage} />
       <main className="flex-grow pt-24 w-full relative">
         {children}
-        {/* Floating pinned system button visible across beginners pages */}
-        <FloatingSystemButton />
+        {/* Floating incident report button visible across beginners pages */}
+        <FloatingIncidentButton />
       </main>
       <BeginnersFooter />
     </div>

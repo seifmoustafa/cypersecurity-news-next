@@ -54,6 +54,11 @@
         "description": "أدوات ونصائح لحماية نفسك وأجهزتك من التهديدات السيبرانية",
         "tips": "نصائح الأمان",
         "tools": "أدوات الحماية"
+      },
+      "incidentReport": {
+        "title": "إبلاغ عن حادث الأمني",
+        "description": "نموذج الإبلاغ عن الحوادث الأمنية السيبرانية للمراجعة السريعة",
+        "reportNewIncident": "إبلاغ عن حادث جديد"
       }
     },
     "cta": {
@@ -75,6 +80,77 @@
       "quickLinks": "روابط سريعة",
       "contactInfo": "معلومات الاتصال",
       "copyright": "حقوق النشر © 2025 / مركز التأمين الفني MMC جميع الحقوق محفوظة"
+    },
+    "incidentReport": {
+      "title": "إبلاغ عن حادث الأمني السيبراني",
+      "subtitle": "استخدم هذا النموذج للإبلاغ عن أي حادث أمني سيبراني مشبوه أو مؤكد. سيتم إرسال التقرير إلى صناع القرار للمراجعة الفورية.",
+      "reportInformation": "معلومات التقرير",
+      "reportInformationDescription": "يرجى ملء جميع الحقول المطلوبة بدقة لضمان المراجعة السريعة",
+      "personalInformation": "المعلومات الشخصية",
+      "incidentInformation": "معلومات الحادث",
+      "rank": "الرتبة",
+      "selectRank": "اختر الرتبة",
+      "fullName": "الاسم الكامل",
+      "enterFullName": "أدخل اسمك الكامل",
+      "militaryNumber": "الرقم العسكري",
+      "enterMilitaryNumber": "أدخل الرقم العسكري",
+      "nationalNumber": "الرقم الوطني",
+      "enterNationalNumber": "أدخل الرقم الوطني",
+      "unit": "الوحدة",
+      "enterUnitName": "أدخل اسم الوحدة",
+      "incidentCategory": "فئة الحادث",
+      "selectIncidentCategory": "اختر فئة الحادث",
+      "priority": "الأولوية",
+      "selectPriority": "اختر الأولوية",
+      "incidentTitle": "عنوان الحادث",
+      "enterIncidentTitle": "أدخل عنوان مختصر للحادث",
+      "incidentDescription": "وصف الحادث",
+      "enterIncidentDescription": "صف الحادث بالتفصيل، متى حدث، ما هي الأعراض، وما هي الإجراءات المتخذة حتى الآن...",
+      "submitReport": "إرسال التقرير",
+      "submitting": "جاري الإرسال...",
+      "successTitle": "تم الإرسال بنجاح",
+      "successDescription": "تم إرسال تقرير الحادث الأمني إلى صناع القرار للمراجعة",
+      "errorTitle": "خطأ في الإرسال",
+      "errorDescription": "حدث خطأ أثناء إرسال التقرير. يرجى المحاولة مرة أخرى",
+      "securityNote": "جميع التقارير محمية ومشفرة. سيتم التعامل مع المعلومات بحساسية عالية.",
+      "ranks": {
+        "private": "جندي",
+        "corporal": "عريف",
+        "sergeant": "رقيب",
+        "staffSergeant": "رقيب أول",
+        "warrantOfficer": "ملازم",
+        "secondLieutenant": "ملازم ثاني",
+        "firstLieutenant": "ملازم أول",
+        "captain": "نقيب",
+        "major": "رائد",
+        "lieutenantColonel": "مقدم",
+        "colonel": "عقيد",
+        "brigadierGeneral": "عميد",
+        "majorGeneral": "لواء",
+        "lieutenantGeneral": "فريق",
+        "general": "فريق أول"
+      },
+      "priorities": {
+        "low": "منخفض",
+        "medium": "متوسط",
+        "high": "عالي",
+        "critical": "حرج"
+      },
+      "categories": {
+        "malware": "برامج ضارة",
+        "phishing": "التصيد الاحتيالي",
+        "dataBreach": "خرق البيانات",
+        "unauthorizedAccess": "وصول غير مصرح",
+        "systemCompromise": "اختراق النظام",
+        "networkIntrusion": "تسلل الشبكة",
+        "socialEngineering": "الهندسة الاجتماعية",
+        "insiderThreat": "تهديد داخلي",
+        "other": "أخرى"
+      }
+    },
+    "floatingButton": {
+      "reportIncident": "إبلاغ عن حادث",
+      "cybersecurity": "أمني سيبراني"
     }
   },
   "section": {

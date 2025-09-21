@@ -1,69 +1,151 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState, useEffect } from "react"
-import { MoonIcon, SunIcon, MenuIcon, XIcon, Globe, ChevronDown, Shield, LightbulbIcon, Search, Home, ChevronRight, ToggleLeft, ToggleRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { useTheme } from "next-themes"
-import { useLanguage } from "@/components/language-provider"
-import { cn } from "@/lib/utils"
-import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import type React from "react";
+import { useState, useEffect } from "react";
+import {
+  MoonIcon,
+  SunIcon,
+  MenuIcon,
+  XIcon,
+  Globe,
+  ChevronDown,
+  Shield,
+  LightbulbIcon,
+  Search,
+  Home,
+  ChevronRight,
+  ToggleLeft,
+  ToggleRight,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useTheme } from "next-themes";
+import { useLanguage } from "@/components/language-provider";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface HeaderProps {
-  onToggleTheme: () => void
-  onToggleLanguage: () => void
+  onToggleTheme: () => void;
+  onToggleLanguage: () => void;
 }
 
-export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps) {
-  const { theme, setTheme } = useTheme()
-  const { language, t, isRtl } = useLanguage()
-  const [mounted, setMounted] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState("")
-  const [tipsDisabled, setTipsDisabled] = useState(false)
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
-  const [searchOpen, setSearchOpen] = useState(false)
-  const [isBeginnersMode, setIsBeginnersMode] = useState(false)
+export default function Header({
+  onToggleTheme,
+  onToggleLanguage,
+}: HeaderProps) {
+  const { theme, setTheme } = useTheme();
+  const { language, t, isRtl } = useLanguage();
+  const [mounted, setMounted] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
+  const [tipsDisabled, setTipsDisabled] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [isBeginnersMode, setIsBeginnersMode] = useState(false);
 
-  const pathname = usePathname()
-  const router = useRouter()
-  const isHomePage = pathname === "/"
+  const pathname = usePathname();
+  const router = useRouter();
+  const isHomePage = pathname === "/";
 
   // Navigation groups
   const navGroups = [
     {
       title: "awareness",
       items: [
-        { key: "awareness.news", href: "#awareness", isScroll: true, tab: "news" },
-        { key: "awareness.bulletins", href: "#awareness", isScroll: true, tab: "bulletins" },
-        { key: "awareness.articles", href: "#awareness", isScroll: true, tab: "articles" },
+        {
+          key: "awareness.news",
+          href: "#awareness",
+          isScroll: true,
+          tab: "news",
+        },
+        {
+          key: "awareness.bulletins",
+          href: "#awareness",
+          isScroll: true,
+          tab: "bulletins",
+        },
+        {
+          key: "awareness.articles",
+          href: "#awareness",
+          isScroll: true,
+          tab: "articles",
+        },
       ],
     },
     {
       title: "securityRequirements",
       items: [
-        { key: "nav.instructions", href: "#security-requirements", isScroll: true, tab: "instructions" },
-        { key: "nav.securityProcedures", href: "#security-requirements", isScroll: true, tab: "procedures" },
+        {
+          key: "nav.instructions",
+          href: "#security-requirements",
+          isScroll: true,
+          tab: "instructions",
+        },
+        {
+          key: "nav.securityProcedures",
+          href: "#security-requirements",
+          isScroll: true,
+          tab: "procedures",
+        },
       ],
     },
     {
       title: "cybersecurityConcepts",
       items: [
-        { key: "section.definitions", href: "#standards", isScroll: true, tab: "definitions" },
-        { key: "section.laws", href: "#standards", isScroll: true, tab: "laws" },
-        { key: "section.regulation", href: "#standards", isScroll: true, tab: "regulation" },
-        { key: "section.framework", href: "#standards", isScroll: true, tab: "framework" },
-        { key: "section.standards", href: "#standards", isScroll: true, tab: "standards" },
+        {
+          key: "section.definitions",
+          href: "#standards",
+          isScroll: true,
+          tab: "definitions",
+        },
+        {
+          key: "section.laws",
+          href: "#standards",
+          isScroll: true,
+          tab: "laws",
+        },
+        {
+          key: "section.regulation",
+          href: "#standards",
+          isScroll: true,
+          tab: "regulation",
+        },
+        {
+          key: "section.framework",
+          href: "#standards",
+          isScroll: true,
+          tab: "framework",
+        },
+        {
+          key: "section.standards",
+          href: "#standards",
+          isScroll: true,
+          tab: "standards",
+        },
       ],
     },
     {
       title: "documentLibrary",
       items: [
         { key: "media.videos", href: "#media", isScroll: true, tab: "videos" },
-        { key: "media.lectures", href: "#media", isScroll: true, tab: "lectures" },
-        { key: "media.presentations", href: "#media", isScroll: true, tab: "presentations" },
+        {
+          key: "media.lectures",
+          href: "#media",
+          isScroll: true,
+          tab: "lectures",
+        },
+        {
+          key: "media.presentations",
+          href: "#media",
+          isScroll: true,
+          tab: "presentations",
+        },
       ],
     },
     {
@@ -73,157 +155,160 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
         { key: "systems.helperSystems", href: "#helpers", isScroll: true },
       ],
     },
-  ]
+  ];
 
   // Check if tips are disabled on mount and beginners mode
   useEffect(() => {
-    const disabled = localStorage.getItem("tipOfTheDayDisabled") === "true"
-    const beginnersMode = localStorage.getItem("beginnersMode") === "true"
-    setTipsDisabled(disabled)
-    setIsBeginnersMode(beginnersMode)
-    setMounted(true)
-  }, [])
+    const disabled = localStorage.getItem("tipOfTheDayDisabled") === "true";
+    const beginnersMode = localStorage.getItem("beginnersMode") === "true";
+    setTipsDisabled(disabled);
+    setIsBeginnersMode(beginnersMode);
+    setMounted(true);
+  }, []);
 
   // Handle scroll and update active section
   useEffect(() => {
     const handleScroll = () => {
-      const sections = document.querySelectorAll(".section-anchor")
-      let currentActiveSection = ""
-      const windowHeight = window.innerHeight
+      const sections = document.querySelectorAll(".section-anchor");
+      let currentActiveSection = "";
+      const windowHeight = window.innerHeight;
 
       sections.forEach((section) => {
-        const sectionTop = section.getBoundingClientRect().top
+        const sectionTop = section.getBoundingClientRect().top;
 
         // Consider a section active if it's in the top portion of the viewport
         if (sectionTop <= windowHeight * 0.3) {
-          currentActiveSection = section.id
+          currentActiveSection = section.id;
         }
-      })
+      });
 
       // If we're at the bottom of the page and no section is active,
       // use the last section
       if (!currentActiveSection && sections.length > 0) {
-        const lastSection = sections[sections.length - 1] as HTMLElement
-        const lastSectionBottom = lastSection.getBoundingClientRect().bottom
+        const lastSection = sections[sections.length - 1] as HTMLElement;
+        const lastSectionBottom = lastSection.getBoundingClientRect().bottom;
         if (lastSectionBottom <= windowHeight) {
-          currentActiveSection = lastSection.id
+          currentActiveSection = lastSection.id;
         }
       }
 
-      setActiveSection(currentActiveSection)
-    }
+      setActiveSection(currentActiveSection);
+    };
 
     if (isHomePage) {
-      window.addEventListener("scroll", handleScroll, { passive: true })
+      window.addEventListener("scroll", handleScroll, { passive: true });
       // Initial check
-      handleScroll()
-      return () => window.removeEventListener("scroll", handleScroll)
+      handleScroll();
+      return () => window.removeEventListener("scroll", handleScroll);
     }
-  }, [isHomePage])
+  }, [isHomePage]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = () => {
-      setOpenDropdown(null)
-    }
+      setOpenDropdown(null);
+    };
 
     if (openDropdown) {
-      document.addEventListener("click", handleClickOutside)
-      return () => document.removeEventListener("click", handleClickOutside)
+      document.addEventListener("click", handleClickOutside);
+      return () => document.removeEventListener("click", handleClickOutside);
     }
-  }, [openDropdown])
+  }, [openDropdown]);
 
-  if (!mounted) return null
+  if (!mounted) return null;
 
-  const isDarkMode = theme === "dark"
+  const isDarkMode = theme === "dark";
 
   const handleThemeToggle = () => {
-    setTheme(theme === "dark" ? "light" : "dark")
-    onToggleTheme()
-  }
+    setTheme(theme === "dark" ? "light" : "dark");
+    onToggleTheme();
+  };
 
   const handleLanguageToggle = () => {
-    onToggleLanguage()
-  }
+    onToggleLanguage();
+  };
 
   const toggleTips = () => {
-    const newState = !tipsDisabled
-    localStorage.setItem("tipOfTheDayDisabled", newState.toString())
-    setTipsDisabled(newState)
-  }
+    const newState = !tipsDisabled;
+    localStorage.setItem("tipOfTheDayDisabled", newState.toString());
+    setTipsDisabled(newState);
+  };
 
   const handleDropdownToggle = (groupTitle: string, e: React.MouseEvent) => {
-    e.stopPropagation()
-    setOpenDropdown(openDropdown === groupTitle ? null : groupTitle)
-  }
+    e.stopPropagation();
+    setOpenDropdown(openDropdown === groupTitle ? null : groupTitle);
+  };
 
   const handleSearchToggle = () => {
-    setSearchOpen(!searchOpen)
-    setOpenDropdown(null)
-    setMobileMenuOpen(false)
-  }
+    setSearchOpen(!searchOpen);
+    setOpenDropdown(null);
+    setMobileMenuOpen(false);
+  };
 
   const handleLayoutSwitch = () => {
-    const newMode = !isBeginnersMode
-    setIsBeginnersMode(newMode)
-    localStorage.setItem("beginnersMode", newMode.toString())
-    
+    const newMode = !isBeginnersMode;
+    setIsBeginnersMode(newMode);
+    localStorage.setItem("beginnersMode", newMode.toString());
+
     // If switching to beginners mode, redirect to beginners layout
     if (newMode) {
-      window.location.href = "/beginners"
+      window.location.href = "/beginners";
     }
-  }
+  };
 
-  const handleNavigation = (e: React.MouseEvent, href: string, isScroll: boolean, tab?: string) => {
-    e.preventDefault()
-    setMobileMenuOpen(false)
-    setOpenDropdown(null)
+  const handleNavigation = (
+    e: React.MouseEvent,
+    href: string,
+    isScroll: boolean,
+    tab?: string
+  ) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    setOpenDropdown(null);
 
-    console.log("Navigation triggered:", { href, isScroll, isHomePage })
+    console.log("Navigation triggered:", { href, isScroll, isHomePage });
 
     if (href === "/") {
-      router.push("/")
-      return
+      router.push("/");
+      return;
     }
 
     if (isScroll && isHomePage) {
-      const hashPart = href.split("?")[0]
-      const sectionId = hashPart.substring(1)
-      console.log("Scrolling to section:", sectionId)
+      const hashPart = href.split("?")[0];
+      const sectionId = hashPart.substring(1);
+      console.log("Scrolling to section:", sectionId);
 
-      const element = document.getElementById(sectionId)
-              if (element) {
-          console.log("Element found, scrolling...")
-          element.scrollIntoView({ behavior: "smooth", block: "start" })
-          window.history.replaceState(null, "", hashPart)
+      const element = document.getElementById(sectionId);
+      if (element) {
+        console.log("Element found, scrolling...");
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.history.replaceState(null, "", hashPart);
 
-          if (tab) {
-            const tabChangeEvent = new CustomEvent("tabchange", {
-              detail: { sectionId, tab },
-            })
-            window.dispatchEvent(tabChangeEvent)
-          }
-        } else {
-          console.log("Element not found for ID:", sectionId)
+        if (tab) {
+          const tabChangeEvent = new CustomEvent("tabchange", {
+            detail: { sectionId, tab },
+          });
+          window.dispatchEvent(tabChangeEvent);
         }
+      } else {
+        console.log("Element not found for ID:", sectionId);
+      }
     } else if (isScroll && !isHomePage) {
-      console.log("Not on homepage, navigating to homepage with hash")
-      const baseUrl = "/"
-      const hashPart = href.split("?")[0]
-      const navigationUrl = baseUrl + hashPart
+      console.log("Not on homepage, navigating to homepage with hash");
+      const baseUrl = "/";
+      const hashPart = href.split("?")[0];
+      const navigationUrl = baseUrl + hashPart;
 
       if (tab) {
-        sessionStorage.setItem(`${hashPart.substring(1)}_activeTab`, tab)
+        sessionStorage.setItem(`${hashPart.substring(1)}_activeTab`, tab);
       }
 
-      window.location.href = navigationUrl
+      window.location.href = navigationUrl;
     } else {
-      console.log("Regular navigation to:", href)
-      router.push(href)
+      console.log("Regular navigation to:", href);
+      router.push(href);
     }
-  }
-
-
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-xl border-b border-blue-200/30 dark:border-blue-800/30 shadow-lg shadow-blue-500/10 dark:shadow-blue-500/20">
@@ -235,23 +320,24 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
               href="/"
               className="flex items-center space-x-3 rtl:space-x-reverse group-hover:scale-105 transition-all duration-300"
               onClick={(e) => {
-                e.preventDefault()
-                router.push("/")
+                e.preventDefault();
+                router.push("/");
               }}
             >
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl blur-md opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
-                <div className="relative bg-gradient-to-r from-blue-500 to-cyan-500 p-2.5 rounded-xl shadow-lg">
-                  <Shield className="h-6 w-6 text-white" />
-                </div>
+                {/* <div className="relative bg-gradient-to-r from-blue-500 to-cyan-500 p-2.5 rounded-xl shadow-lg"> */}
+                  <img
+                    src="/app-icon.png"
+                    alt="Cybersecurity Portal"
+                    className="h-12 w-12 object-contain group-hover:scale-110 transition-all duration-500"
+                  />
+                {/* </div> */}
               </div>
               <div className="flex flex-col">
                 <span className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 group-hover:from-blue-700 group-hover:to-cyan-600 transition-all duration-300">
                   <span className="hidden sm:inline">{t("hero.title")}</span>
                   <span className="sm:hidden">CyberSec</span>
-                </span>
-                <span className="text-xs text-muted-foreground font-medium hidden lg:block">
-                  {language === "ar" ? "بوابة الأمن السيبراني" : "Cybersecurity Portal"}
                 </span>
               </div>
             </Link>
@@ -264,8 +350,8 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
               size="sm"
               className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-xs xl:text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-md"
               onClick={(e) => {
-                e.preventDefault()
-                router.push("/")
+                e.preventDefault();
+                router.push("/");
               }}
             >
               <Home className="h-4 w-4 mr-1 rtl:ml-1 rtl:mr-0" />
@@ -280,7 +366,9 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
                   size="sm"
                   className={cn(
                     "flex items-center gap-2 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-xs xl:text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-md",
-                    openDropdown === group.title ? "bg-blue-50/50 dark:bg-blue-900/20 shadow-md" : "",
+                    openDropdown === group.title
+                      ? "bg-blue-50/50 dark:bg-blue-900/20 shadow-md"
+                      : ""
                   )}
                   onClick={(e) => handleDropdownToggle(group.title, e)}
                 >
@@ -288,7 +376,9 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
                   <ChevronDown
                     className={cn(
                       "h-3 w-3 xl:h-4 xl:w-4 opacity-50 transition-all duration-300",
-                      openDropdown === group.title ? "rotate-180 opacity-100" : "",
+                      openDropdown === group.title
+                        ? "rotate-180 opacity-100"
+                        : ""
                     )}
                   />
                 </Button>
@@ -298,7 +388,7 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
                   <div
                     className={cn(
                       "absolute top-full mt-2 min-w-[220px] bg-white dark:bg-gray-900 border border-blue-200/40 dark:border-blue-800/40 shadow-xl shadow-blue-500/10 dark:shadow-blue-500/20 rounded-xl py-2 z-[100] animate-in slide-in-from-top-2 duration-300",
-                      isRtl ? "right-0" : "left-0",
+                      isRtl ? "right-0" : "left-0"
                     )}
                     onClick={(e) => e.stopPropagation()}
                   >
@@ -309,17 +399,26 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
                           "w-full px-4 py-3 text-left text-xs xl:text-sm hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-sm group",
                           item.href.split("?")[0].substring(1) === activeSection
                             ? "font-medium text-primary bg-blue-50/30 dark:bg-blue-900/10"
-                            : "text-foreground",
+                            : "text-foreground"
                         )}
-                        onClick={(e) => handleNavigation(e, item.href, item.isScroll, (item as any).tab)}
+                        onClick={(e) =>
+                          handleNavigation(
+                            e,
+                            item.href,
+                            item.isScroll,
+                            (item as any).tab
+                          )
+                        }
                         style={{ animationDelay: `${index * 50}ms` }}
                       >
                         <div className="flex items-center justify-between">
                           <span>{t(item.key)}</span>
-                          <ChevronRight className={cn(
-                            "h-3 w-3 opacity-0 group-hover:opacity-100 transition-all duration-300",
-                            isRtl ? "rotate-180" : ""
-                          )} />
+                          <ChevronRight
+                            className={cn(
+                              "h-3 w-3 opacity-0 group-hover:opacity-100 transition-all duration-300",
+                              isRtl ? "rotate-180" : ""
+                            )}
+                          />
                         </div>
                       </button>
                     ))}
@@ -339,7 +438,11 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
                     variant="ghost"
                     size="icon"
                     onClick={handleLayoutSwitch}
-                    title={isBeginnersMode ? t("nav.advancedMode") : t("nav.beginnersMode")}
+                    title={
+                      isBeginnersMode
+                        ? t("nav.advancedMode")
+                        : t("nav.beginnersMode")
+                    }
                     className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-9 w-9 md:h-11 md:w-11 transition-all duration-300 hover:scale-110 hover:shadow-md group"
                   >
                     {isBeginnersMode ? (
@@ -347,11 +450,19 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
                     ) : (
                       <ToggleLeft className="h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-transform duration-300 text-blue-500" />
                     )}
-                    <span className="sr-only">{isBeginnersMode ? t("nav.advancedMode") : t("nav.beginnersMode")}</span>
+                    <span className="sr-only">
+                      {isBeginnersMode
+                        ? t("nav.advancedMode")
+                        : t("nav.beginnersMode")}
+                    </span>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{isBeginnersMode ? t("nav.advancedMode") : t("nav.beginnersMode")}</p>
+                  <p>
+                    {isBeginnersMode
+                      ? t("nav.advancedMode")
+                      : t("nav.beginnersMode")}
+                  </p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -387,9 +498,13 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
                     className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-9 w-9 md:h-11 md:w-11 transition-all duration-300 hover:scale-110 hover:shadow-md group"
                   >
                     <LightbulbIcon
-                      className={`h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-all duration-300 ${tipsDisabled ? "opacity-50" : "text-yellow-500"}`}
+                      className={`h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-all duration-300 ${
+                        tipsDisabled ? "opacity-50" : "text-yellow-500"
+                      }`}
                     />
-                    <span className="sr-only">{tipsDisabled ? t("tips.enable") : t("tips.disable")}</span>
+                    <span className="sr-only">
+                      {tipsDisabled ? t("tips.enable") : t("tips.disable")}
+                    </span>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -425,7 +540,9 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
                     variant="ghost"
                     size="icon"
                     onClick={handleThemeToggle}
-                    title={isDarkMode ? t("common.lightMode") : t("common.darkMode")}
+                    title={
+                      isDarkMode ? t("common.lightMode") : t("common.darkMode")
+                    }
                     className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-9 w-9 md:h-11 md:w-11 transition-all duration-300 hover:scale-110 hover:shadow-md group"
                   >
                     {isDarkMode ? (
@@ -433,11 +550,17 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
                     ) : (
                       <MoonIcon className="h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-transform duration-300" />
                     )}
-                    <span className="sr-only">{isDarkMode ? t("common.lightMode") : t("common.darkMode")}</span>
+                    <span className="sr-only">
+                      {isDarkMode
+                        ? t("common.lightMode")
+                        : t("common.darkMode")}
+                    </span>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{isDarkMode ? t("common.lightMode") : t("common.darkMode")}</p>
+                  <p>
+                    {isDarkMode ? t("common.lightMode") : t("common.darkMode")}
+                  </p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -472,14 +595,14 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
                 className="flex-1 bg-transparent border-none outline-none text-lg placeholder:text-muted-foreground focus:text-foreground transition-colors duration-300"
                 autoFocus
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    const query = e.currentTarget.value.trim()
+                  if (e.key === "Enter") {
+                    const query = e.currentTarget.value.trim();
                     if (query) {
-                      router.push(`/search?q=${encodeURIComponent(query)}`)
-                      setSearchOpen(false)
+                      router.push(`/search?q=${encodeURIComponent(query)}`);
+                      setSearchOpen(false);
                     }
-                  } else if (e.key === 'Escape') {
-                    setSearchOpen(false)
+                  } else if (e.key === "Escape") {
+                    setSearchOpen(false);
                   }
                 }}
               />
@@ -512,11 +635,15 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
                   ) : (
                     <ToggleLeft className="h-4 w-4 text-blue-500 group-hover:scale-110 transition-transform duration-300" />
                   )}
-                  {isBeginnersMode ? t("nav.advancedMode") : t("nav.beginnersMode")}
-                  <ChevronRight className={cn(
-                    "h-4 w-4 ml-auto opacity-0 group-hover:opacity-100 transition-all duration-300",
-                    isRtl ? "rotate-180" : ""
-                  )} />
+                  {isBeginnersMode
+                    ? t("nav.advancedMode")
+                    : t("nav.beginnersMode")}
+                  <ChevronRight
+                    className={cn(
+                      "h-4 w-4 ml-auto opacity-0 group-hover:opacity-100 transition-all duration-300",
+                      isRtl ? "rotate-180" : ""
+                    )}
+                  />
                 </button>
               </div>
 
@@ -524,17 +651,19 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
                 <button
                   className="flex items-center gap-3 px-4 py-3 text-sm rounded-xl transition-all duration-300 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 hover:scale-[1.02] hover:shadow-md text-foreground/80 w-full text-left group"
                   onClick={(e) => {
-                    e.preventDefault()
-                    setMobileMenuOpen(false)
-                    router.push("/")
+                    e.preventDefault();
+                    setMobileMenuOpen(false);
+                    router.push("/");
                   }}
                 >
                   <Home className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
                   {t("nav.home")}
-                  <ChevronRight className={cn(
-                    "h-4 w-4 ml-auto opacity-0 group-hover:opacity-100 transition-all duration-300",
-                    isRtl ? "rotate-180" : ""
-                  )} />
+                  <ChevronRight
+                    className={cn(
+                      "h-4 w-4 ml-auto opacity-0 group-hover:opacity-100 transition-all duration-300",
+                      isRtl ? "rotate-180" : ""
+                    )}
+                  />
                 </button>
               </div>
 
@@ -542,25 +671,37 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
                 <div key={group.title} className="py-2">
                   {/* Enhanced Group with items in mobile menu */}
                   <>
-                    <h3 className="text-sm font-bold text-primary mb-3 px-2 py-1 bg-blue-50/50 dark:bg-blue-900/20 rounded-lg">{t(`section.${group.title}`)}</h3>
+                    <h3 className="text-sm font-bold text-primary mb-3 px-2 py-1 bg-blue-50/50 dark:bg-blue-900/20 rounded-lg">
+                      {t(`section.${group.title}`)}
+                    </h3>
                     <div className="space-y-2 pl-4 rtl:pr-4 rtl:pl-0">
                       {group.items.map((item, index) => (
                         <button
                           key={item.key}
                           className={cn(
                             "flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-all duration-300 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 hover:scale-[1.02] hover:shadow-sm w-full text-left group",
-                            item.href.split("?")[0].substring(1) === activeSection
+                            item.href.split("?")[0].substring(1) ===
+                              activeSection
                               ? "text-primary font-medium bg-blue-50/30 dark:bg-blue-900/10"
-                              : "text-foreground/80",
+                              : "text-foreground/80"
                           )}
-                          onClick={(e) => handleNavigation(e, item.href, item.isScroll, (item as any).tab)}
+                          onClick={(e) =>
+                            handleNavigation(
+                              e,
+                              item.href,
+                              item.isScroll,
+                              (item as any).tab
+                            )
+                          }
                           style={{ animationDelay: `${index * 50}ms` }}
                         >
                           <span>{t(item.key)}</span>
-                          <ChevronRight className={cn(
-                            "h-3 w-3 ml-auto opacity-0 group-hover:opacity-100 transition-all duration-300",
-                            isRtl ? "rotate-180" : ""
-                          )} />
+                          <ChevronRight
+                            className={cn(
+                              "h-3 w-3 ml-auto opacity-0 group-hover:opacity-100 transition-all duration-300",
+                              isRtl ? "rotate-180" : ""
+                            )}
+                          />
                         </button>
                       ))}
                     </div>
@@ -572,5 +713,5 @@ export default function Header({ onToggleTheme, onToggleLanguage }: HeaderProps)
         </div>
       )}
     </header>
-  )
+  );
 }

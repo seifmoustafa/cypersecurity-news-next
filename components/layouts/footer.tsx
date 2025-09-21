@@ -2,7 +2,6 @@
 
 import { useLanguage } from "@/components/language-provider";
 import { 
-  Shield, 
   ArrowRight, 
   ArrowLeft,
   Map, 
@@ -53,13 +52,13 @@ export default function Footer() {
     },
     {
       title: language === "ar" ? "متطلبات الأمن" : "Security Requirements",
-      icon: Shield,
+      icon: Settings,
       color: "text-blue-400",
       bgColor: "bg-blue-400/10",
       links: [
         { title: language === "ar" ? "التعليمات" : "Instructions", href: "/instructions/category", icon: FileText },
         { title: language === "ar" ? "الإجراءات الأمنية" : "Security Procedures", href: "/procedures", icon: Settings },
-        { title: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/personal-protect", icon: Shield }
+        { title: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/personal-protect", icon: Settings }
       ]
     },
     {
@@ -127,12 +126,11 @@ export default function Footer() {
           {/* Header Section */}
           <div className="text-center mb-16">
             <div className="flex items-center justify-center mb-6">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full blur-lg opacity-30 dark:opacity-30"></div>
-                <div className="relative bg-gradient-to-r from-blue-500 to-cyan-500 p-4 rounded-full">
-                  <Shield className="h-8 w-8 text-white" />
-                </div>
-              </div>
+              <img
+                src="/app-icon.png"
+                alt="Cybersecurity Portal"
+                className="h-12 w-12 object-contain mx-4"
+              />
               <h2 className="ml-4 text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400">
                 {language === "ar" ? "بوابة الأمن السيبراني" : "Cybersecurity Portal"}
               </h2>
