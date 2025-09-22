@@ -39,7 +39,7 @@ export default function BeginnersSearchPage() {
     { id: "all", title: language === "ar" ? "الكل" : "All" },
     { id: "videos", title: language === "ar" ? "الفيديوهات" : "Videos" },
     { id: "articles", title: language === "ar" ? "المقالات" : "Articles" },
-    { id: "definitions", title: language === "ar" ? "التعريفات" : "Definitions" },
+    { id: "definitions", title: language === "ar" ? "المفاهيم" : "Definitions" },
     { id: "tools", title: language === "ar" ? "الأدوات" : "Tools" }
   ]
 

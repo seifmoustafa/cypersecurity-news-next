@@ -67,7 +67,7 @@ export default function Footer() {
       color: "text-green-400",
       bgColor: "bg-green-400/10",
       links: [
-        { title: language === "ar" ? "التعريفات" : "Definitions", href: "/definitions", icon: BookOpen },
+        { title: language === "ar" ? "المفاهيم" : "Definitions", href: "/definitions", icon: BookOpen },
         { title: language === "ar" ? "القوانين واللوائح" : "Laws & Regulations", href: "/laws", icon: Scale },
         { title: language === "ar" ? "التنظيم" : "Regulation", href: "/regulation", icon: Settings },
         { title: language === "ar" ? "إطار العمل" : "Framework", href: "/framework", icon: Building2 },

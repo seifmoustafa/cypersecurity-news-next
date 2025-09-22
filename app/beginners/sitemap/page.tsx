@@ -87,7 +87,7 @@ export default function BeginnersSitemapPage() {
     },
     {
       id: "definitions",
-      title: language === "ar" ? "التعريفات" : "Definitions",
+      title: language === "ar" ? "المفاهيم" : "Definitions",
       icon: BookOpen,
       color: "from-blue-500 to-cyan-600",
       href: "/beginners/definitions",
@@ -381,7 +381,7 @@ export default function BeginnersSitemapPage() {
             >
               <Video className="h-5 w-5 text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform duration-300" />
               <span className="font-medium text-gray-900 dark:text-white">
-                {language === "ar" ? "الوسائط" : "Media"}
+                {language === "ar" ? "المكتبة الإعلامية" : "Media"}
               </span>
             </Link>
             
@@ -391,7 +391,7 @@ export default function BeginnersSitemapPage() {
             >
               <BookOpen className="h-5 w-5 text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform duration-300" />
               <span className="font-medium text-gray-900 dark:text-white">
-                {language === "ar" ? "التعريفات" : "Definitions"}
+                {language === "ar" ? "المفاهيم" : "Definitions"}
               </span>
             </Link>
           </div>

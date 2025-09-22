@@ -28,7 +28,7 @@ export default function BeginnersFooter() {
   // Sectioned sitemap like previous style but showing only actual pages
   const footerSections = [
     {
-      title: language === "ar" ? "الوسائط" : "Media",
+      title: language === "ar" ? "المكتبة الإعلامية" : "Media",
       icon: Video,
       color: "text-green-400",
       bgColor: "bg-green-400/10",
@@ -57,7 +57,7 @@ export default function BeginnersFooter() {
       ],
     },
     {
-      title: language === "ar" ? "التعريفات" : "Definitions",
+      title: language === "ar" ? "المفاهيم" : "Definitions",
       icon: BookOpen,
       color: "text-blue-400",
       bgColor: "bg-blue-400/10",
