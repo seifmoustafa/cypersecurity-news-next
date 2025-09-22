@@ -223,6 +223,180 @@ export default function BeginnersHome() {
         },
       ],
     },
+    {
+      id: "media2",
+      title: t("beginners.cards.media.title"),
+      description: t("beginners.cards.media.description"),
+      icon: Video,
+      color: "from-emerald-500 to-teal-600",
+      bgColor:
+        "bg-gradient-to-br from-emerald-50/80 to-teal-50/60 dark:from-emerald-900/30 dark:to-teal-900/20",
+      borderColor: "border-emerald-300/60 dark:border-emerald-600/40",
+      href: "/beginners/media",
+      items: [
+        {
+          title: t("beginners.cards.media.videos"),
+          href: "/beginners/videos",
+          icon: Play,
+          count: "50+",
+        },
+        {
+          title: t("beginners.cards.media.lectures"),
+          href: "/beginners/lectures",
+          icon: GraduationCap,
+          count: "30+",
+        },
+        {
+          title: t("beginners.cards.media.presentations"),
+          href: "/beginners/presentations",
+          icon: Presentation,
+          count: "25+",
+        },
+        {
+          title: language === "ar" ? "الأخبار" : "News",
+          href: "/beginners/news",
+          icon: CheckCircle,
+          count: "",
+        },
+      ],
+    },
+    {
+      id: "definitions2",
+      title: t("beginners.cards.definitions.title"),
+      description: t("beginners.cards.definitions.description"),
+      icon: BookOpen,
+      color: "from-indigo-500 to-purple-600",
+      bgColor:
+        "bg-gradient-to-br from-indigo-50/80 to-purple-50/60 dark:from-indigo-900/30 dark:to-purple-900/20",
+      borderColor: "border-indigo-300/60 dark:border-indigo-600/40",
+      href: "/beginners/definitions",
+      items: [
+        {
+          title: t("beginners.cards.definitions.terms"),
+          href: "/beginners/definitions",
+          icon: BookOpen,
+          count: "200+",
+        },
+        {
+          title: t("beginners.cards.definitions.categories"),
+          href: "/beginners/definitions/categories",
+          icon: CheckCircle,
+          count: "15+",
+        },
+      ],
+    },
+    {
+      id: "personal-protect2",
+      title: t("beginners.cards.personalProtect.title"),
+      description: t("beginners.cards.personalProtect.description"),
+      icon: ShieldCheck,
+      color: "from-amber-500 to-orange-600",
+      bgColor:
+        "bg-gradient-to-br from-amber-50/80 to-orange-50/60 dark:from-amber-900/30 dark:to-orange-900/20",
+      borderColor: "border-amber-300/60 dark:border-amber-600/40",
+      href: "/beginners/personal-protect",
+      items: [
+        {
+          title: t("beginners.cards.personalProtect.tips"),
+          href: "/beginners/personal-protect",
+          icon: ShieldCheck,
+          count: "100+",
+        },
+        {
+          title: t("beginners.cards.personalProtect.tools"),
+          href: "/beginners/personal-protect/tools",
+          icon: Settings,
+          count: "20+",
+        },
+      ],
+    },
+    {
+      id: "media3",
+      title: t("beginners.cards.media.title"),
+      description: t("beginners.cards.media.description"),
+      icon: Video,
+      color: "from-emerald-500 to-teal-600",
+      bgColor:
+        "bg-gradient-to-br from-emerald-50/80 to-teal-50/60 dark:from-emerald-900/30 dark:to-teal-900/20",
+      borderColor: "border-emerald-300/60 dark:border-emerald-600/40",
+      href: "/beginners/media",
+      items: [
+        {
+          title: t("beginners.cards.media.videos"),
+          href: "/beginners/videos",
+          icon: Play,
+          count: "50+",
+        },
+        {
+          title: t("beginners.cards.media.lectures"),
+          href: "/beginners/lectures",
+          icon: GraduationCap,
+          count: "30+",
+        },
+        {
+          title: t("beginners.cards.media.presentations"),
+          href: "/beginners/presentations",
+          icon: Presentation,
+          count: "25+",
+        },
+        {
+          title: language === "ar" ? "الأخبار" : "News",
+          href: "/beginners/news",
+          icon: CheckCircle,
+          count: "",
+        },
+      ],
+    },
+    {
+      id: "definitions3",
+      title: t("beginners.cards.definitions.title"),
+      description: t("beginners.cards.definitions.description"),
+      icon: BookOpen,
+      color: "from-indigo-500 to-purple-600",
+      bgColor:
+        "bg-gradient-to-br from-indigo-50/80 to-purple-50/60 dark:from-indigo-900/30 dark:to-purple-900/20",
+      borderColor: "border-indigo-300/60 dark:border-indigo-600/40",
+      href: "/beginners/definitions",
+      items: [
+        {
+          title: t("beginners.cards.definitions.terms"),
+          href: "/beginners/definitions",
+          icon: BookOpen,
+          count: "200+",
+        },
+        {
+          title: t("beginners.cards.definitions.categories"),
+          href: "/beginners/definitions/categories",
+          icon: CheckCircle,
+          count: "15+",
+        },
+      ],
+    },
+    {
+      id: "personal-protect3",
+      title: t("beginners.cards.personalProtect.title"),
+      description: t("beginners.cards.personalProtect.description"),
+      icon: ShieldCheck,
+      color: "from-amber-500 to-orange-600",
+      bgColor:
+        "bg-gradient-to-br from-amber-50/80 to-orange-50/60 dark:from-amber-900/30 dark:to-orange-900/20",
+      borderColor: "border-amber-300/60 dark:border-amber-600/40",
+      href: "/beginners/personal-protect",
+      items: [
+        {
+          title: t("beginners.cards.personalProtect.tips"),
+          href: "/beginners/personal-protect",
+          icon: ShieldCheck,
+          count: "100+",
+        },
+        {
+          title: t("beginners.cards.personalProtect.tools"),
+          href: "/beginners/personal-protect/tools",
+          icon: Settings,
+          count: "20+",
+        },
+      ],
+    },
   ];
 
   return (
@@ -231,19 +405,7 @@ export default function BeginnersHome() {
       <BeginnersTipOfTheDayPopup />
 
       {/* GIF-Focused Interactive Section */}
-      <div className="min-h-screen relative overflow-hidden">
-         {/* Background Image */}
-         <div
-           className="absolute inset-0 bg-cover bg-center bg-no-repeat "
-           style={{
-             backgroundImage:
-               "url('/images/beginners/Gemini_Generated_Image_ry6ctary6ctary6c.png')",
-           }}
-         ></div>
-
-         {/* Background Overlay */}
-         <div className="absolute inset-0 bg-white/60 dark:bg-slate-900/60"></div>
-
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative overflow-hidden">
         {/* Subtle Background Animation */}
         <div className="absolute inset-0 opacity-10 dark:opacity-5">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(34,197,94,0.05),transparent_50%)] dark:bg-[radial-gradient(circle_at_20%_20%,rgba(34,197,94,0.1),transparent_50%)] animate-pulse"></div>
@@ -259,17 +421,29 @@ export default function BeginnersHome() {
             {mainCards.map((card, index) => {
               const gifPath =
                 card.id === "media"
-                  ? "/images/media.gif"
+                  ? "/images/beginners/Gemini_Generated_Image_c7ds1sc7ds1sc7ds.png"
                   : card.id === "definitions"
-                  ? "/images/definitions.gif"
+                  ? "/images/beginners/Gemini_Generated_Image_dudzufdudzufdudz.png"
                   : card.id === "personal-protect"
-                  ? "/images/personal_protect.gif"
+                  ? "/images/beginners/Gemini_Generated_Image_ry6ctary6ctary6c.png"
                   : card.id === "media1"
                   ? "/images/beginners/Gemini_Generated_Image_2q2d7n2q2d7n2q2d.png"
                   : card.id === "definitions1"
                   ? "/images/beginners/Gemini_Generated_Image_ut3c4xut3c4xut3c.png"
                   : card.id === "personal-protect1"
                   ? "/images/beginners/Gemini_Generated_Image_70kvgb70kvgb70kv.png"
+                  : card.id === "media2"
+                  ? "/images/beginners/Gemini_Generated_Image_scvpqscvpqscvpqs.png"
+                  : card.id === "definitions2"
+                  ? "/images/beginners/Gemini_Generated_Image_pjw9t4pjw9t4pjw9.png"
+                  : card.id === "personal-protect2"
+                  ? "/images/beginners/Gemini_Generated_Image_im25tyim25tyim25.png"
+                  : card.id === "media3"
+                  ? "/images/beginners/Gemini_Generated_Image_loa5htloa5htloa5.png"
+                  : card.id === "definitions3"
+                  ? "/images/beginners/Gemini_Generated_Image_izzu99izzu99izzu.png"
+                  : card.id === "personal-protect3"
+                  ? "/images/beginners/Gemini_Generated_Image_izwtzfizwtzfizwt.png"
                   : "/images/beginners/Gemini_Generated_Image_70kvgb70kvgb70kv.png";
 
               return (
