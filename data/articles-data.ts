@@ -7,7 +7,7 @@ export const articlesData = [
       "تتطور هجمات التصيد الاحتيالي باستمرار، حيث يستخدم المهاجمون تقنيات متقدمة لخداع المستخدمين. تعرف على كيفية حماية نفسك من خلال التحقق من مصادر الرسائل والروابط قبل النقر عليها.",
     details:
       "من أهم طرق الحماية: التدقيق في عناوين البريد الإلكتروني، عدم فتح المرفقات المشبوهة، والتأكد من أمان الروابط قبل زيارتها.",
-    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYEbWJ7sb57vqTkMX5qCu_M4P466NdRHlliQ&s",
+    imageUrl: "https://encrypted-tbn0.gstatic.com../public/images?q=tbn:ANd9GcSYEbWJ7sb57vqTkMX5qCu_M4P466NdRHlliQ&s",
   },
   {
     id: 2,
@@ -25,6 +25,6 @@ export const articlesData = [
     fullDescription:
       "يعتبر تشفير البيانات خط الدفاع الأخير ضد سرقة المعلومات. حتى في حالة اختراق الأنظمة، تظل البيانات المشفرة غير مفهومة بدون مفتاح فك التشفير.",
     details: "هناك عدة مستويات للتشفير، من تشفير الملفات الفردية إلى تشفير القرص الكامل وتشفير الاتصالات عبر الإنترنت.",
-    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQg5PGMVK5zhW5eWYfNw8E9uDIfVwX4W4lTlA&s",
+    imageUrl: "https://encrypted-tbn0.gstatic.com../public/images?q=tbn:ANd9GcQg5PGMVK5zhW5eWYfNw8E9uDIfVwX4W4lTlA&s",
   },
 ]

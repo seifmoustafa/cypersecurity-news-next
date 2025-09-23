@@ -259,7 +259,7 @@ export default function FrameworkPage() {
             <div className="flex justify-center mb-12">
               <div className="relative w-full max-w-2xl">
                 <Image
-                  src="/images/cybersecurity-framework-circle.png"
+                  src="../public/images/cybersecurity-framework-circle.png"
                   alt="Cybersecurity Framework"
                   width={600}
                   height={600}

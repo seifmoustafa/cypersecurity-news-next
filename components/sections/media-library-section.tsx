@@ -162,7 +162,7 @@ export default function MediaLibrarySection() {
           {videos.length > 0 && (
             <div className="flex justify-center mt-12">
               <Button 
-                onClick={() => router.push("/videos")} 
+                onClick={() => router.push("/advanced/videos")} 
                 className="group bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 px-8 py-4 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-xl shadow-purple-500/30 dark:shadow-purple-500/40 border border-purple-500/30 dark:border-purple-400/30"
               >
                 {t("common.viewAll")}
@@ -199,7 +199,7 @@ export default function MediaLibrarySection() {
           {lectures.length > 0 && (
             <div className="flex justify-center mt-12">
               <Button 
-                onClick={() => router.push("/lectures")} 
+                onClick={() => router.push("/advanced/lectures")} 
                 className="group bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 px-8 py-4 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-xl shadow-purple-500/30 dark:shadow-purple-500/40 border border-purple-500/30 dark:border-purple-400/30"
               >
                 {t("common.viewAll")}
@@ -238,7 +238,7 @@ export default function MediaLibrarySection() {
           {presentations.length > 0 && (
             <div className="flex justify-center mt-12">
               <Button 
-                onClick={() => router.push("/presentations")} 
+                onClick={() => router.push("/advanced/presentations")} 
                 className="group bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 px-8 py-4 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-xl shadow-purple-500/30 dark:shadow-purple-500/40 border border-purple-500/30 dark:border-purple-400/30"
               >
                 {t("common.viewAll")}

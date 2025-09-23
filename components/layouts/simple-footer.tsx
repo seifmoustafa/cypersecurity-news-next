@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-export default function BeginnersFooter() {
+export default function SimpleFooter() {
   const { t, language } = useLanguage();
   const isRtl = language === "ar";
 
@@ -36,22 +36,22 @@ export default function BeginnersFooter() {
       links: [
         {
           title: language === "ar" ? "الفيديوهات" : "Videos",
-          href: "/beginners/videos",
+          href: "/simple/videos",
           icon: Video,
         },
         {
           title: language === "ar" ? "المحاضرات" : "Lectures",
-          href: "/beginners/lectures",
+          href: "/simple/lectures",
           icon: BookOpen,
         },
         {
           title: language === "ar" ? "العروض التقديمية" : "Presentations",
-          href: "/beginners/presentations",
+          href: "/simple/presentations",
           icon: ShieldCheck,
         },
         {
           title: language === "ar" ? "الأخبار" : "News",
-          href: "/beginners/news",
+          href: "/simple/news",
           icon: CheckCircle,
         },
       ],
@@ -65,12 +65,12 @@ export default function BeginnersFooter() {
       links: [
         {
           title: language === "ar" ? "المصطلحات الأساسية" : "Basic Terms",
-          href: "/beginners/definitions",
+          href: "/simple/definitions",
           icon: BookOpen,
         },
         {
           title: language === "ar" ? "التصنيفات" : "Categories",
-          href: "/beginners/definitions/categories",
+          href: "/simple/definitions/categories",
           icon: CheckCircle,
         },
       ],
@@ -84,12 +84,12 @@ export default function BeginnersFooter() {
       links: [
         {
           title: language === "ar" ? "نصائح الأمان" : "Safety Tips",
-          href: "/beginners/personal-protect",
+          href: "/simple/personal-protect",
           icon: ShieldCheck,
         },
         {
           title: language === "ar" ? "أدوات الحماية" : "Protection Tools",
-          href: "/beginners/personal-protect/tools",
+          href: "/simple/personal-protect/tools",
           icon: ShieldCheck,
         },
       ],
@@ -98,12 +98,12 @@ export default function BeginnersFooter() {
   const quickLinks = [
     {
       title: language === "ar" ? "البحث" : "Search",
-      href: "/beginners/search",
+      href: "/simple/search",
       icon: Search,
     },
     {
       title: language === "ar" ? "خريطة الموقع" : "Site Map",
-      href: "/beginners/sitemap",
+      href: "/simple/sitemap",
       icon: Map,
     },
   ];

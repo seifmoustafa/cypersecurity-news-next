@@ -51,7 +51,7 @@ export default function Header({
 
   const pathname = usePathname();
   const router = useRouter();
-  const isHomePage = pathname === "/";
+  const isHomePage = pathname === "/advanced" || pathname === "/advanced/";
 
   // Navigation groups
   const navGroups = [
@@ -252,7 +252,7 @@ export default function Header({
 
     // If switching to beginners mode, redirect to beginners layout
     if (newMode) {
-      window.location.href = "/beginners";
+      window.location.href = "/simple";
     }
   };
 
@@ -269,7 +269,7 @@ export default function Header({
     console.log("Navigation triggered:", { href, isScroll, isHomePage });
 
     if (href === "/") {
-      router.push("/");
+      router.push("/advanced");
       return;
     }
 
@@ -295,7 +295,7 @@ export default function Header({
       }
     } else if (isScroll && !isHomePage) {
       console.log("Not on homepage, navigating to homepage with hash");
-      const baseUrl = "/";
+      const baseUrl = "/advanced";
       const hashPart = href.split("?")[0];
       const navigationUrl = baseUrl + hashPart;
 
@@ -317,11 +317,11 @@ export default function Header({
           {/* Enhanced Logo */}
           <div className="flex items-center group">
             <Link
-              href="/"
+              href="/advanced"
               className="flex items-center space-x-3 rtl:space-x-reverse group-hover:scale-105 transition-all duration-300"
               onClick={(e) => {
                 e.preventDefault();
-                router.push("/");
+                router.push("/advanced");
               }}
             >
               <div className="relative">
@@ -351,7 +351,7 @@ export default function Header({
               className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-xs xl:text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-md"
               onClick={(e) => {
                 e.preventDefault();
-                router.push("/");
+                router.push("/advanced");
               }}
             >
               <Home className="h-4 w-4 mr-1 rtl:ml-1 rtl:mr-0" />
@@ -598,7 +598,7 @@ export default function Header({
                   if (e.key === "Enter") {
                     const query = e.currentTarget.value.trim();
                     if (query) {
-                      router.push(`/search?q=${encodeURIComponent(query)}`);
+                      router.push(`/advanced/search?q=${encodeURIComponent(query)}`);
                       setSearchOpen(false);
                     }
                   } else if (e.key === "Escape") {
@@ -653,7 +653,7 @@ export default function Header({
                   onClick={(e) => {
                     e.preventDefault();
                     setMobileMenuOpen(false);
-                    router.push("/");
+                    router.push("/advanced");
                   }}
                 >
                   <Home className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
@@ -688,7 +688,7 @@ export default function Header({
                           onClick={(e) =>
                             handleNavigation(
                               e,
-                              item.href,
+                            item.href,
                               item.isScroll,
                               (item as any).tab
                             )

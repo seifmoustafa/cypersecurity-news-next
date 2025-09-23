@@ -1,4 +1,24 @@
 {
+  "carousel": {
+    "item1": {
+      "title": "Cybersecurity Training that Tangibly Reduces Business Risk",
+      "description": "Our structured, hands-on cybersecurity training empowers professionals to better protect their organizations. With curated Career Paths, industry-aligned Certification Preparation Programs, and threat-informed training, we offer the best in the business.",
+      "primaryButton": "Advanced Interface",
+      "secondaryButton": "Start Learning for Free"
+    },
+    "item2": {
+      "title": "Security Awareness that Protects Your Organization from Cyber Threats",
+      "description": "Advanced security awareness programs equip employees with the knowledge and skills needed to recognize and respond to cyber threats. With continuously updated content and interactive training, we ensure comprehensive protection for your digital environment.",
+      "primaryButton": "Advanced Interface",
+      "secondaryButton": "Start Learning for Free"
+    },
+    "item3": {
+      "title": "Personal Protection that Safeguards Your Privacy and Digital Security",
+      "description": "Personal protection tools and tips designed specifically to protect your privacy and digital security. From password management to personal data protection, we provide practical solutions to keep you safe in the digital world.",
+      "primaryButton": "Advanced Interface",
+      "secondaryButton": "Start Learning for Free"
+    }
+  },
   "nav": {
     "home": "Home",
     "systems": "Systems",

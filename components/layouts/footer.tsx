@@ -43,11 +43,11 @@ export default function Footer() {
       color: "text-orange-400",
       bgColor: "bg-orange-400/10",
       links: [
-        { title: language === "ar" ? "الرئيسية" : "Home", href: "/", icon: Home },
-        { title: language === "ar" ? "الأخبار" : "News", href: "/news", icon: AlertTriangle },
-        { title: language === "ar" ? "التوعية للعام الحالي" : "Awareness current year", href: "/awareness", icon: Users },
-        { title: language === "ar" ? "المقالات" : "Articles", href: "/articles", icon: FileText },
-        { title: language === "ar" ? "سنوات التوعية" : "Awareness Years", href: "/awareness/years", icon: Calendar }
+        { title: language === "ar" ? "الرئيسية" : "Home", href: "/advanced", icon: Home },
+        { title: language === "ar" ? "الأخبار" : "News", href: "/advanced/news", icon: AlertTriangle },
+        { title: language === "ar" ? "التوعية للعام الحالي" : "Awareness current year", href: "/advanced/awareness", icon: Users },
+        { title: language === "ar" ? "المقالات" : "Articles", href: "/advanced/articles", icon: FileText },
+        { title: language === "ar" ? "سنوات التوعية" : "Awareness Years", href: "/advanced/awareness/years", icon: Calendar }
       ]
     },
     {
@@ -56,9 +56,9 @@ export default function Footer() {
       color: "text-blue-400",
       bgColor: "bg-blue-400/10",
       links: [
-        { title: language === "ar" ? "التعليمات" : "Instructions", href: "/instructions/category", icon: FileText },
-        { title: language === "ar" ? "الإجراءات الأمنية" : "Security Procedures", href: "/procedures", icon: Settings },
-        { title: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/personal-protect", icon: Settings }
+        { title: language === "ar" ? "التعليمات" : "Instructions", href: "/advanced/instructions/category", icon: FileText },
+        { title: language === "ar" ? "الإجراءات الأمنية" : "Security Procedures", href: "/advanced/procedures", icon: Settings },
+        { title: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/advanced/personal-protect", icon: Settings }
       ]
     },
     {
@@ -67,11 +67,11 @@ export default function Footer() {
       color: "text-green-400",
       bgColor: "bg-green-400/10",
       links: [
-        { title: language === "ar" ? "المفاهيم" : "Definitions", href: "/definitions", icon: BookOpen },
-        { title: language === "ar" ? "القوانين واللوائح" : "Laws & Regulations", href: "/laws", icon: Scale },
-        { title: language === "ar" ? "التنظيم" : "Regulation", href: "/regulation", icon: Settings },
-        { title: language === "ar" ? "إطار العمل" : "Framework", href: "/framework", icon: Building2 },
-        { title: language === "ar" ? "المعايير" : "Standards", href: "/standards", icon: CheckCircle }
+        { title: language === "ar" ? "المفاهيم" : "Definitions", href: "/advanced/definitions", icon: BookOpen },
+        { title: language === "ar" ? "القوانين واللوائح" : "Laws & Regulations", href: "/advanced/laws", icon: Scale },
+        { title: language === "ar" ? "التنظيم" : "Regulation", href: "/advanced/regulation", icon: Settings },
+        { title: language === "ar" ? "إطار العمل" : "Framework", href: "/advanced/framework", icon: Building2 },
+        { title: language === "ar" ? "المعايير" : "Standards", href: "/advanced/standards", icon: CheckCircle }
       ]
     },
     {
@@ -80,19 +80,19 @@ export default function Footer() {
       color: "text-purple-400",
       bgColor: "bg-purple-400/10",
       links: [
-        { title: language === "ar" ? "الفيديوهات" : "Videos", href: "/videos", icon: Play },
-        { title: language === "ar" ? "المحاضرات" : "Lectures", href: "/lectures", icon: GraduationCap },
-        { title: language === "ar" ? "العروض التقديمية" : "Presentations", href: "/presentations", icon: Presentation },
-        { title: language === "ar" ? "المنظومات الرئيسية" : "Main Systems", href: "/systems", icon: Database },
-        { title: language === "ar" ? "الأنظمة المساعدة" : "Helper Systems", href: "/helper-systems", icon: Settings }
+        { title: language === "ar" ? "الفيديوهات" : "Videos", href: "/advanced/videos", icon: Play },
+        { title: language === "ar" ? "المحاضرات" : "Lectures", href: "/advanced/lectures", icon: GraduationCap },
+        { title: language === "ar" ? "العروض التقديمية" : "Presentations", href: "/advanced/presentations", icon: Presentation },
+        { title: language === "ar" ? "المنظومات الرئيسية" : "Main Systems", href: "/advanced/systems", icon: Database },
+        { title: language === "ar" ? "الأنظمة المساعدة" : "Helper Systems", href: "/advanced/helper-systems", icon: Settings }
       ]
     }
   ];
 
   const quickLinks = [
-    { title: language === "ar" ? "خريطة الموقع" : "Site Map", href: "/sitemap", icon: Map },
-    { title: language === "ar" ? "البحث" : "Search", href: "/search", icon: Search },
-    { title: language === "ar" ? "الرئيسية" : "Home", href: "/", icon: Home }
+    { title: language === "ar" ? "خريطة الموقع" : "Site Map", href: "/advanced/sitemap", icon: Map },
+    { title: language === "ar" ? "البحث" : "Search", href: "/advanced/search", icon: Search },
+    { title: language === "ar" ? "الرئيسية" : "Home", href: "/advanced", icon: Home }
   ];
 
   const socialLinks = [
@@ -251,7 +251,7 @@ export default function Footer() {
               {/* Additional Links */}
               <div className="flex items-center space-x-6 rtl:space-x-reverse">
                 <Link 
-                  href="/sitemap"
+                  href="/advanced/sitemap"
                   className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm font-medium flex items-center group"
                 >
                   <Map className={`h-4 w-4 mr-2 rtl:mr-0 rtl:ml-2`} />
@@ -259,7 +259,7 @@ export default function Footer() {
                 </Link>
                 <div className="w-px h-4 bg-blue-200 dark:bg-slate-600"></div>
                 <Link 
-                  href="/"
+                  href="/advanced"
                   className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm font-medium flex items-center group"
                 >
                   <Home className={`h-4 w-4 mr-2 rtl:mr-0 rtl:ml-2`} />

@@ -37,7 +37,7 @@ interface BeginnersHeaderProps {
   onToggleLanguage: () => void
 }
 
-export default function BeginnersHeader({ onToggleTheme, onToggleLanguage }: BeginnersHeaderProps) {
+export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: BeginnersHeaderProps) {
   const { theme, setTheme } = useTheme()
   const { language, t, isRtl } = useLanguage()
   const [mounted, setMounted] = useState(false)
@@ -60,10 +60,10 @@ export default function BeginnersHeader({ onToggleTheme, onToggleLanguage }: Beg
 
   // Navigation items for beginners mode
   const beginnersNavItems = [
-    { key: "beginners.navigation.home", href: "/beginners", icon: Home },
-    { key: "beginners.navigation.media", href: "/beginners/media", icon: Video },
-    { key: "beginners.navigation.definitions", href: "/beginners/definitions", icon: BookOpen },
-    { key: "beginners.navigation.personalProtect", href: "/beginners/personal-protect", icon: ShieldCheck },
+    { key: "beginners.navigation.home", href: "/simple", icon: Home },
+    { key: "beginners.navigation.media", href: "/simple/media", icon: Video },
+    { key: "beginners.navigation.definitions", href: "/simple/definitions", icon: BookOpen },
+    { key: "beginners.navigation.personalProtect", href: "/simple/personal-protect", icon: ShieldCheck },
   ]
 
   if (!mounted) return null
@@ -121,11 +121,11 @@ export default function BeginnersHeader({ onToggleTheme, onToggleLanguage }: Beg
           {/* Cybersecurity Logo */}
           <div className="flex items-center group">
             <Link
-              href="/beginners"
+              href="/simple"
               className="flex items-center space-x-3 rtl:space-x-reverse group-hover:scale-105 transition-all duration-500"
               onClick={(e) => {
                 e.preventDefault()
-                router.push("/beginners")
+                router.push("/simple")
               }}
             >
               <img 

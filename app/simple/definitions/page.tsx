@@ -14,7 +14,7 @@ const iconMap: Record<string, any> = {
   threats: AlertTriangle,
 }
 
-export default function DefinitionsCategoriesPage() {
+export default function BeginnersDefinitionsPage() {
   const { language, t } = useLanguage()
   const isRtl = language === "ar"
   const [categories, setCategories] = useState<string[]>([])
@@ -68,8 +68,8 @@ export default function DefinitionsCategoriesPage() {
         <div className="container mx-auto px-4 text-center">
           <div className="inline-flex items-center justify-center mb-8">
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl blur-lg opacity-30"/>
-              <div className="relative bg-gradient-to-r from-green-500 to-blue-500 p-4 rounded-xl">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-xl blur-lg opacity-30"/>
+              <div className="relative bg-gradient-to-r from-blue-500 to-cyan-600 p-4 rounded-xl">
                 <BookOpen className="h-8 w-8 text-white" />
               </div>
             </div>
@@ -80,6 +80,34 @@ export default function DefinitionsCategoriesPage() {
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-12">
+        {/* Stats Section */}
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="bg-gradient-to-r from-blue-500 to-cyan-600 p-3 rounded-xl">
+                <BookOpen className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                  {language === "ar" ? "إجمالي التصنيفات" : "Total Categories"}
+                </h2>
+                <p className="text-gray-600 dark:text-gray-300">
+                  {categories.length} {language === "ar" ? "تصنيف" : "categories"}
+                </p>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                {language === "ar" ? "محدث آخر مرة" : "Last updated"}
+              </p>
+              <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                {new Date().toLocaleDateString()}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Categories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {categories.map((cat, index) => {
             const Icon = iconMap[cat] || BookOpen
@@ -105,11 +133,11 @@ export default function DefinitionsCategoriesPage() {
             return (
               <Link
                 key={cat}
-                href={`/beginners/definitions/categories/${cat}`}
+                href={`/simple/definitions/categories/${cat}`}
                 className="group"
               >
                 <div
-                  className={`${bgColors[index % bgColors.length]} p-8 rounded-3xl border-2 ${borderColors[index % borderColors.length]} transition-all duration-500 hover:shadow-2xl hover:shadow-green-500/10 h-full will-change-transform`}
+                  className={`${bgColors[index % bgColors.length]} p-8 rounded-3xl border-2 ${borderColors[index % borderColors.length]} transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/10 h-full will-change-transform`}
                   onMouseMove={(e) => {
                     const el = e.currentTarget as HTMLDivElement
                     const rect = el.getBoundingClientRect()
@@ -131,7 +159,7 @@ export default function DefinitionsCategoriesPage() {
                       <Icon className="h-8 w-8 text-white" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-gray-800 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
+                      <h3 className="text-xl font-bold text-gray-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
                         {t(`definitions.categories.${cat}`)}
                       </h3>
                     </div>
@@ -154,7 +182,7 @@ export default function DefinitionsCategoriesPage() {
                   </div>
 
                   {/* Card Footer */}
-                  <div className={`inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r ${colors[index % colors.length]} text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-green-400`}>
+                  <div className={`inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r ${colors[index % colors.length]} text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-blue-400`}>
                     <span className="mr-2 rtl:mr-0 rtl:ml-2">
                       {language === "ar" ? "استكشف الآن" : "Explore Now"}
                     </span>
@@ -173,7 +201,5 @@ export default function DefinitionsCategoriesPage() {
     </div>
   )
 }
-
-
 
 

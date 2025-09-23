@@ -6,7 +6,7 @@ import { LightbulbIcon, X, Shield, AlertTriangle } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
 import { useTips } from "@/core/hooks/use-tips"
 
-export default function BeginnersTipOfTheDayPopup() {
+export default function SimpleTipOfTheDayPopup() {
   const { language, t } = useLanguage()
   const [tipDialogOpen, setTipDialogOpen] = useState(false)
   const { tip, loading, error, fetchRandomTip } = useTips()

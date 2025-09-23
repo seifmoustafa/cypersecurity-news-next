@@ -404,7 +404,7 @@ export default function CybersecurityConceptsSection() {
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-3xl blur-xl"></div>
                   <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-3xl p-8 shadow-2xl shadow-blue-500/20 dark:shadow-blue-500/30 border border-blue-200/30 dark:border-blue-800/30">
                     <Image
-                      src="/images/cybersecurity-framework-circle.png"
+                      src="../public/images/cybersecurity-framework-circle.png"
                       alt="Cybersecurity Framework"
                       width={500}
                       height={500}

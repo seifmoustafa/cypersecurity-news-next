@@ -6,7 +6,7 @@ import { Shield, AlertTriangle } from "lucide-react"
 import { container } from "@/core/di/container"
 import type { TickerItem } from "@/core/domain/models/ticker-item"
 
-export default function BeginnersTipsTicker() {
+export default function SimpleTipsTicker() {
   const { language } = useLanguage()
   const [tickerItems, setTickerItems] = useState<TickerItem[]>([])
   const [currentTipIndex, setCurrentTipIndex] = useState(0)

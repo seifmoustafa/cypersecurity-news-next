@@ -6,7 +6,7 @@ import { LanguageProvider } from "@/components/language-provider";
 import ErrorBoundary from "@/components/error-boundary";
 import LoadingScreen from "@/components/loading-screen";
 import { Suspense } from "react";
-import BeginnersLayout from "@/components/layouts/beginners-layout";
+import SimpleLayout from "@/components/layouts/simple-layout";
 
 // Add a cache control header to improve caching
 export const metadata = {
@@ -24,7 +24,7 @@ export default function BeginnersRootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" className={`${cairo.variable} ${roboto.variable}`} suppressHydrationWarning>
+    <html lang="ar" dir="rtl" className={`${cairo.variable} ${roboto.variable}`} suppressHydrationWarning>
       <head>
         <title>بوابة الأمن السيبراني  | Cybersecurity Portal for Beginners</title>
         <meta
@@ -42,9 +42,9 @@ export default function BeginnersRootLayout({
           >
             <ErrorBoundary>
               <Suspense fallback={<LoadingScreen />}>
-                <BeginnersLayout>
+                <SimpleLayout>
                   {children}
-                </BeginnersLayout>
+                </SimpleLayout>
               </Suspense>
             </ErrorBoundary>
           </ThemeProvider>

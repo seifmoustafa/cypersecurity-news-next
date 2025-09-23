@@ -37,7 +37,7 @@ export default function FloatingIncidentButton() {
         >
           {/* Modern Pill-Shaped Button with Incident Theme */}
           <Link
-            href="/beginners/incident-report"
+            href="/simple/incident-report"
             className="group relative bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 dark:from-red-700 dark:to-red-800 dark:hover:from-red-800 dark:hover:to-red-900 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-110 hover:shadow-lg shadow-md shadow-red-500/30 dark:shadow-red-500/40 flex items-center gap-3 whitespace-nowrap"
           >
             {/* Enhanced Pulsing Indicator with Alert Theme */}
