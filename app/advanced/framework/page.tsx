@@ -23,7 +23,7 @@ import type {
   FrameworkCategory,
   ImplementationStep,
   FrameworkBenefit,
-} from "@/core/domain/models/framework";
+} from "@/core/domain/models/advanced/framework";
 
 export default function FrameworkPage() {
   const { language, isRtl } = useLanguage();
@@ -55,7 +55,7 @@ export default function FrameworkPage() {
     // Prefetch domain pages
     if (domains && domains.length > 0) {
       domains.forEach((domain) => {
-        router.prefetch(`/framework/${domain.id}`);
+        router.prefetch(`/advanced/framework/${domain.id}`);
       });
     }
 
@@ -658,7 +658,7 @@ export default function FrameworkPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
               >
-                <Link href={`/framework/${domain.id}`}>
+                <Link href={`/advanced/framework/${domain.id}`}>
                   <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
                     <CardHeader className="pb-2">
                       <CardTitle

@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import MainLayout from "@/components/layouts/main-layout"
 import { useLanguage } from "@/components/language-provider"
 import { useRouter } from "next/navigation"
-import type { ApiLecture } from "@/core/domain/models/media"
+import type { ApiLecture } from "@/core/domain/models/advanced/media"
 
 interface LecturePageClientProps {
   lecture: ApiLecture
@@ -73,7 +73,7 @@ export default function LecturePageClient({ lecture }: LecturePageClientProps) {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => router.push("/lectures")}
+              onClick={() => router.push("/advanced/lectures")}
               className={`flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
             >
               <ArrowLeft className="h-4 w-4" />

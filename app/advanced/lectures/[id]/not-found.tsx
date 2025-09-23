@@ -22,7 +22,7 @@ export default function LectureNotFound() {
               ? "عذراً، لا يمكن العثور على المحاضرة المطلوبة."
               : "Sorry, the requested lecture could not be found."}
           </p>
-          <Link href="/lectures">
+          <Link href="/advanced/lectures">
             <Button>{language === "ar" ? "العودة للمحاضرات" : "Back to Lectures"}</Button>
           </Link>
         </div>

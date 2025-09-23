@@ -64,7 +64,7 @@ export default function SystemsSection() {
 
       {/* Enhanced View All Systems Button */}
       <div className="flex justify-center mt-12">
-        <Link href="/systems">
+        <Link href="/advanced/systems">
           <Button
             size="lg"
             className="group bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 px-8 py-4 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-xl shadow-indigo-500/30 dark:shadow-indigo-500/40 border border-indigo-500/30 dark:border-indigo-400/30"

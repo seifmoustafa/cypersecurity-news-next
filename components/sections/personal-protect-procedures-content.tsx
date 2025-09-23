@@ -292,7 +292,7 @@ export default function PersonalProtectProceduresContent() {
                   const description = getLocalizedText(language, subCategory.description, subCategory.descriptionEn)
                   
                   return (
-                    <Link key={subCategory.id} href={`/personal-protect/${categorySlug}/${subCategorySlug}`}>
+                    <Link key={subCategory.id} href={`/advanced/personal-protect/${categorySlug}/${subCategorySlug}`}>
                       <Card className="h-full hover:shadow-md transition-all duration-300 hover:scale-105 cursor-pointer group border-l-4 border-l-green-500/20 hover:border-l-green-500">
                         <CardHeader className="pb-2">
                           <CardTitle className={`text-lg ${isRtl ? "text-right" : "text-left"}`}>
@@ -321,7 +321,7 @@ export default function PersonalProtectProceduresContent() {
 
               {/* View More Button */}
               <div className="text-center">
-                <Link href={`/personal-protect/${slugify(activeCategoryData.nameEn || activeCategoryData.name || "", activeCategoryData.id)}`}>
+                <Link href={`/advanced/personal-protect/${slugify(activeCategoryData.nameEn || activeCategoryData.name || "", activeCategoryData.id)}`}>
                   <Button variant="outline" className="gap-2">
                     <span>{language === "ar" ? "عرض جميع الفئات الفرعية" : "View All Sub Categories"}</span>
                     <ChevronLeft className={`h-4 w-4 ${isRtl ? "rotate-180" : ""}`} />

@@ -58,7 +58,7 @@ export default function StandardsSafeguardPageClient({ safeguard, categoryId, st
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-4 mb-6">
-              <Link href={`/standards/${categoryId}/${standardId}/${controlId}`}>
+              <Link href={`/advanced/standards/${categoryId}/${standardId}/${controlId}`}>
                 <Button variant="outline" size="sm" className="gap-2">
                   <ArrowLeft className="h-4 w-4" />
                   <span>{language === "ar" ? "رجوع إلى عنصر التحكم" : "Back to Control"}</span>
@@ -116,7 +116,7 @@ export default function StandardsSafeguardPageClient({ safeguard, categoryId, st
             ) : techniques.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {techniques.map((technique) => (
-                  <Link key={technique.id} href={`/standards/${categoryId}/${standardId}/${controlId}/${safeguard.id}/${technique.id}`}>
+                  <Link key={technique.id} href={`/advanced/standards/${categoryId}/${standardId}/${controlId}/${safeguard.id}/${technique.id}`}>
                     <Card className="hover:shadow-lg transition-shadow cursor-pointer">
                       <CardContent className="p-6">
                         <div className="flex items-center gap-3 mb-3">

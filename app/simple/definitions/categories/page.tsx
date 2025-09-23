@@ -105,7 +105,7 @@ export default function DefinitionsCategoriesPage() {
             return (
               <Link
                 key={cat}
-                href={`/simple/definitions/categories/${cat}`}
+                href={`/simple/advanced/definitions/categories/${cat}`}
                 className="group"
               >
                 <div

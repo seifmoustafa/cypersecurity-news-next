@@ -42,7 +42,7 @@ export default function StandardsCategoryPageClient({
   const handleStandardClick = (standard: Standard) => {
     console.log("Standard clicked:", standard)
     // Changed: Use ID instead of slug
-    const url = `/standards/${category.id}/${standard.id}`
+    const url = `/advanced/standards/${category.id}/${standard.id}`
     console.log("Navigating to:", url)
     router.push(url)
   }
@@ -84,7 +84,7 @@ export default function StandardsCategoryPageClient({
           <div className="container mx-auto px-4">
             {/* Breadcrumb */}
             <div className={`mb-8 ${isRtl ? "text-right" : "text-left"}`}>
-              <Link href="/standards">
+              <Link href="/advanced/standards">
                 <Button variant="ghost" size="sm" className={`gap-2 ${isRtl ? "flex-row-reverse" : "flex-row"}`}>
                   {isRtl ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
                   <span>{language === "ar" ? "رجوع إلى المعايير" : "Back to Standards"}</span>

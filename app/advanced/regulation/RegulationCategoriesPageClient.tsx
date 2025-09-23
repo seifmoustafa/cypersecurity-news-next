@@ -117,7 +117,7 @@ export default function RegulationCategoriesPageClient() {
                 {language === "ar" ? "خطأ في تحميل فئات اللوائح" : "Error Loading Regulation Categories"}
               </h3>
               <p className="text-red-600 dark:text-red-400 text-sm mb-4">{error}</p>
-              <Button onClick={fetchCategories} variant="outline" className="border-red-300 text-red-700 hover:bg-red-50 dark:border-red-700 dark:text-red-300 dark:hover:bg-red-900/20">
+              <Button onClick={fetchAllCategories} variant="outline" className="border-red-300 text-red-700 hover:bg-red-50 dark:border-red-700 dark:text-red-300 dark:hover:bg-red-900/20">
                 {language === "ar" ? "إعادة المحاولة" : "Try Again"}
               </Button>
             </div>
@@ -189,7 +189,7 @@ export default function RegulationCategoriesPageClient() {
                 : `${category.name_En || category.name || ""} cybersecurity regulations`;
 
             return (
-              <Link key={category.id} href={`/regulation/category/${category.id}`} className="block">
+              <Link key={category.id} href={`/advanced/regulation/category/${category.id}`} className="block">
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}

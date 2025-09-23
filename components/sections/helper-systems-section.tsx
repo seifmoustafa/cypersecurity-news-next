@@ -72,7 +72,7 @@ export default function HelperSystemsSection() {
 
       {/* Enhanced View All Helper Systems Button */}
       <div className="flex justify-center mt-12">
-        <Link href="/helper-systems">
+        <Link href="/advanced/helper-systems">
           <Button
             size="lg"
             className="group bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 px-8 py-4 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-xl shadow-orange-500/30 dark:shadow-orange-500/40 border border-orange-500/30 dark:border-orange-400/30"

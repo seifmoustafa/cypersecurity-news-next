@@ -44,8 +44,8 @@ export default function BeginnersHome() {
 
   useEffect(() => {
     router.prefetch("/simple/videos");
-    router.prefetch("/simple/definitions");
-    router.prefetch("/simple/personal-protect");
+    router.prefetch("/simple/advanced/definitions");
+    router.prefetch("/simple/advanced/personal-protect");
   }, [router]);
 
   const mainCards = [
@@ -58,7 +58,7 @@ export default function BeginnersHome() {
       bgColor:
         "bg-gradient-to-br from-emerald-50/80 to-teal-50/60 dark:from-emerald-900/30 dark:to-teal-900/20",
       borderColor: "border-emerald-300/60 dark:border-emerald-600/40",
-      href: "/simple/media",
+      href: "/simple/advanced/media",
       items: [
         {
           title: t("beginners.cards.media.videos"),
@@ -68,19 +68,19 @@ export default function BeginnersHome() {
         },
         {
           title: t("beginners.cards.media.lectures"),
-          href: "/simple/lectures",
+          href: "/simple/advanced/lectures",
           icon: GraduationCap,
           count: "30+",
         },
         {
           title: t("beginners.cards.media.presentations"),
-          href: "/simple/presentations",
+          href: "/simple/advanced/presentations",
           icon: Presentation,
           count: "25+",
         },
         {
           title: language === "ar" ? "الأخبار" : "News",
-          href: "/simple/news",
+          href: "/simple/advanced/news",
           icon: CheckCircle,
           count: "",
         },
@@ -95,17 +95,17 @@ export default function BeginnersHome() {
       bgColor:
         "bg-gradient-to-br from-indigo-50/80 to-purple-50/60 dark:from-indigo-900/30 dark:to-purple-900/20",
       borderColor: "border-indigo-300/60 dark:border-indigo-600/40",
-      href: "/simple/definitions",
+      href: "/simple/advanced/definitions",
       items: [
         {
           title: t("beginners.cards.definitions.terms"),
-          href: "/simple/definitions",
+          href: "/simple/advanced/definitions",
           icon: BookOpen,
           count: "200+",
         },
         {
           title: t("beginners.cards.definitions.categories"),
-          href: "/simple/definitions/categories",
+          href: "/simple/advanced/definitions/categories",
           icon: CheckCircle,
           count: "15+",
         },
@@ -120,17 +120,17 @@ export default function BeginnersHome() {
       bgColor:
         "bg-gradient-to-br from-amber-50/80 to-orange-50/60 dark:from-amber-900/30 dark:to-orange-900/20",
       borderColor: "border-amber-300/60 dark:border-amber-600/40",
-      href: "/simple/personal-protect",
+      href: "/simple/advanced/personal-protect",
       items: [
         {
           title: t("beginners.cards.personalProtect.tips"),
-          href: "/simple/personal-protect",
+          href: "/simple/advanced/personal-protect",
           icon: ShieldCheck,
           count: "100+",
         },
         {
           title: t("beginners.cards.personalProtect.tools"),
-          href: "/simple/personal-protect/tools",
+          href: "/simple/advanced/personal-protect/tools",
           icon: Settings,
           count: "20+",
         },
@@ -145,7 +145,7 @@ export default function BeginnersHome() {
       bgColor:
         "bg-gradient-to-br from-emerald-50/80 to-teal-50/60 dark:from-emerald-900/30 dark:to-teal-900/20",
       borderColor: "border-emerald-300/60 dark:border-emerald-600/40",
-      href: "/simple/media",
+      href: "/simple/advanced/media",
       items: [
         {
           title: t("beginners.cards.media.videos"),
@@ -155,19 +155,19 @@ export default function BeginnersHome() {
         },
         {
           title: t("beginners.cards.media.lectures"),
-          href: "/simple/lectures",
+          href: "/simple/advanced/lectures",
           icon: GraduationCap,
           count: "30+",
         },
         {
           title: t("beginners.cards.media.presentations"),
-          href: "/simple/presentations",
+          href: "/simple/advanced/presentations",
           icon: Presentation,
           count: "25+",
         },
         {
           title: language === "ar" ? "الأخبار" : "News",
-          href: "/simple/news",
+          href: "/simple/advanced/news",
           icon: CheckCircle,
           count: "",
         },
@@ -182,17 +182,17 @@ export default function BeginnersHome() {
       bgColor:
         "bg-gradient-to-br from-indigo-50/80 to-purple-50/60 dark:from-indigo-900/30 dark:to-purple-900/20",
       borderColor: "border-indigo-300/60 dark:border-indigo-600/40",
-      href: "/simple/definitions",
+      href: "/simple/advanced/definitions",
       items: [
         {
           title: t("beginners.cards.definitions.terms"),
-          href: "/simple/definitions",
+          href: "/simple/advanced/definitions",
           icon: BookOpen,
           count: "200+",
         },
         {
           title: t("beginners.cards.definitions.categories"),
-          href: "/simple/definitions/categories",
+          href: "/simple/advanced/definitions/categories",
           icon: CheckCircle,
           count: "15+",
         },
@@ -207,17 +207,17 @@ export default function BeginnersHome() {
       bgColor:
         "bg-gradient-to-br from-amber-50/80 to-orange-50/60 dark:from-amber-900/30 dark:to-orange-900/20",
       borderColor: "border-amber-300/60 dark:border-amber-600/40",
-      href: "/simple/personal-protect",
+      href: "/simple/advanced/personal-protect",
       items: [
         {
           title: t("beginners.cards.personalProtect.tips"),
-          href: "/simple/personal-protect",
+          href: "/simple/advanced/personal-protect",
           icon: ShieldCheck,
           count: "100+",
         },
         {
           title: t("beginners.cards.personalProtect.tools"),
-          href: "/simple/personal-protect/tools",
+          href: "/simple/advanced/personal-protect/tools",
           icon: Settings,
           count: "20+",
         },
@@ -232,7 +232,7 @@ export default function BeginnersHome() {
       bgColor:
         "bg-gradient-to-br from-emerald-50/80 to-teal-50/60 dark:from-emerald-900/30 dark:to-teal-900/20",
       borderColor: "border-emerald-300/60 dark:border-emerald-600/40",
-      href: "/simple/media",
+      href: "/simple/advanced/media",
       items: [
         {
           title: t("beginners.cards.media.videos"),
@@ -242,19 +242,19 @@ export default function BeginnersHome() {
         },
         {
           title: t("beginners.cards.media.lectures"),
-          href: "/simple/lectures",
+          href: "/simple/advanced/lectures",
           icon: GraduationCap,
           count: "30+",
         },
         {
           title: t("beginners.cards.media.presentations"),
-          href: "/simple/presentations",
+          href: "/simple/advanced/presentations",
           icon: Presentation,
           count: "25+",
         },
         {
           title: language === "ar" ? "الأخبار" : "News",
-          href: "/simple/news",
+          href: "/simple/advanced/news",
           icon: CheckCircle,
           count: "",
         },
@@ -269,17 +269,17 @@ export default function BeginnersHome() {
       bgColor:
         "bg-gradient-to-br from-indigo-50/80 to-purple-50/60 dark:from-indigo-900/30 dark:to-purple-900/20",
       borderColor: "border-indigo-300/60 dark:border-indigo-600/40",
-      href: "/simple/definitions",
+      href: "/simple/advanced/definitions",
       items: [
         {
           title: t("beginners.cards.definitions.terms"),
-          href: "/simple/definitions",
+          href: "/simple/advanced/definitions",
           icon: BookOpen,
           count: "200+",
         },
         {
           title: t("beginners.cards.definitions.categories"),
-          href: "/simple/definitions/categories",
+          href: "/simple/advanced/definitions/categories",
           icon: CheckCircle,
           count: "15+",
         },
@@ -294,17 +294,17 @@ export default function BeginnersHome() {
       bgColor:
         "bg-gradient-to-br from-amber-50/80 to-orange-50/60 dark:from-amber-900/30 dark:to-orange-900/20",
       borderColor: "border-amber-300/60 dark:border-amber-600/40",
-      href: "/simple/personal-protect",
+      href: "/simple/advanced/personal-protect",
       items: [
         {
           title: t("beginners.cards.personalProtect.tips"),
-          href: "/simple/personal-protect",
+          href: "/simple/advanced/personal-protect",
           icon: ShieldCheck,
           count: "100+",
         },
         {
           title: t("beginners.cards.personalProtect.tools"),
-          href: "/simple/personal-protect/tools",
+          href: "/simple/advanced/personal-protect/tools",
           icon: Settings,
           count: "20+",
         },
@@ -319,7 +319,7 @@ export default function BeginnersHome() {
       bgColor:
         "bg-gradient-to-br from-emerald-50/80 to-teal-50/60 dark:from-emerald-900/30 dark:to-teal-900/20",
       borderColor: "border-emerald-300/60 dark:border-emerald-600/40",
-      href: "/simple/media",
+      href: "/simple/advanced/media",
       items: [
         {
           title: t("beginners.cards.media.videos"),
@@ -329,19 +329,19 @@ export default function BeginnersHome() {
         },
         {
           title: t("beginners.cards.media.lectures"),
-          href: "/simple/lectures",
+          href: "/simple/advanced/lectures",
           icon: GraduationCap,
           count: "30+",
         },
         {
           title: t("beginners.cards.media.presentations"),
-          href: "/simple/presentations",
+          href: "/simple/advanced/presentations",
           icon: Presentation,
           count: "25+",
         },
         {
           title: language === "ar" ? "الأخبار" : "News",
-          href: "/simple/news",
+          href: "/simple/advanced/news",
           icon: CheckCircle,
           count: "",
         },
@@ -356,17 +356,17 @@ export default function BeginnersHome() {
       bgColor:
         "bg-gradient-to-br from-indigo-50/80 to-purple-50/60 dark:from-indigo-900/30 dark:to-purple-900/20",
       borderColor: "border-indigo-300/60 dark:border-indigo-600/40",
-      href: "/simple/definitions",
+      href: "/simple/advanced/definitions",
       items: [
         {
           title: t("beginners.cards.definitions.terms"),
-          href: "/simple/definitions",
+          href: "/simple/advanced/definitions",
           icon: BookOpen,
           count: "200+",
         },
         {
           title: t("beginners.cards.definitions.categories"),
-          href: "/simple/definitions/categories",
+          href: "/simple/advanced/definitions/categories",
           icon: CheckCircle,
           count: "15+",
         },
@@ -381,17 +381,17 @@ export default function BeginnersHome() {
       bgColor:
         "bg-gradient-to-br from-amber-50/80 to-orange-50/60 dark:from-amber-900/30 dark:to-orange-900/20",
       borderColor: "border-amber-300/60 dark:border-amber-600/40",
-      href: "/simple/personal-protect",
+      href: "/simple/advanced/personal-protect",
       items: [
         {
           title: t("beginners.cards.personalProtect.tips"),
-          href: "/simple/personal-protect",
+          href: "/simple/advanced/personal-protect",
           icon: ShieldCheck,
           count: "100+",
         },
         {
           title: t("beginners.cards.personalProtect.tools"),
-          href: "/simple/personal-protect/tools",
+          href: "/simple/advanced/personal-protect/tools",
           icon: Settings,
           count: "20+",
         },

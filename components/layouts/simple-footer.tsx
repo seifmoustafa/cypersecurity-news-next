@@ -41,17 +41,17 @@ export default function SimpleFooter() {
         },
         {
           title: language === "ar" ? "المحاضرات" : "Lectures",
-          href: "/simple/lectures",
+          href: "/simple/advanced/lectures",
           icon: BookOpen,
         },
         {
           title: language === "ar" ? "العروض التقديمية" : "Presentations",
-          href: "/simple/presentations",
+          href: "/simple/advanced/presentations",
           icon: ShieldCheck,
         },
         {
           title: language === "ar" ? "الأخبار" : "News",
-          href: "/simple/news",
+          href: "/simple/advanced/news",
           icon: CheckCircle,
         },
       ],
@@ -65,12 +65,12 @@ export default function SimpleFooter() {
       links: [
         {
           title: language === "ar" ? "المصطلحات الأساسية" : "Basic Terms",
-          href: "/simple/definitions",
+          href: "/simple/advanced/definitions",
           icon: BookOpen,
         },
         {
           title: language === "ar" ? "التصنيفات" : "Categories",
-          href: "/simple/definitions/categories",
+          href: "/simple/advanced/definitions/categories",
           icon: CheckCircle,
         },
       ],
@@ -84,12 +84,12 @@ export default function SimpleFooter() {
       links: [
         {
           title: language === "ar" ? "نصائح الأمان" : "Safety Tips",
-          href: "/simple/personal-protect",
+          href: "/simple/advanced/personal-protect",
           icon: ShieldCheck,
         },
         {
           title: language === "ar" ? "أدوات الحماية" : "Protection Tools",
-          href: "/simple/personal-protect/tools",
+          href: "/simple/advanced/personal-protect/tools",
           icon: ShieldCheck,
         },
       ],
@@ -98,12 +98,12 @@ export default function SimpleFooter() {
   const quickLinks = [
     {
       title: language === "ar" ? "البحث" : "Search",
-      href: "/simple/search",
+      href: "/simple/advanced/regulation",
       icon: Search,
     },
     {
       title: language === "ar" ? "خريطة الموقع" : "Site Map",
-      href: "/simple/sitemap",
+      href: "/simple/advanced/sitemap",
       icon: Map,
     },
   ];

@@ -13,7 +13,7 @@ import { Suspense } from "react";
 import { motion } from "framer-motion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useFramework } from "@/core/hooks/use-framework";
-import type { Component, Domain } from "@/core/domain/models/framework";
+import type { Component, Domain } from "@/core/domain/models/advanced/framework";
 
 export default function FrameworkDomainPage() {
   return (
@@ -66,7 +66,7 @@ function FrameworkDomainContent() {
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-4">
           <div className="mb-8 flex items-center">
-            <Link href="/framework">
+            <Link href="/advanced/framework">
               <Button variant="ghost" size="sm" className="gap-1">
                 <ChevronLeft className="h-4 w-4" />
                 <span>{language === "ar" ? "رجوع" : "Back"}</span>

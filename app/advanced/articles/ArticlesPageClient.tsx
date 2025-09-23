@@ -169,7 +169,7 @@ function ArticleCard({ article, index }: ArticleCardProps) {
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
-      <Link href={`/articles/${article.id}`} className="group">
+      <Link href={`/advanced/articles/${article.id}`} className="group">
         <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:border-primary/50">
           <div className="relative h-48">
             <Image

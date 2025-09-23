@@ -80,7 +80,7 @@ export const mediaLibraryData = {
         
         <p>The lecture was presented by Dr. Ahmed Al-Shamri, a cybersecurity expert specializing in advanced threat analysis, on January 15, 2024.</p>`,
       },
-      url: "https://example.com/lectures/advanced-threat-analysis.pdf",
+      url: "https://example.com/advanced/lectures/advanced-threat-analysis.pdf",
     },
     {
       id: 2,
@@ -121,7 +121,7 @@ export const mediaLibraryData = {
         
         <p>The lecture was presented by Engineer Sarah Al-Otaibi, Cybersecurity Consultant, on February 20, 2024.</p>`,
       },
-      url: "https://example.com/lectures/cyber-defense-strategies.pdf",
+      url: "https://example.com/advanced/lectures/cyber-defense-strategies.pdf",
     },
     {
       id: 3,
@@ -162,7 +162,7 @@ export const mediaLibraryData = {
         
         <p>The lecture was presented by Dr. Khalid Al-Mansour, Critical Infrastructure Security Expert, on March 10, 2024.</p>`,
       },
-      url: "https://example.com/lectures/critical-infrastructure-security.pdf",
+      url: "https://example.com/advanced/lectures/critical-infrastructure-security.pdf",
     },
   ],
   presentations: [
@@ -177,7 +177,7 @@ export const mediaLibraryData = {
         en: "A presentation reviewing the most prominent cybersecurity trends and developments expected for 2024",
       },
       thumbnailUrl: "/placeholder.svg?height=400&width=600",
-      url: "https://example.com/presentations/cybersecurity-trends-2024.pptx",
+      url: "https://example.com/advanced/presentations/cybersecurity-trends-2024.pptx",
     },
     {
       id: 2,
@@ -190,7 +190,7 @@ export const mediaLibraryData = {
         en: "A presentation explaining a comprehensive framework for managing cyber risks in organizations",
       },
       thumbnailUrl: "/placeholder.svg?height=400&width=600",
-      url: "https://example.com/presentations/cyber-risk-management.pptx",
+      url: "https://example.com/advanced/presentations/cyber-risk-management.pptx",
     },
     {
       id: 3,
@@ -203,7 +203,7 @@ export const mediaLibraryData = {
         en: "A presentation reviewing the elements and axes of the national cybersecurity strategy",
       },
       thumbnailUrl: "/placeholder.svg?height=400&width=600",
-      url: "https://example.com/presentations/national-cybersecurity-strategy.pptx",
+      url: "https://example.com/advanced/presentations/national-cybersecurity-strategy.pptx",
     },
   ],
 }

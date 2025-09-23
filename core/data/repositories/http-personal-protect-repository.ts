@@ -1,5 +1,4 @@
 import { PersonalProtectRepository } from "../../domain/repositories/personal-protect-repository"
-import { ApiDataSource } from "./api-data-source"
 import {
   PersonalProtectCategory,
   PersonalProtectSubCategory,
@@ -10,6 +9,7 @@ import {
   PersonalProtectControlsPaginatedResponse,
   PersonalProtectControlStepsPaginatedResponse
 } from "../../domain/models/personal-protect"
+import { ApiDataSource } from "../sources/api-data-source"
 
 export class HttpPersonalProtectRepository implements PersonalProtectRepository {
   constructor(private apiDataSource: ApiDataSource) {}

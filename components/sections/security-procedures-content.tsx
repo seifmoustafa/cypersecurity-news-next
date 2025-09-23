@@ -132,7 +132,7 @@ export default function SecurityProceduresContent() {
                     const description = getLocalizedText(language, procedure.descriptionAr, procedure.descriptionEn)
 
                     return (
-                      <Link href={`/procedures/${procedureSlug}`} key={procedure.id}>
+                      <Link href={`/advanced/procedures/${procedureSlug}`} key={procedure.id}>
                         <motion.div
                           initial={{ opacity: 0, y: 30 }}
                           whileInView={{ opacity: 1, y: 0 }}
@@ -158,7 +158,7 @@ export default function SecurityProceduresContent() {
                 </div>
                 <div className="mt-8 text-center">
                   <Link
-                    href="/procedures"
+                    href="/advanced/procedures"
                     className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
                   >
                     {language === "ar" ? "عرض جميع الإجراءات" : "View All Procedures"}

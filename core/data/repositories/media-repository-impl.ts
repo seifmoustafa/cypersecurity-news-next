@@ -55,7 +55,7 @@ export class MediaRepositoryImpl implements MediaRepository {
         params.append("search", search.trim())
       }
 
-      const response = await this.dataSource.get<VideosPaginatedResponse>(`/Videos?${params.toString()}`)
+      const response = await this.dataSource.get<VideosPaginatedResponse>(`/advanced/videos?${params.toString()}`)
 
       // Transform video URLs to include base URL
       const baseImageUrl = this.dataSource.getBaseImageUrl()
@@ -84,7 +84,7 @@ export class MediaRepositoryImpl implements MediaRepository {
 
   async getApiVideoById(id: string): Promise<ApiVideo | null> {
     try {
-      const video = await this.dataSource.get<ApiVideo>(`/Videos/${id}`)
+      const video = await this.dataSource.get<ApiVideo>(`/advanced/videos/${id}`)
 
       // Transform video URL to include base URL
       const baseImageUrl = this.dataSource.getBaseImageUrl()
@@ -109,7 +109,7 @@ export class MediaRepositoryImpl implements MediaRepository {
         params.append("search", search.trim())
       }
 
-      const response = await this.dataSource.get<LecturesPaginatedResponse>(`/Lectures?${params.toString()}`)
+      const response = await this.dataSource.get<LecturesPaginatedResponse>(`/advanced/lectures?${params.toString()}`)
 
       // Transform document URLs to include base URL
       const baseImageUrl = this.dataSource.getBaseImageUrl()
@@ -138,7 +138,7 @@ export class MediaRepositoryImpl implements MediaRepository {
 
   async getApiLectureById(id: string): Promise<ApiLecture | null> {
     try {
-      const lecture = await this.dataSource.get<ApiLecture>(`/Lectures/${id}`)
+      const lecture = await this.dataSource.get<ApiLecture>(`/advanced/lectures/${id}`)
 
       // Transform document URL to include base URL
       const baseImageUrl = this.dataSource.getBaseImageUrl()
@@ -155,7 +155,7 @@ export class MediaRepositoryImpl implements MediaRepository {
   async getLectureBySlug(slug: string): Promise<ApiLecture | null> {
     try {
       // Get all lectures and find by slug
-      const response = await this.dataSource.get<LecturesPaginatedResponse>(`/Lectures?page=1&pageSize=1000`)
+      const response = await this.dataSource.get<LecturesPaginatedResponse>(`/advanced/lectures?page=1&pageSize=1000`)
 
       const baseImageUrl = this.dataSource.getBaseImageUrl()
       const transformedData = response.data.map((lecture) => ({
@@ -188,7 +188,7 @@ export class MediaRepositoryImpl implements MediaRepository {
         params.append("search", search.trim())
       }
 
-      const response = await this.dataSource.get<PresentationsPaginatedResponse>(`/Presentations?${params.toString()}`)
+      const response = await this.dataSource.get<PresentationsPaginatedResponse>(`/advanced/presentations?${params.toString()}`)
 
       // Transform presentation URLs to include base URL
       const baseImageUrl = this.dataSource.getBaseImageUrl()
@@ -219,7 +219,7 @@ export class MediaRepositoryImpl implements MediaRepository {
 
   async getApiPresentationById(id: string): Promise<ApiPresentation | null> {
     try {
-      const presentation = await this.dataSource.get<ApiPresentation>(`/Presentations/${id}`)
+      const presentation = await this.dataSource.get<ApiPresentation>(`/advanced/presentations/${id}`)
 
       // Transform presentation URL to include base URL
       const baseImageUrl = this.dataSource.getBaseImageUrl()
@@ -238,7 +238,7 @@ export class MediaRepositoryImpl implements MediaRepository {
   async getPresentationBySlug(slug: string): Promise<ApiPresentation | null> {
     try {
       // Get all presentations and find by slug
-      const response = await this.dataSource.get<PresentationsPaginatedResponse>(`/Presentations?page=1&pageSize=1000`)
+      const response = await this.dataSource.get<PresentationsPaginatedResponse>(`/advanced/presentations?page=1&pageSize=1000`)
 
       const baseImageUrl = this.dataSource.getBaseImageUrl()
       const transformedData = response.data.map((presentation) => ({

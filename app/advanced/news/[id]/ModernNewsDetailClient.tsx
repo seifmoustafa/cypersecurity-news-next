@@ -377,7 +377,7 @@ export default function ModernNewsDetailClient({ slug }: ModernNewsDetailClientP
                         transition={{ delay: 0.4 + index * 0.1 }}
                       >
                         <Link
-                          href={`/news/${slugify(item.title)}`}
+                          href={`/advanced/news/${slugify(item.title)}`}
                           className="group block"
                         >
                           <div className="flex gap-3">

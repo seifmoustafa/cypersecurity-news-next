@@ -15,7 +15,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useDebounce } from "@/hooks/use-debounce"
 import { useSearch } from "@/core/hooks/use-search"
-import type { SearchResult, SearchResponse } from "@/core/services/search-service"
+import { SearchResult } from "@/core/services/search-service"
 
 
 const ENTITY_TYPE_LABELS: Record<string, string> = {
@@ -74,7 +74,7 @@ export default function SearchPageClient() {
     if (activeFilter) {
       params.set("filter", activeFilter)
     }
-    const newUrl = query ? `/search?${params.toString()}` : "/search"
+    const newUrl = query ? `/advanced/regulation?${params.toString()}` : "/advanced/regulation"
     router.replace(newUrl, { scroll: false })
   }, [query, activeFilter, router])
 

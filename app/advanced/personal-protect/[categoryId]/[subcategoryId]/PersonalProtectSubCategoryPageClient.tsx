@@ -53,7 +53,7 @@ export default function PersonalProtectSubCategoryPageClient({ subCategory, cate
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-4 mb-6">
-              <Link href={`/personal-protect/${categoryId}`}>
+              <Link href={`/advanced/personal-protect/${categoryId}`}>
                 <Button variant="outline" size="sm" className="gap-2">
                   <ArrowLeft className="h-4 w-4" />
                   <span>{language === "ar" ? "رجوع إلى الفئة" : "Back to Category"}</span>
@@ -106,7 +106,7 @@ export default function PersonalProtectSubCategoryPageClient({ subCategory, cate
             ) : controls.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {controls.map((control) => (
-                  <Link key={control.id} href={`/personal-protect/${categoryId}/${subCategory.id}/${control.id}`}>
+                  <Link key={control.id} href={`/advanced/personal-protect/${categoryId}/${subCategory.id}/${control.id}`}>
                     <Card className="hover:shadow-lg transition-shadow cursor-pointer">
                       <CardContent className="p-6">
                         <div className="flex items-center gap-3 mb-3">

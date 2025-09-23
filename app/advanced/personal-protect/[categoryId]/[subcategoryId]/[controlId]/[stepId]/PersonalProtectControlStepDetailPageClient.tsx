@@ -57,7 +57,7 @@ export default function PersonalProtectControlStepDetailPageClient({
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-4 mb-6">
-              <Link href={`/personal-protect/${categoryId}/${subcategoryId}/${controlId}`}>
+              <Link href={`/advanced/personal-protect/${categoryId}/${subcategoryId}/${controlId}`}>
                 <Button variant="outline" size="sm" className="gap-2">
                   <ChevronLeft className="h-4 w-4" />
                   <span>{language === "ar" ? "رجوع إلى الإجراء التحكم" : "Back to Control"}</span>

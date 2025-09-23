@@ -59,7 +59,7 @@ export default function HelperSystemsPageClient({
       }
       params.set("page", page.toString());
 
-      const newUrl = `/helper-systems${
+      const newUrl = `/advanced/helper-systems${
         params.toString() ? `?${params.toString()}` : ""
       }`;
       router.replace(newUrl, { scroll: false });

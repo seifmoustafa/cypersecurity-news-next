@@ -35,7 +35,7 @@ export class DefinitionsRepositoryImpl implements DefinitionsRepository {
 
   async getDefinitionById(id: string): Promise<Definition | null> {
     try {
-      const definition = await this.dataSource.get<Definition>(`/Definitions/${id}`)
+      const definition = await this.dataSource.get<Definition>(`/advanced/definitions/${id}`)
       return definition
     } catch (error) {
       console.error(`Error fetching definition ${id}:`, error)
@@ -46,7 +46,7 @@ export class DefinitionsRepositoryImpl implements DefinitionsRepository {
   async getDefinitionsByCategory(categoryId: string, page = 1, pageSize = 10): Promise<DefinitionsPaginatedResponse> {
     try {
       const response = await this.dataSource.get<DefinitionsPaginatedResponse>(
-        `/Definitions/by-category/${categoryId}?page=${page}&pageSize=${pageSize}`,
+        `/advanced/definitions/by-category/${categoryId}?page=${page}&pageSize=${pageSize}`,
       )
       return response
     } catch (error) {
@@ -76,7 +76,7 @@ export class DefinitionsRepositoryImpl implements DefinitionsRepository {
   async getAllCategories(page = 1, pageSize = 10): Promise<DefinitionCategoriesPaginatedResponse> {
     try {
       const response = await this.dataSource.get<DefinitionCategoriesPaginatedResponse>(
-        `/DefinitionCategories?page=${page}&pageSize=${pageSize}`,
+        `/advanced/definitionCategories?page=${page}&pageSize=${pageSize}`,
       )
       return response
     } catch (error) {
@@ -95,7 +95,7 @@ export class DefinitionsRepositoryImpl implements DefinitionsRepository {
 
   async getCategoryById(id: string): Promise<DefinitionCategory | null> {
     try {
-      const category = await this.dataSource.get<DefinitionCategory>(`/DefinitionCategories/${id}`)
+      const category = await this.dataSource.get<DefinitionCategory>(`/advanced/definitionCategories/${id}`)
       return category
     } catch (error) {
       console.error(`Error fetching definition category ${id}:`, error)

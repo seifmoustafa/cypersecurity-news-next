@@ -1,6 +1,5 @@
 "use client"
 
-import { mediaLibraryData } from "@/data/media-library-data"
 import { notFound } from "next/navigation"
 import Image from "next/image"
 import MainLayout from "@/components/layouts/main-layout"
@@ -10,6 +9,7 @@ import { useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { ChevronLeft } from "lucide-react"
+import { mediaLibraryData } from "@/data/media-library-data"
 
 export default function PresentationPageContent() {
   const params = useParams()

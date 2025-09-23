@@ -62,7 +62,7 @@ export default function VideosPageClient({
       if (search) params.set("search", search)
       if (page > 1) params.set("page", page.toString())
 
-      const newUrl = params.toString() ? `/videos?${params.toString()}` : "/videos"
+      const newUrl = params.toString() ? `/advanced/videos?${params.toString()}` : "/advanced/videos"
       router.replace(newUrl, { scroll: false })
     } catch (error) {
       console.error("Error fetching videos:", error)

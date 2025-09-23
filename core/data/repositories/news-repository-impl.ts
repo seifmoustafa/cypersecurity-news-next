@@ -1,5 +1,5 @@
 import type { NewsRepository } from "../../domain/repositories/news-repository"
-import type { News, NewsResponse, LatestNews, NewsCategory, NewsCategoriesResponse } from "../../../entities"
+import type { News, NewsResponse, LatestNews, NewsCategory, NewsCategoriesResponse } from "../../domain/models/news"
 import type { ApiDataSource } from "../sources/api-data-source"
 import { slugify } from "@/lib/utils"
 
@@ -19,7 +19,7 @@ export class NewsRepositoryImpl implements NewsRepository {
         return this.newsCache
       }
 
-      const response = await this.apiDataSource.get<NewsResponse>("/News/byCategory?page=1&pageSize=100")
+      const response = await this.apiDataSource.get<NewsResponse>("/advanced/news/byCategory?page=1&pageSize=100")
       this.newsCache = this.transformNewsData(response.data)
       return this.newsCache
     } catch (error) {
@@ -41,7 +41,7 @@ export class NewsRepositoryImpl implements NewsRepository {
       }
 
       // Call the specific API endpoint for a single news item
-      const newsItem = await this.apiDataSource.get<News>(`/News/${id}`)
+      const newsItem = await this.apiDataSource.get<News>(`/advanced/news/${id}`)
       console.log(`✅ Successfully fetched news with ID ${id} from API`)
       return this.transformNewsItem(newsItem)
     } catch (error) {
@@ -82,7 +82,7 @@ export class NewsRepositoryImpl implements NewsRepository {
 
   async getNewsByCategory(categoryId: string | null, page = 1, pageSize = 100): Promise<News[]> {
     try {
-      let endpoint = `/News/byCategory?page=${page}&pageSize=${pageSize}`
+      let endpoint = `/advanced/news/byCategory?page=${page}&pageSize=${pageSize}`
 
       // Only add categoryId if it's not null and not empty
       if (categoryId && categoryId !== "all" && categoryId.trim() !== "") {
@@ -107,7 +107,7 @@ export class NewsRepositoryImpl implements NewsRepository {
 
   async getLatestNews(count = 5): Promise<News[]> {
     try {
-      const response = await this.apiDataSource.get<LatestNews[]>("/News/last5")
+      const response = await this.apiDataSource.get<LatestNews[]>("/advanced/news/last5")
       return response.map((item) => this.transformLatestNewsItem(item))
     } catch (error) {
       console.error("Error fetching latest news:", error)

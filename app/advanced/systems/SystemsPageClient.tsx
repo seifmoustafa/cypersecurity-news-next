@@ -44,7 +44,7 @@ export default function SystemsPageClient({ initialSystems }: SystemsPageClientP
       }
       params.set("page", page.toString())
 
-      const newUrl = `/systems${params.toString() ? `?${params.toString()}` : ""}`
+      const newUrl = `/advanced/systems${params.toString() ? `?${params.toString()}` : ""}`
       router.replace(newUrl, { scroll: false })
     } catch (error) {
       console.error("Error loading systems:", error)

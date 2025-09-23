@@ -137,7 +137,7 @@ function RegulationCard({ regulation }: { regulation: any }) {
   const slug = slugify(regulation.titleEn, regulation.id)
 
   return (
-    <Link href={`/regulation/${slug}`}>
+    <Link href={`/advanced/regulation/${slug}`}>
       <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:border-primary/50 cursor-pointer border border-blue-200/30 dark:border-blue-800/30">
         <div className="relative h-48">
           <Image

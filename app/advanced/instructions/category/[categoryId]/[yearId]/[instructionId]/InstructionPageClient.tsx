@@ -29,7 +29,7 @@ export default function InstructionPageClient({ instruction, categoryId, yearId 
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Header */}
         <div className="mb-8 flex items-center">
-          <Link href={`/instructions/category/${categoryId}/${yearId}`}>
+          <Link href={`/advanced/instructions/category/${categoryId}/${yearId}`}>
             <Button variant="ghost" size="sm" className="gap-1">
               <ChevronLeft className="h-4 w-4" />
               <span>{language === "ar" ? "رجوع إلى القائمة" : "Back to List"}</span>

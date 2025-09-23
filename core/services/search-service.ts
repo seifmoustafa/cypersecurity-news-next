@@ -73,7 +73,7 @@ export class SearchService {
         arabicOnly: arabicOnly.toString(),
       })
 
-      const url = `${this.baseUrl}/Search?${params.toString()}`
+      const url = `${this.baseUrl}/advanced/regulation?${params.toString()}`
       console.log(`📡 Search API Request:`, url)
 
       const response = await fetch(url, {

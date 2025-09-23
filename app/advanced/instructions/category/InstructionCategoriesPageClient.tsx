@@ -206,7 +206,7 @@ export default function InstructionCategoriesPageClient() {
                 : `${category.nameEn || category.name || ""} cybersecurity instructions`;
 
             return (
-              <Link key={category.id} href={`/instructions/category/${category.id}`} className="block">
+              <Link key={category.id} href={`/advanced/instructions/category/${category.id}`} className="block">
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}

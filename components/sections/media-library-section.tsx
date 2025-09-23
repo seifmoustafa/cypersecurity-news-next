@@ -6,7 +6,7 @@ import SectionHeader from "@/components/ui/section-header"
 import SectionContainer from "@/components/ui/section-container"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { container } from "@/core/di/container"
-import type { ApiVideo, ApiLecture, ApiPresentation } from "@/core/domain/models/media"
+import type { ApiVideo, ApiLecture, ApiPresentation } from "@/core/domain/models/media"  
 import { slugify, getLocalizedText } from "@/lib/utils"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -108,9 +108,9 @@ export default function MediaLibrarySection() {
   // Prefetch media pages
   useEffect(() => {
     // Prefetch pages
-    router.prefetch("/videos")
-    router.prefetch("/lectures")
-    router.prefetch("/presentations")
+    router.prefetch("/advanced/videos")
+    router.prefetch("/advanced/lectures")
+    router.prefetch("/advanced/presentations")
   }, [router])
 
   return (
@@ -342,7 +342,7 @@ const LectureCard = ({ lecture }: { lecture: ApiLecture }) => {
   const handleCardClick = () => {
     const englishTitle = lecture.nameEn || ""
     const slug = slugify(englishTitle, lecture.id)
-    router.push(`/lectures/${slug}`)
+    router.push(`/advanced/lectures/${slug}`)
   }
 
   const formatDate = (dateString: string) => {
@@ -396,7 +396,7 @@ const PresentationCard = ({ presentation }: { presentation: ApiPresentation }) =
   const handleCardClick = () => {
     const englishTitle = presentation.nameEn || ""
     const slug = slugify(englishTitle, presentation.id)
-    router.push(`/presentations/${slug}`)
+    router.push(`/advanced/presentations/${slug}`)
   }
 
   const formatDate = (dateString: string) => {

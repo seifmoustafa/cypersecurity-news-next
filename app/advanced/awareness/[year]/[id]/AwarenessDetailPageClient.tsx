@@ -127,7 +127,7 @@ export default function AwarenessDetailPageClient({ year, id }: AwarenessDetailP
                 {language === "ar" ? "المحتوى غير موجود" : "Content Not Found"}
               </h1>
               <p className="text-muted-foreground mb-6">{error}</p>
-              <Button onClick={() => router.push(`/awareness/${year}`)}>
+              <Button onClick={() => router.push(`/advanced/awareness/${year}`)}>
                 {language === "ar" ? "العودة" : "Go Back"}
               </Button>
             </Card>
@@ -144,7 +144,7 @@ export default function AwarenessDetailPageClient({ year, id }: AwarenessDetailP
         <div className="mb-8">
           <Button
             variant="ghost"
-            onClick={() => router.push(`/awareness/${year}`)}
+            onClick={() => router.push(`/advanced/awareness/${year}`)}
             className="group flex items-center gap-2 hover:bg-accent dark:hover:bg-slate-800 rounded-lg px-4 py-2 transition-all duration-200"
           >
             {isRtl ? (
@@ -319,7 +319,7 @@ export default function AwarenessDetailPageClient({ year, id }: AwarenessDetailP
               {/* Simple back to content button */}
               <div className="mt-8 text-center">
                 <Button
-                  onClick={() => router.push(`/awareness/${year}`)}
+                  onClick={() => router.push(`/advanced/awareness/${year}`)}
                   variant="outline"
                   className="hover:bg-accent dark:hover:bg-slate-800 dark:border-slate-700"
                 >

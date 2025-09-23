@@ -5,14 +5,15 @@ import { useRouter } from "next/navigation"
 import MainLayout from "@/components/layouts/main-layout"
 import TipsTicker from "@/components/tips-ticker"
 import TipOfTheDayPopup from "@/components/tip-of-the-day-popup"
-import SystemsSection from "@/components/sections/systems-section"
-import HelperSystemsSection from "@/components/sections/helper-systems-section"
-import AwarenessSection from "@/components/sections/awareness-section"
+
 import SecurityRequirementsSection from "@/components/sections/security-requirements-section"
 import CybersecurityConceptsSection from "@/components/sections/cybersecurity-concepts"
-import MediaLibrarySection from "@/components/sections/media-library-section"
 import HeroNewsSection from "@/components/sections/hero-news-section"
 import { useScrollUrl } from "@/core/hooks/use-scroll-url"
+import AwarenessSection from "@/components/sections/awareness-section"
+import MediaLibrarySection from "@/components/sections/media-library-section"
+import HelperSystemsSection from "@/components/sections/helper-systems-section"
+import SystemsSection from "@/components/sections/systems-section"
 
 export default function Home() {
   const router = useRouter()

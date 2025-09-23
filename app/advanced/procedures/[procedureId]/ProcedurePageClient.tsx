@@ -54,7 +54,7 @@ export default function ProcedurePageClient({ procedure }: ProcedurePageClientPr
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-4 mb-6">
-              <Link href="/procedures">
+              <Link href="/advanced/procedures">
                 <Button variant="outline" size="sm" className="gap-2">
                   <ArrowLeft className="h-4 w-4" />
                   <span>{language === "ar" ? "رجوع إلى الإجراءات" : "Back to Procedures"}</span>
@@ -107,7 +107,7 @@ export default function ProcedurePageClient({ procedure }: ProcedurePageClientPr
             ) : controls.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {controls.map((control) => (
-                  <Link key={control.id} href={`/procedures/${procedure.id}/${control.id}`}>
+                  <Link key={control.id} href={`/advanced/procedures/${procedure.id}/${control.id}`}>
                     <Card className="hover:shadow-lg transition-shadow cursor-pointer">
                       <CardContent className="p-6">
                         <div className="flex items-center gap-3 mb-3">

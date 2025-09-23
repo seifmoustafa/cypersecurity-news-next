@@ -154,7 +154,7 @@ export default function ProceduresPageClient() {
                   const description = getLocalizedText(language, procedure.descriptionAr, procedure.descriptionEn)
 
                   return (
-                    <Link href={`/procedures/${procedureSlug}`} key={procedure.id}>
+                    <Link href={`/advanced/procedures/${procedureSlug}`} key={procedure.id}>
                       <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}

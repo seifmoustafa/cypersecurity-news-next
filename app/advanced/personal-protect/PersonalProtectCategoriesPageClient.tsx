@@ -175,7 +175,7 @@ export default function PersonalProtectCategoriesPageClient() {
                   const description = getLocalizedText(language, category.description, category.descriptionEn)
 
                   return (
-                    <Link href={`/personal-protect/${categorySlug}`} key={category.id}>
+                    <Link href={`/advanced/personal-protect/${categorySlug}`} key={category.id}>
                       <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}

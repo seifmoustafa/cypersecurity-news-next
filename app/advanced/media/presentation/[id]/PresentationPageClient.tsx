@@ -1,10 +1,10 @@
 "use client"
 
-import { mediaLibraryData } from "@/data/media-library-data"
 import { notFound } from "next/navigation"
 import Image from "next/image"
 import MainLayout from "@/components/layouts/main-layout"
 import { Button } from "@/components/ui/button"
+import { mediaLibraryData } from "@/data/media-library-data"
 
 export default function PresentationPageClient({ params }: { params: { id: string } }) {
   const presentation = mediaLibraryData.presentations.find((item) => item.id.toString() === params.id)

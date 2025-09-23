@@ -15,7 +15,7 @@ export default function SecurityProceduresSection() {
 
   // Prefetch the internal standards page
   useEffect(() => {
-    router.prefetch("/standards/internal")
+    router.prefetch("/advanced/standards/internal")
   }, [router])
 
   return (

@@ -7,7 +7,7 @@ import { useLanguage } from "@/components/language-provider"
 import { useEffect, useState } from "react"
 import { container } from "@/core/di/container"
 import { slugify } from "@/lib/utils"
-import type { News } from "@/entities"
+import type { News } from "@/core/domain/models/news"
 
 export default function NewsPage() {
   const { language, isRtl, t } = useLanguage()
@@ -136,7 +136,7 @@ function NewsCard({ item }: { item: News }) {
   const hasValidSummary = cleanSummary && cleanSummary !== "string" && cleanSummary.length > 0
 
   return (
-    <Link href={`/news/${slug}`} className="group">
+    <Link href={`/advanced/news/${slug}`} className="group">
       <div className="bg-card border rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg h-full flex flex-col">
         <div className="relative h-48 overflow-hidden">
           <Image

@@ -95,7 +95,7 @@ function LawCard({ item }: { item: Law }) {
   const hasValidSummary = cleanSummary && cleanSummary !== "string" && cleanSummary.length > 0
 
   return (
-    <Link href={`/laws/${item.id}`} className="group">
+    <Link href={`/advanced/laws/${item.id}`} className="group">
       <div className="bg-card border rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg h-full flex flex-col">
         <div className="relative h-48 overflow-hidden">
           <Image

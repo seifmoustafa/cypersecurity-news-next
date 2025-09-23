@@ -24,7 +24,7 @@ export class LawsRepositoryImpl implements LawsRepository {
 
   async getLawsByCategory(categoryId: string, page = 1, pageSize = 10): Promise<LawsPaginatedResponse> {
     const response = await this.apiDataSource.get<LawsPaginatedResponse>(
-      `/Laws/byCategory/${categoryId}?page=${page}&pageSize=${pageSize}`,
+      `/advanced/laws/byCategory/${categoryId}?page=${page}&pageSize=${pageSize}`,
     )
 
     // Transform document URLs to include base URL
@@ -40,7 +40,7 @@ export class LawsRepositoryImpl implements LawsRepository {
   }
 
   async getLawById(id: string): Promise<Law> {
-    const law = await this.apiDataSource.get<Law>(`/Laws/${id}`)
+    const law = await this.apiDataSource.get<Law>(`/advanced/laws/${id}`)
 
     // Transform document URL to include base URL
     return {

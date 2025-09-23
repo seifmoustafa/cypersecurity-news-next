@@ -69,7 +69,7 @@ export function InstructionCard({ instruction, categorySlug, yearNumber }: Instr
         {summary && <p className="text-sm text-muted-foreground line-clamp-3 mb-4 leading-relaxed">{summary}</p>}
 
         <div className="flex items-center justify-between gap-2">
-          <Link href={`/instructions/category/${categorySlug}/${yearNumber}/${slug}`} className="flex-1">
+          <Link href={`/advanced/instructions/category/${categorySlug}/${yearNumber}/${slug}`} className="flex-1">
             <Button variant="default" size="sm" className="w-full gap-1">
               <Eye className="h-3 w-3" />
               {language === "ar" ? "عرض" : "View"}

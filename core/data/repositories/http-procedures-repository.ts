@@ -57,13 +57,13 @@ export class HttpProceduresRepository implements ProceduresRepository {
       params.append("search", search)
     }
 
-    const response = await this.apiDataSource.get(`/Procedures?${params.toString()}`)
+    const response = await this.apiDataSource.get(`/advanced/procedures?${params.toString()}`)
     return response
   }
 
   async getProcedureById(id: string, forceRefresh?: boolean): Promise<Procedure | null> {
     try {
-      const response = await this.apiDataSource.get(`/Procedures/${id}`)
+      const response = await this.apiDataSource.get(`/advanced/procedures/${id}`)
       return response
     } catch (error) {
       console.error("Error fetching procedure by ID:", error)

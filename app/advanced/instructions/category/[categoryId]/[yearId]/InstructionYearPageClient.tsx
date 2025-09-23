@@ -96,7 +96,7 @@ function InstructionCard({
                 {language === "ar" ? "تحميل" : "Download"}
               </Button>
             )}
-            <Link href={`/instructions/category/${categoryId}/${yearId}/${instruction.id}`}>
+            <Link href={`/advanced/instructions/category/${categoryId}/${yearId}/${instruction.id}`}>
               <Button size="sm" className="gap-1">
                 <Eye className="h-3 w-3" />
                 {language === "ar" ? "عرض" : "View"}
@@ -181,7 +181,7 @@ export default function InstructionYearPageClient({
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="mb-8 flex items-center">
-          <Link href={`/instructions/category/${categoryId}`}>
+          <Link href={`/advanced/instructions/category/${categoryId}`}>
             <Button variant="ghost" size="sm" className="gap-1">
               <ChevronLeft className="h-4 w-4" />
               <span>{language === "ar" ? "رجوع" : "Back"}</span>

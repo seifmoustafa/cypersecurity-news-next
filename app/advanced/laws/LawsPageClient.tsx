@@ -217,7 +217,7 @@ export default function LawsPageClient() {
                   </h3>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  <Link href={`/laws/category/${category.id}`}>
+                  <Link href={`/advanced/laws/category/${category.id}`}>
                     <Button className="w-full bg-gradient-to-r from-purple-500 to-blue-600 hover:opacity-90 text-white border-0">
                       <Scale className="h-4 w-4 mr-2" />
                       {language === "ar" ? "عرض الفئة" : "View Category"}

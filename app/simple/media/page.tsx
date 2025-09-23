@@ -86,7 +86,7 @@ export default function BeginnersMediaPage() {
       bgColor: "bg-blue-50 dark:bg-blue-900/20",
       borderColor: "border-blue-200 dark:border-blue-800",
       count: `${mediaStats.lectures}+`,
-      href: "/simple/lectures"
+      href: "/simple/advanced/lectures"
     },
     {
       id: "presentations",
@@ -97,7 +97,7 @@ export default function BeginnersMediaPage() {
       bgColor: "bg-purple-50 dark:bg-purple-900/20",
       borderColor: "border-purple-200 dark:border-purple-800",
       count: `${mediaStats.presentations}+`,
-      href: "/simple/presentations"
+      href: "/simple/advanced/presentations"
     },
     {
       id: "news",
@@ -108,7 +108,7 @@ export default function BeginnersMediaPage() {
       bgColor: "bg-orange-50 dark:bg-orange-900/20",
       borderColor: "border-orange-200 dark:border-orange-800",
       count: `${mediaStats.news}+`,
-      href: "/simple/news"
+      href: "/simple/advanced/news"
     }
   ]
 

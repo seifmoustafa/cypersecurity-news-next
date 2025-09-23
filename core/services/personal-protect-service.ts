@@ -1,4 +1,4 @@
-import { PersonalProtectRepository } from "../domain/repositories/personal-protect-repository"
+import { PersonalProtectRepository } from "../domain/repositories/personal-protect-repository" 
 import {
   PersonalProtectCategory,
   PersonalProtectSubCategory,

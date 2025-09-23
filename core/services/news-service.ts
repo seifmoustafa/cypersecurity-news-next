@@ -1,5 +1,5 @@
 import type { NewsRepository } from "../domain/repositories/news-repository"
-import type { News, NewsCategory } from "../../entities"
+import type { News, NewsCategory } from "../domain/models/news"
 
 export class NewsService {
   private repository: NewsRepository

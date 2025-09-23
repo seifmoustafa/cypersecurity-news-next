@@ -149,7 +149,7 @@ export default function NewsCard({
 
           <DialogFooter className="flex justify-between">
             <Link
-              href={`/news/${newsSlug}`}
+              href={`/advanced/news/${newsSlug}`}
               className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md transition-colors"
             >
               {t("common.viewFullArticle")}

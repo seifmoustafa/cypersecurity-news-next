@@ -11,7 +11,7 @@ import MainLayout from "@/components/layouts/main-layout"
 import { useLanguage } from "@/components/language-provider"
 import { container } from "@/core/di/container"
 import { slugify } from "@/lib/utils"
-import type { ApiLecture, LecturesPaginatedResponse } from "@/core/domain/models/media"
+import type { ApiLecture, LecturesPaginatedResponse } from "@/core/domain/models/advanced/media"
 import Link from "next/link"
 
 interface LecturesPageClientProps {
@@ -75,7 +75,7 @@ export default function LecturesPageClient({ initialLectures, initialSearch, ini
       if (page > 1) params.set("page", page.toString())
 
       const queryString = params.toString()
-      const newURL = queryString ? `/lectures?${queryString}` : "/lectures"
+      const newURL = queryString ? `/advanced/lectures?${queryString}` : "/advanced/lectures"
       router.push(newURL, { scroll: false })
     },
     [router],
@@ -222,7 +222,7 @@ export default function LecturesPageClient({ initialLectures, initialSearch, ini
 
                       <div className="flex gap-2">
                         <Button asChild className="flex-1">
-                          <Link href={`/lectures/${getLectureSlug(lecture)}`}>
+                          <Link href={`/advanced/lectures/${getLectureSlug(lecture)}`}>
                             {language === "ar" ? "قراءة المحاضرة" : "Read Lecture"}
                           </Link>
                         </Button>

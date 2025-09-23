@@ -74,7 +74,7 @@ export default function RegulationPageClient({ regulationId }: RegulationPageCli
             <p className="text-muted-foreground mb-6">
               {error || (language === "ar" ? "لم يتم العثور على اللائحة المطلوبة" : "The requested regulation could not be found")}
             </p>
-            <Link href="/regulation">
+            <Link href="/advanced/regulation">
               <Button>
                 {isRtl ? <ArrowRight className="ml-2 h-4 w-4" /> : <ArrowLeft className="mr-2 h-4 w-4" />}
                 {language === "ar" ? "العودة إلى اللوائح" : "Back to Regulations"}
@@ -100,7 +100,7 @@ export default function RegulationPageClient({ regulationId }: RegulationPageCli
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Back button */}
         <div className="mb-6">
-          <Link href="/regulation">
+          <Link href="/advanced/regulation">
             <Button variant="outline" size="sm">
               {isRtl ? <ArrowRight className="ml-2 h-4 w-4" /> : <ArrowLeft className="mr-2 h-4 w-4" />}
               {language === "ar" ? "العودة إلى اللوائح" : "Back to Regulations"}
@@ -153,7 +153,7 @@ export default function RegulationPageClient({ regulationId }: RegulationPageCli
           {/* Article footer */}
           <footer className="mt-12 pt-8 border-t border-border">
             <div className="flex justify-between items-center">
-              <Link href="/regulation">
+              <Link href="/advanced/regulation">
                 <Button variant="outline">
                   {isRtl ? <ArrowRight className="ml-2 h-4 w-4" /> : <ArrowLeft className="mr-2 h-4 w-4" />}
                   {language === "ar" ? "العودة إلى اللوائح" : "Back to Regulations"}

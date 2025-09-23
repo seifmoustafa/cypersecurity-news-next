@@ -59,7 +59,7 @@ export default function StandardsTechniquePageClient({ technique, categoryId, st
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-4 mb-6">
-              <Link href={`/standards/${categoryId}/${standardId}/${controlId}/${safeguardId}`}>
+              <Link href={`/advanced/standards/${categoryId}/${standardId}/${controlId}/${safeguardId}`}>
                 <Button variant="outline" size="sm" className="gap-2">
                   <ArrowLeft className="h-4 w-4" />
                   <span>{language === "ar" ? "رجوع إلى الضمان" : "Back to Safeguard"}</span>
@@ -117,7 +117,7 @@ export default function StandardsTechniquePageClient({ technique, categoryId, st
             ) : implementationSteps.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {implementationSteps.map((step) => (
-                  <Link key={step.id} href={`/standards/${categoryId}/${standardId}/${controlId}/${safeguardId}/${technique.id}/${step.id}`}>
+                  <Link key={step.id} href={`/advanced/standards/${categoryId}/${standardId}/${controlId}/${safeguardId}/${technique.id}/${step.id}`}>
                     <Card className="hover:shadow-lg transition-shadow cursor-pointer">
                       <CardContent className="p-6">
                         <div className="flex items-center gap-3 mb-3">

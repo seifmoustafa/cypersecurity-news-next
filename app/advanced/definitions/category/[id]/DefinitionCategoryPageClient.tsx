@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { BookOpen, ArrowLeft, ArrowRight } from "lucide-react"
-import type { Definition, DefinitionCategory } from "@/core/domain/models/definition"
+import type { Definition, DefinitionCategory } from "@/core/domain/models/advanced/definition"
 
 interface DefinitionCategoryPageClientProps {
   category: DefinitionCategory
@@ -66,7 +66,7 @@ export default function DefinitionCategoryPageClient({
                     : definition.definitionEn || definition.definitionText
 
                 return (
-                  <Link href={`/definitions/${definition.id}`} key={definition.id}>
+                  <Link href={`/advanced/definitions/${definition.id}`} key={definition.id}>
                     <Card className="h-full hover:shadow-lg transition-all duration-300 cursor-pointer group">
                       <CardHeader className="pb-3">
                         <CardTitle

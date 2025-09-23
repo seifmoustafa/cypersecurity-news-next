@@ -157,7 +157,7 @@ export default function AwarenessSection() {
           {/* View All Articles Button */}
           {articles.length > 0 && !articlesLoading && (
             <div className="mt-8 text-center">
-              <Link href="/articles">
+              <Link href="/advanced/articles">
                 <Button variant="outline">{language === "ar" ? "عرض جميع المقالات" : "View All Articles"}</Button>
               </Link>
             </div>
@@ -210,7 +210,7 @@ function AllNewsContent() {
       </div>
       {allNews.length > 0 && !loading && (
         <div className="mt-8 text-center">
-          <Link href="/news">
+          <Link href="/advanced/news">
             <Button variant="outline">{language === "ar" ? "عرض جميع الأخبار" : "View All News"}</Button>
           </Link>
         </div>
@@ -263,7 +263,7 @@ function CategoryNewsContent({
       </div>
       {news.length > 0 && !loading && (
         <div className="mt-8 text-center">
-          <Link href={`/news/category/${categoryUrl}`}>
+          <Link href={`/advanced/news/category/${categoryUrl}`}>
             <Button variant="outline">{language === "ar" ? `عرض جميع أخبار ${categoryName}` : `View All ${categoryName} News`}</Button>
           </Link>
         </div>
@@ -289,7 +289,7 @@ function NewsCard({ item, index }: NewsCardProps) {
   const englishTitle = item.titleEn || item.title || ""
   const slug = slugify(englishTitle, item.id)
 
-  console.log(`News card linking to /news/${slug} (ID: ${item.id})`)
+  console.log(`News card linking to /advanced/news/${slug} (ID: ${item.id})`)
 
   // Don't render if no title
   if (!displayTitle) {
@@ -308,7 +308,7 @@ function NewsCard({ item, index }: NewsCardProps) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       whileHover={{ y: -5 }}
     >
-      <Link href={`/news/${slug}`} className="group">
+      <Link href={`/advanced/news/${slug}`} className="group">
         <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 dark:hover:shadow-blue-500/30 hover:border-primary/50 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-blue-200/30 dark:border-blue-800/30">
           <div className="relative h-48">
             <Image
@@ -389,7 +389,7 @@ function ArticleCard({ item, index }: ArticleCardProps) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       whileHover={{ y: -5 }}
     >
-      <Link href={`/articles/${item.id}`} className="group">
+      <Link href={`/advanced/articles/${item.id}`} className="group">
         <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-2xl hover:shadow-green-500/20 dark:hover:shadow-green-500/30 hover:border-primary/50 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-green-200/30 dark:border-green-800/30">
           <div className="relative h-48">
             <Image
@@ -488,7 +488,7 @@ function CurrentYearAwarenessContent() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
             >
-              <Link href={`/awareness/${item.year}/${getSlug(item)}`} className="group">
+              <Link href={`/advanced/awareness/${item.year}/${getSlug(item)}`} className="group">
                 <Card className="h-full transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/20 dark:hover:shadow-orange-500/30 hover:border-primary/50 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-orange-200/30 dark:border-orange-800/30">
                   <CardContent className={`p-6 ${isRtl ? "text-right" : "text-left"}`}>
                     {/* Enhanced Header with icon and badge */}
@@ -546,13 +546,13 @@ function CurrentYearAwarenessContent() {
       {/* Enhanced Action Buttons */}
       {data && data.data.length > 0 && (
         <div className="flex flex-col sm:flex-row gap-6 justify-center mt-12">
-          <Link href={`/awareness/${new Date().getFullYear()}`}>
+          <Link href={`/advanced/awareness/${new Date().getFullYear()}`}>
             <Button className="flex items-center gap-3 bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-xl shadow-orange-500/30 dark:shadow-orange-500/40 border border-orange-500/30 dark:border-orange-400/30">
               {language === "ar" ? "المزيد من هذا العام" : "More This Year"}
               <ArrowRight className={`h-5 w-5 transition-transform duration-300 group-hover:translate-x-1 ${isRtl ? "rotate-180" : ""}`} />
             </Button>
           </Link>
-          <Link href="/awareness/years">
+          <Link href="/advanced/awareness/years">
             <Button variant="outline" className="flex items-center gap-3 border-orange-500/30 dark:border-orange-400/30 text-orange-700 dark:text-orange-300 hover:bg-orange-50/50 dark:hover:bg-orange-900/20 px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-orange-500/20 dark:shadow-orange-500/30">
               <Calendar className="h-5 w-5" />
               {language === "ar" ? "جميع السنوات" : "All Years"}

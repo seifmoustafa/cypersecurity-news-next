@@ -140,7 +140,7 @@ export class StandardsRepositoryImpl implements StandardsRepository {
     try {
       console.log(`🔄 Fetching standards by category: ${categoryId}, page=${page}, pageSize=${pageSize}`)
       const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
-      const url = `${baseUrl}/Standards/byCategory/${categoryId}?page=${page}&pageSize=${pageSize}`
+      const url = `${baseUrl}/advanced/standards/byCategory/${categoryId}?page=${page}&pageSize=${pageSize}`
 
       const response = await fetch(url, {
         method: "GET",
@@ -175,7 +175,7 @@ export class StandardsRepositoryImpl implements StandardsRepository {
     try {
       console.log(`🔄 Fetching standard by ID: ${id}`)
       const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
-      const url = `${baseUrl}/Standards/${id}`
+      const url = `${baseUrl}/advanced/standards/${id}`
 
       const response = await fetch(url, {
         method: "GET",

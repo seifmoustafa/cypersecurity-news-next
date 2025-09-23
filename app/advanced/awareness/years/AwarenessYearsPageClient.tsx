@@ -93,7 +93,7 @@ export default function AwarenessYearsPageClient() {
                   viewport={{ once: true, margin: "-100px" }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
                 >
-                  <Link href={`/awareness/${year.year}`}>
+                  <Link href={`/advanced/awareness/${year.year}`}>
                     <Card className="h-full hover:shadow-lg transition-all duration-300 cursor-pointer hover:border-primary/50 group">
                       <CardContent className="p-6 text-center">
                         <div className="mb-4">

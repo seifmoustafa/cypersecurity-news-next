@@ -75,73 +75,73 @@ export default function SitemapPage() {
     awareness: {
       title: language === "ar" ? "التوعية" : "Awareness",
       icon: Users,
-      path: "/awareness",
+      path: "/advanced/awareness",
       description: language === "ar" ? "نشرات التوعية والمقالات والأخبار" : "Awareness bulletins, articles, and news",
       color: "text-orange-600",
       bgColor: "bg-orange-50",
       gradient: "from-orange-500 to-orange-600",
       subsections: [
-        { title: language === "ar" ? "الأخبار" : "News", path: "/news", icon: Newspaper, description: language === "ar" ? "آخر الأخبار الأمنية" : "Latest security news" },
-        { title: language === "ar" ? "نشرات التوعية" : "Awareness Bulletins", path: "/awareness", icon: AlertTriangle, description: language === "ar" ? "نشرات التوعية الأمنية" : "Security awareness bulletins" },
-        { title: language === "ar" ? "المقالات" : "Articles", path: "/articles", icon: FileText, description: language === "ar" ? "مقالات متخصصة" : "Specialized articles" },
-        { title: language === "ar" ? "سنوات التوعية" : "Awareness Years", path: "/awareness/years", icon: Calendar, description: language === "ar" ? "أرشيف سنوات التوعية" : "Awareness years archive" }
+        { title: language === "ar" ? "الأخبار" : "News", path: "/advanced/news", icon: Newspaper, description: language === "ar" ? "آخر الأخبار الأمنية" : "Latest security news" },
+        { title: language === "ar" ? "نشرات التوعية" : "Awareness Bulletins", path: "/advanced/awareness", icon: AlertTriangle, description: language === "ar" ? "نشرات التوعية الأمنية" : "Security awareness bulletins" },
+        { title: language === "ar" ? "المقالات" : "Articles", path: "/advanced/articles", icon: FileText, description: language === "ar" ? "مقالات متخصصة" : "Specialized articles" },
+        { title: language === "ar" ? "سنوات التوعية" : "Awareness Years", path: "/advanced/awareness/years", icon: Calendar, description: language === "ar" ? "أرشيف سنوات التوعية" : "Awareness years archive" }
       ]
     },
     securityRequirements: {
       title: language === "ar" ? "متطلبات الأمن" : "Security Requirements",
       icon: Shield,
-      path: "/instructions/category",
+      path: "/advanced/instructions/category",
       description: language === "ar" ? "التعليمات والإجراءات الأمنية" : "Security instructions and procedures",
       color: "text-green-600",
       bgColor: "bg-green-50",
       gradient: "from-green-500 to-green-600",
       subsections: [
-        { title: language === "ar" ? "التعليمات" : "Instructions", path: "/instructions/category", icon: FileText, description: language === "ar" ? "تعليمات الأمن السيبراني" : "Cybersecurity instructions" },
-        { title: language === "ar" ? "الإجراءات الأمنية" : "Security Procedures", path: "/procedures", icon: Settings, description: language === "ar" ? "إجراءات تنفيذية" : "Executive procedures" },
-        { title: language === "ar" ? "الحماية الشخصية" : "Personal Protection", path: "/personal-protect", icon: Lock, description: language === "ar" ? "إجراءات الحماية الشخصية" : "Personal protection procedures" }
+        { title: language === "ar" ? "التعليمات" : "Instructions", path: "/advanced/instructions/category", icon: FileText, description: language === "ar" ? "تعليمات الأمن السيبراني" : "Cybersecurity instructions" },
+        { title: language === "ar" ? "الإجراءات الأمنية" : "Security Procedures", path: "/advanced/procedures", icon: Settings, description: language === "ar" ? "إجراءات تنفيذية" : "Executive procedures" },
+        { title: language === "ar" ? "الحماية الشخصية" : "Personal Protection", path: "/advanced/personal-protect", icon: Lock, description: language === "ar" ? "إجراءات الحماية الشخصية" : "Personal protection procedures" }
       ]
     },
     cybersecurityConcepts: {
       title: language === "ar" ? "مفاهيم الأمن السيبراني" : "Cybersecurity Concepts",
       icon: BookOpen,
-      path: "/definitions",
+      path: "/advanced/definitions",
       description: language === "ar" ? "التعريفات والقوانين والمعايير" : "Definitions, laws, and standards",
       color: "text-purple-600",
       bgColor: "bg-purple-50",
       gradient: "from-purple-500 to-purple-600",
       subsections: [
-        { title: language === "ar" ? "التعريفات" : "Definitions", path: "/definitions", icon: BookOpen, description: language === "ar" ? "مصطلحات الأمن السيبراني" : "Cybersecurity terms" },
-        { title: language === "ar" ? "القوانين واللوائح" : "Laws & Regulations", path: "/laws", icon: Scale, description: language === "ar" ? "القوانين التنفيذية" : "Executive laws" },
-        { title: language === "ar" ? "التنظيم" : "Regulation", path: "/regulation", icon: Settings, description: language === "ar" ? "الإطار التنظيمي" : "Regulatory framework" },
-        { title: language === "ar" ? "إطار العمل" : "Framework", path: "/framework", icon: Building2, description: language === "ar" ? "إطار العمل الشامل" : "Comprehensive framework" },
-        { title: language === "ar" ? "المعايير" : "Standards", path: "/standards", icon: CheckCircle, description: language === "ar" ? "المعايير المعتمدة" : "Approved standards" }
+        { title: language === "ar" ? "التعريفات" : "Definitions", path: "/advanced/definitions", icon: BookOpen, description: language === "ar" ? "مصطلحات الأمن السيبراني" : "Cybersecurity terms" },
+        { title: language === "ar" ? "القوانين واللوائح" : "Laws & Regulations", path: "/advanced/laws", icon: Scale, description: language === "ar" ? "القوانين التنفيذية" : "Executive laws" },
+        { title: language === "ar" ? "التنظيم" : "Regulation", path: "/advanced/regulation", icon: Settings, description: language === "ar" ? "الإطار التنظيمي" : "Regulatory framework" },
+        { title: language === "ar" ? "إطار العمل" : "Framework", path: "/advanced/framework", icon: Building2, description: language === "ar" ? "إطار العمل الشامل" : "Comprehensive framework" },
+        { title: language === "ar" ? "المعايير" : "Standards", path: "/advanced/standards", icon: CheckCircle, description: language === "ar" ? "المعايير المعتمدة" : "Approved standards" }
       ]
     },
     documentLibrary: {
       title: language === "ar" ? "المكتبة الوثائقية" : "Document Library",
       icon: FileText,
-      path: "/videos",
+      path: "/advanced/videos",
       description: language === "ar" ? "الفيديوهات والمحاضرات والعروض" : "Videos, lectures, and presentations",
       color: "text-cyan-600",
       bgColor: "bg-cyan-50",
       gradient: "from-cyan-500 to-cyan-600",
       subsections: [
-        { title: language === "ar" ? "الفيديوهات" : "Videos", path: "/videos", icon: Play, description: language === "ar" ? "مقاطع فيديو تعليمية" : "Educational videos" },
-        { title: language === "ar" ? "المحاضرات" : "Lectures", path: "/lectures", icon: GraduationCap, description: language === "ar" ? "محاضرات متخصصة" : "Specialized lectures" },
-        { title: language === "ar" ? "العروض التقديمية" : "Presentations", path: "/presentations", icon: Presentation, description: language === "ar" ? "عروض تقديمية" : "Presentations" }
+        { title: language === "ar" ? "الفيديوهات" : "Videos", path: "/advanced/videos", icon: Play, description: language === "ar" ? "مقاطع فيديو تعليمية" : "Educational videos" },
+        { title: language === "ar" ? "المحاضرات" : "Lectures", path: "/advanced/lectures", icon: GraduationCap, description: language === "ar" ? "محاضرات متخصصة" : "Specialized lectures" },
+        { title: language === "ar" ? "العروض التقديمية" : "Presentations", path: "/advanced/presentations", icon: Presentation, description: language === "ar" ? "عروض تقديمية" : "Presentations" }
       ]
     },
     systems: {
       title: language === "ar" ? "الأنظمة" : "Systems",
       icon: Database,
-      path: "/systems",
+      path: "/advanced/systems",
       description: language === "ar" ? "المنظومات الرئيسية والمساعدة" : "Main and helper systems",
       color: "text-indigo-600",
       bgColor: "bg-indigo-50",
       gradient: "from-indigo-500 to-indigo-600",
       subsections: [
-        { title: language === "ar" ? "المنظومات الرئيسية" : "Main Systems", path: "/systems", icon: Database, description: language === "ar" ? "الأنظمة الأساسية" : "Core systems" },
-        { title: language === "ar" ? "الأنظمة المساعدة" : "Helper Systems", path: "/helper-systems", icon: Settings, description: language === "ar" ? "أنظمة الدعم" : "Support systems" }
+        { title: language === "ar" ? "المنظومات الرئيسية" : "Main Systems", path: "/advanced/systems", icon: Database, description: language === "ar" ? "الأنظمة الأساسية" : "Core systems" },
+        { title: language === "ar" ? "الأنظمة المساعدة" : "Helper Systems", path: "/advanced/helper-systems", icon: Settings, description: language === "ar" ? "أنظمة الدعم" : "Support systems" }
       ]
     }
   };
@@ -300,25 +300,25 @@ export default function SitemapPage() {
               </p>
               
               <div className="flex flex-wrap justify-center gap-4">
-                <Link href="/search">
+                <Link href="/advanced/search">
                   <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-white border-white/20">
                     <Search className="h-5 w-5 mr-2" />
                     {language === "ar" ? "البحث" : "Search"}
                   </Button>
                 </Link>
-                <Link href="/news">
+                <Link href="/advanced/news">
                   <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-white border-white/20">
                     <Newspaper className="h-5 w-5 mr-2" />
                     {language === "ar" ? "الأخبار" : "News"}
                   </Button>
                 </Link>
-                <Link href="/definitions">
+                <Link href="/advanced/definitions">
                   <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-white border-white/20">
                     <BookOpen className="h-5 w-5 mr-2" />
                     {language === "ar" ? "التعريفات" : "Definitions"}
                   </Button>
                 </Link>
-                <Link href="/videos">
+                <Link href="/advanced/videos">
                   <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-white border-white/20">
                     <Play className="h-5 w-5 mr-2" />
                     {language === "ar" ? "الفيديوهات" : "Videos"}
@@ -356,7 +356,7 @@ export default function SitemapPage() {
                         {language === "ar" ? "العودة للرئيسية" : "Back to Home"}
                       </Button>
                     </Link>
-                    <Link href="/search">
+                    <Link href="/advanced/search">
                       <Button variant="outline" className="border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200">
                         <Search className="h-5 w-5 mr-2" />
                         {language === "ar" ? "البحث المتقدم" : "Advanced Search"}

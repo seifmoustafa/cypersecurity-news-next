@@ -16,7 +16,7 @@ export class AwarenessRepositoryImpl implements AwarenessRepository {
       params.append("search", search)
     }
 
-    return this.apiDataSource.get(`/Awareness/currentYear?${params}`)
+    return this.apiDataSource.get(`/advanced/awareness/currentYear?${params}`)
   }
 
   async getAllAwarenessYears(search = "", page = 1, pageSize = 10): Promise<AwarenessYearResponse> {
@@ -29,11 +29,11 @@ export class AwarenessRepositoryImpl implements AwarenessRepository {
       params.append("search", search)
     }
 
-    return this.apiDataSource.get(`/AwarenessYears?${params}`)
+    return this.apiDataSource.get(`/advanced/awarenessYears?${params}`)
   }
 
   async getAwarenessYearById(id: string): Promise<AwarenessYear> {
-    return this.apiDataSource.get(`/AwarenessYears/${id}`)
+    return this.apiDataSource.get(`/advanced/awarenessYears/${id}`)
   }
 
   async getAwarenessByYearId(yearId: string, search = "", page = 1, pageSize = 10): Promise<AwarenessResponse> {
@@ -46,11 +46,11 @@ export class AwarenessRepositoryImpl implements AwarenessRepository {
       params.append("search", search)
     }
 
-    return this.apiDataSource.get(`/Awareness/byYear/${yearId}?${params}`)
+    return this.apiDataSource.get(`/advanced/awareness/byYear/${yearId}?${params}`)
   }
 
   async getAwarenessById(id: string): Promise<Awareness> {
-    return this.apiDataSource.get(`/Awareness/${id}`)
+    return this.apiDataSource.get(`/advanced/awareness/${id}`)
   }
 
   async getAwarenessByYearAndSlug(year: string, slug: string): Promise<Awareness | null> {

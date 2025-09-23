@@ -307,7 +307,7 @@ export default function NewsCarousel() {
                     
                     {/* Enhanced Read More Button */}
                     <Link
-                      href={`/news/${newsSlug}`}
+                      href={`/advanced/news/${newsSlug}`}
                       className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 dark:from-blue-700 dark:to-blue-800 dark:hover:from-blue-800 dark:hover:to-blue-900 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-xl shadow-blue-500/40 dark:shadow-blue-500/50 border border-blue-500/40 dark:border-blue-400/40 backdrop-blur-sm"
                     >
                       {t("common.readMore")}
@@ -551,7 +551,7 @@ export default function NewsCarousel() {
                       {hasValidSummary ? cleanSummary : ""}
                     </p>
                     <Link
-                      href={`/news/${newsSlug}`}
+                      href={`/advanced/news/${newsSlug}`}
                       className="inline-block bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md transition-colors"
                     >
                       {t("common.readMore")}

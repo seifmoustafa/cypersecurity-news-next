@@ -162,7 +162,7 @@ function RegulationCategoryContent({ categoryId, categorySlug }: RegulationCateg
       {regulations.length > 0 && (
         <div className="mt-8 text-center">
           <Link
-            href={`/regulation/category/${categorySlug}`}
+            href={`/advanced/regulation/category/${categorySlug}`}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
           >
             {language === "ar" ? "عرض الكل" : "View All"}
@@ -201,7 +201,7 @@ function RegulationCard({ item, index }: RegulationCardProps) {
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
-      <Link href={`/regulation/${slug}`}>
+      <Link href={`/advanced/regulation/${slug}`}>
         <Card className="overflow-hidden h-[280px] transition-all duration-300 hover:shadow-lg hover:border-primary/50 cursor-pointer border border-blue-200/30 dark:border-blue-800/30 flex flex-col">
           <div className="relative h-32 flex-shrink-0">
             <Image

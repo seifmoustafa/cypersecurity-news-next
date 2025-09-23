@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { ArrowLeft, ArrowRight, BookOpen, Calendar, Tag } from "lucide-react"
-import type { Definition, DefinitionCategory } from "@/core/domain/models/definition"
+import type { Definition, DefinitionCategory } from "@/core/domain/models/advanced/definition"
 
 interface DefinitionPageClientProps {
   definition: Definition
@@ -26,7 +26,7 @@ export default function DefinitionPageClient({ definition, category }: Definitio
 
   const getCategoryUrl = () => {
     if (!category) return "#"
-    return `/definitions/category/${category.id}`
+    return `/advanced/definitions/category/${category.id}`
   }
 
   const formatDate = (dateString: string) => {

@@ -1,5 +1,5 @@
 import type { ArticlesRepository } from "../../domain/repositories/articles-repository"
-import type { Article, ArticleResponse, LatestArticle } from "../../../entities"
+import type { Article, ArticleResponse, LatestArticle } from "../../domain/models/article"
 import type { ApiDataSource } from "../sources/api-data-source"
 import { slugify } from "@/lib/utils"
 
@@ -15,7 +15,7 @@ export class ArticlesRepositoryImpl implements ArticlesRepository {
 
   async getAllArticles(page = 1, pageSize = 10): Promise<Article[]> {
     try {
-      const response = await this.apiDataSource.get<ArticleResponse>(`/Articles?page=${page}&pageSize=${pageSize}`)
+      const response = await this.apiDataSource.get<ArticleResponse>(`/advanced/articles?page=${page}&pageSize=${pageSize}`)
       return this.transformArticlesData(response.data)
     } catch (error) {
       console.error("Error fetching all articles:", error)
@@ -26,7 +26,7 @@ export class ArticlesRepositoryImpl implements ArticlesRepository {
   async getArticleById(id: string): Promise<Article | null> {
     try {
       console.log(`📡 Fetching article by ID: ${id}`)
-      const article = await this.apiDataSource.get<Article>(`/Articles/${id}`)
+      const article = await this.apiDataSource.get<Article>(`/advanced/articles/${id}`)
       console.log(`✅ Successfully fetched article with ID ${id} from API`)
       return this.transformArticleItem(article)
     } catch (error) {
@@ -67,7 +67,7 @@ export class ArticlesRepositoryImpl implements ArticlesRepository {
 
   async getLatestArticles(count = 3): Promise<Article[]> {
     try {
-      const response = await this.apiDataSource.get<LatestArticle[]>("/Articles/last3")
+      const response = await this.apiDataSource.get<LatestArticle[]>("/advanced/articles/last3")
       return response.map((item) => this.transformArticleItem(item))
     } catch (error) {
       console.error("Error fetching latest articles:", error)

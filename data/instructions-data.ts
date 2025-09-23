@@ -45,7 +45,7 @@ export const instructionsData = {
             <li>Conduct regular security assessments and vulnerability scanning at least once per quarter.</li>
           </ol>`,
         },
-        documentUrl: "https://example.com/instructions/group-2023-1.pdf",
+        documentUrl: "https://example.com/advanced/instructions/group-2023-1.pdf",
       },
       {
         id: "2023-2",
@@ -91,7 +91,7 @@ export const instructionsData = {
             <li>Apply a clean desk policy in all work areas.</li>
           </ol>`,
         },
-        documentUrl: "https://example.com/instructions/group-2023-2.pdf",
+        documentUrl: "https://example.com/advanced/instructions/group-2023-2.pdf",
       },
       {
         id: "2023-3",
@@ -137,7 +137,7 @@ export const instructionsData = {
             <li>Specialized training for technical teams on the latest cybersecurity techniques and methods.</li>
           </ol>`,
         },
-        documentUrl: "https://example.com/instructions/group-2023-3.pdf",
+        documentUrl: "https://example.com/advanced/instructions/group-2023-3.pdf",
       },
     ],
     "2022": [
@@ -171,7 +171,7 @@ export const instructionsData = {
             <li>Train employees on cybersecurity basics.</li>
           </ul>`,
         },
-        documentUrl: "https://example.com/instructions/group-2022-1.pdf",
+        documentUrl: "https://example.com/advanced/instructions/group-2022-1.pdf",
       },
       {
         id: "2022-2",
@@ -203,7 +203,7 @@ export const instructionsData = {
             <li>Implement basic controls to mitigate identified risks.</li>
           </ul>`,
         },
-        documentUrl: "https://example.com/instructions/group-2022-2.pdf",
+        documentUrl: "https://example.com/advanced/instructions/group-2022-2.pdf",
       },
     ],
   },
@@ -257,7 +257,7 @@ export const instructionsData = {
             </li>
           </ol>`,
         },
-        documentUrl: "https://example.com/instructions/branch-2023-1.pdf",
+        documentUrl: "https://example.com/advanced/instructions/branch-2023-1.pdf",
       },
       {
         id: "2023-2",
@@ -299,7 +299,7 @@ export const instructionsData = {
             <li>Encrypt sensitive data on all mobile devices</li>
           </ol>`,
         },
-        documentUrl: "https://example.com/instructions/branch-2023-2.pdf",
+        documentUrl: "https://example.com/advanced/instructions/branch-2023-2.pdf",
       },
       {
         id: "2023-3",
@@ -329,7 +329,7 @@ export const instructionsData = {
             <li>Conduct cyber incident simulation exercises in each branch at least once a year.</li>
           </ol>`,
         },
-        documentUrl: "https://example.com/instructions/branch-2023-3.pdf",
+        documentUrl: "https://example.com/advanced/instructions/branch-2023-3.pdf",
       },
     ],
     "2022": [
@@ -363,7 +363,7 @@ export const instructionsData = {
             <li>Immediately report any suspected security incidents to central management.</li>
           </ul>`,
         },
-        documentUrl: "https://example.com/instructions/branch-2022-1.pdf",
+        documentUrl: "https://example.com/advanced/instructions/branch-2022-1.pdf",
       },
       {
         id: "2022-2",
@@ -395,7 +395,7 @@ export const instructionsData = {
             <li>Implement secure procedures for disposing of old data and devices.</li>
           </ul>`,
         },
-        documentUrl: "https://example.com/instructions/branch-2022-2.pdf",
+        documentUrl: "https://example.com/advanced/instructions/branch-2022-2.pdf",
       },
     ],
     "2021": [
@@ -427,7 +427,7 @@ export const instructionsData = {
             <li>Report any suspicious activity.</li>
           </ul>`,
         },
-        documentUrl: "https://example.com/instructions/branch-2021-1.pdf",
+        documentUrl: "https://example.com/advanced/instructions/branch-2021-1.pdf",
       },
       {
         id: "2021-2",
@@ -457,7 +457,7 @@ export const instructionsData = {
             <li>Store sensitive documents in locked cabinets.</li>
           </ul>`,
         },
-        documentUrl: "https://example.com/instructions/branch-2021-2.pdf",
+        documentUrl: "https://example.com/advanced/instructions/branch-2021-2.pdf",
       },
     ],
   },

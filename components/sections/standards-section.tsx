@@ -230,7 +230,7 @@ export default function CybersecurityConceptsSection() {
                         .map((item, index) => {
                           const definitionSlug = slugify(item.termEn || item.term, item.id)
                           return (
-                            <Link href={`/definitions/${definitionSlug}`} key={item.id}>
+                            <Link href={`/advanced/definitions/${definitionSlug}`} key={item.id}>
                               <motion.div
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
@@ -258,7 +258,7 @@ export default function CybersecurityConceptsSection() {
                     </div>
                     <div className="mt-8 text-center">
                       <Link
-                        href={`/definitions/category/${slugify(category.nameEn || category.name, category.id)}`}
+                        href={`/advanced/definitions/category/${slugify(category.nameEn || category.name, category.id)}`}
                         className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
                       >
                         {t("common.viewAll")} {language === "ar" ? category.name : category.nameEn}
@@ -306,7 +306,7 @@ export default function CybersecurityConceptsSection() {
                         .map((item, index) => {
                           const lawSlug = slugify(item.titleEn || item.title, item.id)
                           return (
-                            <Link href={`/laws/${lawSlug}`} key={item.id}>
+                            <Link href={`/advanced/laws/${lawSlug}`} key={item.id}>
                               <motion.div
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
@@ -339,7 +339,7 @@ export default function CybersecurityConceptsSection() {
                     </div>
                     <div className="mt-8 text-center">
                       <Link
-                        href={`/laws/category/${slugify(category.nameEn || category.name, category.id)}`}
+                        href={`/advanced/laws/category/${slugify(category.nameEn || category.name, category.id)}`}
                         className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
                       >
                         {t("common.viewAll")} {language === "ar" ? category.name : category.nameEn}
@@ -381,7 +381,7 @@ export default function CybersecurityConceptsSection() {
                 </p>
                 <div className="flex justify-center">
                   <Link
-                    href="/framework"
+                    href="/advanced/framework"
                     className="
       inline-flex items-center justify-center
       rounded-md bg-blue-500 px-6 py-3
@@ -413,7 +413,7 @@ export default function CybersecurityConceptsSection() {
                 const icon = icons[iconKey] || icons.international
 
                 return (
-                  <Link href={`/standards/${categorySlug}`} key={category.id}>
+                  <Link href={`/advanced/standards/${categorySlug}`} key={category.id}>
                     <motion.div
                       initial={{ opacity: 0, y: 30 }}
                       whileInView={{ opacity: 1, y: 0 }}

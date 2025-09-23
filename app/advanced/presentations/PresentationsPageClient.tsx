@@ -88,7 +88,7 @@ export default function PresentationsPageClient({
       if (page > 1) params.set("page", page.toString())
 
       const queryString = params.toString()
-      const newURL = queryString ? `/presentations?${queryString}` : "/presentations"
+      const newURL = queryString ? `/advanced/presentations?${queryString}` : "/advanced/presentations"
       router.push(newURL, { scroll: false })
     },
     [router],
@@ -238,7 +238,7 @@ export default function PresentationsPageClient({
 
                       <div className="flex gap-2">
                         <Button asChild className="flex-1">
-                          <Link href={`/presentations/${getPresentationSlug(presentation)}`}>
+                          <Link href={`/advanced/presentations/${getPresentationSlug(presentation)}`}>
                             {language === "ar" ? "عرض التفاصيل" : "View Details"}
                           </Link>
                         </Button>

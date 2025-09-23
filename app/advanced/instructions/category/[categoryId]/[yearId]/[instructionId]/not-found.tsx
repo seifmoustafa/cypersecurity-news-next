@@ -22,7 +22,7 @@ export default function InstructionNotFound() {
                 Go Home
               </Button>
             </Link>
-            <Link href="/instructions">
+            <Link href="/advanced/instructions">
               <Button className="gap-2">
                 <FileText className="h-4 w-4" />
                 Browse Instructions

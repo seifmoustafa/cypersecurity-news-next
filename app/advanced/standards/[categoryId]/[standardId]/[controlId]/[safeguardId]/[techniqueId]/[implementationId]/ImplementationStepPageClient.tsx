@@ -140,7 +140,7 @@ export default function ImplementationStepPageClient({
           {/* Header Section */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-6">
-              <Link href={`/standards/${categoryId}/${standardId}/${controlId}/${safeguardId}/${techniqueId}`}>
+              <Link href={`/advanced/standards/${categoryId}/${standardId}/${controlId}/${safeguardId}/${techniqueId}`}>
                 <Button variant="ghost" size="sm" className="gap-2 hover:bg-primary/10">
                   <ChevronLeft className="h-4 w-4" />
                   <span>{language === "ar" ? "رجوع إلى التقنية" : "Back to Technique"}</span>

@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import MainLayout from "@/components/layouts/main-layout"
 import { useLanguage } from "@/components/language-provider"
-import type { News } from "@/entities"
+import type { News } from "@/core/domain/models/news"
 
 interface NewsCategoryPageClientProps {
   category: {
@@ -46,7 +46,7 @@ export default function NewsCategoryPageClient({ category, news }: NewsCategoryP
                 {language === "ar" ? `لا توجد أخبار متاحة حالياً` : `No news available at the moment`}
               </p>
               <Link
-                href="/news"
+                href="/advanced/news"
                 className="inline-block bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-md"
               >
                 {language === "ar" ? "عرض جميع الأخبار" : "View All News"}
@@ -92,7 +92,7 @@ function NewsCard({ item }: { item: News }) {
   const hasValidSummary = cleanSummary && cleanSummary !== "string" && cleanSummary.length > 0
 
   return (
-    <Link href={`/news/${item.id}`} className="group">
+    <Link href={`/advanced/news/${item.id}`} className="group">
       <div className="bg-card border rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg h-full flex flex-col">
         <div className="relative h-48 overflow-hidden">
           <Image

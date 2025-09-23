@@ -1,5 +1,5 @@
 import type { ArticlesRepository } from "../domain/repositories/articles-repository"
-import type { Article } from "../../entities"
+import type { Article } from "../domain/models/article"
 
 export class ArticlesService {
   private repository: ArticlesRepository

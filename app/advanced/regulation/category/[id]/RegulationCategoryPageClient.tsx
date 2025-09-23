@@ -83,7 +83,7 @@ export default function RegulationCategoryPageClient({ categoryId }: RegulationC
             <p className="text-muted-foreground mb-6">
               {error || (language === "ar" ? "لم يتم العثور على الفئة المطلوبة" : "The requested category could not be found")}
             </p>
-            <Link href="/regulation">
+            <Link href="/advanced/regulation">
               <Button>
                 {isRtl ? <ArrowRight className="ml-2 h-4 w-4" /> : <ArrowLeft className="mr-2 h-4 w-4" />}
                 {language === "ar" ? "العودة إلى اللوائح" : "Back to Regulations"}
@@ -122,7 +122,7 @@ export default function RegulationCategoryPageClient({ categoryId }: RegulationC
               {language === "ar" ? `لا توجد لوائح متاحة حالياً` : `No regulations available at the moment`}
             </p>
             <Link
-              href="/regulation"
+              href="/advanced/regulation"
               className="inline-block bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-md"
             >
               {language === "ar" ? "عرض جميع اللوائح" : "View All Regulations"}
@@ -151,7 +151,7 @@ function RegulationCard({ regulation }: { regulation: any }) {
   const hasValidSummary = cleanSummary && cleanSummary !== "string" && cleanSummary.length > 0
 
   return (
-    <Link href={`/regulation/${regulation.id}`} className="group">
+    <Link href={`/advanced/regulation/${regulation.id}`} className="group">
       <div className="bg-card border rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg h-full flex flex-col">
         <div className="p-6 flex-1 flex flex-col">
           <div className="flex items-center gap-2 mb-3">

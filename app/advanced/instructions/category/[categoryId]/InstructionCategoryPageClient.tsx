@@ -110,7 +110,7 @@ export default function InstructionCategoryPageClient({
             {years.map((yearItem, index) => (
               <Link
                 key={yearItem.id}
-                href={`/instructions/category/${categoryId}/${yearItem.id}`}
+                href={`/advanced/instructions/category/${categoryId}/${yearItem.id}`}
                 className="block"
               >
                 <motion.div

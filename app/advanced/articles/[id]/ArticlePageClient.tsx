@@ -35,7 +35,7 @@ export default function ArticlePageClient({ article }: ArticlePageClientProps) {
               {t("nav.home")}
             </Link>
             <span>{isRtl ? "←" : "→"}</span>
-            <Link href="/articles" className="hover:text-primary transition-colors">
+            <Link href="/advanced/articles" className="hover:text-primary transition-colors">
               {t("articles.title")}
             </Link>
             <span>{isRtl ? "←" : "→"}</span>
@@ -45,7 +45,7 @@ export default function ArticlePageClient({ article }: ArticlePageClientProps) {
 
         {/* Back Button */}
         <div className={`mb-8 ${isRtl ? "text-right" : "text-left"}`}>
-          <Link href="/articles">
+          <Link href="/advanced/articles">
             <Button variant="outline" className={`${isRtl ? "flex-row-reverse" : ""}`}>
               {isRtl ? <ChevronRight className="h-4 w-4 mr-2" /> : <ChevronLeft className="h-4 w-4 mr-2" />}
               {t("articles.backToArticles")}
@@ -126,7 +126,7 @@ export default function ArticlePageClient({ article }: ArticlePageClientProps) {
                     </p>
                   )}
                 </div>
-                <Link href="/articles">
+                <Link href="/advanced/articles">
                   <Button variant="outline" size="sm" className={`${isRtl ? "flex-row-reverse" : ""}`}>
                     {isRtl ? <ChevronRight className="h-4 w-4 mr-2" /> : <ChevronLeft className="h-4 w-4 mr-2" />}
                     {t("articles.moreArticles")}

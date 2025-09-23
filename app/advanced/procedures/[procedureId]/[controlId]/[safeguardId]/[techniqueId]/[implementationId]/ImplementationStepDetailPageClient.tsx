@@ -43,7 +43,7 @@ export default function ImplementationStepDetailPageClient({
           {/* Header */}
           <div className="mb-12">
             <div className="flex items-center gap-4 mb-8">
-              <Link href={`/procedures/${procedureId}/${controlId}/${safeguardId}/${techniqueId}`}>
+              <Link href={`/advanced/procedures/${procedureId}/${controlId}/${safeguardId}/${techniqueId}`}>
                 <Button variant="outline" size="sm" className="gap-2 hover:bg-primary/5 transition-colors">
                   <ChevronLeft className="h-4 w-4" />
                   <span>{language === "ar" ? "رجوع إلى التقنية" : "Back to Technique"}</span>

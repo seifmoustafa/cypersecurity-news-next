@@ -101,7 +101,7 @@ export default function AwarenessYearPageClient({ year }: AwarenessYearPageClien
             <p className="text-gray-600 mb-4">
               {language === "ar" ? `لا يمكن العثور على السنة ${year}` : `Cannot find year ${year}`}
             </p>
-            <Link href="/awareness/years">
+            <Link href="/advanced/awareness/years">
               <Button>{language === "ar" ? "عرض جميع السنوات" : "View All Years"}</Button>
             </Link>
           </div>
@@ -115,7 +115,7 @@ export default function AwarenessYearPageClient({ year }: AwarenessYearPageClien
       <div className="container mx-auto px-4 py-8">
         {/* Back Button to Years Page */}
         <div className="mb-6">
-          <Button variant="ghost" onClick={() => router.push("/awareness/years")} className="flex items-center gap-2">
+          <Button variant="ghost" onClick={() => router.push("/advanced/awareness/years")} className="flex items-center gap-2">
             {isRtl ? <ArrowRight className="h-4 w-4" /> : <ArrowLeft className="h-4 w-4" />}
             {language === "ar" ? "العودة للسنوات" : "Back to Years"}
           </Button>
@@ -201,7 +201,7 @@ export default function AwarenessYearPageClient({ year }: AwarenessYearPageClien
 
                       {/* Action Buttons */}
                       <div className="flex gap-2 mt-4">
-                        <Link href={`/awareness/${year}/${getSlug(item)}`} className="flex-1">
+                        <Link href={`/advanced/awareness/${year}/${getSlug(item)}`} className="flex-1">
                           <Button variant="outline" size="sm" className="w-full">
                             {language === "ar" ? "اقرأ المزيد" : "Read More"}
                           </Button>
@@ -255,7 +255,7 @@ export default function AwarenessYearPageClient({ year }: AwarenessYearPageClien
                 ? `لا يوجد محتوى توعية أمنية لعام ${year}`
                 : `No security awareness content for year ${year}`}
             </p>
-            <Link href="/awareness/years" className="mt-4 inline-block">
+            <Link href="/advanced/awareness/years" className="mt-4 inline-block">
               <Button variant="outline">{language === "ar" ? "عرض جميع السنوات" : "View All Years"}</Button>
             </Link>
           </div>

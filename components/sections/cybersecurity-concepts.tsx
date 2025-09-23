@@ -239,7 +239,7 @@ export default function CybersecurityConceptsSection() {
                         .map((item, index) => {
                           const definitionSlug = slugify(item.termEn || item.term, item.id)
                           return (
-                            <Link href={`/definitions/${definitionSlug}`} key={item.id}>
+                            <Link href={`/advanced/definitions/${definitionSlug}`} key={item.id}>
                               <motion.div
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
@@ -285,7 +285,7 @@ export default function CybersecurityConceptsSection() {
                     </div>
                     <div className="mt-12 text-center">
                       <Link
-                        href={`/definitions/category/${slugify(category.nameEn || category.name, category.id)}`}
+                        href={`/advanced/definitions/category/${slugify(category.nameEn || category.name, category.id)}`}
                         className="inline-flex items-center gap-3 justify-center rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 px-8 py-4 text-base font-semibold text-white transition-all duration-300 transform hover:scale-105 shadow-xl shadow-blue-500/30 dark:shadow-blue-500/40 border border-blue-500/30 dark:border-blue-400/30"
                       >
                         {t("common.viewAll")} {language === "ar" ? category.name : category.nameEn}
@@ -336,7 +336,7 @@ export default function CybersecurityConceptsSection() {
                         .map((item, index) => {
                           const lawSlug = slugify(item.titleEn || item.title, item.id)
                           return (
-                            <Link href={`/laws/${lawSlug}`} key={item.id}>
+                            <Link href={`/advanced/laws/${lawSlug}`} key={item.id}>
                               <motion.div
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
@@ -369,7 +369,7 @@ export default function CybersecurityConceptsSection() {
                     </div>
                     <div className="mt-8 text-center">
                       <Link
-                        href={`/laws/category/${slugify(category.nameEn || category.name, category.id)}`}
+                        href={`/advanced/laws/category/${slugify(category.nameEn || category.name, category.id)}`}
                         className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
                       >
                         {t("common.viewAll")} {language === "ar" ? category.name : category.nameEn}
@@ -421,7 +421,7 @@ export default function CybersecurityConceptsSection() {
                 </p>
                 <div className="flex justify-center">
                   <Link
-                    href="/framework"
+                    href="/advanced/framework"
                     className="inline-flex items-center gap-3 justify-center rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 px-10 py-4 text-lg font-semibold text-white transition-all duration-300 transform hover:scale-105 shadow-xl shadow-blue-500/30 dark:shadow-blue-500/40 border border-blue-500/30 dark:border-blue-400/30"
                   >
                     {language === "ar" ? "استكشف" : "Explore"}
@@ -450,7 +450,7 @@ export default function CybersecurityConceptsSection() {
                 const icon = icons[iconKey] || icons.international
 
                 return (
-                  <Link href={`/standards/${categorySlug}`} key={category.id}>
+                  <Link href={`/advanced/standards/${categorySlug}`} key={category.id}>
                     <motion.div
                       initial={{ opacity: 0, y: 30 }}
                       whileInView={{ opacity: 1, y: 0 }}

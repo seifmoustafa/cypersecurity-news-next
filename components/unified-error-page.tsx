@@ -284,7 +284,7 @@ export default function UnifiedErrorPage({
           </div>
           
           {type === 'not-found' && (
-            <Link href="/search" className="block">
+            <Link href="/advanced/regulation" className="block">
               <Button variant="outline" className={`w-full ${isRtl ? "flex-row-reverse" : ""} border ${config.buttonBorder} bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm ${config.buttonHover} rounded-xl transition-all duration-300 font-semibold`}>
                 <Search className="h-4 w-4 mr-2" />
                 {language === "ar" ? "البحث" : "Search"}

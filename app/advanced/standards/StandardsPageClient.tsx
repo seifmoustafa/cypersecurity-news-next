@@ -89,7 +89,7 @@ export default function StandardsPageClient({
                       viewport={{ once: true, margin: "-100px" }}
                       transition={{ duration: 0.5, delay: index * 0.1 }}
                     >
-                      <Link href={`/standards/${categorySlug}`}>
+                      <Link href={`/advanced/standards/${categorySlug}`}>
                         <Card className="h-full hover:shadow-lg transition-all duration-300 cursor-pointer group">
                           <CardHeader className="text-center pb-4">
                             <div className="flex justify-center mb-4">

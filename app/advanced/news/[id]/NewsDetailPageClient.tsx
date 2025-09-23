@@ -6,7 +6,7 @@ import MainLayout from "@/components/layouts/main-layout"
 import { useLanguage } from "@/components/language-provider"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, ArrowRight, Calendar, Tag } from "lucide-react"
-import type { News } from "@/entities"
+import type { News } from "@/core/domain/models/news"
 
 interface NewsDetailPageClientProps {
   news: News
@@ -43,7 +43,7 @@ export default function NewsDetailPageClient({ news }: NewsDetailPageClientProps
         <div className="container mx-auto px-4 max-w-4xl">
           {/* Back button */}
           <div className="mb-6">
-            <Link href="/news">
+            <Link href="/advanced/news">
               <Button variant="outline" size="sm">
                 {isRtl ? <ArrowRight className="ml-2 h-4 w-4" /> : <ArrowLeft className="mr-2 h-4 w-4" />}
                 {language === "ar" ? "العودة إلى الأخبار" : "Back to News"}
@@ -111,7 +111,7 @@ export default function NewsDetailPageClient({ news }: NewsDetailPageClientProps
             {/* Article footer */}
             <footer className="mt-12 pt-8 border-t border-border">
               <div className="flex justify-between items-center">
-                <Link href="/news">
+                <Link href="/advanced/news">
                   <Button variant="outline">
                     {isRtl ? <ArrowRight className="ml-2 h-4 w-4" /> : <ArrowLeft className="mr-2 h-4 w-4" />}
                     {language === "ar" ? "العودة إلى الأخبار" : "Back to News"}

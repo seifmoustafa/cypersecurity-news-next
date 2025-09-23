@@ -67,7 +67,7 @@ export default function PersonalProtectTipsPage() {
       bgColor: "bg-green-50 dark:bg-green-900/20",
       borderColor: "border-green-200 dark:border-green-800",
       count: `${protectionStats.tips}+`,
-      href: "/simple/personal-protect/tips"
+      href: "/simple/advanced/personal-protect/tips"
     },
     {
       id: "tools",
@@ -78,7 +78,7 @@ export default function PersonalProtectTipsPage() {
       bgColor: "bg-blue-50 dark:bg-blue-900/20",
       borderColor: "border-blue-200 dark:border-blue-800",
       count: `${protectionStats.tools}+`,
-      href: "/simple/personal-protect/tools"
+      href: "/simple/advanced/personal-protect/tools"
     },
     {
       id: "guides",
@@ -89,7 +89,7 @@ export default function PersonalProtectTipsPage() {
       bgColor: "bg-purple-50 dark:bg-purple-900/20",
       borderColor: "border-purple-200 dark:border-purple-800",
       count: `${protectionStats.guides}+`,
-      href: "/simple/personal-protect/guides"
+      href: "/simple/advanced/personal-protect/guides"
     },
     {
       id: "community",
@@ -100,7 +100,7 @@ export default function PersonalProtectTipsPage() {
       bgColor: "bg-orange-50 dark:bg-orange-900/20",
       borderColor: "border-orange-200 dark:border-orange-800",
       count: "500+",
-      href: "/simple/personal-protect/community"
+      href: "/simple/advanced/personal-protect/community"
     },
     {
       id: "threats",
@@ -111,7 +111,7 @@ export default function PersonalProtectTipsPage() {
       bgColor: "bg-red-50 dark:bg-red-900/20",
       borderColor: "border-red-200 dark:border-red-800",
       count: `${protectionStats.threats}+`,
-      href: "/simple/personal-protect/threats"
+      href: "/simple/advanced/personal-protect/threats"
     },
     {
       id: "emergency",
@@ -122,7 +122,7 @@ export default function PersonalProtectTipsPage() {
       bgColor: "bg-teal-50 dark:bg-teal-900/20",
       borderColor: "border-teal-200 dark:border-teal-800",
       count: "10+",
-      href: "/simple/personal-protect/emergency"
+      href: "/simple/advanced/personal-protect/emergency"
     }
   ]
 
