@@ -32,23 +32,18 @@ export default function BeginnersMediaPage() {
     videos: 0,
     lectures: 0,
     presentations: 0,
-    news: 0
   })
 
   useEffect(() => {
     const fetchMediaStats = async () => {
       try {
         // Fetch real data from backend services
-        const [newsData, mediaData] = await Promise.all([
-          container.services.news.getAllNews(1, 1), // Just get count
-          container.services.media.getAllMedia(1, 1) // Just get count
-        ])
+        const mediaData = await container.services.media.getAllMedia(1, 100)
         
         setMediaStats({
           videos: mediaData?.filter((item: any) => item.type === 'video').length || 0,
           lectures: mediaData?.filter((item: any) => item.type === 'lecture').length || 0,
           presentations: mediaData?.filter((item: any) => item.type === 'presentation').length || 0,
-          news: newsData?.length || 0
         })
       } catch (error) {
         console.error('Error fetching media stats:', error)
@@ -57,7 +52,6 @@ export default function BeginnersMediaPage() {
           videos: 50,
           lectures: 30,
           presentations: 25,
-          news: 100
         })
       }
     }
@@ -86,7 +80,7 @@ export default function BeginnersMediaPage() {
       bgColor: "bg-blue-50 dark:bg-blue-900/20",
       borderColor: "border-blue-200 dark:border-blue-800",
       count: `${mediaStats.lectures}+`,
-      href: "/simple/advanced/lectures"
+      href: "/simple/lectures"
     },
     {
       id: "presentations",
@@ -97,18 +91,7 @@ export default function BeginnersMediaPage() {
       bgColor: "bg-purple-50 dark:bg-purple-900/20",
       borderColor: "border-purple-200 dark:border-purple-800",
       count: `${mediaStats.presentations}+`,
-      href: "/simple/advanced/presentations"
-    },
-    {
-      id: "news",
-      title: language === "ar" ? "الأخبار والتحديثات" : "News & Updates",
-      description: language === "ar" ? "أحدث الأخبار والتطورات في مجال الأمن السيبراني" : "Latest news and developments in cybersecurity",
-      icon: Newspaper,
-      color: "from-orange-500 to-red-600",
-      bgColor: "bg-orange-50 dark:bg-orange-900/20",
-      borderColor: "border-orange-200 dark:border-orange-800",
-      count: `${mediaStats.news}+`,
-      href: "/simple/advanced/news"
+      href: "/simple/presentations"
     }
   ]
 

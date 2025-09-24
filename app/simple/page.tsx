@@ -31,6 +31,8 @@ import {
   ArrowLeft,
   FileText,
   Send,
+  Lightbulb,
+  Newspaper,
 } from "lucide-react";
 import Link from "next/link";
 import { useLanguage } from "@/components/language-provider";
@@ -58,7 +60,7 @@ export default function BeginnersHome() {
       bgColor:
         "bg-gradient-to-br from-emerald-50/80 to-teal-50/60 dark:from-emerald-900/30 dark:to-teal-900/20",
       borderColor: "border-emerald-300/60 dark:border-emerald-600/40",
-      href: "/simple/advanced/media",
+      href: "/simple/media",
       items: [
         {
           title: t("beginners.cards.media.videos"),
@@ -68,20 +70,42 @@ export default function BeginnersHome() {
         },
         {
           title: t("beginners.cards.media.lectures"),
-          href: "/simple/advanced/lectures",
+          href: "/simple/lectures",
           icon: GraduationCap,
           count: "30+",
         },
         {
           title: t("beginners.cards.media.presentations"),
-          href: "/simple/advanced/presentations",
+          href: "/simple/presentations",
           icon: Presentation,
           count: "25+",
         },
+      ],
+    },
+    {
+      id: "awareness",
+      title: language === "ar" ? "التوعية" : "Awareness",
+      description:
+        language === "ar"
+          ? "الأخبار ومواد التوعية المبسطة"
+          : "News and awareness materials",
+      icon: Lightbulb,
+      color: "from-yellow-400 to-amber-600",
+      bgColor:
+        "bg-gradient-to-br from-yellow-50/80 to-amber-50/60 dark:from-yellow-900/30 dark:to-amber-900/20",
+      borderColor: "border-yellow-300/60 dark:border-yellow-600/40",
+      href: "/simple/awareness",
+      items: [
         {
           title: language === "ar" ? "الأخبار" : "News",
-          href: "/simple/advanced/news",
-          icon: CheckCircle,
+          href: "/advanced/news",
+          icon: Newspaper,
+          count: "",
+        },
+        {
+          title: language === "ar" ? "التوعية" : "Awareness",
+          href: "/advanced/awareness",
+          icon: Lightbulb,
           count: "",
         },
       ],
@@ -145,7 +169,7 @@ export default function BeginnersHome() {
       bgColor:
         "bg-gradient-to-br from-emerald-50/80 to-teal-50/60 dark:from-emerald-900/30 dark:to-teal-900/20",
       borderColor: "border-emerald-300/60 dark:border-emerald-600/40",
-      href: "/simple/advanced/media",
+      href: "/simple/media",
       items: [
         {
           title: t("beginners.cards.media.videos"),
@@ -155,21 +179,15 @@ export default function BeginnersHome() {
         },
         {
           title: t("beginners.cards.media.lectures"),
-          href: "/simple/advanced/lectures",
+          href: "/simple/lectures",
           icon: GraduationCap,
           count: "30+",
         },
         {
           title: t("beginners.cards.media.presentations"),
-          href: "/simple/advanced/presentations",
+          href: "/simple/presentations",
           icon: Presentation,
           count: "25+",
-        },
-        {
-          title: language === "ar" ? "الأخبار" : "News",
-          href: "/simple/advanced/news",
-          icon: CheckCircle,
-          count: "",
         },
       ],
     },
@@ -232,7 +250,7 @@ export default function BeginnersHome() {
       bgColor:
         "bg-gradient-to-br from-emerald-50/80 to-teal-50/60 dark:from-emerald-900/30 dark:to-teal-900/20",
       borderColor: "border-emerald-300/60 dark:border-emerald-600/40",
-      href: "/simple/advanced/media",
+      href: "/simple/media",
       items: [
         {
           title: t("beginners.cards.media.videos"),
@@ -242,21 +260,15 @@ export default function BeginnersHome() {
         },
         {
           title: t("beginners.cards.media.lectures"),
-          href: "/simple/advanced/lectures",
+          href: "/simple/lectures",
           icon: GraduationCap,
           count: "30+",
         },
         {
           title: t("beginners.cards.media.presentations"),
-          href: "/simple/advanced/presentations",
+          href: "/simple/presentations",
           icon: Presentation,
           count: "25+",
-        },
-        {
-          title: language === "ar" ? "الأخبار" : "News",
-          href: "/simple/advanced/news",
-          icon: CheckCircle,
-          count: "",
         },
       ],
     },
@@ -319,7 +331,7 @@ export default function BeginnersHome() {
       bgColor:
         "bg-gradient-to-br from-emerald-50/80 to-teal-50/60 dark:from-emerald-900/30 dark:to-teal-900/20",
       borderColor: "border-emerald-300/60 dark:border-emerald-600/40",
-      href: "/simple/advanced/media",
+      href: "/simple/media",
       items: [
         {
           title: t("beginners.cards.media.videos"),
@@ -329,21 +341,15 @@ export default function BeginnersHome() {
         },
         {
           title: t("beginners.cards.media.lectures"),
-          href: "/simple/advanced/lectures",
+          href: "/simple/lectures",
           icon: GraduationCap,
           count: "30+",
         },
         {
           title: t("beginners.cards.media.presentations"),
-          href: "/simple/advanced/presentations",
+          href: "/simple/presentations",
           icon: Presentation,
           count: "25+",
-        },
-        {
-          title: language === "ar" ? "الأخبار" : "News",
-          href: "/simple/advanced/news",
-          icon: CheckCircle,
-          count: "",
         },
       ],
     },
@@ -417,7 +423,7 @@ export default function BeginnersHome() {
 
         <div className="relative z-10 container mx-auto px-4 pt-24 pb-8">
           {/* Main Interactive Cards */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 max-w-7xl mx-auto items-stretch">
             {mainCards.map((card, index) => {
               const gifPath =
                 card.id === "media"

@@ -1,13 +1,26 @@
 "use client";
 
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "@/components/language-provider";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Shield } from "lucide-react";
 
 export default function HomePage() {
-  const { language, t, isRtl } = useLanguage();
+  const { language, t, isRtl, setLanguage } = useLanguage();
   const router = useRouter();
+
+  // Force Arabic and RTL on this landing page
+  useEffect(() => {
+    if (language !== "ar") {
+      setLanguage("ar");
+    }
+    // Ensure document direction is RTL immediately
+    if (typeof document !== "undefined") {
+      document.documentElement.dir = "rtl";
+      document.documentElement.lang = "ar";
+    }
+  }, []);
 
   const handleSimpleMode = () => {
     router.push("/simple");
@@ -55,13 +68,13 @@ export default function HomePage() {
           <div className="container mx-auto px-4 h-full flex flex-col pb-2">
           {/* Main Title Section - fixed height */}
             <div className="flex-0 h-[25%] pt-2 pb-1 text-center select-none mt-4">
-              <h1 className="text-[clamp(20px,3vw,40px)] font-extrabold leading-[1.1] mb-3 tracking-tight">
+              <h1 className="text-[clamp(28px,4vw,56px)] font-extrabold leading-[1.1] mb-4 tracking-tight" style={{ fontFamily: 'Cairo, sans-serif' }}>
               <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent animate-gradient-x">
                 {t("homepage.title")}
               </span>
             </h1>
 
-            <p className="text-[clamp(10px,1.2vw,14px)] text-white/80 leading-relaxed max-w-3xl mx-auto">
+            <p className="text-[clamp(14px,1.6vw,18px)] text-white/80 leading-relaxed max-w-3xl mx-auto" style={{ fontFamily: 'Cairo, sans-serif' }}>
               {t("homepage.subtitle")}
             </p>
           </div>
@@ -101,17 +114,18 @@ export default function HomePage() {
 
                 {/* Content Section - clean, centered without card */}
                 <div className="relative z-10 h-[42%] flex flex-col items-center text-center">
-                  <h3 className="text-[clamp(18px,2vw,22px)] font-bold text-white mb-3">
+                  <h3 className="text-[clamp(22px,2.5vw,28px)] font-bold text-white mb-3" style={{ fontFamily: 'Cairo, sans-serif' }}>
                     {t("homepage.simpleMode.title")}
                   </h3>
                   <div className="h-1.5 w-20 bg-gradient-to-r from-pink-500 to-orange-500 rounded-full mb-3"></div>
-                  <p className="text-white/70 leading-relaxed mb-3 text-[clamp(11px,1.3vw,13px)] max-w-[36ch]">
+                  <p className="text-white/70 leading-relaxed mb-3 text-[clamp(14px,1.6vw,16px)] max-w-[36ch]" style={{ fontFamily: 'Cairo, sans-serif' }}>
                     {t("homepage.simpleMode.description")}
                   </p>
 
                   <Button
                     onClick={handleSimpleMode}
-                    className="mt-2 w-full bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white py-3 text-base font-semibold rounded-xl transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-pink-500/20 hover:shadow-pink-500/30"
+                    className="mt-2 w-full bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white py-3 text-lg font-semibold rounded-xl transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-pink-500/20 hover:shadow-pink-500/30"
+                    style={{ fontFamily: 'Cairo, sans-serif' }}
                   >
                     {t("homepage.simpleMode.button")}
                     {isRtl ? (
@@ -157,17 +171,18 @@ export default function HomePage() {
 
                 {/* Content Section - clean, centered without card */}
                 <div className="relative z-10 h-[42%] flex flex-col items-center text-center">
-                  <h3 className="text-[clamp(18px,2vw,22px)] font-bold text-white mb-3">
+                  <h3 className="text-[clamp(22px,2.5vw,28px)] font-bold text-white mb-3" style={{ fontFamily: 'Cairo, sans-serif' }}>
                     {t("homepage.advancedMode.title")}
                   </h3>
                   <div className="h-1.5 w-20 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full mb-3"></div>
-                  <p className="text-white/70 leading-relaxed mb-3 text-[clamp(11px,1.3vw,13px)] max-w-[36ch]">
+                  <p className="text-white/70 leading-relaxed mb-3 text-[clamp(14px,1.6vw,16px)] max-w-[36ch]" style={{ fontFamily: 'Cairo, sans-serif' }}>
                     {t("homepage.advancedMode.description")}
                   </p>
 
                   <Button
                     onClick={handleAdvancedMode}
-                    className="mt-2 w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white py-3 text-base font-semibold rounded-xl transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/30"
+                    className="mt-2 w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white py-3 text-lg font-semibold rounded-xl transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/30"
+                    style={{ fontFamily: 'Cairo, sans-serif' }}
                   >
                     {t("homepage.advancedMode.button")}
                     {isRtl ? (
