@@ -3,13 +3,19 @@
 @tailwind utilities;
 
 /* Enhanced Professional Animations */
-@keyframes professional-glow {
-  0%, 100% { 
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3), 0 0 40px rgba(59, 130, 246, 0.1);
+@keyframes gradient-x {
+  0%, 100% {
+    background-size: 200% 200%;
+    background-position: left center;
   }
-  50% { 
-    box-shadow: 0 0 30px rgba(59, 130, 246, 0.5), 0 0 60px rgba(59, 130, 246, 0.2);
+  50% {
+    background-size: 200% 200%;
+    background-position: right center;
   }
+}
+
+.animate-gradient-x {
+  animation: gradient-x 3s ease infinite;
 }
 
 @keyframes professional-pulse {

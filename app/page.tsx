@@ -1,9 +1,9 @@
 "use client";
 
-import HeroCarousel from "@/components/hero-carousel";
+import HomePage from "@/components/home-page";
 
 export default function Entry() {
-  return <HeroCarousel />;
+  return <HomePage />;
 }
 
 

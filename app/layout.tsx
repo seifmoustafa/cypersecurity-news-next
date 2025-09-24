@@ -34,7 +34,7 @@ export default function RootLayout({
           content="أحدث المستجدات والتحليلات حول التهديدات السيبرانية وتقنيات الحماية"
         />
       </head>
-      <body className={`${cairo.variable} ${roboto.variable}`}>
+      <body className={`${cairo.variable} ${roboto.variable} overflow-hidden`}>
         <LanguageProvider>
           <ThemeProvider
             attribute="class"
