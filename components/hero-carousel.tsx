@@ -10,6 +10,7 @@ export default function HeroCarousel() {
   const { language, t } = useLanguage();
   const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const isRtl = language === "ar";
 
   const carouselItems = [
@@ -47,11 +48,12 @@ export default function HeroCarousel() {
 
   // Auto-advance carousel
   useEffect(() => {
+    if (isPaused) return;
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % carouselItems.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, [carouselItems.length]);
+  }, [carouselItems.length, isPaused]);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % carouselItems.length);
@@ -66,12 +68,17 @@ export default function HeroCarousel() {
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      {/* Background geometric shapes */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 right-20 w-32 h-32 bg-blue-500 rotate-45 transform"></div>
-        <div className="absolute bottom-32 left-16 w-24 h-24 bg-purple-500 rotate-12 transform"></div>
-        <div className="absolute top-1/2 right-1/4 w-16 h-16 bg-cyan-500 rotate-45 transform"></div>
+    <div
+      className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      {/* Background glow and shapes */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-32 right-1/3 h-96 w-96 rounded-full bg-pink-500/10 blur-3xl"></div>
+        <div className="absolute -bottom-24 left-1/4 h-[28rem] w-[28rem] rounded-full bg-cyan-400/10 blur-3xl"></div>
+        <div className="absolute top-1/3 right-10 h-32 w-32 rotate-45 rounded-xl bg-blue-500/20"></div>
+        <div className="absolute bottom-1/4 left-10 h-24 w-24 -rotate-12 rounded-xl bg-violet-500/20"></div>
       </div>
 
       {/* Carousel container */}
@@ -87,12 +94,12 @@ export default function HeroCarousel() {
                 : "opacity-0 translate-x-full"
             }`}
           >
-            <div className="flex h-full">
+            <div className="grid h-full grid-cols-1 md:grid-cols-2 items-center md:gap-6 px-6 md:px-10 lg:px-16">
               {/* Content Section */}
-              <div className={`flex-1 flex flex-col justify-center p-12 ${isRtl ? "order-2" : "order-1"}`}>
-                <div className="max-w-2xl">
+              <div className={`flex flex-col justify-center ${isRtl ? "md:order-2" : "md:order-1"}`}>
+                <div className="max-w-3xl backdrop-blur-sm/0">
                   {/* Title with gradient colors */}
-                  <h1 className="text-5xl font-bold leading-tight mb-6">
+                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.15] mb-6 tracking-tight">
                     <span className="text-orange-500">
                       {item.title.split(" ")[0]}
                     </span>
@@ -105,22 +112,22 @@ export default function HeroCarousel() {
                   </h1>
 
                   {/* Description */}
-                  <p className="text-white text-lg leading-relaxed mb-8 max-w-xl">
+                  <p className="text-white/90 text-base sm:text-lg leading-relaxed mb-10 max-w-2xl">
                     {item.description}
                   </p>
 
                   {/* Action Buttons */}
-                  <div className="flex flex-col sm:flex-row gap-4">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <Button
                       onClick={item.primaryAction}
-                      className="bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                      className="bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white px-8 py-4 text-base sm:text-lg font-semibold rounded-xl transition-all duration-300 hover:scale-[1.03] shadow-lg shadow-pink-500/20 hover:shadow-pink-500/30"
                     >
                       {item.primaryButton}
                     </Button>
                     <Button
                       onClick={item.secondaryAction}
                       variant="ghost"
-                      className="text-white hover:text-pink-400 px-8 py-4 text-lg font-semibold transition-all duration-300 flex items-center gap-2"
+                      className="text-white hover:text-pink-400 px-8 py-4 text-base sm:text-lg font-semibold transition-all duration-300 flex items-center gap-2"
                     >
                       {item.secondaryButton}
                       {isRtl ? (
@@ -134,28 +141,28 @@ export default function HeroCarousel() {
               </div>
 
               {/* Image Section */}
-              <div className={`flex-1 flex items-center justify-center p-8 ${isRtl ? "order-1" : "order-2"}`}>
-                <div className="relative">
-                  {/* Laptop mockup */}
-                  <div className="relative w-96 h-64 bg-gray-800 rounded-lg shadow-2xl transform rotate-[-8deg] hover:rotate-[-5deg] transition-transform duration-500">
+              <div className={`flex items-center justify-center ${isRtl ? "md:order-1" : "md:order-2"}`}>
+                <div className="relative group">
+                  {/* Enlarged Laptop mockup */}
+                  <div className="relative w-[22rem] h-[14rem] sm:w-[28rem] sm:h-[18rem] lg:w-[36rem] lg:h-[22rem] bg-gray-800/60 rounded-2xl shadow-2xl ring-1 ring-white/10 transform rotate-[-8deg] group-hover:rotate-[-4deg] transition-transform duration-500 ease-out">
                     {/* Screen */}
-                    <div className="absolute inset-2 bg-white rounded-md overflow-hidden">
+                    <div className="absolute inset-3 sm:inset-4 bg-white rounded-lg overflow-hidden">
                       <img
                         src={item.image}
                         alt={item.title}
                         className="w-full h-full object-cover"
                       />
                       {/* Screen overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
                     </div>
-                    
+
                     {/* Laptop base */}
-                    <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-80 h-2 bg-gray-700 rounded-full"></div>
+                    <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-[80%] h-3 bg-gray-700/70 rounded-full"></div>
                   </div>
 
                   {/* Floating elements */}
-                  <div className="absolute -top-4 -right-4 w-8 h-8 bg-pink-500 rounded-full opacity-80 animate-pulse"></div>
-                  <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-orange-500 rounded-full opacity-80 animate-pulse" style={{ animationDelay: "1s" }}></div>
+                  <div className="absolute -top-6 -right-6 h-8 w-8 rounded-full bg-pink-500/80 blur-[1px] animate-pulse"></div>
+                  <div className="absolute -bottom-6 -left-6 h-6 w-6 rounded-full bg-orange-500/80 blur-[1px] animate-pulse" style={{ animationDelay: "1s" }}></div>
                 </div>
               </div>
             </div>
@@ -166,7 +173,8 @@ export default function HeroCarousel() {
       {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
-        className={`absolute top-1/2 transform -translate-y-1/2 z-10 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all duration-300 ${
+        aria-label={isRtl ? t("common.next") : t("common.previous")}
+        className={`absolute top-1/2 transform -translate-y-1/2 z-10 p-3 sm:p-4 bg-white/10 hover:bg-white/20 rounded-full shadow-lg shadow-black/20 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/50 ${
           isRtl ? "right-4" : "left-4"
         }`}
       >
@@ -178,7 +186,8 @@ export default function HeroCarousel() {
       </button>
       <button
         onClick={nextSlide}
-        className={`absolute top-1/2 transform -translate-y-1/2 z-10 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all duration-300 ${
+        aria-label={isRtl ? t("common.previous") : t("common.next")}
+        className={`absolute top-1/2 transform -translate-y-1/2 z-10 p-3 sm:p-4 bg-white/10 hover:bg-white/20 rounded-full shadow-lg shadow-black/20 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/50 ${
           isRtl ? "left-4" : "right-4"
         }`}
       >
@@ -190,12 +199,15 @@ export default function HeroCarousel() {
       </button>
 
       {/* Dots Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex items-center gap-3">
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex items-center gap-3" role="tablist" aria-label="carousel navigation">
         {carouselItems.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+            role="tab"
+            aria-selected={index === currentSlide}
+            aria-label={`slide ${index + 1}`}
+            className={`w-3 h-3 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/60 ${
               index === currentSlide
                 ? "bg-white scale-125 shadow-lg"
                 : "bg-white/40 hover:bg-white/60"
