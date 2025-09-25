@@ -80,7 +80,7 @@ export default function HomePage() {
           </div>
 
           {/* Mode Selection Area - fills remaining space */}
-            <div className="flex-1 h-[75%] grid grid-cols-1 lg:grid-cols-2 gap-24 lg:gap-32 xl:gap-40 max-w-7xl mx-auto place-items-stretch items-stretch">
+            <div className="flex-1 h-[75%] grid grid-cols-1 lg:grid-cols-2 gap-32 lg:gap-48 xl:gap-56 max-w-7xl mx-auto place-items-stretch items-stretch">
             {/* Simple Mode Card */}
             <div className="group relative h-full">
               <div className="relative h-full px-2">
@@ -88,7 +88,7 @@ export default function HomePage() {
                   <div className="relative mb-8 h-[45%] min-h-[140px]">
                     <div className="relative w-full h-full">
                     {/* Original carousel-style laptop mockup */}
-                    <div className="absolute left-1/2 -translate-x-1/2 w-[130%] h-full bg-gray-800/60 rounded-2xl shadow-2xl ring-1 ring-white/10 transform rotate-[-8deg] group-hover:rotate-[-4deg] transition-transform duration-500 ease-out">
+                    <div className="absolute left-1/2 -translate-x-1/2 w-[130%] h-full bg-gray-800/60 rounded-2xl shadow-2xl ring-1 ring-white/10">
                       {/* Screen */}
                       <div className="absolute inset-3 bg-white rounded-lg overflow-hidden">
                         <img
@@ -103,12 +103,6 @@ export default function HomePage() {
                       <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-[80%] h-3 bg-gray-700/70 rounded-full"></div>
                     </div>
 
-                    {/* Floating elements */}
-                    <div className="absolute -top-6 -right-6 h-8 w-8 rounded-full bg-pink-500/80 blur-[1px] animate-pulse"></div>
-                    <div
-                      className="absolute -bottom-6 -left-6 h-6 w-6 rounded-full bg-orange-500/80 blur-[1px] animate-pulse"
-                      style={{ animationDelay: "1s" }}
-                    ></div>
                   </div>
                 </div>
 
@@ -145,7 +139,7 @@ export default function HomePage() {
                 <div className="relative mb-8 h-[45%] min-h-[140px]">
                     <div className="relative w-full h-full">
                     {/* Original carousel-style laptop mockup */}
-                    <div className="absolute left-1/2 -translate-x-1/2 w-[130%] h-full bg-gray-800/60 rounded-2xl shadow-2xl ring-1 ring-white/10 transform rotate-[8deg] group-hover:rotate-[4deg] transition-transform duration-500 ease-out">
+                    <div className="absolute left-1/2 -translate-x-1/2 w-[130%] h-full bg-gray-800/60 rounded-2xl shadow-2xl ring-1 ring-white/10">
                       {/* Screen */}
                       <div className="absolute inset-3 bg-white rounded-lg overflow-hidden">
                         <img
@@ -160,12 +154,6 @@ export default function HomePage() {
                       <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-[80%] h-3 bg-gray-700/70 rounded-full"></div>
                     </div>
 
-                    {/* Floating elements */}
-                    <div className="absolute -top-6 -right-6 h-8 w-8 rounded-full bg-cyan-500/80 blur-[1px] animate-pulse"></div>
-                    <div
-                      className="absolute -bottom-6 -left-6 h-6 w-6 rounded-full bg-blue-500/80 blur-[1px] animate-pulse"
-                      style={{ animationDelay: "1s" }}
-                    ></div>
                   </div>
                 </div>
 
