@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "@/components/language-provider";
+import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Shield } from "lucide-react";
 
