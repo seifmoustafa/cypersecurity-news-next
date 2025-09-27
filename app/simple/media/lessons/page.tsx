@@ -1,155 +1,94 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { useLanguage } from "@/components/language-provider"
 import { 
   Video, 
-  Play, 
   GraduationCap, 
   Presentation, 
-  Newspaper,
   ArrowRight,
   ArrowLeft,
-  Search,
-  Filter,
-  Grid,
-  List,
-  Download,
-  Share2,
-  Bookmark,
-  Eye,
-  Clock,
-  Star,
-  FileText,
-  BookOpen,
-  Shield
 } from "lucide-react"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { container } from "@/core/di/container"
 import Breadcrumbs from "@/components/breadcrumbs"
+import { useVideoCategories } from "@/core/hooks/use-video-categories"
+import { useLectureCategories } from "@/core/hooks/use-lecture-categories"
+import { usePresentationCategories } from "@/core/hooks/use-presentation-categories"
 
-export default function BeginnersMediaPage() {
+export default function EducationalLessonsPage() {
   const { language, t } = useLanguage()
   const isRtl = language === "ar"
-  const [mediaStats, setMediaStats] = useState({
-    videos: 0,
-    lectures: 0,
-    presentations: 0,
-  })
 
-  useEffect(() => {
-    const fetchMediaStats = async () => {
-      try {
-        // Fetch real data from backend services
-        const mediaData = await container.services.media.getAllMedia(1, 100)
-        
-        setMediaStats({
-          videos: mediaData?.filter((item: any) => item.type === 'video').length || 0,
-          lectures: mediaData?.filter((item: any) => item.type === 'lecture').length || 0,
-          presentations: mediaData?.filter((item: any) => item.type === 'presentation').length || 0,
-        })
-      } catch (error) {
-        console.error('Error fetching media stats:', error)
-        // Fallback to default counts
-        setMediaStats({
-          videos: 50,
-          lectures: 30,
-          presentations: 25,
-        })
-      }
-    }
+  // Fetch categories for each type
+  const { categories: videoCategories } = useVideoCategories(1, 2)
+  const { categories: lectureCategories } = useLectureCategories(1, 2)
+  const { categories: presentationCategories } = usePresentationCategories(1, 2)
 
-    fetchMediaStats()
-  }, [])
-
-  const mediaCategories = [
+  const lessonCategories = [
     {
-      id: "lessons",
-      title: language === "ar" ? "دروس تعليمية" : "Educational Lessons",
-      description: language === "ar" ? "دروس تفاعلية لتعلم أساسيات الأمن السيبراني" : "Interactive lessons to learn cybersecurity fundamentals",
+      id: "videos",
+      title: language === "ar" ? "الفيديوهات التعليمية" : "Educational Videos",
+      description: language === "ar" ? "فيديوهات تفاعلية لتعلم أساسيات الأمن السيبراني" : "Interactive videos to learn cybersecurity fundamentals",
+      icon: Video,
+      color: "from-red-500 to-pink-600",
+      bgColor: "bg-red-50 dark:bg-red-900/20",
+      borderColor: "border-red-200 dark:border-red-800",
+      href: "/simple/media/lessons/videos",
+      imagePath: "/images/beginners/Gemini_Generated_Image_c7ds1sc7ds1sc7ds.png",
+      items: videoCategories.slice(0, 2).map(category => ({
+        title: language === "ar" ? category.name : category.nameEn || category.name,
+        href: `/simple/media/lessons/videos/${category.id}`,
+        icon: Video,
+      })).concat([
+        {
+          title: language === "ar" ? "عرض المزيد" : "Show More",
+          href: "/simple/media/lessons/videos",
+          icon: ArrowRight,
+        }
+      ])
+    },
+    {
+      id: "lectures",
+      title: language === "ar" ? "المحاضرات المتخصصة" : "Specialized Lectures",
+      description: language === "ar" ? "محاضرات مفصلة من خبراء الأمن السيبراني" : "Detailed lectures from cybersecurity experts",
       icon: GraduationCap,
       color: "from-blue-500 to-cyan-600",
       bgColor: "bg-blue-50 dark:bg-blue-900/20",
       borderColor: "border-blue-200 dark:border-blue-800",
-      count: "",
-      href: "/simple/media/lessons",
-      imagePath: "/images/beginners/Gemini_Generated_Image_c7ds1sc7ds1sc7ds.png",
-      items: [
+      href: "/simple/media/lessons/lectures",
+      imagePath: "/images/beginners/Gemini_Generated_Image_2q2d7n2q2d7n2q2d.png",
+      items: lectureCategories.slice(0, 2).map(category => ({
+        title: language === "ar" ? category.name : category.nameEn || category.name,
+        href: `/simple/media/lessons/lectures/${category.id}`,
+        icon: GraduationCap,
+      })).concat([
         {
-          title: language === "ar" ? "الفيديوهات" : "Videos",
-          href: "/simple/media/lessons/videos",
-          icon: Video,
-        },
-        {
-          title: language === "ar" ? "المحاضرات" : "Lectures",
+          title: language === "ar" ? "عرض المزيد" : "Show More",
           href: "/simple/media/lessons/lectures",
-          icon: GraduationCap,
-        },
-        {
-          title: language === "ar" ? "العروض التقديمية" : "Presentations",
-          href: "/simple/media/lessons/presentations",
-          icon: Presentation,
-        },
-      ]
+          icon: ArrowRight,
+        }
+      ])
     },
     {
-      id: "articles",
-      title: language === "ar" ? "مقالات" : "Articles",
-      description: language === "ar" ? "مقالات متخصصة في الأمن السيبراني والتقنيات الحديثة" : "Specialized articles on cybersecurity and modern technologies",
-      icon: FileText,
-      color: "from-green-500 to-emerald-600",
-      bgColor: "bg-green-50 dark:bg-green-900/20",
-      borderColor: "border-green-200 dark:border-green-800",
-      count: "",
-      href: "/simple/media/articles",
-      imagePath: "/images/beginners/Gemini_Generated_Image_dudzufdudzufdudz.png",
-      items: [
-        {
-          title: language === "ar" ? "مقالات تقنية" : "Technical Articles",
-          href: "/simple/media/articles/technical",
-          icon: FileText,
-        },
-        {
-          title: language === "ar" ? "مقالات الأمان" : "Security Articles",
-          href: "/simple/media/articles/security",
-          icon: Shield,
-        },
-        {
-          title: language === "ar" ? "مقالات الأخبار" : "News Articles",
-          href: "/simple/media/articles/news",
-          icon: Newspaper,
-        },
-      ]
-    },
-    {
-      id: "references",
-      title: language === "ar" ? "مراجع" : "References",
-      description: language === "ar" ? "مراجع وموارد شاملة للبحث والتعلم المتقدم" : "Comprehensive references and resources for advanced research and learning",
-      icon: BookOpen,
+      id: "presentations",
+      title: language === "ar" ? "العروض التفاعلية" : "Interactive Presentations",
+      description: language === "ar" ? "عروض تقديمية تفاعلية مع أمثلة عملية" : "Interactive presentations with practical examples",
+      icon: Presentation,
       color: "from-purple-500 to-indigo-600",
       bgColor: "bg-purple-50 dark:bg-purple-900/20",
       borderColor: "border-purple-200 dark:border-purple-800",
-      count: "",
-      href: "/simple/media/references",
-      imagePath: "/images/beginners/Gemini_Generated_Image_ry6ctary6ctary6c.png",
-      items: [
+      href: "/simple/media/lessons/presentations",
+      imagePath: "/images/beginners/Gemini_Generated_Image_ut3c4xut3c4xut3c.png",
+      items: presentationCategories.slice(0, 2).map(category => ({
+        title: language === "ar" ? category.name : category.nameEn || category.name,
+        href: `/simple/media/lessons/presentations/${category.id}`,
+        icon: Presentation,
+      })).concat([
         {
-          title: language === "ar" ? "الكتب المرجعية" : "Reference Books",
-          href: "/simple/media/references/books",
-          icon: BookOpen,
-        },
-        {
-          title: language === "ar" ? "المعايير" : "Standards",
-          href: "/simple/media/references/standards",
-          icon: Shield,
-        },
-        {
-          title: language === "ar" ? "الأدلة" : "Guides",
-          href: "/simple/media/references/guides",
-          icon: FileText,
-        },
-      ]
+          title: language === "ar" ? "عرض المزيد" : "Show More",
+          href: "/simple/media/lessons/presentations",
+          icon: ArrowRight,
+        }
+      ])
     }
   ]
 
@@ -167,14 +106,27 @@ export default function BeginnersMediaPage() {
         {/* Breadcrumbs */}
         <Breadcrumbs 
           items={[
-            { label: language === "ar" ? "المكتبة الثقافية" : "Media Library" }
+            { label: language === "ar" ? "المكتبة الثقافية" : "Media Library", href: "/simple/media" },
+            { label: language === "ar" ? "دروس تعليمية" : "Educational Lessons" }
           ]} 
         />
 
+        {/* Page Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">
+            {language === "ar" ? "دروس تعليمية" : "Educational Lessons"}
+          </h1>
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            {language === "ar" 
+              ? "اكتشف مجموعة شاملة من الدروس التعليمية التفاعلية لتعلم أساسيات الأمن السيبراني" 
+              : "Discover a comprehensive collection of interactive educational lessons to learn cybersecurity fundamentals"
+            }
+          </p>
+        </div>
 
-        {/* Media Categories Grid */}
+        {/* Lesson Categories Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {mediaCategories.map((category, index) => {
+          {lessonCategories.map((category, index) => {
             const IconComponent = category.icon
             return (
               <Link

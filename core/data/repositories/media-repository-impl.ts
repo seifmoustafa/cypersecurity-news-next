@@ -11,6 +11,12 @@ import type {
   LecturesPaginatedResponse,
   ApiPresentation,
   PresentationsPaginatedResponse,
+  VideoCategory,
+  VideoCategoriesResponse,
+  LectureCategory,
+  LectureCategoriesResponse,
+  PresentationCategory,
+  PresentationCategoriesResponse,
 } from "@/core/domain/models/media"
 import type { ApiDataSource } from "@/core/data/sources/api-data-source"
 import { slugify } from "@/lib/utils"
@@ -62,6 +68,7 @@ export class MediaRepositoryImpl implements MediaRepository {
       const transformedData = response.data.map((video) => ({
         ...video,
         videoUrl: video.videoUrl ? `${baseImageUrl}${video.videoUrl}` : video.videoUrl,
+        imageUrl: video.imageUrl ? `${baseImageUrl}${video.imageUrl}` : video.imageUrl,
       }))
 
       return {
@@ -82,9 +89,48 @@ export class MediaRepositoryImpl implements MediaRepository {
     }
   }
 
+  async getVideosByCategory(categoryId: string, page = 1, pageSize = 10, search?: string): Promise<VideosPaginatedResponse> {
+    try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        pageSize: pageSize.toString(),
+      })
+
+      if (search && search.trim()) {
+        params.append("search", search.trim())
+      }
+
+      const response = await this.dataSource.get<VideosPaginatedResponse>(`/Videos/beginners/${categoryId}?${params.toString()}`)
+
+      // Transform video and image URLs to include base URL
+      const baseImageUrl = this.dataSource.getBaseImageUrl()
+      const transformedData = response.data.map((video) => ({
+        ...video,
+        videoUrl: video.videoUrl ? `${baseImageUrl}${video.videoUrl}` : video.videoUrl,
+        imageUrl: video.imageUrl ? `${baseImageUrl}${video.imageUrl}` : video.imageUrl,
+      }))
+
+      return {
+        ...response,
+        data: transformedData,
+      }
+    } catch (error) {
+      console.error("MediaRepository: Error fetching videos by category:", error)
+      return {
+        data: [],
+        pagination: {
+          itemsCount: 0,
+          pagesCount: 0,
+          pageSize: pageSize,
+          currentPage: page,
+        },
+      }
+    }
+  }
+
   async getApiVideoById(id: string): Promise<ApiVideo | null> {
     try {
-      const video = await this.dataSource.get<ApiVideo>(`/advanced/videos/${id}`)
+      const video = await this.dataSource.get<ApiVideo>(`/videos/${id}`)
 
       // Transform video URL to include base URL
       const baseImageUrl = this.dataSource.getBaseImageUrl()
@@ -136,9 +182,47 @@ export class MediaRepositoryImpl implements MediaRepository {
     }
   }
 
+  async getLecturesByCategory(categoryId: string, page = 1, pageSize = 10, search?: string): Promise<LecturesPaginatedResponse> {
+    try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        pageSize: pageSize.toString(),
+      })
+
+      if (search && search.trim()) {
+        params.append("search", search.trim())
+      }
+
+      const response = await this.dataSource.get<LecturesPaginatedResponse>(`/Lectures/beginners/${categoryId}?${params.toString()}`)
+
+      // Transform document URLs to include base URL
+      const baseImageUrl = this.dataSource.getBaseImageUrl()
+      const transformedData = response.data.map((lecture) => ({
+        ...lecture,
+        documentUrl: lecture.documentUrl ? `${baseImageUrl}${lecture.documentUrl}` : lecture.documentUrl,
+      }))
+
+      return {
+        ...response,
+        data: transformedData,
+      }
+    } catch (error) {
+      console.error("MediaRepository: Error fetching lectures by category:", error)
+      return {
+        data: [],
+        pagination: {
+          itemsCount: 0,
+          pagesCount: 0,
+          pageSize: pageSize,
+          currentPage: page,
+        },
+      }
+    }
+  }
+
   async getApiLectureById(id: string): Promise<ApiLecture | null> {
     try {
-      const lecture = await this.dataSource.get<ApiLecture>(`/advanced/lectures/${id}`)
+      const lecture = await this.dataSource.get<ApiLecture>(`/Lectures/${id}`)
 
       // Transform document URL to include base URL
       const baseImageUrl = this.dataSource.getBaseImageUrl()
@@ -217,23 +301,6 @@ export class MediaRepositoryImpl implements MediaRepository {
     }
   }
 
-  async getApiPresentationById(id: string): Promise<ApiPresentation | null> {
-    try {
-      const presentation = await this.dataSource.get<ApiPresentation>(`/advanced/presentations/${id}`)
-
-      // Transform presentation URL to include base URL
-      const baseImageUrl = this.dataSource.getBaseImageUrl()
-      return {
-        ...presentation,
-        presentationUrl: presentation.presentationUrl
-          ? `${baseImageUrl}${presentation.presentationUrl}`
-          : presentation.presentationUrl,
-      }
-    } catch (error) {
-      console.error("MediaRepository: Error fetching presentation by ID:", error)
-      return null
-    }
-  }
 
   async getPresentationBySlug(slug: string): Promise<ApiPresentation | null> {
     try {
@@ -258,6 +325,173 @@ export class MediaRepositoryImpl implements MediaRepository {
       return foundPresentation || null
     } catch (error) {
       console.error("MediaRepository: Error fetching presentation by slug:", error)
+      return null
+    }
+  }
+
+  async getVideoCategories(page = 1, pageSize = 10, search?: string): Promise<VideoCategoriesResponse> {
+    try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        pageSize: pageSize.toString(),
+      })
+
+      if (search && search.trim()) {
+        params.append("search", search.trim())
+      }
+
+      const response = await this.dataSource.get<VideoCategoriesResponse>(`/VideoCategories?${params.toString()}`)
+
+      // Transform image URLs to include base URL
+      const baseImageUrl = this.dataSource.getBaseImageUrl()
+      const transformedData = response.data.map((category) => ({
+        ...category,
+        imageUrl: category.imageUrl ? `${baseImageUrl}${category.imageUrl}` : category.imageUrl,
+      }))
+
+      return {
+        ...response,
+        data: transformedData,
+      }
+    } catch (error) {
+      console.error("MediaRepository: Error fetching video categories:", error)
+      return {
+        data: [],
+        pagination: {
+          itemsCount: 0,
+          pagesCount: 0,
+          pageSize: pageSize,
+          currentPage: page,
+        },
+      }
+    }
+  }
+
+  async getLectureCategories(page = 1, pageSize = 10, search?: string): Promise<LectureCategoriesResponse> {
+    try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        pageSize: pageSize.toString(),
+      })
+
+      if (search && search.trim()) {
+        params.append("search", search.trim())
+      }
+
+      const response = await this.dataSource.get<LectureCategoriesResponse>(`/LectureCategories?${params.toString()}`)
+
+      // Transform image URLs to include base URL
+      const baseImageUrl = this.dataSource.getBaseImageUrl()
+      const transformedData = response.data.map((category) => ({
+        ...category,
+        imageUrl: category.imageUrl ? `${baseImageUrl}${category.imageUrl}` : category.imageUrl,
+      }))
+
+      return {
+        ...response,
+        data: transformedData,
+      }
+    } catch (error) {
+      console.error("MediaRepository: Error fetching lecture categories:", error)
+      return {
+        data: [],
+        pagination: {
+          itemsCount: 0,
+          pagesCount: 0,
+          pageSize: pageSize,
+          currentPage: page,
+        },
+      }
+    }
+  }
+
+  async getPresentationCategories(page = 1, pageSize = 10, search?: string): Promise<PresentationCategoriesResponse> {
+    try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        pageSize: pageSize.toString(),
+      })
+
+      if (search && search.trim()) {
+        params.append("search", search.trim())
+      }
+
+      const response = await this.dataSource.get<PresentationCategoriesResponse>(`/PresentationCategories?${params.toString()}`)
+
+      // Transform image URLs to include base URL
+      const baseImageUrl = this.dataSource.getBaseImageUrl()
+      const transformedData = response.data.map((category) => ({
+        ...category,
+        imageUrl: category.imageUrl ? `${baseImageUrl}${category.imageUrl}` : category.imageUrl,
+      }))
+
+      return {
+        ...response,
+        data: transformedData,
+      }
+    } catch (error) {
+      console.error("MediaRepository: Error fetching presentation categories:", error)
+      return {
+        data: [],
+        pagination: {
+          itemsCount: 0,
+          pagesCount: 0,
+          pageSize: pageSize,
+          currentPage: page,
+        },
+      }
+    }
+  }
+
+  async getPresentationsByCategory(categoryId: string, page = 1, pageSize = 10, search?: string): Promise<PresentationsPaginatedResponse> {
+    try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        pageSize: pageSize.toString(),
+      })
+
+      if (search && search.trim()) {
+        params.append("search", search.trim())
+      }
+
+      const response = await this.dataSource.get<PresentationsPaginatedResponse>(`/Presentations/beginners/${categoryId}?${params.toString()}`)
+
+      // Transform presentation URLs to include base URL
+      const baseImageUrl = this.dataSource.getBaseImageUrl()
+      const transformedData = response.data.map((presentation) => ({
+        ...presentation,
+        presentationUrl: presentation.presentationUrl ? `${baseImageUrl}${presentation.presentationUrl}` : presentation.presentationUrl,
+      }))
+
+      return {
+        ...response,
+        data: transformedData,
+      }
+    } catch (error) {
+      console.error("MediaRepository: Error fetching presentations by category:", error)
+      return {
+        data: [],
+        pagination: {
+          itemsCount: 0,
+          pagesCount: 0,
+          pageSize: pageSize,
+          currentPage: page,
+        },
+      }
+    }
+  }
+
+  async getApiPresentationById(id: string): Promise<ApiPresentation | null> {
+    try {
+      const presentation = await this.dataSource.get<ApiPresentation>(`/Presentations/${id}`)
+      // Transform presentation URL to include base URL
+      const baseImageUrl = this.dataSource.getBaseImageUrl()
+      return {
+        ...presentation,
+        presentationUrl: presentation.presentationUrl ? `${baseImageUrl}${presentation.presentationUrl}` : presentation.presentationUrl,
+      }
+    } catch (error) {
+      console.error("MediaRepository: Error fetching presentation by ID:", error)
       return null
     }
   }

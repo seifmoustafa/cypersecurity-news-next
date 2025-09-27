@@ -9,6 +9,12 @@ import type {
   LecturesPaginatedResponse,
   ApiPresentation,
   PresentationsPaginatedResponse,
+  VideoCategory,
+  VideoCategoriesResponse,
+  LectureCategory,
+  LectureCategoriesResponse,
+  PresentationCategory,
+  PresentationCategoriesResponse,
 } from "@/core/domain/models/media"
 
 export interface MediaRepository {
@@ -17,11 +23,17 @@ export interface MediaRepository {
   getLectureById(id: string): Promise<Lecture | null>
   getPresentationById(id: string): Promise<Presentation | null>
   getVideos(page?: number, pageSize?: number, search?: string): Promise<VideosPaginatedResponse>
+  getVideosByCategory(categoryId: string, page?: number, pageSize?: number, search?: string): Promise<VideosPaginatedResponse>
   getApiVideoById(id: string): Promise<ApiVideo | null>
   getLectures(page?: number, pageSize?: number, search?: string): Promise<LecturesPaginatedResponse>
+  getLecturesByCategory(categoryId: string, page?: number, pageSize?: number, search?: string): Promise<LecturesPaginatedResponse>
   getApiLectureById(id: string): Promise<ApiLecture | null>
   getLectureBySlug(slug: string): Promise<ApiLecture | null>
   getPresentations(page?: number, pageSize?: number, search?: string): Promise<PresentationsPaginatedResponse>
+  getPresentationsByCategory(categoryId: string, page?: number, pageSize?: number, search?: string): Promise<PresentationsPaginatedResponse>
   getApiPresentationById(id: string): Promise<ApiPresentation | null>
   getPresentationBySlug(slug: string): Promise<ApiPresentation | null>
+  getVideoCategories(page?: number, pageSize?: number, search?: string): Promise<VideoCategoriesResponse>
+  getLectureCategories(page?: number, pageSize?: number, search?: string): Promise<LectureCategoriesResponse>
+  getPresentationCategories(page?: number, pageSize?: number, search?: string): Promise<PresentationCategoriesResponse>
 }

@@ -10,6 +10,12 @@ import type {
   LecturesPaginatedResponse,
   ApiPresentation,
   PresentationsPaginatedResponse,
+  VideoCategory,
+  VideoCategoriesResponse,
+  LectureCategory,
+  LectureCategoriesResponse,
+  PresentationCategory,
+  PresentationCategoriesResponse,
 } from "@/core/domain/models/media"
 
 export class MediaService {
@@ -47,6 +53,10 @@ export class MediaService {
     return this.mediaRepository.getVideos(page, pageSize, search)
   }
 
+  async getVideosByCategory(categoryId: string, page = 1, pageSize = 10, search?: string): Promise<VideosPaginatedResponse> {
+    return this.mediaRepository.getVideosByCategory(categoryId, page, pageSize, search)
+  }
+
   async getApiVideoById(id: string): Promise<ApiVideo> {
     const video = await this.mediaRepository.getApiVideoById(id)
     if (!video) {
@@ -57,6 +67,10 @@ export class MediaService {
 
   async getLectures(page = 1, pageSize = 10, search?: string): Promise<LecturesPaginatedResponse> {
     return this.mediaRepository.getLectures(page, pageSize, search)
+  }
+
+  async getLecturesByCategory(categoryId: string, page = 1, pageSize = 10, search?: string): Promise<LecturesPaginatedResponse> {
+    return this.mediaRepository.getLecturesByCategory(categoryId, page, pageSize, search)
   }
 
   async getApiLectureById(id: string): Promise<ApiLecture> {
@@ -93,5 +107,25 @@ export class MediaService {
       throw new Error(`Presentation with slug ${slug} not found`)
     }
     return presentation
+  }
+
+  async getVideoCategories(page = 1, pageSize = 10, search?: string): Promise<VideoCategoriesResponse> {
+    return this.mediaRepository.getVideoCategories(page, pageSize, search)
+  }
+
+  async getLectureCategories(page = 1, pageSize = 10, search?: string): Promise<LectureCategoriesResponse> {
+    return this.mediaRepository.getLectureCategories(page, pageSize, search)
+  }
+
+  async getPresentationCategories(page = 1, pageSize = 10, search?: string): Promise<PresentationCategoriesResponse> {
+    return this.mediaRepository.getPresentationCategories(page, pageSize, search)
+  }
+
+  async getPresentationsByCategory(categoryId: string, page = 1, pageSize = 10, search?: string): Promise<PresentationsPaginatedResponse> {
+    return this.mediaRepository.getPresentationsByCategory(categoryId, page, pageSize, search)
+  }
+
+  async getApiPresentationById(id: string): Promise<ApiPresentation | null> {
+    return this.mediaRepository.getApiPresentationById(id)
   }
 }
