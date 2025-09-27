@@ -14,7 +14,8 @@ export interface Definition {
 export interface DefinitionCategory {
   id: string
   name: string
-  nameEn: string
+  nameEn: string | null
+  imageUrl: string | null
   isActive: boolean
   createdAt: string
   updatedAt: string | null

@@ -70,7 +70,7 @@ export default function YearAwarenessPage({ params }: YearAwarenessPageProps) {
           <Breadcrumbs 
             items={[
               { label: language === "ar" ? "التوعية والأخبار" : "Awareness & News", href: "/simple/awareness" },
-              { label: language === "ar" ? "مواد التوعية" : "Awareness Materials" },
+              { label: language === "ar" ? "نشرات التوعية" : "Awareness Materials" },
               { label: language === "ar" ? "جميع السنوات" : "All Years", href: "/simple/awareness/years" },
               { label: `${year}` }
             ]} 
@@ -105,7 +105,7 @@ export default function YearAwarenessPage({ params }: YearAwarenessPageProps) {
           <Breadcrumbs 
             items={[
               { label: language === "ar" ? "التوعية والأخبار" : "Awareness & News", href: "/simple/awareness" },
-              { label: language === "ar" ? "مواد التوعية" : "Awareness Materials" },
+              { label: language === "ar" ? "نشرات التوعية" : "Awareness Materials" },
               { label: language === "ar" ? "جميع السنوات" : "All Years", href: "/simple/awareness/years" },
               { label: `${year}` }
             ]} 
@@ -120,7 +120,7 @@ export default function YearAwarenessPage({ params }: YearAwarenessPageProps) {
             </h1>
             <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
               {language === "ar" 
-                ? "حدث خطأ أثناء تحميل مواد التوعية لهذه السنة. يرجى المحاولة مرة أخرى."
+                ? "حدث خطأ أثناء تحميل نشرات التوعية لهذه السنة. يرجى المحاولة مرة أخرى."
                 : "An error occurred while loading awareness materials for this year. Please try again."
               }
             </p>
@@ -153,7 +153,7 @@ export default function YearAwarenessPage({ params }: YearAwarenessPageProps) {
         <Breadcrumbs 
           items={[
             { label: language === "ar" ? "التوعية والأخبار" : "Awareness & News", href: "/simple/awareness" },
-            { label: language === "ar" ? "مواد التوعية" : "Awareness Materials" },
+            { label: language === "ar" ? "نشرات التوعية" : "Awareness Materials" },
             { label: language === "ar" ? "جميع السنوات" : "All Years", href: "/simple/awareness/years" },
             { label: `${year}` }
           ]} 
@@ -167,11 +167,11 @@ export default function YearAwarenessPage({ params }: YearAwarenessPageProps) {
             </div>
             <div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                {language === "ar" ? `مواد التوعية لسنة ${year}` : `Awareness Materials for ${year}`}
+                {language === "ar" ? `نشرات التوعية لسنة ${year}` : `Awareness Materials for ${year}`}
               </h1>
               <p className="text-gray-600 dark:text-gray-400 mt-2">
                 {language === "ar" 
-                  ? `تصفح مواد التوعية الأمنية لسنة ${year}`
+                  ? `تصفح نشرات التوعية الأمنية لسنة ${year}`
                   : `Browse cybersecurity awareness materials for ${year}`
                 }
               </p>
@@ -188,7 +188,7 @@ export default function YearAwarenessPage({ params }: YearAwarenessPageProps) {
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder={language === "ar" ? `ابحث في مواد التوعية لسنة ${year}...` : `Search awareness materials for ${year}...`}
+                  placeholder={language === "ar" ? `ابحث في نشرات التوعية لسنة ${year}...` : `Search awareness materials for ${year}...`}
                   className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-yellow-500 outline-none text-gray-900 dark:text-white"
                 />
               </div>
@@ -206,8 +206,8 @@ export default function YearAwarenessPage({ params }: YearAwarenessPageProps) {
               <Lightbulb className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
               <h3 className="text-lg font-medium text-muted-foreground mb-2">
                 {debouncedQuery 
-                  ? (language === "ar" ? "لا توجد مواد تطابق البحث" : "No materials match your search")
-                  : (language === "ar" ? "لا توجد مواد متاحة" : "No materials available")
+                  ? (language === "ar" ? "لا توجد نشرات تطابق البحث" : "No materials match your search")
+                  : (language === "ar" ? "لا توجد نشرات متاحة" : "No materials available")
                 }
               </h3>
               <p className="text-muted-foreground">
@@ -216,7 +216,7 @@ export default function YearAwarenessPage({ params }: YearAwarenessPageProps) {
                       ? "جرب البحث بكلمات مختلفة"
                       : "Try searching with different keywords")
                   : (language === "ar"
-                      ? `لم يتم العثور على أي مواد توعية لسنة ${year}`
+                      ? `لم يتم العثور على أي نشرات توعية لسنة ${year}`
                       : `No awareness materials found for ${year}`)
                 }
               </p>

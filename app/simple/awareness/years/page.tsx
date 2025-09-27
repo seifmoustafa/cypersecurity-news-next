@@ -40,7 +40,7 @@ export default function AwarenessYearsPage() {
           <Breadcrumbs 
             items={[
               { label: language === "ar" ? "التوعية والأخبار" : "Awareness & News", href: "/simple/awareness" },
-              { label: language === "ar" ? "مواد التوعية" : "Awareness Materials" }
+              { label: language === "ar" ? "نشرات التوعية" : "Awareness Materials" }
             ]} 
           />
 
@@ -67,7 +67,7 @@ export default function AwarenessYearsPage() {
           <Breadcrumbs 
             items={[
               { label: language === "ar" ? "التوعية والأخبار" : "Awareness & News", href: "/simple/awareness" },
-              { label: language === "ar" ? "مواد التوعية" : "Awareness Materials" }
+              { label: language === "ar" ? "نشرات التوعية" : "Awareness Materials" }
             ]} 
           />
 
@@ -91,11 +91,11 @@ export default function AwarenessYearsPage() {
               {isRtl ? (
                 <>
                   <ArrowLeft className="h-5 w-5" />
-                  {language === "ar" ? "العودة إلى مواد التوعية" : "Back to Awareness Materials"}
+                  {language === "ar" ? "العودة إلى نشرات التوعية" : "Back to Awareness Materials"}
                 </>
               ) : (
                 <>
-                  {language === "ar" ? "العودة إلى مواد التوعية" : "Back to Awareness Materials"}
+                  {language === "ar" ? "العودة إلى نشرات التوعية" : "Back to Awareness Bulletins"}
                   <ArrowRight className="h-5 w-5" />
                 </>
               )}
@@ -113,7 +113,7 @@ export default function AwarenessYearsPage() {
         <Breadcrumbs 
           items={[
             { label: language === "ar" ? "التوعية والأخبار" : "Awareness & News", href: "/simple/awareness" },
-            { label: language === "ar" ? "مواد التوعية" : "Awareness Materials" }
+            { label: language === "ar" ? "نشرات التوعية" : "Awareness Bulletins" }
           ]} 
         />
 
@@ -125,11 +125,11 @@ export default function AwarenessYearsPage() {
             </div>
             <div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                {language === "ar" ? "مواد التوعية حسب السنوات" : "Awareness Materials by Years"}
+                {language === "ar" ? "نشرات التوعية حسب السنوات" : "Awareness Bulletins by Years"}
               </h1>
               <p className="text-gray-600 dark:text-gray-400 mt-2">
                 {language === "ar" 
-                  ? "تصفح مواد التوعية الأمنية حسب السنة"
+                  ? "تصفح نشرات التوعية الأمنية حسب السنة"
                   : "Browse cybersecurity awareness materials by year"
                 }
               </p>
@@ -159,15 +159,15 @@ export default function AwarenessYearsPage() {
                       {year.year}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400 text-sm">
-                      {language === "ar" ? "سنة التوعية" : "Awareness Year"}
+                      {language === "ar" ? "سنة النشرات" : "Awareness Year"}
                     </p>
                   </div>
 
                   {/* Action */}
                   <div className="flex items-center justify-between pt-2">
                     <span className="text-sm font-medium text-yellow-600 dark:text-yellow-400 group-hover:text-yellow-700 dark:group-hover:text-yellow-300 transition-colors duration-300">
-                      {language === "ar" ? "عرض المواد" : "View Materials"}
-                    </span>
+                      {language === "ar" ? "عرض النشرات" : "View Bulletins"}
+                      </span>
                     {isRtl ? (
                       <ArrowLeft className="h-5 w-5 text-yellow-600 dark:text-yellow-400 group-hover:-translate-x-1 transition-transform duration-300" />
                     ) : (

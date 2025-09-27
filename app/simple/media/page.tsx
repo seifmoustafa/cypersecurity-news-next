@@ -110,7 +110,7 @@ export default function BeginnersMediaPage() {
         {/* Breadcrumbs */}
         <Breadcrumbs 
           items={[
-            { label: language === "ar" ? "المكتبة الإعلامية" : "Media Library" }
+            { label: language === "ar" ? "المكتبة الثقافية" : "Media Library" }
           ]} 
         />
 

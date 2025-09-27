@@ -28,7 +28,7 @@ export default function SimpleFooter() {
   // Sectioned sitemap like previous style but showing only actual pages
   const footerSections = [
     {
-      title: language === "ar" ? "المكتبة الإعلامية" : "Media",
+      title: language === "ar" ? "المكتبة الثقافية" : "Media",
       icon: Video,
       color: "text-green-400",
       bgColor: "bg-green-400/10",

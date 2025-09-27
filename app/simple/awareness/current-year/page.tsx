@@ -25,7 +25,7 @@ export default function CurrentYearAwarenessPage() {
           <Breadcrumbs 
             items={[
               { label: language === "ar" ? "التوعية والأخبار" : "Awareness & News", href: "/simple/awareness" },
-              { label: language === "ar" ? "مواد التوعية" : "Awareness Materials" },
+              { label: language === "ar" ? "نشرات التوعية" : "Awareness Materials" },
               { label: language === "ar" ? "العام الحالي" : "Current Year" }
             ]} 
           />
@@ -59,7 +59,7 @@ export default function CurrentYearAwarenessPage() {
           <Breadcrumbs 
             items={[
               { label: language === "ar" ? "التوعية والأخبار" : "Awareness & News", href: "/simple/awareness" },
-              { label: language === "ar" ? "مواد التوعية" : "Awareness Materials" },
+              { label: language === "ar" ? "نشرات التوعية" : "Awareness Materials" },
               { label: language === "ar" ? "العام الحالي" : "Current Year" }
             ]} 
           />
@@ -69,12 +69,12 @@ export default function CurrentYearAwarenessPage() {
               <Lightbulb className="h-12 w-12 text-red-600 dark:text-red-400" />
             </div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              {language === "ar" ? "خطأ في تحميل المواد" : "Error Loading Materials"}
+              {language === "ar" ? "خطأ في تحميل النشرات" : "Error Loading Materials"}
             </h1>
             <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
               {language === "ar" 
-                ? "حدث خطأ أثناء تحميل مواد التوعية. يرجى المحاولة مرة أخرى."
-                : "An error occurred while loading awareness materials. Please try again."
+                  ? "حدث خطأ أثناء تحميل نشرات التوعية. يرجى المحاولة مرة أخرى."
+                : "An error occurred while loading awareness bulletins. Please try again."
               }
             </p>
             <Link 
@@ -84,11 +84,11 @@ export default function CurrentYearAwarenessPage() {
               {isRtl ? (
                 <>
                   <ArrowLeft className="h-5 w-5" />
-                  {language === "ar" ? "العودة إلى مواد التوعية" : "Back to Awareness Materials"}
+                  {language === "ar" ? "العودة إلى نشرات التوعية" : "Back to Awareness Bulletins"}
                 </>
               ) : (
                 <>
-                  {language === "ar" ? "العودة إلى مواد التوعية" : "Back to Awareness Materials"}
+                  {language === "ar" ? "العودة إلى نشرات التوعية" : "Back to Awareness Materials"}
                   <ArrowRight className="h-5 w-5" />
                 </>
               )}
@@ -106,7 +106,7 @@ export default function CurrentYearAwarenessPage() {
         <Breadcrumbs 
           items={[
             { label: language === "ar" ? "التوعية والأخبار" : "Awareness & News", href: "/simple/awareness" },
-            { label: language === "ar" ? "مواد التوعية" : "Awareness Materials" },
+            { label: language === "ar" ? "نشرات التوعية" : "Awareness Materials" },
             { label: language === "ar" ? "العام الحالي" : "Current Year" }
           ]} 
         />
@@ -119,11 +119,11 @@ export default function CurrentYearAwarenessPage() {
             </div>
             <div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                {language === "ar" ? "مواد التوعية للعام الحالي" : "Current Year Awareness Materials"}
+                  {language === "ar" ? "نشرات التوعية للعام الحالي" : "Current Year Awareness Materials"}
               </h1>
               <p className="text-gray-600 dark:text-gray-400 mt-2">
                 {language === "ar" 
-                  ? "تصفح أحدث مواد التوعية الأمنية"
+                  ? "تصفح أحدث نشرات التوعية الأمنية"
                   : "Browse the latest cybersecurity awareness materials"
                 }
               </p>
@@ -140,7 +140,7 @@ export default function CurrentYearAwarenessPage() {
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder={language === "ar" ? "ابحث في مواد التوعية..." : "Search awareness materials..."}
+                  placeholder={language === "ar" ? "ابحث في نشرات التوعية..." : "Search awareness materials..."}
                   className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-yellow-500 outline-none text-gray-900 dark:text-white"
                 />
               </div>
@@ -158,8 +158,8 @@ export default function CurrentYearAwarenessPage() {
               <Lightbulb className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
               <h3 className="text-lg font-medium text-muted-foreground mb-2">
                 {debouncedQuery 
-                  ? (language === "ar" ? "لا توجد مواد تطابق البحث" : "No materials match your search")
-                  : (language === "ar" ? "لا توجد مواد متاحة" : "No materials available")
+                  ? (language === "ar" ? "لا توجد نشرات تطابق البحث" : "No materials match your search")
+                  : (language === "ar" ? "لا توجد نشرات متاحة" : "No materials available")
                 }
               </h3>
               <p className="text-muted-foreground">
@@ -168,7 +168,7 @@ export default function CurrentYearAwarenessPage() {
                       ? "جرب البحث بكلمات مختلفة"
                       : "Try searching with different keywords")
                   : (language === "ar"
-                      ? "لم يتم العثور على أي مواد توعية"
+                      ? "لم يتم العثور على أي نشرات توعية"
                       : "No awareness materials found")
                 }
               </p>

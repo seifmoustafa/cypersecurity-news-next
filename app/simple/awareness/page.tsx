@@ -74,8 +74,8 @@ export default function SimpleAwarenessPage() {
     },
     {
       id: "awareness",
-      title: language === "ar" ? "مواد التوعية" : "Awareness Materials",
-      description: language === "ar" ? "مواد توعوية مبسطة حسب السنوات" : "Awareness materials by year",
+      title: language === "ar" ? "نشرات التوعية" : "Awareness Materials",
+      description: language === "ar" ? "نشرات توعوية مبسطة حسب السنوات" : "Awareness materials by year",
       icon: Lightbulb,
       color: "from-yellow-400 to-amber-600",
       bgColor: "bg-gradient-to-br from-yellow-50/80 to-amber-50/60 dark:from-yellow-900/30 dark:to-amber-900/20",
@@ -106,7 +106,7 @@ export default function SimpleAwarenessPage() {
           ])
         : [
             {
-              title: language === "ar" ? "مواد التوعية للعام الحالي" : "Current Year Materials",
+              title: language === "ar" ? "نشرات التوعية للعام الحالي" : "Current Year Materials",
               href: "/simple/awareness/current-year",
               icon: Lightbulb,
               count: "",

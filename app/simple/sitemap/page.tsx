@@ -381,7 +381,7 @@ export default function BeginnersSitemapPage() {
             >
               <Video className="h-5 w-5 text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform duration-300" />
               <span className="font-medium text-gray-900 dark:text-white">
-                {language === "ar" ? "المكتبة الإعلامية" : "Media"}
+                {language === "ar" ? "المكتبة الثقافية" : "Media"}
               </span>
             </Link>
             

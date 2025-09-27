@@ -10,9 +10,12 @@ import { slugify } from "../../../lib/utils"
 
 export class DefinitionsRepositoryImpl implements DefinitionsRepository {
   private dataSource: ApiDataSource
+  private baseImageUrl: string
 
   constructor(dataSource: ApiDataSource) {
     this.dataSource = dataSource
+    // Remove "/api" from the base URL for image URLs (same as news images)
+    this.baseImageUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.replace("/api", "") || ""
   }
 
   async getAllDefinitions(): Promise<Definition[]> {
@@ -35,7 +38,7 @@ export class DefinitionsRepositoryImpl implements DefinitionsRepository {
 
   async getDefinitionById(id: string): Promise<Definition | null> {
     try {
-      const definition = await this.dataSource.get<Definition>(`/advanced/definitions/${id}`)
+      const definition = await this.dataSource.get<Definition>(`/Definitions/${id}`)
       return definition
     } catch (error) {
       console.error(`Error fetching definition ${id}:`, error)
@@ -43,10 +46,19 @@ export class DefinitionsRepositoryImpl implements DefinitionsRepository {
     }
   }
 
-  async getDefinitionsByCategory(categoryId: string, page = 1, pageSize = 10): Promise<DefinitionsPaginatedResponse> {
+  async getDefinitionsByCategory(categoryId: string, page = 1, pageSize = 10, search?: string): Promise<DefinitionsPaginatedResponse> {
     try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        pageSize: pageSize.toString(),
+      })
+
+      if (search) {
+        params.append("search", search)
+      }
+
       const response = await this.dataSource.get<DefinitionsPaginatedResponse>(
-        `/advanced/definitions/by-category/${categoryId}?page=${page}&pageSize=${pageSize}`,
+        `/Definitions/beginners/${categoryId}?${params}`,
       )
       return response
     } catch (error) {
@@ -73,12 +85,25 @@ export class DefinitionsRepositoryImpl implements DefinitionsRepository {
     }
   }
 
-  async getAllCategories(page = 1, pageSize = 10): Promise<DefinitionCategoriesPaginatedResponse> {
+  async getAllCategories(page = 1, pageSize = 10, search?: string): Promise<DefinitionCategoriesPaginatedResponse> {
     try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        pageSize: pageSize.toString(),
+      })
+
+      if (search) {
+        params.append("search", search)
+      }
+
       const response = await this.dataSource.get<DefinitionCategoriesPaginatedResponse>(
-        `/advanced/definitionCategories?page=${page}&pageSize=${pageSize}`,
+        `/DefinitionCategories?${params}`,
       )
-      return response
+      
+      return {
+        ...response,
+        data: response.data.map(category => this.transformDefinitionCategory(category))
+      }
     } catch (error) {
       console.error("Error fetching definition categories:", error)
       return {
@@ -90,6 +115,14 @@ export class DefinitionsRepositoryImpl implements DefinitionsRepository {
           currentPage: page,
         },
       }
+    }
+  }
+
+  private transformDefinitionCategory(category: DefinitionCategory): DefinitionCategory {
+    return {
+      ...category,
+      // Add full image URL if imageUrl exists
+      imageUrl: category.imageUrl ? `${this.baseImageUrl}${category.imageUrl}` : null,
     }
   }
 

@@ -24,9 +24,10 @@ export class DefinitionsService {
   async getDefinitionsByCategory(
     categoryId: string,
     page = 1,
-    pageSize = 10
+    pageSize = 10,
+    search?: string
   ): Promise<DefinitionsPaginatedResponse> {
-    return this.repository.getDefinitionsByCategory(categoryId, page, pageSize);
+    return this.repository.getDefinitionsByCategory(categoryId, page, pageSize, search);
   }
 
   async getCategories(): Promise<string[]> {
@@ -35,9 +36,10 @@ export class DefinitionsService {
 
   async getAllCategories(
     page = 1,
-    pageSize = 10
+    pageSize = 10,
+    search?: string
   ): Promise<DefinitionCategoriesPaginatedResponse> {
-    return this.repository.getAllCategories(page, pageSize);
+    return this.repository.getAllCategories(page, pageSize, search);
   }
 
   async getCategoryById(id: string): Promise<DefinitionCategory | null> {
