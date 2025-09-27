@@ -32,6 +32,19 @@ export interface LatestNews {
   id: string
   title: string
   titleEn: string | null
+  content: string
+  contentEn: string | null
+  summary: string | null
+  summaryEn: string | null
+  imageUrl: string | null
+  date: string
+  tags: string[]
+  forBeginners: boolean
+  forProfessionals: boolean
+  categoryId: string
+  isActive: boolean
+  createdAt: string
+  updatedAt: string | null
 }
 
 export interface NewsCategory {

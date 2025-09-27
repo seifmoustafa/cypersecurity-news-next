@@ -86,7 +86,7 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
     
     // If switching to advanced mode, redirect to main layout
     if (!newMode) {
-      window.location.href = "/"
+      window.location.href = "/advanced"
     }
   }
 

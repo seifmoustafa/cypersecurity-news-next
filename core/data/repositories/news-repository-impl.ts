@@ -115,7 +115,7 @@ export class NewsRepositoryImpl implements NewsRepository {
 
   async getLatestNews(count = 5): Promise<News[]> {
     try {
-      const response = await this.apiDataSource.get<LatestNews[]>("/advanced/news/last5")
+      const response = await this.apiDataSource.get<LatestNews[]>("/News/last5")
       return response.map((item) => this.transformLatestNewsItem(item))
     } catch (error) {
       console.error("Error fetching latest news:", error)
@@ -174,17 +174,17 @@ export class NewsRepositoryImpl implements NewsRepository {
       id: item.id,
       title: item.title,
       titleEn: item.titleEn,
-      content: "",
-      contentEn: null,
-      summary: null,
-      summaryEn: null,
+      content: item.content || "",
+      contentEn: item.contentEn,
+      summary: item.summary,
+      summaryEn: item.summaryEn,
       // Apply the same image URL transformation
       imageUrl: item.imageUrl ? `${this.baseImageUrl}${item.imageUrl}` : null,
       date: item.date || item.createdAt || new Date().toISOString(),
-      tags: [],
-      isActive: true,
+      tags: item.tags || [],
+      isActive: item.isActive !== undefined ? item.isActive : true,
       createdAt: item.createdAt || new Date().toISOString(),
-      updatedAt: null,
+      updatedAt: item.updatedAt,
       featured: true,
       category: "latest",
     }
