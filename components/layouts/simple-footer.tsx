@@ -103,7 +103,7 @@ export default function SimpleFooter() {
     },
     {
       title: language === "ar" ? "خريطة الموقع" : "Site Map",
-      href: "/simple/advanced/sitemap",
+      href: "/simple/sitemap",
       icon: Map,
     },
   ];

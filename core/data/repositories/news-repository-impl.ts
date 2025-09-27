@@ -19,7 +19,7 @@ export class NewsRepositoryImpl implements NewsRepository {
         return this.newsCache
       }
 
-      const response = await this.apiDataSource.get<NewsResponse>("/advanced/news/byCategory?page=1&pageSize=100")
+      const response = await this.apiDataSource.get<NewsResponse>("/news/byCategory?page=1&pageSize=100")
       this.newsCache = this.transformNewsData(response.data)
       return this.newsCache
     } catch (error) {
@@ -41,7 +41,7 @@ export class NewsRepositoryImpl implements NewsRepository {
       }
 
       // Call the specific API endpoint for a single news item
-      const newsItem = await this.apiDataSource.get<News>(`/advanced/news/${id}`)
+      const newsItem = await this.apiDataSource.get<News>(`/News/${id}`)
       console.log(`✅ Successfully fetched news with ID ${id} from API`)
       return this.transformNewsItem(newsItem)
     } catch (error) {
@@ -80,16 +80,24 @@ export class NewsRepositoryImpl implements NewsRepository {
     }
   }
 
-  async getNewsByCategory(categoryId: string | null, page = 1, pageSize = 100): Promise<News[]> {
+  async getNewsByCategory(categoryId: string | null, page = 1, pageSize = 100, search?: string): Promise<News[]> {
     try {
-      let endpoint = `/advanced/news/byCategory?page=${page}&pageSize=${pageSize}`
-
-      // Only add categoryId if it's not null and not empty
+      let endpoint: string
+      
       if (categoryId && categoryId !== "all" && categoryId.trim() !== "") {
         console.log(`🔍 Fetching news for specific category ID: "${categoryId}"`)
-        endpoint += `&categoryId=${encodeURIComponent(categoryId)}`
+        endpoint = `/News/beginners/${categoryId}?page=${page}&pageSize=${pageSize}`
+        
+        if (search && search.trim()) {
+          endpoint += `&search=${encodeURIComponent(search.trim())}`
+        }
       } else {
         console.log("🔍 Fetching ALL news (no category filter)")
+        endpoint = `/news/byCategory?page=${page}&pageSize=${pageSize}`
+        
+        if (search && search.trim()) {
+          endpoint += `&search=${encodeURIComponent(search.trim())}`
+        }
       }
 
       console.log(`📡 API endpoint: ${endpoint}`)
@@ -125,12 +133,19 @@ export class NewsRepositoryImpl implements NewsRepository {
     }
   }
 
-  async getNewsCategories(page = 1, pageSize = 10): Promise<NewsCategory[]> {
+  async getNewsCategories(page = 1, pageSize = 10, search?: string): Promise<NewsCategoriesResponse> {
     try {
-      const response = await this.apiDataSource.get<NewsCategoriesResponse>(
-        `/NewsCategories?page=${page}&pageSize=${pageSize}`,
-      )
-      return response.data
+      let endpoint = `/NewsCategories?page=${page}&pageSize=${pageSize}`
+      
+      if (search && search.trim()) {
+        endpoint += `&search=${encodeURIComponent(search.trim())}`
+      }
+      
+      const response = await this.apiDataSource.get<NewsCategoriesResponse>(endpoint)
+      return {
+        ...response,
+        data: response.data.map(category => this.transformNewsCategory(category))
+      }
     } catch (error) {
       console.error("Error fetching news categories:", error)
       throw error
@@ -172,6 +187,14 @@ export class NewsRepositoryImpl implements NewsRepository {
       updatedAt: null,
       featured: true,
       category: "latest",
+    }
+  }
+
+  private transformNewsCategory(category: NewsCategory): NewsCategory {
+    return {
+      ...category,
+      // Transform image URL to full URL for simple pages only
+      imageUrl: category.imageUrl ? `${this.baseImageUrl}${category.imageUrl}` : null,
     }
   }
 }

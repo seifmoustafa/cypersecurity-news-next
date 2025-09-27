@@ -33,13 +33,26 @@ export default function RootLayout({
           name="description"
           content="أحدث المستجدات والتحليلات حول التهديدات السيبرانية وتقنيات الحماية"
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (localStorage.getItem('theme-preference') === 'light' || 
+                    (!localStorage.getItem('theme-preference') && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+                  localStorage.setItem('theme-preference', 'dark');
+                }
+                document.documentElement.classList.add('dark');
+              } catch (e) {}
+            `,
+          }}
+        />
       </head>
-      <body className={`${cairo.variable} ${roboto.variable} overflow-hidden`}>
+      <body className={`${cairo.variable} ${roboto.variable}`}>
         <LanguageProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
-            enableSystem
+            enableSystem={false}
             disableTransitionOnChange
           >
             <ErrorBoundary>

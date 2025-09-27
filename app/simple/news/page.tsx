@@ -5,6 +5,7 @@ import { getAllNews } from "@/data/news-data"
 import { Newspaper, Search, Calendar, ArrowRight, ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { useMemo, useState } from "react"
+import Breadcrumbs from "@/components/breadcrumbs"
 
 export default function BeginnersNewsPage() {
   const { language, t } = useLanguage()
@@ -28,22 +29,15 @@ export default function BeginnersNewsPage() {
         <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_25%,rgba(34,197,94,0.05)_50%,transparent_75%)] bg-[length:40px_40px]"></div>
       </div>
 
-      <div className="relative z-10 bg-gradient-to-r from-slate-900 via-gray-900 to-slate-800 text-white py-20">
-        <div className="container mx-auto px-4 text-center">
-          <div className="inline-flex items-center justify-center mb-8">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl blur-lg opacity-30"/>
-              <div className="relative bg-gradient-to-r from-green-500 to-blue-500 p-4 rounded-xl">
-                <Newspaper className="h-8 w-8 text-white" />
-              </div>
-            </div>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{t("news.title")}</h1>
-          <p className="text-xl text-slate-300 max-w-3xl mx-auto">{t("news.subtitle")}</p>
-        </div>
-      </div>
+      <div className="relative z-10 container mx-auto px-4 pt-24 pb-8">
+        {/* Breadcrumbs */}
+        <Breadcrumbs 
+          items={[
+            { label: language === "ar" ? "التوعية والأخبار" : "Awareness & News", href: "/simple/awareness" },
+            { label: language === "ar" ? "الأخبار" : "News" }
+          ]} 
+        />
 
-      <div className="relative z-10 container mx-auto px-4 py-12">
         {/* Search Section */}
         <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8">
           <div className="flex items-center gap-4">
@@ -62,32 +56,6 @@ export default function BeginnersNewsPage() {
           </div>
         </div>
 
-        {/* Stats Section */}
-        <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="bg-gradient-to-r from-orange-500 to-red-600 p-3 rounded-xl">
-                <Newspaper className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                  {language === "ar" ? "إجمالي الأخبار" : "Total News"}
-                </h2>
-                <p className="text-gray-600 dark:text-gray-300">
-                  {filtered.length} {language === "ar" ? "خبر" : "articles"}
-                </p>
-              </div>
-            </div>
-            <div className="text-right">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                {language === "ar" ? "آخر تحديث" : "Last updated"}
-              </p>
-              <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                {new Date().toLocaleDateString()}
-              </p>
-            </div>
-          </div>
-        </div>
 
         {/* News Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

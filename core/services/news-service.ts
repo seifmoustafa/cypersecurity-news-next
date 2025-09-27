@@ -1,5 +1,5 @@
 import type { NewsRepository } from "../domain/repositories/news-repository"
-import type { News, NewsCategory } from "../domain/models/news"
+import type { News, NewsCategory, NewsCategoriesResponse } from "../domain/models/news"
 
 export class NewsService {
   private repository: NewsRepository
@@ -42,9 +42,9 @@ export class NewsService {
     }
   }
 
-  async getNewsByCategory(categoryId: string | null, page = 1, pageSize = 10): Promise<News[]> {
+  async getNewsByCategory(categoryId: string | null, page = 1, pageSize = 10, search?: string): Promise<News[]> {
     try {
-      return await this.repository.getNewsByCategory(categoryId, page, pageSize)
+      return await this.repository.getNewsByCategory(categoryId, page, pageSize, search)
     } catch (error) {
       console.error("NewsService: Error getting news by category:", error)
       return []
@@ -69,12 +69,20 @@ export class NewsService {
     }
   }
 
-  async getNewsCategories(page = 1, pageSize = 10): Promise<NewsCategory[]> {
+  async getNewsCategories(page = 1, pageSize = 10, search?: string): Promise<NewsCategoriesResponse> {
     try {
-      return await this.repository.getNewsCategories(page, pageSize)
+      return await this.repository.getNewsCategories(page, pageSize, search)
     } catch (error) {
       console.error("NewsService: Error getting news categories:", error)
-      return []
+      return {
+        data: [],
+        pagination: {
+          itemsCount: 0,
+          pagesCount: 0,
+          pageSize: pageSize,
+          currentPage: page
+        }
+      }
     }
   }
 }

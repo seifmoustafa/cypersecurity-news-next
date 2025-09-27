@@ -31,6 +31,19 @@ export default function BeginnersRootLayout({
           name="description"
           content="منصة مبسطة للأمن السيبراني تقدم المعرفة الأساسية والأدوات البسيطة "
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (localStorage.getItem('theme-preference') === 'light' || 
+                    (!localStorage.getItem('theme-preference') && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+                  localStorage.setItem('theme-preference', 'dark');
+                }
+                document.documentElement.classList.add('dark');
+              } catch (e) {}
+            `,
+          }}
+        />
       </head>
       <body className="rtl">
         <LanguageProvider>

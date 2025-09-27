@@ -11,7 +11,7 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   }, [])
 
   return (
-    <NextThemesProvider {...props} enableSystem={true} enableColorScheme={true} storageKey="theme-preference">
+    <NextThemesProvider {...props} enableColorScheme={true} storageKey="theme-preference">
       {children}
     </NextThemesProvider>
   )

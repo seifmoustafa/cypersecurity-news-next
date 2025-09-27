@@ -2,40 +2,41 @@ import { useState, useEffect, useCallback } from "react"
 import { container } from "@/core/di/container"
 import type { News } from "@/core/domain/models/news"
 
-interface UseNewsReturn {
-  news: News[]
+interface UseNewsItemReturn {
+  news: News | null
   loading: boolean
   error: string | null
   refetch: () => Promise<void>
 }
 
-export function useNews(
-  categoryId: string | null = null,
-  page: number = 1,
-  pageSize: number = 10,
-  search?: string
-): UseNewsReturn {
-  const [news, setNews] = useState<News[]>([])
+export function useNewsItem(id: string | null): UseNewsItemReturn {
+  const [news, setNews] = useState<News | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const fetchNews = useCallback(async () => {
+  const fetchNewsItem = useCallback(async () => {
+    if (!id) {
+      setNews(null)
+      setLoading(false)
+      return
+    }
+
     try {
       setLoading(true)
       setError(null)
-      const data = await container.services.news.getNewsByCategory(categoryId, page, pageSize, search)
+      const data = await container.services.news.getNewsById(id)
       setNews(data)
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred")
-      setNews([])
+      setNews(null)
     } finally {
       setLoading(false)
     }
-  }, [categoryId, page, pageSize, search])
+  }, [id])
 
   useEffect(() => {
-    fetchNews()
-  }, [fetchNews])
+    fetchNewsItem()
+  }, [fetchNewsItem])
 
-  return { news, loading, error, refetch: fetchNews }
+  return { news, loading, error, refetch: fetchNewsItem }
 }

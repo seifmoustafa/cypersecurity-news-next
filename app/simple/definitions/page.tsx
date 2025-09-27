@@ -6,6 +6,7 @@ import { definitionsData } from "@/data/definitions-data"
 import { BookOpen, ShieldCheck, Zap, AlertTriangle, ArrowRight, ArrowLeft, Star } from "lucide-react"
 import Link from "next/link"
 import { container } from "@/core/di/container"
+import Breadcrumbs from "@/components/breadcrumbs"
 
 const iconMap: Record<string, any> = {
   general: BookOpen,
@@ -64,48 +65,14 @@ export default function BeginnersDefinitionsPage() {
         <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_25%,rgba(34,197,94,0.05)_50%,transparent_75%)] bg-[length:40px_40px]"></div>
       </div>
 
-      <div className="relative z-10 bg-gradient-to-r from-slate-900 via-gray-900 to-slate-800 text-white py-20">
-        <div className="container mx-auto px-4 text-center">
-          <div className="inline-flex items-center justify-center mb-8">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-xl blur-lg opacity-30"/>
-              <div className="relative bg-gradient-to-r from-blue-500 to-cyan-600 p-4 rounded-xl">
-                <BookOpen className="h-8 w-8 text-white" />
-              </div>
-            </div>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{t("definitions.title")}</h1>
-          <p className="text-xl text-slate-300 max-w-3xl mx-auto">{t("definitions.subtitle")}</p>
-        </div>
-      </div>
+      <div className="relative z-10 container mx-auto px-4 pt-24 pb-8">
+        {/* Breadcrumbs */}
+        <Breadcrumbs 
+          items={[
+            { label: language === "ar" ? "المفاهيم" : "Definitions" }
+          ]} 
+        />
 
-      <div className="relative z-10 container mx-auto px-4 py-12">
-        {/* Stats Section */}
-        <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="bg-gradient-to-r from-blue-500 to-cyan-600 p-3 rounded-xl">
-                <BookOpen className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                  {language === "ar" ? "إجمالي التصنيفات" : "Total Categories"}
-                </h2>
-                <p className="text-gray-600 dark:text-gray-300">
-                  {categories.length} {language === "ar" ? "تصنيف" : "categories"}
-                </p>
-              </div>
-            </div>
-            <div className="text-right">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                {language === "ar" ? "محدث آخر مرة" : "Last updated"}
-              </p>
-              <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                {new Date().toLocaleDateString()}
-              </p>
-            </div>
-          </div>
-        </div>
 
         {/* Categories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

@@ -4,7 +4,24 @@ import type { AwarenessResponse, AwarenessYearResponse, Awareness, AwarenessYear
 import { slugify } from "@/lib/utils"
 
 export class AwarenessRepositoryImpl implements AwarenessRepository {
-  constructor(private apiDataSource: ApiDataSource) {}
+  private baseImageUrl: string
+
+  constructor(private apiDataSource: ApiDataSource) {
+    // Remove "/api" from the base URL for document URLs (same as news images)
+    this.baseImageUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.replace("/api", "") || ""
+  }
+
+  private transformAwarenessItem(item: Awareness): Awareness {
+    return {
+      ...item,
+      // Add full document URL if documentUrl exists (same pattern as news images)
+      documentUrl: item.documentUrl ? `${this.baseImageUrl}${item.documentUrl}` : undefined,
+    }
+  }
+
+  private transformAwarenessData(awarenessItems: Awareness[]): Awareness[] {
+    return awarenessItems.map((item) => this.transformAwarenessItem(item))
+  }
 
   async getCurrentYearAwareness(search = "", page = 1, pageSize = 10): Promise<AwarenessResponse> {
     const params = new URLSearchParams({
@@ -16,7 +33,11 @@ export class AwarenessRepositoryImpl implements AwarenessRepository {
       params.append("search", search)
     }
 
-    return this.apiDataSource.get(`/advanced/awareness/currentYear?${params}`)
+    const response = await this.apiDataSource.get<AwarenessResponse>(`/awareness/currentYear?${params}`)
+    return {
+      ...response,
+      data: this.transformAwarenessData(response.data)
+    }
   }
 
   async getAllAwarenessYears(search = "", page = 1, pageSize = 10): Promise<AwarenessYearResponse> {
@@ -29,11 +50,11 @@ export class AwarenessRepositoryImpl implements AwarenessRepository {
       params.append("search", search)
     }
 
-    return this.apiDataSource.get(`/advanced/awarenessYears?${params}`)
+    return this.apiDataSource.get(`/awarenessYears?${params}`)
   }
 
   async getAwarenessYearById(id: string): Promise<AwarenessYear> {
-    return this.apiDataSource.get(`/advanced/awarenessYears/${id}`)
+    return this.apiDataSource.get(`/awarenessYears/${id}`)
   }
 
   async getAwarenessByYearId(yearId: string, search = "", page = 1, pageSize = 10): Promise<AwarenessResponse> {
@@ -46,11 +67,16 @@ export class AwarenessRepositoryImpl implements AwarenessRepository {
       params.append("search", search)
     }
 
-    return this.apiDataSource.get(`/advanced/awareness/byYear/${yearId}?${params}`)
+    const response = await this.apiDataSource.get<AwarenessResponse>(`/awareness/byYear/${yearId}?${params}`)
+    return {
+      ...response,
+      data: this.transformAwarenessData(response.data)
+    }
   }
 
   async getAwarenessById(id: string): Promise<Awareness> {
-    return this.apiDataSource.get(`/advanced/awareness/${id}`)
+    const awareness = await this.apiDataSource.get<Awareness>(`/awareness/${id}`)
+    return this.transformAwarenessItem(awareness)
   }
 
   async getAwarenessByYearAndSlug(year: string, slug: string): Promise<Awareness | null> {

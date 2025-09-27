@@ -9,6 +9,7 @@ import { ArrowLeft, ArrowRight, Shield } from "lucide-react";
 
 export default function HomePage() {
   const { language, t, isRtl, setLanguage } = useLanguage();
+  const { setTheme } = useTheme();
   const router = useRouter();
 
   // Force Arabic and RTL on this landing page
@@ -21,13 +22,29 @@ export default function HomePage() {
       document.documentElement.dir = "rtl";
       document.documentElement.lang = "ar";
     }
+    
+    // Force dark theme on home page load
+    setTheme("dark");
+    localStorage.setItem("theme-preference", "dark");
   }, []);
 
-  const handleSimpleMode = () => {
+  const handleSimpleMode = async () => {
+    // Force dark theme before navigation
+    setTheme("dark");
+    // Also set in localStorage to ensure persistence
+    localStorage.setItem("theme-preference", "dark");
+    // Small delay to ensure theme is persisted
+    await new Promise(resolve => setTimeout(resolve, 100));
     router.push("/simple");
   };
 
-  const handleAdvancedMode = () => {
+  const handleAdvancedMode = async () => {
+    // Force dark theme before navigation
+    setTheme("dark");
+    // Also set in localStorage to ensure persistence
+    localStorage.setItem("theme-preference", "dark");
+    // Small delay to ensure theme is persisted
+    await new Promise(resolve => setTimeout(resolve, 100));
     router.push("/advanced");
   };
 

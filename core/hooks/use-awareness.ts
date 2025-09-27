@@ -24,7 +24,7 @@ export function useAwarenessYears(search = "", page = 1, pageSize = 10) {
       try {
         setLoading(true)
         setError(null)
-        console.log(`Calling API: /advanced/awarenessYears?search=${search}&page=${page}&pageSize=${pageSize}`)
+        console.log(`Calling API: /awarenessYears?search=${search}&page=${page}&pageSize=${pageSize}`)
         const result = await container.services.awareness.getAllAwarenessYears(search, page, pageSize)
         console.log("API Response:", result)
         setData(result)
@@ -57,7 +57,7 @@ export function useAwarenessByYearId(yearId: string, search = "", page = 1, page
       try {
         setLoading(true)
         setError(null)
-        console.log(`Calling API: /advanced/awareness/byYear/${yearId}?search=${search}&page=${page}&pageSize=${pageSize}`)
+        console.log(`Calling API: /awareness/byYear/${yearId}?search=${search}&page=${page}&pageSize=${pageSize}`)
         const result = await container.services.awareness.getAwarenessByYearId(yearId, search, page, pageSize)
         console.log("API Response:", result)
         setData(result)
@@ -90,7 +90,7 @@ export function useAwarenessById(id: string) {
       try {
         setLoading(true)
         setError(null)
-        console.log(`Calling API: /advanced/awareness/${id}`)
+        console.log(`Calling API: /awareness/${id}`)
         const result = await container.services.awareness.getAwarenessById(id)
         console.log("API Response:", result)
         setData(result)
@@ -118,7 +118,7 @@ export function useCurrentYearAwareness(search = "", page = 1, pageSize = 10) {
       try {
         setLoading(true)
         setError(null)
-        console.log(`Calling API: /advanced/awareness/currentYear?search=${search}&page=${page}&pageSize=${pageSize}`)
+        console.log(`Calling API: /awareness/currentYear?search=${search}&page=${page}&pageSize=${pageSize}`)
         const result = await container.services.awareness.getCurrentYearAwareness(search, page, pageSize)
         console.log("API Response:", result)
         setData(result)
