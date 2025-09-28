@@ -59,7 +59,7 @@ export default function BeginnersSitemapPage() {
       title: language === "ar" ? "الوسائط التعليمية" : "Educational Media",
       icon: Video,
       color: "from-red-500 to-pink-600",
-      href: "/simple/advanced/media",
+      href: "/simple/media",
       description: language === "ar" ? "مكتبة الوسائط التعليمية" : "Educational media library",
       children: [
         {
@@ -73,14 +73,14 @@ export default function BeginnersSitemapPage() {
           id: "lectures",
           title: language === "ar" ? "المحاضرات" : "Lectures",
           icon: GraduationCap,
-          href: "/simple/advanced/lectures",
+          href: "/simple/lectures",
           description: language === "ar" ? "محاضرات متخصصة" : "Specialized lectures"
         },
         {
           id: "presentations",
           title: language === "ar" ? "العروض التقديمية" : "Presentations",
           icon: Presentation,
-          href: "/simple/advanced/presentations",
+          href: "/simple/presentations",
           description: language === "ar" ? "عروض تفاعلية" : "Interactive presentations"
         }
       ]
@@ -90,21 +90,21 @@ export default function BeginnersSitemapPage() {
       title: language === "ar" ? "المفاهيم" : "Definitions",
       icon: BookOpen,
       color: "from-blue-500 to-cyan-600",
-      href: "/simple/advanced/definitions",
+      href: "/simple/definitions",
       description: language === "ar" ? "قاموس المصطلحات" : "Terms dictionary",
       children: [
         {
           id: "terms",
           title: language === "ar" ? "المصطلحات الأساسية" : "Basic Terms",
           icon: FileText,
-          href: "/simple/advanced/definitions",
+          href: "/simple/definitions",
           description: language === "ar" ? "مصطلحات الأمن السيبراني" : "Cybersecurity terms"
         },
         {
           id: "categories",
           title: language === "ar" ? "التصنيفات" : "Categories",
           icon: Target,
-          href: "/simple/advanced/definitions/categories",
+          href: "/simple/definitions/categories",
           description: language === "ar" ? "تصنيفات منظمة" : "Organized categories"
         }
       ]
@@ -114,28 +114,28 @@ export default function BeginnersSitemapPage() {
       title: language === "ar" ? "الحماية الشخصية" : "Personal Protection",
       icon: ShieldCheck,
       color: "from-purple-500 to-indigo-600",
-      href: "/simple/advanced/personal-protect",
+      href: "/simple/personal-protect",
       description: language === "ar" ? "أدوات الحماية الشخصية" : "Personal protection tools",
       children: [
         {
           id: "tips",
           title: language === "ar" ? "نصائح الأمان" : "Safety Tips",
           icon: ShieldCheck,
-          href: "/simple/advanced/personal-protect",
+          href: "/simple/personal-protect",
           description: language === "ar" ? "نصائح أمنية يومية" : "Daily security tips"
         },
         {
           id: "tools",
           title: language === "ar" ? "أدوات الحماية" : "Protection Tools",
           icon: Settings,
-          href: "/simple/advanced/personal-protect/tools",
+          href: "/simple/personal-protect/tools",
           description: language === "ar" ? "أدوات حماية متقدمة" : "Advanced protection tools"
         },
         {
           id: "procedures",
           title: language === "ar" ? "الإجراءات" : "Procedures",
           icon: AlertTriangle,
-          href: "/simple/advanced/procedures",
+          href: "/simple/procedures",
           description: language === "ar" ? "إجراءات الطوارئ" : "Emergency procedures"
         }
       ]
@@ -145,7 +145,7 @@ export default function BeginnersSitemapPage() {
       title: language === "ar" ? "البحث" : "Search",
       icon: Search,
       color: "from-orange-500 to-red-600",
-      href: "/simple/advanced/regulation",
+      href: "/simple/regulation",
       description: language === "ar" ? "البحث المتقدم" : "Advanced search"
     },
     {
@@ -366,7 +366,7 @@ export default function BeginnersSitemapPage() {
             </Link>
             
             <Link
-              href="/simple/advanced/regulation"
+              href="/simple/regulation"
               className="flex items-center gap-3 p-4 bg-white dark:bg-slate-700 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-green-500/30 transition-all duration-300 hover:scale-105 group"
             >
               <Search className="h-5 w-5 text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform duration-300" />
@@ -376,7 +376,7 @@ export default function BeginnersSitemapPage() {
             </Link>
             
             <Link
-              href="/simple/advanced/media"
+              href="/simple/media"
               className="flex items-center gap-3 p-4 bg-white dark:bg-slate-700 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-green-500/30 transition-all duration-300 hover:scale-105 group"
             >
               <Video className="h-5 w-5 text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform duration-300" />
@@ -386,7 +386,7 @@ export default function BeginnersSitemapPage() {
             </Link>
             
             <Link
-              href="/simple/advanced/definitions"
+              href="/simple/definitions"
               className="flex items-center gap-3 p-4 bg-white dark:bg-slate-700 rounded-xl border border-slate-200 dark:border-slate-600 hover:border-green-500/30 transition-all duration-300 hover:scale-105 group"
             >
               <BookOpen className="h-5 w-5 text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform duration-300" />

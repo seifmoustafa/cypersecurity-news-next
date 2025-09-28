@@ -41,17 +41,17 @@ export default function SimpleFooter() {
         },
         {
           title: language === "ar" ? "المحاضرات" : "Lectures",
-          href: "/simple/advanced/lectures",
+          href: "/simple/lectures",
           icon: BookOpen,
         },
         {
           title: language === "ar" ? "العروض التقديمية" : "Presentations",
-          href: "/simple/advanced/presentations",
+          href: "/simple/presentations",
           icon: ShieldCheck,
         },
         {
           title: language === "ar" ? "الأخبار" : "News",
-          href: "/simple/advanced/news",
+          href: "/simple/news",
           icon: CheckCircle,
         },
       ],
@@ -65,12 +65,12 @@ export default function SimpleFooter() {
       links: [
         {
           title: language === "ar" ? "المصطلحات الأساسية" : "Basic Terms",
-          href: "/simple/advanced/definitions",
+          href: "/simple/definitions",
           icon: BookOpen,
         },
         {
           title: language === "ar" ? "التصنيفات" : "Categories",
-          href: "/simple/advanced/definitions/categories",
+          href: "/simple/definitions/categories",
           icon: CheckCircle,
         },
       ],
@@ -84,12 +84,12 @@ export default function SimpleFooter() {
       links: [
         {
           title: language === "ar" ? "نصائح الأمان" : "Safety Tips",
-          href: "/simple/advanced/personal-protect",
+          href: "/simple/personal-protect",
           icon: ShieldCheck,
         },
         {
           title: language === "ar" ? "أدوات الحماية" : "Protection Tools",
-          href: "/simple/advanced/personal-protect/tools",
+          href: "/simple/personal-protect/tools",
           icon: ShieldCheck,
         },
       ],
@@ -98,7 +98,7 @@ export default function SimpleFooter() {
   const quickLinks = [
     {
       title: language === "ar" ? "البحث" : "Search",
-      href: "/simple/advanced/regulation",
+      href: "/simple/regulation",
       icon: Search,
     },
     {

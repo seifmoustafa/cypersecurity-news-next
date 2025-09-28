@@ -61,9 +61,9 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
   // Navigation items for beginners mode
   const beginnersNavItems = [
     { key: "beginners.navigation.home", href: "/simple", icon: Home },
-    { key: "beginners.navigation.media", href: "/simple/advanced/media", icon: Video },
-    { key: "beginners.navigation.definitions", href: "/simple/advanced/definitions", icon: BookOpen },
-    { key: "beginners.navigation.personalProtect", href: "/simple/advanced/personal-protect", icon: ShieldCheck },
+    { key: "beginners.navigation.media", href: "/simple/media", icon: Video },
+    { key: "beginners.navigation.definitions", href: "/simple/definitions", icon: BookOpen },
+    { key: "beginners.navigation.personalProtect", href: "/simple/personal-protect", icon: ShieldCheck },
   ]
 
   if (!mounted) return null
@@ -319,7 +319,7 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
                   if (e.key === 'Enter') {
                     const query = e.currentTarget.value.trim()
                     if (query) {
-                      router.push(`/beginners/advanced/regulation?q=${encodeURIComponent(query)}`)
+                      router.push(`/simple/regulation?q=${encodeURIComponent(query)}`)
                       setSearchOpen(false)
                     }
                   } else if (e.key === 'Escape') {

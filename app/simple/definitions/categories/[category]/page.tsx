@@ -62,7 +62,7 @@ export default function DefinitionsCategoryPage() {
               </div>
             </div>
             <Link 
-              href="/simple/advanced/definitions/categories" 
+              href="/simple/definitions/categories" 
               className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-slate-600 to-gray-700 hover:from-slate-700 hover:to-gray-800 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg"
             >
               {isRtl ? <ArrowRight className="h-4 w-4 ml-2" /> : <ArrowLeft className="h-4 w-4 mr-2" />}

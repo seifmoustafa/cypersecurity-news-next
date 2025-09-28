@@ -56,8 +56,8 @@ export default function BeginnersHome() {
 
   useEffect(() => {
     router.prefetch("/simple/videos");
-    router.prefetch("/simple/advanced/definitions");
-    router.prefetch("/simple/advanced/personal-protect");
+    router.prefetch("/simple/definitions");
+    router.prefetch("/simple/personal-protect");
   }, [router]);
 
   const mainCards = [
@@ -112,13 +112,13 @@ export default function BeginnersHome() {
       items: [
         {
           title: language === "ar" ? "الأخبار" : "News",
-          href: "/advanced/news",
+          href: "/simple/news",
           icon: Newspaper,
           count: "",
         },
         {
           title: language === "ar" ? "نشرات التوعية" : "Awareness",
-          href: "/advanced/awareness",
+          href: "/simple/awareness",
           icon: Lightbulb,
           count: "",
         },
@@ -133,17 +133,17 @@ export default function BeginnersHome() {
       bgColor:
         "bg-gradient-to-br from-amber-50/80 to-orange-50/60 dark:from-amber-900/30 dark:to-orange-900/20",
       borderColor: "border-amber-300/60 dark:border-amber-600/40",
-      href: "/simple/advanced/personal-protect",
+      href: "/simple/personal-protect",
       items: [
         {
           title: t("beginners.cards.personalProtect.tips"),
-          href: "/simple/advanced/personal-protect",
+          href: "/simple/personal-protect",
           icon: ShieldCheck,
           count: "",
         },
         {
           title: t("beginners.cards.personalProtect.tools"),
-          href: "/simple/advanced/personal-protect/tools",
+          href: "/simple/personal-protect/tools",
           icon: Settings,
           count: "",
         },
@@ -247,17 +247,17 @@ export default function BeginnersHome() {
     //   bgColor:
     //     "bg-gradient-to-br from-amber-50/80 to-orange-50/60 dark:from-amber-900/30 dark:to-orange-900/20",
     //   borderColor: "border-amber-300/60 dark:border-amber-600/40",
-    //   href: "/simple/advanced/personal-protect",
+    //   href: "/simple/personal-protect",
     //   items: [
     //     {
     //       title: t("beginners.cards.personalProtect.tips"),
-    //       href: "/simple/advanced/personal-protect",
+    //       href: "/simple/personal-protect",
     //       icon: ShieldCheck,
     //       count: "",
     //     },
     //     {
     //       title: t("beginners.cards.personalProtect.tools"),
-    //       href: "/simple/advanced/personal-protect/tools",
+    //       href: "/simple/personal-protect/tools",
     //       icon: Settings,
     //       count: "",
     //     },
@@ -329,17 +329,17 @@ export default function BeginnersHome() {
     //   bgColor:
     //     "bg-gradient-to-br from-amber-50/80 to-orange-50/60 dark:from-amber-900/30 dark:to-orange-900/20",
     //   borderColor: "border-amber-300/60 dark:border-amber-600/40",
-    //   href: "/simple/advanced/personal-protect",
+    //   href: "/simple/personal-protect",
     //   items: [
     //     {
     //       title: t("beginners.cards.personalProtect.tips"),
-    //       href: "/simple/advanced/personal-protect",
+    //       href: "/simple/personal-protect",
     //       icon: ShieldCheck,
     //       count: "",
     //     },
     //     {
     //       title: t("beginners.cards.personalProtect.tools"),
-    //       href: "/simple/advanced/personal-protect/tools",
+    //       href: "/simple/personal-protect/tools",
     //       icon: Settings,
     //       count: "",
     //     },
@@ -411,17 +411,17 @@ export default function BeginnersHome() {
     //   bgColor:
     //     "bg-gradient-to-br from-amber-50/80 to-orange-50/60 dark:from-amber-900/30 dark:to-orange-900/20",
     //   borderColor: "border-amber-300/60 dark:border-amber-600/40",
-    //   href: "/simple/advanced/personal-protect",
+    //   href: "/simple/personal-protect",
     //   items: [
     //     {
     //       title: t("beginners.cards.personalProtect.tips"),
-    //       href: "/simple/advanced/personal-protect",
+    //       href: "/simple/personal-protect",
     //       icon: ShieldCheck,
     //       count: "",
     //     },
     //     {
     //       title: t("beginners.cards.personalProtect.tools"),
-    //       href: "/simple/advanced/personal-protect/tools",
+    //       href: "/simple/personal-protect/tools",
     //       icon: Settings,
     //       count: "",
     //     },
