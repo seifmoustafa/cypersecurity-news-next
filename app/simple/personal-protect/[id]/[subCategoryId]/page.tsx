@@ -1,20 +1,43 @@
 "use client"
 
+import { use } from "react"
 import { useLanguage } from "@/components/language-provider"
+import { usePersonalProtectControls } from "@/core/hooks/use-personal-protect-controls"
+import { usePersonalProtectSubCategories } from "@/core/hooks/use-personal-protect-subcategories"
 import { usePersonalProtectCategories } from "@/core/hooks/use-personal-protect-categories"
-import { Shield, Search, Calendar, ArrowRight, ArrowLeft, Eye, Users, Lock } from "lucide-react"
+import { Shield, Search, Calendar, ArrowRight, ArrowLeft, Eye, Users, Lock, Home, Settings } from "lucide-react"
 import Link from "next/link"
 import { useMemo, useState } from "react"
 import Breadcrumbs from "@/components/breadcrumbs"
 
-export default function PersonalProtectCategoriesPage() {
+interface PersonalProtectControlsPageProps {
+  params: Promise<{
+    id: string
+    subCategoryId: string
+  }>
+}
+
+export default function PersonalProtectControlsPage({ params }: PersonalProtectControlsPageProps) {
   const { language, t } = useLanguage()
   const isRtl = language === "ar"
+  
+  // Unwrap params using React.use()
+  const resolvedParams = use(params)
+  const categoryId = resolvedParams.id
+  const subCategoryId = resolvedParams.subCategoryId
+  
   const [query, setQuery] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
   const pageSize = 12
 
-  const { categories, loading, error, pagination } = usePersonalProtectCategories(query, currentPage, pageSize)
+  const { controls, loading, error, pagination } = usePersonalProtectControls(subCategoryId, query, currentPage, pageSize)
+  
+  // Get category and subcategory info for breadcrumbs and title
+  const { categories } = usePersonalProtectCategories("", 1, 100)
+  const { subCategories } = usePersonalProtectSubCategories(categoryId, "", 1, 100)
+  
+  const currentCategory = categories.find(cat => cat.id === categoryId)
+  const currentSubCategory = subCategories.find(sub => sub.id === subCategoryId)
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -26,13 +49,15 @@ export default function PersonalProtectCategoriesPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  if (loading && categories.length === 0) {
+  if (loading && controls.length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
         <div className="container mx-auto px-4 pt-24 pb-8">
           <Breadcrumbs 
             items={[
-              { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection" }
+              { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/simple/personal-protect" },
+              { label: language === "ar" ? "الفئات الفرعية" : "Sub Categories", href: `/simple/personal-protect/${categoryId}` },
+              { label: language === "ar" ? "الضوابط" : "Controls" }
             ]} 
           />
 
@@ -61,7 +86,9 @@ export default function PersonalProtectCategoriesPage() {
         <div className="container mx-auto px-4 pt-24 pb-8">
           <Breadcrumbs 
             items={[
-              { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection" }
+              { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/simple/personal-protect" },
+              { label: language === "ar" ? "الفئات الفرعية" : "Sub Categories", href: `/simple/personal-protect/${categoryId}` },
+              { label: language === "ar" ? "الضوابط" : "Controls" }
             ]} 
           />
 
@@ -70,12 +97,12 @@ export default function PersonalProtectCategoriesPage() {
               <Shield className="h-12 w-12 text-red-600 dark:text-red-400" />
             </div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              {language === "ar" ? "خطأ في تحميل فئات الحماية الشخصية" : "Error Loading Personal Protection Categories"}
+              {language === "ar" ? "خطأ في تحميل الضوابط" : "Error Loading Controls"}
             </h1>
             <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
               {language === "ar" 
-                ? "حدث خطأ أثناء تحميل فئات الحماية الشخصية. يرجى المحاولة مرة أخرى."
-                : "An error occurred while loading personal protection categories. Please try again."
+                ? "حدث خطأ أثناء تحميل الضوابط. يرجى المحاولة مرة أخرى."
+                : "An error occurred while loading controls. Please try again."
               }
             </p>
             <button 
@@ -89,6 +116,9 @@ export default function PersonalProtectCategoriesPage() {
       </div>
     )
   }
+
+  const categoryName = currentCategory ? (language === "ar" ? currentCategory.name : currentCategory.nameEn || currentCategory.name) : ""
+  const subCategoryName = currentSubCategory ? (language === "ar" ? currentSubCategory.name : currentSubCategory.nameEn || currentSubCategory.name) : ""
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
@@ -104,9 +134,30 @@ export default function PersonalProtectCategoriesPage() {
         {/* Breadcrumbs */}
         <Breadcrumbs 
           items={[
-            { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection" }
+            { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/simple/personal-protect" },
+            { label: categoryName || (language === "ar" ? "الفئات الفرعية" : "Sub Categories"), href: `/simple/personal-protect/${categoryId}` },
+            { label: subCategoryName || (language === "ar" ? "الضوابط" : "Controls") }
           ]} 
         />
+
+        {/* Sub Category Header */}
+        {currentSubCategory && (
+          <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8">
+            <div className="flex items-center gap-4">
+              <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-3 rounded-xl">
+                <Settings className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  {subCategoryName}
+                </h1>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {language === "ar" ? "ضوابط الحماية الشخصية" : "Personal Protection Controls"}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Search Section */}
         <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8">
@@ -116,7 +167,7 @@ export default function PersonalProtectCategoriesPage() {
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder={language === "ar" ? "ابحث في فئات الحماية الشخصية..." : "Search personal protection categories..."}
+                placeholder={language === "ar" ? "ابحث في الضوابط..." : "Search controls..."}
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-green-500 outline-none text-gray-900 dark:text-white"
               />
             </div>
@@ -127,7 +178,7 @@ export default function PersonalProtectCategoriesPage() {
               <Search className="h-6 w-6 text-white" />
             </button>
             <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-3 rounded-xl">
-              <Shield className="h-6 w-6 text-white" />
+              <Settings className="h-6 w-6 text-white" />
             </div>
           </form>
         </div>
@@ -137,23 +188,23 @@ export default function PersonalProtectCategoriesPage() {
           <div className="mb-6">
             <p className="text-gray-600 dark:text-gray-400">
               {language === "ar" 
-                ? `تم العثور على ${pagination.itemsCount} فئة`
-                : `Found ${pagination.itemsCount} categories`
+                ? `تم العثور على ${pagination.itemsCount} ضابط`
+                : `Found ${pagination.itemsCount} controls`
               }
             </p>
           </div>
         )}
 
-        {/* Categories Grid */}
+        {/* Controls Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {categories.map((category, index) => {
-            const displayName = language === "ar" ? category.name : (category.nameEn || category.name)
-            const displayDescription = language === "ar" ? category.description : (category.descriptionEn || category.description)
+          {controls.map((control, index) => {
+            const displayName = language === "ar" ? control.name : (control.nameEn || control.name)
+            const displayDescription = language === "ar" ? control.description : (control.descriptionEn || control.description)
             
             return (
-              <Link
-                key={category.id}
-                href={`/simple/personal-protect/${category.id}`} 
+              <Link 
+                key={control.id} 
+                href={`/simple/personal-protect/${categoryId}/${subCategoryId}/${control.id}`} 
                 className="group"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
@@ -175,55 +226,55 @@ export default function PersonalProtectCategoriesPage() {
                 >
                   {/* Thumbnail */}
                   <div className="relative aspect-video bg-gradient-to-br from-green-500 to-emerald-600">
-                    {category.imageUrl ? (
+                    {control.imageUrl ? (
                       <img
-                        src={category.imageUrl}
+                        src={control.imageUrl}
                         alt={displayName}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div className="bg-white/20 backdrop-blur-sm rounded-full p-6 group-hover:scale-110 transition-transform duration-300">
-                          <Shield className="h-12 w-12 text-white" />
+                          <Settings className="h-12 w-12 text-white" />
                         </div>
-                    </div>
+                      </div>
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                     <div className="absolute top-4 right-4 bg-black/50 text-white text-xs px-3 py-1 rounded-full">
-                      {language === "ar" ? "فئة" : "Category"}
+                      {language === "ar" ? "ضابط" : "Control"}
                     </div>
                   </div>
 
                   {/* Content */}
                   <div className="p-8">
-                    {/* Category Header */}
+                    {/* Control Header */}
                     <div className="flex items-center mb-6">
                       <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-3 rounded-xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
-                        <Shield className="h-6 w-6 text-white" />
+                        <Settings className="h-6 w-6 text-white" />
                       </div>
                       <div>
                         <div className="text-sm text-gray-500 dark:text-gray-400 mb-1 flex items-center gap-2">
                           <Calendar className="h-4 w-4" /> 
-                          {new Date(category.createdAt).toLocaleDateString()}
-                  </div>
+                          {new Date(control.createdAt).toLocaleDateString()}
+                        </div>
+                      </div>
                     </div>
-                  </div>
 
-                    {/* Category Title */}
+                    {/* Control Title */}
                     <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-6 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300 line-clamp-2">
                       {displayName}
                     </h3>
 
-                    {/* Category Footer */}
+                    {/* Control Footer */}
                     <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-green-400">
-                    <span className="mr-2 rtl:mr-0 rtl:ml-2">
-                        {language === "ar" ? "عرض الفئة" : "View Category"}
-                    </span>
-                    {isRtl ? (
+                      <span className="mr-2 rtl:mr-0 rtl:ml-2">
+                        {language === "ar" ? "عرض الضابط" : "View Control"}
+                      </span>
+                      {isRtl ? (
                         <ArrowLeft className="h-4 w-4 group-hover/btn:-translate-x-1 transition-transform duration-300" />
-                    ) : (
+                      ) : (
                         <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
-                    )}
+                      )}
                     </div>
                   </div>
                 </div>
@@ -273,18 +324,18 @@ export default function PersonalProtectCategoriesPage() {
         )}
 
         {/* Empty State */}
-        {categories.length === 0 && !loading && (
+        {controls.length === 0 && !loading && (
           <div className="text-center py-16">
             <div className="w-24 h-24 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Shield className="h-12 w-12 text-gray-400" />
+              <Settings className="h-12 w-12 text-gray-400" />
             </div>
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-              {language === "ar" ? "لا توجد فئات" : "No Categories Found"}
+              {language === "ar" ? "لا توجد ضوابط" : "No Controls Found"}
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
               {language === "ar" 
-                ? "لم يتم العثور على أي فئات تطابق البحث الخاص بك."
-                : "No categories found matching your search."
+                ? "لم يتم العثور على أي ضوابط تطابق البحث الخاص بك."
+                : "No controls found matching your search."
               }
             </p>
           </div>
