@@ -11,7 +11,7 @@ interface PresentationPageProps {
 
 export async function generateMetadata({ params }: PresentationPageProps): Promise<Metadata> {
   try {
-    const presentation = await container.services.media.getPresentationById(params.id)
+    const presentation = await container.services.media.getApiPresentationById(params.id)
 
     if (!presentation) {
       return {
@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: PresentationPageProps): Promi
 
 export default async function PresentationPage({ params }: PresentationPageProps) {
   try {
-    const presentation = await container.services.media.getPresentationById(params.id)
+    const presentation = await container.services.media.getApiPresentationById(params.id)
 
     if (!presentation) {
       notFound()

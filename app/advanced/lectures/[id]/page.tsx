@@ -9,7 +9,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const lecture = await container.services.media.getLectureById(params.id)
+    const lecture = await container.services.media.getApiLectureById(params.id)
 
     if (!lecture) {
       return {
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function LecturePage({ params }: PageProps) {
   try {
-    const lecture = await container.services.media.getLectureById(params.id)
+    const lecture = await container.services.media.getApiLectureById(params.id)
 
     if (!lecture) {
       notFound()
