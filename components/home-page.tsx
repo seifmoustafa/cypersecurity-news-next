@@ -110,7 +110,7 @@ export default function HomePage() {
                       {/* Screen */}
                       <div className="absolute inset-3 bg-white rounded-lg overflow-hidden">
                         <img
-                          src="/api/images/beginners/Gemini_Generated_Image_c7ds1sc7ds1sc7ds.png"
+                          src="/assets/images/beginners/Gemini_Generated_Image_c7ds1sc7ds1sc7ds.png"
                           alt="Simple Mode Interface"
                           className="w-full h-full object-cover"
                         />
@@ -161,7 +161,7 @@ export default function HomePage() {
                       {/* Screen */}
                       <div className="absolute inset-3 bg-white rounded-lg overflow-hidden">
                         <img
-                          src="/api/images/beginners/Gemini_Generated_Image_dudzufdudzufdudz.png"
+                          src="/assets/images/beginners/Gemini_Generated_Image_dudzufdudzufdudz.png"
                           alt="Advanced Mode Interface"
                           className="w-full h-full object-cover"
                         />

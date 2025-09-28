@@ -84,7 +84,7 @@ export default function BeginnersMediaPage() {
       borderColor: "border-blue-200 dark:border-blue-800",
       count: "",
       href: "/simple/media/lessons",
-      imagePath: "/api/images/beginners/Gemini_Generated_Image_c7ds1sc7ds1sc7ds.png",
+      imagePath: "/assets/images/beginners/Gemini_Generated_Image_c7ds1sc7ds1sc7ds.png",
       items: [
         {
           title: language === "ar" ? "الفيديوهات" : "Videos",
@@ -113,7 +113,7 @@ export default function BeginnersMediaPage() {
       borderColor: "border-green-200 dark:border-green-800",
       count: "",
       href: "/simple/media/articles",
-      imagePath: "/api/images/beginners/Gemini_Generated_Image_dudzufdudzufdudz.png",
+      imagePath: "/assets/images/beginners/Gemini_Generated_Image_dudzufdudzufdudz.png",
       items: [
         {
           title: language === "ar" ? "مقالات تقنية" : "Technical Articles",
@@ -142,7 +142,7 @@ export default function BeginnersMediaPage() {
       borderColor: "border-purple-200 dark:border-purple-800",
       count: "",
       href: "/simple/media/references",
-      imagePath: "/api/images/beginners/Gemini_Generated_Image_ry6ctary6ctary6c.png",
+      imagePath: "/assets/images/beginners/Gemini_Generated_Image_ry6ctary6ctary6c.png",
       items: [
         {
           title: language === "ar" ? "الكتب المرجعية" : "Reference Books",

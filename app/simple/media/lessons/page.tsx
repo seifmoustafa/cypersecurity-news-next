@@ -33,7 +33,7 @@ export default function EducationalLessonsPage() {
       bgColor: "bg-red-50 dark:bg-red-900/20",
       borderColor: "border-red-200 dark:border-red-800",
       href: "/simple/media/lessons/videos",
-      imagePath: "/api/images/beginners/Gemini_Generated_Image_c7ds1sc7ds1sc7ds.png",
+      imagePath: "/assets/images/beginners/Gemini_Generated_Image_c7ds1sc7ds1sc7ds.png",
       items: videoCategories.slice(0, 2).map(category => ({
         title: language === "ar" ? category.name : category.nameEn || category.name,
         href: `/simple/media/lessons/videos/${category.id}`,
@@ -55,7 +55,7 @@ export default function EducationalLessonsPage() {
       bgColor: "bg-blue-50 dark:bg-blue-900/20",
       borderColor: "border-blue-200 dark:border-blue-800",
       href: "/simple/media/lessons/lectures",
-      imagePath: "/api/images/beginners/Gemini_Generated_Image_2q2d7n2q2d7n2q2d.png",
+      imagePath: "/assets/images/beginners/Gemini_Generated_Image_2q2d7n2q2d7n2q2d.png",
       items: lectureCategories.slice(0, 2).map(category => ({
         title: language === "ar" ? category.name : category.nameEn || category.name,
         href: `/simple/media/lessons/lectures/${category.id}`,
@@ -77,7 +77,7 @@ export default function EducationalLessonsPage() {
       bgColor: "bg-purple-50 dark:bg-purple-900/20",
       borderColor: "border-purple-200 dark:border-purple-800",
       href: "/simple/media/lessons/presentations",
-      imagePath: "/api/images/beginners/Gemini_Generated_Image_ut3c4xut3c4xut3c.png",
+      imagePath: "/assets/images/beginners/Gemini_Generated_Image_ut3c4xut3c4xut3c.png",
       items: presentationCategories.slice(0, 2).map(category => ({
         title: language === "ar" ? category.name : category.nameEn || category.name,
         href: `/simple/media/lessons/presentations/${category.id}`,
