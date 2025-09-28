@@ -11,17 +11,19 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const category = await container.services.news.getNewsCategoryById(params.id)
-
-    if (!category) {
-      return {
-        title: "News Category Not Found | Cybersecurity Portal",
-        description: "The requested news category could not be found.",
+    // Try to get category name from the categories list
+    let categoryName = "News Category"
+    
+    try {
+      const categoriesResponse = await container.services.news.getNewsCategories(1, 100)
+      const foundCategory = categoriesResponse.data.find(cat => cat.id === params.id)
+      if (foundCategory) {
+        categoryName = foundCategory.nameEn || foundCategory.name || "News Category"
       }
+    } catch (error) {
+      console.log("Could not fetch category details for metadata, using fallback name")
     }
-
-    const categoryName = category.nameEn || category.name || ""
-
+    
     return {
       title: `${categoryName} News | Cybersecurity Portal`,
       description: `Browse news articles in the ${categoryName} category`,
@@ -36,14 +38,34 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function NewsCategoryPage({ params }: PageProps) {
   try {
-    const category = await container.services.news.getNewsCategoryById(params.id)
+    // Get news for this category first
+    const newsData = await container.services.news.getNewsByCategory(params.id, 1, 100)
 
-    if (!category) {
+    if (!newsData || newsData.length === 0) {
       notFound()
     }
 
-    // Get news for this category
-    const newsData = await container.services.news.getNewsByCategory(category.id, 1, 100)
+    // Try to get the actual category name from the categories list
+    let categoryName = "News Category"
+    let categoryNameEn = "News Category"
+    
+    try {
+      const categoriesResponse = await container.services.news.getNewsCategories(1, 100)
+      const foundCategory = categoriesResponse.data.find(cat => cat.id === params.id)
+      if (foundCategory) {
+        categoryName = foundCategory.name || "News Category"
+        categoryNameEn = foundCategory.nameEn || foundCategory.name || "News Category"
+      }
+    } catch (error) {
+      console.log("Could not fetch category details, using fallback name")
+    }
+
+    // Create a category object
+    const category = {
+      id: params.id,
+      name: categoryName,
+      nameEn: categoryNameEn
+    }
 
     return <NewsCategoryPageClient category={category} news={newsData} />
   } catch (error) {

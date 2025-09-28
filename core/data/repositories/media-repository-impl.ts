@@ -63,7 +63,7 @@ export class MediaRepositoryImpl implements MediaRepository {
         params.append("search", search.trim())
       }
 
-      const response = await this.dataSource.get<VideosPaginatedResponse>(`/advanced/videos?${params.toString()}`)
+      const response = await this.dataSource.get<VideosPaginatedResponse>(`/videos?${params.toString()}`)
 
       // Transform video URLs to include base URL
       const baseImageUrl = this.dataSource.getBaseImageUrl()
@@ -157,7 +157,7 @@ export class MediaRepositoryImpl implements MediaRepository {
         params.append("search", search.trim())
       }
 
-      const response = await this.dataSource.get<LecturesPaginatedResponse>(`/advanced/lectures?${params.toString()}`)
+      const response = await this.dataSource.get<LecturesPaginatedResponse>(`/lectures?${params.toString()}`)
 
       // Transform document URLs to include base URL
       const baseImageUrl = this.dataSource.getBaseImageUrl()
@@ -241,7 +241,7 @@ export class MediaRepositoryImpl implements MediaRepository {
   async getLectureBySlug(slug: string): Promise<ApiLecture | null> {
     try {
       // Get all lectures and find by slug
-      const response = await this.dataSource.get<LecturesPaginatedResponse>(`/advanced/lectures?page=1&pageSize=1000`)
+      const response = await this.dataSource.get<LecturesPaginatedResponse>(`/lectures?page=1&pageSize=1000`)
 
       const baseImageUrl = this.dataSource.getBaseImageUrl()
       const transformedData = response.data.map((lecture) => ({
@@ -274,7 +274,7 @@ export class MediaRepositoryImpl implements MediaRepository {
         params.append("search", search.trim())
       }
 
-      const response = await this.dataSource.get<PresentationsPaginatedResponse>(`/advanced/presentations?${params.toString()}`)
+      const response = await this.dataSource.get<PresentationsPaginatedResponse>(`/presentations?${params.toString()}`)
 
       // Transform presentation URLs to include base URL
       const baseImageUrl = this.dataSource.getBaseImageUrl()
@@ -307,7 +307,7 @@ export class MediaRepositoryImpl implements MediaRepository {
   async getPresentationBySlug(slug: string): Promise<ApiPresentation | null> {
     try {
       // Get all presentations and find by slug
-      const response = await this.dataSource.get<PresentationsPaginatedResponse>(`/advanced/presentations?page=1&pageSize=1000`)
+      const response = await this.dataSource.get<PresentationsPaginatedResponse>(`/presentations?page=1&pageSize=1000`)
 
       const baseImageUrl = this.dataSource.getBaseImageUrl()
       const transformedData = response.data.map((presentation) => ({

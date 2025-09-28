@@ -20,14 +20,6 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Calendar, FileText, AlertTriangle, BookOpen, Globe } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-// Map category IDs to URL-friendly names
-const categoryUrlMap: { [key: string]: string } = {
-  dataBreaches: "data-breaches",
-  cyberAttacks: "cyber-attacks",
-  vulnerabilities: "vulnerabilities",
-  threatIntelligence: "threat-intelligence",
-}
-
 export default function AwarenessSection() {
   const { t, language, isRtl } = useLanguage()
   const [loading, setLoading] = useState(true)
@@ -233,17 +225,8 @@ function CategoryNewsContent({
   const { language, isRtl } = useLanguage()
   const { news, loading } = useNewsByCategory(categoryId, 1, 6)
 
-  // ALWAYS use English name for URL generation (regardless of current language)
-  const getCategoryUrl = (catId: string, catNameEn: string) => {
-    // First try predefined mapping
-    if (categoryUrlMap[catId]) {
-      return categoryUrlMap[catId]
-    }
-    // Always use English name for URL slug
-    return slugify(catNameEn, catId)
-  }
-
-  const categoryUrl = getCategoryUrl(categoryId, categoryNameEn)
+  // Use the category ID directly for URL generation
+  const categoryUrl = categoryId
 
   return (
     <>

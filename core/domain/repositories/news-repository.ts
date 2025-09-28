@@ -8,4 +8,5 @@ export interface NewsRepository {
   getLatestNews(count?: number): Promise<News[]>
   getFeaturedNews(): Promise<News[]>
   getNewsCategories(page?: number, pageSize?: number, search?: string): Promise<NewsCategoriesResponse>
+  getNewsCategoryById(id: string): Promise<NewsCategory | null>
 }

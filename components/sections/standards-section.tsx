@@ -366,7 +366,7 @@ export default function CybersecurityConceptsSection() {
             <div className="flex flex-col items-center">
               <div className="relative w-full max-w-md mx-auto mb-6">
                 <Image
-                  src="../public/images/cybersecurity-framework-circle.png"
+                  src="/images/cybersecurity-framework-circle.png"
                   alt="Cybersecurity Framework"
                   width={500}
                   height={500}

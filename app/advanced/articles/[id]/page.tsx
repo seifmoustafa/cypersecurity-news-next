@@ -33,11 +33,19 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
-  const article = await container.services.articles.getArticleById(params.id)
+  try {
+    console.log(`🔍 Attempting to fetch article with ID: ${params.id}`)
+    const article = await container.services.articles.getArticleById(params.id)
 
-  if (!article) {
+    if (!article) {
+      console.log(`❌ No article found for ID: ${params.id}`)
+      notFound()
+    }
+
+    console.log(`✅ Successfully loaded article: ${article.title || article.titleEn}`)
+    return <ArticlePageClient article={article} />
+  } catch (error) {
+    console.error(`❌ Error in ArticlePage for ID ${params.id}:`, error)
     notFound()
   }
-
-  return <ArticlePageClient article={article} />
 }

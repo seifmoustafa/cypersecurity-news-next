@@ -23,7 +23,7 @@ import type {
   FrameworkCategory,
   ImplementationStep,
   FrameworkBenefit,
-} from "@/core/domain/models/advanced/framework";
+} from "@/core/domain/models/framework";
 
 export default function FrameworkPage() {
   const { language, isRtl } = useLanguage();
@@ -259,7 +259,7 @@ export default function FrameworkPage() {
             <div className="flex justify-center mb-12">
               <div className="relative w-full max-w-2xl">
                 <Image
-                  src="../public/images/cybersecurity-framework-circle.png"
+                  src="/images/cybersecurity-framework-circle.png"
                   alt="Cybersecurity Framework"
                   width={600}
                   height={600}

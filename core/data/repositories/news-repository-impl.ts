@@ -152,6 +152,19 @@ export class NewsRepositoryImpl implements NewsRepository {
     }
   }
 
+  async getNewsCategoryById(id: string): Promise<NewsCategory | null> {
+    try {
+      console.log(`🔍 Fetching news category by ID: ${id}`)
+      const endpoint = `/NewsCategories/${id}`
+      const category = await this.apiDataSource.get<NewsCategory>(endpoint)
+      console.log(`✅ Successfully fetched news category with ID ${id}`)
+      return this.transformNewsCategory(category)
+    } catch (error) {
+      console.error(`❌ Error fetching news category by ID ${id}:`, error)
+      return null
+    }
+  }
+
   private transformNewsData(newsItems: News[]): News[] {
     return newsItems.map((item) => this.transformNewsItem(item))
   }

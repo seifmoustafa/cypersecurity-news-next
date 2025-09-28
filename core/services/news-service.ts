@@ -85,4 +85,20 @@ export class NewsService {
       }
     }
   }
+
+  async getNewsCategoryById(id: string): Promise<NewsCategory | null> {
+    try {
+      console.log(`NewsService: Fetching news category by ID ${id}`)
+      const category = await this.repository.getNewsCategoryById(id)
+      if (category) {
+        console.log(`NewsService: Successfully retrieved news category with ID ${id}`)
+      } else {
+        console.warn(`NewsService: No news category found with ID ${id}`)
+      }
+      return category
+    } catch (error) {
+      console.error(`NewsService: Error getting news category by ID ${id}:`, error)
+      return null
+    }
+  }
 }
