@@ -25,6 +25,7 @@ import { HttpProceduresRepository } from "../data/repositories/http-procedures-r
 import { HttpPersonalProtectRepository } from "../data/repositories/http-personal-protect-repository";
 import { ReferenceRepositoryImpl } from "../data/repositories/reference-repository-impl";
 import { PersonalProtectCategoryRepositoryImpl } from "../data/repositories/personal-protect-category-repository-impl";
+import { PersonalProtectSubCategoryRepositoryImpl } from "../data/repositories/personal-protect-subcategory-repository-impl";
 
 // Services
 import { NewsService } from "../services/news-service";
@@ -50,6 +51,7 @@ import { PersonalProtectService } from "../services/personal-protect-service";
 import { SearchService } from "../services/search-service";
 import { ReferenceService } from "../services/reference-service";
 import { PersonalProtectCategoryService } from "../services/personal-protect-category-service";
+import { PersonalProtectSubCategoryService } from "../services/personal-protect-subcategory-service";
 
 class Container {
   private _apiDataSource: ApiDataSource | null = null;
@@ -143,6 +145,9 @@ class Container {
         ),
         personalProtectCategory: new PersonalProtectCategoryService(
           new PersonalProtectCategoryRepositoryImpl()
+        ),
+        personalProtectSubCategory: new PersonalProtectSubCategoryService(
+          new PersonalProtectSubCategoryRepositoryImpl()
         ),
       };
     }
@@ -240,6 +245,10 @@ class Container {
 
   get personalProtectCategoryService() {
     return this.services.personalProtectCategory;
+  }
+
+  get personalProtectSubCategoryService() {
+    return this.services.personalProtectSubCategory;
   }
 }
 
