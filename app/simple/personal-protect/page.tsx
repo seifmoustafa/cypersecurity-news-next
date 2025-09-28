@@ -1,131 +1,94 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { useLanguage } from "@/components/language-provider"
-import { 
-  ShieldCheck, 
-  LightbulbIcon, 
-  ArrowLeft, 
-  ArrowRight,
-  Settings,
-  BookOpen,
-  Users,
-  AlertTriangle,
-  Star,
-  Clock
-} from "lucide-react"
+import { usePersonalProtectCategories } from "@/core/hooks/use-personal-protect-categories"
+import { Shield, Search, Calendar, ArrowRight, ArrowLeft, Eye, Users, Lock } from "lucide-react"
 import Link from "next/link"
-import { container } from "@/core/di/container"
+import { useMemo, useState } from "react"
 import Breadcrumbs from "@/components/breadcrumbs"
 
-export default function PersonalProtectTipsPage() {
+export default function PersonalProtectCategoriesPage() {
   const { language, t } = useLanguage()
   const isRtl = language === "ar"
-  const [protectionStats, setProtectionStats] = useState({
-    tips: 0,
-    tools: 0,
-    guides: 0,
-    threats: 0
-  })
+  const [query, setQuery] = useState("")
+  const [currentPage, setCurrentPage] = useState(1)
+  const pageSize = 12
 
-  useEffect(() => {
-    const fetchProtectionStats = async () => {
-      try {
-        // Fetch real data from backend services
-        const [tipsData, systemsData] = await Promise.all([
-          container.services.tips.getAllTips(1, 1), // Just get count
-          container.services.systems.getAllSystems(1, 1) // Just get count
-        ])
-        
-        setProtectionStats({
-          tips: tipsData?.length || 0,
-          tools: systemsData?.length || 0,
-          guides: 15, // Static for now
-          threats: 25 // Static for now
-        })
-      } catch (error) {
-        console.error('Error fetching protection stats:', error)
-        // Fallback to default counts
-        setProtectionStats({
-          tips: 100,
-          tools: 20,
-          guides: 15,
-          threats: 25
-        })
-      }
-    }
+  const { categories, loading, error, pagination } = usePersonalProtectCategories(query, currentPage, pageSize)
 
-    fetchProtectionStats()
-  }, [])
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    setCurrentPage(1) // Reset to first page when searching
+  }
 
-  const protectionCategories = [
-    {
-      id: "tips",
-      title: language === "ar" ? "نصائح الأمان" : "Security Tips",
-      description: language === "ar" ? "نصائح يومية لحماية نفسك وأجهزتك من التهديدات السيبرانية" : "Daily tips to protect yourself and your devices from cyber threats",
-      icon: LightbulbIcon,
-      color: "from-green-500 to-emerald-600",
-      bgColor: "bg-green-50 dark:bg-green-900/20",
-      borderColor: "border-green-200 dark:border-green-800",
-      count: `${protectionStats.tips}+`,
-      href: "/simple/advanced/personal-protect/tips"
-    },
-    {
-      id: "tools",
-      title: language === "ar" ? "أدوات الحماية" : "Protection Tools",
-      description: language === "ar" ? "اكتشف أفضل الأدوات والتطبيقات لحماية بياناتك وأجهزتك" : "Discover the best tools and applications to protect your data and devices",
-      icon: Settings,
-      color: "from-blue-500 to-cyan-600",
-      bgColor: "bg-blue-50 dark:bg-blue-900/20",
-      borderColor: "border-blue-200 dark:border-blue-800",
-      count: `${protectionStats.tools}+`,
-      href: "/simple/advanced/personal-protect/tools"
-    },
-    {
-      id: "guides",
-      title: language === "ar" ? "دلائل الحماية" : "Protection Guides",
-      description: language === "ar" ? "دلائل شاملة خطوة بخطوة لحماية نفسك من التهديدات المختلفة" : "Comprehensive step-by-step guides to protect yourself from various threats",
-      icon: BookOpen,
-      color: "from-purple-500 to-indigo-600",
-      bgColor: "bg-purple-50 dark:bg-purple-900/20",
-      borderColor: "border-purple-200 dark:border-purple-800",
-      count: `${protectionStats.guides}+`,
-      href: "/simple/advanced/personal-protect/guides"
-    },
-    {
-      id: "community",
-      title: language === "ar" ? "مجتمع الحماية" : "Protection Community",
-      description: language === "ar" ? "انضم إلى مجتمع من الأشخاص المهتمين بالأمن السيبراني" : "Join a community of people interested in cybersecurity",
-      icon: Users,
-      color: "from-orange-500 to-red-600",
-      bgColor: "bg-orange-50 dark:bg-orange-900/20",
-      borderColor: "border-orange-200 dark:border-orange-800",
-      count: "500+",
-      href: "/simple/advanced/personal-protect/community"
-    },
-    {
-      id: "threats",
-      title: language === "ar" ? "التهديدات الشائعة" : "Common Threats",
-      description: language === "ar" ? "تعرف على التهديدات السيبرانية الشائعة وكيفية الوقاية منها" : "Learn about common cyber threats and how to prevent them",
-      icon: AlertTriangle,
-      color: "from-red-500 to-pink-600",
-      bgColor: "bg-red-50 dark:bg-red-900/20",
-      borderColor: "border-red-200 dark:border-red-800",
-      count: `${protectionStats.threats}+`,
-      href: "/simple/advanced/personal-protect/threats"
-    },
-    {
-      id: "emergency",
-      title: language === "ar" ? "خطة الطوارئ" : "Emergency Plan",
-      description: language === "ar" ? "تعلم كيفية الاستجابة في حالة وقوع هجوم سيبراني أو اختراق" : "Learn how to respond in case of a cyber attack or breach",
-      icon: ShieldCheck,
-      color: "from-teal-500 to-green-600",
-      bgColor: "bg-teal-50 dark:bg-teal-900/20",
-      borderColor: "border-teal-200 dark:border-teal-800",
-      count: "10+",
-      href: "/simple/advanced/personal-protect/emergency"
-    }
-  ]
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  if (loading && categories.length === 0) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
+        <div className="container mx-auto px-4 pt-24 pb-8">
+          <Breadcrumbs 
+            items={[
+              { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection" }
+            ]} 
+          />
+
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="bg-white dark:bg-slate-800 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-lg h-96 animate-pulse">
+                  <div className="h-48 bg-gray-300 dark:bg-gray-700 rounded-t-3xl"></div>
+                  <div className="p-6 space-y-4">
+                    <div className="h-6 bg-gray-300 dark:bg-gray-700 rounded"></div>
+                    <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
+                    <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/2"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
+        <div className="container mx-auto px-4 pt-24 pb-8">
+          <Breadcrumbs 
+            items={[
+              { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection" }
+            ]} 
+          />
+
+          <div className="max-w-4xl mx-auto text-center py-16">
+            <div className="w-24 h-24 bg-gradient-to-br from-red-100 to-red-200 dark:from-red-900/30 dark:to-red-800/30 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Shield className="h-12 w-12 text-red-600 dark:text-red-400" />
+            </div>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+              {language === "ar" ? "خطأ في تحميل فئات الحماية الشخصية" : "Error Loading Personal Protection Categories"}
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
+              {language === "ar" 
+                ? "حدث خطأ أثناء تحميل فئات الحماية الشخصية. يرجى المحاولة مرة أخرى."
+                : "An error occurred while loading personal protection categories. Please try again."
+              }
+            </p>
+            <button 
+              onClick={() => window.location.reload()}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
+            >
+              {language === "ar" ? "إعادة المحاولة" : "Try Again"}
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
@@ -145,26 +108,63 @@ export default function PersonalProtectTipsPage() {
           ]} 
         />
 
+        {/* Search Section */}
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8">
+          <form onSubmit={handleSearch} className="flex items-center gap-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={language === "ar" ? "ابحث في فئات الحماية الشخصية..." : "Search personal protection categories..."}
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-green-500 outline-none text-gray-900 dark:text-white"
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-gradient-to-r from-green-500 to-emerald-600 p-3 rounded-xl hover:from-green-600 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+            >
+              <Search className="h-6 w-6 text-white" />
+            </button>
+            <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-3 rounded-xl">
+              <Shield className="h-6 w-6 text-white" />
+            </div>
+          </form>
+        </div>
 
-        {/* Protection Categories Grid */}
+        {/* Results Count */}
+        {pagination && (
+          <div className="mb-6">
+            <p className="text-gray-600 dark:text-gray-400">
+              {language === "ar" 
+                ? `تم العثور على ${pagination.itemsCount} فئة`
+                : `Found ${pagination.itemsCount} categories`
+              }
+            </p>
+          </div>
+        )}
+
+        {/* Categories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {protectionCategories.map((category, index) => {
-            const IconComponent = category.icon
+          {categories.map((category, index) => {
+            const displayName = language === "ar" ? category.name : (category.nameEn || category.name)
+            const displayDescription = language === "ar" ? category.description : (category.descriptionEn || category.description)
+            
             return (
-              <Link
-                key={category.id}
-                href={category.href}
+              <Link 
+                key={category.id} 
+                href={`/simple/personal-protect/${category.id}`} 
                 className="group"
+                style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div
-                  className={`${category.bgColor} p-8 rounded-3xl border-2 ${category.borderColor} transition-all duration-500 hover:shadow-2xl hover:shadow-green-500/10 h-full will-change-transform`}
+                <div className="bg-white dark:bg-slate-800 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-lg hover:shadow-2xl hover:shadow-green-500/10 transition-all duration-500 hover:scale-[1.02] h-full will-change-transform overflow-hidden"
                   onMouseMove={(e) => {
                     const el = e.currentTarget as HTMLDivElement
                     const rect = el.getBoundingClientRect()
                     const x = e.clientX - rect.left
                     const y = e.clientY - rect.top
-                    const rotateX = ((y - rect.height / 2) / rect.height) * -6
-                    const rotateY = ((x - rect.width / 2) / rect.width) * 6
+                    const rotateX = ((y - rect.height / 2) / rect.height) * -3
+                    const rotateY = ((x - rect.width / 2) / rect.width) * 3
                     el.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`
                   }}
                   onMouseLeave={(e) => {
@@ -173,55 +173,123 @@ export default function PersonalProtectTipsPage() {
                   }}
                   style={{ transform: "perspective(900px)" }}
                 >
-                  {/* Card Header */}
-                  <div className="flex items-center mb-6">
-                    <div className={`bg-gradient-to-r ${category.color} p-4 rounded-2xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg`}>
-                      <IconComponent className="h-8 w-8 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-gray-800 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
-                        {category.title}
-                      </h3>
-                    </div>
-                  </div>
-
-                  {/* Card Content */}
-                  <div className="text-sm text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                    {category.description}
-                  </div>
-
-                  {/* Card Stats */}
-                  <div className="flex items-center justify-between mb-6">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      {category.count} {language === "ar" ? "مورد" : "resources"}
-                    </span>
-                    <div className="flex items-center gap-1">
-                      <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                      <span className="text-sm text-gray-600 dark:text-gray-300">4.8</span>
-                    </div>
-                  </div>
-
-                  {/* Card Footer */}
-                  <div className={`inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r ${category.color} text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-green-400`}>
-                    <span className="mr-2 rtl:mr-0 rtl:ml-2">
-                      {language === "ar" ? "استكشف الآن" : "Explore Now"}
-                    </span>
-                    {isRtl ? (
-                      <ArrowLeft className="h-5 w-5 group-hover/btn:-translate-x-1 transition-transform duration-300" />
+                  {/* Thumbnail */}
+                  <div className="relative aspect-video bg-gradient-to-br from-green-500 to-emerald-600">
+                    {category.imageUrl ? (
+                      <img
+                        src={category.imageUrl}
+                        alt={displayName}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
                     ) : (
-                      <ArrowRight className="h-5 w-5 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="bg-white/20 backdrop-blur-sm rounded-full p-6 group-hover:scale-110 transition-transform duration-300">
+                          <Shield className="h-12 w-12 text-white" />
+                        </div>
+                      </div>
                     )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                    <div className="absolute top-4 right-4 bg-black/50 text-white text-xs px-3 py-1 rounded-full">
+                      {language === "ar" ? "فئة" : "Category"}
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-8">
+                    {/* Category Header */}
+                    <div className="flex items-center mb-6">
+                      <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-3 rounded-xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+                        <Shield className="h-6 w-6 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400 mb-1 flex items-center gap-2">
+                          <Calendar className="h-4 w-4" /> 
+                          {new Date(category.createdAt).toLocaleDateString()}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Category Title */}
+                    <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-6 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300 line-clamp-2">
+                      {displayName}
+                    </h3>
+
+                    {/* Category Footer */}
+                    <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-green-400">
+                      <span className="mr-2 rtl:mr-0 rtl:ml-2">
+                        {language === "ar" ? "عرض الفئة" : "View Category"}
+                      </span>
+                      {isRtl ? (
+                        <ArrowLeft className="h-4 w-4 group-hover/btn:-translate-x-1 transition-transform duration-300" />
+                      ) : (
+                        <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                      )}
+                    </div>
                   </div>
                 </div>
               </Link>
             )
           })}
         </div>
+
+        {/* Pagination */}
+        {pagination && pagination.pagesCount > 1 && (
+          <div className="mt-12 flex justify-center">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+              >
+                {isRtl ? <ArrowRight className="h-4 w-4" /> : <ArrowLeft className="h-4 w-4" />}
+              </button>
+              
+              {Array.from({ length: Math.min(5, pagination.pagesCount) }, (_, i) => {
+                const page = i + 1
+                return (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`px-4 py-2 rounded-lg transition-all duration-300 ${
+                      currentPage === page
+                        ? 'bg-green-600 text-white shadow-lg'
+                        : 'border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                )
+              })}
+              
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === pagination.pagesCount}
+                className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+              >
+                {isRtl ? <ArrowLeft className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {categories.length === 0 && !loading && (
+          <div className="text-center py-16">
+            <div className="w-24 h-24 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Shield className="h-12 w-12 text-gray-400" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              {language === "ar" ? "لا توجد فئات" : "No Categories Found"}
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400">
+              {language === "ar" 
+                ? "لم يتم العثور على أي فئات تطابق البحث الخاص بك."
+                : "No categories found matching your search."
+              }
+            </p>
+          </div>
+        )}
       </div>
     </div>
   )
 }
-
-
-
-

@@ -39,6 +39,7 @@ import { useLanguage } from "@/components/language-provider";
 import SimpleTipsTicker from "@/components/layouts/simple-tips-ticker";
 import SimpleTipOfTheDayPopup from "@/components/simple-tip-of-the-day-popup";
 import { useDefinitionCategories } from "@/core/hooks/use-definition-categories";
+import { usePersonalProtectCategories } from "@/core/hooks/use-personal-protect-categories";
 
 export default function BeginnersHome() {
   const router = useRouter();
@@ -48,6 +49,10 @@ export default function BeginnersHome() {
   // Fetch definition categories
   const { categories: definitionCategories, loading: definitionsLoading } =
     useDefinitionCategories(1, 3);
+  
+  // Fetch personal protect categories
+  const { categories: personalProtectCategories, loading: personalProtectLoading } =
+    usePersonalProtectCategories("", 1, 2);
 
   useEffect(() => {
     router.prefetch("/simple/videos");
@@ -527,30 +532,122 @@ export default function BeginnersHome() {
 
                       {/* Quick Access Links - Flexible */}
                       <div className="space-y-2 flex-1 flex flex-col justify-center">
-                        {card.items.map((item, itemIndex) => (
-                          <Link
-                            key={itemIndex}
-                            href={item.href}
-                            onClick={(e) => e.stopPropagation()}
-                            className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
-                          >
-                            <span className="text-gray-700 dark:text-white text-sm font-medium group-hover/item:text-green-700 dark:group-hover/item:text-green-400 transition-colors duration-300">
-                              {item.title}
-                            </span>
-                            <div className="flex items-center">
-                              {item.count && (
-                                <span className="text-xs text-gray-500 dark:text-gray-400 mr-2 bg-white/60 dark:bg-white/10 px-2 py-1 rounded-full group-hover/item:bg-green-200 dark:group-hover/item:bg-green-800 group-hover/item:text-green-700 dark:group-hover/item:text-green-200 transition-colors duration-300">
-                                  {item.count}
-                                </span>
-                              )}
-                              {isRtl ? (
-                                <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
-                              ) : (
-                                <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
-                              )}
-                            </div>
-                          </Link>
-                        ))}
+                        {card.id === "personal-protect" ? (
+                          // Show actual personal protect categories
+                          <>
+                            {personalProtectLoading ? (
+                              // Loading state
+                              <>
+                                {[...Array(2)].map((_, index) => (
+                                  <div key={index} className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 rounded-lg border border-white/20 dark:border-white/10 animate-pulse">
+                                    <div className="flex-1 min-w-0">
+                                      <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-2"></div>
+                                      <div className="h-3 bg-gray-300 dark:bg-gray-700 rounded w-1/2"></div>
+                                    </div>
+                                    <div className="h-4 w-4 bg-gray-300 dark:bg-gray-700 rounded"></div>
+                                  </div>
+                                ))}
+                              </>
+                            ) : personalProtectCategories.length > 0 ? (
+                              // Show actual categories
+                              personalProtectCategories.slice(0, 2).map((category, categoryIndex) => (
+                                <Link
+                                  key={category.id}
+                                  href={`/simple/personal-protect/${category.id}`}
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
+                                >
+                                  <div className="flex-1 min-w-0">
+                                    <span className="text-gray-700 dark:text-white text-sm font-medium group-hover/item:text-amber-700 dark:group-hover/item:text-amber-400 transition-colors duration-300 line-clamp-1">
+                                      {language === "ar" ? category.name : category.nameEn || category.name}
+                                    </span>
+                                  </div>
+                                  <div className="flex items-center">
+                                    {isRtl ? (
+                                      <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-amber-600 dark:group-hover/item:text-amber-400 transition-colors duration-300" />
+                                    ) : (
+                                      <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-amber-600 dark:group-hover/item:text-amber-400 transition-colors duration-300" />
+                                    )}
+                                  </div>
+                                </Link>
+                              ))
+                            ) : (
+                              // Empty state - show placeholder items
+                              <>
+                                <div className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 rounded-lg border border-white/20 dark:border-white/10">
+                                  <div className="flex-1 min-w-0">
+                                    <span className="text-gray-500 dark:text-gray-400 text-sm font-medium">
+                                      {language === "ar" ? "فئة رقم 1" : "Category 1"}
+                                    </span>
+                                  </div>
+                                  <div className="flex items-center">
+                                    {isRtl ? (
+                                      <ArrowLeft className="h-4 w-4 text-gray-400" />
+                                    ) : (
+                                      <ArrowRight className="h-4 w-4 text-gray-400" />
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 rounded-lg border border-white/20 dark:border-white/10">
+                                  <div className="flex-1 min-w-0">
+                                    <span className="text-gray-500 dark:text-gray-400 text-sm font-medium">
+                                      {language === "ar" ? "فئة رقم 2" : "Category 2"}
+                                    </span>
+                                  </div>
+                                  <div className="flex items-center">
+                                    {isRtl ? (
+                                      <ArrowLeft className="h-4 w-4 text-gray-400" />
+                                    ) : (
+                                      <ArrowRight className="h-4 w-4 text-gray-400" />
+                                    )}
+                                  </div>
+                                </div>
+                              </>
+                            )}
+                            <Link
+                              href="/simple/personal-protect"
+                              onClick={(e) => e.stopPropagation()}
+                              className="flex items-center justify-center p-3 bg-amber-500/20 dark:bg-amber-500/10 hover:bg-amber-500/30 dark:hover:bg-amber-500/20 rounded-lg transition-all duration-300 group/item border border-amber-500/30 dark:border-amber-500/20 hover:border-amber-500/50 dark:hover:border-amber-500/30"
+                            >
+                              <span className="text-amber-700 dark:text-amber-400 text-sm font-medium group-hover/item:text-amber-800 dark:group-hover/item:text-amber-300 transition-colors duration-300">
+                                {language === "ar" ? "عرض المزيد" : "View More"}
+                              </span>
+                              <div className="flex items-center ml-2">
+                                {isRtl ? (
+                                  <ArrowLeft className="h-4 w-4 text-amber-600 dark:text-amber-400 group-hover/item:text-amber-700 dark:group-hover/item:text-amber-300 transition-colors duration-300" />
+                                ) : (
+                                  <ArrowRight className="h-4 w-4 text-amber-600 dark:text-amber-400 group-hover/item:text-amber-700 dark:group-hover/item:text-amber-300 transition-colors duration-300" />
+                                )}
+                              </div>
+                            </Link>
+                          </>
+                        ) : (
+                          // Show regular items for other cards
+                          card.items.map((item, itemIndex) => (
+                            <Link
+                              key={itemIndex}
+                              href={item.href}
+                              onClick={(e) => e.stopPropagation()}
+                              className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
+                            >
+                              <span className="text-gray-700 dark:text-white text-sm font-medium group-hover/item:text-green-700 dark:group-hover/item:text-green-400 transition-colors duration-300">
+                                {item.title}
+                              </span>
+                              <div className="flex items-center">
+                                {item.count && (
+                                  <span className="text-xs text-gray-500 dark:text-gray-400 mr-2 bg-white/60 dark:bg-white/10 px-2 py-1 rounded-full group-hover/item:bg-green-200 dark:group-hover/item:bg-green-800 group-hover/item:text-green-700 dark:group-hover/item:text-green-200 transition-colors duration-300">
+                                    {item.count}
+                                  </span>
+                                )}
+                                {isRtl ? (
+                                  <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
+                                ) : (
+                                  <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
+                                )}
+                              </div>
+                            </Link>
+                          ))
+                        )}
                       </div>
                     </div>
                   </div>
