@@ -17,7 +17,8 @@ export function useSearch(
   pageSize: number = 10,
   includeInactive: boolean = false,
   englishOnly: boolean = false,
-  arabicOnly: boolean = false
+  arabicOnly: boolean = false,
+  isAdvanced: boolean = false
 ): UseSearchReturn {
   const [results, setResults] = useState<SearchResult[]>([])
   const [loading, setLoading] = useState(false)
@@ -43,7 +44,8 @@ export function useSearch(
         pageSize,
         includeInactive,
         englishOnly,
-        arabicOnly
+        arabicOnly,
+        isAdvanced
       )
       setResults(data.allResults)
       setPagination(data.pagination)
@@ -56,7 +58,7 @@ export function useSearch(
     } finally {
       setLoading(false)
     }
-  }, [query, page, pageSize, includeInactive, englishOnly, arabicOnly])
+  }, [query, page, pageSize, includeInactive, englishOnly, arabicOnly, isAdvanced])
 
   useEffect(() => {
     fetchSearchResults()

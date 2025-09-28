@@ -55,15 +55,15 @@ export default function SearchPageClient() {
   const [activeFilter, setActiveFilter] = useState<string | null>(searchParams.get("filter") || null)
   
   const debouncedQuery = useDebounce(query, 500)
-  const { search, loading, error, results } = useSearch()
-
-  // Perform search when debounced query changes
-  useEffect(() => {
-    if (debouncedQuery) {
-      search(debouncedQuery, 1)
-      setCurrentPage(1)
-    }
-  }, [debouncedQuery, search])
+  const { results, loading, error, pagination, metadata } = useSearch(
+    debouncedQuery,
+    currentPage,
+    10,
+    false,
+    false,
+    false,
+    true // isAdvanced = true
+  )
 
   // Update URL when query or filter changes
   useEffect(() => {
@@ -74,23 +74,19 @@ export default function SearchPageClient() {
     if (activeFilter) {
       params.set("filter", activeFilter)
     }
-    const newUrl = query ? `/advanced/regulation?${params.toString()}` : "/advanced/regulation"
+    const newUrl = query ? `/advanced/search?${params.toString()}` : "/advanced/search"
     router.replace(newUrl, { scroll: false })
   }, [query, activeFilter, router])
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
     if (query.trim()) {
-      search(query.trim(), 1)
       setCurrentPage(1)
     }
   }
 
   const handlePageChange = (page: number) => {
-    if (query.trim()) {
-      search(query.trim(), page)
-      setCurrentPage(page)
-    }
+    setCurrentPage(page)
   }
 
   const handleFilterClick = (entityType: string) => {
@@ -114,11 +110,10 @@ export default function SearchPageClient() {
     if (!results) return []
     
     if (activeFilter) {
-      // Use resultsByType if available, otherwise filter allResults
-      return results.resultsByType[activeFilter] || results.allResults.filter(result => result.entityType === activeFilter)
+      return results.filter(result => result.entityType === activeFilter)
     }
     
-    return results.allResults
+    return results
   }
 
   const formatDate = (dateString: string) => {
@@ -325,7 +320,7 @@ export default function SearchPageClient() {
         {error && (
           <div className="text-center py-12">
             <div className="text-red-500 mb-4">{error}</div>
-            <Button onClick={() => search(query, currentPage)}>
+            <Button onClick={() => window.location.reload()}>
               {t("common.retry")}
             </Button>
           </div>
@@ -358,13 +353,13 @@ export default function SearchPageClient() {
                    <div>
                      <h2 className="text-2xl font-bold bg-gradient-to-r from-foreground via-primary to-cyan-500 bg-clip-text text-transparent">
                        {activeFilter 
-                         ? t("common.foundResults").replace("{{count}}", String(getFilteredResults().length)).replace("{{term}}", results.metadata.query)
-                         : t("common.foundResults").replace("{{count}}", String(results.metadata.totalResults)).replace("{{term}}", results.metadata.query)
+                         ? t("common.foundResults").replace("{{count}}", String(getFilteredResults().length)).replace("{{term}}", query)
+                         : t("common.foundResults").replace("{{count}}", String(metadata?.totalResults || 0)).replace("{{term}}", query)
                        }
                      </h2>
                      <p className="text-base text-muted-foreground mt-2 flex items-center gap-2">
                        <Clock className="h-4 w-4" />
-                       {t("common.searchTime").replace("{{time}}", String(results.metadata.executionTimeMs))}
+                       {t("common.searchTime").replace("{{time}}", String(metadata?.executionTimeMs || 0))}
                      </p>
                      {activeFilter && (
                        <div className="mt-3 flex items-center gap-2">
@@ -385,13 +380,13 @@ export default function SearchPageClient() {
                  </div>
                 
                 {/* Entity Type Filters */}
-                {results.metadata.entityTypesWithResultsList.length > 0 && (
+                {metadata?.entityTypesWithResultsList && metadata.entityTypesWithResultsList.length > 0 && (
                   <div className="flex flex-wrap gap-3">
                     <span className="text-base font-semibold text-foreground self-center flex items-center gap-2">
                       <div className="w-2 h-2 bg-gradient-to-r from-primary to-cyan-500 rounded-full" />
                       {t("common.filterBy")}:
                     </span>
-                     {results.metadata.entityTypesWithResultsList.map((type) => (
+                     {metadata.entityTypesWithResultsList.map((type: string) => (
                        <Badge 
                          key={type} 
                          onClick={() => handleFilterClick(type)}
@@ -445,12 +440,12 @@ export default function SearchPageClient() {
             )}
 
             {/* Pagination */}
-            {results.pagination.pagesCount > 1 && (
+            {pagination && pagination.pagesCount > 1 && (
               <div className="flex justify-center pt-8">
                 <div className="bg-card/30 backdrop-blur-sm rounded-xl p-4 border border-border/50">
                   <Pagination
                     currentPage={currentPage}
-                    totalPages={results.pagination.pagesCount}
+                    totalPages={pagination.pagesCount}
                     onPageChange={handlePageChange}
                     showFirstLast={true}
                   />

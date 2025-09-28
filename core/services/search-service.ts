@@ -58,10 +58,11 @@ export class SearchService {
     pageSize: number = 10,
     includeInactive: boolean = false,
     englishOnly: boolean = false,
-    arabicOnly: boolean = false
+    arabicOnly: boolean = false,
+    isAdvanced: boolean = false
   ): Promise<SearchResponse> {
     try {
-      console.log(`🔍 Searching for: "${query}" - page: ${page}, pageSize: ${pageSize}`)
+      console.log(`🔍 Searching for: "${query}" - page: ${page}, pageSize: ${pageSize}, advanced: ${isAdvanced}`)
 
       // Build query parameters
       const params = new URLSearchParams({
@@ -73,7 +74,9 @@ export class SearchService {
         arabicOnly: arabicOnly.toString(),
       })
 
-      const url = `${this.baseUrl}/Search/beginners?${params.toString()}`
+      // Use different endpoint based on search type
+      const endpoint = isAdvanced ? "professionals" : "beginners"
+      const url = `${this.baseUrl}/Search/${endpoint}?${params.toString()}`
       console.log(`📡 Search API Request:`, url)
 
       const response = await fetch(url, {
@@ -91,7 +94,7 @@ export class SearchService {
       console.log(`✅ Search completed in ${data.metadata.executionTimeMs}ms - Found ${data.metadata.totalResults} results`)
       
       // Transform image URLs to remove /api prefix and add base image URL
-      const transformedData = this.transformSearchResults(data)
+      const transformedData = this.transformSearchResults(data, isAdvanced)
       
       return transformedData
     } catch (error) {
@@ -100,13 +103,13 @@ export class SearchService {
     }
   }
 
-  private transformSearchResults(data: SearchResponse): SearchResponse {
+  private transformSearchResults(data: SearchResponse, isAdvanced: boolean = false): SearchResponse {
     return {
       ...data,
       allResults: data.allResults.map(result => ({
         ...result,
         imageUrl: result.imageUrl ? `${this.baseImageUrl}${result.imageUrl}` : null,
-        navigationRoute: this.transformNavigationRoute(result.navigationRoute, result.entityType)
+        navigationRoute: this.transformNavigationRoute(result.navigationRoute, result.entityType, isAdvanced)
       })),
       resultsByType: Object.fromEntries(
         Object.entries(data.resultsByType).map(([key, results]) => [
@@ -114,15 +117,20 @@ export class SearchService {
           results.map(result => ({
             ...result,
             imageUrl: result.imageUrl ? `${this.baseImageUrl}${result.imageUrl}` : null,
-            navigationRoute: this.transformNavigationRoute(result.navigationRoute, result.entityType)
+            navigationRoute: this.transformNavigationRoute(result.navigationRoute, result.entityType, isAdvanced)
           }))
         ])
       )
     }
   }
 
-  private transformNavigationRoute(route: string, entityType: string): string {
-    // Transform definition routes to use the new structure
+  private transformNavigationRoute(route: string, entityType: string, isAdvanced: boolean = false): string {
+    // For advanced search, routes should already be correct
+    if (isAdvanced) {
+      return route
+    }
+
+    // Transform definition routes to use the new structure for simple search
     if (entityType === "Definition") {
       // Handle different definition route patterns
       if (route.includes("/simple/definitions/")) {

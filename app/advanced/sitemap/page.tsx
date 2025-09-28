@@ -38,7 +38,8 @@ import {
   TrendingUp,
   Star,
   Clock,
-  ExternalLink
+  ExternalLink,
+  ShieldCheck
 } from "lucide-react";
 
 interface Subsection {
@@ -129,6 +130,20 @@ export default function SitemapPage() {
         { title: language === "ar" ? "الفيديوهات" : "Videos", path: "/advanced/videos", icon: Play, description: language === "ar" ? "مقاطع فيديو تعليمية" : "Educational videos" },
         { title: language === "ar" ? "المحاضرات" : "Lectures", path: "/advanced/lectures", icon: GraduationCap, description: language === "ar" ? "محاضرات متخصصة" : "Specialized lectures" },
         { title: language === "ar" ? "العروض التقديمية" : "Presentations", path: "/advanced/presentations", icon: Presentation, description: language === "ar" ? "عروض تقديمية" : "Presentations" }
+      ]
+    },
+    procedures: {
+      title: language === "ar" ? "الإجراءات الأمنية" : "Security Procedures",
+      icon: Settings,
+      path: "/advanced/procedures",
+      description: language === "ar" ? "الإجراءات والضوابط والضمانات" : "Procedures, controls, and safeguards",
+      color: "text-red-600",
+      bgColor: "bg-red-50",
+      gradient: "from-red-500 to-red-600",
+      subsections: [
+        { title: language === "ar" ? "الإجراءات" : "Procedures", path: "/advanced/procedures", icon: Settings, description: language === "ar" ? "الإجراءات الأمنية" : "Security procedures" },
+        { title: language === "ar" ? "الضوابط" : "Controls", path: "/advanced/procedures", icon: Shield, description: language === "ar" ? "ضوابط الإجراءات" : "Procedure controls" },
+        { title: language === "ar" ? "الضمانات" : "Safeguards", path: "/advanced/procedures", icon: ShieldCheck, description: language === "ar" ? "ضمانات الحماية" : "Protection safeguards" }
       ]
     },
     systems: {
@@ -303,7 +318,13 @@ export default function SitemapPage() {
                 <Link href="/advanced/search">
                   <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-white border-white/20">
                     <Search className="h-5 w-5 mr-2" />
-                    {language === "ar" ? "البحث" : "Search"}
+                    {language === "ar" ? "البحث المتقدم" : "Advanced Search"}
+                  </Button>
+                </Link>
+                <Link href="/simple">
+                  <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-white border-white/20">
+                    <Users className="h-5 w-5 mr-2" />
+                    {language === "ar" ? "واجهة المبتدئين": "Simple Mode"}
                   </Button>
                 </Link>
                 <Link href="/advanced/news">
@@ -350,10 +371,16 @@ export default function SitemapPage() {
                   </p>
                   
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Link href="/">
+                    <Link href="/advanced">
                       <Button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:opacity-90 text-white border-0">
                         <Home className="h-5 w-5 mr-2" />
                         {language === "ar" ? "العودة للرئيسية" : "Back to Home"}
+                      </Button>
+                    </Link>
+                    <Link href="/simple">
+                      <Button variant="outline" className="border-green-300 dark:border-green-600 hover:bg-green-50 dark:hover:bg-green-700 text-green-700 dark:text-green-200">
+                        <Users className="h-5 w-5 mr-2" />
+                        {language === "ar" ? "واجهة المبتدئين" : "Simple Mode"}
                       </Button>
                     </Link>
                     <Link href="/advanced/search">

@@ -86,12 +86,24 @@ export default function Footer() {
         { title: language === "ar" ? "المنظومات الرئيسية" : "Main Systems", href: "/advanced/systems", icon: Database },
         { title: language === "ar" ? "الأنظمة المساعدة" : "Helper Systems", href: "/advanced/helper-systems", icon: Settings }
       ]
+    },
+    {
+      title: language === "ar" ? "الإجراءات الأمنية" : "Security Procedures",
+      icon: Settings,
+      color: "text-red-400",
+      bgColor: "bg-red-400/10",
+      links: [
+        { title: language === "ar" ? "الإجراءات" : "Procedures", href: "/advanced/procedures", icon: Settings },
+        { title: language === "ar" ? "الضوابط" : "Controls", href: "/advanced/procedures", icon: Settings },
+        { title: language === "ar" ? "الضمانات" : "Safeguards", href: "/advanced/procedures", icon: Settings }
+      ]
     }
   ];
 
   const quickLinks = [
     { title: language === "ar" ? "خريطة الموقع" : "Site Map", href: "/advanced/sitemap", icon: Map },
-    { title: language === "ar" ? "البحث" : "Search", href: "/advanced/search", icon: Search },
+    { title: language === "ar" ? "البحث المتقدم" : "Advanced Search", href: "/advanced/search", icon: Search },
+    { title: language === "ar" ? "واجهة المبتدئين" : "Simple Mode", href: "/simple", icon: Users },
     { title: language === "ar" ? "الرئيسية" : "Home", href: "/advanced", icon: Home }
   ];
 
