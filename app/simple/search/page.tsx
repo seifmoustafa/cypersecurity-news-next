@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
 import { useLanguage } from "@/components/language-provider"
 import { useSearch } from "@/core/hooks/use-search"
 import { useDebounce } from "@/hooks/use-debounce"
@@ -27,6 +28,7 @@ import VideoModal from "@/components/video-modal"
 export default function BeginnersSearchPage() {
   const { language } = useLanguage()
   const isRtl = language === "ar"
+  const searchParams = useSearchParams()
   const [query, setQuery] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedType, setSelectedType] = useState("all")
@@ -34,6 +36,14 @@ export default function BeginnersSearchPage() {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
   
   const debouncedQuery = useDebounce(query, 500)
+  
+  // Initialize query from URL parameters
+  useEffect(() => {
+    const urlQuery = searchParams.get('q')
+    if (urlQuery) {
+      setQuery(decodeURIComponent(urlQuery))
+    }
+  }, [searchParams])
   
   const { results, loading, error, pagination, metadata } = useSearch(
     debouncedQuery,
@@ -214,7 +224,7 @@ export default function BeginnersSearchPage() {
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                 {language === "ar" ? "نتائج البحث" : "Search Results"}
                 {metadata && (
-                  <span className="text-lg font-normal text-gray-500 dark:text-gray-400 ml-2">
+                  <span className="text-lg font-normal text-gray-500 dark:text-gray-400 mx-2">
                     ({metadata.totalResults} {language === "ar" ? "نتيجة" : "results"})
                   </span>
                 )}

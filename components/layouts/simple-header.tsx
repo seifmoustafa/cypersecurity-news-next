@@ -31,6 +31,7 @@ import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { useDebounce } from "@/hooks/use-debounce"
 
 interface BeginnersHeaderProps {
   onToggleTheme: () => void
@@ -45,9 +46,11 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
   const [searchOpen, setSearchOpen] = useState(false)
   const [isBeginnersMode, setIsBeginnersMode] = useState(true)
   const [tipsDisabled, setTipsDisabled] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
 
   const pathname = usePathname()
   const router = useRouter()
+  const debouncedSearchQuery = useDebounce(searchQuery, 500)
 
   // Check if we're in beginners mode from localStorage and tips status
   useEffect(() => {
@@ -57,6 +60,14 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
     setTipsDisabled(disabled)
     setMounted(true)
   }, [])
+
+  // Handle debounced search
+  useEffect(() => {
+    if (debouncedSearchQuery.trim() && searchOpen) {
+      router.push(`/simple/search?q=${encodeURIComponent(debouncedSearchQuery)}`)
+      setSearchOpen(false)
+    }
+  }, [debouncedSearchQuery, router, searchOpen])
 
   // Navigation items for beginners mode
   const beginnersNavItems = [
@@ -313,6 +324,8 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
               <input
                 type="text"
                 placeholder={t("common.searchPlaceholder")}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className="flex-1 bg-transparent border-none outline-none text-lg placeholder:text-gray-500 dark:placeholder:text-slate-400 text-gray-800 dark:text-white focus:text-gray-900 dark:focus:text-white transition-colors duration-300"
                 autoFocus
                 onKeyDown={(e) => {
@@ -321,16 +334,21 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
                     if (query) {
                       router.push(`/simple/search?q=${encodeURIComponent(query)}`)
                       setSearchOpen(false)
+                      setSearchQuery("")
                     }
                   } else if (e.key === 'Escape') {
                     setSearchOpen(false)
+                    setSearchQuery("")
                   }
                 }}
               />
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => setSearchOpen(false)}
+                onClick={() => {
+                  setSearchOpen(false)
+                  setSearchQuery("")
+                }}
                 className="text-gray-500 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-slate-700/50 transition-all duration-300"
               >
                 {t("common.cancel")}
