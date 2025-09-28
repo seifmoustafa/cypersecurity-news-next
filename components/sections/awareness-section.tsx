@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge"
 import Image from "next/image"
 import Link from "next/link"
 import { useNewsCategories } from "@/core/hooks/use-news-categories"
+import { useNewsByCategory } from "@/core/hooks/use-news-by-category"
 import { useLatestArticles } from "@/core/hooks/use-articles"
 import { container } from "@/core/di/container"
 import { slugify } from "@/lib/utils"
@@ -119,8 +120,8 @@ export default function AwarenessSection() {
               <TabsContent key={cat.id} value={cat.id}>
                 <CategoryNewsContent
                   categoryId={cat.id}
-                  categoryName={language === "ar" ? cat.name || cat.nameEn : cat.nameEn || cat.name}
-                  categoryNameEn={cat.nameEn || cat.name}
+                  categoryName={language === "ar" ? (cat.name || cat.nameEn || "") : (cat.nameEn || cat.name || "")}
+                  categoryNameEn={cat.nameEn || cat.name || ""}
                 />
               </TabsContent>
             ))}

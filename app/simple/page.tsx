@@ -633,7 +633,7 @@ export default function BeginnersHome() {
             <button
               onClick={() => {
                 localStorage.setItem("beginnersMode", "false");
-                window.location.href = "/";
+                window.location.href = "/advanced";
               }}
               className="inline-flex items-center px-6 py-3 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 border border-gray-300 dark:border-white/20 rounded-xl text-gray-700 dark:text-white font-medium transition-all duration-300 hover:scale-105 shadow-lg dark:shadow-none hover:shadow-xl dark:hover:shadow-none"
             >

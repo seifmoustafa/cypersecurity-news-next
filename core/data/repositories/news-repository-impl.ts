@@ -86,7 +86,7 @@ export class NewsRepositoryImpl implements NewsRepository {
       
       if (categoryId && categoryId !== "all" && categoryId.trim() !== "") {
         console.log(`🔍 Fetching news for specific category ID: "${categoryId}"`)
-        endpoint = `/News/beginners/${categoryId}?page=${page}&pageSize=${pageSize}`
+        endpoint = `/News/professionals/${categoryId}?page=${page}&pageSize=${pageSize}`
         
         if (search && search.trim()) {
           endpoint += `&search=${encodeURIComponent(search.trim())}`
