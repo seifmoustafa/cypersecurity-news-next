@@ -579,12 +579,12 @@ export default function BeginnersHome() {
                             <Link
                               href="/simple/personal-protect"
                               onClick={(e) => e.stopPropagation()}
-                              className="flex  justify-center p-3 bg-amber-500/20 dark:bg-amber-500/10 hover:bg-amber-500/30 dark:hover:bg-amber-500/20 rounded-lg transition-all duration-300 group/item border border-amber-500/30 dark:border-amber-500/20 hover:border-amber-500/50 dark:hover:border-amber-500/30"
+                              className="flex items-center justify-between p-3 bg-amber-500/20 dark:bg-amber-500/10 hover:bg-amber-500/30 dark:hover:bg-amber-500/20 rounded-lg transition-all duration-300 group/item border border-amber-500/30 dark:border-amber-500/20 hover:border-amber-500/50 dark:hover:border-amber-500/30"
                             >
                               <span className="text-amber-700 dark:text-amber-400 text-sm font-medium group-hover/item:text-amber-800 dark:group-hover/item:text-amber-300 transition-colors duration-300">
                                 {language === "ar" ? "عرض المزيد من الفئات" : "View More"}
                               </span>
-                              <div className="flex items-center ml-2">
+                              <div className="flex items-center">
                                 {isRtl ? (
                                   <ArrowLeft className="h-4 w-4 text-amber-600 dark:text-amber-400 group-hover/item:text-amber-700 dark:group-hover/item:text-amber-300 transition-colors duration-300" />
                                 ) : (
