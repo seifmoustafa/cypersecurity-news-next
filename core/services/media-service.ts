@@ -10,6 +10,8 @@ import type {
   LecturesPaginatedResponse,
   ApiPresentation,
   PresentationsPaginatedResponse,
+  ApiArticle,
+  ArticlesPaginatedResponse,
   VideoCategory,
   VideoCategoriesResponse,
   LectureCategory,
@@ -127,5 +129,13 @@ export class MediaService {
 
   async getApiPresentationById(id: string): Promise<ApiPresentation | null> {
     return this.mediaRepository.getApiPresentationById(id)
+  }
+
+  async getArticles(page = 1, pageSize = 10, search?: string): Promise<ArticlesPaginatedResponse> {
+    return this.mediaRepository.getArticles(page, pageSize, search)
+  }
+
+  async getApiArticleById(id: string): Promise<ApiArticle | null> {
+    return this.mediaRepository.getApiArticleById(id)
   }
 }

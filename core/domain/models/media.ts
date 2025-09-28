@@ -188,3 +188,30 @@ export interface PresentationCategoriesResponse {
     currentPage: number
   }
 }
+
+export interface ApiArticle {
+  id: string
+  title: string
+  titleEn: string | null
+  content: string
+  contentEn: string | null
+  summary: string
+  summaryEn: string | null
+  imageUrl: string
+  tags: string[]
+  forBeginners: boolean
+  forProfessionals: boolean
+  isActive: boolean
+  createdAt: string
+  updatedAt: string | null
+}
+
+export interface ArticlesPaginatedResponse {
+  data: ApiArticle[]
+  pagination: {
+    itemsCount: number
+    pagesCount: number
+    pageSize: number
+    currentPage: number
+  }
+}

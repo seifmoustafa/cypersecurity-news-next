@@ -11,6 +11,8 @@ import type {
   LecturesPaginatedResponse,
   ApiPresentation,
   PresentationsPaginatedResponse,
+  ApiArticle,
+  ArticlesPaginatedResponse,
   VideoCategory,
   VideoCategoriesResponse,
   LectureCategory,
@@ -492,6 +494,59 @@ export class MediaRepositoryImpl implements MediaRepository {
       }
     } catch (error) {
       console.error("MediaRepository: Error fetching presentation by ID:", error)
+      return null
+    }
+  }
+
+  async getArticles(page = 1, pageSize = 10, search?: string): Promise<ArticlesPaginatedResponse> {
+    try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        pageSize: pageSize.toString(),
+      })
+
+      if (search && search.trim()) {
+        params.append("search", search.trim())
+      }
+
+      const response = await this.dataSource.get<ArticlesPaginatedResponse>(`/Articles/beginners?${params.toString()}`)
+
+      // Transform image URLs to include base URL
+      const baseImageUrl = this.dataSource.getBaseImageUrl()
+      const transformedData = response.data.map((article) => ({
+        ...article,
+        imageUrl: article.imageUrl ? `${baseImageUrl}${article.imageUrl}` : article.imageUrl,
+      }))
+
+      return {
+        ...response,
+        data: transformedData,
+      }
+    } catch (error) {
+      console.error("MediaRepository: Error fetching articles:", error)
+      return {
+        data: [],
+        pagination: {
+          itemsCount: 0,
+          pagesCount: 0,
+          pageSize: pageSize,
+          currentPage: page,
+        },
+      }
+    }
+  }
+
+  async getApiArticleById(id: string): Promise<ApiArticle | null> {
+    try {
+      const article = await this.dataSource.get<ApiArticle>(`/Articles/${id}`)
+      // Transform image URL to include base URL
+      const baseImageUrl = this.dataSource.getBaseImageUrl()
+      return {
+        ...article,
+        imageUrl: article.imageUrl ? `${baseImageUrl}${article.imageUrl}` : article.imageUrl,
+      }
+    } catch (error) {
+      console.error("MediaRepository: Error fetching article by ID:", error)
       return null
     }
   }

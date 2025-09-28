@@ -1,107 +1,62 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { container } from "../di/container"
-import type { Article } from "../../entities"
+import { useState, useEffect, useCallback } from "react"
+import { container } from "@/core/di/container"
+import type { ApiArticle, ArticlesPaginatedResponse } from "@/core/domain/models/media"
 
-export function useArticles(page = 1, pageSize = 10) {
-  const [articles, setArticles] = useState<Article[]>([])
+interface UseArticlesReturn {
+  articles: ApiArticle[]
+  loading: boolean
+  error: string | null
+  pagination: ArticlesPaginatedResponse["pagination"] | null
+  refetch: () => Promise<void>
+}
+
+export function useArticles(
+  page: number = 1,
+  pageSize: number = 10,
+  search?: string
+): UseArticlesReturn {
+  const [articles, setArticles] = useState<ApiArticle[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [pagination, setPagination] = useState<ArticlesPaginatedResponse["pagination"] | null>(null)
 
   useEffect(() => {
     const fetchArticles = async () => {
       try {
         setLoading(true)
-        const data = await container.services.articles.getAllArticles(page, pageSize)
-        setArticles(data)
         setError(null)
+        const response = await container.services.media.getArticles(page, pageSize, search)
+        setArticles(response.data)
+        setPagination(response.pagination)
       } catch (err) {
-        setError(err instanceof Error ? err : new Error("An unknown error occurred"))
+        setError(err instanceof Error ? err.message : "An error occurred")
+        setArticles([])
+        setPagination(null)
       } finally {
         setLoading(false)
       }
     }
 
     fetchArticles()
-  }, [page, pageSize])
+  }, [page, pageSize, search])
 
-  return { articles, loading, error }
-}
-
-export function useArticleById(id: string) {
-  const [article, setArticle] = useState<Article | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
-
-  useEffect(() => {
-    const fetchArticle = async () => {
-      try {
-        setLoading(true)
-        const data = await container.services.articles.getArticleById(id)
-        setArticle(data)
-        setError(null)
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error("An unknown error occurred"))
-      } finally {
-        setLoading(false)
-      }
+  const refetch = useCallback(async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      const response = await container.services.media.getArticles(page, pageSize, search)
+      setArticles(response.data)
+      setPagination(response.pagination)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred")
+      setArticles([])
+      setPagination(null)
+    } finally {
+      setLoading(false)
     }
+  }, [page, pageSize, search])
 
-    fetchArticle()
-  }, [id])
-
-  return { article, loading, error }
-}
-
-export function useArticleBySlug(slug: string) {
-  const [article, setArticle] = useState<Article | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
-
-  useEffect(() => {
-    const fetchArticle = async () => {
-      try {
-        setLoading(true)
-        const data = await container.services.articles.getArticleBySlug(slug)
-        setArticle(data)
-        setError(null)
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error("An unknown error occurred"))
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    if (slug) {
-      fetchArticle()
-    }
-  }, [slug])
-
-  return { article, loading, error }
-}
-
-export function useLatestArticles(count = 3) {
-  const [articles, setArticles] = useState<Article[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
-
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        setLoading(true)
-        const data = await container.services.articles.getLatestArticles(count)
-        setArticles(data)
-        setError(null)
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error("An unknown error occurred"))
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchArticles()
-  }, [count])
-
-  return { articles, loading, error }
+  return { articles, loading, error, pagination, refetch }
 }

@@ -9,6 +9,8 @@ import type {
   LecturesPaginatedResponse,
   ApiPresentation,
   PresentationsPaginatedResponse,
+  ApiArticle,
+  ArticlesPaginatedResponse,
   VideoCategory,
   VideoCategoriesResponse,
   LectureCategory,
@@ -36,4 +38,6 @@ export interface MediaRepository {
   getVideoCategories(page?: number, pageSize?: number, search?: string): Promise<VideoCategoriesResponse>
   getLectureCategories(page?: number, pageSize?: number, search?: string): Promise<LectureCategoriesResponse>
   getPresentationCategories(page?: number, pageSize?: number, search?: string): Promise<PresentationCategoriesResponse>
+  getArticles(page?: number, pageSize?: number, search?: string): Promise<ArticlesPaginatedResponse>
+  getApiArticleById(id: string): Promise<ApiArticle | null>
 }
