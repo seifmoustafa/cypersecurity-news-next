@@ -59,11 +59,11 @@ export default function SimpleTipsTicker() {
       const tip: Tip & { type?: string } = {
         id: tickerItem.id,
         title: tickerItem.title,
-        titleEn: tickerItem.titleEn || "",
-        subtitle: "", // We don't have subtitle in ticker items
-        subtitleEn: "",
-        summary: tickerItem.text?.[language] || tickerItem.text?.en || tickerItem.text?.ar || "",
-        summaryEn: tickerItem.text?.en || tickerItem.text?.ar || "",
+        titleEn: tickerItem.titleEn || tickerItem.title,
+        subtitle: tickerItem.subtitle || "",
+        subtitleEn: tickerItem.subtitleEn || "",
+        summary: tickerItem.summary || tickerItem.text?.[language] || tickerItem.text?.en || tickerItem.text?.ar || "",
+        summaryEn: tickerItem.summaryEn || tickerItem.text?.en || tickerItem.text?.ar || "",
         isActive: true,
         createdAt: new Date().toISOString(),
         updatedAt: null,
@@ -85,7 +85,7 @@ export default function SimpleTipsTicker() {
   }
 
   const currentTip = tickerItems[currentTipIndex]
-  const tipText = currentTip.text?.[language] || currentTip.text?.en || currentTip.text?.ar || ""
+  const tipText = currentTip.summary || currentTip.text?.[language] || currentTip.text?.en || currentTip.text?.ar || ""
 
   const getIcon = (type: string, size: "small" | "large" = "small") => {
     const iconSize = size === "large" ? "h-6 w-6" : "h-4 w-4"
@@ -142,19 +142,19 @@ export default function SimpleTipsTicker() {
       {/* Custom Tip Modal - Matching SimpleTipOfTheDayPopup design */}
       {tipDialogOpen && selectedTip && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className="relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-w-md w-full mx-4 border border-slate-200 dark:border-slate-700">
+          <div className="relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-w-lg w-full mx-4 border border-slate-200 dark:border-slate-700">
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700">
-              <div className="flex items-center space-x-3 rtl:space-x-reverse">
-                <div className="bg-gradient-to-r from-green-500 to-blue-500 p-3 rounded-xl">
+              <div className="flex items-center space-x-3 rtl:space-x-reverse flex-1 min-w-0">
+                <div className="bg-gradient-to-r from-green-500 to-blue-500 p-3 rounded-xl flex-shrink-0">
                   {getIcon(selectedTip.type || "info", "large")}
                 </div>
-                <div>
+                <div className="flex-1 min-w-0">
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                    {language === "ar" ? "نصيحة الأمان اليوم" : "Security Tip of the Day"}
+                    {language === "ar" ?"نصيحة أمنية": "Security Tip of the Day"}
                   </h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {language === "ar" ? "تعلم شيئاً جديداً كل يوم" : "Learn something new every day"}
+                    {language === "ar" ? "تعلم شيئاً جديداً" : "Learn something new every day"}
                   </p>
                 </div>
               </div>
@@ -162,7 +162,7 @@ export default function SimpleTipsTicker() {
                 variant="ghost"
                 size="icon"
                 onClick={handleDialogClose}
-                className="h-8 w-8 hover:bg-slate-100 dark:hover:bg-slate-800"
+                className="h-8 w-8 hover:bg-slate-100 dark:hover:bg-slate-800 flex-shrink-0"
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -170,9 +170,14 @@ export default function SimpleTipsTicker() {
 
             {/* Content */}
             <div className="p-6">
-              <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+              <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                 {language === "ar" ? selectedTip.title : selectedTip.titleEn}
               </h4>
+              {(selectedTip.subtitle || selectedTip.subtitleEn) && (
+                <p className="text-lg text-gray-700 dark:text-gray-200 mb-4 font-medium">
+                  {language === "ar" ? selectedTip.subtitle : selectedTip.subtitleEn}
+                </p>
+              )}
               <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
                 {language === "ar" ? selectedTip.summary : selectedTip.summaryEn}
               </p>

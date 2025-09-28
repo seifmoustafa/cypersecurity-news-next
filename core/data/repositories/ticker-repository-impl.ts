@@ -19,6 +19,10 @@ export class TickerRepositoryImpl implements TickerRepository {
         id: tip.id,
         title: tip.title,
         titleEn: tip.titleEn,
+        subtitle: tip.subtitle,
+        subtitleEn: tip.subtitleEn,
+        summary: tip.summary,
+        summaryEn: tip.summaryEn,
         type: "info" as const,
         text: {
           // Arabic: use title, fallback to titleEn if title is null
