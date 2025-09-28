@@ -46,7 +46,8 @@ export default function BeginnersHome() {
   const isRtl = language === "ar";
 
   // Fetch definition categories
-  const { categories: definitionCategories, loading: definitionsLoading } = useDefinitionCategories(1, 3);
+  const { categories: definitionCategories, loading: definitionsLoading } =
+    useDefinitionCategories(1, 3);
 
   useEffect(() => {
     router.prefetch("/simple/videos");
@@ -55,6 +56,94 @@ export default function BeginnersHome() {
   }, [router]);
 
   const mainCards = [
+    {
+      id: "definitions",
+      title: t("beginners.cards.definitions.title"),
+      description: t("beginners.cards.definitions.description"),
+      icon: BookOpen,
+      color: "from-indigo-500 to-purple-600",
+      bgColor:
+        "bg-gradient-to-br from-indigo-50/80 to-purple-50/60 dark:from-indigo-900/30 dark:to-purple-900/20",
+      borderColor: "border-indigo-300/60 dark:border-indigo-600/40",
+      href: "/simple/definitions-categories",
+      items: definitionCategories
+        .slice(0, 2)
+        .map((category) => ({
+          title:
+            language === "ar"
+              ? category.name
+              : category.nameEn || category.name,
+          href: `/simple/definitions-categories/${category.id}`,
+          icon: BookOpen,
+          count: "",
+          imageUrl: null, // Don't show images in main page
+        }))
+        .concat([
+          {
+            title:
+              language === "ar"
+                ? "عرض المزيد من الفئات"
+                : "View More Categories",
+            href: "/simple/definitions-categories",
+            icon: ArrowRight,
+            count: "",
+            imageUrl: null,
+          },
+        ]),
+    },
+    {
+      id: "awareness",
+      title: language === "ar" ? "التوعية" : "Awareness",
+      description:
+        language === "ar"
+          ? "الأخبار نشرات التوعية المبسطة"
+          : "News and awareness bulletins",
+      icon: Lightbulb,
+      color: "from-yellow-400 to-amber-600",
+      bgColor:
+        "bg-gradient-to-br from-yellow-50/80 to-amber-50/60 dark:from-yellow-900/30 dark:to-amber-900/20",
+      borderColor: "border-yellow-300/60 dark:border-yellow-600/40",
+      href: "/simple/awareness",
+      items: [
+        {
+          title: language === "ar" ? "الأخبار" : "News",
+          href: "/advanced/news",
+          icon: Newspaper,
+          count: "",
+        },
+        {
+          title: language === "ar" ? "نشرات التوعية" : "Awareness",
+          href: "/advanced/awareness",
+          icon: Lightbulb,
+          count: "",
+        },
+      ],
+    },
+    {
+      id: "personal-protect",
+      title: t("beginners.cards.personalProtect.title"),
+      description: t("beginners.cards.personalProtect.description"),
+      icon: ShieldCheck,
+      color: "from-amber-500 to-orange-600",
+      bgColor:
+        "bg-gradient-to-br from-amber-50/80 to-orange-50/60 dark:from-amber-900/30 dark:to-orange-900/20",
+      borderColor: "border-amber-300/60 dark:border-amber-600/40",
+      href: "/simple/advanced/personal-protect",
+      items: [
+        {
+          title: t("beginners.cards.personalProtect.tips"),
+          href: "/simple/advanced/personal-protect",
+          icon: ShieldCheck,
+          count: "",
+        },
+        {
+          title: t("beginners.cards.personalProtect.tools"),
+          href: "/simple/advanced/personal-protect/tools",
+          icon: Settings,
+          count: "",
+        },
+      ],
+    },
     {
       id: "media",
       title: t("beginners.cards.media.title"),
@@ -86,331 +175,253 @@ export default function BeginnersHome() {
         },
       ],
     },
-    {
-      id: "awareness",
-      title: language === "ar" ? "التوعية" : "Awareness",
-      description:
-        language === "ar"
-          ? "الأخبار نشرات التوعية المبسطة"
-          : "News and awareness bulletins",
-      icon: Lightbulb,
-      color: "from-yellow-400 to-amber-600",
-      bgColor:
-        "bg-gradient-to-br from-yellow-50/80 to-amber-50/60 dark:from-yellow-900/30 dark:to-amber-900/20",
-      borderColor: "border-yellow-300/60 dark:border-yellow-600/40",
-      href: "/simple/awareness",
-      items: [
-        {
-          title: language === "ar" ? "الأخبار" : "News",
-          href: "/advanced/news",
-          icon: Newspaper,
-          count: "",
-        },
-        {
-          title: language === "ar" ? "نشرات التوعية" : "Awareness",
-          href: "/advanced/awareness",
-          icon: Lightbulb,
-          count: "",
-        },
-      ],
-    },
-    {
-      id: "definitions",
-      title: t("beginners.cards.definitions.title"),
-      description: t("beginners.cards.definitions.description"),
-      icon: BookOpen,
-      color: "from-indigo-500 to-purple-600",
-      bgColor:
-        "bg-gradient-to-br from-indigo-50/80 to-purple-50/60 dark:from-indigo-900/30 dark:to-purple-900/20",
-      borderColor: "border-indigo-300/60 dark:border-indigo-600/40",
-      href: "/simple/definitions-categories",
-      items: definitionCategories.slice(0, 2).map(category => ({
-        title: language === "ar" ? category.name : category.nameEn || category.name,
-        href: `/simple/definitions-categories/${category.id}`,
-        icon: BookOpen,
-        count: "",
-        imageUrl: null // Don't show images in main page
-      })).concat([
-        {
-          title: language === "ar" ? "عرض المزيد من الفئات" : "View More Categories",
-          href: "/simple/definitions-categories",
-          icon: ArrowRight,
-          count: "",
-          imageUrl: null
-        }
-      ]),
-    },
-    {
-      id: "personal-protect",
-      title: t("beginners.cards.personalProtect.title"),
-      description: t("beginners.cards.personalProtect.description"),
-      icon: ShieldCheck,
-      color: "from-amber-500 to-orange-600",
-      bgColor:
-        "bg-gradient-to-br from-amber-50/80 to-orange-50/60 dark:from-amber-900/30 dark:to-orange-900/20",
-      borderColor: "border-amber-300/60 dark:border-amber-600/40",
-      href: "/simple/advanced/personal-protect",
-      items: [
-        {
-          title: t("beginners.cards.personalProtect.tips"),
-          href: "/simple/advanced/personal-protect",
-          icon: ShieldCheck,
-          count: "",
-        },
-        {
-          title: t("beginners.cards.personalProtect.tools"),
-          href: "/simple/advanced/personal-protect/tools",
-          icon: Settings,
-          count: "",
-        },
-      ],
-    },
-    {
-      id: "media1",
-      title: t("beginners.cards.media.title"),
-      description: t("beginners.cards.media.description"),
-      icon: Video,
-      color: "from-emerald-500 to-teal-600",
-      bgColor:
-        "bg-gradient-to-br from-emerald-50/80 to-teal-50/60 dark:from-emerald-900/30 dark:to-teal-900/20",
-      borderColor: "border-emerald-300/60 dark:border-emerald-600/40",
-      href: "/simple/media",
-      items: [
-        {
-          title: language === "ar" ? "دروس تعليمية" : "Educational Lessons",
-          href: "/simple/media/lessons",
-          icon: GraduationCap,
-          count: "",
-        },
-        {
-          title: language === "ar" ? "مقالات" : "Articles",
-          href: "/simple/media/articles",
-          icon: FileText,
-          count: "",
-        },
-        {
-          title: language === "ar" ? "مراجع" : "References",
-          href: "/simple/media/references",
-          icon: BookOpen,
-          count: "",
-        },
-      ],
-    },
-    {
-      id: "definitions1",
-      title: t("beginners.cards.definitions.title"),
-      description: t("beginners.cards.definitions.description"),
-      icon: BookOpen,
-      color: "from-indigo-500 to-purple-600",
-      bgColor:
-        "bg-gradient-to-br from-indigo-50/80 to-purple-50/60 dark:from-indigo-900/30 dark:to-purple-900/20",
-      borderColor: "border-indigo-300/60 dark:border-indigo-600/40",
-      href: "/simple/definitions-categories",
-      items: definitionCategories.slice(0, 2).map(category => ({
-        title: language === "ar" ? category.name : category.nameEn || category.name,
-        href: `/simple/definitions-categories/${category.id}`,
-        icon: BookOpen,
-        count: "",
-        imageUrl: null // Don't show images in main page
-      })).concat([
-        {
-          title: language === "ar" ? "عرض المزيد من الفئات" : "View More Categories",
-          href: "/simple/definitions-categories",
-          icon: ArrowRight,
-          count: "",
-          imageUrl: null
-        }
-      ]),
-    },
-    {
-      id: "personal-protect1",
-      title: t("beginners.cards.personalProtect.title"),
-      description: t("beginners.cards.personalProtect.description"),
-      icon: ShieldCheck,
-      color: "from-amber-500 to-orange-600",
-      bgColor:
-        "bg-gradient-to-br from-amber-50/80 to-orange-50/60 dark:from-amber-900/30 dark:to-orange-900/20",
-      borderColor: "border-amber-300/60 dark:border-amber-600/40",
-      href: "/simple/advanced/personal-protect",
-      items: [
-        {
-          title: t("beginners.cards.personalProtect.tips"),
-          href: "/simple/advanced/personal-protect",
-          icon: ShieldCheck,
-          count: "",
-        },
-        {
-          title: t("beginners.cards.personalProtect.tools"),
-          href: "/simple/advanced/personal-protect/tools",
-          icon: Settings,
-          count: "",
-        },
-      ],
-    },
-    {
-      id: "media2",
-      title: t("beginners.cards.media.title"),
-      description: t("beginners.cards.media.description"),
-      icon: Video,
-      color: "from-emerald-500 to-teal-600",
-      bgColor:
-        "bg-gradient-to-br from-emerald-50/80 to-teal-50/60 dark:from-emerald-900/30 dark:to-teal-900/20",
-      borderColor: "border-emerald-300/60 dark:border-emerald-600/40",
-      href: "/simple/media",
-      items: [
-        {
-          title: language === "ar" ? "دروس تعليمية" : "Educational Lessons",
-          href: "/simple/media/lessons",
-          icon: GraduationCap,
-          count: "",
-        },
-        {
-          title: language === "ar" ? "مقالات" : "Articles",
-          href: "/simple/media/articles",
-          icon: FileText,
-          count: "",
-        },
-        {
-          title: language === "ar" ? "مراجع" : "References",
-          href: "/simple/media/references",
-          icon: BookOpen,
-          count: "",
-        },
-      ],
-    },
-    {
-      id: "definitions2",
-      title: t("beginners.cards.definitions.title"),
-      description: t("beginners.cards.definitions.description"),
-      icon: BookOpen,
-      color: "from-indigo-500 to-purple-600",
-      bgColor:
-        "bg-gradient-to-br from-indigo-50/80 to-purple-50/60 dark:from-indigo-900/30 dark:to-purple-900/20",
-      borderColor: "border-indigo-300/60 dark:border-indigo-600/40",
-      href: "/simple/definitions-categories",
-      items: definitionCategories.slice(0, 2).map(category => ({
-        title: language === "ar" ? category.name : category.nameEn || category.name,
-        href: `/simple/definitions-categories/${category.id}`,
-        icon: BookOpen,
-        count: "",
-        imageUrl: null // Don't show images in main page
-      })).concat([
-        {
-          title: language === "ar" ? "عرض المزيد من الفئات" : "View More Categories",
-          href: "/simple/definitions-categories",
-          icon: ArrowRight,
-          count: "",
-          imageUrl: null
-        }
-      ]),
-    },
-    {
-      id: "personal-protect2",
-      title: t("beginners.cards.personalProtect.title"),
-      description: t("beginners.cards.personalProtect.description"),
-      icon: ShieldCheck,
-      color: "from-amber-500 to-orange-600",
-      bgColor:
-        "bg-gradient-to-br from-amber-50/80 to-orange-50/60 dark:from-amber-900/30 dark:to-orange-900/20",
-      borderColor: "border-amber-300/60 dark:border-amber-600/40",
-      href: "/simple/advanced/personal-protect",
-      items: [
-        {
-          title: t("beginners.cards.personalProtect.tips"),
-          href: "/simple/advanced/personal-protect",
-          icon: ShieldCheck,
-          count: "",
-        },
-        {
-          title: t("beginners.cards.personalProtect.tools"),
-          href: "/simple/advanced/personal-protect/tools",
-          icon: Settings,
-          count: "",
-        },
-      ],
-    },
-    {
-      id: "media3",
-      title: t("beginners.cards.media.title"),
-      description: t("beginners.cards.media.description"),
-      icon: Video,
-      color: "from-emerald-500 to-teal-600",
-      bgColor:
-        "bg-gradient-to-br from-emerald-50/80 to-teal-50/60 dark:from-emerald-900/30 dark:to-teal-900/20",
-      borderColor: "border-emerald-300/60 dark:border-emerald-600/40",
-      href: "/simple/media",
-      items: [
-        {
-          title: language === "ar" ? "دروس تعليمية" : "Educational Lessons",
-          href: "/simple/media/lessons",
-          icon: GraduationCap,
-          count: "",
-        },
-        {
-          title: language === "ar" ? "مقالات" : "Articles",
-          href: "/simple/media/articles",
-          icon: FileText,
-          count: "",
-        },
-        {
-          title: language === "ar" ? "مراجع" : "References",
-          href: "/simple/media/references",
-          icon: BookOpen,
-          count: "",
-        },
-      ],
-    },
-    {
-      id: "definitions3",
-      title: t("beginners.cards.definitions.title"),
-      description: t("beginners.cards.definitions.description"),
-      icon: BookOpen,
-      color: "from-indigo-500 to-purple-600",
-      bgColor:
-        "bg-gradient-to-br from-indigo-50/80 to-purple-50/60 dark:from-indigo-900/30 dark:to-purple-900/20",
-      borderColor: "border-indigo-300/60 dark:border-indigo-600/40",
-      href: "/simple/definitions-categories",
-      items: definitionCategories.slice(0, 2).map(category => ({
-        title: language === "ar" ? category.name : category.nameEn || category.name,
-        href: `/simple/definitions-categories/${category.id}`,
-        icon: BookOpen,
-        count: "",
-        imageUrl: null // Don't show images in main page
-      })).concat([
-        {
-          title: language === "ar" ? "عرض المزيد من الفئات" : "View More Categories",
-          href: "/simple/definitions-categories",
-          icon: ArrowRight,
-          count: "",
-          imageUrl: null
-        }
-      ]),
-    },
-    {
-      id: "personal-protect3",
-      title: t("beginners.cards.personalProtect.title"),
-      description: t("beginners.cards.personalProtect.description"),
-      icon: ShieldCheck,
-      color: "from-amber-500 to-orange-600",
-      bgColor:
-        "bg-gradient-to-br from-amber-50/80 to-orange-50/60 dark:from-amber-900/30 dark:to-orange-900/20",
-      borderColor: "border-amber-300/60 dark:border-amber-600/40",
-      href: "/simple/advanced/personal-protect",
-      items: [
-        {
-          title: t("beginners.cards.personalProtect.tips"),
-          href: "/simple/advanced/personal-protect",
-          icon: ShieldCheck,
-          count: "",
-        },
-        {
-          title: t("beginners.cards.personalProtect.tools"),
-          href: "/simple/advanced/personal-protect/tools",
-          icon: Settings,
-          count: "",
-        },
-      ],
-    },
+
+    // {
+    //   id: "media1",
+    //   title: t("beginners.cards.media.title"),
+    //   description: t("beginners.cards.media.description"),
+    //   icon: Video,
+    //   color: "from-emerald-500 to-teal-600",
+    //   bgColor:
+    //     "bg-gradient-to-br from-emerald-50/80 to-teal-50/60 dark:from-emerald-900/30 dark:to-teal-900/20",
+    //   borderColor: "border-emerald-300/60 dark:border-emerald-600/40",
+    //   href: "/simple/media",
+    //   items: [
+    //     {
+    //       title: language === "ar" ? "دروس تعليمية" : "Educational Lessons",
+    //       href: "/simple/media/lessons",
+    //       icon: GraduationCap,
+    //       count: "",
+    //     },
+    //     {
+    //       title: language === "ar" ? "مقالات" : "Articles",
+    //       href: "/simple/media/articles",
+    //       icon: FileText,
+    //       count: "",
+    //     },
+    //     {
+    //       title: language === "ar" ? "مراجع" : "References",
+    //       href: "/simple/media/references",
+    //       icon: BookOpen,
+    //       count: "",
+    //     },
+    //   ],
+    // },
+    // {
+    //   id: "definitions1",
+    //   title: t("beginners.cards.definitions.title"),
+    //   description: t("beginners.cards.definitions.description"),
+    //   icon: BookOpen,
+    //   color: "from-indigo-500 to-purple-600",
+    //   bgColor:
+    //     "bg-gradient-to-br from-indigo-50/80 to-purple-50/60 dark:from-indigo-900/30 dark:to-purple-900/20",
+    //   borderColor: "border-indigo-300/60 dark:border-indigo-600/40",
+    //   href: "/simple/definitions-categories",
+    //   items: definitionCategories.slice(0, 2).map(category => ({
+    //     title: language === "ar" ? category.name : category.nameEn || category.name,
+    //     href: `/simple/definitions-categories/${category.id}`,
+    //     icon: BookOpen,
+    //     count: "",
+    //     imageUrl: null // Don't show images in main page
+    //   })).concat([
+    //     {
+    //       title: language === "ar" ? "عرض المزيد من الفئات" : "View More Categories",
+    //       href: "/simple/definitions-categories",
+    //       icon: ArrowRight,
+    //       count: "",
+    //       imageUrl: null
+    //     }
+    //   ]),
+    // },
+    // {
+    //   id: "personal-protect1",
+    //   title: t("beginners.cards.personalProtect.title"),
+    //   description: t("beginners.cards.personalProtect.description"),
+    //   icon: ShieldCheck,
+    //   color: "from-amber-500 to-orange-600",
+    //   bgColor:
+    //     "bg-gradient-to-br from-amber-50/80 to-orange-50/60 dark:from-amber-900/30 dark:to-orange-900/20",
+    //   borderColor: "border-amber-300/60 dark:border-amber-600/40",
+    //   href: "/simple/advanced/personal-protect",
+    //   items: [
+    //     {
+    //       title: t("beginners.cards.personalProtect.tips"),
+    //       href: "/simple/advanced/personal-protect",
+    //       icon: ShieldCheck,
+    //       count: "",
+    //     },
+    //     {
+    //       title: t("beginners.cards.personalProtect.tools"),
+    //       href: "/simple/advanced/personal-protect/tools",
+    //       icon: Settings,
+    //       count: "",
+    //     },
+    //   ],
+    // },
+    // {
+    //   id: "media2",
+    //   title: t("beginners.cards.media.title"),
+    //   description: t("beginners.cards.media.description"),
+    //   icon: Video,
+    //   color: "from-emerald-500 to-teal-600",
+    //   bgColor:
+    //     "bg-gradient-to-br from-emerald-50/80 to-teal-50/60 dark:from-emerald-900/30 dark:to-teal-900/20",
+    //   borderColor: "border-emerald-300/60 dark:border-emerald-600/40",
+    //   href: "/simple/media",
+    //   items: [
+    //     {
+    //       title: language === "ar" ? "دروس تعليمية" : "Educational Lessons",
+    //       href: "/simple/media/lessons",
+    //       icon: GraduationCap,
+    //       count: "",
+    //     },
+    //     {
+    //       title: language === "ar" ? "مقالات" : "Articles",
+    //       href: "/simple/media/articles",
+    //       icon: FileText,
+    //       count: "",
+    //     },
+    //     {
+    //       title: language === "ar" ? "مراجع" : "References",
+    //       href: "/simple/media/references",
+    //       icon: BookOpen,
+    //       count: "",
+    //     },
+    //   ],
+    // },
+    // {
+    //   id: "definitions2",
+    //   title: t("beginners.cards.definitions.title"),
+    //   description: t("beginners.cards.definitions.description"),
+    //   icon: BookOpen,
+    //   color: "from-indigo-500 to-purple-600",
+    //   bgColor:
+    //     "bg-gradient-to-br from-indigo-50/80 to-purple-50/60 dark:from-indigo-900/30 dark:to-purple-900/20",
+    //   borderColor: "border-indigo-300/60 dark:border-indigo-600/40",
+    //   href: "/simple/definitions-categories",
+    //   items: definitionCategories.slice(0, 2).map(category => ({
+    //     title: language === "ar" ? category.name : category.nameEn || category.name,
+    //     href: `/simple/definitions-categories/${category.id}`,
+    //     icon: BookOpen,
+    //     count: "",
+    //     imageUrl: null // Don't show images in main page
+    //   })).concat([
+    //     {
+    //       title: language === "ar" ? "عرض المزيد من الفئات" : "View More Categories",
+    //       href: "/simple/definitions-categories",
+    //       icon: ArrowRight,
+    //       count: "",
+    //       imageUrl: null
+    //     }
+    //   ]),
+    // },
+    // {
+    //   id: "personal-protect2",
+    //   title: t("beginners.cards.personalProtect.title"),
+    //   description: t("beginners.cards.personalProtect.description"),
+    //   icon: ShieldCheck,
+    //   color: "from-amber-500 to-orange-600",
+    //   bgColor:
+    //     "bg-gradient-to-br from-amber-50/80 to-orange-50/60 dark:from-amber-900/30 dark:to-orange-900/20",
+    //   borderColor: "border-amber-300/60 dark:border-amber-600/40",
+    //   href: "/simple/advanced/personal-protect",
+    //   items: [
+    //     {
+    //       title: t("beginners.cards.personalProtect.tips"),
+    //       href: "/simple/advanced/personal-protect",
+    //       icon: ShieldCheck,
+    //       count: "",
+    //     },
+    //     {
+    //       title: t("beginners.cards.personalProtect.tools"),
+    //       href: "/simple/advanced/personal-protect/tools",
+    //       icon: Settings,
+    //       count: "",
+    //     },
+    //   ],
+    // },
+    // {
+    //   id: "media3",
+    //   title: t("beginners.cards.media.title"),
+    //   description: t("beginners.cards.media.description"),
+    //   icon: Video,
+    //   color: "from-emerald-500 to-teal-600",
+    //   bgColor:
+    //     "bg-gradient-to-br from-emerald-50/80 to-teal-50/60 dark:from-emerald-900/30 dark:to-teal-900/20",
+    //   borderColor: "border-emerald-300/60 dark:border-emerald-600/40",
+    //   href: "/simple/media",
+    //   items: [
+    //     {
+    //       title: language === "ar" ? "دروس تعليمية" : "Educational Lessons",
+    //       href: "/simple/media/lessons",
+    //       icon: GraduationCap,
+    //       count: "",
+    //     },
+    //     {
+    //       title: language === "ar" ? "مقالات" : "Articles",
+    //       href: "/simple/media/articles",
+    //       icon: FileText,
+    //       count: "",
+    //     },
+    //     {
+    //       title: language === "ar" ? "مراجع" : "References",
+    //       href: "/simple/media/references",
+    //       icon: BookOpen,
+    //       count: "",
+    //     },
+    //   ],
+    // },
+    // {
+    //   id: "definitions3",
+    //   title: t("beginners.cards.definitions.title"),
+    //   description: t("beginners.cards.definitions.description"),
+    //   icon: BookOpen,
+    //   color: "from-indigo-500 to-purple-600",
+    //   bgColor:
+    //     "bg-gradient-to-br from-indigo-50/80 to-purple-50/60 dark:from-indigo-900/30 dark:to-purple-900/20",
+    //   borderColor: "border-indigo-300/60 dark:border-indigo-600/40",
+    //   href: "/simple/definitions-categories",
+    //   items: definitionCategories.slice(0, 2).map(category => ({
+    //     title: language === "ar" ? category.name : category.nameEn || category.name,
+    //     href: `/simple/definitions-categories/${category.id}`,
+    //     icon: BookOpen,
+    //     count: "",
+    //     imageUrl: null // Don't show images in main page
+    //   })).concat([
+    //     {
+    //       title: language === "ar" ? "عرض المزيد من الفئات" : "View More Categories",
+    //       href: "/simple/definitions-categories",
+    //       icon: ArrowRight,
+    //       count: "",
+    //       imageUrl: null
+    //     }
+    //   ]),
+    // },
+    // {
+    //   id: "personal-protect3",
+    //   title: t("beginners.cards.personalProtect.title"),
+    //   description: t("beginners.cards.personalProtect.description"),
+    //   icon: ShieldCheck,
+    //   color: "from-amber-500 to-orange-600",
+    //   bgColor:
+    //     "bg-gradient-to-br from-amber-50/80 to-orange-50/60 dark:from-amber-900/30 dark:to-orange-900/20",
+    //   borderColor: "border-amber-300/60 dark:border-amber-600/40",
+    //   href: "/simple/advanced/personal-protect",
+    //   items: [
+    //     {
+    //       title: t("beginners.cards.personalProtect.tips"),
+    //       href: "/simple/advanced/personal-protect",
+    //       icon: ShieldCheck,
+    //       count: "",
+    //     },
+    //     {
+    //       title: t("beginners.cards.personalProtect.tools"),
+    //       href: "/simple/advanced/personal-protect/tools",
+    //       icon: Settings,
+    //       count: "",
+    //     },
+    //   ],
+    // },
   ];
 
   return (
@@ -435,13 +446,13 @@ export default function BeginnersHome() {
             {mainCards.map((card, index) => {
               const gifPath =
                 card.id === "media"
-                  ? "/images/beginners/Gemini_Generated_Image_c7ds1sc7ds1sc7ds.png"
+                  ? "/images/beginners/Gemini_Generated_Image_izzu99izzu99izzu.png"
                   : card.id === "definitions"
                   ? "/images/beginners/Gemini_Generated_Image_dudzufdudzufdudz.png"
                   : card.id === "personal-protect"
-                  ? "/images/beginners/Gemini_Generated_Image_ry6ctary6ctary6c.png"
-                  : card.id === "media1"
-                  ? "/images/beginners/Gemini_Generated_Image_2q2d7n2q2d7n2q2d.png"
+                  ? "/images/beginners/Gemini_Generated_Image_70kvgb70kvgb70kv.png"
+                  : card.id === "awareness"
+                  ? "/images/beginners/Gemini_Generated_Image_ut3c4xut3c4xut3c.png"
                   : card.id === "definitions1"
                   ? "/images/beginners/Gemini_Generated_Image_ut3c4xut3c4xut3c.png"
                   : card.id === "personal-protect1"

@@ -27,27 +27,27 @@ export class MediaRepositoryImpl implements MediaRepository {
   async getAllMedia(): Promise<MediaItem[]> {
     // Combine all media types
     const allMedia = [
-      ...mediaLibraryData.videos.map((video) => ({ ...video, type: "videos" as const })),
-      ...mediaLibraryData.lectures.map((lecture) => ({ ...lecture, type: "lectures" as const })),
-      ...mediaLibraryData.presentations.map((presentation) => ({ ...presentation, type: "presentations" as const })),
+      ...mediaLibraryData.videos.map((video) => ({ ...video, id: video.id.toString(), type: "videos" as const })),
+      ...mediaLibraryData.lectures.map((lecture) => ({ ...lecture, id: lecture.id.toString(), type: "lectures" as const })),
+      ...mediaLibraryData.presentations.map((presentation) => ({ ...presentation, id: presentation.id.toString(), type: "presentations" as const })),
     ]
 
     return allMedia
   }
 
   async getVideoById(id: string): Promise<Video | null> {
-    const video = mediaLibraryData.videos.find((video) => video.id === id)
-    return video || null
+    const video = mediaLibraryData.videos.find((video) => video.id.toString() === id)
+    return video ? { ...video, id: video.id.toString(), type: "videos" as const } : null
   }
 
   async getLectureById(id: string): Promise<Lecture | null> {
-    const lecture = mediaLibraryData.lectures.find((lecture) => lecture.id === id)
-    return lecture || null
+    const lecture = mediaLibraryData.lectures.find((lecture) => lecture.id.toString() === id)
+    return lecture ? { ...lecture, id: lecture.id.toString(), type: "lectures" as const, documentUrl: lecture.url } : null
   }
 
   async getPresentationById(id: string): Promise<Presentation | null> {
-    const presentation = mediaLibraryData.presentations.find((presentation) => presentation.id === id)
-    return presentation || null
+    const presentation = mediaLibraryData.presentations.find((presentation) => presentation.id.toString() === id)
+    return presentation ? { ...presentation, id: presentation.id.toString(), type: "presentations" as const, slides: [] } : null
   }
 
   async getVideos(page = 1, pageSize = 10, search?: string): Promise<VideosPaginatedResponse> {
