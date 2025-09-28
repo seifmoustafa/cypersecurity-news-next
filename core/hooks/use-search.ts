@@ -1,36 +1,43 @@
-import { useState, useCallback } from "react"
-import { container } from "../di/container"
-import type { SearchResponse } from "../services/search-service"
+import { useState, useEffect, useCallback } from "react"
+import { container } from "@/core/di/container"
+import type { SearchResult, SearchResponse } from "@/core/services/search-service"
 
-export function useSearch() {
+interface UseSearchReturn {
+  results: SearchResult[]
+  loading: boolean
+  error: string | null
+  pagination: SearchResponse["pagination"] | null
+  metadata: SearchResponse["metadata"] | null
+  refetch: () => Promise<void>
+}
+
+export function useSearch(
+  query: string,
+  page: number = 1,
+  pageSize: number = 10,
+  includeInactive: boolean = false,
+  englishOnly: boolean = false,
+  arabicOnly: boolean = false
+): UseSearchReturn {
+  const [results, setResults] = useState<SearchResult[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [results, setResults] = useState<SearchResponse | null>(null)
+  const [pagination, setPagination] = useState<SearchResponse["pagination"] | null>(null)
+  const [metadata, setMetadata] = useState<SearchResponse["metadata"] | null>(null)
 
-  const search = useCallback(async (
-    query: string,
-    page: number = 1,
-    pageSize: number = 10,
-    includeInactive: boolean = false,
-    englishOnly: boolean = false,
-    arabicOnly: boolean = false
-  ) => {
+  const fetchSearchResults = useCallback(async () => {
     if (!query.trim()) {
-      setResults(null)
-      setError(null)
+      setResults([])
+      setPagination(null)
+      setMetadata(null)
+      setLoading(false)
       return
     }
 
-    setLoading(true)
-    setError(null)
-
     try {
-      const searchService = container.searchService
-      if (!searchService) {
-        throw new Error("Search service not available")
-      }
-
-      const data = await searchService.search(
+      setLoading(true)
+      setError(null)
+      const data = await container.services.search.search(
         query,
         page,
         pageSize,
@@ -38,27 +45,29 @@ export function useSearch() {
         englishOnly,
         arabicOnly
       )
-      setResults(data)
+      setResults(data.allResults)
+      setPagination(data.pagination)
+      setMetadata(data.metadata)
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Search failed"
-      setError(errorMessage)
-      setResults(null)
-      console.error("Search error:", err)
+      setError(err instanceof Error ? err.message : "An error occurred while searching")
+      setResults([])
+      setPagination(null)
+      setMetadata(null)
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [query, page, pageSize, includeInactive, englishOnly, arabicOnly])
 
-  const clearResults = useCallback(() => {
-    setResults(null)
-    setError(null)
-  }, [])
+  useEffect(() => {
+    fetchSearchResults()
+  }, [fetchSearchResults])
 
-  return {
-    search,
-    clearResults,
-    loading,
-    error,
-    results,
+  return { 
+    results, 
+    loading, 
+    error, 
+    pagination, 
+    metadata, 
+    refetch: fetchSearchResults 
   }
 }

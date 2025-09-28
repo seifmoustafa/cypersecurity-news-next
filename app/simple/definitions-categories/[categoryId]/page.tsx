@@ -9,13 +9,13 @@ import { useDebounce } from "@/hooks/use-debounce"
 import { useDefinitions } from "@/core/hooks/use-definitions"
 import { formatDateArabicNumbers, formatDate } from "@/lib/content-purifier"
 
-interface DefinitionCategoryPageProps {
+interface CategoryPageProps {
   params: Promise<{
-    id: string
+    categoryId: string
   }>
 }
 
-export default function DefinitionCategoryPage({ params }: DefinitionCategoryPageProps) {
+export default function CategoryPage({ params }: CategoryPageProps) {
   const { language } = useLanguage()
   const isRtl = language === "ar"
   const [query, setQuery] = useState("")
@@ -23,7 +23,8 @@ export default function DefinitionCategoryPage({ params }: DefinitionCategoryPag
 
   // Unwrap params using React.use()
   const resolvedParams = use(params)
-  const { definitions, loading, error } = useDefinitions(resolvedParams.id, 1, 100, debouncedQuery)
+  const { categoryId } = resolvedParams
+  const { definitions, loading, error } = useDefinitions(categoryId, 1, 100, debouncedQuery)
 
   if (loading) {
     return (
@@ -87,11 +88,11 @@ export default function DefinitionCategoryPage({ params }: DefinitionCategoryPag
               {isRtl ? (
                 <>
                   <ArrowLeft className="h-5 w-5" />
-                  {language === "ar" ? "العودة إلى الفئات" : "Back to Categories"}
+                  العودة إلى الفئات
                 </>
               ) : (
                 <>
-                  {language === "ar" ? "العودة إلى الفئات" : "Back to Categories"}
+                  Back to Categories
                   <ArrowRight className="h-5 w-5" />
                 </>
               )}
@@ -160,7 +161,7 @@ export default function DefinitionCategoryPage({ params }: DefinitionCategoryPag
               return (
                 <Link
                   key={definition.id}
-                  href={`/simple/definitions/${definition.id}`}
+                  href={`/simple/definitions-categories/${categoryId}/${definition.id}`}
                   className="group block"
                 >
                   <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/20 hover:-translate-y-1 h-full">

@@ -56,7 +56,7 @@ export default function BeginnersHome() {
 
   useEffect(() => {
     router.prefetch("/simple/videos");
-    router.prefetch("/simple/definitions");
+    router.prefetch("/simple/definitions-categories");
     router.prefetch("/simple/personal-protect");
   }, [router]);
 

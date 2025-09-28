@@ -73,7 +73,7 @@ export class SearchService {
         arabicOnly: arabicOnly.toString(),
       })
 
-      const url = `${this.baseUrl}/advanced/regulation?${params.toString()}`
+      const url = `${this.baseUrl}/Search/beginners?${params.toString()}`
       console.log(`📡 Search API Request:`, url)
 
       const response = await fetch(url, {
@@ -105,17 +105,42 @@ export class SearchService {
       ...data,
       allResults: data.allResults.map(result => ({
         ...result,
-        imageUrl: result.imageUrl ? `${this.baseImageUrl}${result.imageUrl}` : null
+        imageUrl: result.imageUrl ? `${this.baseImageUrl}${result.imageUrl}` : null,
+        navigationRoute: this.transformNavigationRoute(result.navigationRoute, result.entityType)
       })),
       resultsByType: Object.fromEntries(
         Object.entries(data.resultsByType).map(([key, results]) => [
           key,
           results.map(result => ({
             ...result,
-            imageUrl: result.imageUrl ? `${this.baseImageUrl}${result.imageUrl}` : null
+            imageUrl: result.imageUrl ? `${this.baseImageUrl}${result.imageUrl}` : null,
+            navigationRoute: this.transformNavigationRoute(result.navigationRoute, result.entityType)
           }))
         ])
       )
     }
+  }
+
+  private transformNavigationRoute(route: string, entityType: string): string {
+    // Transform definition routes to use the new structure
+    if (entityType === "Definition") {
+      // Handle different definition route patterns
+      if (route.includes("/simple/definitions/")) {
+        // Extract definition ID from /simple/definitions/[id]
+        const definitionId = route.replace("/simple/definitions/", "")
+        return `/simple/definitions-categories/definition/${definitionId}`
+      } else if (route.includes("/simple/definitions-categories/definition/")) {
+        // Handle paths like /simple/definitions-categories/definition/categoryId/definitionId
+        const pathParts = route.split("/")
+        const definitionIndex = pathParts.indexOf("definition")
+        if (definitionIndex !== -1 && pathParts.length > definitionIndex + 2) {
+          // Extract categoryId and definitionId
+          const categoryId = pathParts[definitionIndex + 1]
+          const definitionId = pathParts[definitionIndex + 2]
+          return `/simple/definitions-categories/${categoryId}/${definitionId}`
+        }
+      }
+    }
+    return route
   }
 }

@@ -16,19 +16,21 @@ import Breadcrumbs from "@/components/breadcrumbs"
 import { useDefinition } from "@/core/hooks/use-definition"
 import { formatDateArabicNumbers, formatDate } from "@/lib/content-purifier"
 
-interface DefinitionPageProps {
+interface IndividualDefinitionPageProps {
   params: Promise<{
-    id: string
+    categoryId: string
+    definitionId: string
   }>
 }
 
-export default function DefinitionPage({ params }: DefinitionPageProps) {
+export default function IndividualDefinitionPage({ params }: IndividualDefinitionPageProps) {
   const { language } = useLanguage()
   const isRtl = language === "ar"
   
   // Unwrap params using React.use()
   const resolvedParams = use(params)
-  const { definition, loading, error } = useDefinition(resolvedParams.id)
+  const { categoryId, definitionId } = resolvedParams
+  const { definition, loading, error } = useDefinition(definitionId)
 
   if (loading) {
     return (
@@ -74,6 +76,7 @@ export default function DefinitionPage({ params }: DefinitionPageProps) {
           <Breadcrumbs 
             items={[
               { label: language === "ar" ? "المفاهيم" : "Definitions", href: "/simple/definitions-categories" },
+              { label: language === "ar" ? "الفئة" : "Category", href: `/simple/definitions-categories/${categoryId}` },
               { label: language === "ar" ? "المفهوم" : "Definition" }
             ]} 
           />
@@ -92,17 +95,17 @@ export default function DefinitionPage({ params }: DefinitionPageProps) {
               }
             </p>
             <Link 
-              href="/simple/definitions-categories"
+              href={`/simple/definitions-categories/${categoryId}`}
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl hover:from-indigo-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
             >
               {isRtl ? (
                 <>
                   <ArrowLeft className="h-5 w-5" />
-                  {language === "ar" ? "العودة إلى الفئات" : "Back to Categories"}
+                  العودة إلى الفئة
                 </>
               ) : (
                 <>
-                  {language === "ar" ? "العودة إلى الفئات" : "Back to Categories"}
+                  Back to Category
                   <ArrowRight className="h-5 w-5" />
                 </>
               )}
@@ -131,6 +134,7 @@ export default function DefinitionPage({ params }: DefinitionPageProps) {
         <Breadcrumbs 
           items={[
             { label: language === "ar" ? "المفاهيم" : "Definitions", href: "/simple/definitions-categories" },
+            { label: language === "ar" ? "الفئة" : "Category", href: `/simple/definitions-categories/${categoryId}` },
             { label: language === "ar" ? "المفهوم" : "Definition" }
           ]} 
         />
@@ -251,12 +255,7 @@ export default function DefinitionPage({ params }: DefinitionPageProps) {
                 <div className="flex justify-between items-center">
                   <span className="font-medium">{language === "ar" ? "المستوى" : "Level"}:</span>
                   <span className="font-semibold text-gray-900 dark:text-white">
-                    {definition.forBeginners && definition.forProfessionals ? 
-                      (language === "ar" ? "جميع المستويات" : "All Levels") :
-                      definition.forBeginners ? 
-                        (language === "ar" ? "مبتدئ" : "Beginner") :
-                        (language === "ar" ? "متقدم" : "Professional")
-                    }
+                    {language === "ar" ? "مبتدئ" : "Beginner"}
                   </span>
                 </div>
                 {definition.source && (
@@ -282,6 +281,21 @@ export default function DefinitionPage({ params }: DefinitionPageProps) {
               </div>
               
               <div className="space-y-4">
+                <Link 
+                  href={`/simple/definitions-categories/${categoryId}`}
+                  className="block p-4 bg-gray-50 dark:bg-slate-700 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors duration-300 group"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">
+                      {language === "ar" ? "العودة إلى الفئة" : "Back to Category"}
+                    </span>
+                    {isRtl ? (
+                      <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300" />
+                    ) : (
+                      <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300" />
+                    )}
+                  </div>
+                </Link>
                 <Link 
                   href="/simple/definitions-categories"
                   className="block p-4 bg-gray-50 dark:bg-slate-700 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors duration-300 group"

@@ -1,150 +1,126 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useLanguage } from "@/components/language-provider"
+import { useSearch } from "@/core/hooks/use-search"
+import { useDebounce } from "@/hooks/use-debounce"
 import { 
   Search, 
-  Filter, 
-  Grid, 
-  List, 
   Video, 
   BookOpen, 
   ShieldCheck,
-  Clock, 
-  Eye, 
-  Star,
+  Calendar,
   ArrowRight,
   ArrowLeft,
-  X,
-  Tag,
-  Calendar,
-  User,
+  Presentation,
+  Newspaper,
+  GraduationCap,
   FileText,
-  Play,
-  Download
+  Eye,
+  Star,
+  Play
 } from "lucide-react"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import Breadcrumbs from "@/components/breadcrumbs"
+import VideoModal from "@/components/video-modal"
 
 export default function BeginnersSearchPage() {
-  const { language, t } = useLanguage()
+  const { language } = useLanguage()
   const isRtl = language === "ar"
-  const [searchQuery, setSearchQuery] = useState("")
-  const [searchResults, setSearchResults] = useState([])
-  const [selectedCategory, setSelectedCategory] = useState("all")
+  const [query, setQuery] = useState("")
+  const [currentPage, setCurrentPage] = useState(1)
   const [selectedType, setSelectedType] = useState("all")
-  const [isSearching, setIsSearching] = useState(false)
+  const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null)
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
+  
+  const debouncedQuery = useDebounce(query, 500)
+  
+  const { results, loading, error, pagination, metadata } = useSearch(
+    debouncedQuery,
+    currentPage,
+    10,
+    false,
+    false,
+    false
+  )
 
-  const categories = [
+  const entityTypes = [
     { id: "all", title: language === "ar" ? "الكل" : "All" },
-    { id: "videos", title: language === "ar" ? "الفيديوهات" : "Videos" },
-    { id: "articles", title: language === "ar" ? "المقالات" : "Articles" },
-    { id: "definitions", title: language === "ar" ? "المفاهيم" : "Definitions" },
-    { id: "tools", title: language === "ar" ? "الأدوات" : "Tools" }
+    { id: "Article", title: language === "ar" ? "المقالات" : "Articles" },
+    { id: "Video", title: language === "ar" ? "الفيديوهات" : "Videos" },
+    { id: "Presentation", title: language === "ar" ? "العروض التقديمية" : "Presentations" },
+    { id: "Lecture", title: language === "ar" ? "المحاضرات" : "Lectures" },
+    { id: "News", title: language === "ar" ? "الأخبار" : "News" },
+    { id: "Definition", title: language === "ar" ? "المفاهيم" : "Definitions" },
+    { id: "Awareness", title: language === "ar" ? "التوعية" : "Awareness" },
+    { id: "Reference", title: language === "ar" ? "المراجع" : "References" }
   ]
 
-  const contentTypes = [
-    { id: "all", title: language === "ar" ? "الكل" : "All" },
-    { id: "beginner", title: language === "ar" ? "مبتدئ" : "Beginner" },
-    { id: "intermediate", title: language === "ar" ? "متوسط" : "Intermediate" },
-    { id: "advanced", title: language === "ar" ? "متقدم" : "Advanced" }
-  ]
-
-  // Mock search results
-  const mockResults = [
-    {
-      id: 1,
-      type: "video",
-      title: language === "ar" ? "مقدمة في الأمن السيبراني" : "Introduction to Cybersecurity",
-      description: language === "ar" ? "تعلم أساسيات الأمن السيبراني وأهميته" : "Learn cybersecurity fundamentals and its importance",
-      category: "videos",
-      level: "beginner",
-      duration: "15:30",
-      views: "2.5K",
-      rating: 4.8,
-      thumbnail: "/placeholder.jpg",
-      instructor: language === "ar" ? "أحمد محمد" : "Ahmed Mohammed",
-      date: "2024-01-15"
-    },
-    {
-      id: 2,
-      type: "article",
-      title: language === "ar" ? "كيفية إنشاء كلمة مرور قوية" : "How to Create Strong Passwords",
-      description: language === "ar" ? "دليل شامل لإنشاء كلمات مرور آمنة" : "Comprehensive guide to creating secure passwords",
-      category: "articles",
-      level: "beginner",
-      readTime: "5 min",
-      views: "1.8K",
-      rating: 4.9,
-      thumbnail: "/placeholder.jpg",
-      author: language === "ar" ? "فاطمة أحمد" : "Fatima Ahmed",
-      date: "2024-01-12"
-    },
-    {
-      id: 3,
-      type: "definition",
-      title: language === "ar" ? "التصيد الاحتيالي" : "Phishing",
-      description: language === "ar" ? "تعريف التصيد الاحتيالي وطرق الوقاية منه" : "Definition of phishing and prevention methods",
-      category: "definitions",
-      level: "beginner",
-      views: "3.2K",
-      rating: 4.7,
-      thumbnail: "/placeholder.jpg",
-      author: language === "ar" ? "محمد علي" : "Mohammed Ali",
-      date: "2024-01-10"
-    },
-    {
-      id: 4,
-      type: "tool",
-      title: language === "ar" ? "مولد كلمات المرور" : "Password Generator",
-      description: language === "ar" ? "أداة لإنشاء كلمات مرور قوية وآمنة" : "Tool for generating strong and secure passwords",
-      category: "tools",
-      level: "beginner",
-      views: "2.1K",
-      rating: 4.6,
-      thumbnail: "/placeholder.jpg",
-      author: language === "ar" ? "سارة حسن" : "Sara Hassan",
-      date: "2024-01-08"
-    }
-  ]
-
-  const handleSearch = () => {
-    if (!searchQuery.trim()) return
-    
-    setIsSearching(true)
-    // Simulate search delay
-    setTimeout(() => {
-      setSearchResults(mockResults.filter(item => 
-        item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.description.toLowerCase().includes(searchQuery.toLowerCase())
-      ))
-      setIsSearching(false)
-    }, 1000)
-  }
-
-  const clearSearch = () => {
-    setSearchQuery("")
-    setSearchResults([])
-  }
-
-  const getTypeIcon = (type: string) => {
-    switch (type) {
-      case "video": return Video
-      case "article": return FileText
-      case "definition": return BookOpen
-      case "tool": return ShieldCheck
+  const getTypeIcon = (entityType: string) => {
+    switch (entityType) {
+      case "Video": return Video
+      case "Article": return FileText
+      case "Definition": return BookOpen
+      case "Presentation": return Presentation
+      case "Lecture": return GraduationCap
+      case "News": return Newspaper
+      case "Awareness": return ShieldCheck
+      case "Reference": return BookOpen
       default: return FileText
     }
   }
 
-  const getTypeColor = (type: string) => {
-    switch (type) {
-      case "video": return "from-red-500 to-pink-600"
-      case "article": return "from-blue-500 to-cyan-600"
-      case "definition": return "from-green-500 to-emerald-600"
-      case "tool": return "from-purple-500 to-indigo-600"
+  const getTypeColor = (entityType: string) => {
+    switch (entityType) {
+      case "Video": return "from-red-500 to-pink-600"
+      case "Article": return "from-blue-500 to-cyan-600"
+      case "Definition": return "from-green-500 to-emerald-600"
+      case "Presentation": return "from-purple-500 to-indigo-600"
+      case "Lecture": return "from-orange-500 to-yellow-600"
+      case "News": return "from-teal-500 to-green-600"
+      case "Awareness": return "from-indigo-500 to-purple-600"
+      case "Reference": return "from-gray-500 to-slate-600"
       default: return "from-gray-500 to-slate-600"
     }
+  }
+
+  const formatDate = (timestamp: string) => {
+    const date = new Date(timestamp)
+    const day = date.getDate().toString().padStart(2, '0')
+    const month = (date.getMonth() + 1).toString().padStart(2, '0')
+    const year = date.getFullYear().toString()
+    
+    // Convert to Arabic numerals
+    const arabicNumerals = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩']
+    const convertToArabic = (str: string) => {
+      return str.replace(/\d/g, (digit) => arabicNumerals[parseInt(digit)])
+    }
+    
+    const formattedDate = `${day}/${month}/${year}`
+    return convertToArabic(formattedDate)
+  }
+
+  const stripHtml = (html: string | null) => {
+    if (!html) return ""
+    return html.replace(/<[^>]*>/g, "")
+  }
+
+  const filteredResults = selectedType === "all" 
+    ? results 
+    : results.filter(result => result.entityType === selectedType)
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+  }
+
+  const handleVideoClick = (videoId: string) => {
+    setSelectedVideoId(videoId)
+    setIsVideoModalOpen(true)
+  }
+
+  const handleCloseVideoModal = () => {
+    setSelectedVideoId(null)
+    setIsVideoModalOpen(false)
   }
 
   return (
@@ -157,227 +133,277 @@ export default function BeginnersSearchPage() {
         <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_25%,rgba(34,197,94,0.05)_50%,transparent_75%)] bg-[length:40px_40px]"></div>
       </div>
 
-      {/* Header Section */}
-      <div className="relative z-10 bg-gradient-to-r from-slate-900 via-gray-900 to-slate-800 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900 text-white py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <div className="inline-flex items-center justify-center mb-8">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl blur-lg opacity-30"></div>
-                <div className="relative bg-gradient-to-r from-green-500 to-blue-500 p-4 rounded-xl">
-                  <Search className="h-8 w-8 text-white" />
-                </div>
-              </div>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              {language === "ar" ? "البحث المتقدم" : "Advanced Search"}
-            </h1>
-            <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-              {language === "ar" 
-                ? "ابحث في جميع محتويات الأمن السيبراني بسهولة وسرعة"
-                : "Search through all cybersecurity content easily and quickly"
-              }
-            </p>
-          </div>
-        </div>
-      </div>
+      <div className="relative z-10 container mx-auto px-4 pt-24 pb-8">
+        {/* Breadcrumbs */}
+        <Breadcrumbs 
+          items={[
+            { label: language === "ar" ? "البحث" : "Search" }
+          ]} 
+        />
 
-      <div className="relative z-10 container mx-auto px-4 py-12">
         {/* Search Section */}
         <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8">
-          <div className="flex flex-col md:flex-row gap-4 items-center">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+          <div className="flex items-center gap-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
               <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
                 placeholder={language === "ar" ? "ابحث في المحتوى..." : "Search content..."}
-                className="w-full pl-10 pr-10 py-3 border border-gray-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white"
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-green-500 outline-none text-gray-900 dark:text-white"
               />
-              {searchQuery && (
-                <button
-                  onClick={clearSearch}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                >
-                  <X className="h-5 w-5" />
-                </button>
-              )}
             </div>
-            <Button 
-              onClick={handleSearch}
-              disabled={!searchQuery.trim() || isSearching}
-              className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-8 py-3"
-            >
-              {isSearching ? (
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  {language === "ar" ? "جاري البحث..." : "Searching..."}
-                </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <Search className="h-4 w-4" />
-                  {language === "ar" ? "بحث" : "Search"}
-                </div>
-              )}
-            </Button>
+            <div className="bg-gradient-to-r from-green-500 to-blue-500 p-3 rounded-xl">
+              <Search className="h-6 w-6 text-white" />
+            </div>
           </div>
         </div>
 
-        {/* Filters */}
+        {/* Content Type Filter */}
         <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Category Filter */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                {language === "ar" ? "التصنيف" : "Category"}
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {categories.map((category) => (
-                  <Button
-                    key={category.id}
-                    variant={selectedCategory === category.id ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setSelectedCategory(category.id)}
-                    className={selectedCategory === category.id ? "bg-green-500 hover:bg-green-600 text-white" : ""}
-                  >
-                    {category.title}
-                  </Button>
-                ))}
-              </div>
-            </div>
-
-            {/* Type Filter */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                {language === "ar" ? "المستوى" : "Level"}
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {contentTypes.map((type) => (
-                  <Button
-                    key={type.id}
-                    variant={selectedType === type.id ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setSelectedType(type.id)}
-                    className={selectedType === type.id ? "bg-green-500 hover:bg-green-600 text-white" : ""}
-                  >
-                    {type.title}
-                  </Button>
-                ))}
-              </div>
-            </div>
+          <div className="flex flex-wrap gap-2">
+            {entityTypes.map((entityType) => (
+              <button
+                key={entityType.id}
+                onClick={() => setSelectedType(entityType.id)}
+                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+                  selectedType === entityType.id
+                    ? "bg-green-500 text-white shadow-lg"
+                    : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                }`}
+              >
+                {entityType.title}
+              </button>
+            ))}
           </div>
         </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 mb-8">
+            <div className="flex items-center gap-2 text-red-600 dark:text-red-400">
+              <Search className="h-5 w-5" />
+              <span className="font-medium">
+                {language === "ar" ? "خطأ في البحث" : "Search Error"}
+              </span>
+            </div>
+            <p className="text-red-600 dark:text-red-400 mt-2">{error}</p>
+          </div>
+        )}
+
+        {/* Loading State */}
+        {loading && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[...Array(6)].map((_, index) => (
+              <div key={index} className="bg-white dark:bg-slate-800 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-lg h-[400px] animate-pulse">
+                <div className="p-8 space-y-4">
+                  <div className="h-8 bg-slate-200 dark:bg-slate-700 rounded-xl w-3/4"></div>
+                  <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-full"></div>
+                  <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-2/3"></div>
+                  <div className="h-12 bg-slate-200 dark:bg-slate-700 rounded-xl w-full"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Search Results */}
-        {searchResults.length > 0 && (
+        {!loading && filteredResults.length > 0 && (
           <div className="mb-8">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                 {language === "ar" ? "نتائج البحث" : "Search Results"}
+                {metadata && (
+                  <span className="text-lg font-normal text-gray-500 dark:text-gray-400 ml-2">
+                    ({metadata.totalResults} {language === "ar" ? "نتيجة" : "results"})
+                  </span>
+                )}
               </h2>
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" className="flex items-center gap-2">
-                  <Grid className="h-4 w-4" />
-                  {language === "ar" ? "شبكة" : "Grid"}
-                </Button>
-                <Button variant="outline" size="sm" className="flex items-center gap-2">
-                  <List className="h-4 w-4" />
-                  {language === "ar" ? "قائمة" : "List"}
-                </Button>
-              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {searchResults.map((result) => {
-                const IconComponent = getTypeIcon(result.type)
-                const colorClass = getTypeColor(result.type)
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredResults.map((result, index) => {
+                const IconComponent = getTypeIcon(result.entityType)
+                const colorClass = getTypeColor(result.entityType)
+                const displayTitle = result.title || (language === "ar" ? "بدون عنوان" : "No Title")
+                const displaySummary = stripHtml(result.summary) || (language === "ar" ? "لا يوجد وصف" : "No description")
+                const isVideo = result.entityType === "Video"
                 
-                return (
-                  <div key={result.id} className="group bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-2xl hover:shadow-green-500/10 transition-all duration-500 hover:scale-105">
+                const CardContent = () => (
+                  <div className="bg-white dark:bg-slate-800 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-lg hover:shadow-2xl hover:shadow-green-500/10 transition-all duration-500 hover:scale-[1.02] h-full will-change-transform overflow-hidden"
+                    onMouseMove={(e) => {
+                      const el = e.currentTarget as HTMLDivElement
+                      const rect = el.getBoundingClientRect()
+                      const x = e.clientX - rect.left
+                      const y = e.clientY - rect.top
+                      const rotateX = ((y - rect.height / 2) / rect.height) * -3
+                      const rotateY = ((x - rect.width / 2) / rect.width) * 3
+                      el.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`
+                    }}
+                    onMouseLeave={(e) => {
+                      const el = e.currentTarget as HTMLDivElement
+                      el.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)"
+                    }}
+                    style={{ transform: "perspective(900px)" }}
+                  >
                     {/* Thumbnail */}
                     <div className="relative aspect-video bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-600">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className={`bg-gradient-to-r ${colorClass} p-4 rounded-xl group-hover:scale-110 transition-transform duration-300`}>
-                          <IconComponent className="h-8 w-8 text-white" />
-                        </div>
-                      </div>
-                      {result.duration && (
-                        <div className="absolute top-3 right-3 bg-black/50 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
-                          <Clock className="h-3 w-3" />
-                          {result.duration}
-                        </div>
-                      )}
-                      {result.readTime && (
-                        <div className="absolute top-3 right-3 bg-black/50 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
-                          <Clock className="h-3 w-3" />
-                          {result.readTime}
+                      {result.imageUrl ? (
+                        <img 
+                          src={result.imageUrl} 
+                          alt={displayTitle}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className={`bg-gradient-to-r ${colorClass} p-4 rounded-xl group-hover:scale-110 transition-transform duration-300`}>
+                            <IconComponent className="h-8 w-8 text-white" />
+                          </div>
                         </div>
                       )}
-                      <div className="absolute bottom-3 left-3 bg-black/50 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
-                        <Eye className="h-3 w-3" />
-                        {result.views}
+                      <div className="absolute bottom-4 left-4 bg-black/50 text-white text-xs px-3 py-1 rounded-full flex items-center gap-1">
+                        <Calendar className="h-3 w-3" />
+                        {formatDate(result.createdTimestamp)}
                       </div>
+                      {isVideo && (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="bg-black/50 rounded-full p-4 group-hover:scale-110 transition-transform duration-300">
+                            <Play className="h-8 w-8 text-white" />
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     {/* Content */}
-                    <div className="p-6">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className={`bg-gradient-to-r ${colorClass} text-white text-xs px-2 py-1 rounded-full`}>
-                          {result.type}
-                        </span>
-                        <span className="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-xs px-2 py-1 rounded-full">
-                          {result.level}
-                        </span>
+                    <div className="p-8">
+                      {/* Result Header */}
+                      <div className="flex items-center mb-6">
+                        <div className={`bg-gradient-to-r ${colorClass} p-3 rounded-xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg`}>
+                          <IconComponent className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400 mb-1 flex items-center gap-2">
+                            <Eye className="h-4 w-4" /> {result.entityType}
+                          </div>
+                        </div>
                       </div>
-                      
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300 line-clamp-2">
-                        {result.title}
+
+                      {/* Result Title */}
+                      <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300 line-clamp-2">
+                        {displayTitle}
                       </h3>
-                      
-                      <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
-                        {result.description}
-                      </p>
 
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-1">
-                          <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                          <span className="text-sm text-gray-600 dark:text-gray-300">
-                            {result.rating}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
-                          <Calendar className="h-4 w-4" />
-                          {result.date}
-                        </div>
+                      {/* Result Summary */}
+                      <div className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-6 line-clamp-3">
+                        {displaySummary}
                       </div>
 
-                      <div className="flex gap-2">
-                        <Button className="flex-1 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white group/btn">
-                          <span className="mr-2 rtl:mr-0 rtl:ml-2">
-                            {language === "ar" ? "عرض" : "View"}
-                          </span>
-                          {isRtl ? (
-                            <ArrowLeft className="h-4 w-4 group-hover/btn:-translate-x-1 transition-transform duration-300" />
-                          ) : (
-                            <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
-                          )}
-                        </Button>
-                        <Button variant="outline" size="sm" className="px-3">
-                          <Download className="h-4 w-4" />
-                        </Button>
+                      {/* Highlights */}
+                      {result.highlights && result.highlights.length > 0 && (
+                        <div className="mb-6">
+                          <div className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                            {language === "ar" ? "الكلمات المميزة:" : "Highlights:"}
+                          </div>
+                          <div className="flex flex-wrap gap-1">
+                            {result.highlights.slice(0, 3).map((highlight, index) => (
+                              <span key={index} className="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 text-xs px-2 py-1 rounded">
+                                {stripHtml(highlight)}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Result Footer */}
+                      <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-green-500 to-blue-500 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-green-400">
+                        <span className="mr-2 rtl:mr-0 rtl:ml-2">
+                          {isVideo 
+                            ? (language === "ar" ? "مشاهدة" : "Watch")
+                            : (language === "ar" ? "عرض" : "View")
+                          }
+                        </span>
+                        {isVideo ? (
+                          <Play className="h-4 w-4 group-hover/btn:scale-110 transition-transform duration-300" />
+                        ) : isRtl ? (
+                          <ArrowLeft className="h-4 w-4 group-hover/btn:-translate-x-1 transition-transform duration-300" />
+                        ) : (
+                          <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                        )}
                       </div>
                     </div>
                   </div>
                 )
+
+                return (
+                  <div key={result.id} className="group" style={{ animationDelay: `${index * 100}ms` }}>
+                    {isVideo ? (
+                      <button onClick={() => handleVideoClick(result.id)} className="w-full">
+                        <CardContent />
+                      </button>
+                    ) : (
+                      <Link href={result.navigationRoute} className="block">
+                        <CardContent />
+                      </Link>
+                    )}
+                  </div>
+                )
               })}
             </div>
+
+            {/* Pagination */}
+            {pagination && pagination.pagesCount > 1 && (
+              <div className="flex items-center justify-center gap-2 mt-8">
+                <button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                >
+                  {isRtl ? (
+                    <ArrowRight className="h-4 w-4" />
+                  ) : (
+                    <ArrowLeft className="h-4 w-4" />
+                  )}
+                  {language === "ar" ? "السابق" : "Previous"}
+                </button>
+                
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: Math.min(5, pagination.pagesCount) }, (_, i) => {
+                    const page = i + 1
+                    return (
+                      <button
+                        key={page}
+                        onClick={() => handlePageChange(page)}
+                        className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                          currentPage === page
+                            ? "bg-green-500 text-white shadow-lg"
+                            : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    )
+                  })}
+                </div>
+                
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === pagination.pagesCount}
+                  className="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                >
+                  {language === "ar" ? "التالي" : "Next"}
+                  {isRtl ? (
+                    <ArrowLeft className="h-4 w-4" />
+                  ) : (
+                    <ArrowRight className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
+            )}
           </div>
         )}
 
         {/* No Results */}
-        {searchQuery && searchResults.length === 0 && !isSearching && (
+        {!loading && query && filteredResults.length === 0 && (
           <div className="text-center py-12">
             <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg border border-slate-200 dark:border-slate-700">
               <Search className="h-16 w-16 text-gray-400 mx-auto mb-4" />
@@ -390,18 +416,17 @@ export default function BeginnersSearchPage() {
                   : "We couldn't find any content matching your search"
                 }
               </p>
-              <Button 
-                onClick={clearSearch}
-                variant="outline"
-                className="flex items-center gap-2 mx-auto"
-              >
-                <X className="h-4 w-4" />
-                {language === "ar" ? "مسح البحث" : "Clear Search"}
-              </Button>
             </div>
           </div>
         )}
       </div>
+
+      {/* Video Modal */}
+      <VideoModal
+        videoId={selectedVideoId}
+        isOpen={isVideoModalOpen}
+        onClose={handleCloseVideoModal}
+      />
     </div>
   )
 }

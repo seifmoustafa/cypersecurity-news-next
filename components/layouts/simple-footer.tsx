@@ -37,7 +37,7 @@ export default function SimpleFooter() {
       links: [
         {
           title: language === "ar" ? "جميع التعريفات" : "All Definitions",
-          href: "/simple/definitions",
+          href: "/simple/definitions-categories",
           icon: BookOpen,
         },
         {
