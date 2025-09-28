@@ -8,7 +8,6 @@ import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, ArrowRight, Calendar, FileText, Download, Eye } from "lucide-react"
 import Link from "next/link"
 import { container } from "@/core/di/container"
-import { slugify } from "@/lib/utils"
 
 interface RegulationPageClientProps {
   regulationId: string
@@ -86,14 +85,13 @@ export default function RegulationPageClient({ regulationId }: RegulationPageCli
     )
   }
 
-  const title = language === "ar" ? regulation.titleAr || regulation.titleEn : regulation.titleEn || regulation.titleAr
-  const summary = language === "ar" ? regulation.summaryAr || regulation.summaryEn : regulation.summaryEn || regulation.summaryAr
-  const content = language === "ar" ? regulation.contentAr || regulation.contentEn : regulation.contentEn || regulation.contentAr
-  const date = regulation.date ? new Date(regulation.date) : regulation.createdAt ? new Date(regulation.createdAt) : new Date()
+  const title = language === "ar" ? regulation.title || regulation.titleEn || "" : regulation.titleEn || regulation.title || ""
+  const summary = language === "ar" ? regulation.summary || regulation.summaryEn || "" : regulation.summaryEn || regulation.summary || ""
+  const content = language === "ar" ? regulation.content || regulation.contentEn || "" : regulation.contentEn || regulation.content || ""
+  const date = regulation.issueDate ? new Date(regulation.issueDate) : regulation.effectiveDate ? new Date(regulation.effectiveDate) : regulation.createdAt ? new Date(regulation.createdAt) : new Date()
 
-  // Clean HTML tags from content
-  const cleanContent = content.replace(/<\/?[^>]+(>|$)/g, "")
-  const cleanSummary = summary.replace(/<\/?[^>]+(>|$)/g, "")
+  // Clean HTML tags from summary only (keep content as HTML)
+  const cleanSummary = summary ? summary.replace(/<\/?[^>]+(>|$)/g, "") : ""
 
   return (
     <div className="pt-24 pb-16">

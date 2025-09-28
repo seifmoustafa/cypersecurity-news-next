@@ -147,7 +147,7 @@ function RegulationCard({ regulation }: { regulation: any }) {
   }
 
   // Clean HTML tags from summary
-  const cleanSummary = displaySummary.replace(/<\/?[^>]+(>|$)/g, "").trim()
+  const cleanSummary = displaySummary ? displaySummary.replace(/<\/?[^>]+(>|$)/g, "").trim() : ""
   const hasValidSummary = cleanSummary && cleanSummary !== "string" && cleanSummary.length > 0
 
   return (

@@ -84,7 +84,7 @@ export class InstructionsRepositoryImpl implements InstructionsRepository {
 
     try {
       console.log("Fetching all instructions from API")
-      const response = await this.dataSource.get("/advanced/instructions")
+      const response = await this.dataSource.get("/instructions")
       const instructions = response.data?.map((instruction: any) => this.transformInstruction(instruction)) || []
       this.setCachedData(cacheKey, instructions)
       return instructions
@@ -101,7 +101,7 @@ export class InstructionsRepositoryImpl implements InstructionsRepository {
 
     try {
       console.log(`Fetching instructions by type: ${type}`)
-      const response = await this.dataSource.get(`/advanced/instructions/byType/${type}`)
+      const response = await this.dataSource.get(`/instructions/byType/${type}`)
       const instructions = response.data?.map((instruction: any) => this.transformInstruction(instruction)) || []
       this.setCachedData(cacheKey, instructions)
       return instructions
@@ -118,7 +118,7 @@ export class InstructionsRepositoryImpl implements InstructionsRepository {
 
     try {
       console.log(`Fetching instructions by year: ${year}`)
-      const response = await this.dataSource.get(`/advanced/instructions/byYear/${year}`)
+      const response = await this.dataSource.get(`/instructions/byYear/${year}`)
       const instructions = response.data?.map((instruction: any) => this.transformInstruction(instruction)) || []
       this.setCachedData(cacheKey, instructions)
       return instructions
@@ -135,7 +135,7 @@ export class InstructionsRepositoryImpl implements InstructionsRepository {
 
     try {
       console.log(`Fetching instruction by type: ${type} and year: ${year}`)
-      const response = await this.dataSource.get(`/advanced/instructions/byTypeAndYear/${type}/${year}`)
+      const response = await this.dataSource.get(`/instructions/byTypeAndYear/${type}/${year}`)
       const instruction = response ? this.transformInstruction(response) : null
       this.setCachedData(cacheKey, instruction)
       return instruction
@@ -152,7 +152,7 @@ export class InstructionsRepositoryImpl implements InstructionsRepository {
 
     try {
       console.log(`Fetching years by type: ${type}`)
-      const response = await this.dataSource.get(`/advanced/instructions/yearsByType/${type}`)
+      const response = await this.dataSource.get(`/instructions/yearsByType/${type}`)
       const years = response.data || []
       this.setCachedData(cacheKey, years)
       return years
@@ -169,7 +169,7 @@ export class InstructionsRepositoryImpl implements InstructionsRepository {
 
     try {
       console.log(`Fetching instructions by yearId: ${yearId}, page: ${page}, pageSize: ${pageSize}`)
-      const url = `/advanced/instructions/byYear/${yearId}?page=${page}&pageSize=${pageSize}`
+      const url = `/instructions/byYear/${yearId}?page=${page}&pageSize=${pageSize}`
       console.log(`API URL: ${url}`)
 
       const response = await this.dataSource.get(url)
@@ -208,7 +208,7 @@ export class InstructionsRepositoryImpl implements InstructionsRepository {
 
     try {
       console.log(`🔄 Fetching fresh instruction by ID: ${id}`)
-      const response = await this.dataSource.get(`/advanced/instructions/${id}`)
+      const response = await this.dataSource.get(`/instructions/${id}`)
       const instruction = response ? this.transformInstruction(response) : null
 
       if (instruction) {
