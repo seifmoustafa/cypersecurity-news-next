@@ -268,7 +268,7 @@ export default function PersonalProtectControlsPage({ params }: PersonalProtectC
                     {/* Control Footer */}
                     <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-green-400">
                       <span className="mr-2 rtl:mr-0 rtl:ml-2">
-                        {language === "ar" ? "عرض الضابط" : "View Control"}
+                        {language === "ar" ? "عرض إجراء التحكم" : "View Control"}
                       </span>
                       {isRtl ? (
                         <ArrowLeft className="h-4 w-4 group-hover/btn:-translate-x-1 transition-transform duration-300" />

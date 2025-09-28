@@ -133,7 +133,7 @@ export default function PersonalProtectControlStepPage({ params }: PersonalProte
               { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/simple/personal-protect" },
               { label: language === "ar" ? "الفئات الفرعية" : "Sub Categories", href: `/simple/personal-protect/${categoryId}` },
               { label: language === "ar" ? "الضوابط" : "Controls", href: `/simple/personal-protect/${categoryId}/${subCategoryId}` },
-              { label: language === "ar" ? "خطوات الضابط" : "Control Steps", href: `/simple/personal-protect/${categoryId}/${subCategoryId}/${controlId}` },
+              { label: language === "ar" ? "خطوات إجراء التحكم" : "Control Steps", href: `/simple/personal-protect/${categoryId}/${subCategoryId}/${controlId}` },
               { label: language === "ar" ? "الخطوة" : "Step" }
             ]} 
           />
@@ -169,7 +169,7 @@ export default function PersonalProtectControlStepPage({ params }: PersonalProte
               { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/simple/personal-protect" },
               { label: language === "ar" ? "الفئات الفرعية" : "Sub Categories", href: `/simple/personal-protect/${categoryId}` },
               { label: language === "ar" ? "الضوابط" : "Controls", href: `/simple/personal-protect/${categoryId}/${subCategoryId}` },
-              { label: language === "ar" ? "خطوات الضابط" : "Control Steps", href: `/simple/personal-protect/${categoryId}/${subCategoryId}/${controlId}` },
+              { label: language === "ar" ? "خطوات إجراء التحكم" : "Control Steps", href: `/simple/personal-protect/${categoryId}/${subCategoryId}/${controlId}` },
               { label: language === "ar" ? "الخطوة" : "Step" }
             ]} 
           />
@@ -223,7 +223,7 @@ export default function PersonalProtectControlStepPage({ params }: PersonalProte
             { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/simple/personal-protect" },
             { label: categoryName || (language === "ar" ? "الفئات الفرعية" : "Sub Categories"), href: `/simple/personal-protect/${categoryId}` },
             { label: subCategoryName || (language === "ar" ? "الضوابط" : "Controls"), href: `/simple/personal-protect/${categoryId}/${subCategoryId}` },
-            { label: controlName || (language === "ar" ? "خطوات الضابط" : "Control Steps"), href: `/simple/personal-protect/${categoryId}/${subCategoryId}/${controlId}` },
+            { label: controlName || (language === "ar" ? "خطوات إجراء التحكم" : "Control Steps"), href: `/simple/personal-protect/${categoryId}/${subCategoryId}/${controlId}` },
             { label: stepName }
           ]} 
         />

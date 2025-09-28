@@ -112,13 +112,13 @@ export default function BeginnersHome() {
       items: [
         {
           title: language === "ar" ? "الأخبار" : "News",
-          href: "/simple/news",
+          href: "/simple/news-categories",
           icon: Newspaper,
           count: "",
         },
         {
           title: language === "ar" ? "نشرات التوعية" : "Awareness",
-          href: "/simple/awareness",
+          href: "/simple/awareness/years",
           icon: Lightbulb,
           count: "",
         },

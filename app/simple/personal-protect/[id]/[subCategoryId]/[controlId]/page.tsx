@@ -68,7 +68,7 @@ export default function PersonalProtectControlStepsPage({ params }: PersonalProt
               { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/simple/personal-protect" },
               { label: language === "ar" ? "الفئات الفرعية" : "Sub Categories", href: `/simple/personal-protect/${categoryId}` },
               { label: language === "ar" ? "الضوابط" : "Controls", href: `/simple/personal-protect/${categoryId}/${subCategoryId}` },
-              { label: language === "ar" ? "خطوات الضابط" : "Control Steps" }
+              { label: language === "ar" ? "خطوات إجراء التحكم" : "Control Steps" }
             ]} 
           />
 
@@ -100,7 +100,7 @@ export default function PersonalProtectControlStepsPage({ params }: PersonalProt
               { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/simple/personal-protect" },
               { label: language === "ar" ? "الفئات الفرعية" : "Sub Categories", href: `/simple/personal-protect/${categoryId}` },
               { label: language === "ar" ? "الضوابط" : "Controls", href: `/simple/personal-protect/${categoryId}/${subCategoryId}` },
-              { label: language === "ar" ? "خطوات الضابط" : "Control Steps" }
+              { label: language === "ar" ? "خطوات إجراء التحكم" : "Control Steps" }
             ]} 
           />
 
@@ -113,7 +113,7 @@ export default function PersonalProtectControlStepsPage({ params }: PersonalProt
             </h1>
             <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
               {language === "ar" 
-                ? "حدث خطأ أثناء تحميل خطوات الضابط. يرجى المحاولة مرة أخرى."
+                ? "حدث خطأ أثناء تحميل خطوات إجراء التحكم. يرجى المحاولة مرة أخرى."
                 : "An error occurred while loading control steps. Please try again."
               }
             </p>
@@ -150,7 +150,7 @@ export default function PersonalProtectControlStepsPage({ params }: PersonalProt
             { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/simple/personal-protect" },
             { label: categoryName || (language === "ar" ? "الفئات الفرعية" : "Sub Categories"), href: `/simple/personal-protect/${categoryId}` },
             { label: subCategoryName || (language === "ar" ? "الضوابط" : "Controls"), href: `/simple/personal-protect/${categoryId}/${subCategoryId}` },
-            { label: controlName || (language === "ar" ? "خطوات الضابط" : "Control Steps") }
+            { label: controlName || (language === "ar" ? "خطوات إجراء التحكم" : "Control Steps") }
           ]} 
         />
 
@@ -166,7 +166,7 @@ export default function PersonalProtectControlStepsPage({ params }: PersonalProt
                   {controlName}
                 </h1>
                 <p className="text-gray-600 dark:text-gray-400">
-                  {language === "ar" ? "خطوات تنفيذ الضابط" : "Control Implementation Steps"}
+                  {language === "ar" ? "خطوات تنفيذ إجراء التحكم" : "Control Implementation Steps"}
                 </p>
               </div>
             </div>
