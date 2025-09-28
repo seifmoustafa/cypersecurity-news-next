@@ -219,8 +219,8 @@ export function formatDateRTL(dateString: string | null | undefined, language: s
         return str.replace(/\d/g, (digit) => arabicNumerals[parseInt(digit)])
       }
       
-      // Format as DD/MM/YYYY (RTL: day/month/year) with Arabic numerals
-      const formattedDate = `${day}/${month}/${year}`
+      // Format as YYYY/MM/DD (RTL: year/month/day) with Arabic numerals
+      const formattedDate = `${year}/${month}/${day}`
       return convertToArabic(formattedDate)
     } else {
       // English: Use English numbers

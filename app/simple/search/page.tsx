@@ -257,7 +257,7 @@ export default function BeginnersSearchPage() {
                           </div>
                         </div>
                       )}
-                      <div className="absolute bottom-4 left-4 bg-black/50 text-white text-xs px-3 py-1 rounded-full flex items-center gap-1">
+                      <div className={`absolute bottom-4 ${language === "ar" ? "right-4" : "left-4"} bg-black/50 text-white text-xs px-3 py-1 rounded-full flex items-center gap-1 ${language === "ar" ? "flex-row-reverse" : ""}`}>
                         <Calendar className="h-3 w-3" />
                         {formatDateRTL(result.createdTimestamp, language)}
                       </div>
