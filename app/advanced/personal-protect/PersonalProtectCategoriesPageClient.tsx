@@ -33,9 +33,9 @@ export default function PersonalProtectCategoriesPageClient() {
   const pageSize = 12
 
   const { categories, loading, error, pagination, refetch } = usePersonalProtectCategories(
+    debouncedSearchTerm,
     currentPage,
-    pageSize,
-    debouncedSearchTerm
+    pageSize
   )
 
   // Debounce search term

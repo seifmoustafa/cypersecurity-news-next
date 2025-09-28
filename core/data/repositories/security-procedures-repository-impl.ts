@@ -51,7 +51,7 @@ export class SecurityProceduresRepositoryImpl implements SecurityProceduresRepos
     }
 
     const response = await this.apiDataSource.get<PaginatedSecurityProcedureResponse<SecurityProcedureStandard>>(
-      `/WebSite/advanced/standards?${params.toString()}`,
+      `/WebSite/standards?${params.toString()}`,
     )
 
     this.setCache(cacheKey, response)

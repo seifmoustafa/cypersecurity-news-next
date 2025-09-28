@@ -14,7 +14,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const step = await container.services.personalProtectControlSteps.getControlStepById(params.stepId)
+    const step = await container.services.personalProtectControlStep.getPersonalProtectControlStepById(params.stepId)
 
     if (!step) {
       return {
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function PersonalProtectControlStepDetailPage({ params }: PageProps) {
   try {
-    const step = await container.services.personalProtectControlSteps.getControlStepById(params.stepId)
+    const step = await container.services.personalProtectControlStep.getPersonalProtectControlStepById(params.stepId)
 
     if (!step) {
       notFound()

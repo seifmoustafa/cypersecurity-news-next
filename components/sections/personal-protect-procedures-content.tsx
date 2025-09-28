@@ -45,7 +45,7 @@ export default function PersonalProtectProceduresContent() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
   
   // Fetch categories
-  const { categories, loading: categoriesLoading, error: categoriesError, refetch: refetchCategories } = usePersonalProtectCategories(1, 10)
+  const { categories, loading: categoriesLoading, error: categoriesError, refetch: refetchCategories } = usePersonalProtectCategories("", 1, 10)
 
   // Fetch sub-categories for active category
   const { 

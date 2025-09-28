@@ -29,7 +29,7 @@ export class PersonalProtectCategoryRepositoryImpl implements PersonalProtectCat
     try {
       let endpoint = `/PersonalProtectCategories?page=${page}&pageSize=${pageSize}`
       
-      if (search && search.trim()) {
+      if (search && typeof search === 'string' && search.trim()) {
         endpoint += `&search=${encodeURIComponent(search.trim())}`
       }
 
