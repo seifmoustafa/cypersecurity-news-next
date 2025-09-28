@@ -328,7 +328,7 @@ export default function Header({
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl blur-md opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
                 {/* <div className="relative bg-gradient-to-r from-blue-500 to-cyan-500 p-2.5 rounded-xl shadow-lg"> */}
                   <img
-                    src="/app-icon.png"
+                    src="/api/app-icon"
                     alt="Cybersecurity Portal"
                     className="h-12 w-12 object-contain group-hover:scale-110 transition-all duration-500"
                   />

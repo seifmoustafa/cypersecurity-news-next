@@ -140,7 +140,7 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
               }}
             >
               <img 
-                src="/app-icon.png" 
+                src="/api/app-icon" 
                 alt="Cybersecurity Portal" 
                 className="h-12 w-12 object-contain group-hover:scale-110 transition-all duration-500"
               />

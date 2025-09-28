@@ -139,7 +139,7 @@ export default function Footer() {
           <div className="text-center mb-16">
             <div className="flex items-center justify-center mb-6">
               <img
-                src="/app-icon.png"
+                src="/api/app-icon"
                 alt="Cybersecurity Portal"
                 className="h-12 w-12 object-contain mx-4"
               />

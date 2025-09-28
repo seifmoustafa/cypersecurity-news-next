@@ -451,30 +451,30 @@ export default function BeginnersHome() {
             {mainCards.map((card, index) => {
               const gifPath =
                 card.id === "media"
-                  ? "/images/beginners/Gemini_Generated_Image_izzu99izzu99izzu.png"
+                  ? "/api/images/beginners/Gemini_Generated_Image_izzu99izzu99izzu.png"
                   : card.id === "definitions"
-                  ? "/images/beginners/Gemini_Generated_Image_dudzufdudzufdudz.png"
+                  ? "/api/images/beginners/Gemini_Generated_Image_dudzufdudzufdudz.png"
                   : card.id === "personal-protect"
-                  ? "/images/beginners/Gemini_Generated_Image_70kvgb70kvgb70kv.png"
+                  ? "/api/images/beginners/Gemini_Generated_Image_70kvgb70kvgb70kv.png"
                   : card.id === "awareness"
-                  ? "/images/beginners/Gemini_Generated_Image_ut3c4xut3c4xut3c.png"
+                  ? "/api/images/beginners/Gemini_Generated_Image_ut3c4xut3c4xut3c.png"
                   : card.id === "definitions1"
-                  ? "/images/beginners/Gemini_Generated_Image_ut3c4xut3c4xut3c.png"
+                  ? "/api/images/beginners/Gemini_Generated_Image_ut3c4xut3c4xut3c.png"
                   : card.id === "personal-protect1"
-                  ? "/images/beginners/Gemini_Generated_Image_70kvgb70kvgb70kv.png"
+                  ? "/api/images/beginners/Gemini_Generated_Image_70kvgb70kvgb70kv.png"
                   : card.id === "media2"
-                  ? "/images/beginners/Gemini_Generated_Image_scvpqscvpqscvpqs.png"
+                  ? "/api/images/beginners/Gemini_Generated_Image_scvpqscvpqscvpqs.png"
                   : card.id === "definitions2"
-                  ? "/images/beginners/Gemini_Generated_Image_pjw9t4pjw9t4pjw9.png"
+                  ? "/api/images/beginners/Gemini_Generated_Image_pjw9t4pjw9t4pjw9.png"
                   : card.id === "personal-protect2"
-                  ? "/images/beginners/Gemini_Generated_Image_im25tyim25tyim25.png"
+                  ? "/api/images/beginners/Gemini_Generated_Image_im25tyim25tyim25.png"
                   : card.id === "media3"
-                  ? "/images/beginners/Gemini_Generated_Image_loa5htloa5htloa5.png"
+                  ? "/api/images/beginners/Gemini_Generated_Image_loa5htloa5htloa5.png"
                   : card.id === "definitions3"
-                  ? "/images/beginners/Gemini_Generated_Image_izzu99izzu99izzu.png"
+                  ? "/api/images/beginners/Gemini_Generated_Image_izzu99izzu99izzu.png"
                   : card.id === "personal-protect3"
-                  ? "/images/beginners/Gemini_Generated_Image_izwtzfizwtzfizwt.png"
-                  : "/images/beginners/Gemini_Generated_Image_70kvgb70kvgb70kv.png";
+                  ? "/api/images/beginners/Gemini_Generated_Image_izwtzfizwtzfizwt.png"
+                  : "/api/images/beginners/Gemini_Generated_Image_70kvgb70kvgb70kv.png";
 
               return (
                 <div

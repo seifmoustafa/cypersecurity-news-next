@@ -13,9 +13,9 @@ export const metadata = {
   description:
     "أحدث المستجدات والتحليلات حول التهديدات السيبرانية وتقنيات الحماية",
   icons: {
-    icon: '/app-icon.png',
-    shortcut: '/app-icon.png',
-    apple: '/app-icon.png',
+    icon: '/api/app-icon',
+    shortcut: '/api/app-icon',
+    apple: '/api/app-icon',
   },
 };
 

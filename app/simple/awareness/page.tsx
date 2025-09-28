@@ -146,8 +146,8 @@ export default function SimpleAwarenessPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-4xl mx-auto items-stretch">
           {mainCards.map((card, index) => {
             const gifPath = card.id === "news" 
-              ? "/images/news-events.gif" 
-              : "/images/beginners/Gemini_Generated_Image_70kvgb70kvgb70kv.png"
+              ? "/api/images/news-events.gif" 
+              : "/api/images/beginners/Gemini_Generated_Image_70kvgb70kvgb70kv.png"
 
             return (
               <div
