@@ -60,3 +60,33 @@ export function useArticles(
 
   return { articles, loading, error, pagination, refetch }
 }
+
+export function useLatestArticles(count: number = 3): {
+  articles: ApiArticle[]
+  loading: boolean
+  error: string | null
+} {
+  const [articles, setArticles] = useState<ApiArticle[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchLatestArticles = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+        const response = await container.services.media.getArticles(1, count)
+        setArticles(response.data)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred")
+        setArticles([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchLatestArticles()
+  }, [count])
+
+  return { articles, loading, error }
+}
