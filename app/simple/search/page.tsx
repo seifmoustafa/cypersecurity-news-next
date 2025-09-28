@@ -24,6 +24,7 @@ import {
 import Link from "next/link"
 import Breadcrumbs from "@/components/breadcrumbs"
 import VideoModal from "@/components/video-modal"
+import { formatDateRTL } from "@/lib/content-purifier"
 
 export default function BeginnersSearchPage() {
   const { language } = useLanguage()
@@ -94,21 +95,6 @@ export default function BeginnersSearchPage() {
     }
   }
 
-  const formatDate = (timestamp: string) => {
-    const date = new Date(timestamp)
-    const day = date.getDate().toString().padStart(2, '0')
-    const month = (date.getMonth() + 1).toString().padStart(2, '0')
-    const year = date.getFullYear().toString()
-    
-    // Convert to Arabic numerals
-    const arabicNumerals = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩']
-    const convertToArabic = (str: string) => {
-      return str.replace(/\d/g, (digit) => arabicNumerals[parseInt(digit)])
-    }
-    
-    const formattedDate = `${day}/${month}/${year}`
-    return convertToArabic(formattedDate)
-  }
 
   const stripHtml = (html: string | null) => {
     if (!html) return ""
@@ -273,7 +259,7 @@ export default function BeginnersSearchPage() {
                       )}
                       <div className="absolute bottom-4 left-4 bg-black/50 text-white text-xs px-3 py-1 rounded-full flex items-center gap-1">
                         <Calendar className="h-3 w-3" />
-                        {formatDate(result.createdTimestamp)}
+                        {formatDateRTL(result.createdTimestamp, language)}
                       </div>
                       {isVideo && (
                         <div className="absolute inset-0 flex items-center justify-center">

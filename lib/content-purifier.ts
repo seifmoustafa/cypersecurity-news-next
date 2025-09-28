@@ -197,3 +197,37 @@ export function formatDateArabicNumbers(dateString: string | null | undefined): 
     return dateString
   }
 }
+
+/**
+ * Format date in DD/MM/YYYY format with language-appropriate numerals
+ * English: Uses English numbers (0-9)
+ * Arabic: Uses Arabic numbers (٠-٩) with RTL format (day on right, year on left)
+ */
+export function formatDateRTL(dateString: string | null | undefined, language: string = "ar"): string {
+  if (!dateString) return ''
+  
+  try {
+    const date = new Date(dateString)
+    const day = date.getDate().toString().padStart(2, '0')
+    const month = (date.getMonth() + 1).toString().padStart(2, '0')
+    const year = date.getFullYear().toString()
+    
+    if (language === "ar") {
+      // Convert to Arabic numerals
+      const arabicNumerals = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩']
+      const convertToArabic = (str: string) => {
+        return str.replace(/\d/g, (digit) => arabicNumerals[parseInt(digit)])
+      }
+      
+      // Format as DD/MM/YYYY (RTL: day/month/year) with Arabic numerals
+      const formattedDate = `${day}/${month}/${year}`
+      return convertToArabic(formattedDate)
+    } else {
+      // English: Use English numbers
+      return `${day}/${month}/${year}`
+    }
+  } catch (error) {
+    console.error('Error formatting RTL date:', error)
+    return dateString
+  }
+}
