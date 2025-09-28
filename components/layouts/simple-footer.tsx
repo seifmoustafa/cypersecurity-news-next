@@ -18,6 +18,7 @@ import {
   CheckCircle,
   Eye,
   Lock,
+  FileText,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -28,69 +29,78 @@ export default function SimpleFooter() {
   // Sectioned sitemap like previous style but showing only actual pages
   const footerSections = [
     {
-      title: language === "ar" ? "المكتبة الثقافية" : "Media",
-      icon: Video,
-      color: "text-green-400",
-      bgColor: "bg-green-400/10",
-      borderColor: "border-green-400/20",
+      title: language === "ar" ? "المفاهيم" : "Definitions",
+      icon: BookOpen,
+      color: "text-indigo-400",
+      bgColor: "bg-indigo-400/10",
+      borderColor: "border-indigo-400/20",
       links: [
         {
-          title: language === "ar" ? "الفيديوهات" : "Videos",
-          href: "/simple/videos",
-          icon: Video,
-        },
-        {
-          title: language === "ar" ? "المحاضرات" : "Lectures",
-          href: "/simple/lectures",
+          title: language === "ar" ? "جميع التعريفات" : "All Definitions",
+          href: "/simple/definitions",
           icon: BookOpen,
         },
         {
-          title: language === "ar" ? "العروض التقديمية" : "Presentations",
-          href: "/simple/presentations",
-          icon: ShieldCheck,
-        },
-        {
-          title: language === "ar" ? "الأخبار" : "News",
-          href: "/simple/news",
+          title: language === "ar" ? "فئات التعريفات" : "Definition Categories",
+          href: "/simple/definitions-categories",
           icon: CheckCircle,
         },
       ],
     },
     {
-      title: language === "ar" ? "المفاهيم" : "Definitions",
-      icon: BookOpen,
-      color: "text-blue-400",
-      bgColor: "bg-blue-400/10",
-      borderColor: "border-blue-400/20",
+      title: language === "ar" ? "التوعية" : "Awareness",
+      icon: Eye,
+      color: "text-yellow-400",
+      bgColor: "bg-yellow-400/10",
+      borderColor: "border-yellow-400/20",
       links: [
         {
-          title: language === "ar" ? "المصطلحات الأساسية" : "Basic Terms",
-          href: "/simple/definitions",
-          icon: BookOpen,
+          title: language === "ar" ? "الأخبار" : "News",
+          href: "/simple/news",
+          icon: CheckCircle,
         },
         {
-          title: language === "ar" ? "التصنيفات" : "Categories",
-          href: "/simple/definitions/categories",
-          icon: CheckCircle,
+          title: language === "ar" ? "نشرات التوعية" : "Awareness",
+          href: "/simple/awareness",
+          icon: Eye,
         },
       ],
     },
     {
       title: language === "ar" ? "الحماية الشخصية" : "Personal Protection",
       icon: ShieldCheck,
-      color: "text-purple-400",
-      bgColor: "bg-purple-400/10",
-      borderColor: "border-purple-400/20",
+      color: "text-amber-400",
+      bgColor: "bg-amber-400/10",
+      borderColor: "border-amber-400/20",
       links: [
         {
-          title: language === "ar" ? "نصائح الأمان" : "Safety Tips",
+          title: language === "ar" ? "فئات الحماية" : "Protection Categories",
           href: "/simple/personal-protect",
           icon: ShieldCheck,
         },
+      ],
+    },
+    {
+      title: language === "ar" ? "المكتبة الثقافية" : "Media",
+      icon: Video,
+      color: "text-emerald-400",
+      bgColor: "bg-emerald-400/10",
+      borderColor: "border-emerald-400/20",
+      links: [
         {
-          title: language === "ar" ? "أدوات الحماية" : "Protection Tools",
-          href: "/simple/personal-protect/tools",
-          icon: ShieldCheck,
+          title: language === "ar" ? "دروس تعليمية" : "Educational Lessons",
+          href: "/simple/media/lessons",
+          icon: BookOpen,
+        },
+        {
+          title: language === "ar" ? "مقالات" : "Articles",
+          href: "/simple/media/articles",
+          icon: FileText,
+        },
+        {
+          title: language === "ar" ? "مراجع" : "References",
+          href: "/simple/media/references",
+          icon: BookOpen,
         },
       ],
     },
@@ -98,7 +108,7 @@ export default function SimpleFooter() {
   const quickLinks = [
     {
       title: language === "ar" ? "البحث" : "Search",
-      href: "/simple/regulation",
+      href: "/simple/search",
       icon: Search,
     },
     {
@@ -194,7 +204,7 @@ export default function SimpleFooter() {
           </div>
 
           {/* Sectioned Sitemap */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             {footerSections.map((section, index) => {
               const IconComponent = section.icon;
               return (

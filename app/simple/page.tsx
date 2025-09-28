@@ -574,43 +574,15 @@ export default function BeginnersHome() {
                             ) : (
                               // Empty state - show placeholder items
                               <>
-                                <div className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 rounded-lg border border-white/20 dark:border-white/10">
-                                  <div className="flex-1 min-w-0">
-                                    <span className="text-gray-500 dark:text-gray-400 text-sm font-medium">
-                                      {language === "ar" ? "فئة رقم 1" : "Category 1"}
-                                    </span>
-                                  </div>
-                                  <div className="flex items-center">
-                                    {isRtl ? (
-                                      <ArrowLeft className="h-4 w-4 text-gray-400" />
-                                    ) : (
-                                      <ArrowRight className="h-4 w-4 text-gray-400" />
-                                    )}
-                                  </div>
-                                </div>
-                                <div className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 rounded-lg border border-white/20 dark:border-white/10">
-                                  <div className="flex-1 min-w-0">
-                                    <span className="text-gray-500 dark:text-gray-400 text-sm font-medium">
-                                      {language === "ar" ? "فئة رقم 2" : "Category 2"}
-                                    </span>
-                                  </div>
-                                  <div className="flex items-center">
-                                    {isRtl ? (
-                                      <ArrowLeft className="h-4 w-4 text-gray-400" />
-                                    ) : (
-                                      <ArrowRight className="h-4 w-4 text-gray-400" />
-                                    )}
-                                  </div>
-                                </div>
                               </>
                             )}
                             <Link
                               href="/simple/personal-protect"
                               onClick={(e) => e.stopPropagation()}
-                              className="flex items-center justify-center p-3 bg-amber-500/20 dark:bg-amber-500/10 hover:bg-amber-500/30 dark:hover:bg-amber-500/20 rounded-lg transition-all duration-300 group/item border border-amber-500/30 dark:border-amber-500/20 hover:border-amber-500/50 dark:hover:border-amber-500/30"
+                              className="flex  justify-center p-3 bg-amber-500/20 dark:bg-amber-500/10 hover:bg-amber-500/30 dark:hover:bg-amber-500/20 rounded-lg transition-all duration-300 group/item border border-amber-500/30 dark:border-amber-500/20 hover:border-amber-500/50 dark:hover:border-amber-500/30"
                             >
                               <span className="text-amber-700 dark:text-amber-400 text-sm font-medium group-hover/item:text-amber-800 dark:group-hover/item:text-amber-300 transition-colors duration-300">
-                                {language === "ar" ? "عرض المزيد" : "View More"}
+                                {language === "ar" ? "عرض المزيد من الفئات" : "View More"}
                               </span>
                               <div className="flex items-center ml-2">
                                 {isRtl ? (
