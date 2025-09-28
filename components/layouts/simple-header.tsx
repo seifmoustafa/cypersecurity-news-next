@@ -297,6 +297,27 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
               </Tooltip>
             </TooltipProvider>
 
+            {/* Home Button */}
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => router.push("/")}
+                    title={t("nav.home")}
+                    className="hover:bg-gray-100 dark:hover:bg-slate-800/50 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
+                  >
+                    <Home className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-gray-600 dark:text-slate-300 group-hover:text-green-600 dark:group-hover:text-green-300" />
+                    <span className="sr-only">{t("nav.home")}</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{t("nav.home")}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
             {/* Mobile menu button */}
             <Button
               variant="ghost"

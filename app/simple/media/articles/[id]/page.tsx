@@ -238,7 +238,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
                 <div className="flex flex-wrap gap-3">
                   {article.forBeginners && (
                     <span className="px-4 py-2 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 text-green-800 dark:text-green-200 text-sm font-medium rounded-full border border-green-200 dark:border-green-800 hover:from-green-200 hover:to-emerald-200 dark:hover:from-green-800/50 dark:hover:to-emerald-800/50 transition-all duration-300">
-                      {language === "ar" ? "للمبتدئين" : "For Beginners"}
+                      {language === "ar" ? "للعامة" : "For Beginners"}
                     </span>
                   )}
                   {article.forProfessionals && (

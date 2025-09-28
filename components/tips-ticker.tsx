@@ -27,7 +27,7 @@ export default function TipsTicker() {
   const [tipDialogOpen, setTipDialogOpen] = useState(false)
 
   // Fixed speed in pixels per second - increased for faster animation
-  const speed = 300
+  const speed = 150
 
   useEffect(() => {
     const fetchTickerItems = async () => {

@@ -6,7 +6,7 @@ import Link from "next/link"
 import { useLanguage } from "@/components/language-provider"
 import { useEffect, useState } from "react"
 import { container } from "@/core/di/container"
-import { slugify } from "@/lib/utils"
+import { getLocalizedText } from "@/lib/utils"
 import type { News } from "@/core/domain/models/news"
 
 export default function NewsPage() {
@@ -118,10 +118,7 @@ function NewsCard({ item }: { item: News }) {
     return i?.summaryEn || i?.summary || ""
   }
 
-  // ALWAYS use English title for URL slug (regardless of current language)
-  const englishTitle = item?.titleEn || ""
-  const slug = slugify(englishTitle, item.id)
-
+  // Use ID for URL
   const displayTitle = getDisplayTitle(item)
   const displaySummary = getDisplaySummary(item)
   const date = item?.date ? new Date(item.date) : item?.createdAt ? new Date(item.createdAt) : new Date()
@@ -136,7 +133,7 @@ function NewsCard({ item }: { item: News }) {
   const hasValidSummary = cleanSummary && cleanSummary !== "string" && cleanSummary.length > 0
 
   return (
-    <Link href={`/advanced/news/${slug}`} className="group">
+    <Link href={`/advanced/news/${item.id}`} className="group">
       <div className="bg-card border rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg h-full flex flex-col">
         <div className="relative h-48 overflow-hidden">
           <Image

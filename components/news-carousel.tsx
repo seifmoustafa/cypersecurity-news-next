@@ -160,9 +160,7 @@ export default function NewsCarousel() {
       ? currentNews.title || currentNews.titleEn || "News"
       : currentNews.titleEn || currentNews.title || "News"
 
-  // ALWAYS use English title for URL slug (regardless of current language)
-  const englishTitle = currentNews.titleEn || ""
-  const newsSlug = slugify(englishTitle, currentNews.id)
+  // Use ID for URL
   // ONLY GET SUMMARY - NO FALLBACK TO CONTENT!
   const newsSummary =
     language === "ar"
@@ -176,8 +174,7 @@ export default function NewsCarousel() {
   // Debug logging
   console.log(`🔍 News Carousel - Language: ${language}`)
   console.log(`📰 Display Title: ${displayTitle}`)
-  console.log(`🔗 English Title for URL: ${englishTitle}`)
-  console.log(`🌐 Generated Slug: ${newsSlug}`)
+  console.log(`🔗 Using ID for URL: ${currentNews.id}`)
 
   return (
     <div className="w-full h-full flex flex-col bg-gradient-to-br from-blue-50/50 via-white to-cyan-50/50 dark:from-blue-950/50 dark:via-slate-900 dark:to-cyan-950/50 relative overflow-hidden">
@@ -307,7 +304,7 @@ export default function NewsCarousel() {
                     
                     {/* Enhanced Read More Button */}
                     <Link
-                      href={`/advanced/news/${newsSlug}`}
+                      href={`/advanced/news/${currentNews.id}`}
                       className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 dark:from-blue-700 dark:to-blue-800 dark:hover:from-blue-800 dark:hover:to-blue-900 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-xl shadow-blue-500/40 dark:shadow-blue-500/50 border border-blue-500/40 dark:border-blue-400/40 backdrop-blur-sm"
                     >
                       {t("common.readMore")}
@@ -489,9 +486,7 @@ export default function NewsCarousel() {
       ? currentNews.title || currentNews.titleEn || "News"
       : currentNews.titleEn || currentNews.title || "News"
 
-  // ALWAYS use English title for URL slug (regardless of current language)
-  const englishTitle = currentNews.titleEn || ""
-  const newsSlug = slugify(englishTitle, currentNews.id)
+  // Use ID for URL
   // ONLY GET SUMMARY - NO FALLBACK TO CONTENT!
   const newsSummary =
     language === "ar"
@@ -551,7 +546,7 @@ export default function NewsCarousel() {
                       {hasValidSummary ? cleanSummary : ""}
                     </p>
                     <Link
-                      href={`/advanced/news/${newsSlug}`}
+                      href={`/advanced/news/${currentNews.id}`}
                       className="inline-block bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md transition-colors"
                     >
                       {t("common.readMore")}

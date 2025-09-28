@@ -10,7 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import MainLayout from "@/components/layouts/main-layout"
 import { useLanguage } from "@/components/language-provider"
 import { container } from "@/core/di/container"
-import { slugify } from "@/lib/utils"
+import { getLocalizedText } from "@/lib/utils"
 import type { ApiLecture, LecturesPaginatedResponse } from "@/core/domain/models/advanced/media"
 import Link from "next/link"
 
@@ -39,11 +39,6 @@ export default function LecturesPageClient({ initialLectures, initialSearch, ini
     return language === "ar"
       ? lecture.summaryAr || lecture.summaryEn || ""
       : lecture.summaryEn || lecture.summaryAr || ""
-  }
-
-  const getLectureSlug = (lecture: ApiLecture) => {
-    const englishName = lecture.nameEn || lecture.nameAr || ""
-    return slugify(englishName, lecture.id)
   }
 
   const getDocumentUrl = (lecture: ApiLecture) => {
@@ -222,7 +217,7 @@ export default function LecturesPageClient({ initialLectures, initialSearch, ini
 
                       <div className="flex gap-2">
                         <Button asChild className="flex-1">
-                          <Link href={`/advanced/lectures/${getLectureSlug(lecture)}`}>
+                          <Link href={`/advanced/lectures/${lecture.id}`}>
                             {language === "ar" ? "قراءة المحاضرة" : "Read Lecture"}
                           </Link>
                         </Button>

@@ -58,9 +58,7 @@ export default function NewsCard({
   // Get full content for dialog (can use content if summary not available)
   const fullContent = language === "ar" ? fullDescription || summary || "" : fullDescription || summaryEn || ""
 
-  // ALWAYS use English title for URL slug (regardless of current language)
-  const englishTitle = titleEn || ""
-  const newsSlug = slugify(englishTitle, id)
+  // Use ID for URL
 
   // Don't render if no title
   if (!displayTitle) {
@@ -149,7 +147,7 @@ export default function NewsCard({
 
           <DialogFooter className="flex justify-between">
             <Link
-              href={`/advanced/news/${newsSlug}`}
+              href={`/advanced/news/${id}`}
               className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md transition-colors"
             >
               {t("common.viewFullArticle")}

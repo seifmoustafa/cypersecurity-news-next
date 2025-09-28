@@ -13,7 +13,7 @@ import { AlertCircle, FileText } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import Link from "next/link"
-import { slugify, getLocalizedText } from "@/lib/utils"
+import { getLocalizedText } from "@/lib/utils"
 import { cn } from "@/lib/utils"
 
 export default function CybersecurityRegulationSection() {
@@ -87,7 +87,7 @@ export default function CybersecurityRegulationSection() {
 
           {categories.map((category) => (
             <TabsContent key={category.id} value={category.id} className="mt-0">
-              <RegulationCategoryContent categoryId={category.id} categorySlug={slugify(category.name_En, category.id)} />
+              <RegulationCategoryContent categoryId={category.id} />
             </TabsContent>
           ))}
         </Tabs>
@@ -113,10 +113,9 @@ interface RegulationCardProps {
 
 interface RegulationCategoryContentProps {
   categoryId: string
-  categorySlug: string
 }
 
-function RegulationCategoryContent({ categoryId, categorySlug }: RegulationCategoryContentProps) {
+function RegulationCategoryContent({ categoryId }: RegulationCategoryContentProps) {
   const { language, isRtl } = useLanguage()
   const {
     regulations,
@@ -162,7 +161,7 @@ function RegulationCategoryContent({ categoryId, categorySlug }: RegulationCateg
       {regulations.length > 0 && (
         <div className="mt-8 text-center">
           <Link
-            href={`/advanced/regulation/category/${categorySlug}`}
+            href={`/advanced/regulation/category/${categoryId}`}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
           >
             {language === "ar" ? "عرض الكل" : "View All"}
@@ -191,9 +190,6 @@ function RegulationCard({ item, index }: RegulationCardProps) {
   // Get summary based on language
   const summary = getLocalizedText(language, item.summary, item.summaryEn)
 
-  // Create slug from English title for URL
-  const slug = slugify(item.titleEn, item.id)
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -201,7 +197,7 @@ function RegulationCard({ item, index }: RegulationCardProps) {
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
-      <Link href={`/advanced/regulation/${slug}`}>
+      <Link href={`/advanced/regulation/${item.id}`}>
         <Card className="overflow-hidden h-[280px] transition-all duration-300 hover:shadow-lg hover:border-primary/50 cursor-pointer border border-blue-200/30 dark:border-blue-800/30 flex flex-col">
           <div className="relative h-32 flex-shrink-0">
             <Image

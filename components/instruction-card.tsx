@@ -7,20 +7,19 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Calendar, FileText, Eye, Download } from "lucide-react"
 import Link from "next/link"
-import { slugify, getLocalizedText } from "@/lib/utils"
+import { getLocalizedText } from "@/lib/utils"
 
 interface InstructionCardProps {
   instruction: Instruction
-  categorySlug: string
+  categoryId: string
   yearNumber: number
 }
 
-export function InstructionCard({ instruction, categorySlug, yearNumber }: InstructionCardProps) {
+export function InstructionCard({ instruction, categoryId, yearNumber }: InstructionCardProps) {
   const { language } = useLanguage()
 
   const title = getLocalizedText(language, instruction.title, instruction.titleEn)
   const summary = getLocalizedText(language, instruction.summary, instruction.summaryEn)
-  const slug = slugify(instruction.titleEn || instruction.title, instruction.id)
 
   return (
     <Card className="h-full hover:shadow-lg transition-shadow duration-200">
@@ -69,7 +68,7 @@ export function InstructionCard({ instruction, categorySlug, yearNumber }: Instr
         {summary && <p className="text-sm text-muted-foreground line-clamp-3 mb-4 leading-relaxed">{summary}</p>}
 
         <div className="flex items-center justify-between gap-2">
-          <Link href={`/advanced/instructions/category/${categorySlug}/${yearNumber}/${slug}`} className="flex-1">
+          <Link href={`/advanced/instructions/category/${categoryId}/${yearNumber}/${instruction.id}`} className="flex-1">
             <Button variant="default" size="sm" className="w-full gap-1">
               <Eye className="h-3 w-3" />
               {language === "ar" ? "عرض" : "View"}
@@ -81,7 +80,7 @@ export function InstructionCard({ instruction, categorySlug, yearNumber }: Instr
               variant="outline"
               size="sm"
               className="gap-1"
-              onClick={() => window.open(instruction.documentUrl, "_blank")}
+              onClick={() => window.open(instruction.documentUrl || "", "_blank")}
             >
               <Download className="h-3 w-3" />
               {language === "ar" ? "تحميل" : "Download"}

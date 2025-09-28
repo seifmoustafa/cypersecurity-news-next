@@ -14,7 +14,7 @@ import { useNewsCategories } from "@/core/hooks/use-news-categories"
 import { useNewsByCategory } from "@/core/hooks/use-news-by-category"
 import { useLatestArticles } from "@/core/hooks/use-articles"
 import { container } from "@/core/di/container"
-import { slugify } from "@/lib/utils"
+import { getLocalizedText } from "@/lib/utils"
 import { useCurrentYearAwareness } from "@/core/hooks/use-awareness"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Calendar, FileText, AlertTriangle, BookOpen, Globe } from "lucide-react"
@@ -269,11 +269,8 @@ function NewsCard({ item, index }: NewsCardProps) {
   // ONLY GET SUMMARY - NO FALLBACK TO CONTENT!
   const newsSummary = language === "ar" ? item.summary || item.summaryEn || "" : item.summaryEn || item.summary || ""
 
-  // ALWAYS use English title for URL slug (regardless of current language)
-  const englishTitle = item.titleEn || item.title || ""
-  const slug = slugify(englishTitle, item.id)
-
-  console.log(`News card linking to /advanced/news/${slug} (ID: ${item.id})`)
+  // Use ID for URL
+  console.log(`News card linking to /advanced/news/${item.id}`)
 
   // Don't render if no title
   if (!displayTitle) {
@@ -292,7 +289,7 @@ function NewsCard({ item, index }: NewsCardProps) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       whileHover={{ y: -5 }}
     >
-      <Link href={`/advanced/news/${slug}`} className="group">
+      <Link href={`/advanced/news/${item.id}`} className="group">
         <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 dark:hover:shadow-blue-500/30 hover:border-primary/50 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-blue-200/30 dark:border-blue-800/30">
           <div className="relative h-48">
             <Image
@@ -351,10 +348,6 @@ function ArticleCard({ item, index }: ArticleCardProps) {
 
   // Get summary for display
   const displaySummary = language === "ar" ? item.summary || item.summaryEn || "" : item.summaryEn || item.summary || ""
-
-  // ALWAYS use English title for URL slug (regardless of current language)
-  const englishTitle = item.titleEn || item.title || ""
-  const slug = slugify(englishTitle, item.id)
 
   // Don't render if no title
   if (!displayTitle) {
@@ -431,11 +424,6 @@ function CurrentYearAwarenessContent() {
     return language === "ar" ? item.summary || item.summaryEn || "" : item.summaryEn || item.summary || ""
   }
 
-  const getSlug = (item: any) => {
-    const englishTitle = item.titleEn || item.title || ""
-    return slugify(englishTitle, item.id)
-  }
-
   if (loading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={isRtl ? { direction: 'rtl' } : {}}>
@@ -472,7 +460,7 @@ function CurrentYearAwarenessContent() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
             >
-              <Link href={`/advanced/awareness/${item.year}/${getSlug(item)}`} className="group">
+              <Link href={`/advanced/awareness/${item.year}/${item.id}`} className="group">
                 <Card className="h-full transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/20 dark:hover:shadow-orange-500/30 hover:border-primary/50 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-orange-200/30 dark:border-orange-800/30">
                   <CardContent className={`p-6 ${isRtl ? "text-right" : "text-left"}`}>
                     {/* Enhanced Header with icon and badge */}

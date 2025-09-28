@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { useLanguage } from "@/components/language-provider"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle, Shield, FileText } from "lucide-react"
-import { slugify, getLocalizedText } from "@/lib/utils"
+import { getLocalizedText } from "@/lib/utils"
 import { motion } from "framer-motion"
 
 export default function SecurityInstructionsContent() {
@@ -71,9 +71,6 @@ export default function SecurityInstructionsContent() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {categories.map((category, index) => {
-        // Create slug from category name
-        const categorySlug = slugify(category.nameEn, category.id)
-
         // Choose icon based on category name
         const isGroup =
           (category.nameEn ?? "").toLowerCase().includes("group") ||
@@ -91,7 +88,7 @@ export default function SecurityInstructionsContent() {
             : `${category.nameEn || category.name || ""} cybersecurity instructions`
 
         return (
-          <Link key={category.id} href={`/advanced/instructions/category/${categorySlug}`} className="block">
+          <Link key={category.id} href={`/advanced/instructions/category/${category.id}`} className="block">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}

@@ -229,7 +229,7 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
 
                     {/* Category Badge */}
                     <div className="absolute top-4 right-4 bg-red-500/90 text-white text-xs px-3 py-1 rounded-full">
-                      {video.forBeginners ? (language === "ar" ? "للمبتدئين" : "Beginners") : ""}
+                      {video.forBeginners ? (language === "ar" ? "للعامة" : "Beginners") : ""}
                       {video.forBeginners && video.forProfessionals ? " • " : ""}
                       {video.forProfessionals ? (language === "ar" ? "للمحترفين" : "Professionals") : ""}
                     </div>

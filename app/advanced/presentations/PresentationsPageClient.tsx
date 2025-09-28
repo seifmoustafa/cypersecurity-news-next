@@ -10,7 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import MainLayout from "@/components/layouts/main-layout"
 import { useLanguage } from "@/components/language-provider"
 import { container } from "@/core/di/container"
-import { slugify } from "@/lib/utils"
+import { getLocalizedText } from "@/lib/utils"
 import type { ApiPresentation, PresentationsPaginatedResponse } from "@/core/domain/models/media"
 import Link from "next/link"
 
@@ -52,11 +52,6 @@ export default function PresentationsPageClient({
     return language === "ar"
       ? presentation.summaryAr || presentation.summaryEn || ""
       : presentation.summaryEn || presentation.summaryAr || ""
-  }
-
-  const getPresentationSlug = (presentation: ApiPresentation) => {
-    const englishName = presentation.nameEn || presentation.nameAr || ""
-    return slugify(englishName, presentation.id)
   }
 
   const getPresentationUrl = (presentation: ApiPresentation) => {
@@ -238,7 +233,7 @@ export default function PresentationsPageClient({
 
                       <div className="flex gap-2">
                         <Button asChild className="flex-1">
-                          <Link href={`/advanced/presentations/${getPresentationSlug(presentation)}`}>
+                          <Link href={`/advanced/presentations/${presentation.id}`}>
                             {language === "ar" ? "عرض التفاصيل" : "View Details"}
                           </Link>
                         </Button>

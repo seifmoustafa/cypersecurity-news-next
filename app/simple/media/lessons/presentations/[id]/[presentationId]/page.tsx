@@ -217,7 +217,7 @@ export default function PresentationDetailPage({ params }: PresentationDetailPag
                 <div className="flex flex-wrap gap-3">
                   {presentation.forBeginners && (
                     <span className="px-4 py-2 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 text-purple-800 dark:text-purple-200 text-sm font-medium rounded-full border border-purple-200 dark:border-purple-800 hover:from-purple-200 hover:to-pink-200 dark:hover:from-purple-800/50 dark:hover:to-pink-800/50 transition-all duration-300">
-                      {language === "ar" ? "للمبتدئين" : "For Beginners"}
+                      {language === "ar" ? "للعامة" : "For Beginners"}
                     </span>
                   )}
                   {presentation.forProfessionals && (

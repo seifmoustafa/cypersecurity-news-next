@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Shield, Users, Settings, FileText } from "lucide-react"
 import Link from "next/link"
-import { slugify, getLocalizedText } from "@/lib/utils"
+import { getLocalizedText } from "@/lib/utils"
 import { useProcedures } from "@/core/hooks/use-procedures"
 import PersonalProtectProceduresContent from "./personal-protect-procedures-content"
 
@@ -127,12 +127,11 @@ export default function SecurityProceduresContent() {
               <>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {procedures.map((procedure, index) => {
-                    const procedureSlug = slugify(procedure.nameEn || procedure.nameAr || "", procedure.id)
                     const title = getLocalizedText(language, procedure.nameAr, procedure.nameEn)
                     const description = getLocalizedText(language, procedure.descriptionAr, procedure.descriptionEn)
 
                     return (
-                      <Link href={`/advanced/procedures/${procedureSlug}`} key={procedure.id}>
+                      <Link href={`/advanced/procedures/${procedure.id}`} key={procedure.id}>
                         <motion.div
                           initial={{ opacity: 0, y: 30 }}
                           whileInView={{ opacity: 1, y: 0 }}

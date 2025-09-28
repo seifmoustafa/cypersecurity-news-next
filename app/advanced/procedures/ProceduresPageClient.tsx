@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import { ChevronLeft, Search, FileText } from "lucide-react"
 import Link from "next/link"
 import { useLanguage } from "@/components/language-provider"
-import { slugify, getLocalizedText } from "@/lib/utils"
+import { getLocalizedText } from "@/lib/utils"
 import { useProcedures } from "@/core/hooks/use-procedures"
 import { Pagination } from "@/components/ui/pagination"
 
@@ -149,12 +149,11 @@ export default function ProceduresPageClient() {
               {/* Procedures Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 {procedures.map((procedure, index) => {
-                  const procedureSlug = slugify(procedure.nameEn || procedure.nameAr || "", procedure.id)
                   const title = getLocalizedText(language, procedure.nameAr, procedure.nameEn)
                   const description = getLocalizedText(language, procedure.descriptionAr, procedure.descriptionEn)
 
                   return (
-                    <Link href={`/advanced/procedures/${procedureSlug}`} key={procedure.id}>
+                    <Link href={`/advanced/procedures/${procedure.id}`} key={procedure.id}>
                       <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}

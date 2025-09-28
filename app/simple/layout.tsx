@@ -12,7 +12,7 @@ import SimpleLayout from "@/components/layouts/simple-layout";
 export const metadata = {
   title: "بوابة الأمن السيبراني  | Cybersecurity Portal",
   description:
-    "منصة مبسطة للأمن السيبراني تقدم المعرفة الأساسية والأدوات البسيطة ",
+    "بوابة مبسطة للأمن السيبراني تقدم المعرفة الأساسية والأدوات البسيطة ",
 };
 
 // Add this function to improve page loading performance
@@ -29,7 +29,7 @@ export default function BeginnersRootLayout({
         <title>بوابة الأمن السيبراني  | Cybersecurity Portal for Beginners</title>
         <meta
           name="description"
-          content="منصة مبسطة للأمن السيبراني تقدم المعرفة الأساسية والأدوات البسيطة "
+          content="بوابة مبسطة للأمن السيبراني تقدم المعرفة الأساسية والأدوات البسيطة "
         />
         <script
           dangerouslySetInnerHTML={{

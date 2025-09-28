@@ -29,7 +29,6 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/components/language-provider";
 import { useLatestNews } from "@/core/hooks/use-news";
-import { slugify } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -51,8 +50,8 @@ export default function ModernNewsDetailClient({ slug }: ModernNewsDetailClientP
   const [shareOpen, setShareOpen] = useState(false);
 
   useEffect(() => {
-    // Find the current news item by slug
-    const foundNews = news.find(item => slugify(item.title) === slug);
+    // Find the current news item by ID
+    const foundNews = news.find(item => item.id === slug);
     if (foundNews) {
       setCurrentNews(foundNews);
       setLikes(foundNews.likes || Math.floor(Math.random() * 100));
@@ -377,7 +376,7 @@ export default function ModernNewsDetailClient({ slug }: ModernNewsDetailClientP
                         transition={{ delay: 0.4 + index * 0.1 }}
                       >
                         <Link
-                          href={`/advanced/news/${slugify(item.title)}`}
+                          href={`/advanced/news/${item.id}`}
                           className="group block"
                         >
                           <div className="flex gap-3">

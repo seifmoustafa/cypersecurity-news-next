@@ -9,7 +9,7 @@ import { ChevronLeft, ChevronRight, FileText } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useArticles } from "@/core/hooks/use-articles"
-import { slugify } from "@/lib/utils"
+import { getLocalizedText } from "@/lib/utils"
 import MainLayout from "@/components/layouts/main-layout"
 
 const ITEMS_PER_PAGE = 12
@@ -148,10 +148,6 @@ function ArticleCard({ article, index }: ArticleCardProps) {
   // Get summary for display
   const displaySummary =
     language === "ar" ? article.summary || article.summaryEn || "" : article.summaryEn || article.summary || ""
-
-  // ALWAYS use English title for URL slug (regardless of current language)
-  const englishTitle = article.titleEn 
-  const slug = slugify(englishTitle, article.id)
 
   // Don't render if no title
   if (!displayTitle) {

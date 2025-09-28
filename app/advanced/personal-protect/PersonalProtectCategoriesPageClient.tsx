@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import { ChevronLeft, Search, Users, Laptop, Smartphone, Monitor, Database, Lock, Shield } from "lucide-react"
 import Link from "next/link"
 import { useLanguage } from "@/components/language-provider"
-import { slugify, getLocalizedText } from "@/lib/utils"
+import { getLocalizedText } from "@/lib/utils"
 import { usePersonalProtectCategories } from "@/core/hooks/use-personal-protect-categories"
 import { Pagination } from "@/components/ui/pagination"
 import { PersonalProtectCategory } from "@/core/domain/models/personal-protect"
@@ -170,12 +170,11 @@ export default function PersonalProtectCategoriesPageClient() {
               {/* Categories Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 {categories.map((category, index) => {
-                  const categorySlug = slugify(category.nameEn || category.name || "", category.id)
                   const title = getLocalizedText(language, category.name, category.nameEn)
                   const description = getLocalizedText(language, category.description, category.descriptionEn)
 
                   return (
-                    <Link href={`/advanced/personal-protect/${categorySlug}`} key={category.id}>
+                    <Link href={`/advanced/personal-protect/${category.id}`} key={category.id}>
                       <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}

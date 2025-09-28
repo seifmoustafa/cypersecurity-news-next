@@ -15,7 +15,7 @@ import {
   ChevronLeft,
 } from "lucide-react";
 import Link from "next/link";
-import { slugify } from "@/lib/utils";
+import { getLocalizedText } from "@/lib/utils";
 import type { StandardCategory } from "@/core/domain/models/standard";
 
 interface StandardsPageClientProps {
@@ -79,8 +79,6 @@ export default function StandardsPageClient({
             {categories.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {categories.map((category, index) => {
-                  const categorySlug = slugify(category.nameEn, category.id);
-
                   return (
                     <motion.div
                       key={category.id}
@@ -89,7 +87,7 @@ export default function StandardsPageClient({
                       viewport={{ once: true, margin: "-100px" }}
                       transition={{ duration: 0.5, delay: index * 0.1 }}
                     >
-                      <Link href={`/advanced/standards/${categorySlug}`}>
+                      <Link href={`/advanced/standards/${category.id}`}>
                         <Card className="h-full hover:shadow-lg transition-all duration-300 cursor-pointer group">
                           <CardHeader className="text-center pb-4">
                             <div className="flex justify-center mb-4">

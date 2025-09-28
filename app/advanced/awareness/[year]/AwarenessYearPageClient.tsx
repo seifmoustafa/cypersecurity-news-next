@@ -10,7 +10,7 @@ import { Search, ArrowRight, ArrowLeft, Calendar, Download, FileText } from "luc
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
-import { slugify } from "@/lib/utils"
+import { getLocalizedText } from "@/lib/utils"
 import MainLayout from "@/components/layouts/main-layout"
 
 interface AwarenessYearPageClientProps {
@@ -52,11 +52,6 @@ export default function AwarenessYearPageClient({ year }: AwarenessYearPageClien
 
   const getDisplaySummary = (item: any) => {
     return language === "ar" ? item.summary || item.summaryEn || "" : item.summaryEn || item.summary || ""
-  }
-
-  const getSlug = (item: any) => {
-    const englishTitle = item.titleEn || item.title || ""
-    return slugify(englishTitle, item.id)
   }
 
   const handleDownload = (documentUrl: string, title: string) => {
@@ -201,7 +196,7 @@ export default function AwarenessYearPageClient({ year }: AwarenessYearPageClien
 
                       {/* Action Buttons */}
                       <div className="flex gap-2 mt-4">
-                        <Link href={`/advanced/awareness/${year}/${getSlug(item)}`} className="flex-1">
+                        <Link href={`/advanced/awareness/${year}/${item.id}`} className="flex-1">
                           <Button variant="outline" size="sm" className="w-full">
                             {language === "ar" ? "اقرأ المزيد" : "Read More"}
                           </Button>

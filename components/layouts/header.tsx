@@ -565,6 +565,27 @@ export default function Header({
               </Tooltip>
             </TooltipProvider>
 
+            {/* Home Button */}
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => router.push("/")}
+                    title={t("nav.home")}
+                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-9 w-9 md:h-11 md:w-11 transition-all duration-300 hover:scale-110 hover:shadow-md group"
+                  >
+                    <Home className="h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-transform duration-300" />
+                    <span className="sr-only">{t("nav.home")}</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{t("nav.home")}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
             {/* Enhanced Mobile menu button */}
             <Button
               variant="ghost"

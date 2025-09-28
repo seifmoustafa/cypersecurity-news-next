@@ -19,6 +19,7 @@ import {
   Eye,
   Lock,
   FileText,
+  Home,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -115,6 +116,16 @@ export default function SimpleFooter() {
       title: language === "ar" ? "خريطة الموقع" : "Site Map",
       href: "/simple/sitemap",
       icon: Map,
+    },
+    {
+      title: language === "ar" ? "واجهة المتخصصين" : "Advanced Mode",
+      href: "/advanced",
+      icon: Users,
+    },
+    {
+      title: language === "ar" ? "الصفحة الرئيسية" : "Home",
+      href: "/",
+      icon: Home,
     },
   ];
 
@@ -294,7 +305,7 @@ export default function SimpleFooter() {
                   />
                   <span className="text-gray-600 dark:text-slate-300">
                     {language === "ar"
-                      ? "مركز التأمين الفني MMC"
+                      ? "فرع حرب المعلومات من إدارة نظم المعلومات"
                       : "Technical Insurance Center MMC"}
                   </span>
                 </div>

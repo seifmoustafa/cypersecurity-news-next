@@ -25,7 +25,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { useLanguage } from "@/components/language-provider"
-import { slugify, getLocalizedText } from "@/lib/utils"
+import { getLocalizedText } from "@/lib/utils"
 import { usePersonalProtectCategories } from "@/core/hooks/use-personal-protect-categories"
 import { usePersonalProtectSubCategories } from "@/core/hooks/use-personal-protect-sub-categories"
 import { PersonalProtectCategory } from "@/core/domain/models/personal-protect"
@@ -286,13 +286,11 @@ export default function PersonalProtectProceduresContent() {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {subCategories.map((subCategory) => {
-                  const subCategorySlug = slugify(subCategory.nameEn || subCategory.name || "", subCategory.id)
-                  const categorySlug = slugify(activeCategoryData.nameEn || activeCategoryData.name || "", activeCategoryData.id)
                   const title = getLocalizedText(language, subCategory.name, subCategory.nameEn)
                   const description = getLocalizedText(language, subCategory.description, subCategory.descriptionEn)
                   
                   return (
-                    <Link key={subCategory.id} href={`/advanced/personal-protect/${categorySlug}/${subCategorySlug}`}>
+                    <Link key={subCategory.id} href={`/advanced/personal-protect/${activeCategoryData.id}/${subCategory.id}`}>
                       <Card className="h-full hover:shadow-md transition-all duration-300 hover:scale-105 cursor-pointer group border-l-4 border-l-green-500/20 hover:border-l-green-500">
                         <CardHeader className="pb-2">
                           <CardTitle className={`text-lg ${isRtl ? "text-right" : "text-left"}`}>
@@ -321,7 +319,7 @@ export default function PersonalProtectProceduresContent() {
 
               {/* View More Button */}
               <div className="text-center">
-                <Link href={`/advanced/personal-protect/${slugify(activeCategoryData.nameEn || activeCategoryData.name || "", activeCategoryData.id)}`}>
+                <Link href={`/advanced/personal-protect/${activeCategoryData.id}`}>
                   <Button variant="outline" className="gap-2">
                     <span>{language === "ar" ? "عرض جميع الفئات الفرعية" : "View All Sub Categories"}</span>
                     <ChevronLeft className={`h-4 w-4 ${isRtl ? "rotate-180" : ""}`} />

@@ -129,7 +129,7 @@ function HelperSystemCard({ system, index }: HelperSystemCardProps) {
                 fill
                 className="object-contain rounded-xl"
                 onError={(e) => {
-                  console.error("Error loading helper system icon:", e)
+                  console.error("Error loading helper system icon for:", system.name, "URL:", system.iconUrl)
                   const target = e.target as HTMLImageElement
                   target.src = "/placeholder.svg?height=64&width=64"
                 }}

@@ -103,8 +103,8 @@ export default function Footer() {
   const quickLinks = [
     { title: language === "ar" ? "خريطة الموقع" : "Site Map", href: "/advanced/sitemap", icon: Map },
     { title: language === "ar" ? "البحث المتقدم" : "Advanced Search", href: "/advanced/search", icon: Search },
-    { title: language === "ar" ? "واجهة المبتدئين" : "Simple Mode", href: "/simple", icon: Users },
-    { title: language === "ar" ? "الرئيسية" : "Home", href: "/advanced", icon: Home }
+    { title: language === "ar" ? "الواجهة العامة" : "Simple Mode", href: "/simple", icon: Users },
+    { title: language === "ar" ? "الصفحة الرئيسية" : "Home", href: "/", icon: Home }
   ];
 
   const socialLinks = [
@@ -149,7 +149,7 @@ export default function Footer() {
             </div>
             <p className="text-slate-700 dark:text-slate-300 text-lg max-w-3xl mx-auto leading-relaxed">
               {language === "ar"
-                ? "منصة شاملة للأمن السيبراني توفر المعرفة والأدوات والموارد اللازمة لحماية البنية التحتية الرقمية وتعزيز الوعي الأمني"
+                ? "بوابة شاملة للأمن السيبراني توفر المعرفة والأدوات والموارد اللازمة لحماية البنية التحتية الرقمية وتعزيز الوعي الأمني"
                 : "A comprehensive cybersecurity platform providing knowledge, tools, and resources to protect digital infrastructure and enhance security awareness"}
             </p>
           </div>
@@ -231,7 +231,7 @@ export default function Footer() {
                 <div className="flex items-center justify-center">
                   <Building2 className={`h-5 w-5 text-blue-600 dark:text-blue-400 mr-3 rtl:mr-0 rtl:ml-3`} />
                   <span className="text-slate-700 dark:text-white">
-                    {language === "ar" ? "مركز التأمين الفني MMC" : "Technical Insurance Center MMC"}
+                    {language === "ar" ? "فرع حرب المعلومات من إدارة نظم المعلومات" : "Technical Insurance Center MMC"}
                   </span>
                 </div>
                 <div className="flex items-center justify-center">
@@ -255,7 +255,7 @@ export default function Footer() {
               <div className="text-center md:text-right rtl:md:text-left">
                 <p className="text-slate-600 dark:text-slate-300 text-sm">
                   {language === "ar"
-                    ? "حقوق النشر © 2025 / مركز التأمين الفني MMC جميع الحقوق محفوظة"
+                    ? "حقوق النشر © 2025 / فرع حرب المعلومات من إدارة نظم المعلومات جميع الحقوق محفوظة"
                     : "Copyright © 2025 / Technical Insurance Center MMC. All rights reserved"}
                 </p>
               </div>

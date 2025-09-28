@@ -118,6 +118,16 @@
       "enterNationalNumber": "Enter national number",
       "unit": "Unit",
       "enterUnitName": "Enter unit name",
+      "email": "Email Address",
+      "enterEmail": "Enter your email address",
+      "phoneNumber": "Phone Number",
+      "enterPhoneNumber": "Enter your phone number",
+      "validationErrors": {
+        "emailInvalid": "Please enter a valid email address",
+        "militaryNumberInvalid": "Military number must contain only numbers",
+        "nationalNumberInvalid": "National number must contain only numbers",
+        "phoneNumberInvalid": "Phone number must contain only numbers"
+      },
       "incidentCategory": "Incident Category",
       "selectIncidentCategory": "Select incident category",
       "priority": "Priority",

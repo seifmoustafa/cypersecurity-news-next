@@ -324,7 +324,7 @@ export default function SitemapPage() {
                 <Link href="/simple">
                   <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-white border-white/20">
                     <Users className="h-5 w-5 mr-2" />
-                    {language === "ar" ? "واجهة المبتدئين": "Simple Mode"}
+                    {language === "ar" ? "الواجهة العامة": "Simple Mode"}
                   </Button>
                 </Link>
                 <Link href="/advanced/news">
@@ -365,7 +365,7 @@ export default function SitemapPage() {
                   
                   <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
                     {language === "ar" 
-                      ? "منصة شاملة للأمن السيبراني توفر المعرفة والأدوات والموارد اللازمة لحماية البنية التحتية الرقمية وتعزيز الوعي الأمني"
+                      ? "بوابة شاملة للأمن السيبراني توفر المعرفة والأدوات والموارد اللازمة لحماية البنية التحتية الرقمية وتعزيز الوعي الأمني"
                       : "A comprehensive cybersecurity platform providing knowledge, tools, and resources to protect digital infrastructure and enhance security awareness"
                     }
                   </p>
@@ -380,7 +380,7 @@ export default function SitemapPage() {
                     <Link href="/simple">
                       <Button variant="outline" className="border-green-300 dark:border-green-600 hover:bg-green-50 dark:hover:bg-green-700 text-green-700 dark:text-green-200">
                         <Users className="h-5 w-5 mr-2" />
-                        {language === "ar" ? "واجهة المبتدئين" : "Simple Mode"}
+                        {language === "ar" ? "الواجهة العامة" : "Simple Mode"}
                       </Button>
                     </Link>
                     <Link href="/advanced/search">

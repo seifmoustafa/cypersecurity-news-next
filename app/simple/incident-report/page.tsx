@@ -21,6 +21,8 @@ export default function IncidentReportPage() {
     militaryNumber: "",
     nationalNumber: "",
     unit: "",
+    email: "",
+    phoneNumber: "",
     title: "",
     description: "",
     priority: "",
@@ -28,16 +30,74 @@ export default function IncidentReportPage() {
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errors, setErrors] = useState<{[key: string]: string}>({})
+
+  // Validation functions
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
+
+  const validateNumber = (value: string): boolean => {
+    const numberRegex = /^\d+$/
+    return numberRegex.test(value)
+  }
+
+  const validateForm = (): boolean => {
+    const newErrors: {[key: string]: string} = {}
+
+    // Validate email
+    if (formData.email && !validateEmail(formData.email)) {
+      newErrors.email = t("beginners.incidentReport.validationErrors.emailInvalid")
+    }
+
+    // Validate military number
+    if (formData.militaryNumber && !validateNumber(formData.militaryNumber)) {
+      newErrors.militaryNumber = t("beginners.incidentReport.validationErrors.militaryNumberInvalid")
+    }
+
+    // Validate national number
+    if (formData.nationalNumber && !validateNumber(formData.nationalNumber)) {
+      newErrors.nationalNumber = t("beginners.incidentReport.validationErrors.nationalNumberInvalid")
+    }
+
+    // Validate phone number
+    if (formData.phoneNumber && !validateNumber(formData.phoneNumber)) {
+      newErrors.phoneNumber = t("beginners.incidentReport.validationErrors.phoneNumberInvalid")
+    }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }))
+    
+    // Clear error for this field when user starts typing
+    if (errors[field]) {
+      setErrors(prev => ({
+        ...prev,
+        [field]: ""
+      }))
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Validate form before submitting
+    if (!validateForm()) {
+      toast({
+        title: t("beginners.incidentReport.errorTitle"),
+        description: "Please fix the validation errors before submitting",
+        variant: "destructive"
+      })
+      return
+    }
+    
     setIsSubmitting(true)
 
     try {
@@ -58,11 +118,16 @@ export default function IncidentReportPage() {
         militaryNumber: "",
         nationalNumber: "",
         unit: "",
+        email: "",
+        phoneNumber: "",
         title: "",
         description: "",
         priority: "",
         category: ""
       })
+      
+      // Clear errors
+      setErrors({})
 
     } catch (error) {
       toast({
@@ -197,8 +262,12 @@ export default function IncidentReportPage() {
                         value={formData.militaryNumber}
                         onChange={(e) => handleInputChange("militaryNumber", e.target.value)}
                         placeholder={t("beginners.incidentReport.enterMilitaryNumber")}
+                        className={errors.militaryNumber ? "border-red-500 focus:border-red-500" : ""}
                         required
                       />
+                      {errors.militaryNumber && (
+                        <p className="text-sm text-red-500">{errors.militaryNumber}</p>
+                      )}
                     </div>
 
                     {/* National Number */}
@@ -210,12 +279,16 @@ export default function IncidentReportPage() {
                         value={formData.nationalNumber}
                         onChange={(e) => handleInputChange("nationalNumber", e.target.value)}
                         placeholder={t("beginners.incidentReport.enterNationalNumber")}
+                        className={errors.nationalNumber ? "border-red-500 focus:border-red-500" : ""}
                         required
                       />
+                      {errors.nationalNumber && (
+                        <p className="text-sm text-red-500">{errors.nationalNumber}</p>
+                      )}
                     </div>
 
                     {/* Unit */}
-                    <div className="space-y-2 md:col-span-2">
+                    <div className="space-y-2">
                       <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                         {t("beginners.incidentReport.unit")} *
                       </label>
@@ -225,6 +298,42 @@ export default function IncidentReportPage() {
                         placeholder={t("beginners.incidentReport.enterUnitName")}
                         required
                       />
+                    </div>
+
+                    {/* Email */}
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        {t("beginners.incidentReport.email")} *
+                      </label>
+                      <Input
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => handleInputChange("email", e.target.value)}
+                        placeholder={t("beginners.incidentReport.enterEmail")}
+                        className={errors.email ? "border-red-500 focus:border-red-500" : ""}
+                        required
+                      />
+                      {errors.email && (
+                        <p className="text-sm text-red-500">{errors.email}</p>
+                      )}
+                    </div>
+
+                    {/* Phone Number */}
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        {t("beginners.incidentReport.phoneNumber")} *
+                      </label>
+                      <Input
+                        type="tel"
+                        value={formData.phoneNumber}
+                        onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
+                        placeholder={t("beginners.incidentReport.enterPhoneNumber")}
+                        className={errors.phoneNumber ? "border-red-500 focus:border-red-500" : ""}
+                        required
+                      />
+                      {errors.phoneNumber && (
+                        <p className="text-sm text-red-500">{errors.phoneNumber}</p>
+                      )}
                     </div>
                   </div>
                 </div>

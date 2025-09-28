@@ -158,7 +158,7 @@ export default function VideoModal({ videoId, isOpen, onClose }: VideoModalProps
                 <div className="flex gap-2">
                   {video.forBeginners && (
                     <span className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-3 py-1 rounded-full text-sm font-medium">
-                      {language === "ar" ? "للمبتدئين" : "Beginners"}
+                      {language === "ar" ? "للعامة" : "Beginners"}
                     </span>
                   )}
                   {video.forProfessionals && (
