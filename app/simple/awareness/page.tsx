@@ -1,32 +1,41 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { useLanguage } from "@/components/language-provider"
-import { container } from "@/core/di/container"
-import { Newspaper, Lightbulb, ArrowRight, ArrowLeft, Star, BookOpen } from "lucide-react"
-import Breadcrumbs from "@/components/breadcrumbs"
-import { useNewsCategories } from "@/core/hooks/use-news-categories"
-import { useCurrentYearAwareness } from "@/core/hooks/use-current-year-awareness"
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useLanguage } from "@/components/language-provider";
+import { container } from "@/core/di/container";
+import {
+  Newspaper,
+  Lightbulb,
+  ArrowRight,
+  ArrowLeft,
+  Star,
+  BookOpen,
+} from "lucide-react";
+import Breadcrumbs from "@/components/breadcrumbs";
+import { useNewsCategories } from "@/core/hooks/use-news-categories";
+import { useCurrentYearAwareness } from "@/core/hooks/use-current-year-awareness";
 
 export default function SimpleAwarenessPage() {
-  const router = useRouter()
-  const { language } = useLanguage()
-  const isRtl = language === "ar"
+  const router = useRouter();
+  const { language } = useLanguage();
+  const isRtl = language === "ar";
 
   const [counts, setCounts] = useState({
     news: 0,
     awareness: 0,
-  })
+  });
 
   // Fetch news categories and current year awareness
-  const { categories: newsCategories, loading: categoriesLoading } = useNewsCategories(1, 3)
-  const { awareness: currentYearAwareness, loading: awarenessLoading } = useCurrentYearAwareness("", 1, 3)
+  const { categories: newsCategories, loading: categoriesLoading } =
+    useNewsCategories(1, 3);
+  const { awareness: currentYearAwareness, loading: awarenessLoading } =
+    useCurrentYearAwareness("", 1, 3);
 
   // Debug logging
-  console.log("Current year awareness:", currentYearAwareness)
-  console.log("Awareness loading:", awarenessLoading)
+  console.log("Current year awareness:", currentYearAwareness);
+  console.log("Awareness loading:", awarenessLoading);
 
   useEffect(() => {
     const fetchCounts = async () => {
@@ -34,94 +43,127 @@ export default function SimpleAwarenessPage() {
         const [newsData, awarenessResp] = await Promise.all([
           container.services.news.getNewsByCategory(null, 1, 100),
           container.services.awareness.getCurrentYearAwareness("", 1, 100),
-        ])
+        ]);
         setCounts({
           news: newsData?.length || 0,
-          awareness: awarenessResp?.pagination?.itemsCount || awarenessResp?.data?.length || 0,
-        })
+          awareness:
+            awarenessResp?.pagination?.itemsCount ||
+            awarenessResp?.data?.length ||
+            0,
+        });
       } catch (e) {
-        setCounts({ news: 0, awareness: 0 })
+        setCounts({ news: 0, awareness: 0 });
       }
-    }
-    fetchCounts()
-  }, [])
+    };
+    fetchCounts();
+  }, []);
 
   const mainCards = [
     {
       id: "news",
       title: language === "ar" ? "الأخبار" : "News",
-      description: language === "ar" ? "آخر أخبار وتحديثات الأمن السيبراني" : "Latest cybersecurity news and updates",
+      description:
+        language === "ar"
+          ? "آخر أخبار وتحديثات الأمن السيبراني"
+          : "Latest cybersecurity news and updates",
       icon: Newspaper,
-      color: "from-orange-500 to-red-600",
-      bgColor: "bg-gradient-to-br from-orange-50/80 to-red-50/60 dark:from-orange-900/30 dark:to-red-900/20",
-      borderColor: "border-orange-300/60 dark:border-orange-600/40",
+        color: "from-sky-400 to-blue-500",
+        bgColor:
+          "bg-gradient-to-br from-sky-50/80 to-blue-50/60 dark:from-sky-900/30 dark:to-blue-900/20",
+        borderColor: "border-sky-300/60 dark:border-sky-600/40",
       href: "/simple/news-categories",
-      items: newsCategories.slice(0, 3).map(category => ({
-        title: language === "ar" ? category.name : category.nameEn || category.name,
-        href: `/simple/news-categories/${category.id}`,
-        icon: Newspaper,
-        count: "",
-        imageUrl: null
-      })).concat([
-        {
-          title: language === "ar" ? "عرض المزيد من الفئات" : "View More Categories",
-          href: "/simple/news-categories",
-          icon: ArrowRight,
+      items: newsCategories
+        .slice(0, 3)
+        .map((category) => ({
+          title:
+            language === "ar"
+              ? category.name
+              : category.nameEn || category.name,
+          href: `/simple/news-categories/${category.id}`,
+          icon: Newspaper,
           count: "",
-          imageUrl: null
-        }
-      ]),
+          imageUrl: null,
+        }))
+        .concat([
+          {
+            title:
+              language === "ar"
+                ? "عرض المزيد من الفئات"
+                : "View More Categories",
+            href: "/simple/news-categories",
+            icon: ArrowRight,
+            count: "",
+            imageUrl: null,
+          },
+        ]),
     },
     {
       id: "awareness",
       title: language === "ar" ? "نشرات التوعية" : "Awareness Materials",
-      description: language === "ar" ? "نشرات توعوية مبسطة حسب السنوات" : "Awareness materials by year",
+      description:
+        language === "ar"
+          ? "نشرات توعوية مبسطة حسب السنوات"
+          : "Awareness materials by year",
       icon: Lightbulb,
-      color: "from-yellow-400 to-amber-600",
-      bgColor: "bg-gradient-to-br from-yellow-50/80 to-amber-50/60 dark:from-yellow-900/30 dark:to-amber-900/20",
-      borderColor: "border-yellow-300/60 dark:border-yellow-600/40",
+        color: "from-blue-400 to-cyan-500",
+        bgColor:
+          "bg-gradient-to-br from-blue-50/80 to-cyan-50/60 dark:from-blue-900/30 dark:to-cyan-900/20",
+        borderColor: "border-blue-300/60 dark:border-blue-600/40",
       href: "/simple/awareness/years",
-      items: currentYearAwareness.length > 0 
-        ? currentYearAwareness.slice(0, 2).map(item => ({
-            title: language === "ar" ? item.title : (item.titleEn || item.title),
-            href: `/simple/awareness/${item.year}/${item.id}`,
-            icon: Lightbulb,
-            count: "",
-            imageUrl: null
-          })).concat([
-            {
-              title: language === "ar" ? "عرض المزيد من هذا العام" : "View More This Year",
-              href: "/simple/awareness/current-year",
-              icon: ArrowRight,
-              count: "",
-              imageUrl: null
-            },
-            {
-              title: language === "ar" ? "عرض جميع السنوات" : "View All Years",
-              href: "/simple/awareness/years",
-              icon: BookOpen,
-              count: "",
-              imageUrl: null
-            }
-          ])
-        : [
-            {
-              title: language === "ar" ? "نشرات التوعية للعام الحالي" : "Current Year Materials",
-              href: "/simple/awareness/current-year",
-              icon: Lightbulb,
-              count: "",
-              imageUrl: null
-            },
-            {
-              title: language === "ar" ? "عرض جميع السنوات" : "View All Years",
-              href: "/simple/awareness/years",
-              icon: BookOpen,
-              count: "",
-              imageUrl: null
-            }
-          ],
+      items:
+        currentYearAwareness.length > 0
+          ? currentYearAwareness
+              .slice(0, 2)
+              .map((item) => ({
+                title:
+                  language === "ar" ? item.title : item.titleEn || item.title,
+                href: `/simple/awareness/${item.year}/${item.id}`,
+                icon: Lightbulb,
+                count: "",
+                imageUrl: null,
+              }))
+              .concat([
+                {
+                  title:
+                    language === "ar"
+                      ? "عرض المزيد من هذا العام"
+                      : "View More This Year",
+                  href: "/simple/awareness/current-year",
+                  icon: ArrowRight,
+                  count: "",
+                  imageUrl: null,
+                },
+                {
+                  title:
+                    language === "ar" ? "عرض جميع السنوات" : "View All Years",
+                  href: "/simple/awareness/years",
+                  icon: BookOpen,
+                  count: "",
+                  imageUrl: null,
+                },
+              ])
+          : [
+              {
+                title:
+                  language === "ar"
+                    ? "نشرات التوعية للعام الحالي"
+                    : "Current Year Materials",
+                href: "/simple/awareness/current-year",
+                icon: Lightbulb,
+                count: "",
+                imageUrl: null,
+              },
+              {
+                title:
+                  language === "ar" ? "عرض جميع السنوات" : "View All Years",
+                href: "/simple/awareness/years",
+                icon: BookOpen,
+                count: "",
+                imageUrl: null,
+              },
+            ],
     },
-  ]
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
@@ -135,19 +177,22 @@ export default function SimpleAwarenessPage() {
 
       <div className="relative z-10 container mx-auto px-4 pt-24 pb-8">
         {/* Breadcrumbs */}
-        <Breadcrumbs 
+        <Breadcrumbs
           items={[
-            { label: language === "ar" ? "التوعية والأخبار" : "Awareness & News" }
-          ]} 
+            {
+              label:
+                language === "ar" ? "التوعية والأخبار" : "Awareness & News",
+            },
+          ]}
         />
-
 
         {/* Main Interactive Cards - Same Design as Main Page */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-4xl mx-auto items-stretch">
           {mainCards.map((card, index) => {
-            const gifPath = card.id === "news" 
-              ? "/assets/images/news-events.gif" 
-              : "/assets/images/beginners/Gemini_Generated_Image_70kvgb70kvgb70kv.png"
+            const gifPath =
+              card.id === "news"
+                ? "/assets/images/beginners/Gemini_Generated_Image_c7ds1sc7ds1sc7ds.png"
+                : "/assets/images/beginners/Gemini_Generated_Image_70kvgb70kvgb70kv.png";
 
             return (
               <div
@@ -157,8 +202,8 @@ export default function SimpleAwarenessPage() {
                 onClick={() => router.push(card.href)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault()
-                    router.push(card.href)
+                    e.preventDefault();
+                    router.push(card.href);
                   }
                 }}
                 className="group h-full block"
@@ -166,17 +211,18 @@ export default function SimpleAwarenessPage() {
                 <div
                   className={`relative ${card.bgColor} backdrop-blur-sm border-2 ${card.borderColor} rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-green-500/20 h-full flex flex-col cursor-pointer`}
                   onMouseMove={(e) => {
-                    const el = e.currentTarget as HTMLDivElement
-                    const rect = el.getBoundingClientRect()
-                    const x = e.clientX - rect.left
-                    const y = e.clientY - rect.top
-                    const rotateX = ((y - rect.height / 2) / rect.height) * -5
-                    const rotateY = ((x - rect.width / 2) / rect.width) * 5
-                    el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`
+                    const el = e.currentTarget as HTMLDivElement;
+                    const rect = el.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const rotateX = ((y - rect.height / 2) / rect.height) * -5;
+                    const rotateY = ((x - rect.width / 2) / rect.width) * 5;
+                    el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
                   }}
                   onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLDivElement
-                    el.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)"
+                    const el = e.currentTarget as HTMLDivElement;
+                    el.style.transform =
+                      "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
                   }}
                   style={{ transform: "perspective(1000px)" }}
                 >
@@ -185,7 +231,7 @@ export default function SimpleAwarenessPage() {
                     <img
                       src={gifPath}
                       alt={`${card.title} animation`}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="w-full h-full object-fill group-hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent dark:from-black/60 dark:via-transparent dark:to-transparent"></div>
                   </div>
@@ -212,10 +258,10 @@ export default function SimpleAwarenessPage() {
                         >
                           <div className="flex items-center gap-3">
                             {item.imageUrl && (
-                              <img 
-                                src={item.imageUrl} 
+                              <img
+                                src={item.imageUrl}
                                 alt={item.title}
-                                className="w-8 h-8 rounded-lg object-cover"
+                                className="w-8 h-8 rounded-lg object-fill"
                               />
                             )}
                             <span className="text-gray-700 dark:text-white text-sm font-medium group-hover/item:text-green-700 dark:group-hover/item:text-green-400 transition-colors duration-300">
@@ -240,10 +286,10 @@ export default function SimpleAwarenessPage() {
                   </div>
                 </div>
               </div>
-            )
+            );
           })}
         </div>
       </div>
     </div>
-  )
+  );
 }

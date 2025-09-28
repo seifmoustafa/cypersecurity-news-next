@@ -70,10 +70,10 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder={language === "ar" ? "ابحث في الفيديوهات..." : "Search videos..."}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-red-500 outline-none text-gray-900 dark:text-white"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-white"
                 />
               </div>
-              <div className="bg-gradient-to-r from-red-500 to-pink-600 p-3 rounded-xl">
+              <div className="bg-gradient-to-rfrom-teal-500 to-blue-600 p-3 rounded-xl">
                 <Video className="h-6 w-6 text-white" />
               </div>
             </div>
@@ -142,10 +142,10 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={language === "ar" ? "ابحث في الفيديوهات..." : "Search videos..."}
-                className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-red-500 outline-none text-gray-900 dark:text-white"
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-white"
               />
             </div>
-            <div className="bg-gradient-to-r from-red-500 to-pink-600 p-3 rounded-xl">
+            <div className="bg-gradient-to-r from-teal-500 to-blue-600 p-3 rounded-xl">
               <Video className="h-6 w-6 text-white" />
             </div>
           </div>
@@ -199,12 +199,12 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                   style={{ transform: "perspective(900px)" }}
                 >
                   {/* Video Thumbnail */}
-                  <div className="relative aspect-video bg-gradient-to-br from-red-500 to-pink-600">
+                  <div className="relative aspect-video bg-gradient-to-br from-blue-500 to-blue-600">
                     {video.imageUrl ? (
                       <img
                         src={video.imageUrl}
                         alt={language === "ar" ? video.nameAr : video.nameEn || video.nameAr}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-fill group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center">
@@ -217,7 +217,7 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                     {/* Play Button Overlay */}
                     <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors duration-300">
                       <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 group-hover:scale-110 transition-transform duration-300">
-                        <Play className="h-8 w-8 text-red-600 ml-1" />
+                        <Play className="h-8 w-8 text-blue-600 ml-1" />
                       </div>
                     </div>
 
@@ -228,7 +228,7 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                     </div>
 
                     {/* Category Badge */}
-                    <div className="absolute top-4 right-4 bg-red-500/90 text-white text-xs px-3 py-1 rounded-full">
+                    <div className="absolute top-4 right-4 bg-blue-500/90 text-white text-xs px-3 py-1 rounded-full">
                       {video.forBeginners ? (language === "ar" ? "للعامة" : "Beginners") : ""}
                       {video.forBeginners && video.forProfessionals ? " • " : ""}
                       {video.forProfessionals ? (language === "ar" ? "للمحترفين" : "Professionals") : ""}
@@ -239,7 +239,7 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                   <div className="p-6">
                     {/* Video Header */}
                     <div className="flex items-center mb-4">
-                      <div className="bg-gradient-to-r from-red-500 to-pink-600 p-2 rounded-lg mr-3 rtl:mr-0 rtl:ml-3 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+                      <div className="bg-gradient-to-r from-teal-500 to-blue-600 p-2 rounded-lg mr-3 rtl:mr-0 rtl:ml-3 group-hover:scale-110 transition-transform duration-500 shadow-lg">
                         <Video className="h-4 w-4 text-white" />
                       </div>
                       <div>
@@ -250,9 +250,9 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                     </div>
 
                     {/* Video Title */}
-                    <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-3 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors duration-300 line-clamp-2">
+                    <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 line-clamp-2">
                       {language === "ar" ? video.nameAr : video.nameEn || video.nameAr}
-                    </h3>
+                    </h3>     
 
                     {/* Video Summary */}
                     <div className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3">
@@ -260,7 +260,7 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                     </div>
 
                     {/* Video Footer */}
-                    <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-red-500 to-pink-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-red-400">
+                    <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-teal-500 to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-blue-400">
                       <span className="mr-2 rtl:mr-0 rtl:ml-2">
                         {language === "ar" ? "مشاهدة الفيديو" : "Watch Video"}
                       </span>

@@ -47,10 +47,10 @@ export default function SimpleNewsCategoriesPage() {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder={language === "ar" ? "ابحث في فئات الأخبار..." : "Search news categories..."}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-orange-500 outline-none text-gray-900 dark:text-white"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-teal-500 outline-none text-gray-900 dark:text-white"
                 />
               </div>
-              <div className="bg-gradient-to-r from-orange-500 to-red-600 p-3 rounded-xl">
+              <div className="bg-gradient-to-r from-sky-500 to-blue-600 p-3 rounded-xl">
                 <Newspaper className="h-6 w-6 text-white" />
               </div>
             </div>
@@ -116,10 +116,10 @@ export default function SimpleNewsCategoriesPage() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={language === "ar" ? "ابحث في فئات الأخبار..." : "Search news categories..."}
-                className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-orange-500 outline-none text-gray-900 dark:text-white"
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-teal-500 outline-none text-gray-900 dark:text-white"
               />
             </div>
-            <div className="bg-gradient-to-r from-orange-500 to-red-600 p-3 rounded-xl">
+            <div className="bg-gradient-to-r from-sky-500 to-blue-600 p-3 rounded-xl">
               <Newspaper className="h-6 w-6 text-white" />
             </div>
           </div>
@@ -156,7 +156,7 @@ export default function SimpleNewsCategoriesPage() {
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div
-                  className="bg-white dark:bg-slate-800 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-lg hover:shadow-2xl hover:shadow-orange-500/10 transition-all duration-500 hover:scale-[1.02] h-full will-change-transform overflow-hidden"
+                  className="bg-white dark:bg-slate-800 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-lg hover:shadow-2xl hover:shadow-teal-500/10 transition-all duration-500 hover:scale-[1.02] h-full will-change-transform overflow-hidden"
                   onMouseMove={(e) => {
                     const el = e.currentTarget as HTMLDivElement
                     const rect = el.getBoundingClientRect()
@@ -173,12 +173,12 @@ export default function SimpleNewsCategoriesPage() {
                   style={{ transform: "perspective(900px)" }}
                 >
                   {/* Category Image */}
-                  <div className="relative aspect-video bg-gradient-to-br from-orange-500 to-red-600">
+                  <div className="relative aspect-video bg-gradient-to-br from-sky-500 to-blue-600">
                     {category.imageUrl ? (
                       <img
                         src={category.imageUrl}
                         alt={language === "ar" ? category.name : category.nameEn || category.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-fill group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center">
@@ -196,7 +196,7 @@ export default function SimpleNewsCategoriesPage() {
                   <div className="p-8">
                     {/* Category Header */}
                     <div className="flex items-center mb-6">
-                      <div className="bg-gradient-to-r from-orange-500 to-red-600 p-3 rounded-xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+                      <div className="bg-gradient-to-r from-sky-500 to-blue-600 p-3 rounded-xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
                         <Newspaper className="h-6 w-6 text-white" />
                       </div>
                       <div>
@@ -207,7 +207,7 @@ export default function SimpleNewsCategoriesPage() {
                     </div>
 
                     {/* Category Title */}
-                    <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-300 line-clamp-2">
+                    <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300 line-clamp-2">
                       {language === "ar" ? category.name : category.nameEn || category.name}
                     </h3>
 
@@ -219,7 +219,7 @@ export default function SimpleNewsCategoriesPage() {
                     </div>
 
                     {/* Category Footer */}
-                    <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-orange-500 to-red-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-orange-400">
+                    <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-sky-400">
                       <span className="mr-2 rtl:mr-0 rtl:ml-2">
                         {language === "ar" ? "تصفح الأخبار" : "Browse News"}
                       </span>

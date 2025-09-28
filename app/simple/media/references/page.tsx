@@ -176,7 +176,7 @@ export default function ReferencesPage() {
                   style={{ transform: "perspective(900px)" }}
                 >
                   {/* Thumbnail */}
-                  <div className="relative aspect-video bg-gradient-to-br from-purple-500 to-indigo-600">
+                  <div className="relative aspect-video bg-gradient-to-br from-sky-500 to-blue-600">
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="bg-white/20 backdrop-blur-sm rounded-full p-6 group-hover:scale-110 transition-transform duration-300">
                         <FileText className="h-12 w-12 text-white" />

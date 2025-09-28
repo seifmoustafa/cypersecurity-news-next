@@ -34,7 +34,7 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-indigo-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
+      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-teal-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
         <div className="container mx-auto px-4 py-8">
           {/* Breadcrumbs Skeleton */}
           <div className="flex items-center space-x-2 rtl:space-x-reverse mb-8">
@@ -71,7 +71,7 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
 
   if (error || !definition) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-indigo-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
+      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-teal-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
         <div className="container mx-auto px-4 py-8">
           <Breadcrumbs 
             items={[
@@ -96,7 +96,7 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
             </p>
             <Link 
               href={`/simple/definitions-categories/${categoryId}`}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl hover:from-indigo-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-teal-500 to-blue-600 text-white rounded-2xl hover:from-teal-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
             >
               {isRtl ? (
                 <>
@@ -121,7 +121,7 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
   const formattedDate = language === "ar" ? formatDateArabicNumbers(definition.createdAt) : formatDate(definition.createdAt)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-indigo-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-teal-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
       {/* Cybersecurity Pattern Background */}
       <div className="absolute inset-0 opacity-5 dark:opacity-10">
         <div className="absolute inset-0" style={{
@@ -147,11 +147,11 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
               <div className="p-8 lg:p-10">
                 {/* Category Badge */}
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-full flex items-center justify-center">
-                    <BookOpen className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+                  <div className="w-10 h-10 bg-gradient-to-br from-teal-100 to-blue-100 dark:from-teal-900/30 dark:to-blue-900/30 rounded-full flex items-center justify-center">
+                    <BookOpen className="h-5 w-5 text-teal-600 dark:text-teal-400" />
                   </div>
-                  <div className="px-4 py-2 bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-full border border-indigo-200 dark:border-indigo-800">
-                    <span className="text-sm font-semibold text-indigo-800 dark:text-indigo-200">
+                  <div className="px-4 py-2 bg-gradient-to-r from-teal-100 to-blue-100 dark:from-teal-900/30 dark:to-blue-900/30 rounded-full border border-teal-200 dark:border-teal-800">
+                    <span className="text-sm font-semibold text-teal-800 dark:text-teal-200">
                       {language === "ar" ? "مفهوم" : "Definition"}
                     </span>
                   </div>
@@ -167,8 +167,8 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
               <div className="px-8 lg:px-10 pb-6">
                 <div className="flex flex-wrap items-center gap-6 py-6 border-t border-b border-gray-200 dark:border-gray-700">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-full flex items-center justify-center">
-                      <Calendar className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+                    <div className="w-10 h-10 bg-gradient-to-br from-teal-100 to-blue-100 dark:from-teal-900/30 dark:to-blue-900/30 rounded-full flex items-center justify-center">
+                      <Calendar className="h-5 w-5 text-teal-600 dark:text-teal-400" />
                     </div>
                     <div>
                       <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
@@ -200,18 +200,18 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
 
               {/* Definition Content */}
               <div className="px-8 lg:px-10 pb-8">
-                <div className="prose prose-xl dark:prose-invert max-w-none prose-headings:text-gray-900 dark:prose-headings:text-white prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-strong:text-gray-900 dark:prose-strong:text-white prose-a:text-indigo-600 dark:prose-a:text-indigo-400 prose-a:no-underline hover:prose-a:underline prose-blockquote:border-indigo-500 prose-blockquote:bg-indigo-50 dark:prose-blockquote:bg-indigo-900/20 prose-blockquote:rounded-xl prose-blockquote:p-6">
+                <div className="prose prose-xl dark:prose-invert max-w-none prose-headings:text-gray-900 dark:prose-headings:text-white prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-strong:text-gray-900 dark:prose-strong:text-white prose-a:text-teal-600 dark:prose-a:text-teal-400 prose-a:no-underline hover:prose-a:underline prose-blockquote:border-teal-500 prose-blockquote:bg-teal-50 dark:prose-blockquote:bg-teal-900/20 prose-blockquote:rounded-xl prose-blockquote:p-6">
                   <p className="text-xl leading-relaxed">{displayDefinition}</p>
                 </div>
               </div>
 
               {/* Share Section */}
               <div className="px-8 lg:px-10 pb-8">
-                <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-slate-800 dark:to-slate-700 rounded-2xl p-8 border border-indigo-200 dark:border-indigo-800">
+                <div className="bg-gradient-to-r from-teal-50 to-blue-50 dark:from-slate-800 dark:to-slate-700 rounded-2xl p-8 border border-teal-200 dark:border-teal-800">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-full flex items-center justify-center">
-                        <Share2 className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+                      <div className="w-12 h-12 bg-gradient-to-br from-teal-100 to-blue-100 dark:from-teal-900/30 dark:to-blue-900/30 rounded-full flex items-center justify-center">
+                        <Share2 className="h-6 w-6 text-teal-600 dark:text-teal-400" />
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
@@ -224,7 +224,7 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
                     </div>
                     <button
                       onClick={() => navigator.share?.({ title: displayTerm, url: window.location.href })}
-                      className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-700 text-white font-semibold rounded-full shadow-lg hover:from-indigo-700 hover:to-purple-800 transition-all duration-300 transform hover:scale-105"
+                      className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-teal-600 to-blue-700 text-white font-semibold rounded-full shadow-lg hover:from-teal-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105"
                     >
                       <Share2 className="h-5 w-5" />
                       <span>{language === "ar" ? "مشاركة" : "Share"}</span>
@@ -272,8 +272,8 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
             {/* Navigation */}
             <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-xl border border-gray-200 dark:border-slate-700">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-full flex items-center justify-center">
-                  <BookOpen className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+                <div className="w-10 h-10 bg-gradient-to-br from-teal-100 to-blue-100 dark:from-teal-900/30 dark:to-blue-900/30 rounded-full flex items-center justify-center">
+                  <BookOpen className="h-5 w-5 text-teal-600 dark:text-teal-400" />
                 </div>
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white">
                   {language === "ar" ? "التنقل" : "Navigation"}
@@ -286,13 +286,13 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
                   className="block p-4 bg-gray-50 dark:bg-slate-700 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors duration-300 group"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300">
                       {language === "ar" ? "العودة إلى الفئة" : "Back to Category"}
                     </span>
                     {isRtl ? (
-                      <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300" />
+                      <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300" />
                     ) : (
-                      <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300" />
+                      <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300" />
                     )}
                   </div>
                 </Link>
@@ -301,13 +301,13 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
                   className="block p-4 bg-gray-50 dark:bg-slate-700 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors duration-300 group"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300">
                       {language === "ar" ? "جميع الفئات" : "All Categories"}
                     </span>
                     {isRtl ? (
-                      <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300" />
+                      <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300" />
                     ) : (
-                      <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300" />
+                      <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300" />
                     )}
                   </div>
                 </Link>

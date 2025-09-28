@@ -83,7 +83,7 @@ export default function BeginnersNewsPage() {
                 style={{ transform: "perspective(900px)" }}
               >
                 {/* Thumbnail */}
-                <div className="relative aspect-video bg-gradient-to-br from-orange-500 to-red-600">
+                <div className="relative aspect-video bg-gradient-to-br from-sky-500 to-blue-600">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="bg-white/20 backdrop-blur-sm rounded-full p-6 group-hover:scale-110 transition-transform duration-300">
                       <Newspaper className="h-12 w-12 text-white" />
@@ -98,7 +98,7 @@ export default function BeginnersNewsPage() {
                 <div className="p-8">
                   {/* News Header */}
                   <div className="flex items-center mb-6">
-                    <div className="bg-gradient-to-r from-orange-500 to-red-600 p-3 rounded-xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+                    <div className="bg-gradient-to-r from-teal-500 to-red-600 p-3 rounded-xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
                       <Newspaper className="h-6 w-6 text-white" />
                     </div>
                     <div>

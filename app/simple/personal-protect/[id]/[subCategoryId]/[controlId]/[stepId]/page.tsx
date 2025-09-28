@@ -241,7 +241,7 @@ export default function PersonalProtectControlStepPage({ params }: PersonalProte
                       <video
                         ref={videoRef}
                         src={step.videoUrl}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-fill"
                         onTimeUpdate={handleVideoProgress}
                         onPlay={() => setIsVideoPlaying(true)}
                         onPause={() => setIsVideoPlaying(false)}
@@ -296,7 +296,7 @@ export default function PersonalProtectControlStepPage({ params }: PersonalProte
                       <img
                         src={step.imageUrl}
                         alt={stepName}
-                        className="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform duration-700"
+                        className="w-full h-full object-fill cursor-pointer hover:scale-105 transition-transform duration-700"
                         onClick={() => setIsImageModalOpen(true)}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
@@ -474,7 +474,7 @@ export default function PersonalProtectControlStepPage({ params }: PersonalProte
                             <img
                               src={relatedStep.imageUrl}
                               alt={language === "ar" ? relatedStep.name : (relatedStep.nameEn || relatedStep.name)}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                              className="w-full h-full object-fill group-hover:scale-105 transition-transform duration-300"
                             />
                           ) : relatedStep.videoUrl ? (
                             <div className="absolute inset-0 flex items-center justify-center">

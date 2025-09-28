@@ -56,7 +56,7 @@ export default function AwarenessArticlePage({ params }: AwarenessArticlePagePro
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-indigo-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
+      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-teal-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
         <div className="container mx-auto px-4 py-8">
           {/* Breadcrumbs Skeleton */}
           <div className="flex items-center space-x-2 rtl:space-x-reverse mb-8">
@@ -93,7 +93,7 @@ export default function AwarenessArticlePage({ params }: AwarenessArticlePagePro
 
   if (error || !awareness) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-indigo-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
+      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-teal-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
         <div className="container mx-auto px-4 py-8">
           <Breadcrumbs 
             items={[
@@ -120,7 +120,7 @@ export default function AwarenessArticlePage({ params }: AwarenessArticlePagePro
             </p>
             <Link 
               href={`/simple/awareness/year/${resolvedParams.year}`}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-yellow-500 to-amber-600 text-white rounded-2xl hover:from-yellow-600 hover:to-amber-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-teal-500 to-blue-600 text-white rounded-2xl hover:from-teal-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
             >
               {isRtl ? (
                 <>
@@ -146,7 +146,7 @@ export default function AwarenessArticlePage({ params }: AwarenessArticlePagePro
   const formattedDate = language === "ar" ? formatDateArabicNumbers(awareness.createdAt) : formatDate(awareness.createdAt)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-indigo-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-teal-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
       {/* Cybersecurity Pattern Background */}
       <div className="absolute inset-0 opacity-5 dark:opacity-10">
         <div className="absolute inset-0" style={{
@@ -174,11 +174,11 @@ export default function AwarenessArticlePage({ params }: AwarenessArticlePagePro
               <div className="p-8 lg:p-10">
                 {/* Category Badge */}
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-gradient-to-br from-yellow-100 to-amber-100 dark:from-yellow-900/30 dark:to-amber-900/30 rounded-full flex items-center justify-center">
-                    <Lightbulb className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
+                  <div className="w-10 h-10 bg-gradient-to-br from-teal-100 to-blue-100 dark:from-teal-900/30 dark:to-blue-900/30 rounded-full flex items-center justify-center">
+                    <Lightbulb className="h-5 w-5 text-teal-600 dark:text-teal-400" />
                   </div>
-                  <div className="px-4 py-2 bg-gradient-to-r from-yellow-100 to-amber-100 dark:from-yellow-900/30 dark:to-amber-900/30 rounded-full border border-yellow-200 dark:border-yellow-800">
-                    <span className="text-sm font-semibold text-yellow-800 dark:text-yellow-200">
+                  <div className="px-4 py-2 bg-gradient-to-r from-teal-100 to-blue-100 dark:from-blue-900/30 dark:to-blue-900/30 rounded-full border border-teal-200 dark:border-teal-800">
+                    <span className="text-sm font-semibold text-teal-800 dark:text-teal-200">
                       {language === "ar" ? "نشرة توعية" : "Awareness Material"}
                     </span>
                   </div>
@@ -199,8 +199,8 @@ export default function AwarenessArticlePage({ params }: AwarenessArticlePagePro
               <div className="px-8 lg:px-10 pb-6">
                 <div className="flex flex-wrap items-center gap-6 py-6 border-t border-b border-gray-200 dark:border-gray-700">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-full flex items-center justify-center">
-                      <Calendar className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+                    <div className="w-10 h-10 bg-gradient-to-br from-teal-100 to-blue-100 dark:from-teal-900/30 dark:to-blue-900/30 rounded-full flex items-center justify-center">
+                      <Calendar className="h-5 w-5 text-teal-600 dark:text-teal-400" />
                     </div>
                     <div>
                       <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
@@ -213,8 +213,8 @@ export default function AwarenessArticlePage({ params }: AwarenessArticlePagePro
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-yellow-100 to-amber-100 dark:from-yellow-900/30 dark:to-amber-900/30 rounded-full flex items-center justify-center">
-                      <BookOpen className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
+                    <div className="w-10 h-10 bg-gradient-to-br from-teal-100 to-blue-100 dark:from-teal-900/30 dark:to-blue-900/30 rounded-full flex items-center justify-center">
+                      <BookOpen className="h-5 w-5 text-teal-600 dark:text-teal-400" />
                     </div>
                     <div>
                       <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
@@ -253,18 +253,18 @@ export default function AwarenessArticlePage({ params }: AwarenessArticlePagePro
               {/* Article Content */}
               <div className="px-8 lg:px-10 pb-8">
                 <div 
-                  className="prose prose-xl dark:prose-invert max-w-none prose-headings:text-gray-900 dark:prose-headings:text-white prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-strong:text-gray-900 dark:prose-strong:text-white prose-a:text-yellow-600 dark:prose-a:text-yellow-400 prose-a:no-underline hover:prose-a:underline prose-blockquote:border-yellow-500 prose-blockquote:bg-yellow-50 dark:prose-blockquote:bg-yellow-900/20 prose-blockquote:rounded-xl prose-blockquote:p-6"
+                  className="prose prose-xl dark:prose-invert max-w-none prose-headings:text-gray-900 dark:prose-headings:text-white prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-strong:text-gray-900 dark:prose-strong:text-white prose-a:text-teal-600 dark:prose-a:text-teal-400 prose-a:no-underline hover:prose-a:underline prose-blockquote:border-teal-500 prose-blockquote:bg-teal-50 dark:prose-blockquote:bg-teal-900/20 prose-blockquote:rounded-xl prose-blockquote:p-6"
                   dangerouslySetInnerHTML={{ __html: purifiedContent }}
                 />
               </div>
 
               {/* Share Section */}
               <div className="px-8 lg:px-10 pb-8">
-                <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-slate-800 dark:to-slate-700 rounded-2xl p-8 border border-indigo-200 dark:border-indigo-800">
+                <div className="bg-gradient-to-r from-teal-50 to-blue-50 dark:from-slate-800 dark:to-slate-700 rounded-2xl p-8 border border-teal-200 dark:border-teal-800">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-full flex items-center justify-center">
-                        <Share2 className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+                      <div className="w-12 h-12 bg-gradient-to-br from-teal-100 to-blue-100 dark:from-teal-900/30 dark:to-blue-900/30 rounded-full flex items-center justify-center">
+                        <Share2 className="h-6 w-6 text-teal-600 dark:text-teal-400" />
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
@@ -277,7 +277,7 @@ export default function AwarenessArticlePage({ params }: AwarenessArticlePagePro
                     </div>
                     <button
                       onClick={() => navigator.share?.({ title: displayTitle, url: window.location.href })}
-                      className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-700 text-white font-semibold rounded-full shadow-lg hover:from-indigo-700 hover:to-purple-800 transition-all duration-300 transform hover:scale-105"
+                      className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-teal-600 to-blue-700 text-white font-semibold rounded-full shadow-lg hover:from-teal-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105"
                     >
                       <Share2 className="h-5 w-5" />
                       <span>{language === "ar" ? "مشاركة" : "Share"}</span>
@@ -327,8 +327,8 @@ export default function AwarenessArticlePage({ params }: AwarenessArticlePagePro
             {/* Year Navigation */}
             <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-xl border border-gray-200 dark:border-slate-700">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-gradient-to-br from-yellow-100 to-amber-100 dark:from-yellow-900/30 dark:to-amber-900/30 rounded-full flex items-center justify-center">
-                  <BookOpen className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
+                <div className="w-10 h-10 bg-gradient-to-br from-teal-100 to-blue-100 dark:from-teal-900/30 dark:to-blue-900/30 rounded-full flex items-center justify-center">
+                  <BookOpen className="h-5 w-5 text-teal-600 dark:text-teal-400" />
                 </div>
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white">
                   {language === "ar" ? "نشرات السنة" : "Year Materials"}
@@ -341,13 +341,13 @@ export default function AwarenessArticlePage({ params }: AwarenessArticlePagePro
                   className="block p-4 bg-gray-50 dark:bg-slate-700 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors duration-300 group"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors duration-300">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300">
                       {language === "ar" ? "جميع نشرات السنة" : "All Year Materials"}
                     </span>
                     {isRtl ? (
-                      <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors duration-300" />
+                      <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300" />
                     ) : (
-                      <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors duration-300" />
+                      <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300" />
                     )}
                   </div>
                 </Link>
@@ -357,13 +357,13 @@ export default function AwarenessArticlePage({ params }: AwarenessArticlePagePro
                   className="block p-4 bg-gray-50 dark:bg-slate-700 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors duration-300 group"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors duration-300">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300">
                       {language === "ar" ? "جميع السنوات" : "All Years"}
                     </span>
                     {isRtl ? (
-                      <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors duration-300" />
+                      <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300" />
                     ) : (
-                      <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors duration-300" />
+                      <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300" />
                     )}
                   </div>
                 </Link>

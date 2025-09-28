@@ -79,7 +79,7 @@ export default function BeginnersMediaPage() {
       title: language === "ar" ? "دروس تعليمية" : "Educational Lessons",
       description: language === "ar" ? "دروس تفاعلية لتعلم أساسيات الأمن السيبراني" : "Interactive lessons to learn cybersecurity fundamentals",
       icon: GraduationCap,
-      color: "from-blue-500 to-cyan-600",
+      color: "from-blue-500 to-blue-600",
       bgColor: "bg-blue-50 dark:bg-blue-900/20",
       borderColor: "border-blue-200 dark:border-blue-800",
       count: "",
@@ -108,9 +108,9 @@ export default function BeginnersMediaPage() {
       title: language === "ar" ? "مقالات" : "Articles",
       description: language === "ar" ? "مقالات متخصصة في الأمن السيبراني والتقنيات الحديثة" : "Specialized articles on cybersecurity and modern technologies",
       icon: FileText,
-      color: "from-green-500 to-emerald-600",
-      bgColor: "bg-green-50 dark:bg-green-900/20",
-      borderColor: "border-green-200 dark:border-green-800",
+      color: "from-teal-500 to-blue-600",
+      bgColor: "bg-teal-50 dark:bg-teal-900/20",
+      borderColor: "border-teal-200 dark:border-teal-800",
       count: "",
       href: "/simple/media/articles",
       imagePath: "/assets/images/beginners/Gemini_Generated_Image_dudzufdudzufdudz.png",
@@ -137,9 +137,9 @@ export default function BeginnersMediaPage() {
       title: language === "ar" ? "مراجع" : "References",
       description: language === "ar" ? "مراجع وموارد شاملة للبحث والتعلم المتقدم" : "Comprehensive references and resources for advanced research and learning",
       icon: BookOpen,
-      color: "from-purple-500 to-indigo-600",
-      bgColor: "bg-purple-50 dark:bg-purple-900/20",
-      borderColor: "border-purple-200 dark:border-purple-800",
+      color: "from-sky-500 to-blue-600",
+      bgColor: "bg-sky-50 dark:bg-sky-900/20",
+      borderColor: "border-sky-200 dark:border-sky-800",
       count: "",
       href: "/simple/media/references",
       imagePath: "/assets/images/beginners/Gemini_Generated_Image_ry6ctary6ctary6c.png",
@@ -214,7 +214,7 @@ export default function BeginnersMediaPage() {
                     <img
                       src={category.imagePath}
                       alt={`${category.title} animation`}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="w-full h-full object-fill group-hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent dark:from-black/60 dark:via-transparent dark:to-transparent"></div>
                   </div>

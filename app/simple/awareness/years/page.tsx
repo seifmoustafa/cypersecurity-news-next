@@ -65,10 +65,10 @@ export default function AwarenessYearsPage() {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder={language === "ar" ? "ابحث في السنوات..." : "Search years..."}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-yellow-500 outline-none text-gray-900 dark:text-white"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-teal-500 outline-none text-gray-900 dark:text-white"
                 />
               </div>
-              <div className="bg-gradient-to-r from-yellow-500 to-amber-600 p-3 rounded-xl">
+              <div className="bg-gradient-to-r from-teal-500 to-blue-600 p-3 rounded-xl">
                 <Calendar className="h-6 w-6 text-white" />
               </div>
             </div>
@@ -134,10 +134,10 @@ export default function AwarenessYearsPage() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={language === "ar" ? "ابحث في السنوات..." : "Search years..."}
-                className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-yellow-500 outline-none text-gray-900 dark:text-white"
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-teal-500 outline-none text-gray-900 dark:text-white"
               />
             </div>
-            <div className="bg-gradient-to-r from-yellow-500 to-amber-600 p-3 rounded-xl">
+            <div className="bg-gradient-to-r from-teal-500 to-blue-600 p-3 rounded-xl">
               <Calendar className="h-6 w-6 text-white" />
             </div>
           </div>
@@ -174,7 +174,7 @@ export default function AwarenessYearsPage() {
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div
-                  className="bg-white dark:bg-slate-800 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-lg hover:shadow-2xl hover:shadow-yellow-500/10 transition-all duration-500 hover:scale-[1.02] h-full will-change-transform overflow-hidden"
+                  className="bg-white dark:bg-slate-800 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-lg hover:shadow-2xl hover:shadow-teal-500/10 transition-all duration-500 hover:scale-[1.02] h-full will-change-transform overflow-hidden"
                   onMouseMove={(e) => {
                     const el = e.currentTarget as HTMLDivElement
                     const rect = el.getBoundingClientRect()
@@ -191,7 +191,7 @@ export default function AwarenessYearsPage() {
                   style={{ transform: "perspective(900px)" }}
                 >
                   {/* Year Image */}
-                  <div className="relative aspect-video bg-gradient-to-br from-yellow-500 to-amber-600">
+                  <div className="relative aspect-video bg-gradient-to-br from-sky-500 to-blue-600">
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="bg-white/20 backdrop-blur-sm rounded-full p-6 group-hover:scale-110 transition-transform duration-300">
                         <Calendar className="h-12 w-12 text-white" />
@@ -206,7 +206,7 @@ export default function AwarenessYearsPage() {
                   <div className="p-8">
                     {/* Year Header */}
                     <div className="flex items-center mb-6">
-                      <div className="bg-gradient-to-r from-yellow-500 to-amber-600 p-3 rounded-xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+                      <div className="bg-gradient-to-r from-teal-500 to-blue-600 p-3 rounded-xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
                         <Calendar className="h-6 w-6 text-white" />
                       </div>
                       <div>
@@ -217,7 +217,7 @@ export default function AwarenessYearsPage() {
                     </div>
 
                     {/* Year Title */}
-                    <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors duration-300 line-clamp-2">
+                    <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300 line-clamp-2">
                       {year.year}
                     </h3>
 
@@ -229,7 +229,7 @@ export default function AwarenessYearsPage() {
                     </div>
 
                     {/* Year Footer */}
-                    <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-yellow-500 to-amber-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-yellow-400">
+                    <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-teal-500 to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-teal-400">
                       <span className="mr-2 rtl:mr-0 rtl:ml-2">
                         {language === "ar" ? "عرض النشرات" : "View Materials"}
                       </span>

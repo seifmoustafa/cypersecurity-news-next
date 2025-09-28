@@ -79,7 +79,7 @@ export default function CurrentYearAwarenessPage() {
             </p>
             <Link 
               href="/simple/awareness"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-yellow-500 to-amber-600 text-white rounded-2xl hover:from-yellow-600 hover:to-amber-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-teal-500 to-blue-600 text-white rounded-2xl hover:from-teal-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
             >
               {isRtl ? (
                 <>
@@ -114,8 +114,8 @@ export default function CurrentYearAwarenessPage() {
         {/* Header */}
         <div className="max-w-4xl mx-auto mb-8">
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 bg-gradient-to-br from-yellow-100 to-amber-100 dark:from-yellow-900/30 dark:to-amber-900/30 rounded-2xl flex items-center justify-center">
-              <Lightbulb className="h-8 w-8 text-yellow-600 dark:text-yellow-400" />
+            <div className="w-16 h-16 bg-gradient-to-br from-teal-100 to-blue-100 dark:from-teal-900/30 dark:to-blue-900/30 rounded-2xl flex items-center justify-center">
+              <Lightbulb className="h-8 w-8 text-teal-600 dark:text-teal-400" />
             </div>
             <div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
@@ -141,10 +141,10 @@ export default function CurrentYearAwarenessPage() {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder={language === "ar" ? "ابحث في نشرات التوعية..." : "Search awareness materials..."}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-yellow-500 outline-none text-gray-900 dark:text-white"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-teal-500 outline-none text-gray-900 dark:text-white"
                 />
               </div>
-              <div className="bg-gradient-to-r from-yellow-500 to-amber-600 p-3 rounded-xl">
+              <div className="bg-gradient-to-r from-teal-500 to-blue-600 p-3 rounded-xl">
                 <Lightbulb className="h-6 w-6 text-white" />
               </div>
             </div>
@@ -189,12 +189,12 @@ export default function CurrentYearAwarenessPage() {
                   >
                     <div className="space-y-4">
                       {/* Icon */}
-                      <div className="w-12 h-12 bg-gradient-to-br from-yellow-100 to-amber-100 dark:from-yellow-900/30 dark:to-amber-900/30 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <BookOpen className="h-6 w-6 text-yellow-600 dark:text-yellow-400" />
+                      <div className="w-12 h-12 bg-gradient-to-br from-teal-100 to-blue-100 dark:from-teal-900/30 dark:to-blue-900/30 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <BookOpen className="h-6 w-6 text-teal-600 dark:text-teal-400" />
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors duration-300 line-clamp-2">
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300 line-clamp-2">
                         {displayTitle}
                       </h3>
 
@@ -213,13 +213,13 @@ export default function CurrentYearAwarenessPage() {
 
                       {/* Action */}
                       <div className="flex items-center justify-between pt-2">
-                        <span className="text-sm font-medium text-yellow-600 dark:text-yellow-400 group-hover:text-yellow-700 dark:group-hover:text-yellow-300 transition-colors duration-300">
+                        <span className="text-sm font-medium text-teal-600 dark:text-teal-400 group-hover:text-teal-700 dark:group-hover:text-teal-300 transition-colors duration-300">
                           {language === "ar" ? "اقرأ المزيد" : "Read More"}
                         </span>
                         {isRtl ? (
-                          <ArrowLeft className="h-4 w-4 text-yellow-600 dark:text-yellow-400 group-hover:-translate-x-1 transition-transform duration-300" />
+                          <ArrowLeft className="h-4 w-4 text-teal-600 dark:text-teal-400 group-hover:-translate-x-1 transition-transform duration-300" />
                         ) : (
-                          <ArrowRight className="h-4 w-4 text-yellow-600 dark:text-yellow-400 group-hover:translate-x-1 transition-transform duration-300" />
+                          <ArrowRight className="h-4 w-4 text-teal-600 dark:text-teal-400 group-hover:translate-x-1 transition-transform duration-300" />
                         )}
                       </div>
                     </div>

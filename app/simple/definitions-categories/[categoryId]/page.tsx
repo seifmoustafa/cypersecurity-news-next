@@ -28,7 +28,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
         <div className="container mx-auto px-4 py-8">
           {/* Breadcrumbs Skeleton */}
           <div className="flex items-center space-x-2 rtl:space-x-reverse mb-8">
@@ -59,7 +59,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
         <div className="container mx-auto px-4 py-8">
           <Breadcrumbs 
             items={[
@@ -83,7 +83,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
             </p>
             <Link 
               href="/simple/definitions-categories"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl hover:from-indigo-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-teal-500 to-blue-600 text-white rounded-2xl hover:from-teal-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
             >
               {isRtl ? (
                 <>
@@ -104,7 +104,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumbs */}
         <Breadcrumbs 
@@ -123,10 +123,10 @@ export default function CategoryPage({ params }: CategoryPageProps) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={language === "ar" ? "ابحث في المفاهيم..." : "Search definitions..."}
-                className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-indigo-500 outline-none text-gray-900 dark:text-white"
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-teal-500 outline-none text-gray-900 dark:text-white"
               />
             </div>
-            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 p-3 rounded-xl">
+            <div className="bg-gradient-to-r from-teal-500 to-blue-600 p-3 rounded-xl">
               <BookOpen className="h-6 w-6 text-white" />
             </div>
           </div>
@@ -164,11 +164,11 @@ export default function CategoryPage({ params }: CategoryPageProps) {
                   href={`/simple/definitions-categories/${categoryId}/${definition.id}`}
                   className="group block"
                 >
-                  <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/20 hover:-translate-y-1 h-full">
+                  <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-teal-500/20 hover:-translate-y-1 h-full">
                     {/* Definition Content */}
                     <div className="p-6 h-full flex flex-col">
                       <div className="flex-1">
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300">
                           {displayTerm}
                         </h3>
                         <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4 line-clamp-3">
@@ -183,9 +183,9 @@ export default function CategoryPage({ params }: CategoryPageProps) {
                           <span>{formattedDate}</span>
                         </div>
                         {isRtl ? (
-                          <ArrowLeft className="h-5 w-5 text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300" />
+                          <ArrowLeft className="h-5 w-5 text-gray-400 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300" />
                         ) : (
-                          <ArrowRight className="h-5 w-5 text-gray-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300" />
+                          <ArrowRight className="h-5 w-5 text-gray-400 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300" />
                         )}
                       </div>
                     </div>

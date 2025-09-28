@@ -82,7 +82,7 @@ export default function VideoModal({ videoId, isOpen, onClose }: VideoModalProps
         {loading ? (
           <div className="flex items-center justify-center h-96">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto mb-4"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
               <p className="text-gray-600 dark:text-gray-300">
                 {language === "ar" ? "جاري تحميل الفيديو..." : "Loading video..."}
               </p>
@@ -98,7 +98,7 @@ export default function VideoModal({ videoId, isOpen, onClose }: VideoModalProps
               <p className="text-gray-500 dark:text-gray-400 mb-4">{error || "Video not found"}</p>
               <button
                 onClick={handleClose}
-                className="px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-xl transition-colors duration-300"
+                className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl transition-colors duration-300"
               >
                 {language === "ar" ? "إغلاق" : "Close"}
               </button>
@@ -107,7 +107,7 @@ export default function VideoModal({ videoId, isOpen, onClose }: VideoModalProps
         ) : (
           <div className="flex flex-col h-full">
             {/* Video Player */}
-            <div className={`relative bg-gradient-to-br from-red-500 to-pink-600 ${
+            <div className={`relative bg-gradient-to-br from-teal-500 to-blue-600 ${
               isFullscreen ? 'flex-1' : 'aspect-video'
             }`}>
               {video.videoUrl ? (
@@ -137,7 +137,7 @@ export default function VideoModal({ videoId, isOpen, onClose }: VideoModalProps
               {/* Video Header */}
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-4">
-                  <div className="bg-gradient-to-r from-red-500 to-pink-600 p-2 rounded-lg">
+                  <div className="bg-gradient-to-r from-teal-500 to-blue-600 p-2 rounded-lg">
                     <Video className="h-5 w-5 text-white" />
                   </div>
                   <div>

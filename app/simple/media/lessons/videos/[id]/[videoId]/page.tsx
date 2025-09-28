@@ -96,7 +96,7 @@ export default function VideoDetailPage({ params }: VideoDetailPageProps) {
           <p className="text-muted-foreground mb-4">{error || "Video not found"}</p>
           <Link
             href={`/simple/media/lessons/videos/${resolvedParams.id}`}
-            className="inline-flex items-center px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-xl transition-colors duration-300"
+            className="inline-flex items-center px-6 py-3 bg-teal-500 hover:bg-blue-600 text-white font-semibold rounded-xl transition-colors duration-300"
           >
             {language === "ar" ? "العودة للفيديوهات" : "Back to Videos"}
           </Link>
@@ -122,7 +122,7 @@ export default function VideoDetailPage({ params }: VideoDetailPageProps) {
             { label: language === "ar" ? "المكتبة الثقافية" : "Media Library", href: "/simple/media" },
             { label: language === "ar" ? "دروس تعليمية" : "Educational Lessons", href: "/simple/media/lessons" },
             { label: language === "ar" ? "الفيديوهات" : "Videos", href: "/simple/media/lessons/videos" },
-            { label: language === "ar" ? "فئة الفيديوهات" : "Video Category", href: `/simple/media/lessons/videos/${params.id}` },
+            { label: language === "ar" ? "فئة الفيديوهات" : "Video Category", href: `/simple/media/lessons/videos/${resolvedParams.id}` },
             { label: language === "ar" ? video.nameAr : video.nameEn || video.nameAr }
           ]} 
         />
@@ -131,11 +131,11 @@ export default function VideoDetailPage({ params }: VideoDetailPageProps) {
         <div className="max-w-4xl mx-auto">
           <div className="bg-white dark:bg-slate-800 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-lg overflow-hidden">
             {/* Video Player */}
-            <div className="relative aspect-video bg-gradient-to-br from-red-500 to-pink-600">
+            <div className="relative aspect-video bg-gradient-to-br from-blue-500 to-blue-600">
               {video.videoUrl ? (
                 <video
                   controls
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-fill"
                   poster={video.imageUrl}
                 >
                   <source src={video.videoUrl} type="video/mp4" />
@@ -158,7 +158,7 @@ export default function VideoDetailPage({ params }: VideoDetailPageProps) {
               {/* Video Header */}
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-4">
-                  <div className="bg-gradient-to-r from-red-500 to-pink-600 p-3 rounded-xl">
+                  <div className="bg-gradient-to-r from-teal-500 to-blue-600 p-3 rounded-xl">
                     <Video className="h-6 w-6 text-white" />
                   </div>
                   <div>
@@ -221,7 +221,7 @@ export default function VideoDetailPage({ params }: VideoDetailPageProps) {
                 
                 <button
                   onClick={() => window.location.reload()}
-                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-teal-500 to-blue-600 hover:from-blue-600 hover:to-teal-700 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg"
                 >
                   <Play className="h-5 w-5 mr-2" />
                   {language === "ar" ? "إعادة تشغيل" : "Replay"}

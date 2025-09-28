@@ -29,9 +29,9 @@ export default function EducationalLessonsPage() {
       title: language === "ar" ? "الفيديوهات التعليمية" : "Educational Videos",
       description: language === "ar" ? "فيديوهات تفاعلية لتعلم أساسيات الأمن السيبراني" : "Interactive videos to learn cybersecurity fundamentals",
       icon: Video,
-      color: "from-red-500 to-pink-600",
-      bgColor: "bg-red-50 dark:bg-red-900/20",
-      borderColor: "border-red-200 dark:border-red-800",
+      color: "from-blue-500 to-blue-600",
+      bgColor: "bg-blue-50 dark:bg-blue-900/20",
+      borderColor: "border-blue-200 dark:border-blue-800",
       href: "/simple/media/lessons/videos",
       imagePath: "/assets/images/beginners/Gemini_Generated_Image_c7ds1sc7ds1sc7ds.png",
       items: videoCategories.slice(0, 2).map(category => ({
@@ -73,9 +73,9 @@ export default function EducationalLessonsPage() {
       title: language === "ar" ? "العروض التفاعلية" : "Interactive Presentations",
       description: language === "ar" ? "عروض تقديمية تفاعلية مع أمثلة عملية" : "Interactive presentations with practical examples",
       icon: Presentation,
-      color: "from-purple-500 to-indigo-600",
-      bgColor: "bg-purple-50 dark:bg-purple-900/20",
-      borderColor: "border-purple-200 dark:border-purple-800",
+      color: "from-teal-500 to-blue-600",
+      bgColor: "bg-teal-50 dark:bg-teal-900/20",
+      borderColor: "border-teal-200 dark:border-teal-800",
       href: "/simple/media/lessons/presentations",
       imagePath: "/assets/images/beginners/Gemini_Generated_Image_ut3c4xut3c4xut3c.png",
       items: presentationCategories.slice(0, 2).map(category => ({
@@ -156,7 +156,7 @@ export default function EducationalLessonsPage() {
                     <img
                       src={category.imagePath}
                       alt={`${category.title} animation`}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="w-full h-full object-fill group-hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent dark:from-black/60 dark:via-transparent dark:to-transparent"></div>
                   </div>

@@ -51,7 +51,7 @@ export default function SimpleVideoCategoriesPage() {
                   className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-red-500 outline-none text-gray-900 dark:text-white"
                 />
               </div>
-              <div className="bg-gradient-to-r from-red-500 to-pink-600 p-3 rounded-xl">
+              <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-xl">
                 <Video className="h-6 w-6 text-white" />
               </div>
             </div>
@@ -121,7 +121,7 @@ export default function SimpleVideoCategoriesPage() {
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-red-500 outline-none text-gray-900 dark:text-white"
               />
             </div>
-            <div className="bg-gradient-to-r from-red-500 to-pink-600 p-3 rounded-xl">
+            <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-xl">
               <Video className="h-6 w-6 text-white" />
             </div>
           </div>
@@ -175,12 +175,12 @@ export default function SimpleVideoCategoriesPage() {
                   style={{ transform: "perspective(900px)" }}
                 >
                   {/* Category Image */}
-                  <div className="relative aspect-video bg-gradient-to-br from-red-500 to-pink-600">
+                  <div className="relative aspect-video bg-gradient-to-br from-blue-500 to-blue-600">
                     {category.imageUrl ? (
                       <img
                         src={category.imageUrl}
                         alt={language === "ar" ? category.name : category.nameEn || category.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-fill group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center">
@@ -198,7 +198,7 @@ export default function SimpleVideoCategoriesPage() {
                   <div className="p-8">
                     {/* Category Header */}
                     <div className="flex items-center mb-6">
-                      <div className="bg-gradient-to-r from-red-500 to-pink-600 p-3 rounded-xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+                      <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
                         <Video className="h-6 w-6 text-white" />
                       </div>
                       <div>
@@ -221,7 +221,7 @@ export default function SimpleVideoCategoriesPage() {
                     </div>
 
                     {/* Category Footer */}
-                    <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-red-500 to-pink-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-red-400">
+                    <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-blue-400">
                       <span className="mr-2 rtl:mr-0 rtl:ml-2">
                         {language === "ar" ? "تصفح الفيديوهات" : "Browse Videos"}
                       </span>

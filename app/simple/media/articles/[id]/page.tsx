@@ -125,7 +125,7 @@ export default function ArticleDetailPage({ params }: ArticleDetailPageProps) {
                     <img 
                       src={article.imageUrl} 
                       alt={displayTitle}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="w-full h-full object-fill group-hover:scale-105 transition-transform duration-700"
                     />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">

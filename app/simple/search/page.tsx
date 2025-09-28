@@ -83,13 +83,13 @@ export default function BeginnersSearchPage() {
 
   const getTypeColor = (entityType: string) => {
     switch (entityType) {
-      case "Video": return "from-red-500 to-pink-600"
+      case "Video": return "from-blue-500 to-blue-600"
       case "Article": return "from-blue-500 to-cyan-600"
-      case "Definition": return "from-green-500 to-emerald-600"
-      case "Presentation": return "from-purple-500 to-indigo-600"
-      case "Lecture": return "from-orange-500 to-yellow-600"
+      case "Definition": return "from-cyan-500 to-blue-600"
+      case "Presentation": return "from-teal-500 to-blue-600"
+      case "Lecture": return "from-sky-500 to-blue-600"
       case "News": return "from-teal-500 to-green-600"
-      case "Awareness": return "from-indigo-500 to-purple-600"
+      case "Awareness": return "from-sky-400 to-blue-500"
       case "Reference": return "from-gray-500 to-slate-600"
       default: return "from-gray-500 to-slate-600"
     }
@@ -149,7 +149,7 @@ export default function BeginnersSearchPage() {
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-green-500 outline-none text-gray-900 dark:text-white"
               />
             </div>
-            <div className="bg-gradient-to-r from-green-500 to-blue-500 p-3 rounded-xl">
+            <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-xl">
               <Search className="h-6 w-6 text-white" />
             </div>
           </div>
@@ -248,7 +248,7 @@ export default function BeginnersSearchPage() {
                         <img 
                           src={result.imageUrl} 
                           alt={displayTitle}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          className="w-full h-full object-fill group-hover:scale-105 transition-transform duration-300"
                         />
                       ) : (
                         <div className="absolute inset-0 flex items-center justify-center">
@@ -311,7 +311,7 @@ export default function BeginnersSearchPage() {
                       )}
 
                       {/* Result Footer */}
-                      <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-green-500 to-blue-500 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-green-400">
+                      <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-blue-400">
                         <span className="mr-2 rtl:mr-0 rtl:ml-2">
                           {isVideo 
                             ? (language === "ar" ? "مشاهدة" : "Watch")

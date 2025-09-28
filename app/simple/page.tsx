@@ -66,10 +66,10 @@ export default function BeginnersHome() {
       title: t("beginners.cards.definitions.title"),
       description: t("beginners.cards.definitions.description"),
       icon: BookOpen,
-      color: "from-indigo-500 to-purple-600",
+      color: "from-blue-500 to-blue-600",
       bgColor:
-        "bg-gradient-to-br from-indigo-50/80 to-purple-50/60 dark:from-indigo-900/30 dark:to-purple-900/20",
-      borderColor: "border-indigo-300/60 dark:border-indigo-600/40",
+        "bg-gradient-to-br from-blue-50/80 to-blue-50/60 dark:from-blue-900/30 dark:to-blue-900/20",
+      borderColor: "border-blue-300/60 dark:border-blue-600/40",
       href: "/simple/definitions-categories",
       items: definitionCategories
         .slice(0, 2)
@@ -104,10 +104,10 @@ export default function BeginnersHome() {
           ? "الأخبار نشرات التوعية المبسطة"
           : "News and awareness bulletins",
       icon: Lightbulb,
-      color: "from-yellow-400 to-amber-600",
+      color: "from-sky-400 to-blue-500",
       bgColor:
-        "bg-gradient-to-br from-yellow-50/80 to-amber-50/60 dark:from-yellow-900/30 dark:to-amber-900/20",
-      borderColor: "border-yellow-300/60 dark:border-yellow-600/40",
+        "bg-gradient-to-br from-sky-50/80 to-blue-50/60 dark:from-sky-900/30 dark:to-blue-900/20",
+      borderColor: "border-sky-300/60 dark:border-sky-600/40",
       href: "/simple/awareness",
       items: [
         {
@@ -129,10 +129,10 @@ export default function BeginnersHome() {
       title: t("beginners.cards.personalProtect.title"),
       description: t("beginners.cards.personalProtect.description"),
       icon: ShieldCheck,
-      color: "from-amber-500 to-orange-600",
+      color: "from-cyan-500 to-blue-600",
       bgColor:
-        "bg-gradient-to-br from-amber-50/80 to-orange-50/60 dark:from-amber-900/30 dark:to-orange-900/20",
-      borderColor: "border-amber-300/60 dark:border-amber-600/40",
+        "bg-gradient-to-br from-cyan-50/80 to-blue-50/60 dark:from-cyan-900/30 dark:to-blue-900/20",
+      borderColor: "border-cyan-300/60 dark:border-cyan-600/40",
       href: "/simple/personal-protect",
       items: [
         {
@@ -154,10 +154,10 @@ export default function BeginnersHome() {
       title: t("beginners.cards.media.title"),
       description: t("beginners.cards.media.description"),
       icon: Video,
-      color: "from-emerald-500 to-teal-600",
+      color: "from-teal-500 to-blue-600",
       bgColor:
-        "bg-gradient-to-br from-emerald-50/80 to-teal-50/60 dark:from-emerald-900/30 dark:to-teal-900/20",
-      borderColor: "border-emerald-300/60 dark:border-emerald-600/40",
+        "bg-gradient-to-br from-teal-50/80 to-blue-50/60 dark:from-teal-900/30 dark:to-blue-900/20",
+      borderColor: "border-teal-300/60 dark:border-teal-600/40",
       href: "/simple/media",
       items: [
         {
@@ -514,7 +514,7 @@ export default function BeginnersHome() {
                       <img
                         src={gifPath}
                         alt={`${card.title} animation`}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        className="w-full h-full object-fill group-hover:scale-105 transition-transform duration-700"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent dark:from-black/60 dark:via-transparent dark:to-transparent"></div>
                     </div>

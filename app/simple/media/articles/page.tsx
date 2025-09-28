@@ -50,7 +50,7 @@ export default function SimpleArticlesPage() {
                   className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-green-500 outline-none text-gray-900 dark:text-white"
                 />
               </div>
-              <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-3 rounded-xl">
+              <div className="bg-gradient-to-r from-teal-500 to-blue-600 p-3 rounded-xl">
                 <FileText className="h-6 w-6 text-white" />
               </div>
             </div>
@@ -119,7 +119,7 @@ export default function SimpleArticlesPage() {
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-green-500 outline-none text-gray-900 dark:text-white"
               />
             </div>
-            <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-3 rounded-xl">
+            <div className="bg-gradient-to-r from-teal-500 to-blue-600 p-3 rounded-xl">
               <FileText className="h-6 w-6 text-white" />
             </div>
           </div>
@@ -151,12 +151,12 @@ export default function SimpleArticlesPage() {
                 style={{ transform: "perspective(900px)" }}
               >
                 {/* Thumbnail */}
-                <div className="relative aspect-video bg-gradient-to-br from-green-500 to-emerald-600">
+                <div className="relative aspect-video bg-gradient-to-br from-teal-500 to-blue-600">
                   {article.imageUrl ? (
                     <img
                       src={article.imageUrl}
                       alt={language === "ar" ? article.title : article.titleEn || article.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-fill group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center">
@@ -188,7 +188,7 @@ export default function SimpleArticlesPage() {
                 <div className="p-8">
                   {/* Article Header */}
                   <div className="flex items-center mb-6">
-                    <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-3 rounded-xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+                    <div className="bg-gradient-to-r from-teal-500 to-blue-600 p-3 rounded-xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
                       <FileText className="h-6 w-6 text-white" />
                     </div>
                     <div>
@@ -209,7 +209,7 @@ export default function SimpleArticlesPage() {
                   </div>
 
                   {/* Article Footer */}
-                  <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-green-400">
+                  <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-teal-500 to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-teal-400">
                     <span className="mr-2 rtl:mr-0 rtl:ml-2">
                       {language === "ar" ? "قراءة المقال" : "Read Article"}
                     </span>

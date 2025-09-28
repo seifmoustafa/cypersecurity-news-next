@@ -18,7 +18,7 @@ export default function SimpleDefinitionsCategoriesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-sky-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
         <div className="container mx-auto px-4 py-8">
           {/* Breadcrumbs Skeleton */}
           <div className="flex items-center space-x-2 rtl:space-x-reverse mb-8">
@@ -49,7 +49,7 @@ export default function SimpleDefinitionsCategoriesPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-sky-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
         <div className="container mx-auto px-4 py-8">
           <Breadcrumbs 
             items={[
@@ -58,7 +58,7 @@ export default function SimpleDefinitionsCategoriesPage() {
           />
 
           <div className="max-w-4xl mx-auto text-center py-16">
-            <div className="w-24 h-24 bg-gradient-to-br from-red-100 to-red-200 dark:from-red-900/30 dark:to-red-800/30 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="w-24 h-24 bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900/30 dark:to-blue-800/30 rounded-full flex items-center justify-center mx-auto mb-6">
               <BookOpen className="h-12 w-12 text-red-600 dark:text-red-400" />
             </div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
@@ -72,7 +72,7 @@ export default function SimpleDefinitionsCategoriesPage() {
             </p>
             <Link 
               href="/simple"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl hover:from-indigo-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-2xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
             >
               {isRtl ? (
                 <>
@@ -114,7 +114,7 @@ export default function SimpleDefinitionsCategoriesPage() {
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-indigo-500 outline-none text-gray-900 dark:text-white"
               />
             </div>
-            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 p-3 rounded-xl">
+            <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-xl">
               <BookOpen className="h-6 w-6 text-white" />
             </div>
           </div>
@@ -157,10 +157,10 @@ export default function SimpleDefinitionsCategoriesPage() {
                         <img
                           src={category.imageUrl}
                           alt={displayName}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          className="w-full h-full object-fill group-hover:scale-105 transition-transform duration-500"
                         />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 flex items-center justify-center">
+                        <div className="w-full h-full bg-gradient-to-br from-blue-100 to-sky-100 dark:from-blue-900/30 dark:to-sky-900/30 flex items-center justify-center">
                           <BookOpen className="h-16 w-16 text-indigo-500 dark:text-indigo-400" />
                         </div>
                       )}

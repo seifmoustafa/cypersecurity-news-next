@@ -244,7 +244,7 @@ export default function PersonalProtectControlStepsPage({ params }: PersonalProt
                       <img
                         src={step.imageUrl}
                         alt={displayName}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        className="w-full h-full object-fill group-hover:scale-105 transition-transform duration-700"
                       />
                     ) : step.videoUrl ? (
                       <div className="absolute inset-0 flex items-center justify-center">

@@ -225,12 +225,12 @@ export default function PersonalProtectControlsPage({ params }: PersonalProtectC
                   style={{ transform: "perspective(900px)" }}
                 >
                   {/* Thumbnail */}
-                  <div className="relative aspect-video bg-gradient-to-br from-green-500 to-emerald-600">
+                  <div className="relative aspect-video bg-gradient-to-br from-cyan-500 to-blue-600">
                     {control.imageUrl ? (
                       <img
                         src={control.imageUrl}
                         alt={displayName}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        className="w-full h-full object-fill group-hover:scale-105 transition-transform duration-700"
                       />
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center">

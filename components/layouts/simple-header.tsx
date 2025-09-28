@@ -22,7 +22,8 @@ import {
   AlertTriangle,
   Zap,
   Target,
-  LockIcon
+  LockIcon,
+  Lightbulb
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
@@ -69,12 +70,13 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
     }
   }, [debouncedSearchQuery, router, searchOpen])
 
-  // Navigation items for beginners mode
+  // Navigation items for beginners mode - matching the order of main page cards
   const beginnersNavItems = [
     { key: "beginners.navigation.home", href: "/simple", icon: Home },
-    { key: "beginners.navigation.media", href: "/simple/media", icon: Video },
-    { key: "beginners.navigation.definitions", href: "/simple/definitions-categories", icon: BookOpen },
-    { key: "beginners.navigation.personalProtect", href: "/simple/personal-protect", icon: ShieldCheck },
+    { key: "beginners.cards.definitions.title", href: "/simple/definitions-categories", icon: BookOpen },
+    { key: "beginners.cards.awareness.title", href: "/simple/awareness", icon: Lightbulb },
+    { key: "beginners.cards.personalProtect.title", href: "/simple/personal-protect", icon: ShieldCheck },
+    { key: "beginners.cards.media.title", href: "/simple/media", icon: Video },
   ]
 
   if (!mounted) return null
