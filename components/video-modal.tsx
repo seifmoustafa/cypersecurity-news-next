@@ -32,13 +32,27 @@ export default function VideoModal({ videoId, isOpen, onClose }: VideoModalProps
         setError(err instanceof Error ? err.message : "An error occurred")
       } finally {
         setLoading(false)
-      }
+      }  
     }
 
     if (isOpen && videoId) {
       fetchVideo()
     }
   }, [videoId, isOpen])
+
+  // Prevent page scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isOpen])
 
   const handleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -61,7 +75,7 @@ export default function VideoModal({ videoId, isOpen, onClose }: VideoModalProps
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
       <div className={`relative bg-white dark:bg-slate-800 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-2xl overflow-hidden transition-all duration-300 ${
-        isFullscreen ? 'w-screen h-screen rounded-none' : 'w-full max-w-6xl mx-4 max-h-[90vh]'
+        isFullscreen ? 'w-screen h-screen rounded-none' : 'w-full max-w-6xl mx-4'
       }`}>
         {/* Close Button */}
         <button
@@ -105,15 +119,15 @@ export default function VideoModal({ videoId, isOpen, onClose }: VideoModalProps
             </div>
           </div>
         ) : (
-          <div className="flex flex-col h-full">
+          <div className={`flex flex-col ${isFullscreen ? 'h-full' : 'h-full'}`}>
             {/* Video Player */}
-            <div className={`relative bg-gradient-to-br from-teal-500 to-blue-600 ${
-              isFullscreen ? 'flex-1' : 'aspect-video'
+            <div className={`relative bg-gray-100 dark:bg-gray-800 w-full ${
+              isFullscreen ? 'flex-1 max-h-[70vh] flex items-center justify-center' : 'h-96 flex items-center justify-center'
             }`}>
               {video.videoUrl ? (
                 <video
                   controls
-                  className="w-full h-full object-cover"
+                  className={`${isFullscreen ? 'w-full h-full' : 'max-w-full max-h-full'} object-contain`}
                   poster={video.imageUrl}
                   autoPlay
                 >
@@ -132,12 +146,17 @@ export default function VideoModal({ videoId, isOpen, onClose }: VideoModalProps
               )}
             </div>
 
+            {/* Divider */}
+            <div className="border-t border-gray-300 dark:border-gray-600 "></div>
+
             {/* Video Info */}
-            <div className="p-6 flex-shrink-0">
+            <div className={`p-6 bg-gradient-to-b from-white via-gray-50/50 to-gray-100 dark:from-slate-800 dark:via-slate-700/50 dark:to-slate-900 ${
+              isFullscreen ? 'flex-1 overflow-y-auto' : 'flex-shrink-0 min-h-0 overflow-y-auto'
+            }`}>
               {/* Video Header */}
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-4">
-                  <div className="bg-gradient-to-r from-teal-500 to-blue-600 p-2 rounded-lg">
+                  <div className="bg-gradient-to-r from-teal-500 via-blue-500 to-teal-600 p-2.5 rounded-lg shadow-lg">
                     <Video className="h-5 w-5 text-white" />
                   </div>
                   <div>
