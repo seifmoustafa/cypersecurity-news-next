@@ -118,7 +118,7 @@ export default function BeginnersHome() {
         },
         {
           title: language === "ar" ? "نشرات التوعية" : "Awareness",
-          href: "/simple/awareness/years",
+          href: "/simple/awareness-years",
           icon: Lightbulb,
           count: "",
         },

@@ -36,11 +36,11 @@ export default function SimpleFooter() {
       bgColor: "bg-indigo-400/10",
       borderColor: "border-indigo-400/20",
       links: [
-        {
-          title: language === "ar" ? "جميع التعريفات" : "All Definitions",
-          href: "/simple/definitions-categories",
-          icon: BookOpen,
-        },
+        // {
+        //   title: language === "ar" ? "جميع التعريفات" : "All Definitions",
+        //   href: "/simple/definitions-categories",
+        //   icon: BookOpen,
+        // },
         {
           title: language === "ar" ? "فئات التعريفات" : "Definition Categories",
           href: "/simple/definitions-categories",
@@ -57,12 +57,12 @@ export default function SimpleFooter() {
       links: [
         {
           title: language === "ar" ? "الأخبار" : "News",
-          href: "/simple/news",
+          href: "/simple/news-categories",
           icon: CheckCircle,
         },
         {
           title: language === "ar" ? "نشرات التوعية" : "Awareness",
-          href: "/simple/awareness",
+          href: "/simple/awareness-years",
           icon: Eye,
         },
       ],

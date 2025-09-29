@@ -107,7 +107,7 @@ export default function BeginnersSitemapPage() {
           id: "awareness-bulletins",
           title: language === "ar" ? "نشرات التوعية" : "Awareness",
           icon: Eye,
-          href: "/simple/awareness",
+          href: "/simple/awareness-years",
           description:
             language === "ar"
               ? "نشرات توعية مبسطة"
@@ -358,8 +358,6 @@ export default function BeginnersSitemapPage() {
             );
           })}
         </div>
-
-        
       </div>
     </div>
   );
