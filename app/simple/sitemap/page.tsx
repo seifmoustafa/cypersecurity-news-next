@@ -99,7 +99,7 @@ export default function BeginnersSitemapPage() {
           id: "news",
           title: language === "ar" ? "الأخبار" : "News",
           icon: CheckCircle,
-          href: "/simple/news",
+          href: "/simple/news-categories",
           description:
             language === "ar" ? "أخبار الأمن السيبراني" : "Cybersecurity news",
         },

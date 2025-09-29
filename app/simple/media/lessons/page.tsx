@@ -48,7 +48,7 @@ export default function EducationalLessonsPage() {
     },
     {
       id: "lectures",
-      title: language === "ar" ? "المحاضرات المتخصصة" : "Specialized Lectures",
+      title: language === "ar" ? "المحاضرات" : "Lectures",
       description: language === "ar" ? "محاضرات مفصلة من خبراء الأمن السيبراني" : "Detailed lectures from cybersecurity experts",
       icon: GraduationCap,
       color: "from-blue-500 to-cyan-600",
@@ -70,7 +70,7 @@ export default function EducationalLessonsPage() {
     },
     {
       id: "presentations",
-      title: language === "ar" ? "العروض التفاعلية" : "Interactive Presentations",
+      title: language === "ar" ? "العروض التقديمية" : "Interactive Presentations",
       description: language === "ar" ? "عروض تقديمية تفاعلية مع أمثلة عملية" : "Interactive presentations with practical examples",
       icon: Presentation,
       color: "from-teal-500 to-blue-600",

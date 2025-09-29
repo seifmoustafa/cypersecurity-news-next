@@ -15,9 +15,11 @@ import {
   Eye,
   TrendingUp
 } from "lucide-react"
+import { ShareButton } from "@/components/ui/share-button"
 import Breadcrumbs from "@/components/breadcrumbs"
 import { useReference } from "@/core/hooks/use-reference"
 import { useReferences } from "@/core/hooks/use-references"
+import { useReferenceBreadcrumbs } from "@/hooks/use-breadcrumbs"
 
 interface ReferenceDetailPageProps {
   params: Promise<{
@@ -31,6 +33,10 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
   
   // Unwrap params using React.use()
   const resolvedParams = use(params)
+  
+  // Get breadcrumbs with dynamic data
+  const { items: breadcrumbItems, isLoading: breadcrumbLoading } = useReferenceBreadcrumbs(resolvedParams.id)
+  
   const { reference, loading, error } = useReference(resolvedParams.id)
   
   // Fetch related references (excluding current reference)
@@ -41,12 +47,8 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
     return (
       <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
         <div className="container mx-auto px-4 py-8">
-          {/* Breadcrumbs Skeleton */}
-          <div className="flex items-center space-x-2 rtl:space-x-reverse mb-8">
-            <div className="h-4 w-16 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
-            <div className="h-4 w-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
-            <div className="h-4 w-20 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
-          </div>
+          {/* Dynamic Breadcrumbs with Loading */}
+          <Breadcrumbs items={breadcrumbItems} isLoading={breadcrumbLoading} />
 
           {/* Content Skeleton */}
           <div className="max-w-6xl mx-auto">
@@ -79,13 +81,7 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
     return (
       <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
         <div className="container mx-auto px-4 py-8">
-          <Breadcrumbs 
-            items={[
-              { label: language === "ar" ? "المكتبة الثقافية" : "Media Library", href: "/simple/media" },
-              { label: language === "ar" ? "المراجع" : "References", href: "/simple/media/references" },
-              { label: language === "ar" ? "المرجع" : "Reference" }
-            ]} 
-          />
+          <Breadcrumbs items={breadcrumbItems} isLoading={breadcrumbLoading} />
 
           <div className="max-w-4xl mx-auto text-center py-16">
             <div className="w-24 h-24 bg-gradient-to-br from-red-100 to-red-200 dark:from-red-900/30 dark:to-red-800/30 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -130,14 +126,8 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
       <div className="container mx-auto px-4 py-8">
-        {/* Breadcrumbs */}
-        <Breadcrumbs 
-          items={[
-            { label: language === "ar" ? "المكتبة الثقافية" : "Media Library", href: "/simple/media" },
-            { label: language === "ar" ? "المراجع" : "References", href: "/simple/media/references" },
-            { label: language === "ar" ? "المرجع" : "Reference" }
-          ]} 
-        />
+        {/* Dynamic Breadcrumbs */}
+        <Breadcrumbs items={breadcrumbItems} isLoading={breadcrumbLoading} />
 
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -277,13 +267,14 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
                     </div>
                   </div>
                   
-                  <button 
-                    onClick={() => navigator.share?.({ title: displayTitle, url: window.location.href })}
-                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:from-purple-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
+                  <ShareButton
+                    title={displayTitle}
+                    url={typeof window !== 'undefined' ? window.location.href : ''}
+                    text={language === "ar" ? `مرجع: ${displayTitle}` : `Reference: ${displayTitle}`}
+                    className="font-medium"
                   >
-                    <Share2 className="h-5 w-5" />
-                    <span>{language === "ar" ? "مشاركة" : "Share"}</span>
-                  </button>
+                    {language === "ar" ? "مشاركة" : "Share"}
+                  </ShareButton>
                 </div>
               </div>
             </div>

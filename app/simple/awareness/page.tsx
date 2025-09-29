@@ -109,7 +109,7 @@ export default function SimpleAwarenessPage() {
         bgColor:
           "bg-gradient-to-br from-blue-50/80 to-cyan-50/60 dark:from-blue-900/30 dark:to-cyan-900/20",
         borderColor: "border-blue-300/60 dark:border-blue-600/40",
-      href: "/simple/awareness/years",
+      href: "/simple/awareness-years",
       items:
         currentYearAwareness.length > 0
           ? currentYearAwareness
@@ -136,7 +136,7 @@ export default function SimpleAwarenessPage() {
                 {
                   title:
                     language === "ar" ? "عرض جميع السنوات" : "View All Years",
-                  href: "/simple/awareness/years",
+                  href: "/simple/awareness-years",
                   icon: BookOpen,
                   count: "",
                   imageUrl: null,
@@ -156,7 +156,7 @@ export default function SimpleAwarenessPage() {
               {
                 title:
                   language === "ar" ? "عرض جميع السنوات" : "View All Years",
-                href: "/simple/awareness/years",
+                href: "/simple/awareness-years",
                 icon: BookOpen,
                 count: "",
                 imageUrl: null,

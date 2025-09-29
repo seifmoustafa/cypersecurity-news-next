@@ -43,6 +43,29 @@
     "beginnersMode": "Beginners Mode",
     "advancedMode": "Advanced Mode"
   },
+  "awareness": {
+    "title": "Awareness & News",
+    "subtitle": "Awareness bulletins and security news",
+    "years": "Awareness Years",
+    "newsCategories": "News Categories",
+    "allYears": "All Years",
+    "allNews": "All News",
+    "currentYear": "Current Year",
+    "loading": "Loading...",
+    "noAwareness": "No awareness bulletins found",
+    "noAwarenessInYear": "No awareness bulletins found in this year",
+    "backToYears": "Back to Years",
+    "backToYear": "Back to Year",
+    "readMore": "Read More",
+    "published": "Published",
+    "share": "Share",
+    "shareAwareness": "Share this bulletin",
+    "shareDescription": "Help others discover this content",
+    "relatedAwareness": "Related Bulletins",
+    "quickStats": "Quick Stats",
+    "wordCount": "Word Count",
+    "category": "Category"
+  },
   "beginners": {
     "title": "Cybersecurity Portal for Beginners",
     "subtitle": "Start your cybersecurity journey with simplified and beginner-friendly resources",
@@ -220,14 +243,6 @@
     "council": "Cybersecurity Council",
     "strategy": "Strategy",
     "executive": "Executive Regulations"
-  },
-  "awareness": {
-    "title": "Cybersecurity Awareness",
-    "subtitle": "Inform about the latest cybersecurity threats and best practices",
-    "explore": "Explore Awareness",
-    "bulletins": "Awareness Bulletins",
-    "articles": "Articles",
-    "news": "News"
   },
   "instructions": {
     "title": "Security Instructions",

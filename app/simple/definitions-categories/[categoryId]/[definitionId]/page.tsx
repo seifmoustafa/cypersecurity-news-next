@@ -12,8 +12,10 @@ import {
   FileText,
   TrendingUp
 } from "lucide-react"
+import { ShareButton } from "@/components/ui/share-button"
 import Breadcrumbs from "@/components/breadcrumbs"
 import { useDefinition } from "@/core/hooks/use-definition"
+import { useDefinitionBreadcrumbs } from "@/hooks/use-breadcrumbs"
 import { formatDateArabicNumbers, formatDate } from "@/lib/content-purifier"
 
 interface IndividualDefinitionPageProps {
@@ -30,18 +32,18 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
   // Unwrap params using React.use()
   const resolvedParams = use(params)
   const { categoryId, definitionId } = resolvedParams
+  
+  // Get breadcrumbs with dynamic data
+  const { items: breadcrumbItems, isLoading: breadcrumbLoading } = useDefinitionBreadcrumbs(categoryId, definitionId)
+  
   const { definition, loading, error } = useDefinition(definitionId)
 
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-teal-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
         <div className="container mx-auto px-4 py-8">
-          {/* Breadcrumbs Skeleton */}
-          <div className="flex items-center space-x-2 rtl:space-x-reverse mb-8">
-            <div className="h-4 w-16 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
-            <div className="h-4 w-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
-            <div className="h-4 w-20 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
-          </div>
+          {/* Dynamic Breadcrumbs with Loading */}
+          <Breadcrumbs items={breadcrumbItems} isLoading={breadcrumbLoading} />
 
           {/* Content Skeleton */}
           <div className="max-w-6xl mx-auto">
@@ -73,13 +75,7 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
     return (
       <div className="min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-teal-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
         <div className="container mx-auto px-4 py-8">
-          <Breadcrumbs 
-            items={[
-              { label: language === "ar" ? "المفاهيم" : "Definitions", href: "/simple/definitions-categories" },
-              { label: language === "ar" ? "الفئة" : "Category", href: `/simple/definitions-categories/${categoryId}` },
-              { label: language === "ar" ? "المفهوم" : "Definition" }
-            ]} 
-          />
+          <Breadcrumbs items={breadcrumbItems} isLoading={breadcrumbLoading} />
 
           <div className="max-w-4xl mx-auto text-center py-16">
             <div className="w-24 h-24 bg-gradient-to-br from-red-100 to-red-200 dark:from-red-900/30 dark:to-red-800/30 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -130,14 +126,8 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
       </div>
 
       <div className="relative z-10 container mx-auto px-4 pt-24 pb-12">
-        {/* Breadcrumbs */}
-        <Breadcrumbs 
-          items={[
-            { label: language === "ar" ? "المفاهيم" : "Definitions", href: "/simple/definitions-categories" },
-            { label: language === "ar" ? "الفئة" : "Category", href: `/simple/definitions-categories/${categoryId}` },
-            { label: language === "ar" ? "المفهوم" : "Definition" }
-          ]} 
-        />
+        {/* Dynamic Breadcrumbs */}
+        <Breadcrumbs items={breadcrumbItems} isLoading={breadcrumbLoading} />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* Main Content Area */}
@@ -222,13 +212,14 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
                         </p>
                       </div>
                     </div>
-                    <button
-                      onClick={() => navigator.share?.({ title: displayTerm, url: window.location.href })}
-                      className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-teal-600 to-blue-700 text-white font-semibold rounded-full shadow-lg hover:from-teal-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105"
+                    <ShareButton
+                      title={displayTerm}
+                      url={typeof window !== 'undefined' ? window.location.href : ''}
+                      text={language === "ar" ? `تعريف: ${displayTerm}` : `Definition: ${displayTerm}`}
+                      className="font-semibold"
                     >
-                      <Share2 className="h-5 w-5" />
-                      <span>{language === "ar" ? "مشاركة" : "Share"}</span>
-                    </button>
+                      {language === "ar" ? "مشاركة" : "Share"}
+                    </ShareButton>
                   </div>
                 </div>
               </div>

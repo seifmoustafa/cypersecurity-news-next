@@ -8,9 +8,11 @@ import { usePersonalProtectControls } from "@/core/hooks/use-personal-protect-co
 import { usePersonalProtectSubCategories } from "@/core/hooks/use-personal-protect-subcategories"
 import { usePersonalProtectCategories } from "@/core/hooks/use-personal-protect-categories"
 import { Play, Calendar, ArrowRight, ArrowLeft, Eye, Users, Lock, Home, Settings, FileText, Video, Image, Download, ChevronRight, ChevronLeft, Clock, CheckCircle, Star, Zap, Maximize2, Volume2, VolumeX, Pause, RotateCcw, Share2, Bookmark, Heart, MessageCircle, ThumbsUp, PlayCircle, BookOpen, Target, Shield, Award, TrendingUp, Sparkles, X, ExternalLink, ChevronDown, ChevronUp, Menu, Grid3X3 } from "lucide-react"
+import { ShareButton } from "@/components/ui/share-button"
 import Link from "next/link"
 import { useState, useRef, useEffect } from "react"
 import Breadcrumbs from "@/components/breadcrumbs"
+import { usePersonalProtectBreadcrumbs } from "@/hooks/use-breadcrumbs"
 
 interface PersonalProtectControlStepPageProps {
   params: Promise<{
@@ -31,6 +33,9 @@ export default function PersonalProtectControlStepPage({ params }: PersonalProte
   const subCategoryId = resolvedParams.subCategoryId
   const controlId = resolvedParams.controlId
   const stepId = resolvedParams.stepId
+  
+  // Get breadcrumbs with dynamic data
+  const { items: breadcrumbItems, isLoading: breadcrumbLoading } = usePersonalProtectBreadcrumbs(categoryId, subCategoryId, controlId, stepId)
   
   const { step, loading, error } = usePersonalProtectControlStep(stepId)
   
@@ -57,31 +62,6 @@ export default function PersonalProtectControlStepPage({ params }: PersonalProte
 
   // Sidebar state
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-
-  // Share functionality
-  const handleShare = async () => {
-    const url = window.location.href
-    const title = step?.name || 'Personal Protect Control Step'
-    
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: title,
-          url: url,
-        })
-      } catch (err) {
-        console.log('Error sharing:', err)
-      }
-    } else {
-      // Fallback: copy to clipboard
-      try {
-        await navigator.clipboard.writeText(url)
-        alert(language === "ar" ? "تم نسخ الرابط" : "Link copied to clipboard")
-      } catch (err) {
-        console.log('Error copying to clipboard:', err)
-      }
-    }
-  }
 
   const handleVideoPlay = () => {
     if (videoRef.current) {
@@ -128,15 +108,7 @@ export default function PersonalProtectControlStepPage({ params }: PersonalProte
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
         <div className="container mx-auto px-4 pt-24 pb-8">
-          <Breadcrumbs 
-            items={[
-              { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/simple/personal-protect" },
-              { label: language === "ar" ? "الفئات الفرعية" : "Sub Categories", href: `/simple/personal-protect/${categoryId}` },
-              { label: language === "ar" ? "الضوابط" : "Controls", href: `/simple/personal-protect/${categoryId}/${subCategoryId}` },
-              { label: language === "ar" ? "خطوات إجراء التحكم" : "Control Steps", href: `/simple/personal-protect/${categoryId}/${subCategoryId}/${controlId}` },
-              { label: language === "ar" ? "الخطوة" : "Step" }
-            ]} 
-          />
+          <Breadcrumbs items={breadcrumbItems} isLoading={breadcrumbLoading} />
 
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -164,15 +136,7 @@ export default function PersonalProtectControlStepPage({ params }: PersonalProte
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
         <div className="container mx-auto px-4 pt-24 pb-8">
-          <Breadcrumbs 
-            items={[
-              { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/simple/personal-protect" },
-              { label: language === "ar" ? "الفئات الفرعية" : "Sub Categories", href: `/simple/personal-protect/${categoryId}` },
-              { label: language === "ar" ? "الضوابط" : "Controls", href: `/simple/personal-protect/${categoryId}/${subCategoryId}` },
-              { label: language === "ar" ? "خطوات إجراء التحكم" : "Control Steps", href: `/simple/personal-protect/${categoryId}/${subCategoryId}/${controlId}` },
-              { label: language === "ar" ? "الخطوة" : "Step" }
-            ]} 
-          />
+          <Breadcrumbs items={breadcrumbItems} isLoading={breadcrumbLoading} />
 
           <div className="max-w-4xl mx-auto text-center py-16">
             <div className="w-24 h-24 bg-gradient-to-br from-red-100 to-red-200 dark:from-red-900/30 dark:to-red-800/30 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -217,16 +181,8 @@ export default function PersonalProtectControlStepPage({ params }: PersonalProte
       </div>
 
       <div className="relative z-10 container mx-auto px-4 pt-24 pb-8">
-        {/* Breadcrumbs */}
-        <Breadcrumbs 
-          items={[
-            { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/simple/personal-protect" },
-            { label: categoryName || (language === "ar" ? "الفئات الفرعية" : "Sub Categories"), href: `/simple/personal-protect/${categoryId}` },
-            { label: subCategoryName || (language === "ar" ? "الضوابط" : "Controls"), href: `/simple/personal-protect/${categoryId}/${subCategoryId}` },
-            { label: controlName || (language === "ar" ? "خطوات إجراء التحكم" : "Control Steps"), href: `/simple/personal-protect/${categoryId}/${subCategoryId}/${controlId}` },
-            { label: stepName }
-          ]} 
-        />
+        {/* Dynamic Breadcrumbs */}
+        <Breadcrumbs items={breadcrumbItems} isLoading={breadcrumbLoading} />
 
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -350,12 +306,14 @@ export default function PersonalProtectControlStepPage({ params }: PersonalProte
                     </div>
 
                     {/* Share Button */}
-                    <button
-                      onClick={handleShare}
-                      className="bg-gradient-to-r from-green-500 to-emerald-600 p-3 rounded-xl hover:from-green-600 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl"
-                    >
-                      <Share2 className="h-6 w-6 text-white" />
-                    </button>
+                    <ShareButton
+                      title={step?.name || 'Personal Protect Control Step'}
+                      url={typeof window !== 'undefined' ? window.location.href : ''}
+                      text={language === "ar" ? `خطوة حماية شخصية: ${step?.name}` : `Personal Protect Step: ${step?.name}`}
+                      variant="default"
+                      size="sm"
+                      className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
+                    />
                   </div>
 
                   {/* Step Summary */}

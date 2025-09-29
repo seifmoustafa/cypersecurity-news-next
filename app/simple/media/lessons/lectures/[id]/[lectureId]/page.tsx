@@ -5,8 +5,10 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useLanguage } from "@/components/language-provider"
 import { GraduationCap, ArrowRight, ArrowLeft, Star, BookOpen, Search, FileText, Clock, Calendar, Download, ArrowUpLeft, Tag, Share2, TrendingUp } from "lucide-react"
+import { ShareButton } from "@/components/ui/share-button"
 import Breadcrumbs from "@/components/breadcrumbs"
 import { container } from "@/core/di/container"
+import { useLectureBreadcrumbs } from "@/hooks/use-breadcrumbs"
 import type { ApiLecture } from "@/core/domain/models/media"
 
 interface LectureDetailPageProps {
@@ -27,6 +29,9 @@ export default function LectureDetailPage({ params }: LectureDetailPageProps) {
 
   // Unwrap the params Promise
   const resolvedParams = use(params)
+  
+  // Get breadcrumbs with dynamic data
+  const { items: breadcrumbItems, isLoading: breadcrumbLoading } = useLectureBreadcrumbs(resolvedParams.id, resolvedParams.lectureId)
 
   useEffect(() => {
     const fetchLecture = async () => {
@@ -54,12 +59,8 @@ export default function LectureDetailPage({ params }: LectureDetailPageProps) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
         <div className="container mx-auto px-4 py-8">
-          {/* Breadcrumbs Skeleton */}
-          <div className="flex items-center space-x-2 rtl:space-x-reverse mb-8">
-            <div className="h-4 w-16 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
-            <div className="h-4 w-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
-            <div className="h-4 w-20 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
-          </div>
+          {/* Dynamic Breadcrumbs with Loading */}
+          <Breadcrumbs items={breadcrumbItems} isLoading={breadcrumbLoading} />
 
           {/* Content Skeleton */}
           <div className="max-w-6xl mx-auto">
@@ -106,16 +107,8 @@ export default function LectureDetailPage({ params }: LectureDetailPageProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
       <div className="container mx-auto px-4 py-8">
-        {/* Breadcrumbs */}
-        <Breadcrumbs 
-          items={[
-            { label: language === "ar" ? "المكتبة الثقافية" : "Media Library", href: "/simple/media" },
-            { label: language === "ar" ? "دروس تعليمية" : "Educational Lessons", href: "/simple/media/lessons" },
-            { label: language === "ar" ? "فئات المحاضرات" : "Lecture Categories", href: "/simple/media/lessons/lectures" },
-            { label: language === "ar" ? "فئة المحاضرات" : "Lecture Category", href: `/simple/media/lessons/lectures/${resolvedParams.id}` },
-            { label: lectureName || (language === "ar" ? "جاري التحميل..." : "Loading...") }
-          ]} 
-        />
+        {/* Dynamic Breadcrumbs */}
+        <Breadcrumbs items={breadcrumbItems} isLoading={breadcrumbLoading} />
 
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -253,13 +246,14 @@ export default function LectureDetailPage({ params }: LectureDetailPageProps) {
                     </div>
                   </div>
                   
-                  <button 
-                    onClick={() => navigator.share?.({ title: displayTitle, url: window.location.href })}
-                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
+                  <ShareButton
+                    title={displayTitle}
+                    url={typeof window !== 'undefined' ? window.location.href : ''}
+                    text={language === "ar" ? `محاضرة: ${displayTitle}` : `Lecture: ${displayTitle}`}
+                    className="font-medium"
                   >
-                    <Share2 className="h-5 w-5" />
-                    <span>{language === "ar" ? "مشاركة" : "Share"}</span>
-                  </button>
+                    {language === "ar" ? "مشاركة" : "Share"}
+                  </ShareButton>
                 </div>
               </div>
             </div>
