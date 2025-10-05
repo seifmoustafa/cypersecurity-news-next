@@ -153,7 +153,7 @@ export default function SimpleHeader({
       <div className="relative z-10 container mx-auto px-4 max-w-full 2xl:max-w-[1600px]">
         <div className="h-20 flex items-center justify-between">
           {/* Cybersecurity Logo */}
-          <div className="flex items-center group ml-2">
+          <div className="flex items-center group ml-1">
             <Link
               href="/simple"
               className="flex items-center space-x-3 rtl:space-x-reverse group-hover:scale-105 transition-all duration-500"
@@ -172,7 +172,6 @@ export default function SimpleHeader({
                   <span className="hidden sm:inline">
                     {t("beginners.title")}
                   </span>
-                  <span className="sm:hidden">CyberSec</span>
                 </span>
               </div>
             </Link>
