@@ -49,10 +49,12 @@ export default function BeginnersHome() {
   // Fetch definition categories
   const { categories: definitionCategories, loading: definitionsLoading } =
     useDefinitionCategories(1, 3);
-  
+
   // Fetch personal protect categories
-  const { categories: personalProtectCategories, loading: personalProtectLoading } =
-    usePersonalProtectCategories("", 1, 2);
+  const {
+    categories: personalProtectCategories,
+    loading: personalProtectLoading,
+  } = usePersonalProtectCategories("", 1, 2);
 
   useEffect(() => {
     router.prefetch("/simple/videos");
@@ -61,6 +63,91 @@ export default function BeginnersHome() {
   }, [router]);
 
   const mainCards = [
+    {
+      id: "media",
+      title: t("beginners.cards.media.title"),
+      description: t("beginners.cards.media.description"),
+      icon: Video,
+      color: "from-teal-500 to-blue-600",
+      bgColor:
+        "bg-gradient-to-br from-teal-50/80 to-blue-50/60 dark:from-teal-900/30 dark:to-blue-900/20",
+      borderColor: "border-teal-300/60 dark:border-teal-600/40",
+      href: "/simple/media",
+      items: [
+        {
+          title: language === "ar" ? "دروس تعليمية" : "Educational Lessons",
+          href: "/simple/media/lessons",
+          icon: GraduationCap,
+          count: "",
+        },
+        {
+          title: language === "ar" ? "مقالات" : "Articles",
+          href: "/simple/media/articles",
+          icon: FileText,
+          count: "",
+        },
+        {
+          title: language === "ar" ? "مراجع" : "References",
+          href: "/simple/media/references",
+          icon: BookOpen,
+          count: "",
+        },
+      ],
+    },
+    {
+      id: "personal-protect",
+      title: t("beginners.cards.personalProtect.title"),
+      description: t("beginners.cards.personalProtect.description"),
+      icon: ShieldCheck,
+      color: "from-cyan-500 to-blue-600",
+      bgColor:
+        "bg-gradient-to-br from-cyan-50/80 to-blue-50/60 dark:from-cyan-900/30 dark:to-blue-900/20",
+      borderColor: "border-cyan-300/60 dark:border-cyan-600/40",
+      href: "/simple/personal-protect",
+      items: [
+        {
+          title: t("beginners.cards.personalProtect.tips"),
+          href: "/simple/personal-protect",
+          icon: ShieldCheck,
+          count: "",
+        },
+        {
+          title: t("beginners.cards.personalProtect.tools"),
+          href: "/simple/personal-protect/tools",
+          icon: Settings,
+          count: "",
+        },
+      ],
+    },
+    {
+      id: "awareness",
+      title: language === "ar" ? "التوعية" : "Awareness",
+      description:
+        language === "ar"
+          ? "الأخبار نشرات التوعية المبسطة"
+          : "News and awareness bulletins",
+      icon: Lightbulb,
+      color: "from-sky-400 to-blue-500",
+      bgColor:
+        "bg-gradient-to-br from-sky-50/80 to-blue-50/60 dark:from-sky-900/30 dark:to-blue-900/20",
+      borderColor: "border-sky-300/60 dark:border-sky-600/40",
+      href: "/simple/awareness",
+      items: [
+        {
+          title: language === "ar" ? "الأخبار" : "News",
+          href: "/simple/news-categories",
+          icon: Newspaper,
+          count: "",
+        },
+        {
+          title: language === "ar" ? "نشرات التوعية" : "Awareness",
+          href: "/simple/awareness-years",
+          icon: Lightbulb,
+          count: "",
+        },
+      ],
+    },
+
     {
       id: "definitions",
       title: t("beginners.cards.definitions.title"),
@@ -95,90 +182,6 @@ export default function BeginnersHome() {
             imageUrl: null,
           },
         ]),
-    },
-    {
-      id: "awareness",
-      title: language === "ar" ? "التوعية" : "Awareness",
-      description:
-        language === "ar"
-          ? "الأخبار نشرات التوعية المبسطة"
-          : "News and awareness bulletins",
-      icon: Lightbulb,
-      color: "from-sky-400 to-blue-500",
-      bgColor:
-        "bg-gradient-to-br from-sky-50/80 to-blue-50/60 dark:from-sky-900/30 dark:to-blue-900/20",
-      borderColor: "border-sky-300/60 dark:border-sky-600/40",
-      href: "/simple/awareness",
-      items: [
-        {
-          title: language === "ar" ? "الأخبار" : "News",
-          href: "/simple/news-categories",
-          icon: Newspaper,
-          count: "",
-        },
-        {
-          title: language === "ar" ? "نشرات التوعية" : "Awareness",
-          href: "/simple/awareness-years",
-          icon: Lightbulb,
-          count: "",
-        },
-      ],
-    },
-    {
-      id: "personal-protect",
-      title: t("beginners.cards.personalProtect.title"),
-      description: t("beginners.cards.personalProtect.description"),
-      icon: ShieldCheck,
-      color: "from-cyan-500 to-blue-600",
-      bgColor:
-        "bg-gradient-to-br from-cyan-50/80 to-blue-50/60 dark:from-cyan-900/30 dark:to-blue-900/20",
-      borderColor: "border-cyan-300/60 dark:border-cyan-600/40",
-      href: "/simple/personal-protect",
-      items: [
-        {
-          title: t("beginners.cards.personalProtect.tips"),
-          href: "/simple/personal-protect",
-          icon: ShieldCheck,
-          count: "",
-        },
-        {
-          title: t("beginners.cards.personalProtect.tools"),
-          href: "/simple/personal-protect/tools",
-          icon: Settings,
-          count: "",
-        },
-      ],
-    },
-    {
-      id: "media",
-      title: t("beginners.cards.media.title"),
-      description: t("beginners.cards.media.description"),
-      icon: Video,
-      color: "from-teal-500 to-blue-600",
-      bgColor:
-        "bg-gradient-to-br from-teal-50/80 to-blue-50/60 dark:from-teal-900/30 dark:to-blue-900/20",
-      borderColor: "border-teal-300/60 dark:border-teal-600/40",
-      href: "/simple/media",
-      items: [
-        {
-          title: language === "ar" ? "دروس تعليمية" : "Educational Lessons",
-          href: "/simple/media/lessons",
-          icon: GraduationCap,
-          count: "",
-        },
-        {
-          title: language === "ar" ? "مقالات" : "Articles",
-          href: "/simple/media/articles",
-          icon: FileText,
-          count: "",
-        },
-        {
-          title: language === "ar" ? "مراجع" : "References",
-          href: "/simple/media/references",
-          icon: BookOpen,
-          count: "",
-        },
-      ],
     },
 
     // {
@@ -539,7 +542,10 @@ export default function BeginnersHome() {
                               // Loading state
                               <>
                                 {[...Array(2)].map((_, index) => (
-                                  <div key={index} className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 rounded-lg border border-white/20 dark:border-white/10 animate-pulse">
+                                  <div
+                                    key={index}
+                                    className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 rounded-lg border border-white/20 dark:border-white/10 animate-pulse"
+                                  >
                                     <div className="flex-1 min-w-0">
                                       <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-2"></div>
                                       <div className="h-3 bg-gray-300 dark:bg-gray-700 rounded w-1/2"></div>
@@ -550,31 +556,34 @@ export default function BeginnersHome() {
                               </>
                             ) : personalProtectCategories.length > 0 ? (
                               // Show actual categories
-                              personalProtectCategories.slice(0, 2).map((category, categoryIndex) => (
-                                <Link
-                                  key={category.id}
-                                  href={`/simple/personal-protect/${category.id}`}
-                                  onClick={(e) => e.stopPropagation()}
-                                  className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
-                                >
-                                  <div className="flex-1 min-w-0">
-                                    <span className="text-gray-700 dark:text-white text-sm font-medium group-hover/item:text-amber-700 dark:group-hover/item:text-amber-400 transition-colors duration-300 line-clamp-1">
-                                      {language === "ar" ? category.name : category.nameEn || category.name}
-                                    </span>
-                                  </div>
-                                  <div className="flex items-center">
-                                    {isRtl ? (
-                                      <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-amber-600 dark:group-hover/item:text-amber-400 transition-colors duration-300" />
-                                    ) : (
-                                      <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-amber-600 dark:group-hover/item:text-amber-400 transition-colors duration-300" />
-                                    )}
-                                  </div>
-                                </Link>
-                              ))
+                              personalProtectCategories
+                                .slice(0, 2)
+                                .map((category, categoryIndex) => (
+                                  <Link
+                                    key={category.id}
+                                    href={`/simple/personal-protect/${category.id}`}
+                                    onClick={(e) => e.stopPropagation()}
+                                    className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
+                                  >
+                                    <div className="flex-1 min-w-0">
+                                      <span className="text-gray-700 dark:text-white text-sm font-medium group-hover/item:text-amber-700 dark:group-hover/item:text-amber-400 transition-colors duration-300 line-clamp-1">
+                                        {language === "ar"
+                                          ? category.name
+                                          : category.nameEn || category.name}
+                                      </span>
+                                    </div>
+                                    <div className="flex items-center">
+                                      {isRtl ? (
+                                        <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-amber-600 dark:group-hover/item:text-amber-400 transition-colors duration-300" />
+                                      ) : (
+                                        <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-amber-600 dark:group-hover/item:text-amber-400 transition-colors duration-300" />
+                                      )}
+                                    </div>
+                                  </Link>
+                                ))
                             ) : (
                               // Empty state - show placeholder items
-                              <>
-                              </>
+                              <></>
                             )}
                             <Link
                               href="/simple/personal-protect"
@@ -582,7 +591,9 @@ export default function BeginnersHome() {
                               className="flex items-center justify-between p-3 bg-amber-500/20 dark:bg-amber-500/10 hover:bg-amber-500/30 dark:hover:bg-amber-500/20 rounded-lg transition-all duration-300 group/item border border-amber-500/30 dark:border-amber-500/20 hover:border-amber-500/50 dark:hover:border-amber-500/30"
                             >
                               <span className="text-amber-700 dark:text-amber-400 text-sm font-medium group-hover/item:text-amber-800 dark:group-hover/item:text-amber-300 transition-colors duration-300">
-                                {language === "ar" ? "عرض المزيد من الفئات" : "View More"}
+                                {language === "ar"
+                                  ? "عرض المزيد من الفئات"
+                                  : "View More"}
                               </span>
                               <div className="flex items-center">
                                 {isRtl ? (

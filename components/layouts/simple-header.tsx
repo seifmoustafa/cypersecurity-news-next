@@ -1,21 +1,21 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState, useEffect } from "react"
-import { 
-  MoonIcon, 
-  SunIcon, 
-  MenuIcon, 
-  XIcon, 
-  Globe, 
-  Shield, 
-  LightbulbIcon, 
-  Search, 
+import type React from "react";
+import { useState, useEffect } from "react";
+import {
+  MoonIcon,
+  SunIcon,
+  MenuIcon,
+  XIcon,
+  Globe,
+  Shield,
+  LightbulbIcon,
+  Search,
   Home,
   Video,
   BookOpen,
   ShieldCheck,
-  ToggleLeft, 
+  ToggleLeft,
   ToggleRight,
   Lock,
   Eye,
@@ -23,102 +23,125 @@ import {
   Zap,
   Target,
   LockIcon,
-  Lightbulb
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { useTheme } from "next-themes"
-import { useLanguage } from "@/components/language-provider"
-import { cn } from "@/lib/utils"
-import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { useDebounce } from "@/hooks/use-debounce"
+  Lightbulb,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useTheme } from "next-themes";
+import { useLanguage } from "@/components/language-provider";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useDebounce } from "@/hooks/use-debounce";
 
 interface BeginnersHeaderProps {
-  onToggleTheme: () => void
-  onToggleLanguage: () => void
+  onToggleTheme: () => void;
+  onToggleLanguage: () => void;
 }
 
-export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: BeginnersHeaderProps) {
-  const { theme, setTheme } = useTheme()
-  const { language, t, isRtl } = useLanguage()
-  const [mounted, setMounted] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [searchOpen, setSearchOpen] = useState(false)
-  const [isBeginnersMode, setIsBeginnersMode] = useState(true)
-  const [tipsDisabled, setTipsDisabled] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("")
+export default function SimpleHeader({
+  onToggleTheme,
+  onToggleLanguage,
+}: BeginnersHeaderProps) {
+  const { theme, setTheme } = useTheme();
+  const { language, t, isRtl } = useLanguage();
+  const [mounted, setMounted] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [isBeginnersMode, setIsBeginnersMode] = useState(true);
+  const [tipsDisabled, setTipsDisabled] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const pathname = usePathname()
-  const router = useRouter()
-  const debouncedSearchQuery = useDebounce(searchQuery, 500)
+  const pathname = usePathname();
+  const router = useRouter();
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   // Check if we're in beginners mode from localStorage and tips status
   useEffect(() => {
-    const beginnersMode = localStorage.getItem("beginnersMode") !== "false"
-    const disabled = localStorage.getItem("tipOfTheDayDisabled") === "true"
-    setIsBeginnersMode(beginnersMode)
-    setTipsDisabled(disabled)
-    setMounted(true)
-  }, [])
+    const beginnersMode = localStorage.getItem("beginnersMode") !== "false";
+    const disabled = localStorage.getItem("tipOfTheDayDisabled") === "true";
+    setIsBeginnersMode(beginnersMode);
+    setTipsDisabled(disabled);
+    setMounted(true);
+  }, []);
 
   // Handle debounced search
   useEffect(() => {
     if (debouncedSearchQuery.trim() && searchOpen) {
-      router.push(`/simple/search?q=${encodeURIComponent(debouncedSearchQuery)}`)
-      setSearchOpen(false)
+      router.push(
+        `/simple/search?q=${encodeURIComponent(debouncedSearchQuery)}`
+      );
+      setSearchOpen(false);
     }
-  }, [debouncedSearchQuery, router, searchOpen])
+  }, [debouncedSearchQuery, router, searchOpen]);
 
   // Navigation items for beginners mode - matching the order of main page cards
   const beginnersNavItems = [
     { key: "beginners.navigation.home", href: "/simple", icon: Home },
-    { key: "beginners.cards.definitions.title", href: "/simple/definitions-categories", icon: BookOpen },
-    { key: "beginners.cards.awareness.title", href: "/simple/awareness", icon: Lightbulb },
-    { key: "beginners.cards.personalProtect.title", href: "/simple/personal-protect", icon: ShieldCheck },
+
     { key: "beginners.cards.media.title", href: "/simple/media", icon: Video },
-  ]
+    {
+      key: "beginners.cards.personalProtect.title",
+      href: "/simple/personal-protect",
+      icon: ShieldCheck,
+    },
+    {
+      key: "beginners.cards.awareness.title",
+      href: "/simple/awareness",
+      icon: Lightbulb,
+    },
+    {
+      key: "beginners.cards.definitions.title",
+      href: "/simple/definitions-categories",
+      icon: BookOpen,
+    },
+  ];
 
-  if (!mounted) return null
+  if (!mounted) return null;
 
-  const isDarkMode = theme === "dark"
+  const isDarkMode = theme === "dark";
 
   const handleThemeToggle = () => {
-    setTheme(theme === "dark" ? "light" : "dark")
-    onToggleTheme()
-  }
+    setTheme(theme === "dark" ? "light" : "dark");
+    onToggleTheme();
+  };
 
   const handleLanguageToggle = () => {
-    onToggleLanguage()
-  }
+    onToggleLanguage();
+  };
 
   const handleLayoutSwitch = () => {
-    const newMode = !isBeginnersMode
-    setIsBeginnersMode(newMode)
-    localStorage.setItem("beginnersMode", newMode.toString())
-    
+    const newMode = !isBeginnersMode;
+    setIsBeginnersMode(newMode);
+    localStorage.setItem("beginnersMode", newMode.toString());
+
     // If switching to advanced mode, redirect to main layout
     if (!newMode) {
-      window.location.href = "/advanced"
+      window.location.href = "/advanced";
     }
-  }
+  };
 
   const toggleTips = () => {
-    const newState = !tipsDisabled
-    localStorage.setItem("tipOfTheDayDisabled", newState.toString())
-    setTipsDisabled(newState)
-  }
+    const newState = !tipsDisabled;
+    localStorage.setItem("tipOfTheDayDisabled", newState.toString());
+    setTipsDisabled(newState);
+  };
 
   const handleSearchToggle = () => {
-    setSearchOpen(!searchOpen)
-    setMobileMenuOpen(false)
-  }
+    setSearchOpen(!searchOpen);
+    setMobileMenuOpen(false);
+  };
 
   const handleNavigation = (e: React.MouseEvent, href: string) => {
-    e.preventDefault()
-    setMobileMenuOpen(false)
-    router.push(href)
-  }
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    router.push(href);
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-gray-100 via-white to-gray-100 dark:from-slate-900 dark:via-gray-900 dark:to-slate-800 backdrop-blur-xl border-b border-gray-200 dark:border-slate-700/50 shadow-2xl shadow-gray-900/10 dark:shadow-slate-900/20">
@@ -137,18 +160,20 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
               href="/simple"
               className="flex items-center space-x-3 rtl:space-x-reverse group-hover:scale-105 transition-all duration-500"
               onClick={(e) => {
-                e.preventDefault()
-                router.push("/simple")
+                e.preventDefault();
+                router.push("/simple");
               }}
             >
-              <img 
-                src="/assets/app-icon" 
-                alt="Cybersecurity Portal" 
+              <img
+                src="/assets/app-icon"
+                alt="Cybersecurity Portal"
                 className="h-12 w-12 object-contain group-hover:scale-110 transition-all duration-500"
               />
               <div className="flex flex-col">
                 <span className="text-xl font-bold text-gray-800 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-300 transition-all duration-500 drop-shadow-lg">
-                  <span className="hidden sm:inline">{t("beginners.title")}</span>
+                  <span className="hidden sm:inline">
+                    {t("beginners.title")}
+                  </span>
                   <span className="sm:hidden">CyberSec</span>
                 </span>
               </div>
@@ -158,8 +183,8 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-2 rtl:space-x-reverse">
             {beginnersNavItems.map((item) => {
-              const IconComponent = item.icon
-              const isActive = pathname === item.href
+              const IconComponent = item.icon;
+              const isActive = pathname === item.href;
               return (
                 <Button
                   key={item.key}
@@ -167,8 +192,8 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
                   size="sm"
                   className={cn(
                     "flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg",
-                    isActive 
-                      ? "bg-green-500/20 text-green-600 dark:text-green-300 shadow-lg backdrop-blur-sm border border-green-500/30" 
+                    isActive
+                      ? "bg-green-500/20 text-green-600 dark:text-green-300 shadow-lg backdrop-blur-sm border border-green-500/30"
                       : "text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
                   )}
                   onClick={(e) => handleNavigation(e, item.href)}
@@ -176,7 +201,7 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
                   <IconComponent className="h-4 w-4" />
                   {t(item.key)}
                 </Button>
-              )
+              );
             })}
           </nav>
 
@@ -190,7 +215,11 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
                     variant="ghost"
                     size="icon"
                     onClick={handleLayoutSwitch}
-                    title={isBeginnersMode ? t("nav.advancedMode") : t("nav.beginnersMode")}
+                    title={
+                      isBeginnersMode
+                        ? t("nav.advancedMode")
+                        : t("nav.beginnersMode")
+                    }
                     className="hover:bg-gray-100 dark:hover:bg-slate-800/50 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
                   >
                     {isBeginnersMode ? (
@@ -198,11 +227,19 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
                     ) : (
                       <ToggleLeft className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-gray-600 dark:text-slate-300 group-hover:text-green-600 dark:group-hover:text-green-300" />
                     )}
-                    <span className="sr-only">{isBeginnersMode ? t("nav.advancedMode") : t("nav.beginnersMode")}</span>
+                    <span className="sr-only">
+                      {isBeginnersMode
+                        ? t("nav.advancedMode")
+                        : t("nav.beginnersMode")}
+                    </span>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{isBeginnersMode ? t("nav.advancedMode") : t("nav.beginnersMode")}</p>
+                  <p>
+                    {isBeginnersMode
+                      ? t("nav.advancedMode")
+                      : t("nav.beginnersMode")}
+                  </p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -220,10 +257,14 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
                   >
                     <LightbulbIcon
                       className={`h-5 w-5 group-hover:scale-110 transition-all duration-300 ${
-                        tipsDisabled ? "opacity-50 text-gray-400 dark:text-slate-400" : "text-yellow-500 dark:text-yellow-400"
+                        tipsDisabled
+                          ? "opacity-50 text-gray-400 dark:text-slate-400"
+                          : "text-yellow-500 dark:text-yellow-400"
                       }`}
                     />
-                    <span className="sr-only">{tipsDisabled ? t("tips.enable") : t("tips.disable")}</span>
+                    <span className="sr-only">
+                      {tipsDisabled ? t("tips.enable") : t("tips.disable")}
+                    </span>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -282,7 +323,9 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
                     variant="ghost"
                     size="icon"
                     onClick={handleThemeToggle}
-                    title={isDarkMode ? t("common.lightMode") : t("common.darkMode")}
+                    title={
+                      isDarkMode ? t("common.lightMode") : t("common.darkMode")
+                    }
                     className="hover:bg-gray-100 dark:hover:bg-slate-800/50 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
                   >
                     {isDarkMode ? (
@@ -290,11 +333,17 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
                     ) : (
                       <MoonIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-gray-600 dark:text-slate-300 group-hover:text-blue-500 dark:group-hover:text-blue-400" />
                     )}
-                    <span className="sr-only">{isDarkMode ? t("common.lightMode") : t("common.darkMode")}</span>
+                    <span className="sr-only">
+                      {isDarkMode
+                        ? t("common.lightMode")
+                        : t("common.darkMode")}
+                    </span>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{isDarkMode ? t("common.lightMode") : t("common.darkMode")}</p>
+                  <p>
+                    {isDarkMode ? t("common.lightMode") : t("common.darkMode")}
+                  </p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -352,16 +401,18 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
                 className="flex-1 bg-transparent border-none outline-none text-lg placeholder:text-gray-500 dark:placeholder:text-slate-400 text-gray-800 dark:text-white focus:text-gray-900 dark:focus:text-white transition-colors duration-300"
                 autoFocus
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    const query = e.currentTarget.value.trim()
+                  if (e.key === "Enter") {
+                    const query = e.currentTarget.value.trim();
                     if (query) {
-                      router.push(`/simple/search?q=${encodeURIComponent(query)}`)
-                      setSearchOpen(false)
-                      setSearchQuery("")
+                      router.push(
+                        `/simple/search?q=${encodeURIComponent(query)}`
+                      );
+                      setSearchOpen(false);
+                      setSearchQuery("");
                     }
-                  } else if (e.key === 'Escape') {
-                    setSearchOpen(false)
-                    setSearchQuery("")
+                  } else if (e.key === "Escape") {
+                    setSearchOpen(false);
+                    setSearchQuery("");
                   }
                 }}
               />
@@ -369,8 +420,8 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
                 variant="ghost"
                 size="sm"
                 onClick={() => {
-                  setSearchOpen(false)
-                  setSearchQuery("")
+                  setSearchOpen(false);
+                  setSearchQuery("");
                 }}
                 className="text-gray-500 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-slate-700/50 transition-all duration-300"
               >
@@ -397,7 +448,9 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
                   ) : (
                     <ToggleLeft className="h-4 w-4 text-gray-600 dark:text-slate-300 group-hover:text-green-600 dark:group-hover:text-green-300 group-hover:scale-110 transition-all duration-300" />
                   )}
-                  {isBeginnersMode ? t("nav.advancedMode") : t("nav.beginnersMode")}
+                  {isBeginnersMode
+                    ? t("nav.advancedMode")
+                    : t("nav.beginnersMode")}
                 </button>
               </div>
 
@@ -407,7 +460,13 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
                   className="flex items-center gap-3 px-4 py-3 text-sm rounded-xl transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-md text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white w-full text-left group"
                   onClick={toggleTips}
                 >
-                  <LightbulbIcon className={`h-4 w-4 group-hover:scale-110 transition-transform duration-300 ${tipsDisabled ? "opacity-50 text-gray-400 dark:text-slate-400" : "text-yellow-500 dark:text-yellow-400"}`} />
+                  <LightbulbIcon
+                    className={`h-4 w-4 group-hover:scale-110 transition-transform duration-300 ${
+                      tipsDisabled
+                        ? "opacity-50 text-gray-400 dark:text-slate-400"
+                        : "text-yellow-500 dark:text-yellow-400"
+                    }`}
+                  />
                   {tipsDisabled ? t("tips.enable") : t("tips.disable")}
                 </button>
               </div>
@@ -416,14 +475,16 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
               <div className="py-2">
                 <div className="space-y-2">
                   {beginnersNavItems.map((item, index) => {
-                    const IconComponent = item.icon
-                    const isActive = pathname === item.href
+                    const IconComponent = item.icon;
+                    const isActive = pathname === item.href;
                     return (
                       <button
                         key={item.key}
                         className={cn(
                           "flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group",
-                          isActive ? "bg-green-500/20 text-green-600 dark:text-green-300 border border-green-500/30" : "text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white"
+                          isActive
+                            ? "bg-green-500/20 text-green-600 dark:text-green-300 border border-green-500/30"
+                            : "text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white"
                         )}
                         onClick={(e) => handleNavigation(e, item.href)}
                         style={{ animationDelay: `${index * 50}ms` }}
@@ -431,7 +492,7 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
                         <IconComponent className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
                         <span>{t(item.key)}</span>
                       </button>
-                    )
+                    );
                   })}
                 </div>
               </div>
@@ -440,5 +501,5 @@ export default function SimpleHeader({ onToggleTheme, onToggleLanguage }: Beginn
         </div>
       )}
     </header>
-  )
+  );
 }
