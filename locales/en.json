@@ -79,6 +79,12 @@
       }
     },
     "cards": {
+      "awareness": {
+        "title": "Awareness",
+        "description": "Awareness resources and tools to help you stay safe online",
+        "news": "News",
+        "awareness": "Awareness"
+      },
       "media": {
         "title": "Media",
         "description": "Comprehensive library of educational videos, lectures, and presentations",
@@ -115,7 +121,8 @@
       "definitions": "Definitions", 
       "personalProtect": "Personal Protection",
       "search": "Search",
-      "sitemap": "Site Map"
+      "sitemap": "Site Map",
+      "beginnersInterface": "Beginners Interface"
     },
     "footer": {
       "title": "Cybersecurity Portal for Beginners",
