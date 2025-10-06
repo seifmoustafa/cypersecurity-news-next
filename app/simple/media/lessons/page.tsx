@@ -19,9 +19,9 @@ export default function EducationalLessonsPage() {
   const isRtl = language === "ar"
 
   // Fetch categories for each type
-  const { categories: videoCategories } = useVideoCategories(1, 2)
-  const { categories: lectureCategories } = useLectureCategories(1, 2)
-  const { categories: presentationCategories } = usePresentationCategories(1, 2)
+  const { categories: videoCategories } = useVideoCategories(1, 100)
+  const { categories: lectureCategories } = useLectureCategories(1, 100)
+  const { categories: presentationCategories } = usePresentationCategories(1, 100)
 
   const lessonCategories = [
     {

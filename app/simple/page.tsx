@@ -48,13 +48,13 @@ export default function BeginnersHome() {
 
   // Fetch definition categories
   const { categories: definitionCategories, loading: definitionsLoading } =
-    useDefinitionCategories(1, 3);
+    useDefinitionCategories(1, 100);
 
   // Fetch personal protect categories
   const {
     categories: personalProtectCategories,
     loading: personalProtectLoading,
-  } = usePersonalProtectCategories("", 1, 2);
+  } = usePersonalProtectCategories("", 1, 100);
 
   useEffect(() => {
     router.prefetch("/simple/videos");

@@ -29,9 +29,9 @@ export default function SimpleAwarenessPage() {
 
   // Fetch news categories and current year awareness
   const { categories: newsCategories, loading: categoriesLoading } =
-    useNewsCategories(1, 3);
+    useNewsCategories(1, 100);
   const { awareness: currentYearAwareness, loading: awarenessLoading } =
-    useCurrentYearAwareness("", 1, 3);
+    useCurrentYearAwareness("", 1, 100);
 
   // Debug logging
   console.log("Current year awareness:", currentYearAwareness);

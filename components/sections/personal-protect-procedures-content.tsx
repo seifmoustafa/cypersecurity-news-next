@@ -45,7 +45,7 @@ export default function PersonalProtectProceduresContent() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
   
   // Fetch categories
-  const { categories, loading: categoriesLoading, error: categoriesError, refetch: refetchCategories } = usePersonalProtectCategories("", 1, 10)
+  const { categories, loading: categoriesLoading, error: categoriesError, refetch: refetchCategories } = usePersonalProtectCategories("", 1, 100)
 
   // Fetch sub-categories for active category
   const { 
@@ -53,7 +53,7 @@ export default function PersonalProtectProceduresContent() {
     loading: subCategoriesLoading, 
     error: subCategoriesError,
     refetch: refetchSubCategories
-  } = usePersonalProtectSubCategories(activeCategory || "", 1, 3) // Only fetch first 3
+  } = usePersonalProtectSubCategories(activeCategory || "", 1, 100)
 
   // Set first category as active when data loads
   useEffect(() => {

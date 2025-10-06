@@ -30,7 +30,7 @@ export default function AwarenessSection() {
   const { articles, loading: articlesLoading } = useLatestArticles(3)
 
   // Fetch categories from API
-  const { categories, loading: categoriesLoading } = useNewsCategories()
+  const { categories, loading: categoriesLoading } = useNewsCategories(1, 100)
 
   useEffect(() => {
     const fetchAwarenessData = async () => {
@@ -414,7 +414,7 @@ function ArticleCard({ item, index }: ArticleCardProps) {
 
 function CurrentYearAwarenessContent() {
   const { language, isRtl } = useLanguage()
-  const { data, loading, error } = useCurrentYearAwareness("", 1, 3) // Only get first 3 items
+  const { data, loading, error } = useCurrentYearAwareness("", 1, 100)
 
   const getDisplayTitle = (item: any) => {
     return language === "ar" ? item.title || item.titleEn || "" : item.titleEn || item.title || ""
