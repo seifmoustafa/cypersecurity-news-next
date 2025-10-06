@@ -202,6 +202,163 @@ export default function SimpleHeader({
             })}
           </nav>
 
+          {/*
+            Old design reference: icon-only action buttons with tooltips
+            ------------------------------------------------------------------
+            To restore this version, replace the current "Action Buttons"
+            block below with the following and re-add the tooltip imports:
+              import {
+                Tooltip,
+                TooltipContent,
+                TooltipProvider,
+                TooltipTrigger,
+              } from "@/components/ui/tooltip";
+
+            <div className="flex items-center gap-2">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={handleLayoutSwitch}
+                      title={
+                        isBeginnersMode ? t("nav.advancedMode") : t("nav.beginnersMode")
+                      }
+                      className="hover:bg-gray-100 dark:hover:bg-slate-800/50 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
+                    >
+                      {isBeginnersMode ? (
+                        <ToggleRight className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-gray-600 dark:text-slate-300 group-hover:text-green-600 dark:group-hover:text-green-300" />
+                      ) : (
+                        <ToggleLeft className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-gray-600 dark:text-slate-300 group-hover:text-green-600 dark:group-hover:text-green-300" />
+                      )}
+                      <span className="sr-only">
+                        {isBeginnersMode ? t("nav.advancedMode") : t("nav.beginnersMode")}
+                      </span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{isBeginnersMode ? t("nav.advancedMode") : t("nav.beginnersMode")}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={toggleTips}
+                      title={tipsDisabled ? t("tips.enable") : t("tips.disable")}
+                      className="hover:bg-gray-100 dark:hover:bg-slate-800/50 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
+                    >
+                      <LightbulbIcon
+                        className={`h-5 w-5 group-hover:scale-110 transition-all duration-300 ${
+                          tipsDisabled
+                            ? "opacity-50 text-gray-400 dark:text-slate-400"
+                            : "text-yellow-500 dark:text-yellow-400"
+                        }`}
+                      />
+                      <span className="sr-only">
+                        {tipsDisabled ? t("tips.enable") : t("tips.disable")}
+                      </span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{tipsDisabled ? t("tips.enable") : t("tips.disable")}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={handleSearchToggle}
+                      title={t("common.search")}
+                      className="hover:bg-gray-100 dark:hover:bg-slate-800/50 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
+                    >
+                      <Search className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-gray-600 dark:text-slate-300 group-hover:text-green-600 dark:group-hover:text-green-300" />
+                      <span className="sr-only">{t("common.search")}</span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{t("common.search")}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={handleLanguageToggle}
+                      title={t("common.language")}
+                      className="hover:bg-gray-100 dark:hover:bg-slate-800/50 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
+                    >
+                      <Globe className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-gray-600 dark:text-slate-300 group-hover:text-green-600 dark:group-hover:text-green-300" />
+                      <span className="sr-only">{t("common.language")}</span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{t("common.language")}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={handleThemeToggle}
+                      title={isDarkMode ? t("common.lightMode") : t("common.darkMode")}
+                      className="hover:bg-gray-100 dark:hover:bg-slate-800/50 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
+                    >
+                      {isDarkMode ? (
+                        <SunIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-gray-600 dark:text-slate-300 group-hover:text-yellow-500 dark:group-hover:text-yellow-400" />
+                      ) : (
+                        <MoonIcon className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-gray-600 dark:text-slate-300 group-hover:text-blue-500 dark:group-hover:text-blue-400" />
+                      )}
+                      <span className="sr-only">
+                        {isDarkMode ? t("common.lightMode") : t("common.darkMode")}
+                      </span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{isDarkMode ? t("common.lightMode") : t("common.darkMode")}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => router.push("/")}
+                      title={t("nav.home")}
+                      className="hover:bg-gray-100 dark:hover:bg-slate-800/50 h-10 w-10 transition-all duration-300 hover:scale-110 hover:shadow-lg group"
+                    >
+                      <Home className="h-5 w-5 group-hover:scale-110 transition-transform duration-300 text-gray-600 dark:text-slate-300 group-hover:text-green-600 dark:group-hover:text-green-300" />
+                      <span className="sr-only">{t("nav.home")}</span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{t("nav.home")}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+          */}
+
           {/* Action Buttons */}
           <div className="flex items-center gap-2">
             {/* Layout Switch Button */}
