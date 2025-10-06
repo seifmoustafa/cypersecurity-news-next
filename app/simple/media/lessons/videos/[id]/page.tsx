@@ -7,6 +7,7 @@ import { useLanguage } from "@/components/language-provider"
 import { Video, ArrowRight, ArrowLeft, Star, BookOpen, Search, Play, Clock } from "lucide-react"
 import Breadcrumbs from "@/components/breadcrumbs"
 import { useVideosByCategory } from "@/core/hooks/use-videos-by-category"
+import { useVideoCategories } from "@/core/hooks/use-video-categories"
 import { useDebounce } from "@/hooks/use-debounce"
 import VideoModal from "@/components/video-modal"
 
@@ -28,6 +29,13 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
   // Unwrap the params Promise
   const resolvedParams = use(params)
   const { videos, loading, error } = useVideosByCategory(resolvedParams.id, 1, 100, debouncedQuery)
+  const { categories: allCategories } = useVideoCategories(1, 100)
+
+  // Resolve current video category name for breadcrumbs
+  const currentCategory = allCategories.find(cat => cat.id === resolvedParams.id)
+  const categoryName = currentCategory
+    ? (language === "ar" ? currentCategory.name : currentCategory.nameEn || currentCategory.name)
+    : (language === "ar" ? "فئة الفيديوهات" : "Video Category")
 
   const handleVideoClick = (videoId: string) => {
     setSelectedVideoId(videoId)
@@ -129,7 +137,7 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
             { label: language === "ar" ? "المكتبة الثقافية" : "Media Library", href: "/simple/media" },
             { label: language === "ar" ? "دروس تعليمية" : "Educational Lessons", href: "/simple/media/lessons" },
             { label: language === "ar" ? "الفيديوهات" : "Videos", href: "/simple/media/lessons/videos" },
-            { label: language === "ar" ? "فئة الفيديوهات" : "Video Category" }
+            { label: categoryName }
           ]} 
         />
 

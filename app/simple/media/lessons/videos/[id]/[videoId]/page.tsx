@@ -122,7 +122,7 @@ export default function VideoDetailPage({ params }: VideoDetailPageProps) {
             { label: language === "ar" ? "المكتبة الثقافية" : "Media Library", href: "/simple/media" },
             { label: language === "ar" ? "دروس تعليمية" : "Educational Lessons", href: "/simple/media/lessons" },
             { label: language === "ar" ? "الفيديوهات" : "Videos", href: "/simple/media/lessons/videos" },
-            { label: language === "ar" ? "فئة الفيديوهات" : "Video Category", href: `/simple/media/lessons/videos/${resolvedParams.id}` },
+            { label: (language === "ar" ? (video.videoCategoryName || video.videoCategoryNameEn || "فئة الفيديوهات") : (video.videoCategoryNameEn || video.videoCategoryName || "Video Category")), href: `/simple/media/lessons/videos/${resolvedParams.id}` },
             { label: language === "ar" ? video.nameAr : video.nameEn || video.nameAr }
           ]} 
         />
