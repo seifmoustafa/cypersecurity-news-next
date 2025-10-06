@@ -342,7 +342,7 @@ export class MediaRepositoryImpl implements MediaRepository {
         params.append("search", search.trim())
       }
 
-      const response = await this.dataSource.get<VideoCategoriesResponse>(`/VideoCategories?${params.toString()}`)
+      const response = await this.dataSource.get<VideoCategoriesResponse>(`/VideoCategories/beginners?${params.toString()}`)
 
       // Transform image URLs to include base URL
       const baseImageUrl = this.dataSource.getBaseImageUrl()
@@ -380,7 +380,7 @@ export class MediaRepositoryImpl implements MediaRepository {
         params.append("search", search.trim())
       }
 
-      const response = await this.dataSource.get<LectureCategoriesResponse>(`/LectureCategories?${params.toString()}`)
+      const response = await this.dataSource.get<LectureCategoriesResponse>(`/LectureCategories/beginners?${params.toString()}`)
 
       // Transform image URLs to include base URL
       const baseImageUrl = this.dataSource.getBaseImageUrl()
@@ -418,7 +418,7 @@ export class MediaRepositoryImpl implements MediaRepository {
         params.append("search", search.trim())
       }
 
-      const response = await this.dataSource.get<PresentationCategoriesResponse>(`/PresentationCategories?${params.toString()}`)
+      const response = await this.dataSource.get<PresentationCategoriesResponse>(`/PresentationCategories/beginners?${params.toString()}`)
 
       // Transform image URLs to include base URL
       const baseImageUrl = this.dataSource.getBaseImageUrl()
@@ -548,6 +548,121 @@ export class MediaRepositoryImpl implements MediaRepository {
     } catch (error) {
       console.error("MediaRepository: Error fetching article by ID:", error)
       return null
+    }
+  }
+
+  // Professional category methods for /advanced
+  async getVideoCategoriesForProfessionals(page = 1, pageSize = 10, search?: string): Promise<VideoCategoriesResponse> {
+    try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        pageSize: pageSize.toString(),
+      })
+
+      if (search && search.trim()) {
+        params.append("search", search.trim())
+      }
+
+      const response = await this.dataSource.get<VideoCategoriesResponse>(`/VideoCategories/professionals?${params.toString()}`)
+
+      // Transform image URLs to include base URL
+      const baseImageUrl = this.dataSource.getBaseImageUrl()
+      const transformedData = response.data.map((category) => ({
+        ...category,
+        imageUrl: category.imageUrl ? `${baseImageUrl}${category.imageUrl}` : category.imageUrl,
+      }))
+
+      return {
+        ...response,
+        data: transformedData,
+      }
+    } catch (error) {
+      console.error("MediaRepository: Error fetching video categories for professionals:", error)
+      return {
+        data: [],
+        pagination: {
+          itemsCount: 0,
+          pagesCount: 0,
+          pageSize: pageSize,
+          currentPage: page,
+        },
+      }
+    }
+  }
+
+  async getLectureCategoriesForProfessionals(page = 1, pageSize = 10, search?: string): Promise<LectureCategoriesResponse> {
+    try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        pageSize: pageSize.toString(),
+      })
+
+      if (search && search.trim()) {
+        params.append("search", search.trim())
+      }
+
+      const response = await this.dataSource.get<LectureCategoriesResponse>(`/LectureCategories/professionals?${params.toString()}`)
+
+      // Transform image URLs to include base URL
+      const baseImageUrl = this.dataSource.getBaseImageUrl()
+      const transformedData = response.data.map((category) => ({
+        ...category,
+        imageUrl: category.imageUrl ? `${baseImageUrl}${category.imageUrl}` : category.imageUrl,
+      }))
+
+      return {
+        ...response,
+        data: transformedData,
+      }
+    } catch (error) {
+      console.error("MediaRepository: Error fetching lecture categories for professionals:", error)
+      return {
+        data: [],
+        pagination: {
+          itemsCount: 0,
+          pagesCount: 0,
+          pageSize: pageSize,
+          currentPage: page,
+        },
+      }
+    }
+  }
+
+  async getPresentationCategoriesForProfessionals(page = 1, pageSize = 10, search?: string): Promise<PresentationCategoriesResponse> {
+    try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        pageSize: pageSize.toString(),
+      })
+
+      if (search && search.trim()) {
+        params.append("search", search.trim())
+      }
+
+      const response = await this.dataSource.get<PresentationCategoriesResponse>(`/PresentationCategories/professionals?${params.toString()}`)
+
+      // Transform image URLs to include base URL
+      const baseImageUrl = this.dataSource.getBaseImageUrl()
+      const transformedData = response.data.map((category) => ({
+        ...category,
+        imageUrl: category.imageUrl ? `${baseImageUrl}${category.imageUrl}` : category.imageUrl,
+      }))
+
+      return {
+        ...response,
+        data: transformedData,
+      }
+    } catch (error) {
+      console.error("MediaRepository: Error fetching presentation categories for professionals:", error)
+      return {
+        data: [],
+        pagination: {
+          itemsCount: 0,
+          pagesCount: 0,
+          pageSize: pageSize,
+          currentPage: page,
+        },
+      }
     }
   }
 }

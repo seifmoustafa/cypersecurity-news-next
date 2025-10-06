@@ -28,6 +28,7 @@ import { PersonalProtectCategoryRepositoryImpl } from "../data/repositories/pers
 import { PersonalProtectSubCategoryRepositoryImpl } from "../data/repositories/personal-protect-subcategory-repository-impl";
 import { PersonalProtectControlRepositoryImpl } from "../data/repositories/personal-protect-control-repository-impl";
 import { PersonalProtectControlStepRepositoryImpl } from "../data/repositories/personal-protect-control-step-repository-impl";
+import { HelperRepositoryImpl } from "../data/repositories/helper-repository-impl";
 
 // Services
 import { NewsService } from "../services/news-service";
@@ -56,6 +57,7 @@ import { PersonalProtectCategoryService } from "../services/personal-protect-cat
 import { PersonalProtectSubCategoryService } from "../services/personal-protect-subcategory-service";
 import { PersonalProtectControlService } from "../services/personal-protect-control-service";
 import { PersonalProtectControlStepService } from "../services/personal-protect-control-step-service";
+import { HelperService } from "../services/helper-service";
 
 class Container {
   private _apiDataSource: ApiDataSource | null = null;
@@ -158,6 +160,9 @@ class Container {
         ),
         personalProtectControlStep: new PersonalProtectControlStepService(
           new PersonalProtectControlStepRepositoryImpl()
+        ),
+        helper: new HelperService(
+          new HelperRepositoryImpl(this.apiDataSource)
         ),
       };
     }
@@ -267,6 +272,10 @@ class Container {
 
   get personalProtectControlStepService() {
     return this.services.personalProtectControlStep;
+  }
+
+  get helperService() {
+    return this.services.helper;
   }
 }
 

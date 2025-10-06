@@ -67,5 +67,28 @@ export function purifyHtml(html: string | null | undefined): string {
  */
 export function isValidHtmlContent(html: string | null | undefined): boolean {
   const purified = purifyHtml(html)
-  return purified && purified !== "string" && purified.length > 0
+  return Boolean(purified && purified !== "string" && purified.length > 0)
+}
+
+/**
+ * Converts relative image URL to full URL using the API base URL
+ * @param imageUrl - The relative image URL from the API
+ * @returns Full image URL
+ */
+export function getFullImageUrl(imageUrl: string | null | undefined): string {
+  if (!imageUrl) return ""
+  
+  // If it's already a full URL, return as is
+  if (imageUrl.startsWith("http")) {
+    return imageUrl
+  }
+  
+  // Get the base URL and remove /api for images
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || ""
+  const baseImageUrl = baseUrl.replace("/api", "")
+  
+  // Ensure the image URL starts with /
+  const normalizedImageUrl = imageUrl.startsWith("/") ? imageUrl : `/${imageUrl}`
+  
+  return `${baseImageUrl}${normalizedImageUrl}`
 }

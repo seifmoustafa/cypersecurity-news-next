@@ -16,6 +16,7 @@ import {
 import Breadcrumbs from "@/components/breadcrumbs";
 import { useNewsCategories } from "@/core/hooks/use-news-categories";
 import { useCurrentYearAwareness } from "@/core/hooks/use-current-year-awareness";
+import { useHelperCategories } from "@/hooks/use-helper-categories";
 
 export default function SimpleAwarenessPage() {
   const router = useRouter();
@@ -25,24 +26,30 @@ export default function SimpleAwarenessPage() {
   const [counts, setCounts] = useState({
     news: 0,
     awareness: 0,
+    helpers: 0,
   });
 
-  // Fetch news categories and current year awareness
+  // Fetch news categories, current year awareness, and helper categories
   const { categories: newsCategories, loading: categoriesLoading } =
     useNewsCategories(1, 100);
   const { awareness: currentYearAwareness, loading: awarenessLoading } =
     useCurrentYearAwareness("", 1, 100);
+  const { categories: helperCategories, loading: helperCategoriesLoading } =
+    useHelperCategories(1, 100);
 
   // Debug logging
   console.log("Current year awareness:", currentYearAwareness);
   console.log("Awareness loading:", awarenessLoading);
+  console.log("Helper categories:", helperCategories);
+  console.log("Helper categories loading:", helperCategoriesLoading);
 
   useEffect(() => {
     const fetchCounts = async () => {
       try {
-        const [newsData, awarenessResp] = await Promise.all([
+        const [newsData, awarenessResp, helperResp] = await Promise.all([
           container.services.news.getNewsByCategory(null, 1, 100),
           container.services.awareness.getCurrentYearAwareness("", 1, 100),
+          container.services.helper.getAllCategories(1, 100),
         ]);
         setCounts({
           news: newsData?.length || 0,
@@ -50,9 +57,10 @@ export default function SimpleAwarenessPage() {
             awarenessResp?.pagination?.itemsCount ||
             awarenessResp?.data?.length ||
             0,
+          helpers: helperResp?.pagination?.itemsCount || helperResp?.data?.length || 0,
         });
       } catch (e) {
-        setCounts({ news: 0, awareness: 0 });
+        setCounts({ news: 0, awareness: 0, helpers: 0 });
       }
     };
     fetchCounts();
@@ -72,30 +80,43 @@ export default function SimpleAwarenessPage() {
           "bg-gradient-to-br from-sky-50/80 to-blue-50/60 dark:from-sky-900/30 dark:to-blue-900/20",
         borderColor: "border-sky-300/60 dark:border-sky-600/40",
       href: "/simple/news-categories",
-      items: newsCategories
-        .slice(0, 3)
-        .map((category) => ({
-          title:
-            language === "ar"
-              ? category.name
-              : category.nameEn || category.name,
-          href: `/simple/news-categories/${category.id}`,
-          icon: Newspaper,
-          count: "",
-          imageUrl: null,
-        }))
-        .concat([
-          {
-            title:
-              language === "ar"
-                ? "عرض المزيد من الفئات"
-                : "View More Categories",
-            href: "/simple/news-categories",
-            icon: ArrowRight,
-            count: "",
-            imageUrl: null,
-          },
-        ]),
+      // OLD WAY (commented): Show only first 3 categories + show more
+      // items: newsCategories
+      //   .slice(0, 3)
+      //   .map((category) => ({
+      //     title:
+      //       language === "ar"
+      //         ? category.name
+      //         : category.nameEn || category.name,
+      //     href: `/simple/news-categories/${category.id}`,
+      //     icon: Newspaper,
+      //     count: "",
+      //     imageUrl: null,
+      //   }))
+      //   .concat([
+      //     {
+      //       title:
+      //         language === "ar"
+      //           ? "عرض المزيد من الفئات"
+      //           : "View More Categories",
+      //       href: "/simple/news-categories",
+      //       icon: ArrowRight,
+      //       count: "",
+      //       imageUrl: null,
+      //     },
+      //   ]),
+      
+      // NEW WAY: Show all categories
+      items: newsCategories.map((category) => ({
+        title:
+          language === "ar"
+            ? category.name
+            : category.nameEn || category.name,
+        href: `/simple/news-categories/${category.id}`,
+        icon: Newspaper,
+        count: "",
+        imageUrl: null,
+      })),
     },
     {
       id: "awareness",
@@ -110,38 +131,71 @@ export default function SimpleAwarenessPage() {
           "bg-gradient-to-br from-blue-50/80 to-cyan-50/60 dark:from-blue-900/30 dark:to-cyan-900/20",
         borderColor: "border-blue-300/60 dark:border-blue-600/40",
       href: "/simple/awareness-years",
+      // OLD WAY (commented): Show only first 2 awareness items + show more
+      // items:
+      //   currentYearAwareness.length > 0
+      //     ? currentYearAwareness
+      //         .slice(0, 2)
+      //         .map((item) => ({
+      //           title:
+      //             language === "ar" ? item.title : item.titleEn || item.title,
+      //           href: `/simple/awareness/${item.year}/${item.id}`,
+      //           icon: Lightbulb,
+      //           count: "",
+      //           imageUrl: null,
+      //         }))
+      //         .concat([
+      //           {
+      //             title:
+      //               language === "ar"
+      //                 ? "عرض المزيد من هذا العام"
+      //                 : "View More This Year",
+      //             href: "/simple/awareness/current-year",
+      //             icon: ArrowRight,
+      //             count: "",
+      //             imageUrl: null,
+      //           },
+      //           {
+      //             title:
+      //               language === "ar" ? "عرض جميع السنوات" : "View All Years",
+      //             href: "/simple/awareness-years",
+      //             icon: BookOpen,
+      //             count: "",
+      //             imageUrl: null,
+      //           },
+      //         ])
+      //     : [
+      //         {
+      //           title:
+      //             language === "ar"
+      //               ? "نشرات التوعية للعام الحالي"
+      //               : "Current Year Materials",
+      //           href: "/simple/awareness/current-year",
+      //           icon: Lightbulb,
+      //           count: "",
+      //           imageUrl: null,
+      //         },
+      //         {
+      //           title:
+      //             language === "ar" ? "عرض جميع السنوات" : "View All Years",
+      //           href: "/simple/awareness-years",
+      //           icon: BookOpen,
+      //           count: "",
+      //           imageUrl: null,
+      //         },
+      //       ],
+      
+      // NEW WAY: Show all awareness items
       items:
         currentYearAwareness.length > 0
-          ? currentYearAwareness
-              .slice(0, 2)
-              .map((item) => ({
-                title:
-                  language === "ar" ? item.title : item.titleEn || item.title,
-                href: `/simple/awareness/${item.year}/${item.id}`,
-                icon: Lightbulb,
-                count: "",
-                imageUrl: null,
-              }))
-              .concat([
-                {
-                  title:
-                    language === "ar"
-                      ? "عرض المزيد من هذا العام"
-                      : "View More This Year",
-                  href: "/simple/awareness/current-year",
-                  icon: ArrowRight,
-                  count: "",
-                  imageUrl: null,
-                },
-                {
-                  title:
-                    language === "ar" ? "عرض جميع السنوات" : "View All Years",
-                  href: "/simple/awareness-years",
-                  icon: BookOpen,
-                  count: "",
-                  imageUrl: null,
-                },
-              ])
+          ? currentYearAwareness.map((item) => ({
+              title:
+                language === "ar" ? item.title : item.titleEn || item.title,
+              href: `/simple/awareness/${item.year}/${item.id}`,
+              icon: Lightbulb,
+              count: "",
+              imageUrl: null,
+            }))
           : [
               {
                 title:
@@ -162,6 +216,57 @@ export default function SimpleAwarenessPage() {
                 imageUrl: null,
               },
             ],
+    },
+    {
+      id: "helpers",
+      title: language === "ar" ? "الإرشادات" : "Helpers",
+      description:
+        language === "ar"
+          ? "إرشادات وأدلة مساعدة في الأمن السيبراني"
+          : "Cybersecurity guides and helpful instructions",
+      icon: BookOpen,
+      color: "from-purple-400 to-indigo-500",
+      bgColor:
+        "bg-gradient-to-br from-purple-50/80 to-indigo-50/60 dark:from-purple-900/30 dark:to-indigo-900/20",
+      borderColor: "border-purple-300/60 dark:border-purple-600/40",
+      href: "/simple/helper-categories",
+      // OLD WAY (commented): Show only first 2 categories + show more
+      // items: helperCategories
+      //   .slice(0, 2)
+      //   .map((category) => ({
+      //     title:
+      //       language === "ar"
+      //         ? category.title
+      //         : category.titleEn || category.title,
+      //     href: `/simple/helper-categories/${category.id}`,
+      //     icon: BookOpen,
+      //     count: "",
+      //     imageUrl: null,
+      //   }))
+      //   .concat([
+      //     {
+      //       title:
+      //         language === "ar"
+      //           ? "عرض المزيد من الفئات"
+      //           : "View More Categories",
+      //       href: "/simple/helper-categories",
+      //       icon: ArrowRight,
+      //       count: "",
+      //       imageUrl: null,
+      //     },
+      //   ]),
+      
+      // NEW WAY: Show all categories
+      items: helperCategories.map((category) => ({
+        title:
+          language === "ar"
+            ? category.title
+            : category.titleEn || category.title,
+        href: `/simple/helper-categories?category=${category.id}`,
+        icon: BookOpen,
+        count: "",
+        imageUrl: null,
+      })),
     },
   ];
 
@@ -187,11 +292,15 @@ export default function SimpleAwarenessPage() {
         />
 
         {/* Main Interactive Cards - Same Design as Main Page */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-4xl mx-auto items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
           {mainCards.map((card, index) => {
             const gifPath =
               card.id === "news"
                 ? "/assets/images/beginners/Gemini_Generated_Image_c7ds1sc7ds1sc7ds.png"
+                : card.id === "awareness"
+                ? "/assets/images/beginners/Gemini_Generated_Image_70kvgb70kvgb70kv.png"
+                : card.id === "helpers"
+                ? "/assets/images/beginners/Gemini_Generated_Image_ut3c4xut3c4xut3c.png"
                 : "/assets/images/beginners/Gemini_Generated_Image_70kvgb70kvgb70kv.png";
 
             return (
@@ -210,6 +319,8 @@ export default function SimpleAwarenessPage() {
               >
                 <div
                   className={`relative ${card.bgColor} backdrop-blur-sm border-2 ${card.borderColor} rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-green-500/20 h-full flex flex-col cursor-pointer`}
+                  // OLD WAY (commented): Fixed height with scrollable content
+                  // className={`relative ${card.bgColor} backdrop-blur-sm border-2 ${card.borderColor} rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-green-500/20 h-[600px] flex flex-col cursor-pointer`}
                   onMouseMove={(e) => {
                     const el = e.currentTarget as HTMLDivElement;
                     const rect = el.getBoundingClientRect();
@@ -247,8 +358,11 @@ export default function SimpleAwarenessPage() {
                       </p>
                     </div>
 
-                    {/* Quick Access Links - Same as Main Page */}
-                    <div className="space-y-2 flex-1 flex flex-col justify-center">
+                    {/* Quick Access Links */}
+                    <div className="space-y-2 flex-1 flex flex-col justify-start">
+                      {/* OLD WAY (commented): Scrollable content with max height
+                      <div className="space-y-2 flex-1 flex flex-col justify-start overflow-y-auto max-h-64">
+                      */}
                       {card.items.map((item, itemIndex) => (
                         <Link
                           key={itemIndex}

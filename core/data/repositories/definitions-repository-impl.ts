@@ -97,7 +97,7 @@ export class DefinitionsRepositoryImpl implements DefinitionsRepository {
       }
 
       const response = await this.dataSource.get<DefinitionCategoriesPaginatedResponse>(
-        `/DefinitionCategories?${params}`,
+        `/DefinitionCategories/beginners?${params}`,
       )
       
       return {
@@ -176,6 +176,39 @@ export class DefinitionsRepositoryImpl implements DefinitionsRepository {
     } catch (error) {
       console.error(`Error finding definition category by slug ${slug}:`, error)
       return null
+    }
+  }
+
+  async getAllCategoriesForProfessionals(page = 1, pageSize = 10, search?: string): Promise<DefinitionCategoriesPaginatedResponse> {
+    try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        pageSize: pageSize.toString(),
+      })
+
+      if (search) {
+        params.append("search", search)
+      }
+
+      const response = await this.dataSource.get<DefinitionCategoriesPaginatedResponse>(
+        `/DefinitionCategories/professionals?${params}`,
+      )
+      
+      return {
+        ...response,
+        data: response.data.map(category => this.transformDefinitionCategory(category))
+      }
+    } catch (error) {
+      console.error("Error fetching definition categories for professionals:", error)
+      return {
+        data: [],
+        pagination: {
+          itemsCount: 0,
+          pagesCount: 0,
+          pageSize: pageSize,
+          currentPage: page,
+        },
+      }
     }
   }
 }

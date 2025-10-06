@@ -34,17 +34,25 @@ export default function EducationalLessonsPage() {
       borderColor: "border-blue-200 dark:border-blue-800",
       href: "/simple/media/lessons/videos",
       imagePath: "/assets/images/beginners/Gemini_Generated_Image_c7ds1sc7ds1sc7ds.png",
-      items: videoCategories.slice(0, 2).map(category => ({
+      // OLD WAY (commented): Show only first 2 categories + show more
+      // items: videoCategories.slice(0, 2).map(category => ({
+      //   title: language === "ar" ? category.name : category.nameEn || category.name,
+      //   href: `/simple/media/lessons/videos/${category.id}`,
+      //   icon: Video,
+      // })).concat([
+      //   {
+      //     title: language === "ar" ? "عرض المزيد" : "Show More",
+      //     href: "/simple/media/lessons/videos",
+      //     icon: ArrowRight,
+      //   }
+      // ])
+      
+      // NEW WAY: Show all categories
+      items: videoCategories.map(category => ({
         title: language === "ar" ? category.name : category.nameEn || category.name,
         href: `/simple/media/lessons/videos/${category.id}`,
         icon: Video,
-      })).concat([
-        {
-          title: language === "ar" ? "عرض المزيد" : "Show More",
-          href: "/simple/media/lessons/videos",
-          icon: ArrowRight,
-        }
-      ])
+      }))
     },
     {
       id: "lectures",
@@ -56,17 +64,25 @@ export default function EducationalLessonsPage() {
       borderColor: "border-blue-200 dark:border-blue-800",
       href: "/simple/media/lessons/lectures",
       imagePath: "/assets/images/beginners/Gemini_Generated_Image_2q2d7n2q2d7n2q2d.png",
-      items: lectureCategories.slice(0, 2).map(category => ({
+      // OLD WAY (commented): Show only first 2 categories + show more
+      // items: lectureCategories.slice(0, 2).map(category => ({
+      //   title: language === "ar" ? category.name : category.nameEn || category.name,
+      //   href: `/simple/media/lessons/lectures/${category.id}`,
+      //   icon: GraduationCap,
+      // })).concat([
+      //   {
+      //     title: language === "ar" ? "عرض المزيد" : "Show More",
+      //     href: "/simple/media/lessons/lectures",
+      //     icon: ArrowRight,
+      //   }
+      // ])
+      
+      // NEW WAY: Show all categories
+      items: lectureCategories.map(category => ({
         title: language === "ar" ? category.name : category.nameEn || category.name,
         href: `/simple/media/lessons/lectures/${category.id}`,
         icon: GraduationCap,
-      })).concat([
-        {
-          title: language === "ar" ? "عرض المزيد" : "Show More",
-          href: "/simple/media/lessons/lectures",
-          icon: ArrowRight,
-        }
-      ])
+      }))
     },
     {
       id: "presentations",
@@ -78,17 +94,25 @@ export default function EducationalLessonsPage() {
       borderColor: "border-teal-200 dark:border-teal-800",
       href: "/simple/media/lessons/presentations",
       imagePath: "/assets/images/beginners/Gemini_Generated_Image_ut3c4xut3c4xut3c.png",
-      items: presentationCategories.slice(0, 2).map(category => ({
+      // OLD WAY (commented): Show only first 2 categories + show more
+      // items: presentationCategories.slice(0, 2).map(category => ({
+      //   title: language === "ar" ? category.name : category.nameEn || category.name,
+      //   href: `/simple/media/lessons/presentations/${category.id}`,
+      //   icon: Presentation,
+      // })).concat([
+      //   {
+      //     title: language === "ar" ? "عرض المزيد" : "Show More",
+      //     href: "/simple/media/lessons/presentations",
+      //     icon: ArrowRight,
+      //   }
+      // ])
+      
+      // NEW WAY: Show all categories
+      items: presentationCategories.map(category => ({
         title: language === "ar" ? category.name : category.nameEn || category.name,
         href: `/simple/media/lessons/presentations/${category.id}`,
         icon: Presentation,
-      })).concat([
-        {
-          title: language === "ar" ? "عرض المزيد" : "Show More",
-          href: "/simple/media/lessons/presentations",
-          icon: ArrowRight,
-        }
-      ])
+      }))
     }
   ]
 
@@ -125,7 +149,7 @@ export default function EducationalLessonsPage() {
         </div>
 
         {/* Lesson Categories Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
           {lessonCategories.map((category, index) => {
             const IconComponent = category.icon
             return (
@@ -136,6 +160,8 @@ export default function EducationalLessonsPage() {
               >
                 <div
                   className={`relative ${category.bgColor} backdrop-blur-sm border-2 ${category.borderColor} rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-green-500/20 h-full flex flex-col cursor-pointer`}
+                  // OLD WAY (commented): Fixed height with scrollable content
+                  // className={`relative ${category.bgColor} backdrop-blur-sm border-2 ${category.borderColor} rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-green-500/20 h-[600px] flex flex-col cursor-pointer`}
                   onMouseMove={(e) => {
                     const el = e.currentTarget as HTMLDivElement
                     const rect = el.getBoundingClientRect()
@@ -173,7 +199,10 @@ export default function EducationalLessonsPage() {
                     </div>
 
                     {/* Quick Access Links */}
-                    <div className="space-y-2 flex-1 flex flex-col justify-center">
+                    <div className="space-y-2 flex-1 flex flex-col justify-start">
+                      {/* OLD WAY (commented): Scrollable content with max height
+                      <div className="space-y-2 flex-1 flex flex-col justify-start overflow-y-auto max-h-64">
+                      */}
                       {category.items?.map((item, itemIndex) => (
                         <Link
                           key={itemIndex}

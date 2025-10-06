@@ -42,6 +42,14 @@ export class DefinitionsService {
     return this.repository.getAllCategories(page, pageSize, search);
   }
 
+  async getAllCategoriesForProfessionals(
+    page = 1,
+    pageSize = 10,
+    search?: string
+  ): Promise<DefinitionCategoriesPaginatedResponse> {
+    return this.repository.getAllCategoriesForProfessionals(page, pageSize, search);
+  }
+
   async getCategoryById(id: string): Promise<DefinitionCategory | null> {
     return this.repository.getCategoryById(id);
   }

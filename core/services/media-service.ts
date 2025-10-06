@@ -115,20 +115,28 @@ export class MediaService {
     return this.mediaRepository.getVideoCategories(page, pageSize, search)
   }
 
+  async getVideoCategoriesForProfessionals(page = 1, pageSize = 10, search?: string): Promise<VideoCategoriesResponse> {
+    return this.mediaRepository.getVideoCategoriesForProfessionals(page, pageSize, search)
+  }
+
   async getLectureCategories(page = 1, pageSize = 10, search?: string): Promise<LectureCategoriesResponse> {
     return this.mediaRepository.getLectureCategories(page, pageSize, search)
+  }
+
+  async getLectureCategoriesForProfessionals(page = 1, pageSize = 10, search?: string): Promise<LectureCategoriesResponse> {
+    return this.mediaRepository.getLectureCategoriesForProfessionals(page, pageSize, search)
   }
 
   async getPresentationCategories(page = 1, pageSize = 10, search?: string): Promise<PresentationCategoriesResponse> {
     return this.mediaRepository.getPresentationCategories(page, pageSize, search)
   }
 
-  async getPresentationsByCategory(categoryId: string, page = 1, pageSize = 10, search?: string): Promise<PresentationsPaginatedResponse> {
-    return this.mediaRepository.getPresentationsByCategory(categoryId, page, pageSize, search)
+  async getPresentationCategoriesForProfessionals(page = 1, pageSize = 10, search?: string): Promise<PresentationCategoriesResponse> {
+    return this.mediaRepository.getPresentationCategoriesForProfessionals(page, pageSize, search)
   }
 
-  async getApiPresentationById(id: string): Promise<ApiPresentation | null> {
-    return this.mediaRepository.getApiPresentationById(id)
+  async getPresentationsByCategory(categoryId: string, page = 1, pageSize = 10, search?: string): Promise<PresentationsPaginatedResponse> {
+    return this.mediaRepository.getPresentationsByCategory(categoryId, page, pageSize, search)
   }
 
   async getArticles(page = 1, pageSize = 10, search?: string): Promise<ArticlesPaginatedResponse> {

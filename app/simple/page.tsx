@@ -40,6 +40,7 @@ import SimpleTipsTicker from "@/components/layouts/simple-tips-ticker";
 import SimpleTipOfTheDayPopup from "@/components/simple-tip-of-the-day-popup";
 import { useDefinitionCategories } from "@/core/hooks/use-definition-categories";
 import { usePersonalProtectCategories } from "@/core/hooks/use-personal-protect-categories";
+import { useHelperCategories } from "@/hooks/use-helper-categories";
 
 export default function BeginnersHome() {
   const router = useRouter();
@@ -55,6 +56,10 @@ export default function BeginnersHome() {
     categories: personalProtectCategories,
     loading: personalProtectLoading,
   } = usePersonalProtectCategories("", 1, 100);
+
+  // Fetch helper categories
+  const { categories: helperCategories, loading: helperCategoriesLoading } =
+    useHelperCategories(1, 100);
 
   useEffect(() => {
     router.prefetch("/simple/videos");
@@ -145,6 +150,19 @@ export default function BeginnersHome() {
           icon: Lightbulb,
           count: "",
         },
+        {
+          title: language === "ar" ? "الإرشادات" : "Helpers",
+          href: "/simple/helper-categories",
+          icon: BookOpen,
+          count: "",
+        },
+        // Add helper categories as preview items
+        ...helperCategories.slice(0, 2).map((category) => ({
+          title: language === "ar" ? category.title : category.titleEn || category.title,
+          href: `/simple/helper-categories?category=${category.id}`,
+          icon: BookOpen,
+          count: "",
+        })),
       ],
     },
 
@@ -158,30 +176,43 @@ export default function BeginnersHome() {
         "bg-gradient-to-br from-blue-50/80 to-blue-50/60 dark:from-blue-900/30 dark:to-blue-900/20",
       borderColor: "border-blue-300/60 dark:border-blue-600/40",
       href: "/simple/definitions-categories",
-      items: definitionCategories
-        .slice(0, 2)
-        .map((category) => ({
-          title:
-            language === "ar"
-              ? category.name
-              : category.nameEn || category.name,
-          href: `/simple/definitions-categories/${category.id}`,
-          icon: BookOpen,
-          count: "",
-          imageUrl: null, // Don't show images in main page
-        }))
-        .concat([
-          {
-            title:
-              language === "ar"
-                ? "عرض المزيد من الفئات"
-                : "View More Categories",
-            href: "/simple/definitions-categories",
-            icon: ArrowRight,
-            count: "",
-            imageUrl: null,
-          },
-        ]),
+      // OLD WAY (commented): Show only first 2 categories + show more
+      // items: definitionCategories
+      //   .slice(0, 2)
+      //   .map((category) => ({
+      //     title:
+      //       language === "ar"
+      //         ? category.name
+      //         : category.nameEn || category.name,
+      //     href: `/simple/definitions-categories/${category.id}`,
+      //     icon: BookOpen,
+      //     count: "",
+      //     imageUrl: null, // Don't show images in main page
+      //   }))
+      //   .concat([
+      //     {
+      //       title:
+      //         language === "ar"
+      //           ? "عرض المزيد من الفئات"
+      //           : "View More Categories",
+      //       href: "/simple/definitions-categories",
+      //       icon: ArrowRight,
+      //       count: "",
+      //       imageUrl: null,
+      //     },
+      //   ]),
+      
+      // NEW WAY: Show all categories
+      items: definitionCategories.map((category) => ({
+        title:
+          language === "ar"
+            ? category.name
+            : category.nameEn || category.name,
+        href: `/simple/definitions-categories/${category.id}`,
+        icon: BookOpen,
+        count: "",
+        imageUrl: null, // Don't show images in main page
+      })),
     },
 
     // {
@@ -495,6 +526,8 @@ export default function BeginnersHome() {
                 >
                   <div
                     className={`relative ${card.bgColor} backdrop-blur-sm border-2 ${card.borderColor} rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-green-500/20 h-full flex flex-col cursor-pointer`}
+                    // OLD WAY (commented): Fixed height with scrollable content
+                    // className={`relative ${card.bgColor} backdrop-blur-sm border-2 ${card.borderColor} rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-green-500/20 h-[600px] flex flex-col cursor-pointer`}
                     onMouseMove={(e) => {
                       const el = e.currentTarget as HTMLDivElement;
                       const rect = el.getBoundingClientRect();
@@ -533,8 +566,11 @@ export default function BeginnersHome() {
                         </p>
                       </div>
 
-                      {/* Quick Access Links - Flexible */}
-                      <div className="space-y-2 flex-1 flex flex-col justify-center">
+                      {/* Quick Access Links */}
+                      <div className="space-y-2 flex-1 flex flex-col justify-start">
+                        {/* OLD WAY (commented): Scrollable content with max height
+                        <div className="space-y-2 flex-1 flex flex-col justify-start overflow-y-auto max-h-64">
+                        */}
                         {card.id === "personal-protect" ? (
                           // Show actual personal protect categories
                           <>
@@ -555,9 +591,56 @@ export default function BeginnersHome() {
                                 ))}
                               </>
                             ) : personalProtectCategories.length > 0 ? (
-                              // Show actual categories
+                              // OLD WAY (commented): Show only first 2 categories + show more
+                              // personalProtectCategories
+                              //   .slice(0, 2)
+                              //   .map((category, categoryIndex) => (
+                              //     <Link
+                              //       key={category.id}
+                              //       href={`/simple/personal-protect/${category.id}`}
+                              //       onClick={(e) => e.stopPropagation()}
+                              //       className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
+                              //     >
+                              //       <div className="flex-1 min-w-0">
+                              //         <span className="text-gray-700 dark:text-white text-sm font-medium group-hover/item:text-amber-700 dark:group-hover/item:text-amber-400 transition-colors duration-300 line-clamp-1">
+                              //           {language === "ar"
+                              //             ? category.name
+                              //             : category.nameEn || category.name}
+                              //         </span>
+                              //       </div>
+                              //       <div className="flex items-center">
+                              //         {isRtl ? (
+                              //           <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-amber-600 dark:group-hover/item:text-amber-400 transition-colors duration-300" />
+                              //         ) : (
+                              //           <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-amber-600 dark:group-hover/item:text-amber-400 transition-colors duration-300" />
+                              //         )}
+                              //       </div>
+                              //     </Link>
+                              //   ))
+                              // ).concat([
+                              //   <Link
+                              //     key="show-more"
+                              //     href="/simple/personal-protect"
+                              //     onClick={(e) => e.stopPropagation()}
+                              //     className="flex items-center justify-between p-3 bg-amber-500/20 dark:bg-amber-500/10 hover:bg-amber-500/30 dark:hover:bg-amber-500/20 rounded-lg transition-all duration-300 group/item border border-amber-500/30 dark:border-amber-500/20 hover:border-amber-500/50 dark:hover:border-amber-500/30"
+                              //   >
+                              //     <span className="text-amber-700 dark:text-amber-400 text-sm font-medium group-hover/item:text-amber-800 dark:group-hover/item:text-amber-300 transition-colors duration-300">
+                              //       {language === "ar"
+                              //         ? "عرض المزيد من الفئات"
+                              //         : "View More"}
+                              //     </span>
+                              //     <div className="flex items-center">
+                              //       {isRtl ? (
+                              //         <ArrowLeft className="h-4 w-4 text-amber-600 dark:text-amber-400 group-hover/item:text-amber-700 dark:group-hover/item:text-amber-300 transition-colors duration-300" />
+                              //       ) : (
+                              //         <ArrowRight className="h-4 w-4 text-amber-600 dark:text-amber-400 group-hover/item:text-amber-700 dark:group-hover/item:text-amber-300 transition-colors duration-300" />
+                              //       )}
+                              //     </div>
+                              //   </Link>
+                              // ])
+                              
+                              // NEW WAY: Show all categories
                               personalProtectCategories
-                                .slice(0, 2)
                                 .map((category, categoryIndex) => (
                                   <Link
                                     key={category.id}
@@ -585,24 +668,6 @@ export default function BeginnersHome() {
                               // Empty state - show placeholder items
                               <></>
                             )}
-                            <Link
-                              href="/simple/personal-protect"
-                              onClick={(e) => e.stopPropagation()}
-                              className="flex items-center justify-between p-3 bg-amber-500/20 dark:bg-amber-500/10 hover:bg-amber-500/30 dark:hover:bg-amber-500/20 rounded-lg transition-all duration-300 group/item border border-amber-500/30 dark:border-amber-500/20 hover:border-amber-500/50 dark:hover:border-amber-500/30"
-                            >
-                              <span className="text-amber-700 dark:text-amber-400 text-sm font-medium group-hover/item:text-amber-800 dark:group-hover/item:text-amber-300 transition-colors duration-300">
-                                {language === "ar"
-                                  ? "عرض المزيد من الفئات"
-                                  : "View More"}
-                              </span>
-                              <div className="flex items-center">
-                                {isRtl ? (
-                                  <ArrowLeft className="h-4 w-4 text-amber-600 dark:text-amber-400 group-hover/item:text-amber-700 dark:group-hover/item:text-amber-300 transition-colors duration-300" />
-                                ) : (
-                                  <ArrowRight className="h-4 w-4 text-amber-600 dark:text-amber-400 group-hover/item:text-amber-700 dark:group-hover/item:text-amber-300 transition-colors duration-300" />
-                                )}
-                              </div>
-                            </Link>
                           </>
                         ) : (
                           // Show regular items for other cards

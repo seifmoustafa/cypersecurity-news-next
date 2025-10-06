@@ -36,8 +36,11 @@ export interface MediaRepository {
   getApiPresentationById(id: string): Promise<ApiPresentation | null>
   getPresentationBySlug(slug: string): Promise<ApiPresentation | null>
   getVideoCategories(page?: number, pageSize?: number, search?: string): Promise<VideoCategoriesResponse>
+  getVideoCategoriesForProfessionals(page?: number, pageSize?: number, search?: string): Promise<VideoCategoriesResponse>
   getLectureCategories(page?: number, pageSize?: number, search?: string): Promise<LectureCategoriesResponse>
+  getLectureCategoriesForProfessionals(page?: number, pageSize?: number, search?: string): Promise<LectureCategoriesResponse>
   getPresentationCategories(page?: number, pageSize?: number, search?: string): Promise<PresentationCategoriesResponse>
+  getPresentationCategoriesForProfessionals(page?: number, pageSize?: number, search?: string): Promise<PresentationCategoriesResponse>
   getArticles(page?: number, pageSize?: number, search?: string): Promise<ArticlesPaginatedResponse>
   getApiArticleById(id: string): Promise<ApiArticle | null>
 }
