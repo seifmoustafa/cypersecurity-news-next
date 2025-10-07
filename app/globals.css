@@ -18,6 +18,16 @@
   animation: gradient-x 3s ease infinite;
 }
 
+/* Carousel Progress Animation */
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
 @keyframes professional-pulse {
   0%, 100% { 
     transform: scale(1);

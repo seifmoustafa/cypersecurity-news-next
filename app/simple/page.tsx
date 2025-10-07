@@ -40,7 +40,6 @@ import SimpleTipsTicker from "@/components/layouts/simple-tips-ticker";
 import SimpleTipOfTheDayPopup from "@/components/simple-tip-of-the-day-popup";
 import { useDefinitionCategories } from "@/core/hooks/use-definition-categories";
 import { usePersonalProtectCategories } from "@/core/hooks/use-personal-protect-categories";
-import { useHelperCategories } from "@/hooks/use-helper-categories";
 
 export default function BeginnersHome() {
   const router = useRouter();
@@ -57,9 +56,6 @@ export default function BeginnersHome() {
     loading: personalProtectLoading,
   } = usePersonalProtectCategories("", 1, 100);
 
-  // Fetch helper categories
-  const { categories: helperCategories, loading: helperCategoriesLoading } =
-    useHelperCategories(1, 100);
 
   useEffect(() => {
     router.prefetch("/simple/videos");
@@ -156,13 +152,6 @@ export default function BeginnersHome() {
           icon: BookOpen,
           count: "",
         },
-        // Add helper categories as preview items
-        ...helperCategories.slice(0, 2).map((category) => ({
-          title: language === "ar" ? category.title : category.titleEn || category.title,
-          href: `/simple/helper-categories?category=${category.id}`,
-          icon: BookOpen,
-          count: "",
-        })),
       ],
     },
 

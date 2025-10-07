@@ -12,6 +12,11 @@ export interface News {
   isActive: boolean
   createdAt: string
   updatedAt: string | null
+  // Additional properties from API
+  categoryId?: string
+  forBeginners?: boolean
+  forProfessionals?: boolean
+  order?: number
   // For UI compatibility
   category?: string
   featured?: boolean

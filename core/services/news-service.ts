@@ -101,4 +101,16 @@ export class NewsService {
       return null
     }
   }
+
+  async getLatestNewsForBeginners(): Promise<News[]> {
+    try {
+      console.log("NewsService: Fetching latest news for beginners")
+      const news = await this.repository.getLatestNewsForBeginners()
+      console.log(`NewsService: Successfully retrieved ${news.length} latest news items`)
+      return news
+    } catch (error) {
+      console.error("NewsService: Error getting latest news for beginners:", error)
+      return []
+    }
+  }
 }

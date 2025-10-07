@@ -80,13 +80,13 @@ export class NewsRepositoryImpl implements NewsRepository {
     }
   }
 
-  async getNewsByCategory(categoryId: string | null, page = 1, pageSize = 100, search?: string): Promise<News[]> {
+  async getNewsByCategory(categoryId: string | null, page = 1, pageSize = 10, search?: string): Promise<News[]> {
     try {
       let endpoint: string
       
       if (categoryId && categoryId !== "all" && categoryId.trim() !== "") {
         console.log(`🔍 Fetching news for specific category ID: "${categoryId}"`)
-        endpoint = `/News/professionals/${categoryId}?page=${page}&pageSize=${pageSize}`
+        endpoint = `/News/beginners/${categoryId}?page=${page}&pageSize=${pageSize}`
         
         if (search && search.trim()) {
           endpoint += `&search=${encodeURIComponent(search.trim())}`
@@ -200,6 +200,19 @@ export class NewsRepositoryImpl implements NewsRepository {
       updatedAt: item.updatedAt,
       featured: true,
       category: "latest",
+    }
+  }
+
+  async getLatestNewsForBeginners(): Promise<News[]> {
+    try {
+      console.log("NewsRepositoryImpl: Fetching latest news for beginners")
+      const response = await this.apiDataSource.get<News[]>("/News/last10-for-beginners")
+      console.log(`NewsRepositoryImpl: Successfully retrieved ${response.length} latest news items for beginners`)
+      
+      return response.map(item => this.transformNewsItem(item))
+    } catch (error) {
+      console.error("NewsRepositoryImpl: Error fetching latest news for beginners:", error)
+      return []
     }
   }
 
