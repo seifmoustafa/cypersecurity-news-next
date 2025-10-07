@@ -65,6 +65,11 @@ export default function SimpleFooter() {
           href: "/simple/awareness-years",
           icon: Eye,
         },
+        {
+          title: language === "ar" ? "الإرشادات" : "Helpers",
+          href: "/simple/helper-categories",
+          icon: BookOpen,
+        },
       ],
     },
     {

@@ -113,6 +113,16 @@ export default function BeginnersSitemapPage() {
               ? "نشرات توعية مبسطة"
               : "Simplified awareness bulletins",
         },
+        {
+          id: "helpers",
+          title: language === "ar" ? "الإرشادات" : "Helpers",
+          icon: BookOpen,
+          href: "/simple/helper-categories",
+          description:
+            language === "ar"
+              ? "إرشادات وأدلة مساعدة"
+              : "Guides and helpful instructions",
+        },
       ],
     },
     {
