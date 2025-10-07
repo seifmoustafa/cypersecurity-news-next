@@ -5,7 +5,7 @@ import SimpleHeader from "./simple-header";
 import SimpleFooter from "./simple-footer";
 import { useTheme } from "next-themes";
 import { useLanguage } from "@/components/language-provider";
-import FloatingIncidentButton from "@/components/floating-incident-button";
+import FloatingSystemButton from "@/components/floating-system-button";
 import { useEffect } from "react";
 
 interface BeginnersLayoutProps {
@@ -33,8 +33,8 @@ export default function SimpleLayout({ children }: BeginnersLayoutProps) {
       <SimpleHeader onToggleTheme={toggleTheme} onToggleLanguage={toggleLanguage} />
       <main className="flex-grow pt-24 w-full relative">
         {children}
-        {/* Floating incident report button visible across beginners pages */}
-        <FloatingIncidentButton />
+        {/* Floating system button for pinned system */}
+        <FloatingSystemButton />
       </main>
       <SimpleFooter />
     </div>
