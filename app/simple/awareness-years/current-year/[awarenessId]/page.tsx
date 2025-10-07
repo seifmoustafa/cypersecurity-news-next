@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, use } from "react"
 import Link from "next/link"
 import { useLanguage } from "@/components/language-provider"
-import { Calendar, ArrowRight, ArrowLeft, Lightbulb, BookOpen, Clock } from "lucide-react"
+import { Calendar, ArrowRight, ArrowLeft, Lightbulb, BookOpen, Clock, Download } from "lucide-react"
 import Breadcrumbs from "@/components/breadcrumbs"
 import { useCurrentYearAwareness } from "@/core/hooks/use-current-year-awareness"
 import { useAwarenessById } from "@/core/hooks/use-awareness"
@@ -21,8 +21,8 @@ export default function CurrentYearAwarenessDetailPage({ params }: CurrentYearAw
   // Unwrap params using React.use()
   const resolvedParams = use(params)
   
-  const { awareness: awarenessList } = useCurrentYearAwareness("", 1, 100)
-  const { awareness: awareness, loading, error } = useAwarenessById(resolvedParams.awarenessId)
+  // const { awareness: awarenessList } = useCurrentYearAwareness("", 1, 100)
+  const { data: awareness, loading, error } = useAwarenessById(resolvedParams.awarenessId)
   
   // Get current year
   const currentYear = new Date().getFullYear().toString()
@@ -101,11 +101,11 @@ export default function CurrentYearAwarenessDetailPage({ params }: CurrentYearAw
               {isRtl ? (
                 <>
                   <ArrowLeft className="h-5 w-5" />
-                  {language === "ar" ? "العودة إلى السنة الحالية" : "Back to Current Year"}
+                  {isRtl ? "العودة إلى السنة الحالية" : "Back to Current Year"}
                 </>
               ) : (
                 <>
-                  {language === "ar" ? "العودة إلى السنة الحالية" : "Back to Current Year"}
+                  {isRtl ? "العودة إلى السنة الحالية" : "Back to Current Year"}
                   <ArrowRight className="h-5 w-5" />
                 </>
               )}
@@ -155,6 +155,21 @@ export default function CurrentYearAwarenessDetailPage({ params }: CurrentYearAw
                   </span>
                 </div>
               </div>
+
+              {awareness.documentUrl && (
+                <div className="absolute bottom-6 right-6">
+                  <a
+                    href={awareness.documentUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download
+                    className="flex items-center gap-2 px-4 py-2 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm text-gray-900 dark:text-white rounded-full shadow-lg border border-white/20 dark:border-white/10 hover:bg-white dark:hover:bg-slate-700 transition-colors duration-300"
+                  >
+                    <Download className="h-4 w-4" />
+                    <span className="text-sm font-medium">{language === "ar" ? "تحميل النشرة" : "Download Document"}</span>
+                  </a>
+                </div>
+              )}
             </div>
 
             {/* Content Section */}
@@ -166,10 +181,10 @@ export default function CurrentYearAwarenessDetailPage({ params }: CurrentYearAw
                 </h2>
                 <div className="prose prose-lg dark:prose-invert max-w-none">
                   <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                    {language === "ar" 
-                      ? awareness.description || "نشرة توعية أمنية مهمة للسنة الحالية"
-                      : awareness.descriptionEn || awareness.description || "Important security awareness bulletin for the current year"
-                    }
+                  {language === "ar" 
+                      ? awareness.summary || "نشرة توعية أمنية مهمة للسنة الحالية"
+                      : awareness.summaryEn || awareness.summary || "Important security awareness bulletin for the current year"
+                  }
                   </p>
                 </div>
               </div>
@@ -188,6 +203,24 @@ export default function CurrentYearAwarenessDetailPage({ params }: CurrentYearAw
                       }}
                     />
                   </div>
+                </div>
+              )}
+
+              {awareness.documentUrl && (
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                    {language === "ar" ? "تحميل" : "Download"}
+                  </h2>
+                  <a
+                    href={awareness.documentUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
+                  >
+                    <Download className="h-5 w-5" />
+                    <span>{language === "ar" ? "تنزيل الملف" : "Download File"}</span>
+                  </a>
                 </div>
               )}
 
@@ -221,6 +254,19 @@ export default function CurrentYearAwarenessDetailPage({ params }: CurrentYearAw
                       </p>
                     </div>
                   </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
+                      <Download className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {language === "ar" ? "الوثيقة" : "Document"}
+                      </p>
+                      <p className="font-semibold text-gray-900 dark:text-white">
+                        {awareness.documentUrl ? (language === "ar" ? "متوفر" : "Available") : (language === "ar" ? "غير متوفر" : "Not Available")}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -233,11 +279,11 @@ export default function CurrentYearAwarenessDetailPage({ params }: CurrentYearAw
                   {isRtl ? (
                     <>
                       <ArrowLeft className="h-5 w-5" />
-                      {language === "ar" ? "العودة إلى السنة الحالية" : "Back to Current Year"}
+                      {isRtl ? "العودة إلى السنة الحالية" : "Back to Current Year"}
                     </>
                   ) : (
                     <>
-                      {language === "ar" ? "العودة إلى السنة الحالية" : "Back to Current Year"}
+                      {isRtl ? "العودة إلى السنة الحالية" : "Back to Current Year"}
                       <ArrowRight className="h-5 w-5" />
                     </>
                   )}

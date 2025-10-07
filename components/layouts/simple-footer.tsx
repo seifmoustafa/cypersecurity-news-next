@@ -203,7 +203,7 @@ export default function SimpleFooter() {
         {/* Top Section - Main Content */}
         <div className="container mx-auto px-4 py-20">
           {/* Header Section */}
-          <div className="text-center mb-20">
+          {/* <div className="text-center mb-20">
             <div className="flex items-center justify-center mb-8">
               <img
                 src="/assets/app-icon"
@@ -217,10 +217,10 @@ export default function SimpleFooter() {
             <p className="text-gray-600 dark:text-slate-300 text-xl max-w-4xl mx-auto leading-relaxed">
               {t("beginners.footer.subtitle")}
             </p>
-          </div>
+          </div> */}
 
           {/* Sectioned Sitemap */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             {footerSections.map((section, index) => {
               const IconComponent = section.icon;
               return (
@@ -265,7 +265,7 @@ export default function SimpleFooter() {
                 </div>
               );
             })}
-          </div>
+          </div> */}
           {/* Quick Links Section */}
           <div className="bg-gradient-to-r from-gray-200/50 to-gray-100/50 dark:from-slate-800/50 dark:to-gray-800/50 rounded-3xl p-10 mb-16 backdrop-blur-sm border border-gray-300/50 dark:border-slate-700/50 shadow-2xl shadow-gray-900/10 dark:shadow-slate-900/20">
             <h3 className="text-2xl font-bold text-center mb-8 text-gray-800 dark:text-white">
@@ -310,7 +310,7 @@ export default function SimpleFooter() {
                   />
                   <span className="text-gray-600 dark:text-slate-300">
                     {language === "ar"
-                      ? "فرع حرب المعلومات من إدارة نظم المعلومات"
+                      ? "إدارة نظم المعلومات - فرع حرب المعلومات"
                       : "Technical Insurance Center MMC"}
                   </span>
                 </div>
@@ -319,7 +319,7 @@ export default function SimpleFooter() {
                     className={`h-6 w-6 text-green-600 dark:text-green-400 mr-3 rtl:mr-0 rtl:ml-3`}
                   />
                   <span className="text-gray-600 dark:text-slate-300">
-                    info@cybersecurity.gov
+                    {"scanss@isd.gov.eg"}
                   </span>
                 </div>
                 <div className="flex items-center justify-center">
@@ -327,7 +327,7 @@ export default function SimpleFooter() {
                     className={`h-6 w-6 text-green-600 dark:text-green-400 mr-3 rtl:mr-0 rtl:ml-3`}
                   />
                   <span className="text-gray-600 dark:text-slate-300">
-                    +966 11 123 4567
+                    {"76272"}
                   </span>
                 </div>
               </div>

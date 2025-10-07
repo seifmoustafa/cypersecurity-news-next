@@ -35,15 +35,16 @@ export default function RootLayout({
         />
         <script
           dangerouslySetInnerHTML={{
-            __html: `
+            __html: `(() => {
               try {
-                if (localStorage.getItem('theme-preference') === 'light' || 
-                    (!localStorage.getItem('theme-preference') && window.matchMedia('(prefers-color-scheme: light)').matches)) {
-                  localStorage.setItem('theme-preference', 'dark');
-                }
-                document.documentElement.classList.add('dark');
-              } catch (e) {}
-            `,
+                const storageKey = 'theme-preference';
+                const stored = localStorage.getItem(storageKey);
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const isDark = stored ? stored === 'dark' : prefersDark;
+                const root = document.documentElement.classList;
+                if (isDark) root.add('dark'); else root.remove('dark');
+              } catch (_) {}
+            })();`,
           }}
         />
       </head>

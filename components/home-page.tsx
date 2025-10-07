@@ -22,29 +22,14 @@ export default function HomePage() {
       document.documentElement.dir = "rtl";
       document.documentElement.lang = "ar";
     }
-    
-    // Force dark theme on home page load
-    setTheme("dark");
-    localStorage.setItem("theme-preference", "dark");
+    // Do not force theme; respect user's saved preference
   }, []);
 
   const handleSimpleMode = async () => {
-    // Force dark theme before navigation
-    setTheme("dark");
-    // Also set in localStorage to ensure persistence
-    localStorage.setItem("theme-preference", "dark");
-    // Small delay to ensure theme is persisted
-    await new Promise(resolve => setTimeout(resolve, 100));
     router.push("/simple");
   };
 
   const handleAdvancedMode = async () => {
-    // Force dark theme before navigation
-    setTheme("dark");
-    // Also set in localStorage to ensure persistence
-    localStorage.setItem("theme-preference", "dark");
-    // Small delay to ensure theme is persisted
-    await new Promise(resolve => setTimeout(resolve, 100));
     router.push("/advanced");
   };
 

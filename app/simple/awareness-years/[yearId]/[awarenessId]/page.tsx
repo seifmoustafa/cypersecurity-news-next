@@ -12,7 +12,8 @@ import {
   Share2,
   BookOpen,
   Eye,
-  TrendingUp
+  TrendingUp,
+  Download
 } from "lucide-react"
 import { ShareButton } from "@/components/ui/share-button"
 import Breadcrumbs from "@/components/breadcrumbs"
@@ -173,6 +174,22 @@ export default function AwarenessDetailPage({ params }: AwarenessDetailPageProps
                       </span>
                     </div>
                   </div>
+
+                  {/* Floating Download Button */}
+                  {instruction.documentUrl && (
+                    <div className="absolute bottom-6 right-6">
+                      <a
+                        href={instruction.documentUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        download
+                        className="flex items-center gap-2 px-4 py-2 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm text-gray-900 dark:text-white rounded-full shadow-lg border border-white/20 dark:border-white/10 hover:bg-white dark:hover:bg-slate-700 transition-colors duration-300"
+                      >
+                        <Download className="h-4 w-4" />
+                        <span className="text-sm font-medium">{language === "ar" ? "تحميل النشرة" : "Download Document"}</span>
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -234,6 +251,30 @@ export default function AwarenessDetailPage({ params }: AwarenessDetailPageProps
                   </ShareButton>
                 </div>
               </div>
+
+              {/* Download Section */}
+              {instruction.documentUrl && (
+                <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-slate-700">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 rounded-full flex items-center justify-center">
+                      <Download className="h-5 w-5 text-green-600 dark:text-green-400" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                      {language === "ar" ? "تحميل النشرة" : "Download Document"}
+                    </h3>
+                  </div>
+                  <a
+                    href={instruction.documentUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download
+                    className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
+                  >
+                    <Download className="h-5 w-5" />
+                    <span>{language === "ar" ? "تنزيل الملف" : "Download File"}</span>
+                  </a>
+                </div>
+              )}
             </div>
 
             {/* Sidebar */}
@@ -326,6 +367,15 @@ export default function AwarenessDetailPage({ params }: AwarenessDetailPageProps
                     </span>
                     <span className="text-sm font-semibold text-gray-900 dark:text-white">
                       {language === "ar" ? "التوعية" : "Awareness"}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      {language === "ar" ? "الوثيقة" : "Document"}
+                    </span>
+                    <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                      {instruction.documentUrl ? (language === "ar" ? "متوفر" : "Available") : (language === "ar" ? "غير متوفر" : "Not Available")}
                     </span>
                   </div>
                 </div>

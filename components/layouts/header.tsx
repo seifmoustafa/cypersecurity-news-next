@@ -220,7 +220,6 @@ export default function Header({
   const isDarkMode = theme === "dark";
 
   const handleThemeToggle = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
     onToggleTheme();
   };
 

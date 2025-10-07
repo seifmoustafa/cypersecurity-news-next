@@ -1,7 +1,6 @@
 import type React from "react";
 import { cairo, roboto } from "@/lib/fonts";
 import "../globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/components/language-provider";
 import ErrorBoundary from "@/components/error-boundary";
 import LoadingScreen from "@/components/loading-screen";
@@ -35,32 +34,12 @@ export default function RootLayout({
           name="description"
           content="أحدث المستجدات والتحليلات حول التهديدات السيبرانية وتقنيات الحماية"
         />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                if (localStorage.getItem('theme-preference') === 'light' || 
-                    (!localStorage.getItem('theme-preference') && window.matchMedia('(prefers-color-scheme: light)').matches)) {
-                  localStorage.setItem('theme-preference', 'dark');
-                }
-                document.documentElement.classList.add('dark');
-              } catch (e) {}
-            `,
-          }}
-        />
       </head>
       <body className={`${cairo.variable} ${roboto.variable}`}>
         <LanguageProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem={false}
-            disableTransitionOnChange
-          >
-            <ErrorBoundary>
-              <Suspense fallback={<LoadingScreen />}>{children}</Suspense>
-            </ErrorBoundary>
-          </ThemeProvider>
+          <ErrorBoundary>
+            <Suspense fallback={<LoadingScreen />}>{children}</Suspense>
+          </ErrorBoundary>
         </LanguageProvider>
       </body>
     </html>
