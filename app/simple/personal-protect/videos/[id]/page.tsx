@@ -1,22 +1,51 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, use } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useLanguage } from "@/components/language-provider"
-import { Video, ArrowRight, ArrowLeft, Star, BookOpen, Search } from "lucide-react"
+import { Video, ArrowRight, ArrowLeft, Star, BookOpen, Search, Play, Clock } from "lucide-react"
 import Breadcrumbs from "@/components/breadcrumbs"
+import { useVideosByCategory } from "@/core/hooks/use-videos-by-category"
 import { useVideoCategories } from "@/core/hooks/use-video-categories"
 import { useDebounce } from "@/hooks/use-debounce"
+import VideoModal from "@/components/video-modal"
 
-export default function SimpleVideoCategoriesPage() {
+interface VideoCategoryPageProps {
+  params: Promise<{
+    id: string
+  }>
+}
+
+export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
   const router = useRouter()
   const { language } = useLanguage()
   const isRtl = language === "ar"
   const [query, setQuery] = useState("")
+  const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const debouncedQuery = useDebounce(query, 500)
 
-  const { categories, loading, error } = useVideoCategories(1, 100, debouncedQuery)
+  // Unwrap the params Promise
+  const resolvedParams = use(params)
+  const { videos, loading, error } = useVideosByCategory(resolvedParams.id, 1, 100, debouncedQuery)
+  const { categories: allCategories } = useVideoCategories(1, 100)
+
+  // Resolve current video category name for breadcrumbs
+  const currentCategory = allCategories.find(cat => cat.id === resolvedParams.id)
+  const categoryName = currentCategory
+    ? (language === "ar" ? currentCategory.name : currentCategory.nameEn || currentCategory.name)
+    : (language === "ar" ? "فئة الفيديوهات" : "Video Category")
+
+  const handleVideoClick = (videoId: string) => {
+    setSelectedVideoId(videoId)
+    setIsModalOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setSelectedVideoId(null)
+  }
 
   if (loading) {
     return (
@@ -33,9 +62,9 @@ export default function SimpleVideoCategoriesPage() {
           {/* Breadcrumbs */}
           <Breadcrumbs 
             items={[
-              { label: language === "ar" ? "المكتبة الثقافية" : "Media Library", href: "/simple/media" },
-              { label: language === "ar" ? "دروس تعليمية" : "Educational Lessons", href: "/simple/media/lessons" },
-              { label: language === "ar" ? "فئات الفيديوهات" : "Video Categories" }
+              { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/simple/personal-protect" },
+              { label: language === "ar" ? "الفيديوهات" : "Educational Videos", href: "/simple/personal-protect/videos" },
+              { label: language === "ar" ? "جاري التحميل..." : "Loading..." }
             ]} 
           />
 
@@ -47,11 +76,11 @@ export default function SimpleVideoCategoriesPage() {
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder={language === "ar" ? "ابحث في فئات الفيديوهات..." : "Search video categories..."}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-red-500 outline-none text-gray-900 dark:text-white"
+                  placeholder={language === "ar" ? "ابحث في الفيديوهات..." : "Search videos..."}
+                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-white"
                 />
               </div>
-              <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-xl">
+              <div className="bg-gradient-to-rfrom-teal-500 to-blue-600 p-3 rounded-xl">
                 <Video className="h-6 w-6 text-white" />
               </div>
             </div>
@@ -60,9 +89,10 @@ export default function SimpleVideoCategoriesPage() {
           {/* Loading Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[...Array(6)].map((_, index) => (
-              <div key={index} className="bg-white dark:bg-slate-800 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-lg h-[350px] animate-pulse">
+              <div key={index} className="bg-white dark:bg-slate-800 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-lg h-[400px] animate-pulse">
                 <div className="p-8 space-y-4">
-                  <div className="h-8 bg-slate-200 dark:bg-slate-700 rounded-xl w-3/4"></div>
+                  <div className="h-48 bg-slate-200 dark:bg-slate-700 rounded-xl"></div>
+                  <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-3/4"></div>
                   <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-full"></div>
                   <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-2/3"></div>
                   <div className="h-12 bg-slate-200 dark:bg-slate-700 rounded-xl w-full"></div>
@@ -81,7 +111,7 @@ export default function SimpleVideoCategoriesPage() {
         <div className="text-center py-12">
           <Video className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
           <h3 className="text-lg font-medium text-muted-foreground mb-2">
-            {language === "ar" ? "حدث خطأ في تحميل فئات الفيديوهات" : "Error loading video categories"}
+            {language === "ar" ? "حدث خطأ في تحميل الفيديوهات" : "Error loading videos"}
           </h3>
           <p className="text-muted-foreground mb-4">{error}</p>
         </div>
@@ -103,9 +133,9 @@ export default function SimpleVideoCategoriesPage() {
         {/* Breadcrumbs */}
         <Breadcrumbs 
           items={[
-            { label: language === "ar" ? "المكتبة الثقافية" : "Media Library", href: "/simple/media" },
-            { label: language === "ar" ? "دروس تعليمية" : "Educational Lessons", href: "/simple/media/lessons" },
-            { label: language === "ar" ? "فئات الفيديوهات" : "Video Categories" }
+            { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/simple/personal-protect" },
+            { label: language === "ar" ? "الفيديوهات" : "Educational Videos", href: "/simple/personal-protect/videos" },
+            { label: categoryName }
           ]} 
         />
 
@@ -117,24 +147,24 @@ export default function SimpleVideoCategoriesPage() {
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder={language === "ar" ? "ابحث في فئات الفيديوهات..." : "Search video categories..."}
-                className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-red-500 outline-none text-gray-900 dark:text-white"
+                placeholder={language === "ar" ? "ابحث في الفيديوهات..." : "Search videos..."}
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-white"
               />
             </div>
-            <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-xl">
+            <div className="bg-gradient-to-r from-teal-500 to-blue-600 p-3 rounded-xl">
               <Video className="h-6 w-6 text-white" />
             </div>
           </div>
         </div>
 
-        {/* Categories Grid */}
-        {categories.length === 0 ? (
+        {/* Videos Grid */}
+        {videos.length === 0 ? (
           <div className="text-center py-12">
             <Video className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
             <h3 className="text-lg font-medium text-muted-foreground mb-2">
               {debouncedQuery 
-                ? (language === "ar" ? "لا توجد فئات تطابق البحث" : "No categories match your search")
-                : (language === "ar" ? "لا توجد فئات فيديوهات متاحة" : "No video categories available")
+                ? (language === "ar" ? "لا توجد فيديوهات تطابق البحث" : "No videos match your search")
+                : (language === "ar" ? "لا توجد فيديوهات متاحة" : "No videos available")
               }
             </h3>
             <p className="text-muted-foreground">
@@ -143,18 +173,18 @@ export default function SimpleVideoCategoriesPage() {
                     ? "جرب البحث بكلمات مختلفة"
                     : "Try searching with different keywords")
                 : (language === "ar"
-                    ? "لم يتم العثور على أي فئات فيديوهات"
-                    : "No video categories found")
+                    ? "لم يتم العثور على أي فيديوهات في هذه الفئة"
+                    : "No videos found in this category")
               }
             </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {categories.map((category, index) => (
-              <Link
-                key={category.id}
-                href={`/simple/media/lessons/videos/${category.id}`}
-                className="group"
+            {videos.map((video, index) => (
+              <button
+                key={video.id}
+                onClick={() => handleVideoClick(video.id)}
+                className="group w-full text-left"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div
@@ -174,12 +204,12 @@ export default function SimpleVideoCategoriesPage() {
                   }}
                   style={{ transform: "perspective(900px)" }}
                 >
-                  {/* Category Image */}
+                  {/* Video Thumbnail */}
                   <div className="relative aspect-video bg-gradient-to-br from-blue-500 to-blue-600">
-                    {category.imageUrl ? (
+                    {video.imageUrl ? (
                       <img
-                        src={category.imageUrl}
-                        alt={language === "ar" ? category.name : category.nameEn || category.name}
+                        src={video.imageUrl}
+                        alt={language === "ar" ? video.nameAr : video.nameEn || video.nameAr}
                         className="w-full h-full object-fill group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
@@ -189,41 +219,56 @@ export default function SimpleVideoCategoriesPage() {
                         </div>
                       </div>
                     )}
-                    <div className="absolute top-4 right-4 bg-black/50 text-white text-xs px-3 py-1 rounded-full">
-                      {language === "ar" ? "فئة فيديو" : "Video Category"}
+                    
+                    {/* Play Button Overlay */}
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors duration-300">
+                      <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 group-hover:scale-110 transition-transform duration-300">
+                        <Play className="h-8 w-8 text-blue-600 ml-1" />
+                      </div>
+                    </div>
+
+                    {/* Video Duration Badge */}
+                    <div className="absolute bottom-4 right-4 bg-black/70 text-white text-xs px-2 py-1 rounded">
+                      <Clock className="h-3 w-3 inline mr-1" />
+                      {language === "ar" ? "فيديو" : "Video"}
+                    </div>
+
+                    {/* Category Badge */}
+                    <div className="absolute top-4 right-4 bg-blue-500/90 text-white text-xs px-3 py-1 rounded-full">
+                      {video.forBeginners ? (language === "ar" ? "للعامة" : "Beginners") : ""}
+                      {video.forBeginners && video.forProfessionals ? " • " : ""}
+                      {video.forProfessionals ? (language === "ar" ? "للمحترفين" : "Professionals") : ""}
                     </div>
                   </div>
 
                   {/* Content */}
-                  <div className="p-8">
-                    {/* Category Header */}
-                    <div className="flex items-center mb-6">
-                      <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
-                        <Video className="h-6 w-6 text-white" />
+                  <div className="p-6">
+                    {/* Video Header */}
+                    <div className="flex items-center mb-4">
+                      <div className="bg-gradient-to-r from-teal-500 to-blue-600 p-2 rounded-lg mr-3 rtl:mr-0 rtl:ml-3 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+                        <Video className="h-4 w-4 text-white" />
                       </div>
                       <div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400 mb-1 flex items-center gap-2">
-                          <BookOpen className="h-4 w-4" /> {new Date(category.createdAt).toLocaleDateString()}
+                        <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                          <Clock className="h-3 w-3" /> {new Date(video.createdAt).toLocaleDateString()}
                         </div>
                       </div>
                     </div>
 
-                    {/* Category Title */}
-                    <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors duration-300 line-clamp-2">
-                      {language === "ar" ? category.name : category.nameEn || category.name}
-                    </h3>
+                    {/* Video Title */}
+                    <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 line-clamp-2">
+                      {language === "ar" ? video.nameAr : video.nameEn || video.nameAr}
+                    </h3>     
 
-                    {/* Category Description */}
-                    <div className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-6 line-clamp-3">
-                      {language === "ar" 
-                        ? "تصفح الفيديوهات التعليمية في هذه الفئة" 
-                        : "Browse educational videos in this category"}
+                    {/* Video Summary */}
+                    <div className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3">
+                      {language === "ar" ? video.summaryAr : video.summaryEn || video.summaryAr}
                     </div>
 
-                    {/* Category Footer */}
-                    <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-blue-400">
+                    {/* Video Footer */}
+                    <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-teal-500 to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-blue-400">
                       <span className="mr-2 rtl:mr-0 rtl:ml-2">
-                        {language === "ar" ? "تصفح الفيديوهات" : "Browse Videos"}
+                        {language === "ar" ? "مشاهدة الفيديو" : "Watch Video"}
                       </span>
                       {isRtl ? (
                         <ArrowLeft className="h-4 w-4 group-hover/btn:-translate-x-1 transition-transform duration-300" />
@@ -233,11 +278,18 @@ export default function SimpleVideoCategoriesPage() {
                     </div>
                   </div>
                 </div>
-              </Link>
+              </button>
             ))}
           </div>
         )}
       </div>
+
+      {/* Video Modal */}
+      <VideoModal
+        videoId={selectedVideoId}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </div>
   )
 }

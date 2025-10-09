@@ -125,7 +125,7 @@ export default function BeginnersVideosPage() {
             </div>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            {language === "ar" ? "الفيديوهات التعليمية" : "Educational Videos"}
+            {language === "ar" ? "الفيديوهات" : "Educational Videos"}
           </h1>
           <p className="text-xl text-slate-300 max-w-3xl mx-auto">
             {language === "ar" 

@@ -87,7 +87,7 @@ export default function HelperDetailPage() {
       window.history.replaceState(
         null,
         "",
-        `/simple/helper-categories/${categoryId}/${helpers[newIndex].id}`
+        `/simple/personal-protect/helpers/${categoryId}/${helpers[newIndex].id}`
       );
     }
   };
@@ -105,7 +105,7 @@ export default function HelperDetailPage() {
       window.history.replaceState(
         null,
         "",
-        `/simple/helper-categories/${categoryId}/${helpers[newIndex].id}`
+        `/simple/personal-protect/helpers/${categoryId}/${helpers[newIndex].id}`
       );
     }
   };
@@ -117,7 +117,7 @@ export default function HelperDetailPage() {
       window.history.replaceState(
         null,
         "",
-        `/simple/helper-categories/${categoryId}/${helpers[index].id}`
+        `/simple/personal-protect/helpers/${categoryId}/${helpers[index].id}`
       );
     }
   };
@@ -128,7 +128,7 @@ export default function HelperDetailPage() {
     } else if (e.key === "ArrowRight") {
       goToNext();
     } else if (e.key === "Escape") {
-      router.push(`/simple/helper-categories?category=${categoryId}`);
+      router.push(`/simple/personal-protect/helpers?category=${categoryId}`);
     }
   };
 
@@ -159,7 +159,7 @@ export default function HelperDetailPage() {
             {language === "ar" ? "الإرشاد غير موجود" : "Helper not found"}
           </h2>
           <Link
-            href={`/simple/helper-categories?category=${categoryId}`}
+            href={`/simple/personal-protect/helpers?category=${categoryId}`}
             className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -184,12 +184,12 @@ export default function HelperDetailPage() {
         <Breadcrumbs
           items={[
             {
-              label: language === "ar" ? "التوعية" : "Awareness",
-              href: "/simple/awareness",
+              label: language === "ar" ? "الحماية الشخصية" : "Personal Protection",
+              href: "/simple/personal-protect",
             },
             {
               label: language === "ar" ? "الإرشادات" : "Helpers",
-              href: "/simple/helper-categories",
+              href: "/simple/personal-protect/helpers",
             },
             {
               label:
@@ -198,7 +198,7 @@ export default function HelperDetailPage() {
                   : selectedCategory?.titleEn ||
                     selectedCategory?.title ||
                     "Category",
-              href: `/simple/helper-categories?category=${categoryId}`,
+              href: `/simple/personal-protect/helpers?category=${categoryId}`,
             },
             {
               label:
@@ -223,7 +223,7 @@ export default function HelperDetailPage() {
                   {allCategories.map((category) => (
                     <Link
                       key={category.id}
-                      href={`/simple/helper-categories?category=${category.id}`}
+                      href={`/simple/personal-protect/helpers?category=${category.id}`}
                       className={`w-full text-left p-3 rounded-lg transition-all duration-300 flex items-center justify-between group ${
                         categoryId === category.id
                           ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-700"
@@ -285,7 +285,7 @@ export default function HelperDetailPage() {
                         <Share2 className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                       </button>
                       <Link
-                        href={`/simple/helper-categories?category=${categoryId}`}
+                        href={`/simple/personal-protect/helpers?category=${categoryId}`}
                         className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors duration-300"
                       >
                         <X className="h-5 w-5 text-blue-600 dark:text-blue-400" />

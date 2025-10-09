@@ -39,7 +39,8 @@ import { useLanguage } from "@/components/language-provider";
 import SimpleTipsTicker from "@/components/layouts/simple-tips-ticker";
 import SimpleTipOfTheDayPopup from "@/components/simple-tip-of-the-day-popup";
 import { useDefinitionCategories } from "@/core/hooks/use-definition-categories";
-import { usePersonalProtectCategories } from "@/core/hooks/use-personal-protect-categories";
+import { useVideoCategories } from "@/core/hooks/use-video-categories";
+import { useHelperCategories } from "@/hooks/use-helper-categories";
 
 export default function BeginnersHome() {
   const router = useRouter();
@@ -50,11 +51,11 @@ export default function BeginnersHome() {
   const { categories: definitionCategories, loading: definitionsLoading } =
     useDefinitionCategories(1, 100);
 
-  // Fetch personal protect categories
-  const {
-    categories: personalProtectCategories,
-    loading: personalProtectLoading,
-  } = usePersonalProtectCategories("", 1, 100);
+  // Fetch video categories
+  const { categories: videoCategories } = useVideoCategories(1, 100);
+  
+  // Fetch helper categories
+  const { categories: helperCategories } = useHelperCategories(1, 100);
 
 
   useEffect(() => {
@@ -82,12 +83,6 @@ export default function BeginnersHome() {
           count: "",
         },
         {
-          title: language === "ar" ? "الفيديوهات التعليمية" : "Educational Videos",
-          href: "/simple/media/videos",
-          icon: Video,
-          count: "",
-        },
-        {
           title: language === "ar" ? "المحاضرات" : "Lectures",
           href: "/simple/media/lectures",
           icon: GraduationCap,
@@ -97,8 +92,8 @@ export default function BeginnersHome() {
     },
     {
       id: "personal-protect",
-      title: t("beginners.cards.personalProtect.title"),
-      description: t("beginners.cards.personalProtect.description"),
+      title: language === "ar" ? "الحماية الشخصية" : "Personal Protection",
+      description: language === "ar" ? "أدوات وإرشادات للحماية الشخصية" : "Tools and guides for personal protection",
       icon: ShieldCheck,
       color: "from-cyan-500 to-blue-600",
       bgColor:
@@ -107,15 +102,15 @@ export default function BeginnersHome() {
       href: "/simple/personal-protect",
       items: [
         {
-          title: t("beginners.cards.personalProtect.tips"),
-          href: "/simple/personal-protect",
-          icon: ShieldCheck,
+          title: language === "ar" ? "الفيديوهات" : "Educational Videos",
+          href: "/simple/personal-protect/videos",
+          icon: Video,
           count: "",
         },
         {
-          title: t("beginners.cards.personalProtect.tools"),
-          href: "/simple/personal-protect/tools",
-          icon: Settings,
+          title: language === "ar" ? "الإرشادات" : "Helpers",
+          href: "/simple/personal-protect/helpers",
+          icon: BookOpen,
           count: "",
         },
       ],
@@ -144,12 +139,6 @@ export default function BeginnersHome() {
           title: language === "ar" ? "نشرات التوعية" : "Awareness",
           href: "/simple/awareness-years",
           icon: Lightbulb,
-          count: "",
-        },
-        {
-          title: language === "ar" ? "الإرشادات" : "Helpers",
-          href: "/simple/helper-categories",
-          icon: BookOpen,
           count: "",
         },
       ],
@@ -566,106 +555,47 @@ export default function BeginnersHome() {
                         <div className="space-y-2 flex-1 flex flex-col justify-start overflow-y-auto max-h-64">
                         */}
                         {card.id === "personal-protect" ? (
-                          // Show actual personal protect categories
+                          // Show two main buttons: Videos and Helpers
                           <>
-                            {personalProtectLoading ? (
-                              // Loading state
-                              <>
-                                {[...Array(2)].map((_, index) => (
-                                  <div
-                                    key={index}
-                                    className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 rounded-lg border border-white/20 dark:border-white/10 animate-pulse"
-                                  >
-                                    <div className="flex-1 min-w-0">
-                                      <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-2"></div>
-                                      <div className="h-3 bg-gray-300 dark:bg-gray-700 rounded w-1/2"></div>
-                                    </div>
-                                    <div className="h-4 w-4 bg-gray-300 dark:bg-gray-700 rounded"></div>
-                                  </div>
-                                ))}
-                              </>
-                            ) : personalProtectCategories.length > 0 ? (
-                              // OLD WAY (commented): Show only first 2 categories + show more
-                              // personalProtectCategories
-                              //   .slice(0, 2)
-                              //   .map((category, categoryIndex) => (
-                              //     <Link
-                              //       key={category.id}
-                              //       href={`/simple/personal-protect/${category.id}`}
-                              //       onClick={(e) => e.stopPropagation()}
-                              //       className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
-                              //     >
-                              //       <div className="flex-1 min-w-0">
-                              //         <span className="text-gray-700 dark:text-white text-sm font-medium group-hover/item:text-amber-700 dark:group-hover/item:text-amber-400 transition-colors duration-300 line-clamp-1">
-                              //           {language === "ar"
-                              //             ? category.name
-                              //             : category.nameEn || category.name}
-                              //         </span>
-                              //       </div>
-                              //       <div className="flex items-center">
-                              //         {isRtl ? (
-                              //           <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-amber-600 dark:group-hover/item:text-amber-400 transition-colors duration-300" />
-                              //         ) : (
-                              //           <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-amber-600 dark:group-hover/item:text-amber-400 transition-colors duration-300" />
-                              //         )}
-                              //       </div>
-                              //     </Link>
-                              //   ))
-                              // ).concat([
-                              //   <Link
-                              //     key="show-more"
-                              //     href="/simple/personal-protect"
-                              //     onClick={(e) => e.stopPropagation()}
-                              //     className="flex items-center justify-between p-3 bg-amber-500/20 dark:bg-amber-500/10 hover:bg-amber-500/30 dark:hover:bg-amber-500/20 rounded-lg transition-all duration-300 group/item border border-amber-500/30 dark:border-amber-500/20 hover:border-amber-500/50 dark:hover:border-amber-500/30"
-                              //   >
-                              //     <span className="text-amber-700 dark:text-amber-400 text-sm font-medium group-hover/item:text-amber-800 dark:group-hover/item:text-amber-300 transition-colors duration-300">
-                              //       {language === "ar"
-                              //         ? "عرض المزيد من الفئات"
-                              //         : "View More"}
-                              //     </span>
-                              //     <div className="flex items-center">
-                              //       {isRtl ? (
-                              //         <ArrowLeft className="h-4 w-4 text-amber-600 dark:text-amber-400 group-hover/item:text-amber-700 dark:group-hover/item:text-amber-300 transition-colors duration-300" />
-                              //       ) : (
-                              //         <ArrowRight className="h-4 w-4 text-amber-600 dark:text-amber-400 group-hover/item:text-amber-700 dark:group-hover/item:text-amber-300 transition-colors duration-300" />
-                              //       )}
-                              //     </div>
-                              //   </Link>
-                              // ])
-                              
-                              // NEW WAY: Show all categories
-                              personalProtectCategories
-                                .map((category, categoryIndex) => (
-                                  <Link
-                                    key={category.id}
-                                    href={`/simple/personal-protect/${category.id}`}
-                                    onClick={(e) => e.stopPropagation()}
-                                    className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
-                                  >
-                                    <div className="flex-1 min-w-0">
-                                      <span className="text-gray-700 dark:text-white text-sm font-medium group-hover/item:text-amber-700 dark:group-hover/item:text-amber-400 transition-colors duration-300 line-clamp-1">
-                                        {language === "ar"
-                                          ? category.name
-                                          : category.nameEn || category.name}
-                                      </span>
-                                    </div>
-                                    <div className="flex items-center">
-                                      {isRtl ? (
-                                        <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-amber-600 dark:group-hover/item:text-amber-400 transition-colors duration-300" />
-                                      ) : (
-                                        <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-amber-600 dark:group-hover/item:text-amber-400 transition-colors duration-300" />
-                                      )}
-                                    </div>
-                                  </Link>
-                                ))
-                            ) : (
-                              // Empty state - show placeholder items
-                              <></>
-                            )}
+                            {/* Videos Button */}
+                            <Link
+                              href="/simple/personal-protect/videos"
+                              onClick={(e) => e.stopPropagation()}
+                              className="flex items-center justify-between p-4 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
+                            >
+                              <span className="text-gray-700 dark:text-white text-sm font-medium group-hover/item:text-blue-700 dark:group-hover/item:text-blue-400 transition-colors duration-300">
+                                {language === "ar" ? "الفيديوهات التعليمية" : "Educational Videos"}
+                              </span>
+                              <div className="flex items-center">
+                                {isRtl ? (
+                                  <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-blue-600 dark:group-hover/item:text-blue-400 transition-colors duration-300" />
+                                ) : (
+                                  <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-blue-600 dark:group-hover/item:text-blue-400 transition-colors duration-300" />
+                                )}
+                              </div>
+                            </Link>
+                            
+                            {/* Helpers Button */}
+                            <Link
+                              href="/simple/personal-protect/helpers"
+                              onClick={(e) => e.stopPropagation()}
+                              className="flex items-center justify-between p-4 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
+                            >
+                              <span className="text-gray-700 dark:text-white text-sm font-medium group-hover/item:text-green-700 dark:group-hover/item:text-green-400 transition-colors duration-300">
+                                {language === "ar" ? "الإرشادات" : "Helpers"}
+                              </span>
+                              <div className="flex items-center">
+                                {isRtl ? (
+                                  <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
+                                ) : (
+                                  <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
+                                )}
+                              </div>
+                            </Link>
                           </>
                         ) : (
                           // Show regular items for other cards
-                          card.items.map((item, itemIndex) => (
+                          card.items?.map((item, itemIndex) => (
                             <Link
                               key={itemIndex}
                               href={item.href}

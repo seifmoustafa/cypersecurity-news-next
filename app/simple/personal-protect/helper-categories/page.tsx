@@ -37,11 +37,11 @@ export default function HelperCategoriesPage() {
   const selectedCategory = allCategories.find(cat => cat.id === selectedCategoryId);
 
   const handleCategorySelect = (categoryId: string) => {
-    router.push(`/simple/helper-categories?category=${categoryId}`);
+    router.push(`/simple/personal-protect/helpers?category=${categoryId}`);
   };
 
   const handleHelperClick = (helperId: string) => {
-    router.push(`/simple/helper-categories/${selectedCategoryId}/${helperId}`);
+    router.push(`/simple/personal-protect/helpers/${selectedCategoryId}/${helperId}`);
   };
 
   return (
@@ -58,12 +58,12 @@ export default function HelperCategoriesPage() {
         <Breadcrumbs
           items={[
             {
-              label: language === "ar" ? "التوعية" : "Awareness",
-              href: "/simple/awareness",
+              label: language === "ar" ? "الحماية الشخصية" : "Personal Protection",
+              href: "/simple/personal-protect",
             },
             {
               label: language === "ar" ? "الإرشادات" : "Helpers",
-              href: "/simple/helper-categories",
+              href: "/simple/personal-protect/helpers",
             },
             ...(selectedCategory ? [{
               label: language === "ar" ? selectedCategory.title : selectedCategory.titleEn || selectedCategory.title,

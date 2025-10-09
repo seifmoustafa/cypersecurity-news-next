@@ -30,7 +30,6 @@ import { Button } from "@/components/ui/button"
 import { container } from "@/core/di/container"
 import Breadcrumbs from "@/components/breadcrumbs"
 import { useReferences } from "@/core/hooks/use-references"
-import { useVideoCategories } from "@/core/hooks/use-video-categories"
 import { useLectureCategories } from "@/core/hooks/use-lecture-categories"
 
 export default function BeginnersMediaPage() {
@@ -44,7 +43,6 @@ export default function BeginnersMediaPage() {
   
   // Fetch categories and data from backend
   const { references, loading: referencesLoading } = useReferences("", 1, 2)
-  const { categories: videoCategories } = useVideoCategories(1, 100)
   const { categories: lectureCategories } = useLectureCategories(1, 100)
 
   useEffect(() => {
@@ -99,23 +97,6 @@ export default function BeginnersMediaPage() {
           icon: FileText,
         },
       ]
-    },
-    {
-      id: "videos",
-      title: language === "ar" ? "الفيديوهات التعليمية" : "Educational Videos",
-      description: language === "ar" ? "فيديوهات تفاعلية لتعلم أساسيات الأمن السيبراني" : "Interactive videos to learn cybersecurity fundamentals",
-      icon: Video,
-      color: "from-blue-500 to-blue-600",
-      bgColor: "bg-blue-50 dark:bg-blue-900/20",
-      borderColor: "border-blue-200 dark:border-blue-800",
-      count: "",
-      href: "/simple/media/videos",
-      imagePath: "/assets/images/beginners/Gemini_Generated_Image_c7ds1sc7ds1sc7ds.png",
-      items: videoCategories.map(category => ({
-        title: language === "ar" ? category.name : category.nameEn || category.name,
-        href: `/simple/media/videos/${category.id}`,
-        icon: Video,
-      }))
     },
     {
       id: "lectures",

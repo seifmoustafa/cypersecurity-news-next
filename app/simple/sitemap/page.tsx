@@ -95,7 +95,6 @@ export default function BeginnersSitemapPage() {
   // Fetch all categories
   const { categories: newsCategories, loading: newsLoading } = useNewsCategories(1, 100);
   const { categories: definitionCategories, loading: definitionLoading } = useDefinitionCategories(1, 100);
-  const { categories: personalProtectCategories, loading: personalProtectLoading } = usePersonalProtectCategories("", 1, 100);
   const { categories: videoCategories, loading: videoLoading } = useVideoCategories(1, 100);
   const { categories: lectureCategories, loading: lectureLoading } = useLectureCategories(1, 100);
   const { categories: helperCategories, loading: helperLoading } = useHelperCategories(1, 100);
@@ -238,22 +237,56 @@ export default function BeginnersSitemapPage() {
       title: language === "ar" ? "الحماية الشخصية" : "Personal Protection",
       icon: ShieldCheck,
       href: "/simple/personal-protect",
-      description: language === "ar" ? "فئات الحماية الشخصية" : "Personal protection categories",
+      description: language === "ar" ? "فيديوهات وإرشادات الحماية الشخصية" : "Personal protection videos and guides",
       type: 'branch',
       color: 'text-blue-600',
       gradient: 'from-blue-500 to-cyan-500',
-      children: personalProtectCategories.map(category => ({
-        id: `protect-cat-${category.id}`,
-        title: language === "ar" ? category.name : (category.nameEn || category.name),
-        icon: Shield,
-        href: `/simple/personal-protect?category=${category.id}`,
-        description: language === "ar" ? `حماية ${category.name}` : `Protection for ${category.nameEn || category.name}`,
-        type: 'leaf',
-        level: 1,
-        color: 'text-blue-500',
-      })),
-      loading: personalProtectLoading,
-      count: personalProtectCategories.length,
+      children: [
+        {
+          id: "videos",
+          title: language === "ar" ? "الفيديوهات" : "Educational Videos",
+          icon: Video,
+          href: "/simple/personal-protect/videos",
+          description: language === "ar" ? "فيديوهات تعليمية للحماية الشخصية" : "Educational videos for personal protection",
+          type: 'branch',
+          level: 1,
+          color: 'text-blue-500',
+          children: videoCategories.map(category => ({
+            id: `video-cat-${category.id}`,
+            title: language === "ar" ? category.name : (category.nameEn || category.name),
+            icon: Video,
+            href: `/simple/personal-protect/videos/${category.id}`,
+            description: language === "ar" ? `فيديوهات ${category.name}` : `Videos for ${category.nameEn || category.name}`,
+            type: 'leaf',
+            level: 2,
+            color: 'text-blue-400',
+          })),
+          loading: videoLoading,
+          count: videoCategories.length,
+        },
+        {
+          id: "helpers",
+          title: language === "ar" ? "الإرشادات" : "Helpers",
+          icon: BookOpen,
+          href: "/simple/personal-protect/helpers",
+          description: language === "ar" ? "إرشادات وأدلة الحماية الشخصية" : "Personal protection guides and helpers",
+          type: 'branch',
+          level: 1,
+          color: 'text-green-500',
+          children: helperCategories.map(category => ({
+            id: `helper-cat-${category.id}`,
+            title: language === "ar" ? category.title : (category.titleEn || category.title),
+            icon: BookOpen,
+            href: `/simple/personal-protect/helpers/${category.id}`,
+            description: language === "ar" ? `إرشادات ${category.title}` : `Helpers for ${category.titleEn || category.title}`,
+            type: 'leaf',
+            level: 2,
+            color: 'text-green-400',
+          })),
+          loading: helperLoading,
+          count: helperCategories.length,
+        },
+      ],
     },
     {
       id: "media",
@@ -266,60 +299,26 @@ export default function BeginnersSitemapPage() {
       gradient: 'from-cyan-500 to-blue-500',
       children: [
         {
-          id: "lessons",
-          title: language === "ar" ? "دروس تعليمية" : "Educational Lessons",
+          id: "lectures",
+          title: language === "ar" ? "المحاضرات" : "Lectures",
           icon: GraduationCap,
-          href: "/simple/media/lessons",
-          description: language === "ar" ? "دروس تعليمية متخصصة" : "Specialized educational lessons",
+          href: "/simple/media/lectures",
+          description: language === "ar" ? "محاضرات تعليمية متخصصة" : "Specialized educational lectures",
           type: 'branch',
           level: 1,
           color: 'text-cyan-500',
-          children: [
-            {
-              id: "videos",
-              title: language === "ar" ? "الفيديوهات" : "Videos",
-              icon: Video,
-              href: "/simple/media/lessons/videos",
-              description: language === "ar" ? "فيديوهات تعليمية" : "Educational videos",
-              type: 'branch',
-              level: 2,
-              color: 'text-blue-500',
-              children: videoCategories.map(category => ({
-                id: `video-cat-${category.id}`,
-                title: language === "ar" ? category.name : (category.nameEn || category.name),
-                icon: Play,
-                href: `/simple/media/lessons/videos?category=${category.id}`,
-                description: language === "ar" ? `فيديوهات ${category.name}` : `Videos for ${category.nameEn || category.name}`,
-                type: 'leaf',
-                level: 3,
-                color: 'text-blue-400',
-              })),
-              loading: videoLoading,
-              count: videoCategories.length,
-            },
-            {
-              id: "lectures",
-              title: language === "ar" ? "المحاضرات" : "Lectures",
-              icon: GraduationCap,
-              href: "/simple/media/lessons/lectures",
-              description: language === "ar" ? "محاضرات تعليمية" : "Educational lectures",
-              type: 'branch',
-              level: 2,
-              color: 'text-cyan-500',
-              children: lectureCategories.map(category => ({
-                id: `lecture-cat-${category.id}`,
-                title: language === "ar" ? category.name : (category.nameEn || category.name),
-                icon: BookOpen,
-                href: `/simple/media/lessons/lectures?category=${category.id}`,
-                description: language === "ar" ? `محاضرات ${category.name}` : `Lectures for ${category.nameEn || category.name}`,
-                type: 'leaf',
-                level: 3,
-                color: 'text-cyan-400',
-              })),
-              loading: lectureLoading,
-              count: lectureCategories.length,
-            },
-          ],
+          children: lectureCategories.map(category => ({
+            id: `lecture-cat-${category.id}`,
+            title: language === "ar" ? category.name : (category.nameEn || category.name),
+            icon: FileText,
+            href: `/simple/media/lectures/${category.id}`,
+            description: language === "ar" ? `محاضرات ${category.name}` : `Lectures for ${category.nameEn || category.name}`,
+            type: 'leaf',
+            level: 2,
+            color: 'text-cyan-400',
+          })),
+          loading: lectureLoading,
+          count: lectureCategories.length,
         },
         {
           id: "references",
@@ -652,14 +651,12 @@ export default function BeginnersSitemapPage() {
     newsCategories.length +
     (awarenessYearsData?.data?.length || 0) +
     helperCategories.length +
-    personalProtectCategories.length +
     videoCategories.length +
     lectureCategories.length;
 
   const isLoading = [
     newsLoading,
     definitionLoading,
-    personalProtectLoading,
     videoLoading,
     lectureLoading,
     helperLoading,
