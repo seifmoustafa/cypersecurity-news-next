@@ -122,12 +122,12 @@ export default function SitemapPage() {
       title: language === "ar" ? "المكتبة الوثائقية" : "Document Library",
       icon: FileText,
       path: "/advanced/videos",
-      description: language === "ar" ? "الفيديوهات والمحاضرات والعروض" : "Videos, lectures, and presentations",
+      description: language === "ar" ? "فيديوهات والمحاضرات والعروض" : "Videos, lectures, and presentations",
       color: "text-cyan-600",
       bgColor: "bg-cyan-50",
       gradient: "from-cyan-500 to-cyan-600",
       subsections: [
-        { title: language === "ar" ? "الفيديوهات" : "Videos", path: "/advanced/videos", icon: Play, description: language === "ar" ? "مقاطع فيديو تعليمية" : "Educational videos" },
+        { title: language === "ar" ? "فيديوهات" : "Videos", path: "/advanced/videos", icon: Play, description: language === "ar" ? "مقاطع فيديو " : "Educational videos" },
         { title: language === "ar" ? "المحاضرات" : "Lectures", path: "/advanced/lectures", icon: GraduationCap, description: language === "ar" ? "محاضرات متخصصة" : "Specialized lectures" },
         { title: language === "ar" ? "العروض التقديمية" : "Presentations", path: "/advanced/presentations", icon: Presentation, description: language === "ar" ? "عروض تقديمية" : "Presentations" }
       ]
@@ -342,7 +342,7 @@ export default function SitemapPage() {
                 <Link href="/advanced/videos">
                   <Button variant="secondary" className="bg-white/20 hover:bg-white/30 text-white border-white/20">
                     <Play className="h-5 w-5 mr-2" />
-                    {language === "ar" ? "الفيديوهات" : "Videos"}
+                    {language === "ar" ? "فيديوهات" : "Videos"}
                   </Button>
                 </Link>
               </div>

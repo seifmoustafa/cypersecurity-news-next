@@ -34,7 +34,7 @@ export default function SimpleVideoCategoriesPage() {
           <Breadcrumbs 
             items={[
               { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/simple/personal-protect" },
-              { label: language === "ar" ? "الفيديوهات" : "Educational Videos" }
+              { label: language === "ar" ? "فيديوهات" : "Educational Videos" }
             ]} 
           />
 
@@ -46,7 +46,7 @@ export default function SimpleVideoCategoriesPage() {
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder={language === "ar" ? "ابحث في فئات الفيديوهات..." : "Search video categories..."}
+                  placeholder={language === "ar" ? "ابحث في فئات فيديوهات..." : "Search video categories..."}
                   className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-red-500 outline-none text-gray-900 dark:text-white"
                 />
               </div>
@@ -80,7 +80,7 @@ export default function SimpleVideoCategoriesPage() {
         <div className="text-center py-12">
           <Video className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
           <h3 className="text-lg font-medium text-muted-foreground mb-2">
-            {language === "ar" ? "حدث خطأ في تحميل فئات الفيديوهات" : "Error loading video categories"}
+            {language === "ar" ? "حدث خطأ في تحميل فئات فيديوهات" : "Error loading video categories"}
           </h3>
           <p className="text-muted-foreground mb-4">{error}</p>
         </div>
@@ -103,7 +103,7 @@ export default function SimpleVideoCategoriesPage() {
         <Breadcrumbs 
           items={[
             { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/simple/personal-protect" },
-            { label: language === "ar" ? "الفيديوهات" : "Educational Videos" }
+            { label: language === "ar" ? "فيديوهات" : "Educational Videos" }
           ]} 
         />
 
@@ -115,7 +115,7 @@ export default function SimpleVideoCategoriesPage() {
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder={language === "ar" ? "ابحث في فئات الفيديوهات..." : "Search video categories..."}
+                placeholder={language === "ar" ? "ابحث في فئات فيديوهات..." : "Search video categories..."}
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-red-500 outline-none text-gray-900 dark:text-white"
               />
             </div>
@@ -214,14 +214,14 @@ export default function SimpleVideoCategoriesPage() {
                     {/* Category Description */}
                     <div className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-6 line-clamp-3">
                       {language === "ar" 
-                        ? "تصفح الفيديوهات في هذه الفئة" 
+                        ? "تصفح فيديوهات في هذه الفئة" 
                         : "Browse educational videos in this category"}
                     </div>
 
                     {/* Category Footer */}
                     <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-blue-400">
                       <span className="mr-2 rtl:mr-0 rtl:ml-2">
-                        {language === "ar" ? "تصفح الفيديوهات" : "Browse Videos"}
+                        {language === "ar" ? "تصفح فيديوهات" : "Browse Videos"}
                       </span>
                       {isRtl ? (
                         <ArrowLeft className="h-4 w-4 group-hover/btn:-translate-x-1 transition-transform duration-300" />

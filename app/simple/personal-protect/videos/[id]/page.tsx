@@ -35,7 +35,7 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
   const currentCategory = allCategories.find(cat => cat.id === resolvedParams.id)
   const categoryName = currentCategory
     ? (language === "ar" ? currentCategory.name : currentCategory.nameEn || currentCategory.name)
-    : (language === "ar" ? "فئة الفيديوهات" : "Video Category")
+    : (language === "ar" ? "فئة فيديوهات" : "Video Category")
 
   const handleVideoClick = (videoId: string) => {
     setSelectedVideoId(videoId)
@@ -63,7 +63,7 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
           <Breadcrumbs 
             items={[
               { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/simple/personal-protect" },
-              { label: language === "ar" ? "الفيديوهات" : "Educational Videos", href: "/simple/personal-protect/videos" },
+              { label: language === "ar" ? "فيديوهات" : "Educational Videos", href: "/simple/personal-protect/videos" },
               { label: language === "ar" ? "جاري التحميل..." : "Loading..." }
             ]} 
           />
@@ -76,7 +76,7 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder={language === "ar" ? "ابحث في الفيديوهات..." : "Search videos..."}
+                  placeholder={language === "ar" ? "ابحث في فيديوهات..." : "Search videos..."}
                   className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-white"
                 />
               </div>
@@ -111,7 +111,7 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
         <div className="text-center py-12">
           <Video className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
           <h3 className="text-lg font-medium text-muted-foreground mb-2">
-            {language === "ar" ? "حدث خطأ في تحميل الفيديوهات" : "Error loading videos"}
+            {language === "ar" ? "حدث خطأ في تحميل فيديوهات" : "Error loading videos"}
           </h3>
           <p className="text-muted-foreground mb-4">{error}</p>
         </div>
@@ -134,7 +134,7 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
         <Breadcrumbs 
           items={[
             { label: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/simple/personal-protect" },
-            { label: language === "ar" ? "الفيديوهات" : "Educational Videos", href: "/simple/personal-protect/videos" },
+            { label: language === "ar" ? "فيديوهات" : "Educational Videos", href: "/simple/personal-protect/videos" },
             { label: categoryName }
           ]} 
         />
@@ -147,7 +147,7 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder={language === "ar" ? "ابحث في الفيديوهات..." : "Search videos..."}
+                placeholder={language === "ar" ? "ابحث في فيديوهات..." : "Search videos..."}
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-white"
               />
             </div>

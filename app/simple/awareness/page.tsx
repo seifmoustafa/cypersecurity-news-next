@@ -311,7 +311,7 @@ export default function SimpleAwarenessPage() {
     },
     {
       id: "helpers",
-      title: language === "ar" ? "الإرشادات" : "Helpers",
+      title: language === "ar" ? "إرشادات" : "Helpers",
       description:
         language === "ar"
           ? "إرشادات وأدلة مساعدة في الأمن السيبراني"

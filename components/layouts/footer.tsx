@@ -80,7 +80,7 @@ export default function Footer() {
       color: "text-purple-400",
       bgColor: "bg-purple-400/10",
       links: [
-        { title: language === "ar" ? "الفيديوهات" : "Videos", href: "/advanced/videos", icon: Play },
+        { title: language === "ar" ? "فيديوهات" : "Videos", href: "/advanced/videos", icon: Play },
         { title: language === "ar" ? "المحاضرات" : "Lectures", href: "/advanced/lectures", icon: GraduationCap },
         { title: language === "ar" ? "العروض التقديمية" : "Presentations", href: "/advanced/presentations", icon: Presentation },
         { title: language === "ar" ? "المنظومات الرئيسية" : "Main Systems", href: "/advanced/systems", icon: Database },

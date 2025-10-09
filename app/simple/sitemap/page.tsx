@@ -60,7 +60,6 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useNewsCategories } from "@/core/hooks/use-news-categories";
 import { useDefinitionCategories } from "@/core/hooks/use-definition-categories";
-import { usePersonalProtectCategories } from "@/core/hooks/use-personal-protect-categories";
 import { useVideoCategories } from "@/core/hooks/use-video-categories";
 import { useLectureCategories } from "@/core/hooks/use-lecture-categories";
 import { useHelperCategories } from "@/hooks/use-helper-categories";
@@ -110,8 +109,8 @@ export default function BeginnersSitemapPage() {
 
   const expandAll = () => {
     const allIds = [
-      "definitions", "awareness", "news", "awareness-bulletins", "helpers",
-      "personal-protect", "media", "lessons", "videos", "lectures", "presentations"
+      "definitions", "awareness", "news", "awareness-bulletins",
+      "personal-protect", "videos", "helpers", "media", "lectures", "references"
     ];
     setExpandedSections(allIds);
   };
@@ -133,26 +132,60 @@ export default function BeginnersSitemapPage() {
       gradient: 'from-blue-500 to-cyan-500',
     },
     {
-      id: "definitions",
-      title: language === "ar" ? "المفاهيم" : "Definitions",
-      icon: BookOpen,
-      href: "/simple/definitions-categories",
-      description: language === "ar" ? "تعريفات الأمن السيبراني" : "Cybersecurity definitions",
+      id: "personal-protect",
+      title: language === "ar" ? "الحماية الشخصية" : "Personal Protection",
+      icon: ShieldCheck,
+      href: "/simple/personal-protect",
+      description: language === "ar" ? "فيديوهات وإرشادات الحماية الشخصية" : "Personal protection videos and guides",
       type: 'branch',
       color: 'text-blue-600',
       gradient: 'from-blue-500 to-cyan-500',
-      children: definitionCategories.map(category => ({
-        id: `def-cat-${category.id}`,
-        title: language === "ar" ? category.name : (category.nameEn || category.name),
-        icon: CheckCircle,
-        href: `/simple/definitions-categories?category=${category.id}`,
-        description: language === "ar" ? `تعريفات ${category.name}` : `Definitions for ${category.nameEn || category.name}`,
-        type: 'leaf',
+      children: [
+        {
+          id: "videos",
+          title: language === "ar" ? "فيديوهات" : "Educational Videos",
+          icon: Video,
+          href: "/simple/personal-protect/videos",
+          description: language === "ar" ? "فيديوهات  للحماية الشخصية" : "Educational videos for personal protection",
+          type: 'branch',
         level: 1,
         color: 'text-blue-500',
-      })),
-      loading: definitionLoading,
-      count: definitionCategories.length,
+          children: videoCategories.map(category => ({
+            id: `video-cat-${category.id}`,
+            title: language === "ar" ? category.name : (category.nameEn || category.name),
+            icon: Video,
+            href: `/simple/personal-protect/videos/${category.id}`,
+            description: language === "ar" ? `فيديوهات ${category.name}` : `Videos for ${category.nameEn || category.name}`,
+            type: 'leaf',
+            level: 2,
+            color: 'text-blue-400',
+          })),
+          loading: videoLoading,
+          count: videoCategories.length,
+        },
+        {
+          id: "helpers",
+          title: language === "ar" ? "إرشادات" : "Helpers",
+          icon: BookOpen,
+          href: "/simple/personal-protect/helpers",
+          description: language === "ar" ? "إرشادات وأدلة الحماية الشخصية" : "Personal protection guides and helpers",
+          type: 'branch',
+          level: 1,
+          color: 'text-green-500',
+          children: helperCategories.map(category => ({
+            id: `helper-cat-${category.id}`,
+            title: language === "ar" ? category.title : (category.titleEn || category.title),
+            icon: BookOpen,
+            href: `/simple/personal-protect/helpers?category=${category.id}`,
+            description: language === "ar" ? `إرشادات ${category.title}` : `Helpers for ${category.titleEn || category.title}`,
+            type: 'leaf',
+            level: 2,
+            color: 'text-green-400',
+          })),
+          loading: helperLoading,
+          count: helperCategories.length,
+        },
+      ],
     },
     {
       id: "awareness",
@@ -208,84 +241,6 @@ export default function BeginnersSitemapPage() {
           loading: awarenessYearsLoading,
           count: awarenessYearsData?.data?.length || 0,
         },
-        {
-          id: "helpers",
-          title: language === "ar" ? "الإرشادات" : "Helpers",
-          icon: Lightbulb,
-          href: "/simple/helper-categories",
-          description: language === "ar" ? "إرشادات وأدلة مساعدة" : "Guides and helpful instructions",
-          type: 'branch',
-          level: 1,
-          color: 'text-blue-500',
-          children: helperCategories.map(category => ({
-            id: `helper-cat-${category.id}`,
-            title: language === "ar" ? category.title : (category.titleEn || category.title),
-            icon: Target,
-            href: `/simple/helper-categories?category=${category.id}`,
-            description: language === "ar" ? `إرشادات ${category.title}` : `Guides for ${category.titleEn || category.title}`,
-            type: 'leaf',
-            level: 2,
-            color: 'text-blue-400',
-          })),
-          loading: helperLoading,
-          count: helperCategories.length,
-        },
-      ],
-    },
-    {
-      id: "personal-protect",
-      title: language === "ar" ? "الحماية الشخصية" : "Personal Protection",
-      icon: ShieldCheck,
-      href: "/simple/personal-protect",
-      description: language === "ar" ? "فيديوهات وإرشادات الحماية الشخصية" : "Personal protection videos and guides",
-      type: 'branch',
-      color: 'text-blue-600',
-      gradient: 'from-blue-500 to-cyan-500',
-      children: [
-        {
-          id: "videos",
-          title: language === "ar" ? "الفيديوهات" : "Educational Videos",
-          icon: Video,
-          href: "/simple/personal-protect/videos",
-          description: language === "ar" ? "فيديوهات تعليمية للحماية الشخصية" : "Educational videos for personal protection",
-          type: 'branch',
-          level: 1,
-          color: 'text-blue-500',
-          children: videoCategories.map(category => ({
-            id: `video-cat-${category.id}`,
-            title: language === "ar" ? category.name : (category.nameEn || category.name),
-            icon: Video,
-            href: `/simple/personal-protect/videos/${category.id}`,
-            description: language === "ar" ? `فيديوهات ${category.name}` : `Videos for ${category.nameEn || category.name}`,
-            type: 'leaf',
-            level: 2,
-            color: 'text-blue-400',
-          })),
-          loading: videoLoading,
-          count: videoCategories.length,
-        },
-        {
-          id: "helpers",
-          title: language === "ar" ? "الإرشادات" : "Helpers",
-          icon: BookOpen,
-          href: "/simple/personal-protect/helpers",
-          description: language === "ar" ? "إرشادات وأدلة الحماية الشخصية" : "Personal protection guides and helpers",
-          type: 'branch',
-          level: 1,
-          color: 'text-green-500',
-          children: helperCategories.map(category => ({
-            id: `helper-cat-${category.id}`,
-            title: language === "ar" ? category.title : (category.titleEn || category.title),
-            icon: BookOpen,
-            href: `/simple/personal-protect/helpers/${category.id}`,
-            description: language === "ar" ? `إرشادات ${category.title}` : `Helpers for ${category.titleEn || category.title}`,
-            type: 'leaf',
-            level: 2,
-            color: 'text-green-400',
-          })),
-          loading: helperLoading,
-          count: helperCategories.length,
-        },
       ],
     },
     {
@@ -293,7 +248,7 @@ export default function BeginnersSitemapPage() {
       title: language === "ar" ? "المكتبة الثقافية" : "Media",
       icon: Video,
       href: "/simple/media",
-      description: language === "ar" ? "المكتبة الثقافية والتعليمية" : "Educational media library",
+      description: language === "ar" ? "المكتبة الثقافية وال" : "Educational media library",
       type: 'branch',
       color: 'text-cyan-600',
       gradient: 'from-cyan-500 to-blue-500',
@@ -303,22 +258,22 @@ export default function BeginnersSitemapPage() {
           title: language === "ar" ? "المحاضرات" : "Lectures",
           icon: GraduationCap,
           href: "/simple/media/lectures",
-          description: language === "ar" ? "محاضرات تعليمية متخصصة" : "Specialized educational lectures",
+          description: language === "ar" ? "محاضرات  متخصصة" : "Specialized educational lectures",
           type: 'branch',
           level: 1,
-          color: 'text-cyan-500',
-          children: lectureCategories.map(category => ({
-            id: `lecture-cat-${category.id}`,
-            title: language === "ar" ? category.name : (category.nameEn || category.name),
+              color: 'text-cyan-500',
+              children: lectureCategories.map(category => ({
+                id: `lecture-cat-${category.id}`,
+                title: language === "ar" ? category.name : (category.nameEn || category.name),
             icon: FileText,
             href: `/simple/media/lectures/${category.id}`,
-            description: language === "ar" ? `محاضرات ${category.name}` : `Lectures for ${category.nameEn || category.name}`,
-            type: 'leaf',
+                description: language === "ar" ? `محاضرات ${category.name}` : `Lectures for ${category.nameEn || category.name}`,
+                type: 'leaf',
             level: 2,
-            color: 'text-cyan-400',
-          })),
-          loading: lectureLoading,
-          count: lectureCategories.length,
+                color: 'text-cyan-400',
+              })),
+              loading: lectureLoading,
+              count: lectureCategories.length,
         },
         {
           id: "references",
@@ -331,6 +286,28 @@ export default function BeginnersSitemapPage() {
           color: 'text-slate-500',
         },
       ],
+    },
+    {
+      id: "definitions",
+      title: language === "ar" ? "المفاهيم" : "Definitions",
+      icon: BookOpen,
+      href: "/simple/definitions-categories",
+      description: language === "ar" ? "تعريفات الأمن السيبراني" : "Cybersecurity definitions",
+      type: 'branch',
+      color: 'text-blue-600',
+      gradient: 'from-blue-500 to-cyan-500',
+      children: definitionCategories.map(category => ({
+        id: `def-cat-${category.id}`,
+        title: language === "ar" ? category.name : (category.nameEn || category.name),
+        icon: CheckCircle,
+        href: `/simple/definitions-categories?category=${category.id}`,
+        description: language === "ar" ? `تعريفات ${category.name}` : `Definitions for ${category.nameEn || category.name}`,
+        type: 'leaf',
+        level: 1,
+        color: 'text-blue-500',
+      })),
+      loading: definitionLoading,
+      count: definitionCategories.length,
     },
     {
       id: "search",
@@ -392,18 +369,18 @@ export default function BeginnersSitemapPage() {
             {/* Horizontal connecting line - thicker and longer */}
             <div 
               className={`absolute top-8 w-20 h-2 bg-gradient-to-r from-blue-500 to-blue-400 dark:from-blue-400 dark:to-blue-300 shadow-lg ${
-                isRtl ? 'right-0' : 'left-0'
-              }`}
+              isRtl ? 'right-0' : 'left-0'
+            }`}
               style={{ [isRtl ? 'right' : 'left']: `${indentLevel - 80}px` }}
-            />
-            
+          />
+        
             {/* Connection point - larger circle */}
-            <div 
+          <div 
               className={`absolute top-7 w-4 h-4 bg-blue-600 dark:bg-blue-400 rounded-full border-3 border-white dark:border-slate-800 shadow-lg ${
-                isRtl ? 'right-0' : 'left-0'
-              }`}
+              isRtl ? 'right-0' : 'left-0'
+            }`}
               style={{ [isRtl ? 'right' : 'left']: `${indentLevel - lineOffset - 8}px` }}
-            />
+          />
           </>
         )}
 
@@ -431,12 +408,12 @@ export default function BeginnersSitemapPage() {
               {/* Enhanced Icon with better styling */}
               <div className="flex-shrink-0 relative">
                  <div className={`p-4 rounded-xl transition-all duration-200 ${
-                   node.type === 'root' 
+                  node.type === 'root' 
                      ? 'bg-white/25 backdrop-blur-sm shadow-lg' 
-                     : node.type === 'branch'
+                    : node.type === 'branch'
                      ? 'bg-slate-100 dark:bg-slate-700 border-2 border-slate-200 dark:border-slate-600 shadow-md'
                      : 'bg-slate-50 dark:bg-slate-600 border-2 border-slate-100 dark:border-slate-500 shadow-sm'
-                 }`}>
+                }`}>
                   <node.icon className={getIconStyles()} />
                 </div>
                 
@@ -484,12 +461,12 @@ export default function BeginnersSitemapPage() {
                   ) : (
                     <span
                        className={`font-bold truncate ${
-                         node.type === 'root'
+                    node.type === 'root' 
                            ? 'text-white text-xl'
                            : 'text-slate-800 dark:text-slate-200 text-base'
                        }`}
                     >
-                      {node.title}
+                    {node.title}
                     </span>
                   )}
                   
@@ -497,10 +474,10 @@ export default function BeginnersSitemapPage() {
                   <div className="flex items-center space-x-1 rtl:space-x-reverse">
                     {node.count !== undefined && (
                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold ${
-                         node.type === 'root' 
+                        node.type === 'root' 
                            ? 'bg-white/20 text-white border border-white/30' 
                            : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 border border-blue-200 dark:border-blue-700'
-                       }`}>
+                      }`}>
                         {node.count}
                       </span>
                     )}
@@ -529,15 +506,15 @@ export default function BeginnersSitemapPage() {
             <div className="flex items-center space-x-2 rtl:space-x-reverse">
               {hasChildren && (
                  <div className={`p-2 rounded-lg transition-all duration-200 ${
-                   node.type === 'root' 
+                    node.type === 'root' 
                      ? 'text-white/80' 
                      : 'text-slate-500 dark:text-slate-400'
                  }`}>
-                   {isExpanded ? (
+                  {isExpanded ? (
                      <ChevronDown className="h-5 w-5" />
-                   ) : (
+                  ) : (
                      <ChevronRight className="h-5 w-5" />
-                   )}
+                  )}
                  </div>
               )}
               {node.href && (
@@ -564,7 +541,7 @@ export default function BeginnersSitemapPage() {
             {/* Subtle background indicator for children */}
             <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-200 to-blue-100 dark:from-blue-800 dark:to-blue-700 rounded-full opacity-50"></div>
             <div className="pl-2">
-              {node.children?.map(child => renderTreeNode(child, level + 1))}
+            {node.children?.map(child => renderTreeNode(child, level + 1))}
             </div>
           </div>
         )}

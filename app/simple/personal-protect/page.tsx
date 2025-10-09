@@ -106,7 +106,7 @@ export default function PersonalProtectPage() {
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             {language === "ar" 
-              ? "فيديوهات تعليمية وإرشادات شاملة لحماية نفسك في العالم الرقمي"
+              ? "فيديوهات  وإرشادات شاملة لحماية نفسك في العالم الرقمي"
               : "Educational videos and comprehensive guides to protect yourself in the digital world"
             }
           </p>
@@ -150,11 +150,11 @@ export default function PersonalProtectPage() {
               <div className="p-6 flex-1 flex flex-col">
                 <div className="flex-shrink-0 mb-4">
                   <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-3 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
-                    {language === "ar" ? "الفيديوهات التعليمية" : "Educational Videos"}
+                    {language === "ar" ? "فيديوهات" : "Educational Videos"}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
                     {language === "ar" 
-                      ? "فيديوهات تعليمية تفاعلية لتعلم أساسيات الأمن السيبراني والحماية الشخصية"
+                      ? "فيديوهات  تفاعلية لتعلم أساسيات الأمن السيبراني والحماية الشخصية"
                       : "Interactive educational videos to learn cybersecurity fundamentals and personal protection"
                     }
                   </p>
@@ -222,7 +222,7 @@ export default function PersonalProtectPage() {
               <div className="p-6 flex-1 flex flex-col">
                 <div className="flex-shrink-0 mb-4">
                   <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-3 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
-                    {language === "ar" ? "الإرشادات" : "Helpers"}
+                    {language === "ar" ? "إرشادات" : "Helpers"}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
                     {language === "ar" 

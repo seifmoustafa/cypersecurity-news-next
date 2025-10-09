@@ -34,7 +34,7 @@ export default function SimpleLectureCategoriesPage() {
           <Breadcrumbs 
             items={[
               { label: language === "ar" ? "المكتبة الثقافية" : "Media Library", href: "/simple/media" },
-              { label: language === "ar" ? "دروس تعليمية" : "Educational Lessons", href: "/simple/media/lessons" },
+              { label: language === "ar" ? "دروس " : "Educational Lessons", href: "/simple/media/lessons" },
               { label: language === "ar" ? "فئات المحاضرات" : "Lecture Categories" }
             ]} 
           />
@@ -104,7 +104,7 @@ export default function SimpleLectureCategoriesPage() {
         <Breadcrumbs 
           items={[
             { label: language === "ar" ? "المكتبة الثقافية" : "Media Library", href: "/simple/media" },
-            { label: language === "ar" ? "دروس تعليمية" : "Educational Lessons", href: "/simple/media/lessons" },
+            { label: language === "ar" ? "دروس " : "Educational Lessons", href: "/simple/media/lessons" },
             { label: language === "ar" ? "فئات المحاضرات" : "Lecture Categories" }
           ]} 
         />
@@ -186,7 +186,7 @@ export default function SimpleLectureCategoriesPage() {
                   {/* Category Summary */}
                   <div className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-6 line-clamp-4">
                     {language === "ar" 
-                      ? "استكشف مجموعة واسعة من المحاضرات التعليمية في مجال الأمن السيبراني" 
+                      ? "استكشف مجموعة واسعة من المحاضرات ال في مجال الأمن السيبراني" 
                       : "Explore a wide range of educational lectures in cybersecurity"
                     }
                   </div>

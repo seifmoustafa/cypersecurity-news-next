@@ -62,8 +62,8 @@ export default function VideoDetailPage({ params }: VideoDetailPageProps) {
           <Breadcrumbs 
             items={[
               { label: language === "ar" ? "المكتبة الثقافية" : "Media Library", href: "/simple/media" },
-              { label: language === "ar" ? "دروس تعليمية" : "Educational Lessons", href: "/simple/media/lessons" },
-              { label: language === "ar" ? "الفيديوهات" : "Videos", href: "/simple/media/lessons/videos" },
+              { label: language === "ar" ? "دروس " : "Educational Lessons", href: "/simple/media/lessons" },
+              { label: language === "ar" ? "فيديوهات" : "Videos", href: "/simple/media/lessons/videos" },
               { label: language === "ar" ? "جاري التحميل..." : "Loading..." }
             ]} 
           />
@@ -120,9 +120,9 @@ export default function VideoDetailPage({ params }: VideoDetailPageProps) {
         <Breadcrumbs 
           items={[
             { label: language === "ar" ? "المكتبة الثقافية" : "Media Library", href: "/simple/media" },
-            { label: language === "ar" ? "دروس تعليمية" : "Educational Lessons", href: "/simple/media/lessons" },
-            { label: language === "ar" ? "الفيديوهات" : "Videos", href: "/simple/media/lessons/videos" },
-            { label: (language === "ar" ? (video.videoCategoryName || video.videoCategoryNameEn || "فئة الفيديوهات") : (video.videoCategoryNameEn || video.videoCategoryName || "Video Category")), href: `/simple/media/lessons/videos/${resolvedParams.id}` },
+            { label: language === "ar" ? "دروس " : "Educational Lessons", href: "/simple/media/lessons" },
+            { label: language === "ar" ? "فيديوهات" : "Videos", href: "/simple/media/lessons/videos" },
+            { label: (language === "ar" ? (video.videoCategoryName || video.videoCategoryNameEn || "فئة فيديوهات") : (video.videoCategoryNameEn || video.videoCategoryName || "Video Category")), href: `/simple/media/lessons/videos/${resolvedParams.id}` },
             { label: language === "ar" ? video.nameAr : video.nameEn || video.nameAr }
           ]} 
         />

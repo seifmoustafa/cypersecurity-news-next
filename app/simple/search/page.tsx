@@ -58,7 +58,7 @@ export default function BeginnersSearchPage() {
   const entityTypes = [
     { id: "all", title: language === "ar" ? "الكل" : "All" },
     { id: "Article", title: language === "ar" ? "المقالات" : "Articles" },
-    { id: "Video", title: language === "ar" ? "الفيديوهات" : "Videos" },
+    { id: "Video", title: language === "ar" ? "فيديوهات" : "Videos" },
     { id: "Presentation", title: language === "ar" ? "العروض التقديمية" : "Presentations" },
     { id: "Lecture", title: language === "ar" ? "المحاضرات" : "Lectures" },
     { id: "News", title: language === "ar" ? "الأخبار" : "News" },

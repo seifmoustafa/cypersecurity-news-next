@@ -129,7 +129,7 @@ export default function LectureDetailPage({ params }: LectureDetailPageProps) {
                     <div className="flex items-center gap-2 px-4 py-2 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-full shadow-lg border border-white/20 dark:border-white/10">
                       <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
                       <span className="text-sm font-semibold text-gray-900 dark:text-white">
-                        {language === "ar" ? "محاضرة تعليمية" : "Educational Lecture"}
+                        {language === "ar" ? "محاضرة " : "Educational Lecture"}
                       </span>
                     </div>
                   </div>

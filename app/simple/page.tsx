@@ -66,31 +66,6 @@ export default function BeginnersHome() {
 
   const mainCards = [
     {
-      id: "media",
-      title: t("beginners.cards.media.title"),
-      description: t("beginners.cards.media.description"),
-      icon: Video,
-      color: "from-teal-500 to-blue-600",
-      bgColor:
-        "bg-gradient-to-br from-teal-50/80 to-blue-50/60 dark:from-teal-900/30 dark:to-blue-900/20",
-      borderColor: "border-teal-300/60 dark:border-teal-600/40",
-      href: "/simple/media",
-      items: [
-        {
-          title: language === "ar" ? "مراجع" : "References",
-          href: "/simple/media/references",
-          icon: BookOpen,
-          count: "",
-        },
-        {
-          title: language === "ar" ? "المحاضرات" : "Lectures",
-          href: "/simple/media/lectures",
-          icon: GraduationCap,
-          count: "",
-        },
-      ],
-    },
-    {
       id: "personal-protect",
       title: language === "ar" ? "الحماية الشخصية" : "Personal Protection",
       description: language === "ar" ? "أدوات وإرشادات للحماية الشخصية" : "Tools and guides for personal protection",
@@ -102,13 +77,13 @@ export default function BeginnersHome() {
       href: "/simple/personal-protect",
       items: [
         {
-          title: language === "ar" ? "الفيديوهات" : "Educational Videos",
+          title: language === "ar" ? "فيديوهات" : "Educational Videos",
           href: "/simple/personal-protect/videos",
           icon: Video,
           count: "",
         },
         {
-          title: language === "ar" ? "الإرشادات" : "Helpers",
+          title: language === "ar" ? "إرشادات" : "Helpers",
           href: "/simple/personal-protect/helpers",
           icon: BookOpen,
           count: "",
@@ -143,7 +118,31 @@ export default function BeginnersHome() {
         },
       ],
     },
-
+    {
+      id: "media",
+      title: t("beginners.cards.media.title"),
+      description: t("beginners.cards.media.description"),
+      icon: Video,
+      color: "from-teal-500 to-blue-600",
+      bgColor:
+        "bg-gradient-to-br from-teal-50/80 to-blue-50/60 dark:from-teal-900/30 dark:to-blue-900/20",
+      borderColor: "border-teal-300/60 dark:border-teal-600/40",
+      href: "/simple/media",
+      items: [
+        {
+          title: language === "ar" ? "مراجع" : "References",
+          href: "/simple/media/references",
+          icon: BookOpen,
+          count: "",
+        },
+        {
+          title: language === "ar" ? "المحاضرات" : "Lectures",
+          href: "/simple/media/lectures",
+          icon: GraduationCap,
+          count: "",
+        },
+      ],
+    },
     {
       id: "definitions",
       title: t("beginners.cards.definitions.title"),
@@ -205,7 +204,7 @@ export default function BeginnersHome() {
     //   href: "/simple/media",
     //   items: [
     //     {
-    //       title: language === "ar" ? "دروس تعليمية" : "Educational Lessons",
+    //       title: language === "ar" ? "دروس " : "Educational Lessons",
     //       href: "/simple/media/lessons",
     //       icon: GraduationCap,
     //       count: "",
@@ -287,7 +286,7 @@ export default function BeginnersHome() {
     //   href: "/simple/media",
     //   items: [
     //     {
-    //       title: language === "ar" ? "دروس تعليمية" : "Educational Lessons",
+    //       title: language === "ar" ? "دروس " : "Educational Lessons",
     //       href: "/simple/media/lessons",
     //       icon: GraduationCap,
     //       count: "",
@@ -369,7 +368,7 @@ export default function BeginnersHome() {
     //   href: "/simple/media",
     //   items: [
     //     {
-    //       title: language === "ar" ? "دروس تعليمية" : "Educational Lessons",
+    //       title: language === "ar" ? "دروس " : "Educational Lessons",
     //       href: "/simple/media/lessons",
     //       icon: GraduationCap,
     //       count: "",
@@ -457,9 +456,9 @@ export default function BeginnersHome() {
           ></div>
         </div>
 
-        <div className="relative z-10 container mx-auto px-4 pt-24 pb-8">
-          {/* Main Interactive Cards */}
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 max-w-7xl mx-auto items-stretch">
+        <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 pt-16 sm:pt-20 md:pt-24 pb-6 sm:pb-8">
+          {/* Main Interactive Cards - Responsive */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 max-w-full mx-auto items-stretch">
             {mainCards.map((card, index) => {
               const gifPath =
                 card.id === "media"
@@ -502,8 +501,8 @@ export default function BeginnersHome() {
                   }}
                   className="group h-full block"
                 >
-                  <div
-                    className={`relative ${card.bgColor} backdrop-blur-sm border-2 ${card.borderColor} rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-green-500/20 h-full flex flex-col cursor-pointer`}
+                <div
+                  className={`relative ${card.bgColor} backdrop-blur-sm border-2 ${card.borderColor} rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-green-500/20 h-full flex flex-col cursor-pointer`}
                     // OLD WAY (commented): Fixed height with scrollable content
                     // className={`relative ${card.bgColor} backdrop-blur-sm border-2 ${card.borderColor} rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-green-500/20 h-[600px] flex flex-col cursor-pointer`}
                     onMouseMove={(e) => {
@@ -523,8 +522,8 @@ export default function BeginnersHome() {
                     }}
                     style={{ transform: "perspective(1000px)" }}
                   >
-                    {/* GIF Hero Section - Optimized for Full Display */}
-                    <div className="relative h-80 overflow-hidden flex-shrink-0">
+                  {/* GIF Hero Section - Responsive */}
+                  <div className="relative h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 overflow-hidden flex-shrink-0">
                       <img
                         src={gifPath}
                         alt={`${card.title} animation`}
@@ -533,24 +532,24 @@ export default function BeginnersHome() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent dark:from-black/60 dark:via-transparent dark:to-transparent"></div>
                     </div>
 
-                    {/* Content Section - Flexible Height */}
-                    <div className="p-6 flex-1 flex flex-col">
-                      <div className="flex-shrink-0 mb-4">
-                        <Link
-                          href={card.href}
-                          onClick={(e) => e.stopPropagation()}
-                          className="text-2xl font-bold text-gray-800 dark:text-white mb-3 inline-block transition-colors duration-300 hover:text-green-600 dark:hover:text-green-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-400 rounded"
-                          aria-label={`فتح ${card.title}`}
-                        >
-                          {card.title}
-                        </Link>
-                        <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
-                          {card.description}
-                        </p>
-                      </div>
+                  {/* Content Section - Responsive */}
+                  <div className="p-3 sm:p-4 md:p-5 lg:p-6 flex-1 flex flex-col">
+                    <div className="flex-shrink-0 mb-2 sm:mb-3 md:mb-4">
+                      <Link
+                        href={card.href}
+                        onClick={(e) => e.stopPropagation()}
+                        className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold text-gray-800 dark:text-white mb-2 sm:mb-3 inline-block transition-colors duration-300 hover:text-green-600 dark:hover:text-green-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-400 rounded"
+                        aria-label={`فتح ${card.title}`}
+                      >
+                        {card.title}
+                      </Link>
+                      <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl leading-relaxed">
+                        {card.description}
+                      </p>
+                    </div>
 
-                      {/* Quick Access Links */}
-                      <div className="space-y-2 flex-1 flex flex-col justify-start">
+                      {/* Quick Access Links - Responsive */}
+                      <div className="space-y-1 sm:space-y-2 flex-1 flex flex-col justify-start">
                         {/* OLD WAY (commented): Scrollable content with max height
                         <div className="space-y-2 flex-1 flex flex-col justify-start overflow-y-auto max-h-64">
                         */}
@@ -561,16 +560,16 @@ export default function BeginnersHome() {
                             <Link
                               href="/simple/personal-protect/videos"
                               onClick={(e) => e.stopPropagation()}
-                              className="flex items-center justify-between p-4 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
+                              className="flex items-center justify-between p-2 sm:p-3 md:p-4 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-md sm:rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
                             >
-                              <span className="text-gray-700 dark:text-white text-sm font-medium group-hover/item:text-blue-700 dark:group-hover/item:text-blue-400 transition-colors duration-300">
-                                {language === "ar" ? "الفيديوهات التعليمية" : "Educational Videos"}
+                              <span className="text-gray-700 dark:text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium group-hover/item:text-blue-700 dark:group-hover/item:text-blue-400 transition-colors duration-300">
+                                {language === "ar" ? "فيديوهات" : "Educational Videos"}
                               </span>
                               <div className="flex items-center">
                                 {isRtl ? (
-                                  <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-blue-600 dark:group-hover/item:text-blue-400 transition-colors duration-300" />
+                                  <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-blue-600 dark:group-hover/item:text-blue-400 transition-colors duration-300" />
                                 ) : (
-                                  <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-blue-600 dark:group-hover/item:text-blue-400 transition-colors duration-300" />
+                                  <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-blue-600 dark:group-hover/item:text-blue-400 transition-colors duration-300" />
                                 )}
                               </div>
                             </Link>
@@ -579,16 +578,16 @@ export default function BeginnersHome() {
                             <Link
                               href="/simple/personal-protect/helpers"
                               onClick={(e) => e.stopPropagation()}
-                              className="flex items-center justify-between p-4 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
+                              className="flex items-center justify-between p-2 sm:p-3 md:p-4 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-md sm:rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
                             >
-                              <span className="text-gray-700 dark:text-white text-sm font-medium group-hover/item:text-green-700 dark:group-hover/item:text-green-400 transition-colors duration-300">
-                                {language === "ar" ? "الإرشادات" : "Helpers"}
+                              <span className="text-gray-700 dark:text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium group-hover/item:text-green-700 dark:group-hover/item:text-green-400 transition-colors duration-300">
+                                {language === "ar" ? "إرشادات" : "Helpers"}
                               </span>
                               <div className="flex items-center">
                                 {isRtl ? (
-                                  <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
+                                  <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
                                 ) : (
-                                  <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
+                                  <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
                                 )}
                               </div>
                             </Link>
@@ -600,21 +599,21 @@ export default function BeginnersHome() {
                               key={itemIndex}
                               href={item.href}
                               onClick={(e) => e.stopPropagation()}
-                              className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
+                              className="flex items-center justify-between p-2 sm:p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-md sm:rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
                             >
-                              <span className="text-gray-700 dark:text-white text-sm font-medium group-hover/item:text-green-700 dark:group-hover/item:text-green-400 transition-colors duration-300">
+                              <span className="text-gray-700 dark:text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium group-hover/item:text-green-700 dark:group-hover/item:text-green-400 transition-colors duration-300">
                                 {item.title}
                               </span>
                               <div className="flex items-center">
                                 {item.count && (
-                                  <span className="text-xs text-gray-500 dark:text-gray-400 mr-2 bg-white/60 dark:bg-white/10 px-2 py-1 rounded-full group-hover/item:bg-green-200 dark:group-hover/item:bg-green-800 group-hover/item:text-green-700 dark:group-hover/item:text-green-200 transition-colors duration-300">
+                                  <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mr-1 sm:mr-2 bg-white/60 dark:bg-white/10 px-1 sm:px-2 py-1 rounded-full group-hover/item:bg-green-200 dark:group-hover/item:bg-green-800 group-hover/item:text-green-700 dark:group-hover/item:text-green-200 transition-colors duration-300">
                                     {item.count}
                                   </span>
                                 )}
                                 {isRtl ? (
-                                  <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
+                                  <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
                                 ) : (
-                                  <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
+                                  <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
                                 )}
                               </div>
                             </Link>

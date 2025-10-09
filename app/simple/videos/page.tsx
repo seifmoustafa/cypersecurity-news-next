@@ -125,7 +125,7 @@ export default function BeginnersVideosPage() {
             </div>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            {language === "ar" ? "الفيديوهات" : "Educational Videos"}
+            {language === "ar" ? "فيديوهات" : "Educational Videos"}
           </h1>
           <p className="text-xl text-slate-300 max-w-3xl mx-auto">
             {language === "ar" 
@@ -146,7 +146,7 @@ export default function BeginnersVideosPage() {
               </div>
               <div>
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                  {language === "ar" ? "إجمالي الفيديوهات" : "Total Videos"}
+                  {language === "ar" ? "إجمالي فيديوهات" : "Total Videos"}
                 </h2>
                 <p className="text-gray-600 dark:text-gray-300">
                   {videos.length} {language === "ar" ? "فيديو" : "videos"}
@@ -171,7 +171,7 @@ export default function BeginnersVideosPage() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
               <input
                 type="text"
-                placeholder={language === "ar" ? "ابحث في الفيديوهات..." : "Search videos..."}
+                placeholder={language === "ar" ? "ابحث في فيديوهات..." : "Search videos..."}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white"

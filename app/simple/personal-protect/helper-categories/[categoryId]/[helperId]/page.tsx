@@ -188,7 +188,7 @@ export default function HelperDetailPage() {
               href: "/simple/personal-protect",
             },
             {
-              label: language === "ar" ? "الإرشادات" : "Helpers",
+              label: language === "ar" ? "إرشادات" : "Helpers",
               href: "/simple/personal-protect/helpers",
             },
             {
@@ -408,7 +408,7 @@ export default function HelperDetailPage() {
                   <div className="flex items-center justify-between">
                     <div className="text-sm text-gray-500 dark:text-gray-400">
                       {language === "ar"
-                        ? "استخدم الأسهم للتنقل بين الإرشادات"
+                        ? "استخدم الأسهم للتنقل بين إرشادات"
                         : "Use arrow keys to navigate between helpers"}
                     </div>
                     <div className="flex items-center gap-2">

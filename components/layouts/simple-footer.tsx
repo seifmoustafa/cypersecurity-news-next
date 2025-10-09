@@ -66,7 +66,7 @@ export default function SimpleFooter() {
           icon: Eye,
         },
         {
-          title: language === "ar" ? "الإرشادات" : "Helpers",
+          title: language === "ar" ? "إرشادات" : "Helpers",
           href: "/simple/helper-categories",
           icon: BookOpen,
         },
@@ -94,7 +94,7 @@ export default function SimpleFooter() {
       borderColor: "border-emerald-400/20",
       links: [
         {
-          title: language === "ar" ? "دروس تعليمية" : "Educational Lessons",
+          title: language === "ar" ? "دروس " : "Educational Lessons",
           href: "/simple/media/lessons",
           icon: BookOpen,
         },

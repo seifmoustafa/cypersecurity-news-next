@@ -153,7 +153,7 @@ export default function HelperCategoriesPage() {
               href: "/simple/personal-protect",
             },
             {
-              label: language === "ar" ? "الإرشادات" : "Helpers",
+              label: language === "ar" ? "إرشادات" : "Helpers",
               href: "/simple/personal-protect/helpers",
             },
             ...(selectedCategory ? [{
@@ -166,7 +166,7 @@ export default function HelperCategoriesPage() {
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">
-              {language === "ar" ? "الإرشادات" : "Helpers"}
+              {language === "ar" ? "إرشادات" : "Helpers"}
             </h1>
             <p className="text-lg text-gray-600 dark:text-gray-300">
               {language === "ar" 
@@ -370,11 +370,11 @@ export default function HelperCategoriesPage() {
                 <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-12 text-center">
                   <BookOpen className="h-20 w-20 text-gray-400 dark:text-gray-600 mx-auto mb-6" />
                   <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
-                    {language === "ar" ? "اختر فئة الإرشادات" : "Select a Helper Category"}
+                    {language === "ar" ? "اختر فئة إرشادات" : "Select a Helper Category"}
                   </h2>
                   <p className="text-gray-600 dark:text-gray-300 mb-6">
                     {language === "ar" 
-                      ? "اختر فئة من القائمة الجانبية لعرض الإرشادات المتاحة" 
+                      ? "اختر فئة من القائمة الجانبية لعرض إرشادات المتاحة" 
                       : "Select a category from the sidebar to view available helpers"
                     }
                   </p>

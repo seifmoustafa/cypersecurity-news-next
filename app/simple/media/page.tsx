@@ -127,17 +127,19 @@ export default function BeginnersMediaPage() {
         <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_25%,rgba(34,197,94,0.05)_50%,transparent_75%)] bg-[length:40px_40px]"></div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 pt-24 pb-8">
-        {/* Breadcrumbs */}
-        <Breadcrumbs 
-          items={[
-            { label: language === "ar" ? "المكتبة الثقافية" : "Media Library" }
-          ]} 
-        />
+      <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 pt-16 sm:pt-20 md:pt-24 pb-6 sm:pb-8">
+        {/* Breadcrumbs - Responsive */}
+        <div className="mb-4 sm:mb-6 md:mb-8">
+          <Breadcrumbs 
+            items={[
+              { label: language === "ar" ? "المكتبة الثقافية" : "Media Library" }
+            ]} 
+          />
+        </div>
 
 
-        {/* Media Categories Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        {/* Media Categories Grid - Responsive */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 max-w-7xl mx-auto">
           {mediaCategories.map((category, index) => {
             const IconComponent = category.icon
             return (
@@ -147,7 +149,7 @@ export default function BeginnersMediaPage() {
                 className="group h-full block"
               >
                 <div
-                  className={`relative ${category.bgColor} backdrop-blur-sm border-2 ${category.borderColor} rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-green-500/20 h-full flex flex-col cursor-pointer`}
+                  className={`relative ${category.bgColor} backdrop-blur-sm border-2 ${category.borderColor} rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-green-500/20 h-full flex flex-col cursor-pointer`}
                   onMouseMove={(e) => {
                     const el = e.currentTarget as HTMLDivElement
                     const rect = el.getBoundingClientRect()
@@ -163,8 +165,8 @@ export default function BeginnersMediaPage() {
                   }}
                   style={{ transform: "perspective(1000px)" }}
                 >
-                  {/* Image Hero Section */}
-                  <div className="relative h-80 overflow-hidden flex-shrink-0">
+                  {/* Image Hero Section - Responsive */}
+                  <div className="relative h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 overflow-hidden flex-shrink-0">
                     <img
                       src={category.imagePath}
                       alt={`${category.title} animation`}
@@ -173,19 +175,19 @@ export default function BeginnersMediaPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent dark:from-black/60 dark:via-transparent dark:to-transparent"></div>
                   </div>
 
-                  {/* Content Section */}
-                  <div className="p-6 flex-1 flex flex-col">
-                    <div className="flex-shrink-0 mb-4">
-                      <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-3 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
+                  {/* Content Section - Responsive */}
+                  <div className="p-3 sm:p-4 md:p-5 lg:p-6 flex-1 flex flex-col">
+                    <div className="flex-shrink-0 mb-2 sm:mb-3 md:mb-4">
+                      <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold text-gray-800 dark:text-white mb-2 sm:mb-3 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
                         {category.title}
                       </h3>
-                      <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                      <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl leading-relaxed">
                         {category.description}
                       </p>
                     </div>
 
-                    {/* Quick Access Links */}
-                    <div className="space-y-2 flex-1 flex flex-col justify-center">
+                    {/* Quick Access Links - Responsive */}
+                    <div className="space-y-1 sm:space-y-2 flex-1 flex flex-col justify-center">
                       {category.id === "references" ? (
                         // Show actual references for references card
                         <>
@@ -193,12 +195,12 @@ export default function BeginnersMediaPage() {
                             // Loading state
                             <>
                               {[...Array(2)].map((_, index) => (
-                                <div key={index} className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 rounded-lg border border-white/20 dark:border-white/10 animate-pulse">
+                                <div key={index} className="flex items-center justify-between p-2 sm:p-3 bg-white/50 dark:bg-white/5 rounded-md sm:rounded-lg border border-white/20 dark:border-white/10 animate-pulse">
                                   <div className="flex-1 min-w-0">
-                                    <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-2"></div>
-                                    <div className="h-3 bg-gray-300 dark:bg-gray-700 rounded w-1/2"></div>
+                                    <div className="h-3 sm:h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-1 sm:mb-2"></div>
+                                    <div className="h-2 sm:h-3 bg-gray-300 dark:bg-gray-700 rounded w-1/2"></div>
                                   </div>
-                                  <div className="h-4 w-4 bg-gray-300 dark:bg-gray-700 rounded"></div>
+                                  <div className="h-3 w-3 sm:h-4 sm:w-4 bg-gray-300 dark:bg-gray-700 rounded"></div>
                                 </div>
                               ))}
                             </>
@@ -209,32 +211,32 @@ export default function BeginnersMediaPage() {
                                 key={reference.id}
                                 href={`/simple/media/references/${reference.id}`}
                                 onClick={(e) => e.stopPropagation()}
-                                className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
+                                className="flex items-center justify-between p-2 sm:p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-md sm:rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
                               >
                                 <div className="flex-1 min-w-0">
-                                  <span className="text-gray-700 dark:text-white text-sm font-medium group-hover/item:text-purple-700 dark:group-hover/item:text-purple-400 transition-colors duration-300 line-clamp-1">
+                                  <span className="text-gray-700 dark:text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium group-hover/item:text-purple-700 dark:group-hover/item:text-purple-400 transition-colors duration-300 line-clamp-1">
                                     {language === "ar" ? reference.title : reference.titleEn || reference.title}
                                   </span>
-                                  <div className="flex items-center gap-2 mt-1">
-                                    <Calendar className="h-3 w-3 text-gray-400" />
-                                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                                  <div className="flex items-center gap-1 sm:gap-2 mt-1">
+                                    <Calendar className="h-2 w-2 sm:h-3 sm:w-3 text-gray-400" />
+                                    <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                                       {new Date(reference.createdAt).toLocaleDateString()}
                                     </span>
                                   </div>
                                 </div>
                                 <div className="flex items-center">
                                   {isRtl ? (
-                                    <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-purple-600 dark:group-hover/item:text-purple-400 transition-colors duration-300" />
+                                    <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-purple-600 dark:group-hover/item:text-purple-400 transition-colors duration-300" />
                                   ) : (
-                                    <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-purple-600 dark:group-hover/item:text-purple-400 transition-colors duration-300" />
+                                    <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-purple-600 dark:group-hover/item:text-purple-400 transition-colors duration-300" />
                                   )}
                                 </div>
                               </Link>
                             ))
                           ) : (
                             // Empty state - show message
-                            <div className="flex items-center justify-center p-6 bg-white/50 dark:bg-white/5 rounded-lg border border-white/20 dark:border-white/10">
-                              <span className="text-gray-500 dark:text-gray-400 text-sm font-medium text-center">
+                            <div className="flex items-center justify-center p-3 sm:p-4 md:p-5 lg:p-6 bg-white/50 dark:bg-white/5 rounded-md sm:rounded-lg border border-white/20 dark:border-white/10">
+                              <span className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm md:text-base font-medium text-center">
                                 {language === "ar" ? "لا توجد مراجع متاحة حالياً" : "No references available at the moment"}
                               </span>
                             </div>
@@ -242,16 +244,16 @@ export default function BeginnersMediaPage() {
                           <Link
                             href="/simple/media/references"
                             onClick={(e) => e.stopPropagation()}
-                            className="flex items-center justify-center p-3 bg-purple-500/20 dark:bg-purple-500/10 hover:bg-purple-500/30 dark:hover:bg-purple-500/20 rounded-lg transition-all duration-300 group/item border border-purple-500/30 dark:border-purple-500/20 hover:border-purple-500/50 dark:hover:border-purple-500/30"
+                            className="flex items-center justify-center p-2 sm:p-3 bg-purple-500/20 dark:bg-purple-500/10 hover:bg-purple-500/30 dark:hover:bg-purple-500/20 rounded-md sm:rounded-lg transition-all duration-300 group/item border border-purple-500/30 dark:border-purple-500/20 hover:border-purple-500/50 dark:hover:border-purple-500/30"
                           >
-                            <span className="text-purple-700 dark:text-purple-400 text-sm font-medium group-hover/item:text-purple-800 dark:group-hover/item:text-purple-300 transition-colors duration-300">
+                            <span className="text-purple-700 dark:text-purple-400 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium group-hover/item:text-purple-800 dark:group-hover/item:text-purple-300 transition-colors duration-300">
                               {language === "ar" ? "عرض المزيد" : "View More"}
                             </span>
-                            <div className="flex items-center ml-2">
+                            <div className="flex items-center ml-1 sm:ml-2">
                               {isRtl ? (
-                                <ArrowLeft className="h-4 w-4 text-purple-600 dark:text-purple-400 group-hover/item:text-purple-700 dark:group-hover/item:text-purple-300 transition-colors duration-300" />
+                                <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 text-purple-600 dark:text-purple-400 group-hover/item:text-purple-700 dark:group-hover/item:text-purple-300 transition-colors duration-300" />
                               ) : (
-                                <ArrowRight className="h-4 w-4 text-purple-600 dark:text-purple-400 group-hover/item:text-purple-700 dark:group-hover/item:text-purple-300 transition-colors duration-300" />
+                                <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 text-purple-600 dark:text-purple-400 group-hover/item:text-purple-700 dark:group-hover/item:text-purple-300 transition-colors duration-300" />
                               )}
                             </div>
                           </Link>
@@ -263,16 +265,16 @@ export default function BeginnersMediaPage() {
                             key={itemIndex}
                             href={item.href}
                             onClick={(e) => e.stopPropagation()}
-                            className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
+                            className="flex items-center justify-between p-2 sm:p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-md sm:rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
                           >
-                            <span className="text-gray-700 dark:text-white text-sm font-medium group-hover/item:text-green-700 dark:group-hover/item:text-green-400 transition-colors duration-300">
+                            <span className="text-gray-700 dark:text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium group-hover/item:text-green-700 dark:group-hover/item:text-green-400 transition-colors duration-300">
                               {item.title}
                             </span>
                             <div className="flex items-center">
                               {isRtl ? (
-                                <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
+                                <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
                               ) : (
-                                <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
+                                <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
                               )}
                             </div>
                           </Link>
