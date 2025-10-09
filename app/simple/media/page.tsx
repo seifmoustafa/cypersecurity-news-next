@@ -29,9 +29,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { container } from "@/core/di/container"
 import Breadcrumbs from "@/components/breadcrumbs"
-import { useArticles } from "@/core/hooks/use-articles"
 import { useReferences } from "@/core/hooks/use-references"
-import type { ApiArticle } from "@/core/domain/models/media"
 
 export default function BeginnersMediaPage() {
   const { language, t } = useLanguage()
@@ -39,11 +37,8 @@ export default function BeginnersMediaPage() {
   const [mediaStats, setMediaStats] = useState({
     videos: 0,
     lectures: 0,
-    presentations: 0,
   })
 
-  // Fetch first 2 articles for the articles card
-  const { articles } = useArticles(1, 2)
   
   // Fetch first 2 references for the references card
   const { references, loading: referencesLoading } = useReferences("", 1, 2)
@@ -57,7 +52,6 @@ export default function BeginnersMediaPage() {
         setMediaStats({
           videos: mediaData?.filter((item: any) => item.type === 'video').length || 0,
           lectures: mediaData?.filter((item: any) => item.type === 'lecture').length || 0,
-          presentations: mediaData?.filter((item: any) => item.type === 'presentation').length || 0,
         })
       } catch (error) {
         console.error('Error fetching media stats:', error)
@@ -65,7 +59,6 @@ export default function BeginnersMediaPage() {
         setMediaStats({
           videos: 50,
           lectures: 30,
-          presentations: 25,
         })
       }
     }
@@ -95,40 +88,6 @@ export default function BeginnersMediaPage() {
           title: language === "ar" ? "المحاضرات" : "Lectures",
           href: "/simple/media/lessons/lectures",
           icon: GraduationCap,
-        },
-        {
-          title: language === "ar" ? "العروض التقديمية" : "Presentations",
-          href: "/simple/media/lessons/presentations",
-          icon: Presentation,
-        },
-      ]
-    },
-    {
-      id: "articles",
-      title: language === "ar" ? "مقالات" : "Articles",
-      description: language === "ar" ? "مقالات متخصصة في الأمن السيبراني والتقنيات الحديثة" : "Specialized articles on cybersecurity and modern technologies",
-      icon: FileText,
-      color: "from-teal-500 to-blue-600",
-      bgColor: "bg-teal-50 dark:bg-teal-900/20",
-      borderColor: "border-teal-200 dark:border-teal-800",
-      count: "",
-      href: "/simple/media/articles",
-      imagePath: "/assets/images/beginners/Gemini_Generated_Image_dudzufdudzufdudz.png",
-      items: [
-        {
-          title: language === "ar" ? "مقالات تقنية" : "Technical Articles",
-          href: "/simple/media/articles/technical",
-          icon: FileText,
-        },
-        {
-          title: language === "ar" ? "مقالات الأمان" : "Security Articles",
-          href: "/simple/media/articles/security",
-          icon: Shield,
-        },
-        {
-          title: language === "ar" ? "مقالات الأخبار" : "News Articles",
-          href: "/simple/media/articles/news",
-          icon: Newspaper,
         },
       ]
     },
@@ -232,54 +191,7 @@ export default function BeginnersMediaPage() {
 
                     {/* Quick Access Links */}
                     <div className="space-y-2 flex-1 flex flex-col justify-center">
-                      {category.id === "articles" ? (
-                        // Show actual articles for articles card
-                        <>
-                          {articles.slice(0, 2).map((article, articleIndex) => (
-                            <Link
-                              key={article.id}
-                              href={`/simple/media/articles/${article.id}`}
-                              onClick={(e) => e.stopPropagation()}
-                              className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
-                            >
-                              <div className="flex-1 min-w-0">
-                                <span className="text-gray-700 dark:text-white text-sm font-medium group-hover/item:text-green-700 dark:group-hover/item:text-green-400 transition-colors duration-300 line-clamp-1">
-                                  {language === "ar" ? article.title : article.titleEn || article.title}
-                                </span>
-                                <div className="flex items-center gap-2 mt-1">
-                                  <Calendar className="h-3 w-3 text-gray-400" />
-                                  <span className="text-xs text-gray-500 dark:text-gray-400">
-                                    {new Date(article.createdAt).toLocaleDateString()}
-                                  </span>
-                                </div>
-                              </div>
-                              <div className="flex items-center">
-                                {isRtl ? (
-                                  <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
-                                ) : (
-                                  <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
-                                )}
-                              </div>
-                            </Link>
-                          ))}
-                          <Link
-                            href="/simple/media/articles"
-                            onClick={(e) => e.stopPropagation()}
-                            className="flex items-center justify-center p-3 bg-green-500/20 dark:bg-green-500/10 hover:bg-green-500/30 dark:hover:bg-green-500/20 rounded-lg transition-all duration-300 group/item border border-green-500/30 dark:border-green-500/20 hover:border-green-500/50 dark:hover:border-green-500/30"
-                          >
-                            <span className="text-green-700 dark:text-green-400 text-sm font-medium group-hover/item:text-green-800 dark:group-hover/item:text-green-300 transition-colors duration-300">
-                              {language === "ar" ? "عرض المزيد" : "View More"}
-                            </span>
-                            <div className="flex items-center ml-2">
-                              {isRtl ? (
-                                <ArrowLeft className="h-4 w-4 text-green-600 dark:text-green-400 group-hover/item:text-green-700 dark:group-hover/item:text-green-300 transition-colors duration-300" />
-                              ) : (
-                                <ArrowRight className="h-4 w-4 text-green-600 dark:text-green-400 group-hover/item:text-green-700 dark:group-hover/item:text-green-300 transition-colors duration-300" />
-                              )}
-                            </div>
-                          </Link>
-                        </>
-                      ) : category.id === "references" ? (
+                      {category.id === "references" ? (
                         // Show actual references for references card
                         <>
                           {referencesLoading ? (

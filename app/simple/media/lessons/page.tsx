@@ -12,7 +12,6 @@ import Link from "next/link"
 import Breadcrumbs from "@/components/breadcrumbs"
 import { useVideoCategories } from "@/core/hooks/use-video-categories"
 import { useLectureCategories } from "@/core/hooks/use-lecture-categories"
-import { usePresentationCategories } from "@/core/hooks/use-presentation-categories"
 
 export default function EducationalLessonsPage() {
   const { language, t } = useLanguage()
@@ -21,7 +20,6 @@ export default function EducationalLessonsPage() {
   // Fetch categories for each type
   const { categories: videoCategories } = useVideoCategories(1, 100)
   const { categories: lectureCategories } = useLectureCategories(1, 100)
-  const { categories: presentationCategories } = usePresentationCategories(1, 100)
 
   const lessonCategories = [
     {
@@ -84,36 +82,6 @@ export default function EducationalLessonsPage() {
         icon: GraduationCap,
       }))
     },
-    {
-      id: "presentations",
-      title: language === "ar" ? "العروض التقديمية" : "Interactive Presentations",
-      description: language === "ar" ? "عروض تقديمية تفاعلية مع أمثلة عملية" : "Interactive presentations with practical examples",
-      icon: Presentation,
-      color: "from-teal-500 to-blue-600",
-      bgColor: "bg-teal-50 dark:bg-teal-900/20",
-      borderColor: "border-teal-200 dark:border-teal-800",
-      href: "/simple/media/lessons/presentations",
-      imagePath: "/assets/images/beginners/Gemini_Generated_Image_ut3c4xut3c4xut3c.png",
-      // OLD WAY (commented): Show only first 2 categories + show more
-      // items: presentationCategories.slice(0, 2).map(category => ({
-      //   title: language === "ar" ? category.name : category.nameEn || category.name,
-      //   href: `/simple/media/lessons/presentations/${category.id}`,
-      //   icon: Presentation,
-      // })).concat([
-      //   {
-      //     title: language === "ar" ? "عرض المزيد" : "Show More",
-      //     href: "/simple/media/lessons/presentations",
-      //     icon: ArrowRight,
-      //   }
-      // ])
-      
-      // NEW WAY: Show all categories
-      items: presentationCategories.map(category => ({
-        title: language === "ar" ? category.name : category.nameEn || category.name,
-        href: `/simple/media/lessons/presentations/${category.id}`,
-        icon: Presentation,
-      }))
-    }
   ]
 
   return (
@@ -149,7 +117,7 @@ export default function EducationalLessonsPage() {
         </div>
 
         {/* Lesson Categories Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto items-stretch">
           {lessonCategories.map((category, index) => {
             const IconComponent = category.icon
             return (

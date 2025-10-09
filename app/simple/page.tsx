@@ -82,12 +82,6 @@ export default function BeginnersHome() {
           count: "",
         },
         {
-          title: language === "ar" ? "مقالات" : "Articles",
-          href: "/simple/media/articles",
-          icon: FileText,
-          count: "",
-        },
-        {
           title: language === "ar" ? "مراجع" : "References",
           href: "/simple/media/references",
           icon: BookOpen,
@@ -547,9 +541,14 @@ export default function BeginnersHome() {
                     {/* Content Section - Flexible Height */}
                     <div className="p-6 flex-1 flex flex-col">
                       <div className="flex-shrink-0 mb-4">
-                        <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-3 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
+                        <Link
+                          href={card.href}
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-2xl font-bold text-gray-800 dark:text-white mb-3 inline-block transition-colors duration-300 hover:text-green-600 dark:hover:text-green-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-400 rounded"
+                          aria-label={`فتح ${card.title}`}
+                        >
                           {card.title}
-                        </h3>
+                        </Link>
                         <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
                           {card.description}
                         </p>
@@ -694,7 +693,7 @@ export default function BeginnersHome() {
           </div>
 
           {/* Bottom Navigation */}
-          <div className="text-center mt-12">
+          {/* <div className="text-center mt-12">
             <button
               onClick={() => {
                 localStorage.setItem("beginnersMode", "false");
@@ -709,7 +708,7 @@ export default function BeginnersHome() {
                 <ArrowRight className="h-5 w-5" />
               )}
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

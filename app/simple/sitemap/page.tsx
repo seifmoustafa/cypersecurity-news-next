@@ -63,7 +63,6 @@ import { useDefinitionCategories } from "@/core/hooks/use-definition-categories"
 import { usePersonalProtectCategories } from "@/core/hooks/use-personal-protect-categories";
 import { useVideoCategories } from "@/core/hooks/use-video-categories";
 import { useLectureCategories } from "@/core/hooks/use-lecture-categories";
-import { usePresentationCategories } from "@/core/hooks/use-presentation-categories";
 import { useHelperCategories } from "@/hooks/use-helper-categories";
 import { useAwarenessYears } from "@/core/hooks/use-awareness";
 
@@ -99,7 +98,6 @@ export default function BeginnersSitemapPage() {
   const { categories: personalProtectCategories, loading: personalProtectLoading } = usePersonalProtectCategories("", 1, 100);
   const { categories: videoCategories, loading: videoLoading } = useVideoCategories(1, 100);
   const { categories: lectureCategories, loading: lectureLoading } = useLectureCategories(1, 100);
-  const { categories: presentationCategories, loading: presentationLoading } = usePresentationCategories(1, 100);
   const { categories: helperCategories, loading: helperLoading } = useHelperCategories(1, 100);
   const { data: awarenessYearsData, loading: awarenessYearsLoading } = useAwarenessYears();
 
@@ -321,39 +319,7 @@ export default function BeginnersSitemapPage() {
               loading: lectureLoading,
               count: lectureCategories.length,
             },
-            {
-              id: "presentations",
-              title: language === "ar" ? "العروض التقديمية" : "Presentations",
-              icon: Presentation,
-              href: "/simple/media/lessons/presentations",
-              description: language === "ar" ? "عروض تقديمية تعليمية" : "Educational presentations",
-              type: 'branch',
-              level: 2,
-              color: 'text-blue-500',
-              children: presentationCategories.map(category => ({
-                id: `presentation-cat-${category.id}`,
-                title: language === "ar" ? category.name : (category.nameEn || category.name),
-                icon: FileText,
-                href: `/simple/media/lessons/presentations?category=${category.id}`,
-                description: language === "ar" ? `عروض ${category.name}` : `Presentations for ${category.nameEn || category.name}`,
-                type: 'leaf',
-                level: 3,
-                color: 'text-blue-400',
-              })),
-              loading: presentationLoading,
-              count: presentationCategories.length,
-            },
           ],
-        },
-        {
-          id: "articles",
-          title: language === "ar" ? "المقالات" : "Articles",
-          icon: FileText,
-          href: "/simple/media/articles",
-          description: language === "ar" ? "مقالات متخصصة" : "Specialized articles",
-          type: 'leaf',
-          level: 1,
-          color: 'text-slate-500',
         },
         {
           id: "references",
@@ -383,117 +349,176 @@ export default function BeginnersSitemapPage() {
     const isExpanded = expandedSections.includes(node.id);
     const hasChildren = node.children && node.children.length > 0;
     const isHovered = hoveredNode === node.id;
-    const indentLevel = level * 24;
+    // Enhanced indentation - much more space for each level for clearer hierarchy
+    const indentLevel = level * 48; // Increased from 32 to 48 for better visual separation
+    const lineOffset = 24; // Position of connecting lines
 
     const getNodeStyles = () => {
-      const baseStyles = "relative transition-all duration-300 ease-in-out";
-      const hoverStyles = isHovered ? "scale-105 shadow-lg" : "hover:scale-102";
+      const baseStyles = "relative transition-all duration-200 ease-in-out";
+      // Reduced hover animation intensity
+      const hoverStyles = isHovered ? "scale-[1.02] shadow-md" : "hover:scale-[1.01]";
       
       if (node.type === 'root') {
-        return `${baseStyles} ${hoverStyles} bg-gradient-to-r ${node.gradient} text-white rounded-xl p-4 shadow-md`;
+        return `${baseStyles} ${hoverStyles} bg-gradient-to-r ${node.gradient} text-white rounded-2xl p-6 shadow-xl border-2 border-white/30 backdrop-blur-sm`;
       } else if (node.type === 'branch') {
-        return `${baseStyles} ${hoverStyles} bg-white dark:bg-slate-800 rounded-lg p-3 shadow-sm border border-slate-200 dark:border-slate-700`;
+        return `${baseStyles} ${hoverStyles} bg-white dark:bg-slate-800 rounded-xl p-4 shadow-lg border-2 border-slate-200 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-xl`;
       } else {
-        return `${baseStyles} ${hoverStyles} bg-slate-50 dark:bg-slate-700 rounded-md p-2 border border-slate-100 dark:border-slate-600`;
+        return `${baseStyles} ${hoverStyles} bg-slate-50 dark:bg-slate-700 rounded-lg p-3 border-2 border-slate-200 dark:border-slate-600 hover:border-blue-300 dark:hover:border-blue-400 hover:shadow-lg`;
       }
     };
 
     const getIconStyles = () => {
       if (node.type === 'root') {
-        return "h-6 w-6 text-white";
+        return "h-8 w-8 text-white";
       } else if (node.type === 'branch') {
-        return `h-5 w-5 ${node.color}`;
+        return `h-6 w-6 ${node.color}`;
       } else {
-        return `h-4 w-4 ${node.color}`;
+        return `h-5 w-5 ${node.color}`;
       }
     };
 
     return (
       <div key={node.id} className="relative">
-        {/* Tree Lines */}
+        {/* Enhanced Tree Lines - Thicker and more visible */}
         {level > 0 && (
-          <div 
-            className={`absolute top-0 bottom-0 w-px bg-gradient-to-b from-slate-300 to-slate-200 dark:from-slate-600 dark:to-slate-700 ${
-              isRtl ? 'right-0' : 'left-0'
-            }`}
-            style={{ [isRtl ? 'right' : 'left']: `${indentLevel - 12}px` }}
-          />
-        )}
-        
-        {/* Horizontal Line */}
-        {level > 0 && (
-          <div 
-            className={`absolute top-6 w-12 h-px bg-gradient-to-r from-slate-300 to-transparent dark:from-slate-600 ${
-              isRtl ? 'right-0' : 'left-0'
-            }`}
-            style={{ [isRtl ? 'right' : 'left']: `${indentLevel - 48}px` }}
-          />
+          <>
+            {/* Vertical connecting line - thicker and more visible */}
+            <div 
+              className={`absolute top-0 bottom-0 w-2 bg-gradient-to-b from-blue-500 via-blue-600 to-blue-400 dark:from-blue-400 dark:via-blue-500 dark:to-blue-300 shadow-lg ${
+                isRtl ? 'right-0' : 'left-0'
+              }`}
+              style={{ [isRtl ? 'right' : 'left']: `${indentLevel - lineOffset}px` }}
+            />
+            
+            {/* Horizontal connecting line - thicker and longer */}
+            <div 
+              className={`absolute top-8 w-20 h-2 bg-gradient-to-r from-blue-500 to-blue-400 dark:from-blue-400 dark:to-blue-300 shadow-lg ${
+                isRtl ? 'right-0' : 'left-0'
+              }`}
+              style={{ [isRtl ? 'right' : 'left']: `${indentLevel - 80}px` }}
+            />
+            
+            {/* Connection point - larger circle */}
+            <div 
+              className={`absolute top-7 w-4 h-4 bg-blue-600 dark:bg-blue-400 rounded-full border-3 border-white dark:border-slate-800 shadow-lg ${
+                isRtl ? 'right-0' : 'left-0'
+              }`}
+              style={{ [isRtl ? 'right' : 'left']: `${indentLevel - lineOffset - 8}px` }}
+            />
+          </>
         )}
 
         <div
-          className={`${getNodeStyles()} ${isRtl ? 'mr-4' : 'ml-4'}`}
+          className={`${getNodeStyles()} ${isRtl ? 'mr-8' : 'ml-8'} ${
+            hasChildren ? 'cursor-pointer' : ''
+          }`}
           style={{ [isRtl ? 'marginRight' : 'marginLeft']: `${indentLevel}px` }}
           onMouseEnter={() => setHoveredNode(node.id)}
           onMouseLeave={() => setHoveredNode(null)}
+          onClick={hasChildren ? () => toggleSection(node.id) : undefined}
+          role={hasChildren ? "button" : undefined}
+          tabIndex={hasChildren ? 0 : undefined}
+          onKeyDown={hasChildren ? (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              toggleSection(node.id);
+            }
+          } : undefined}
+          aria-expanded={hasChildren ? isExpanded : undefined}
+          aria-label={hasChildren ? `${node.title} - ${isExpanded ? 'Collapse' : 'Expand'} section` : node.title}
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3 rtl:space-x-reverse flex-1 min-w-0">
-              {/* Icon with Animation */}
+              {/* Enhanced Icon with better styling */}
               <div className="flex-shrink-0 relative">
-                <div className={`p-2 rounded-lg transition-all duration-300 ${
-                  node.type === 'root' 
-                    ? 'bg-white/20 backdrop-blur-sm' 
-                    : node.type === 'branch'
-                    ? 'bg-slate-100 dark:bg-slate-700'
-                    : 'bg-slate-50 dark:bg-slate-600'
-                }`}>
+                 <div className={`p-4 rounded-xl transition-all duration-200 ${
+                   node.type === 'root' 
+                     ? 'bg-white/25 backdrop-blur-sm shadow-lg' 
+                     : node.type === 'branch'
+                     ? 'bg-slate-100 dark:bg-slate-700 border-2 border-slate-200 dark:border-slate-600 shadow-md'
+                     : 'bg-slate-50 dark:bg-slate-600 border-2 border-slate-100 dark:border-slate-500 shadow-sm'
+                 }`}>
                   <node.icon className={getIconStyles()} />
                 </div>
                 
-                {/* Subtle Glow Effect */}
+                {/* Enhanced Glow Effect */}
                 {isHovered && (
-                  <div className={`absolute inset-0 rounded-lg bg-gradient-to-r ${node.gradient || 'from-blue-500 to-cyan-500'} opacity-10 blur-sm`} />
+                  <div className={`absolute inset-0 rounded-lg bg-gradient-to-r ${node.gradient || 'from-blue-500 to-cyan-500'} opacity-20 blur-sm`} />
                 )}
               </div>
 
               {/* Content */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center space-x-2 rtl:space-x-reverse">
-                  <h3 className={`font-semibold truncate ${
-                    node.type === 'root' 
-                      ? 'text-white text-lg' 
-                      : node.type === 'branch'
-                      ? 'text-slate-900 dark:text-slate-100 text-base'
-                      : 'text-slate-700 dark:text-slate-300 text-sm'
-                  }`}>
-                    {node.title}
-                  </h3>
+                  {/* Title: if href exists, always navigate on click; otherwise act as toggle for branches */}
+                  {node.href ? (
+                    <Link
+                      href={node.href}
+                       className={`font-bold truncate ${
+                         node.type === 'root'
+                           ? 'text-white text-xl'
+                           : hasChildren
+                           ? 'text-slate-900 dark:text-slate-100 text-lg'
+                           : 'text-slate-800 dark:text-slate-200 text-base'
+                       } hover:underline hover:text-blue-600 dark:hover:text-blue-400`}
+                      onClick={(e) => e.stopPropagation()}
+                      aria-label={`فتح ${node.title}`}
+                    >
+                      {node.title}
+                    </Link>
+                  ) : hasChildren ? (
+                    <button
+                      type="button"
+                       className={`font-bold truncate text-left ${
+                         node.type === 'root'
+                           ? 'text-white text-xl'
+                           : 'text-slate-900 dark:text-slate-100 text-lg'
+                       }`}
+                      aria-expanded={isExpanded}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleSection(node.id);
+                      }}
+                    >
+                      {node.title}
+                    </button>
+                  ) : (
+                    <span
+                       className={`font-bold truncate ${
+                         node.type === 'root'
+                           ? 'text-white text-xl'
+                           : 'text-slate-800 dark:text-slate-200 text-base'
+                       }`}
+                    >
+                      {node.title}
+                    </span>
+                  )}
                   
-                  {/* Badges */}
+                  {/* Enhanced Badges */}
                   <div className="flex items-center space-x-1 rtl:space-x-reverse">
                     {node.count !== undefined && (
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                        node.type === 'root' 
-                          ? 'bg-white/20 text-white' 
-                          : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                      }`}>
+                       <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold ${
+                         node.type === 'root' 
+                           ? 'bg-white/20 text-white border border-white/30' 
+                           : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 border border-blue-200 dark:border-blue-700'
+                       }`}>
                         {node.count}
                       </span>
                     )}
                     {node.loading && (
-                      <Loader2 className="h-4 w-4 animate-spin text-blue-500" />
+                      <Loader2 className="h-5 w-5 animate-spin text-blue-500" />
                     )}
                     {node.error && (
-                      <AlertCircle className="h-4 w-4 text-red-500" />
+                      <AlertCircle className="h-5 w-5 text-red-500" />
                     )}
                   </div>
                 </div>
                 
                 {node.description && (
-                  <p className={`mt-1 truncate ${
+                  <p className={`mt-2 truncate ${
                     node.type === 'root' 
-                      ? 'text-white/80 text-sm' 
-                      : 'text-slate-500 dark:text-slate-400 text-xs'
+                      ? 'text-white/90 text-base' 
+                      : 'text-slate-600 dark:text-slate-300 text-sm'
                   }`}>
                     {node.description}
                   </p>
@@ -501,44 +526,47 @@ export default function BeginnersSitemapPage() {
               </div>
             </div>
 
-            {/* Actions */}
+            {/* Enhanced Actions */}
             <div className="flex items-center space-x-2 rtl:space-x-reverse">
               {hasChildren && (
-                <button
-                  onClick={() => toggleSection(node.id)}
-                  className={`p-2 rounded-lg transition-all duration-200 ${
-                    node.type === 'root' 
-                      ? 'hover:bg-white/20 text-white' 
-                      : 'hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-500 dark:text-slate-400'
-                  }`}
-                >
-                  {isExpanded ? (
-                    <ChevronDown className="h-4 w-4" />
-                  ) : (
-                    <ChevronRight className="h-4 w-4" />
-                  )}
-                </button>
+                 <div className={`p-2 rounded-lg transition-all duration-200 ${
+                   node.type === 'root' 
+                     ? 'text-white/80' 
+                     : 'text-slate-500 dark:text-slate-400'
+                 }`}>
+                   {isExpanded ? (
+                     <ChevronDown className="h-5 w-5" />
+                   ) : (
+                     <ChevronRight className="h-5 w-5" />
+                   )}
+                 </div>
               )}
               {node.href && (
                 <Link
                   href={node.href}
                   className={`p-2 rounded-lg transition-all duration-200 ${
                     node.type === 'root' 
-                      ? 'hover:bg-white/20 text-white' 
-                      : 'hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-500'
+                      ? 'hover:bg-white/20 text-white border border-white/20' 
+                      : 'hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-500 border border-blue-200 dark:border-blue-700'
                   }`}
+                  aria-label={`Navigate to ${node.title}`}
+                  onClick={(e) => e.stopPropagation()} // Prevent parent click when clicking link
                 >
-                  <ExternalLink className="h-4 w-4" />
+                  <ExternalLink className="h-5 w-5" />
                 </Link>
               )}
             </div>
           </div>
         </div>
         
-        {/* Children */}
+        {/* Enhanced Children with better spacing and visual separation */}
         {hasChildren && isExpanded && (
-          <div className="mt-2 space-y-2">
-            {node.children?.map(child => renderTreeNode(child, level + 1))}
+          <div className="mt-4 space-y-4 relative">
+            {/* Subtle background indicator for children */}
+            <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-200 to-blue-100 dark:from-blue-800 dark:to-blue-700 rounded-full opacity-50"></div>
+            <div className="pl-2">
+              {node.children?.map(child => renderTreeNode(child, level + 1))}
+            </div>
           </div>
         )}
       </div>
@@ -550,39 +578,52 @@ export default function BeginnersSitemapPage() {
       const isExpanded = expandedSections.includes(node.id);
       const hasChildren = node.children && node.children.length > 0;
       const indentLevel = level * 20;
+      const hasGradient = Boolean(node.gradient);
       
       return (
-        <div key={node.id} className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
-          <div className={`bg-gradient-to-r ${node.gradient} p-4`}>
+        <div key={node.id} className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border-2 border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600 transition-colors overflow-hidden">
+          <div className={`${hasGradient ? `bg-gradient-to-r ${node.gradient} text-white` : 'bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100'} p-4`}> 
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3 rtl:space-x-reverse" style={{ [isRtl ? 'marginRight' : 'marginLeft']: `${indentLevel}px` }}>
-                <node.icon className="h-6 w-6 text-white" />
+                 <node.icon className={`h-7 w-7 ${hasGradient ? 'text-white' : 'text-blue-600 dark:text-blue-300'}`} />
                 <div>
-                  <h3 className="text-lg font-semibold text-white">{node.title}</h3>
-                  <p className="text-white/80 text-sm">{node.description}</p>
+                  {node.href ? (
+                    <Link
+                      href={node.href}
+                      className={`text-xl font-bold hover:underline ${hasGradient ? 'text-white hover:text-blue-50' : 'text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-300'}`}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {node.title}
+                    </Link>
+                  ) : (
+                     <h3 className={`text-xl font-bold ${hasGradient ? 'text-white' : 'text-slate-900 dark:text-slate-100'}`}>{node.title}</h3>
+                  )}
+                  {node.description && (
+                    <p className={`${hasGradient ? 'text-white/90' : 'text-slate-600 dark:text-slate-300'} text-base`}>{node.description}</p>
+                  )}
                 </div>
               </div>
               <div className="flex items-center space-x-2 rtl:space-x-reverse">
                 {node.count !== undefined && (
-                  <span className="bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium">
+                   <span className={`${hasGradient ? 'bg-white/20 text-white' : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'} px-3 py-1 rounded-full text-base font-semibold`}>
                     {node.count}
                   </span>
                 )}
                 {hasChildren && (
                   <button
                     onClick={() => toggleSection(node.id)}
-                    className="bg-white/20 hover:bg-white/30 text-white p-2 rounded-lg transition-all duration-200"
+                     className={`${hasGradient ? 'bg-white/20 hover:bg-white/30 text-white' : 'bg-slate-200 hover:bg-slate-300 text-slate-700 dark:bg-slate-600 dark:hover:bg-slate-500 dark:text-slate-100'} p-3 rounded-lg transition-all duration-200`}
                   >
                     {isExpanded ? (
-                      <ChevronDown className="h-4 w-4" />
+                      <ChevronDown className="h-5 w-5" />
                     ) : (
-                      <ChevronRight className="h-4 w-4" />
+                      <ChevronRight className="h-5 w-5" />
                     )}
                   </button>
                 )}
                 {node.href && (
-                  <Link href={node.href} className="bg-white/20 hover:bg-white/30 text-white p-2 rounded-lg transition-all duration-200">
-                    <ExternalLink className="h-4 w-4" />
+                  <Link href={node.href} className={`${hasGradient ? 'bg-white/20 hover:bg-white/30 text-white' : 'bg-slate-200 hover:bg-slate-300 text-slate-700 dark:bg-slate-600 dark:hover:bg-slate-500 dark:text-slate-100'} p-3 rounded-lg transition-all duration-200`} onClick={(e)=>e.stopPropagation()}>
+                    <ExternalLink className="h-5 w-5" />
                   </Link>
                 )}
               </div>
@@ -591,7 +632,7 @@ export default function BeginnersSitemapPage() {
           
           {/* Show children in list */}
           {hasChildren && isExpanded && (
-            <div className="p-4 space-y-2">
+            <div className="p-4 space-y-2 bg-white dark:bg-slate-800">
               {node.children?.map(child => renderNodeInList(child, level + 1))}
             </div>
           )}
@@ -613,8 +654,7 @@ export default function BeginnersSitemapPage() {
     helperCategories.length +
     personalProtectCategories.length +
     videoCategories.length +
-    lectureCategories.length +
-    presentationCategories.length;
+    lectureCategories.length;
 
   const isLoading = [
     newsLoading,
@@ -622,7 +662,6 @@ export default function BeginnersSitemapPage() {
     personalProtectLoading,
     videoLoading,
     lectureLoading,
-    presentationLoading,
     helperLoading,
     awarenessYearsLoading
   ].some(loading => loading);
@@ -727,78 +766,7 @@ export default function BeginnersSitemapPage() {
         </div>
                     </div>
 
-      {/* Stats */}
-      <div className="relative container mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-slate-200/50 dark:border-slate-700/50 hover:shadow-xl transition-all duration-300">
-            <div className="flex items-center space-x-4 rtl:space-x-reverse">
-              <div className="p-3 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600">
-                <Grid3X3 className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
-                  {language === "ar" ? "الأقسام الرئيسية" : "Main Sections"}
-                </p>
-                <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-                  {sitemapData.length}
-                </p>
-              </div>
-            </div>
-                    </div>
-
-          <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-slate-200/50 dark:border-slate-700/50 hover:shadow-xl transition-all duration-300">
-            <div className="flex items-center space-x-4 rtl:space-x-reverse">
-              <div className="p-3 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600">
-                <Target className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
-                  {language === "ar" ? "إجمالي الفئات" : "Total Categories"}
-                </p>
-                <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-                  {totalCategories}
-                </p>
-                    </div>
-                  </div>
-                </div>
-
-          <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-slate-200/50 dark:border-slate-700/50 hover:shadow-xl transition-all duration-300">
-            <div className="flex items-center space-x-4 rtl:space-x-reverse">
-              <div className="p-3 rounded-xl bg-gradient-to-r from-cyan-500 to-cyan-600">
-                <Network className="h-6 w-6 text-white" />
-                              </div>
-                              <div>
-                <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
-                  {language === "ar" ? "المستويات" : "Tree Levels"}
-                </p>
-                <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-                  4
-                                </p>
-                              </div>
-                            </div>
-                        </div>
-          
-          <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-slate-200/50 dark:border-slate-700/50 hover:shadow-xl transition-all duration-300">
-            <div className="flex items-center space-x-4 rtl:space-x-reverse">
-              <div className="p-3 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600">
-                <Zap className="h-6 w-6 text-white" />
-                  </div>
-              <div>
-                <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
-                  {language === "ar" ? "حالة التحميل" : "Loading Status"}
-                </p>
-                <div className="text-2xl">
-                  {isLoading ? (
-                    <Loader2 className="h-6 w-6 animate-spin text-blue-500" />
-                  ) : (
-                    <CheckCircle className="h-6 w-6 text-green-500" />
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Stats removed for a cleaner sitemap layout */}
 
       {/* Tree Structure */}
       <div className="relative container mx-auto px-4 pb-12">
@@ -822,7 +790,7 @@ export default function BeginnersSitemapPage() {
             
             {/* Content based on view mode */}
             {viewMode === 'tree' && (
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {sitemapData.map(section => renderTreeNode(section))}
               </div>
             )}

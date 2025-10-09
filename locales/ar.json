@@ -105,7 +105,7 @@
         "description": "نموذج الإبلاغ عن الحوادث الأمنية السيبرانية للمراجعة السريعة",
         "reportNewIncident": "إبلاغ عن حادث جديد"
       },
-      "awareness":{
+      "awareness": {
         "title": "التوعية",
         "description": "التوعية والأخبار المتعلقة بالأمن السيبراني",
         "news": "الأخبار",
@@ -131,7 +131,7 @@
       "subtitle": "بوابة مبسطة للأمن السيبراني تقدم المعرفة الأساسية والأدوات البسيطة في مجال الأمن السيبراني",
       "quickLinks": "روابط سريعة",
       "contactInfo": "معلومات الاتصال",
-      "copyright": "حقوق النشر © 2025 / فرع حرب المعلومات من إدارة نظم المعلومات جميع الحقوق محفوظة"
+      "copyright": "حقوق النشر © 2025 / إدارة نظم المعلومات - مركز التأمين الفني والإمداد الألي MMC جميع الحقوق محفوظة"
     },
     "incidentReport": {
       "title": "إبلاغ عن حادث أمني",
@@ -253,9 +253,9 @@
     "viewAll": "عرض الكل"
   },
   "regulation": {
-    "viewFullDocument":"فتح الملف",
-    "downloadDocument":"تحميل الملف",
-    "summary":"الملخص",
+    "viewFullDocument": "فتح الملف",
+    "downloadDocument": "تحميل الملف",
+    "summary": "الملخص",
     "council": "المجلس الأعلى للأمن السيبراني",
     "strategy": "الاستراتيجية",
     "executive": "اللائحة التنفيذية",
@@ -290,8 +290,8 @@
     "subtitle": "التعريفات والقوانين وأطر العمل والمعايير في مجال الأمن السيبراني"
   },
   "media": {
-    "noPresentations":"لا توجد عروض تقديمية",
-    "noLectures":"لا توجد محاضرات",
+    "noPresentations": "لا توجد عروض تقديمية",
+    "noLectures": "لا توجد محاضرات",
     "videos": "الفيديوهات",
     "lectures": "المحاضرات",
     "presentations": "العروض التقديمية",
@@ -319,7 +319,7 @@
   "common": {
     "simpleLayout": "صفحة المبتدئيين",
     "fullLayout": "كل الإطار",
-    "backToList":"العودة للقائمة",
+    "backToList": "العودة للقائمة",
     "order": "ترتيب",
     "description": "وصف",
     "status": "الحالة",
@@ -349,7 +349,7 @@
     "last": "الأخير",
     "page": "صفحة",
     "pageOf": "صفحة",
-    "of":"من",
+    "of": "من",
     "pageInfo": "صفحة {{current}} من {{total}}",
     "showingPage": "عرض صفحة {{current}} من {{total}}",
     "itemsPerPage": "{{count}} عنصر في الصفحة",
@@ -451,7 +451,7 @@
     "control": "الإجراء التحكم",
     "safeguard": "الإجراء حماية",
     "technique": "التقنية",
-    "step":"خطوة",
+    "step": "خطوة",
     "implementationStep": "خطوة التنفيذ",
     "noStandards": "لا توجد معايير متاحة",
     "noStandardsDescription": "لا توجد حالياً معايير إجراءات أمان متاحة.",

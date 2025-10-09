@@ -267,7 +267,7 @@ export default function SimpleFooter() {
             })}
           </div> */}
           {/* Quick Links Section */}
-          <div className="bg-gradient-to-r from-gray-200/50 to-gray-100/50 dark:from-slate-800/50 dark:to-gray-800/50 rounded-3xl p-10 mb-16 backdrop-blur-sm border border-gray-300/50 dark:border-slate-700/50 shadow-2xl shadow-gray-900/10 dark:shadow-slate-900/20">
+          {/* <div className="bg-gradient-to-r from-gray-200/50 to-gray-100/50 dark:from-slate-800/50 dark:to-gray-800/50 rounded-3xl p-10 mb-16 backdrop-blur-sm border border-gray-300/50 dark:border-slate-700/50 shadow-2xl shadow-gray-900/10 dark:shadow-slate-900/20">
             <h3 className="text-2xl font-bold text-center mb-8 text-gray-800 dark:text-white">
               {t("beginners.footer.quickLinks")}
             </h3>
@@ -295,7 +295,7 @@ export default function SimpleFooter() {
                 );
               })}
             </div>
-          </div>
+          </div> */}
 
           {/* Contact Section */}
           <div className="flex justify-center mb-16">
