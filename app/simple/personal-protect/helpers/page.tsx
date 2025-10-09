@@ -7,8 +7,9 @@ import { useLanguage } from "@/components/language-provider"
 import Breadcrumbs from "@/components/breadcrumbs"
 import { useHelperCategories } from "@/hooks/use-helper-categories"
 import { useHelpersByCategory } from "@/hooks/use-helper-categories"
-import { BookOpen, ArrowRight, ArrowLeft, ChevronLeft, ChevronRight, Play, Pause, X, Maximize2 } from "lucide-react"
+import { BookOpen, ArrowRight, ArrowLeft, ChevronLeft, ChevronRight, Play, Pause, X, Maximize2, Share2 } from "lucide-react"
 import { getFullImageUrl } from "@/lib/utils"
+import { useShare } from "@/hooks/use-share"
 
 export default function HelperCategoriesPage() {
   const router = useRouter()
@@ -21,6 +22,9 @@ export default function HelperCategoriesPage() {
   const [isAutoPlay, setIsAutoPlay] = useState(false)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [fullscreenIndex, setFullscreenIndex] = useState(0)
+  
+  // Share functionality
+  const { share, isSharing } = useShare()
 
   // Fetch all categories for sidebar
   const { categories: allCategories, loading: categoriesLoading, error: categoriesError } = useHelperCategories(1, 100)
@@ -34,10 +38,20 @@ export default function HelperCategoriesPage() {
 
   const selectedCategory = allCategories.find(cat => cat.id === selectedCategoryId)
 
-  // Reset carousel when category changes
+  // Reset carousel when category changes and handle image parameter
   useEffect(() => {
-    setCurrentIndex(0)
-  }, [selectedCategoryId])
+    const imageParam = searchParams.get("image")
+    if (imageParam && !isNaN(Number(imageParam))) {
+      const imageIndex = Number(imageParam)
+      if (imageIndex >= 0 && imageIndex < helpers.length) {
+        setCurrentIndex(imageIndex)
+      } else {
+        setCurrentIndex(0)
+      }
+    } else {
+      setCurrentIndex(0)
+    }
+  }, [selectedCategoryId, searchParams, helpers.length])
 
   // Auto-play functionality
   useEffect(() => {
@@ -67,6 +81,23 @@ export default function HelperCategoriesPage() {
 
   const toggleAutoPlay = () => {
     setIsAutoPlay(!isAutoPlay)
+  }
+
+  const handleShare = async (index?: number) => {
+    const targetIndex = index !== undefined ? index : currentIndex
+    if (helpers.length > 0 && helpers[targetIndex]) {
+      const currentHelper = helpers[targetIndex]
+      const helperTitle = language === "ar" ? currentHelper.title : currentHelper.titleEn || currentHelper.title
+      const helperUrl = `${window.location.origin}/simple/personal-protect/helpers?category=${selectedCategoryId}&image=${targetIndex}`
+      
+      await share({
+        title: helperTitle,
+        url: helperUrl,
+        text: language === "ar" 
+          ? `إرشاد في الأمن السيبراني: ${helperTitle}`
+          : `Cybersecurity Helper: ${helperTitle}`
+      })
+    }
   }
 
   const openFullscreen = (index: number) => {
@@ -233,6 +264,21 @@ export default function HelperCategoriesPage() {
                           }
                         </span>
                       </button>
+                      
+                      {/* Share Button */}
+                      <button
+                        onClick={() => handleShare()}
+                        disabled={isSharing || helpers.length === 0}
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors duration-300 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900/50 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <Share2 className={`h-4 w-4 ${isSharing ? 'animate-spin' : ''}`} />
+                        <span className="text-sm font-medium">
+                          {isSharing 
+                            ? (language === "ar" ? "جاري المشاركة..." : "Sharing...")
+                            : (language === "ar" ? "مشاركة" : "Share")
+                          }
+                        </span>
+                      </button>
                     </div>
                     
                     <div className="flex items-center gap-2">
@@ -363,6 +409,15 @@ export default function HelperCategoriesPage() {
               className="absolute top-4 right-4 z-10 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full p-3 transition-all duration-300 hover:scale-110 group"
             >
               <X className="h-6 w-6 text-white group-hover:text-red-400" />
+            </button>
+
+            {/* Share Button */}
+            <button
+              onClick={() => handleShare(fullscreenIndex)}
+              disabled={isSharing || helpers.length === 0}
+              className="absolute top-4 right-20 z-10 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full p-3 transition-all duration-300 hover:scale-110 group disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <Share2 className={`h-6 w-6 text-white group-hover:text-blue-400 ${isSharing ? 'animate-spin' : ''}`} />
             </button>
 
             {/* Image */}
