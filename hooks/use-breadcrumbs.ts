@@ -12,6 +12,7 @@ import { usePersonalProtectControlSteps } from "@/core/hooks/use-personal-protec
 import { usePersonalProtectControls } from "@/core/hooks/use-personal-protect-controls"
 import { usePersonalProtectSubCategories } from "@/core/hooks/use-personal-protect-subcategories"
 import { usePersonalProtectCategories } from "@/core/hooks/use-personal-protect-categories"
+import { useLectureCategories } from "@/core/hooks/use-lecture-categories"
 
 interface BreadcrumbItem {
   label: string
@@ -162,19 +163,30 @@ export function useMediaArticleBreadcrumbs(articleId: string): BreadcrumbConfig 
 }
 
 // Hook for lecture breadcrumbs
-export function useLectureBreadcrumbs(lessonId: string, lectureId: string): BreadcrumbConfig {
+export function useLectureBreadcrumbs(categoryId: string, lectureId: string, lectureName?: string): BreadcrumbConfig {
   const { language } = useLanguage()
   
+  const { categories: lectureCategories, loading: categoriesLoading } = useLectureCategories(1, 100)
+  
+  // Find the category by ID
+  const category = lectureCategories.find(cat => cat.id === categoryId)
+  
+  // Use provided lecture name or fallback
+  const displayLectureName = lectureName || (language === "ar" ? "المحاضرة" : "Lecture")
+  
   const items: BreadcrumbItem[] = [
-    { label: language === "ar" ? "المكتبة الإعلامية" : "Media Library", href: "/simple/media" },
-    { label: language === "ar" ? "الدروس" : "Lessons", href: "/simple/media/lessons" },
-    { label: language === "ar" ? "المحاضرات" : "Lectures", href: "/simple/media/lessons/lectures" },
+    { label: language === "ar" ? "المكتبة الثقافية" : "Media Library", href: "/simple/media" },
+    { label: language === "ar" ? "المحاضرات" : "Lectures", href: "/simple/media/lectures" },
     { 
-      label: language === "ar" ? "المحاضرة" : "Lecture"
+      label: category ? getLocalizedName(category, language) : (language === "ar" ? "فئة المحاضرات" : "Lecture Category"),
+      href: `/simple/media/lectures/${categoryId}`
+    },
+    { 
+      label: displayLectureName
     }
   ]
   
-  return { items, isLoading: false }
+  return { items, isLoading: categoriesLoading }
 }
 
 // Hook for presentation breadcrumbs

@@ -30,6 +30,8 @@ import { Button } from "@/components/ui/button"
 import { container } from "@/core/di/container"
 import Breadcrumbs from "@/components/breadcrumbs"
 import { useReferences } from "@/core/hooks/use-references"
+import { useVideoCategories } from "@/core/hooks/use-video-categories"
+import { useLectureCategories } from "@/core/hooks/use-lecture-categories"
 
 export default function BeginnersMediaPage() {
   const { language, t } = useLanguage()
@@ -40,8 +42,10 @@ export default function BeginnersMediaPage() {
   })
 
   
-  // Fetch first 2 references for the references card
+  // Fetch categories and data from backend
   const { references, loading: referencesLoading } = useReferences("", 1, 2)
+  const { categories: videoCategories } = useVideoCategories(1, 100)
+  const { categories: lectureCategories } = useLectureCategories(1, 100)
 
   useEffect(() => {
     const fetchMediaStats = async () => {
@@ -67,30 +71,6 @@ export default function BeginnersMediaPage() {
   }, [])
 
   const mediaCategories = [
-    {
-      id: "lessons",
-      title: language === "ar" ? "دروس تعليمية" : "Educational Lessons",
-      description: language === "ar" ? "دروس تفاعلية لتعلم أساسيات الأمن السيبراني" : "Interactive lessons to learn cybersecurity fundamentals",
-      icon: GraduationCap,
-      color: "from-blue-500 to-blue-600",
-      bgColor: "bg-blue-50 dark:bg-blue-900/20",
-      borderColor: "border-blue-200 dark:border-blue-800",
-      count: "",
-      href: "/simple/media/lessons",
-      imagePath: "/assets/images/beginners/Gemini_Generated_Image_c7ds1sc7ds1sc7ds.png",
-      items: [
-        {
-          title: language === "ar" ? "الفيديوهات" : "Videos",
-          href: "/simple/media/lessons/videos",
-          icon: Video,
-        },
-        {
-          title: language === "ar" ? "المحاضرات" : "Lectures",
-          href: "/simple/media/lessons/lectures",
-          icon: GraduationCap,
-        },
-      ]
-    },
     {
       id: "references",
       title: language === "ar" ? "مراجع" : "References",
@@ -119,6 +99,40 @@ export default function BeginnersMediaPage() {
           icon: FileText,
         },
       ]
+    },
+    {
+      id: "videos",
+      title: language === "ar" ? "الفيديوهات التعليمية" : "Educational Videos",
+      description: language === "ar" ? "فيديوهات تفاعلية لتعلم أساسيات الأمن السيبراني" : "Interactive videos to learn cybersecurity fundamentals",
+      icon: Video,
+      color: "from-blue-500 to-blue-600",
+      bgColor: "bg-blue-50 dark:bg-blue-900/20",
+      borderColor: "border-blue-200 dark:border-blue-800",
+      count: "",
+      href: "/simple/media/videos",
+      imagePath: "/assets/images/beginners/Gemini_Generated_Image_c7ds1sc7ds1sc7ds.png",
+      items: videoCategories.map(category => ({
+        title: language === "ar" ? category.name : category.nameEn || category.name,
+        href: `/simple/media/videos/${category.id}`,
+        icon: Video,
+      }))
+    },
+    {
+      id: "lectures",
+      title: language === "ar" ? "المحاضرات" : "Lectures",
+      description: language === "ar" ? "محاضرات مفصلة من خبراء الأمن السيبراني" : "Detailed lectures from cybersecurity experts",
+      icon: GraduationCap,
+      color: "from-blue-500 to-cyan-600",
+      bgColor: "bg-blue-50 dark:bg-blue-900/20",
+      borderColor: "border-blue-200 dark:border-blue-800",
+      count: "",
+      href: "/simple/media/lectures",
+      imagePath: "/assets/images/beginners/Gemini_Generated_Image_2q2d7n2q2d7n2q2d.png",
+      items: lectureCategories.map(category => ({
+        title: language === "ar" ? category.name : category.nameEn || category.name,
+        href: `/simple/media/lectures/${category.id}`,
+        icon: GraduationCap,
+      }))
     }
   ]
 
@@ -237,49 +251,12 @@ export default function BeginnersMediaPage() {
                               </Link>
                             ))
                           ) : (
-                            // Empty state - show placeholder items
-                            <>
-                              <div className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 rounded-lg border border-white/20 dark:border-white/10">
-                                <div className="flex-1 min-w-0">
-                                  <span className="text-gray-500 dark:text-gray-400 text-sm font-medium">
-                                    {language === "ar" ? "مرجع رقم 1" : "Reference 1"}
-                                  </span>
-                                  <div className="flex items-center gap-2 mt-1">
-                                    <Calendar className="h-3 w-3 text-gray-400" />
-                                    <span className="text-xs text-gray-500 dark:text-gray-400">
-                                      {new Date().toLocaleDateString()}
-                                    </span>
-                                  </div>
-                                </div>
-                                <div className="flex items-center">
-                                  {isRtl ? (
-                                    <ArrowLeft className="h-4 w-4 text-gray-400" />
-                                  ) : (
-                                    <ArrowRight className="h-4 w-4 text-gray-400" />
-                                  )}
-                                </div>
-                              </div>
-                              <div className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 rounded-lg border border-white/20 dark:border-white/10">
-                                <div className="flex-1 min-w-0">
-                                  <span className="text-gray-500 dark:text-gray-400 text-sm font-medium">
-                                    {language === "ar" ? "مرجع رقم 2" : "Reference 2"}
-                                  </span>
-                                  <div className="flex items-center gap-2 mt-1">
-                                    <Calendar className="h-3 w-3 text-gray-400" />
-                                    <span className="text-xs text-gray-500 dark:text-gray-400">
-                                      {new Date().toLocaleDateString()}
-                                    </span>
-                                  </div>
-                                </div>
-                                <div className="flex items-center">
-                                  {isRtl ? (
-                                    <ArrowLeft className="h-4 w-4 text-gray-400" />
-                                  ) : (
-                                    <ArrowRight className="h-4 w-4 text-gray-400" />
-                                  )}
-                                </div>
-                              </div>
-                            </>
+                            // Empty state - show message
+                            <div className="flex items-center justify-center p-6 bg-white/50 dark:bg-white/5 rounded-lg border border-white/20 dark:border-white/10">
+                              <span className="text-gray-500 dark:text-gray-400 text-sm font-medium text-center">
+                                {language === "ar" ? "لا توجد مراجع متاحة حالياً" : "No references available at the moment"}
+                              </span>
+                            </div>
                           )}
                           <Link
                             href="/simple/media/references"

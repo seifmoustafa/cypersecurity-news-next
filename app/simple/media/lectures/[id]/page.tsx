@@ -45,14 +45,13 @@ export default function LectureCategoryPage({ params }: LectureCategoryPageProps
 
         <div className="relative z-10 container mx-auto px-4 pt-24 pb-8">
           {/* Breadcrumbs */}
-          <Breadcrumbs 
-            items={[
-              { label: language === "ar" ? "المكتبة الثقافية" : "Media Library", href: "/simple/media" },
-              { label: language === "ar" ? "دروس تعليمية" : "Educational Lessons", href: "/simple/media/lessons" },
-              { label: language === "ar" ? "فئات المحاضرات" : "Lecture Categories", href: "/simple/media/lessons/lectures" },
-              { label: categoryName }
-            ]} 
-          />
+        <Breadcrumbs 
+          items={[
+            { label: language === "ar" ? "المكتبة الثقافية" : "Media Library", href: "/simple/media" },
+            { label: language === "ar" ? "المحاضرات" : "Lectures", href: "/simple/media/lectures" },
+            { label: categoryName }
+          ]} 
+        />
 
           {/* Search Section */}
           <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8">
@@ -119,8 +118,7 @@ export default function LectureCategoryPage({ params }: LectureCategoryPageProps
         <Breadcrumbs 
           items={[
             { label: language === "ar" ? "المكتبة الثقافية" : "Media Library", href: "/simple/media" },
-            { label: language === "ar" ? "دروس تعليمية" : "Educational Lessons", href: "/simple/media/lessons" },
-            { label: language === "ar" ? "فئات المحاضرات" : "Lecture Categories", href: "/simple/media/lessons/lectures" },
+            { label: language === "ar" ? "المحاضرات" : "Lectures", href: "/simple/media/lectures" },
             { label: categoryName }
           ]} 
         />
@@ -148,7 +146,7 @@ export default function LectureCategoryPage({ params }: LectureCategoryPageProps
           {lectures.map((lecture, index) => (
             <Link 
               key={lecture.id} 
-              href={`/simple/media/lessons/lectures/${resolvedParams.id}/${lecture.id}`} 
+              href={`/simple/media/lectures/${resolvedParams.id}/${lecture.id}`} 
               className="group"
               style={{ animationDelay: `${index * 100}ms` }}
             >

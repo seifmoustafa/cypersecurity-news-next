@@ -31,7 +31,7 @@ export default function LectureDetailPage({ params }: LectureDetailPageProps) {
   const resolvedParams = use(params)
   
   // Get breadcrumbs with dynamic data
-  const { items: breadcrumbItems, isLoading: breadcrumbLoading } = useLectureBreadcrumbs(resolvedParams.id, resolvedParams.lectureId)
+  const { items: breadcrumbItems, isLoading: breadcrumbLoading } = useLectureBreadcrumbs(resolvedParams.id, resolvedParams.lectureId, lectureName)
 
   useEffect(() => {
     const fetchLecture = async () => {
@@ -332,7 +332,7 @@ export default function LectureDetailPage({ params }: LectureDetailPageProps) {
               {/* Back to Category */}
               <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-slate-700">
                 <Link
-                  href={`/simple/media/lessons/lectures/${resolvedParams.id}`}
+                  href={`/simple/media/lectures/${resolvedParams.id}`}
                   className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-slate-600 transition-all duration-300 font-medium"
                 >
                   <ArrowUpLeft className="h-5 w-5" />

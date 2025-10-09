@@ -76,15 +76,21 @@ export default function BeginnersHome() {
       href: "/simple/media",
       items: [
         {
-          title: language === "ar" ? "دروس تعليمية" : "Educational Lessons",
-          href: "/simple/media/lessons",
-          icon: GraduationCap,
-          count: "",
-        },
-        {
           title: language === "ar" ? "مراجع" : "References",
           href: "/simple/media/references",
           icon: BookOpen,
+          count: "",
+        },
+        {
+          title: language === "ar" ? "الفيديوهات التعليمية" : "Educational Videos",
+          href: "/simple/media/videos",
+          icon: Video,
+          count: "",
+        },
+        {
+          title: language === "ar" ? "المحاضرات" : "Lectures",
+          href: "/simple/media/lectures",
+          icon: GraduationCap,
           count: "",
         },
       ],
