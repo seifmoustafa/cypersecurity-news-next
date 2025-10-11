@@ -100,7 +100,7 @@ export default function PersonalProtectPage() {
         />
 
         {/* Header */}
-        <div className="text-center mb-12">
+        {/* <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
             {language === "ar" ? "الحماية الشخصية" : "Personal Protection"}
           </h1>
@@ -110,10 +110,10 @@ export default function PersonalProtectPage() {
               : "Educational videos and comprehensive guides to protect yourself in the digital world"
             }
           </p>
-        </div>
+        </div> */}
 
         {/* Personal Protect Categories Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 max-w-7xl mx-auto">
           {/* Videos Card */}
           <Link
             href="/simple/personal-protect/videos"
@@ -136,8 +136,8 @@ export default function PersonalProtectPage() {
               }}
               style={{ transform: "perspective(1000px)" }}
             >
-              {/* Image Hero Section */}
-              <div className="relative h-80 overflow-hidden flex-shrink-0">
+              {/* Image Hero Section - Responsive */}
+              <div className="relative h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 overflow-hidden flex-shrink-0">
                 <img
                   src="/assets/images/beginners/Gemini_Generated_Image_c7ds1sc7ds1sc7ds.png"
                   alt="Educational Videos animation"
@@ -146,13 +146,13 @@ export default function PersonalProtectPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent dark:from-black/60 dark:via-transparent dark:to-transparent"></div>
               </div>
 
-              {/* Content Section */}
-              <div className="p-6 flex-1 flex flex-col">
-                <div className="flex-shrink-0 mb-4">
-                  <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-3 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
+              {/* Content Section - Responsive */}
+              <div className="p-3 sm:p-4 md:p-5 lg:p-6 flex-1 flex flex-col">
+                <div className="flex-shrink-0 mb-2 sm:mb-3 md:mb-4">
+                  <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold text-gray-800 dark:text-white mb-2 sm:mb-3 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
                     {language === "ar" ? "فيديوهات" : "Educational Videos"}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl leading-relaxed">
                     {language === "ar" 
                       ? "فيديوهات  تفاعلية لتعلم أساسيات الأمن السيبراني والحماية الشخصية"
                       : "Interactive educational videos to learn cybersecurity fundamentals and personal protection"
@@ -160,23 +160,23 @@ export default function PersonalProtectPage() {
                   </p>
                 </div>
 
-                {/* Quick Access Links */}
-                <div className="space-y-2 flex-1 flex flex-col justify-start">
+                {/* Quick Access Links - Responsive */}
+                <div className="space-y-1 sm:space-y-2 flex-1 flex flex-col justify-center">
                   {videoCategories.map((category, categoryIndex) => (
                     <Link
                       key={`video-${category.id}`}
                       href={`/simple/personal-protect/videos/${category.id}`}
                       onClick={(e) => e.stopPropagation()}
-                      className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
+                      className="flex items-center justify-between p-2 sm:p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-md sm:rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
                     >
-                      <span className="text-gray-700 dark:text-white text-sm font-medium group-hover/item:text-blue-700 dark:group-hover/item:text-blue-400 transition-colors duration-300">
+                      <span className="text-gray-700 dark:text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium group-hover/item:text-blue-700 dark:group-hover/item:text-blue-400 transition-colors duration-300">
                         {language === "ar" ? category.name : category.nameEn || category.name}
                       </span>
                       <div className="flex items-center">
                         {isRtl ? (
-                          <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-blue-600 dark:group-hover/item:text-blue-400 transition-colors duration-300" />
+                          <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-blue-600 dark:group-hover/item:text-blue-400 transition-colors duration-300" />
                         ) : (
-                          <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-blue-600 dark:group-hover/item:text-blue-400 transition-colors duration-300" />
+                          <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-blue-600 dark:group-hover/item:text-blue-400 transition-colors duration-300" />
                         )}
                       </div>
                     </Link>
@@ -208,8 +208,8 @@ export default function PersonalProtectPage() {
               }}
               style={{ transform: "perspective(1000px)" }}
             >
-              {/* Image Hero Section */}
-              <div className="relative h-80 overflow-hidden flex-shrink-0">
+              {/* Image Hero Section - Responsive */}
+              <div className="relative h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 overflow-hidden flex-shrink-0">
                 <img
                   src="/assets/images/beginners/Gemini_Generated_Image_scvpqscvpqscvpqs.png"
                   alt="Helpers animation"
@@ -218,13 +218,13 @@ export default function PersonalProtectPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent dark:from-black/60 dark:via-transparent dark:to-transparent"></div>
               </div>
 
-              {/* Content Section */}
-              <div className="p-6 flex-1 flex flex-col">
-                <div className="flex-shrink-0 mb-4">
-                  <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-3 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
+              {/* Content Section - Responsive */}
+              <div className="p-3 sm:p-4 md:p-5 lg:p-6 flex-1 flex flex-col">
+                <div className="flex-shrink-0 mb-2 sm:mb-3 md:mb-4">
+                  <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold text-gray-800 dark:text-white mb-2 sm:mb-3 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
                     {language === "ar" ? "إرشادات" : "Helpers"}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl leading-relaxed">
                     {language === "ar" 
                       ? "إرشادات وأدلة شاملة للحماية الشخصية والأمن السيبراني"
                       : "Comprehensive guides and instructions for personal protection and cybersecurity"
@@ -232,23 +232,23 @@ export default function PersonalProtectPage() {
                   </p>
                 </div>
 
-                {/* Quick Access Links */}
-                <div className="space-y-2 flex-1 flex flex-col justify-start">
+                {/* Quick Access Links - Responsive */}
+                <div className="space-y-1 sm:space-y-2 flex-1 flex flex-col justify-center">
                   {helperCategories.map((category, categoryIndex) => (
                     <Link
                       key={`helper-${category.id}`}
                       href={`/simple/personal-protect/helpers?category=${category.id}`}
                       onClick={(e) => e.stopPropagation()}
-                      className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
+                      className="flex items-center justify-between p-2 sm:p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-md sm:rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
                     >
-                      <span className="text-gray-700 dark:text-white text-sm font-medium group-hover/item:text-green-700 dark:group-hover/item:text-green-400 transition-colors duration-300">
+                      <span className="text-gray-700 dark:text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium group-hover/item:text-green-700 dark:group-hover/item:text-green-400 transition-colors duration-300">
                         {language === "ar" ? category.title : category.titleEn || category.title}
                       </span>
                       <div className="flex items-center">
                         {isRtl ? (
-                          <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
+                          <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
                         ) : (
-                          <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
+                          <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
                         )}
                       </div>
                     </Link>

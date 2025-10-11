@@ -143,7 +143,7 @@ export default function AwarenessYearPage({ params }: AwarenessYearPageProps) {
         <Breadcrumbs items={breadcrumbItems} />
 
         {/* Header */}
-        <div className="text-center mb-12">
+        {/* <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             {currentYear ? currentYear.year : t('awareness.loading')}
           </h1>
@@ -153,7 +153,7 @@ export default function AwarenessYearPage({ params }: AwarenessYearPageProps) {
               : `Security awareness bulletins for ${currentYear?.year || ''}`
             }
           </p>
-        </div>
+        </div> */}
 
         {/* Search Section */}
         <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8">

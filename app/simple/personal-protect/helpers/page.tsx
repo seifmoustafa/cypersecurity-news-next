@@ -164,7 +164,7 @@ export default function HelperCategoriesPage() {
 
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="mb-8">
+          {/* <div className="mb-8">
             <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">
               {language === "ar" ? "إرشادات" : "Helpers"}
             </h1>
@@ -174,7 +174,7 @@ export default function HelperCategoriesPage() {
                 : "Cybersecurity guides and helpful instructions"
               }
             </p>
-          </div>
+          </div> */}
 
           <div className="flex gap-6">
             {/* Sidebar - Categories */}

@@ -39,7 +39,7 @@ export function useShare() {
       // Fallback 1: Copy to clipboard
       if (navigator.clipboard && navigator.clipboard.writeText) {
         try {
-          const shareText = `${data.title}\n\n${data.url}`
+          const shareText = data.url
           await navigator.clipboard.writeText(shareText)
           return { success: true, method: 'clipboard' }
         } catch (error) {
@@ -50,7 +50,7 @@ export function useShare() {
       // Fallback 2: Manual copy using textarea
       try {
         const textarea = document.createElement('textarea')
-        textarea.value = `${data.title}\n\n${data.url}`
+        textarea.value = data.url
         textarea.style.position = 'fixed'
         textarea.style.opacity = '0'
         document.body.appendChild(textarea)
@@ -84,7 +84,7 @@ export function useShare() {
   }, [])
 
   const canShare = useCallback(() => {
-    return !!(typeof navigator !== 'undefined' && navigator.share && navigator.onLine)
+    return !!(typeof navigator !== 'undefined' && navigator.share! && navigator.onLine)
   }, [])
 
   const canCopyToClipboard = useCallback(() => {

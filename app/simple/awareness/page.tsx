@@ -21,7 +21,6 @@ import {
 import Breadcrumbs from "@/components/breadcrumbs";
 import { useNewsCategories } from "@/core/hooks/use-news-categories";
 import { useCurrentYearAwareness } from "@/core/hooks/use-current-year-awareness";
-import { useHelperCategories } from "@/hooks/use-helper-categories";
 import { useLatestNews } from "@/hooks/use-latest-news";
 
 export default function SimpleAwarenessPage() {
@@ -32,16 +31,13 @@ export default function SimpleAwarenessPage() {
   const [counts, setCounts] = useState({
     news: 0,
     awareness: 0,
-    helpers: 0,
   });
 
-  // Fetch news categories, current year awareness, and helper categories
+  // Fetch news categories and current year awareness
   const { categories: newsCategories, loading: categoriesLoading } =
     useNewsCategories(1, 100);
   const { awareness: currentYearAwareness, loading: awarenessLoading } =
     useCurrentYearAwareness("", 1, 100);
-  const { categories: helperCategories, loading: helperCategoriesLoading } =
-    useHelperCategories(1, 100);
   const { news: latestNews, loading: latestNewsLoading } = useLatestNews();
 
   // Carousel state
@@ -138,10 +134,9 @@ export default function SimpleAwarenessPage() {
   useEffect(() => {
     const fetchCounts = async () => {
       try {
-        const [newsData, awarenessResp, helperResp] = await Promise.all([
+        const [newsData, awarenessResp] = await Promise.all([
           container.services.news.getNewsByCategory(null, 1, 100),
           container.services.awareness.getCurrentYearAwareness("", 1, 100),
-          container.services.helper.getAllCategories(1, 100),
         ]);
         setCounts({
           news: newsData?.length || 0,
@@ -149,10 +144,9 @@ export default function SimpleAwarenessPage() {
             awarenessResp?.pagination?.itemsCount ||
             awarenessResp?.data?.length ||
             0,
-          helpers: helperResp?.pagination?.itemsCount || helperResp?.data?.length || 0,
         });
       } catch (e) {
-        setCounts({ news: 0, awareness: 0, helpers: 0 });
+        setCounts({ news: 0, awareness: 0 });
       }
     };
     fetchCounts();
@@ -309,57 +303,6 @@ export default function SimpleAwarenessPage() {
               },
             ],
     },
-    {
-      id: "helpers",
-      title: language === "ar" ? "إرشادات" : "Helpers",
-      description:
-        language === "ar"
-          ? "إرشادات وأدلة مساعدة في الأمن السيبراني"
-          : "Cybersecurity guides and helpful instructions",
-      icon: BookOpen,
-      color: "from-purple-400 to-indigo-500",
-      bgColor:
-        "bg-gradient-to-br from-purple-50/80 to-indigo-50/60 dark:from-purple-900/30 dark:to-indigo-900/20",
-      borderColor: "border-purple-300/60 dark:border-purple-600/40",
-      href: "/simple/helper-categories",
-      // OLD WAY (commented): Show only first 2 categories + show more
-      // items: helperCategories
-      //   .slice(0, 2)
-      //   .map((category) => ({
-      //     title:
-      //       language === "ar"
-      //         ? category.title
-      //         : category.titleEn || category.title,
-      //     href: `/simple/helper-categories/${category.id}`,
-      //     icon: BookOpen,
-      //     count: "",
-      //     imageUrl: null,
-      //   }))
-      //   .concat([
-      //     {
-      //       title:
-      //         language === "ar"
-      //           ? "عرض المزيد من الفئات"
-      //           : "View More Categories",
-      //       href: "/simple/helper-categories",
-      //       icon: ArrowRight,
-      //       count: "",
-      //       imageUrl: null,
-      //     },
-      //   ]),
-      
-      // NEW WAY: Show all categories
-      items: helperCategories.map((category) => ({
-        title:
-          language === "ar"
-            ? category.title
-            : category.titleEn || category.title,
-        href: `/simple/helper-categories?category=${category.id}`,
-        icon: BookOpen,
-        count: "",
-        imageUrl: null,
-      })),
-    },
   ];
 
   return (
@@ -386,7 +329,7 @@ export default function SimpleAwarenessPage() {
         {/* Professional Latest News Carousel */}
         {latestNews.length > 0 && (
           <div className="mb-12">
-            <div className="text-center mb-8">
+            {/* <div className="text-center mb-8">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
                 {language === "ar" ? "آخر الأخبار" : "Latest News"}
               </h2>
@@ -396,7 +339,7 @@ export default function SimpleAwarenessPage() {
                   : "Latest cybersecurity news and updates"
                 }
               </p>
-            </div>
+            </div> */}
             
             <div className="w-full max-w-5xl mx-auto h-[28rem] flex flex-col bg-gradient-to-br from-blue-50/50 via-white to-cyan-50/50 dark:from-blue-950/50 dark:via-slate-900 dark:to-cyan-950/50 relative overflow-hidden rounded-2xl shadow-2xl">
               {/* Enhanced background pattern */}
@@ -584,15 +527,13 @@ export default function SimpleAwarenessPage() {
         )}
 
         {/* Main Interactive Cards - Same Design as Main Page */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl mx-auto items-stretch">
           {mainCards.map((card, index) => {
             const gifPath =
               card.id === "news"
                 ? "/assets/images/beginners/Gemini_Generated_Image_c7ds1sc7ds1sc7ds.png"
                 : card.id === "awareness"
                 ? "/assets/images/beginners/Gemini_Generated_Image_70kvgb70kvgb70kv.png"
-                : card.id === "helpers"
-                ? "/assets/images/beginners/Gemini_Generated_Image_ut3c4xut3c4xut3c.png"
                 : "/assets/images/beginners/Gemini_Generated_Image_70kvgb70kvgb70kv.png";
 
             return (
@@ -629,7 +570,7 @@ export default function SimpleAwarenessPage() {
                   }}
                   style={{ transform: "perspective(1000px)" }}
                 >
-                  {/* GIF Hero Section - Same as Main Page */}
+                  {/* GIF Hero Section - Bigger Size */}
                   <div className="relative h-80 overflow-hidden flex-shrink-0">
                     <img
                       src={gifPath}
@@ -639,19 +580,19 @@ export default function SimpleAwarenessPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent dark:from-black/60 dark:via-transparent dark:to-transparent"></div>
                   </div>
 
-                  {/* Content Section - Same as Main Page */}
-                  <div className="p-6 flex-1 flex flex-col">
-                    <div className="flex-shrink-0 mb-4">
-                      <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-3 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
+                  {/* Content Section - Responsive like Media Page */}
+                  <div className="p-3 sm:p-4 md:p-5 lg:p-6 flex-1 flex flex-col">
+                    <div className="flex-shrink-0 mb-2 sm:mb-3 md:mb-4">
+                      <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold text-gray-800 dark:text-white mb-2 sm:mb-3 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">
                         {card.title}
                       </h3>
-                      <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                      <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl leading-relaxed">
                         {card.description}
                       </p>
                     </div>
 
-                    {/* Quick Access Links */}
-                    <div className="space-y-2 flex-1 flex flex-col justify-start">
+                    {/* Quick Access Links - Responsive */}
+                    <div className="space-y-1 sm:space-y-2 flex-1 flex flex-col justify-center">
                       {/* OLD WAY (commented): Scrollable content with max height
                       <div className="space-y-2 flex-1 flex flex-col justify-start overflow-y-auto max-h-64">
                       */}
@@ -660,7 +601,7 @@ export default function SimpleAwarenessPage() {
                           key={itemIndex}
                           href={item.href}
                           onClick={(e) => e.stopPropagation()}
-                          className="flex items-center justify-between p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
+                          className="flex items-center justify-between p-2 sm:p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-md sm:rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
                         >
                           <div className="flex items-center gap-3">
                             {item.imageUrl && (
@@ -670,20 +611,20 @@ export default function SimpleAwarenessPage() {
                                 className="w-8 h-8 rounded-lg object-fill"
                               />
                             )}
-                            <span className="text-gray-700 dark:text-white text-sm font-medium group-hover/item:text-green-700 dark:group-hover/item:text-green-400 transition-colors duration-300">
+                            <span className="text-gray-700 dark:text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium group-hover/item:text-green-700 dark:group-hover/item:text-green-400 transition-colors duration-300">
                               {item.title}
                             </span>
                           </div>
                           <div className="flex items-center">
                             {item.count && (
-                              <span className="text-xs text-gray-500 dark:text-gray-400 mr-2 bg-white/60 dark:bg-white/10 px-2 py-1 rounded-full group-hover/item:bg-green-200 dark:group-hover/item:bg-green-800 group-hover/item:text-green-700 dark:group-hover/item:text-green-200 transition-colors duration-300">
+                              <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mr-2 bg-white/60 dark:bg-white/10 px-2 py-1 rounded-full group-hover/item:bg-green-200 dark:group-hover/item:bg-green-800 group-hover/item:text-green-700 dark:group-hover/item:text-green-200 transition-colors duration-300">
                                 {item.count}
                               </span>
                             )}
                             {isRtl ? (
-                              <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
+                              <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
                             ) : (
-                              <ArrowRight className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
+                              <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
                             )}
                           </div>
                         </Link>

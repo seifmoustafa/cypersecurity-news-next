@@ -132,7 +132,7 @@ export default function SimpleLectureCategoriesPage() {
           {categories.map((category, index) => (
             <Link 
               key={category.id} 
-              href={`/simple/media/lessons/lectures/${category.id}`} 
+              href={`/simple/media/lectures/${category.id}`} 
               className="group"
               style={{ animationDelay: `${index * 100}ms` }}
             >

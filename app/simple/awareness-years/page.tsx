@@ -126,7 +126,7 @@ export default function SimpleAwarenessYearsPage() {
         <Breadcrumbs items={breadcrumbItems} />
 
         {/* Header */}
-        <div className="text-center mb-12">
+        {/* <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             {t('awareness.years')}
           </h1>
@@ -136,7 +136,7 @@ export default function SimpleAwarenessYearsPage() {
               : "Explore security awareness bulletins through different years"
             }
           </p>
-        </div>
+        </div> */}
 
         {/* Search Section */}
         <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8">
