@@ -148,7 +148,6 @@ export default function CybersecurityConceptsSection() {
     laws: <Scale className="h-5 w-5" />,
     regulation: <FileText className="h-5 w-5" />,
     framework: <FileCode className="h-5 w-5" />,
-    standards: <Shield className="h-5 w-5" />,
   }
 
   if (loading) {
@@ -205,12 +204,6 @@ export default function CybersecurityConceptsSection() {
               <span className={`flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}>
                 {tabIcons.framework}
                 <span>{t("section.framework")}</span>
-              </span>
-            </TabsTrigger>
-            <TabsTrigger value="standards" className="flex-1 font-semibold transition-all duration-300 hover:scale-105">
-              <span className={`flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}>
-                {tabIcons.standards}
-                <span>{t("section.standards")}</span>
               </span>
             </TabsTrigger>
           </TabsList>
@@ -432,91 +425,7 @@ export default function CybersecurityConceptsSection() {
             </div>
           </TabsContent>
 
-          {/* Standards Tab Content */}
-          <TabsContent value="standards" className="mt-0">
-            <div
-              className={`flex flex-wrap gap-8 ${isRtl ? "flex-row-reverse justify-end" : "justify-start"} md:justify-center`}
-            >
-              {(isRtl ? [...standardCategories].reverse() : standardCategories).map((category, index) => {
-                const categoryStandards = standardsByCategory[category.id] || []
-                const displayStandards = categoryStandards.slice(0, 2)
-                const remainingCount = Math.max(0, categoryStandards.length - 2)
 
-                // Get appropriate icon
-                const iconKey = (category.nameEn ?? "").toLowerCase() as keyof typeof icons
-                const icon = icons[iconKey] || icons.international
-
-                return (
-                  <Link href={`/advanced/standards/${category.id}`} key={category.id}>
-                    <motion.div
-                      initial={{ opacity: 0, y: 30 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: "-100px" }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      className="w-full md:w-80 lg:w-96"
-                    >
-                      <Card className="h-[320px] hover:shadow-2xl hover:shadow-purple-500/20 dark:hover:shadow-purple-500/30 transition-all duration-300 cursor-pointer flex flex-col bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-purple-200/30 dark:border-purple-800/30">
-                        <CardHeader className="pb-4">
-                          <div
-                            className={`flex items-center gap-3 ${
-                              isRtl ? "justify-end flex-row-reverse" : "justify-start"
-                            }`}
-                          >
-                            <div className="p-2 bg-purple-500/20 dark:bg-purple-500/10 rounded-lg">
-                              {icon}
-                            </div>
-                            <CardTitle className={`${isRtl ? "text-right" : "text-left"} text-lg font-bold group-hover:text-primary transition-colors duration-300`}>
-                              {language === "ar" ? category.nameAr : category.nameEn}
-                            </CardTitle>
-                          </div>
-                        </CardHeader>
-                        <CardContent className={`${isRtl ? "text-right" : "text-left"} flex-1 overflow-hidden p-6 pt-0`}>
-                          <div className="space-y-3 h-full">
-                            {displayStandards.length > 0 ? (
-                              <>
-                                {displayStandards.map((standard, standardIndex) => (
-                                  <div
-                                    key={standardIndex}
-                                    className={`p-4 bg-purple-50/50 dark:bg-purple-900/20 rounded-lg border border-purple-200/30 dark:border-purple-800/30 ${isRtl ? "text-right" : "text-left"}`}
-                                  >
-                                    <h4 className={`font-semibold text-sm ${isRtl ? "text-right" : "text-left"}`}>
-                                      {language === "ar" ? standard.nameAr : standard.nameEn}
-                                    </h4>
-                                    <p
-                                      className={`text-xs text-muted-foreground mt-2 line-clamp-2 text-ellipsis overflow-hidden leading-relaxed ${
-                                        isRtl ? "text-right" : "text-left"
-                                      }`}
-                                    >
-                                      {language === "ar" ? standard.descriptionAr : standard.descriptionEn}
-                                    </p>
-                                  </div>
-                                ))}
-                                {remainingCount > 0 && (
-                                  <div
-                                    className={`text-primary text-sm font-semibold ${
-                                      isRtl ? "text-right" : "text-center"
-                                    }`}
-                                  >
-                                    +{remainingCount} {t("common.more")}
-                                  </div>
-                                )}
-                              </>
-                            ) : (
-                              <div className={`p-4 bg-purple-50/50 dark:bg-purple-900/20 rounded-lg border border-purple-200/30 dark:border-purple-800/30 ${isRtl ? "text-right" : "text-center"}`}>
-                                <p className={`text-muted-foreground ${isRtl ? "text-right" : "text-left"}`}>
-                                  {language === "ar" ? "لا توجد معايير" : "No Standards"}
-                                </p>
-                              </div>
-                            )}
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  </Link>
-                )
-              })}
-            </div>
-          </TabsContent>
         </Tabs>
       </SectionContainer>
     </div>

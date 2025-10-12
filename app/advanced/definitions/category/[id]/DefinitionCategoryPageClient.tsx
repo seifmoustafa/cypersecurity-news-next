@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { BookOpen, ArrowLeft, ArrowRight } from "lucide-react"
-import type { Definition, DefinitionCategory } from "@/core/domain/models/advanced/definition"
+import { Definition, DefinitionCategory } from "@/core/domain/models/definition"
 
 interface DefinitionCategoryPageClientProps {
   category: DefinitionCategory
@@ -38,7 +38,7 @@ export default function DefinitionCategoryPageClient({
             <Link href="/#standards">
               <Button variant="ghost" size="sm" className={`gap-2 ${isRtl ? "flex-row-reverse" : ""}`}>
                 {isRtl ? <ArrowRight className="h-4 w-4" /> : <ArrowLeft className="h-4 w-4" />}
-                <span>{language === "ar" ? "العودة للمعايير" : "Back to Standards"}</span>
+                <span>{language === "ar" ? "العودة للمفاهيم" : "Back to Standards"}</span>
               </Button>
             </Link>
           </div>

@@ -65,9 +65,9 @@ export default function LawPageClient({ law, category }: LawPageClientProps) {
               <Button variant="outline" size="sm">
                 {isRtl ? <ArrowRight className="ml-2 h-4 w-4" /> : <ArrowLeft className="mr-2 h-4 w-4" />}
                 {category
-                  ? `${language === "ar" ? "العودة للمعايير" : "Back to"} ${getCategoryName()}`
+                  ? `${language === "ar" ? "العودة للمفاهيم" : "Back to"} ${getCategoryName()}`
                   : language === "ar"
-                    ? "العودة للمعايير"
+                    ? "العودة للمفاهيم"
                     : "Back to Standards"}
               </Button>
             </Link>
@@ -206,7 +206,7 @@ export default function LawPageClient({ law, category }: LawPageClientProps) {
                     {category
                       ? `${language === "ar" ? "العودة إلى" : "Back to"} ${getCategoryName()}`
                       : language === "ar"
-                        ? "العودة للمعايير"
+                        ? "العودة للمفاهيم"
                         : "Back to Standards"}
                   </Button>
                 </Link>
