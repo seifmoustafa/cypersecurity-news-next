@@ -2,21 +2,25 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { container } from "@/core/di/container"
 import NewsCategoryPageClient from "./NewsCategoryPageClient"
+import type { NewsCategory } from "@/core/domain/models/news"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
+    // Await the params
+    const resolvedParams = await params
+    
     // Try to get category name from the categories list
     let categoryName = "News Category"
     
     try {
       const categoriesResponse = await container.services.news.getNewsCategories(1, 100)
-      const foundCategory = categoriesResponse.data.find(cat => cat.id === params.id)
+      const foundCategory = categoriesResponse.data.find((cat: NewsCategory) => cat.id === resolvedParams.id)
       if (foundCategory) {
         categoryName = foundCategory.nameEn || foundCategory.name || "News Category"
       }
@@ -38,8 +42,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function NewsCategoryPage({ params }: PageProps) {
   try {
+    // Await the params
+    const resolvedParams = await params
+    
     // Get news for this category first using the professionals endpoint
-    const newsData = await container.services.news.getNewsByCategoryForProfessionals(params.id, 1, 100)
+    const newsData = await container.services.news.getNewsByCategoryForProfessionals(resolvedParams.id, 1, 100)
 
     if (!newsData || newsData.length === 0) {
       notFound()
@@ -51,7 +58,7 @@ export default async function NewsCategoryPage({ params }: PageProps) {
     
     try {
       const categoriesResponse = await container.services.news.getNewsCategories(1, 100)
-      const foundCategory = categoriesResponse.data.find(cat => cat.id === params.id)
+      const foundCategory = categoriesResponse.data.find((cat: NewsCategory) => cat.id === resolvedParams.id)
       if (foundCategory) {
         categoryName = foundCategory.name || "News Category"
         categoryNameEn = foundCategory.nameEn || foundCategory.name || "News Category"
@@ -62,7 +69,7 @@ export default async function NewsCategoryPage({ params }: PageProps) {
 
     // Create a category object
     const category = {
-      id: params.id,
+      id: resolvedParams.id,
       name: categoryName,
       nameEn: categoryNameEn
     }
