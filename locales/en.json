@@ -37,7 +37,7 @@
     "standards": "Standards",
     "cybersecurityRegulation": "Cybersecurity Regulation",
     "documentLibrary": "Document Library",
-    "laws": "Laws and Regulations",
+    "laws": "Versions",
     "media": "Media",
     "personalProtect": "Personal Protection",
     "beginnersMode": "Beginners Mode",
@@ -228,7 +228,7 @@
     "cybersecurityRegulation": "Cybersecurity Regulation",
     "documentLibrary": "Document Library",
     "cybersecurityConcepts": "Cybersecurity Concepts",
-    "laws": "Laws and Regulations",
+    "laws": "Versions",
     "helperSystems": "Helper Systems"
   },
   "systems": {
