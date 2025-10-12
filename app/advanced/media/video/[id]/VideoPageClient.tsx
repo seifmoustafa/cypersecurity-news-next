@@ -16,7 +16,7 @@ export default function VideoPageClient({ video }: VideoPageClientProps) {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="mb-6">
-        <Link href="/#media">
+        <Link href="/advanced#media">
           <Button variant="ghost" className="group flex items-center text-muted-foreground hover:text-foreground">
             <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
             {t("common.back")}

@@ -30,6 +30,15 @@ export class DefinitionsService {
     return this.repository.getDefinitionsByCategory(categoryId, page, pageSize, search);
   }
 
+  async getDefinitionsByCategoryForProfessionals(
+    categoryId: string,
+    page = 1,
+    pageSize = 10,
+    search?: string
+  ): Promise<DefinitionsPaginatedResponse> {
+    return this.repository.getDefinitionsByCategoryForProfessionals(categoryId, page, pageSize, search);
+  }
+
   async getCategories(): Promise<string[]> {
     return this.repository.getCategories();
   }

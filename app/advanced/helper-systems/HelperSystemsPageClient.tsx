@@ -113,7 +113,7 @@ export default function HelperSystemsPageClient({
           {/* Header */}
           <div className="text-center mb-8">
             <Link
-              href="/#helper-systems"
+              href="/advanced#helper-systems"
               className={`inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors mb-4 ${
                 isRtl ? "flex-row-reverse" : ""
               }`}

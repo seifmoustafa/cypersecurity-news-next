@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/components/language-provider";
@@ -6,15 +6,15 @@ import { container } from "@/core/di/container";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { 
-  Search, 
-  BookOpen, 
-  Calendar, 
+import {
+  Search,
+  BookOpen,
+  Calendar,
   Filter,
   ChevronRight,
   ChevronLeft,
   Shield,
-  FileText
+  FileText,
 } from "lucide-react";
 import Link from "next/link";
 import type { RegulationCategory } from "@/core/domain/models/regulation-category";
@@ -34,10 +34,14 @@ export default function RegulationCategoriesPageClient() {
       try {
         setLoading(true);
         setError(null);
-        
+
         // Fetch all categories at once
-        const response = await container.services.regulationCategories.getAllCategories(1, 1000);
-        
+        const response =
+          await container.services.regulationCategories.getAllCategories(
+            1,
+            1000
+          );
+
         if (response && response.data) {
           setAllCategories(response.data);
         } else {
@@ -45,7 +49,11 @@ export default function RegulationCategoriesPageClient() {
         }
       } catch (err) {
         console.error("Error fetching regulation categories:", err);
-        setError(err instanceof Error ? err.message : "Failed to fetch regulation categories");
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Failed to fetch regulation categories"
+        );
         setAllCategories([]);
       } finally {
         setLoading(false);
@@ -65,9 +73,11 @@ export default function RegulationCategoriesPageClient() {
   // Filter categories based on search term
   const filteredCategories = allCategories.filter((category) => {
     const name = language === "ar" ? category.name : category.name_En;
-    return name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-           category.name_En?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-           category.name?.toLowerCase().includes(searchTerm.toLowerCase());
+    return (
+      name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      category.name_En?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      category.name?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   });
 
   // Calculate pagination for filtered results
@@ -79,7 +89,7 @@ export default function RegulationCategoriesPageClient() {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   if (loading) {
@@ -114,10 +124,18 @@ export default function RegulationCategoriesPageClient() {
                 <Shield className="h-12 w-12 mx-auto" />
               </div>
               <h3 className="text-lg font-semibold text-red-800 dark:text-red-200 mb-2">
-                {language === "ar" ? "خطأ في تحميل فئات اللوائح" : "Error Loading Regulation Categories"}
+                {language === "ar"
+                  ? "خطأ في تحميل فئات اللوائح"
+                  : "Error Loading Regulation Categories"}
               </h3>
-              <p className="text-red-600 dark:text-red-400 text-sm mb-4">{error}</p>
-              <Button onClick={fetchAllCategories} variant="outline" className="border-red-300 text-red-700 hover:bg-red-50 dark:border-red-700 dark:text-red-300 dark:hover:bg-red-900/20">
+              <p className="text-red-600 dark:text-red-400 text-sm mb-4">
+                {error}
+              </p>
+              <Button
+                onClick={fetchAllCategories}
+                variant="outline"
+                className="border-red-300 text-red-700 hover:bg-red-50 dark:border-red-700 dark:text-red-300 dark:hover:bg-red-900/20"
+              >
                 {language === "ar" ? "إعادة المحاولة" : "Try Again"}
               </Button>
             </div>
@@ -133,16 +151,24 @@ export default function RegulationCategoriesPageClient() {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="ml-4 text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400">
-            {language === "ar" ? "فئات اللوائح والتنظيمات" : "Regulation Categories"}
+            {language === "ar"
+              ? "فئات اللوائح والتنظيمات"
+              : "Regulation Categories"}
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed mt-4">
-            {language === "ar" 
+            {language === "ar"
               ? "اختر فئة اللوائح لعرض التنظيمات المتخصصة في كل مجال من مجالات الأمن السيبراني"
-              : "Select a regulation category to view specialized regulations in each cybersecurity domain"
-            }
+              : "Select a regulation category to view specialized regulations in each cybersecurity domain"}
           </p>
         </div>
-
+        <div className="mb-8 flex items-center">
+          <Link href="/advanced#concepts">
+            <Button variant="ghost" size="sm" className="gap-1">
+              <ChevronLeft className="h-4 w-4" />
+              <span>{language === "ar" ? "رجوع" : "Back"}</span>
+            </Button>
+          </Link>
+        </div>
         {/* Search and Filter */}
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
@@ -150,7 +176,11 @@ export default function RegulationCategoriesPageClient() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
               <Input
                 type="text"
-                placeholder={language === "ar" ? "البحث في فئات اللوائح..." : "Search regulation categories..."}
+                placeholder={
+                  language === "ar"
+                    ? "البحث في فئات اللوائح..."
+                    : "Search regulation categories..."
+                }
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-200 dark:border-slate-700"
@@ -159,10 +189,9 @@ export default function RegulationCategoriesPageClient() {
             <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
               <Filter className="h-4 w-4" />
               <span>
-                {language === "ar" 
+                {language === "ar"
                   ? `عرض ${paginatedCategories.length} من ${totalFilteredItems} فئة`
-                  : `Showing ${paginatedCategories.length} of ${totalFilteredItems} categories`
-                }
+                  : `Showing ${paginatedCategories.length} of ${totalFilteredItems} categories`}
               </span>
             </div>
           </div>
@@ -171,8 +200,9 @@ export default function RegulationCategoriesPageClient() {
         {/* Categories Grid - Home Page Style */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {paginatedCategories.map((category, index) => {
-            const categoryName = language === "ar" ? category.name : category.name_En;
-            
+            const categoryName =
+              language === "ar" ? category.name : category.name_En;
+
             // Choose icon based on category name (same logic as home page)
             const isGroup =
               (category.name_En ?? "").toLowerCase().includes("group") ||
@@ -186,10 +216,16 @@ export default function RegulationCategoriesPageClient() {
             const description =
               language === "ar"
                 ? `لوائح الأمن السيبراني ${categoryName}`
-                : `${category.name_En || category.name || ""} cybersecurity regulations`;
+                : `${
+                    category.name_En || category.name || ""
+                  } cybersecurity regulations`;
 
             return (
-              <Link key={category.id} href={`/advanced/regulation/category/${category.id}`} className="block">
+              <Link
+                key={category.id}
+                href={`/advanced/regulation/category/${category.id}`}
+                className="block"
+              >
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -199,10 +235,16 @@ export default function RegulationCategoriesPageClient() {
                   <Card className="overflow-hidden h-[280px] transition-all duration-300 hover:shadow-lg hover:border-primary/50 cursor-pointer group flex flex-col">
                     <CardContent className="p-6 flex flex-col items-center text-center flex-1">
                       <div className="mb-4 p-4 rounded-full bg-purple-50 dark:bg-purple-900/20 group-hover:bg-purple-100 dark:group-hover:bg-purple-800/30 transition-colors">
-                        <div className="text-primary group-hover:scale-110 transition-transform duration-300">{icon}</div>
+                        <div className="text-primary group-hover:scale-110 transition-transform duration-300">
+                          {icon}
+                        </div>
                       </div>
-                      <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{categoryName}</h3>
-                      <p className="text-muted-foreground text-sm line-clamp-3 text-ellipsis overflow-hidden">{description}</p>
+                      <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
+                        {categoryName}
+                      </h3>
+                      <p className="text-muted-foreground text-sm line-clamp-3 text-ellipsis overflow-hidden">
+                        {description}
+                      </p>
                     </CardContent>
                   </Card>
                 </motion.div>
@@ -224,12 +266,13 @@ export default function RegulationCategoriesPageClient() {
               <ChevronLeft className="h-4 w-4" />
               {language === "ar" ? "السابق" : "Previous"}
             </Button>
-            
+
             <div className="flex items-center gap-1">
               {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                const pageNum = Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i;
+                const pageNum =
+                  Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i;
                 if (pageNum > totalPages) return null;
-                
+
                 return (
                   <Button
                     key={pageNum}
@@ -243,7 +286,7 @@ export default function RegulationCategoriesPageClient() {
                 );
               })}
             </div>
-            
+
             <Button
               variant="outline"
               size="sm"
@@ -263,13 +306,14 @@ export default function RegulationCategoriesPageClient() {
             <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-8 max-w-md mx-auto">
               <FileText className="h-16 w-16 text-slate-400 dark:text-slate-500 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                {language === "ar" ? "لا توجد فئات لوائح" : "No Regulation Categories Found"}
+                {language === "ar"
+                  ? "لا توجد فئات لوائح"
+                  : "No Regulation Categories Found"}
               </h3>
               <p className="text-slate-500 dark:text-slate-400 text-sm">
-                {language === "ar" 
+                {language === "ar"
                   ? "لم يتم العثور على فئات لوائح تطابق البحث"
-                  : "No regulation categories match your search"
-                }
+                  : "No regulation categories match your search"}
               </p>
             </div>
           </div>

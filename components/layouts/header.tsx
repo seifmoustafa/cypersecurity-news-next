@@ -122,12 +122,7 @@ export default function Header({
           isScroll: true,
           tab: "framework",
         },
-        {
-          key: "section.standards",
-          href: "#concepts",
-          isScroll: true,
-          tab: "standards",
-        },
+        
       ],
     },
     {
@@ -140,12 +135,7 @@ export default function Header({
           isScroll: true,
           tab: "lectures",
         },
-        {
-          key: "media.presentations",
-          href: "#media",
-          isScroll: true,
-          tab: "presentations",
-        },
+        
       ],
     },
     {

@@ -25,7 +25,7 @@ export default function LawCategoryPageClient({
       ? category?.name || category?.nameEn || ""
       : category?.nameEn || category?.name || "";
   const handleBackClick = () => {
-    window.location.href = "/advanced";
+    window.location.href = "/advanced#concepts";
   };
   return (
     <MainLayout>
@@ -81,7 +81,7 @@ export default function LawCategoryPageClient({
                   : `No laws available at the moment`}
               </p>
               <Link
-                href="/#concepts"
+                href="/advanced#concepts"
                 className="inline-block bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-md"
               >
                 {language === "ar" ? "العودة للمفاهيم" : "Back to Standards"}

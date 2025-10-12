@@ -128,8 +128,8 @@ export class DefinitionsRepositoryImpl implements DefinitionsRepository {
 
   async getCategoryById(id: string): Promise<DefinitionCategory | null> {
     try {
-      const category = await this.dataSource.get<DefinitionCategory>(`/advanced/definitionCategories/${id}`)
-      return category
+      const category = await this.dataSource.get<DefinitionCategory>(`/DefinitionCategories/${id}`)
+      return this.transformDefinitionCategory(category)
     } catch (error) {
       console.error(`Error fetching definition category ${id}:`, error)
       return null
@@ -211,4 +211,34 @@ export class DefinitionsRepositoryImpl implements DefinitionsRepository {
       }
     }
   }
+
+  async getDefinitionsByCategoryForProfessionals(categoryId: string, page = 1, pageSize = 10, search?: string): Promise<DefinitionsPaginatedResponse> {
+    try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        pageSize: pageSize.toString(),
+      })
+
+      if (search) {
+        params.append("search", search)
+      }
+
+      const response = await this.dataSource.get<DefinitionsPaginatedResponse>(
+        `/Definitions/professionals/${categoryId}?${params}`,
+      )
+      return response
+    } catch (error) {
+      console.error(`Error fetching definitions for category ${categoryId} (professionals):`, error)
+      return {
+        data: [],
+        pagination: {
+          itemsCount: 0,
+          pagesCount: 0,
+          pageSize,
+          currentPage: page,
+        },
+      }
+    }
+  }
+
 }

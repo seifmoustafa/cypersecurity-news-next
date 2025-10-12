@@ -46,7 +46,7 @@ export default function MediaLibrarySection() {
   // Check URL for tab parameter on mount
   useEffect(() => {
     const tabParam = searchParams?.get("tab")
-    if (tabParam && ["videos", "lectures", "presentations"].includes(tabParam)) {
+    if (tabParam && ["videos", "lectures"].includes(tabParam)) {
       setActiveTab(tabParam)
     }
   }, [searchParams])
@@ -134,7 +134,6 @@ export default function MediaLibrarySection() {
     // Prefetch pages
     router.prefetch("/advanced/videos")
     router.prefetch("/advanced/lectures")
-    router.prefetch("/advanced/presentations")
   }, [router])
 
   return (
@@ -153,12 +152,6 @@ export default function MediaLibrarySection() {
             <span className="flex items-center gap-2">
               <BookOpen className="h-4 w-4" />
               {t("media.lectures")}
-            </span>
-          </TabsTrigger>
-          <TabsTrigger value="presentations" className="flex-1 font-semibold transition-all duration-300 hover:scale-105">
-            <span className="flex items-center gap-2">
-              <Presentation className="h-4 w-4" />
-              {t("media.presentations")}
             </span>
           </TabsTrigger>
         </TabsList>
@@ -256,45 +249,6 @@ export default function MediaLibrarySection() {
             <div className="flex justify-center mt-12">
               <Button 
                 onClick={() => router.push("/advanced/lectures")} 
-                className="group bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 px-8 py-4 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-xl shadow-blue-500/30 dark:shadow-blue-500/40 border border-blue-500/30 dark:border-blue-400/30"
-              >
-                {t("common.viewAll")}
-                {isRtl ? (
-                  <ArrowLeft className="ml-2 h-5 w-5 transition-transform group-hover:-translate-x-1" />
-                ) : (
-                  <ArrowRight className="mr-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                )}
-              </Button>
-            </div>
-          )}
-        </TabsContent>
-
-        <TabsContent value="presentations" className="mt-0">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={isRtl ? { direction: 'rtl' } : {}}>
-            {presentationsLoading ? (
-              // Loading skeletons
-              Array.from({ length: 6 }).map((_, index) => (
-                <div key={index} className="animate-pulse">
-                  <div className="aspect-video bg-muted rounded-lg mb-4"></div>
-                  <div className="h-4 bg-muted rounded mb-2"></div>
-                  <div className="h-3 bg-muted rounded w-3/4"></div>
-                </div>
-              ))
-            ) : presentations.length > 0 ? (
-              presentations.map((presentation) => (
-                <PresentationCard key={presentation.id} presentation={presentation} />
-              ))
-            ) : (
-              <div className="col-span-full text-center py-8">
-                <p className="text-muted-foreground">{t("media.noPresentations")}</p>
-              </div>
-            )}
-          </div>
-
-          {presentations.length > 0 && (
-            <div className="flex justify-center mt-12">
-              <Button 
-                onClick={() => router.push("/advanced/presentations")} 
                 className="group bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 px-8 py-4 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-xl shadow-blue-500/30 dark:shadow-blue-500/40 border border-blue-500/30 dark:border-blue-400/30"
               >
                 {t("common.viewAll")}

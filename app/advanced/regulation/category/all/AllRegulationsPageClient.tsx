@@ -32,7 +32,7 @@ export default function AllRegulationsPageClient() {
       <MainLayout>
         <div className="container mx-auto px-4 py-8">
           <div className="mb-6">
-            <Link href="/#concepts">
+            <Link href="/advanced#concepts">
               <Button variant="ghost" className="group flex items-center text-muted-foreground hover:text-foreground">
                 <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
                 {language === "ar" ? "العودة إلى اللوائح" : "Back to Regulations"}
@@ -57,7 +57,7 @@ export default function AllRegulationsPageClient() {
     <MainLayout>
       <div className="container mx-auto px-4 py-8">
         <div className="mb-6">
-          <Link href="/#concepts">
+          <Link href="/advanced#concepts">
             <Button variant="ghost" className="group flex items-center text-muted-foreground hover:text-foreground">
               <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
               {language === "ar" ? "العودة إلى اللوائح" : "Back to Regulations"}

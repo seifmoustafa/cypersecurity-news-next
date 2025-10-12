@@ -55,7 +55,7 @@ export default function ProceduresPageClient() {
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-4 mb-6">
-              <Link href="/#security-requirements">
+              <Link href="/advanced#security-requirements">
                 <Button variant="outline" size="sm" className="gap-2">
                   <ChevronLeft className="h-4 w-4" />
                   <span>{language === "ar" ? "رجوع" : "Back"}</span>

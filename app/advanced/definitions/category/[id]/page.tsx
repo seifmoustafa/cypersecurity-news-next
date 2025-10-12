@@ -32,7 +32,7 @@ export default async function DefinitionCategoryPage({ params }: PageProps) {
       notFound()
     }
 
-    const definitionsResponse = await container.services.definitions.getDefinitionsByCategory(category.id, 1, 50)
+    const definitionsResponse = await container.services.definitions.getDefinitionsByCategoryForProfessionals(category.id, 1, 50, "س")
 
     return (
       <DefinitionCategoryPageClient

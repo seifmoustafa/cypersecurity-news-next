@@ -13,7 +13,7 @@ export default function DefinitionNotFound() {
           <p className="text-muted-foreground mb-8 max-w-md mx-auto">
             The definition you&apos;re looking for doesn&apos;t exist or has been moved.
           </p>
-          <Link href="/#concepts">
+          <Link href="/advanced#concepts">
             <Button>Back to Standards</Button>
           </Link>
         </div>

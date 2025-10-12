@@ -78,7 +78,7 @@ export default function SystemsPageClient({ initialSystems }: SystemsPageClientP
           {/* Header */}
           <div className="text-center mb-8">
             <Link
-              href="/#systems"
+              href="/advanced#systems"
               className={`inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors mb-4 ${isRtl ? "flex-row-reverse" : ""}`}
             >
               {isRtl ? <ArrowRight className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />}

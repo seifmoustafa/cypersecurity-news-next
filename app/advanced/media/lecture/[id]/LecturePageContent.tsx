@@ -36,7 +36,7 @@ export default function LecturePageContent() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="mb-8 flex items-center">
-              <Link href="/#media">
+              <Link href="/advanced#media">
                 <Button variant="ghost" size="sm" className="gap-1">
                   <ChevronLeft className="h-4 w-4" />
                   <span>{language === "ar" ? "رجوع" : "Back"}</span>

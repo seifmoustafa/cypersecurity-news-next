@@ -1,55 +1,73 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { useLanguage } from "@/components/language-provider"
-import { Video, ArrowRight, ArrowLeft, Star, BookOpen, Search, Play, Clock } from "lucide-react"
-import Breadcrumbs from "@/components/breadcrumbs"
-import { useVideosByCategoryForProfessionals } from "@/core/hooks/use-videos-by-category-for-professionals"
-import { useVideoCategoriesForProfessionals } from "@/core/hooks/use-video-categories-for-professionals"
-import { useDebounce } from "@/hooks/use-debounce"
-import VideoModal from "@/components/video-modal"
-import MainLayout from "@/components/layouts/main-layout"
-import { Button } from "@/components/ui/button"
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useLanguage } from "@/components/language-provider";
+import {
+  Video,
+  ArrowRight,
+  ArrowLeft,
+  Star,
+  BookOpen,
+  Search,
+  Play,
+  Clock,
+} from "lucide-react";
+import Breadcrumbs from "@/components/breadcrumbs";
+import { useVideosByCategoryForProfessionals } from "@/core/hooks/use-videos-by-category-for-professionals";
+import { useVideoCategoriesForProfessionals } from "@/core/hooks/use-video-categories-for-professionals";
+import { useDebounce } from "@/hooks/use-debounce";
+import VideoModal from "@/components/video-modal";
+import MainLayout from "@/components/layouts/main-layout";
+import { Button } from "@/components/ui/button";
 
 interface VideoCategoryPageClientProps {
-  initialVideos: any[]
-  initialPagination: any
-  initialSearch: string
-  initialPage: number
-  category: any
+  initialVideos: any[];
+  initialPagination: any;
+  initialSearch: string;
+  initialPage: number;
+  category: any;
 }
 
-export default function VideoCategoryPageClient({ 
-  initialVideos, 
-  initialPagination, 
-  initialSearch, 
+export default function VideoCategoryPageClient({
+  initialVideos,
+  initialPagination,
+  initialSearch,
   initialPage,
-  category
+  category,
 }: VideoCategoryPageClientProps) {
-  const router = useRouter()
-  const { language } = useLanguage()
-  const isRtl = language === "ar"
-  const [query, setQuery] = useState(initialSearch)
-  const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const debouncedQuery = useDebounce(query, 500)
+  const router = useRouter();
+  const { language } = useLanguage();
+  const isRtl = language === "ar";
+  const [query, setQuery] = useState(initialSearch);
+  const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const debouncedQuery = useDebounce(query, 500);
 
-  const { videos, loading, error } = useVideosByCategoryForProfessionals(category.id, initialPage, 12, debouncedQuery)
-  const { categories: allCategories } = useVideoCategoriesForProfessionals(1, 100)
+  const { videos, loading, error } = useVideosByCategoryForProfessionals(
+    category.id,
+    initialPage,
+    12,
+    debouncedQuery
+  );
+  const { categories: allCategories } = useVideoCategoriesForProfessionals(
+    1,
+    100
+  );
 
   const handleVideoClick = (videoId: string) => {
-    setSelectedVideoId(videoId)
-    setIsModalOpen(true)
-  }
+    setSelectedVideoId(videoId);
+    setIsModalOpen(true);
+  };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false)
-    setSelectedVideoId(null)
-  }
+    setIsModalOpen(false);
+    setSelectedVideoId(null);
+  };
 
-  const categoryName = language === "ar" ? category.name : category.nameEn || category.name
+  const categoryName =
+    language === "ar" ? category.name : category.nameEn || category.name;
 
   return (
     <MainLayout>
@@ -65,10 +83,10 @@ export default function VideoCategoryPageClient({
         <div className="relative z-10 container mx-auto px-4 pt-24 pb-8">
           {/* Header with Back Button */}
           <div className="flex items-center gap-4 mb-6">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={() => router.push("/advanced")} 
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => router.push("/advanced#media")}
               className="group"
             >
               {isRtl ? (
@@ -90,7 +108,11 @@ export default function VideoCategoryPageClient({
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder={language === "ar" ? "ابحث في فيديوهات..." : "Search videos..."}
+                  placeholder={
+                    language === "ar"
+                      ? "ابحث في فيديوهات..."
+                      : "Search videos..."
+                  }
                   className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-white"
                 />
               </div>
@@ -105,10 +127,14 @@ export default function VideoCategoryPageClient({
             <div className="text-center py-12">
               <Video className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
               <h3 className="text-lg font-medium text-muted-foreground mb-2">
-                {language === "ar" ? "لا توجد فيديوهات متاحة" : "No videos available"}
+                {language === "ar"
+                  ? "لا توجد فيديوهات متاحة"
+                  : "No videos available"}
               </h3>
               <p className="text-muted-foreground">
-                {language === "ar" ? "لم يتم العثور على أي فيديوهات في هذه الفئة" : "No videos found in this category"}
+                {language === "ar"
+                  ? "لم يتم العثور على أي فيديوهات في هذه الفئة"
+                  : "No videos found in this category"}
               </p>
             </div>
           ) : (
@@ -123,17 +149,19 @@ export default function VideoCategoryPageClient({
                   <div
                     className="bg-white dark:bg-slate-800 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-lg hover:shadow-2xl hover:shadow-red-500/10 transition-all duration-500 hover:scale-[1.02] h-full will-change-transform overflow-hidden"
                     onMouseMove={(e) => {
-                      const el = e.currentTarget as HTMLDivElement
-                      const rect = el.getBoundingClientRect()
-                      const x = e.clientX - rect.left
-                      const y = e.clientY - rect.top
-                      const rotateX = ((y - rect.height / 2) / rect.height) * -3
-                      const rotateY = ((x - rect.width / 2) / rect.width) * 3
-                      el.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`
+                      const el = e.currentTarget as HTMLDivElement;
+                      const rect = el.getBoundingClientRect();
+                      const x = e.clientX - rect.left;
+                      const y = e.clientY - rect.top;
+                      const rotateX =
+                        ((y - rect.height / 2) / rect.height) * -3;
+                      const rotateY = ((x - rect.width / 2) / rect.width) * 3;
+                      el.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
                     }}
                     onMouseLeave={(e) => {
-                      const el = e.currentTarget as HTMLDivElement
-                      el.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)"
+                      const el = e.currentTarget as HTMLDivElement;
+                      el.style.transform =
+                        "perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)";
                     }}
                     style={{ transform: "perspective(900px)" }}
                   >
@@ -142,7 +170,11 @@ export default function VideoCategoryPageClient({
                       {video.imageUrl ? (
                         <img
                           src={video.imageUrl}
-                          alt={language === "ar" ? video.nameAr : video.nameEn || video.nameAr}
+                          alt={
+                            language === "ar"
+                              ? video.nameAr
+                              : video.nameEn || video.nameAr
+                          }
                           className="w-full h-full object-fill group-hover:scale-105 transition-transform duration-300"
                         />
                       ) : (
@@ -152,7 +184,7 @@ export default function VideoCategoryPageClient({
                           </div>
                         </div>
                       )}
-                      
+
                       {/* Play Button Overlay */}
                       <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors duration-300">
                         <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 group-hover:scale-110 transition-transform duration-300">
@@ -168,9 +200,19 @@ export default function VideoCategoryPageClient({
 
                       {/* Category Badge */}
                       <div className="absolute top-4 right-4 bg-blue-500/90 text-white text-xs px-3 py-1 rounded-full">
-                        {video.forBeginners ? (language === "ar" ? "للعامة" : "Beginners") : ""}
-                        {video.forBeginners && video.forProfessionals ? " • " : ""}
-                        {video.forProfessionals ? (language === "ar" ? "للمحترفين" : "Professionals") : ""}
+                        {video.forBeginners
+                          ? language === "ar"
+                            ? "للعامة"
+                            : "Beginners"
+                          : ""}
+                        {video.forBeginners && video.forProfessionals
+                          ? " • "
+                          : ""}
+                        {video.forProfessionals
+                          ? language === "ar"
+                            ? "للمحترفين"
+                            : "Professionals"
+                          : ""}
                       </div>
                     </div>
 
@@ -183,19 +225,24 @@ export default function VideoCategoryPageClient({
                         </div>
                         <div>
                           <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
-                            <Clock className="h-3 w-3" /> {new Date(video.createdAt).toLocaleDateString()}
+                            <Clock className="h-3 w-3" />{" "}
+                            {new Date(video.createdAt).toLocaleDateString()}
                           </div>
                         </div>
                       </div>
 
                       {/* Video Title */}
                       <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 line-clamp-2">
-                        {language === "ar" ? video.nameAr : video.nameEn || video.nameAr}
-                      </h3>     
+                        {language === "ar"
+                          ? video.nameAr
+                          : video.nameEn || video.nameAr}
+                      </h3>
 
                       {/* Video Summary */}
                       <div className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3">
-                        {language === "ar" ? video.summaryAr : video.summaryEn || video.summaryAr}
+                        {language === "ar"
+                          ? video.summaryAr
+                          : video.summaryEn || video.summaryAr}
                       </div>
 
                       {/* Video Footer */}
@@ -225,5 +272,5 @@ export default function VideoCategoryPageClient({
         />
       </div>
     </MainLayout>
-  )
+  );
 }

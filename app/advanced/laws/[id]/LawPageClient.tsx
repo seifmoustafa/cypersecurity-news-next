@@ -53,7 +53,7 @@ export default function LawPageClient({ law, category }: LawPageClientProps) {
     }
   }
 
-  const backUrl = category ? `/advanced/laws/category/${category.id}` : "/#concepts"
+  const backUrl = category ? `/advanced/laws/category/${category.id}` : "/advanced#concepts"
 
   return (
     <MainLayout>

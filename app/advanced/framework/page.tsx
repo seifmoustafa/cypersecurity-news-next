@@ -7,7 +7,7 @@ import { useLanguage } from "@/components/language-provider";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Shield, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Shield, ArrowRight, CheckCircle2, ChevronLeft } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -24,6 +24,7 @@ import type {
   ImplementationStep,
   FrameworkBenefit,
 } from "@/core/domain/models/framework";
+import { Button } from "@/components/ui/button";
 
 export default function FrameworkPage() {
   const { language, isRtl } = useLanguage();
@@ -131,21 +132,29 @@ export default function FrameworkPage() {
   if (loading) {
     return (
       <MainLayout>
-        <div className="pt-36 pb-16 bg-gradient-to-br from-purple-50/30 via-white to-blue-50/30 dark:from-purple-950/30 dark:via-slate-900 dark:to-blue-950/30 flex justify-center items-center min-h-[50vh]">
+        <div className="pt-36 pb-16 bg-gradient-to-br from-blue-50/30 via-white to-blue-50/30 dark:from-blue-950/30 dark:via-slate-900 dark:to-blue-950/30 flex justify-center items-center min-h-[50vh]">
           <div className="text-center">
             <div className="relative inline-block mb-8">
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full blur-xl opacity-30 animate-pulse"></div>
-              <div className="relative bg-gradient-to-r from-purple-500 to-blue-500 p-6 rounded-full shadow-2xl shadow-purple-500/30">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-500 rounded-full blur-xl opacity-30 animate-pulse"></div>
+              <div className="relative bg-gradient-to-r from-blue-500 to-blue-500 p-6 rounded-full shadow-2xl shadow-blue-500/30">
                 <Shield className="h-12 w-12 text-white animate-pulse" />
               </div>
             </div>
             <div className="flex items-center justify-center gap-2 mb-4">
-              <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce"></div>
-              <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-              <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+              <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce"></div>
+              <div
+                className="w-3 h-3 bg-blue-500 rounded-full animate-bounce"
+                style={{ animationDelay: "0.1s" }}
+              ></div>
+              <div
+                className="w-3 h-3 bg-blue-500 rounded-full animate-bounce"
+                style={{ animationDelay: "0.2s" }}
+              ></div>
             </div>
             <p className="text-lg text-muted-foreground font-medium">
-              {language === "ar" ? "جاري تحميل إطار العمل..." : "Loading Framework..."}
+              {language === "ar"
+                ? "جاري تحميل إطار العمل..."
+                : "Loading Framework..."}
             </p>
           </div>
         </div>
@@ -161,24 +170,33 @@ export default function FrameworkPage() {
             <div className="relative inline-block mb-8">
               <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-orange-500 rounded-full blur-xl opacity-30 animate-pulse"></div>
               <div className="relative bg-gradient-to-r from-red-500 to-orange-500 p-6 rounded-full shadow-2xl shadow-red-500/30">
-                <svg className="h-12 w-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                <svg
+                  className="h-12 w-12 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+                  />
                 </svg>
               </div>
             </div>
-            
+
             <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-red-600 via-orange-500 to-red-600 dark:from-red-400 dark:via-orange-300 dark:to-red-400 bg-clip-text text-transparent">
               {language === "ar" ? "حدث خطأ" : "Error Occurred"}
             </h1>
-            
+
             <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-red-200/30 dark:border-red-800/30 shadow-lg shadow-red-500/10 dark:shadow-red-500/20">
               <p className="text-lg text-muted-foreground mb-6">
-                {language === "ar" 
+                {language === "ar"
                   ? "حدث خطأ في تحميل بيانات إطار العمل. يرجى المحاولة مرة أخرى لاحقاً."
-                  : "Error loading framework data. Please try again later."
-                }
+                  : "Error loading framework data. Please try again later."}
               </p>
-              
+
               <button
                 onClick={() => window.location.reload()}
                 className="px-6 py-3 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg shadow-red-500/30 dark:shadow-red-500/40 border border-red-500/30 dark:border-red-400/30"
@@ -194,36 +212,45 @@ export default function FrameworkPage() {
 
   return (
     <MainLayout>
-      <div className="pt-36 pb-16 bg-gradient-to-br from-purple-50/30 via-white to-blue-50/30 dark:from-purple-950/30 dark:via-slate-900 dark:to-blue-950/30">
+      <div>
         {/* Enhanced background pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(147,51,234,0.3),transparent_50%)]"></div>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_75%,rgba(59,130,246,0.3),transparent_50%)]"></div>
           <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(45deg,transparent_25%,rgba(99,102,241,0.02)_50%,transparent_75%)] bg-[length:40px_40px]"></div>
         </div>
-        
+        <div className="mb-8 flex items-center mx-16">
+          <Link href="/advanced#concepts">
+            <Button variant="ghost" size="sm" className="gap-1">
+              <ChevronLeft className="h-4 w-4" />
+              <span className="text-lg">
+                {language === "ar" ? "رجوع" : "Back"}
+              </span>
+            </Button>
+          </Link>
+        </div>
         <div className="relative container mx-auto px-4">
           <div className="mb-16 text-center">
             <div className="relative inline-block mb-8">
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full blur-xl opacity-30 dark:opacity-40 animate-pulse"></div>
-              <div className="relative bg-gradient-to-r from-purple-500 to-blue-500 p-6 rounded-full shadow-2xl shadow-purple-500/30">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-500 rounded-full blur-xl opacity-30 dark:opacity-40 animate-pulse"></div>
+              <div className="relative bg-gradient-to-r from-blue-500 to-blue-500 p-6 rounded-full shadow-2xl shadow-blue-500/30">
                 <Shield className="h-12 w-12 text-white" />
               </div>
             </div>
-            
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 dark:from-purple-400 dark:via-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
+
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 pb-6 bg-gradient-to-r from-blue-600 via-blue-600 to-blue-600 dark:from-blue-400 dark:via-blue-400 dark:to-blue-400 bg-clip-text text-transparent">
               {language === "ar"
                 ? "إطار عمل الأمن السيبراني"
                 : "Cybersecurity Framework"}
             </h1>
-            
+
             <div className="max-w-4xl mx-auto">
-              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-purple-200/30 dark:border-purple-800/30 shadow-lg shadow-purple-500/10 dark:shadow-purple-500/20">
+              <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-blue-200/30 dark:border-blue-800/30 shadow-lg shadow-blue-500/10 dark:shadow-blue-500/20">
                 <p className="text-xl text-muted-foreground leading-relaxed">
-              {language === "ar"
-                ? "نموذج شامل لإدارة وتنفيذ الأمن السيبراني"
-                : "Comprehensive model for managing and implementing cybersecurity"}
-            </p>
+                  {language === "ar"
+                    ? "نموذج شامل لإدارة وتنفيذ الأمن السيبراني"
+                    : "Comprehensive model for managing and implementing cybersecurity"}
+                </p>
               </div>
             </div>
           </div>
@@ -489,7 +516,7 @@ export default function FrameworkPage() {
                   <div className="bg-blue-500 text-white p-3 rounded-md text-center font-bold">
                     {language === "ar" ? "تحديد" : "Identify"}
                   </div>
-                  <div className="bg-purple-600 text-white p-3 rounded-md text-center font-bold">
+                  <div className="bg-blue-600 text-white p-3 rounded-md text-center font-bold">
                     {language === "ar" ? "حماية" : "Protect"}
                   </div>
                   <div className="bg-yellow-500 text-white p-3 rounded-md text-center font-bold">
@@ -508,7 +535,7 @@ export default function FrameworkPage() {
                   </div>
 
                   {/* Access Control */}
-                  <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-md text-sm">
+                  <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-md text-sm">
                     {language === "ar" ? "التحكم في الوصول" : "Access Control"}
                   </div>
 
@@ -537,7 +564,7 @@ export default function FrameworkPage() {
                   </div>
 
                   {/* Awareness and Training */}
-                  <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-md text-sm">
+                  <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-md text-sm">
                     {language === "ar"
                       ? "التوعية والتدريب"
                       : "Awareness and Training"}
@@ -566,7 +593,7 @@ export default function FrameworkPage() {
                   </div>
 
                   {/* Data Security */}
-                  <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-md text-sm">
+                  <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-md text-sm">
                     {language === "ar" ? "أمن البيانات" : "Data Security"}
                   </div>
 
@@ -591,7 +618,7 @@ export default function FrameworkPage() {
                   </div>
 
                   {/* Info Protection Processes */}
-                  <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-md text-sm">
+                  <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-md text-sm">
                     {language === "ar"
                       ? "عمليات وإجراءات حماية المعلومات"
                       : "Info Protection Processes and Procedures"}
@@ -616,7 +643,7 @@ export default function FrameworkPage() {
                   </div>
 
                   {/* Maintenance */}
-                  <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-md text-sm">
+                  <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-md text-sm">
                     {language === "ar" ? "الصيانة" : "Maintenance"}
                   </div>
 
@@ -635,7 +662,7 @@ export default function FrameworkPage() {
                   <div className="bg-transparent"></div>
 
                   {/* Protective Technology */}
-                  <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-md text-sm">
+                  <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-md text-sm">
                     {language === "ar"
                       ? "التكنولوجيا الوقائية"
                       : "Protective Technology"}

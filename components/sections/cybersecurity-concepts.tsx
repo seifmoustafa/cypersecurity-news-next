@@ -36,19 +36,20 @@ export default function CybersecurityConceptsSection() {
       try {
         setLoading(true)
 
-        // Fetch definition categories and definitions from API
+        // Fetch definition categories and definitions from API using professionals endpoints
         try {
-          const definitionCategoriesResponse = await container.services.definitions.getAllCategories(1, 100)
+          const definitionCategoriesResponse = await container.services.definitions.getAllCategoriesForProfessionals(1, 10)
           setDefinitionCategories(definitionCategoriesResponse.data)
 
-          // Fetch definitions for each category (first 6 + count remaining)
+          // Fetch definitions for each category (first 6 + count remaining) using professionals endpoint
           const definitionsData: Record<string, Definition[]> = {}
           for (const category of definitionCategoriesResponse.data) {
             try {
-              const categoryDefinitions = await container.services.definitions.getDefinitionsByCategory(
+              const categoryDefinitions = await container.services.definitions.getDefinitionsByCategoryForProfessionals(
                 category.id,
                 1,
-                100,
+                10,
+                "س"
               )
               definitionsData[category.id] = categoryDefinitions.data
             } catch (error) {

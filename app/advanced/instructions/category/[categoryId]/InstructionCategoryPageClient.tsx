@@ -1,35 +1,39 @@
-"use client"
-import { useInstructionYearsByCategory } from "@/core/hooks/use-instruction-years"
-import type { InstructionCategory } from "@/core/domain/models/instruction-category"
-import { useLanguage } from "@/components/language-provider"
-import { Button } from "@/components/ui/button"
-import { ChevronLeft, Calendar } from "lucide-react"
-import Link from "next/link"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { AlertCircle } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
-import { motion } from "framer-motion"
-import { getLocalizedText } from "@/lib/utils"
+"use client";
+import { useInstructionYearsByCategory } from "@/core/hooks/use-instruction-years";
+import type { InstructionCategory } from "@/core/domain/models/instruction-category";
+import { useLanguage } from "@/components/language-provider";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, Calendar } from "lucide-react";
+import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import { getLocalizedText } from "@/lib/utils";
 
 interface InstructionCategoryPageClientProps {
-  categoryId: string
-  initialCategory: InstructionCategory
+  categoryId: string;
+  initialCategory: InstructionCategory;
 }
 
 export default function InstructionCategoryPageClient({
   categoryId,
   initialCategory,
 }: InstructionCategoryPageClientProps) {
-  const { language } = useLanguage()
+  const { language } = useLanguage();
   const {
     years,
     loading: yearsLoading,
     error: yearsError,
     refetch: refetchYears,
-  } = useInstructionYearsByCategory(initialCategory.id)
+  } = useInstructionYearsByCategory(initialCategory.id);
 
-  const categoryTitle = getLocalizedText(language, initialCategory.name, initialCategory.nameEn)
+  const categoryTitle = getLocalizedText(
+    language,
+    initialCategory.name,
+    initialCategory.nameEn
+  );
 
   if (yearsLoading) {
     return (
@@ -46,7 +50,7 @@ export default function InstructionCategoryPageClient({
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   if (yearsError) {
@@ -54,40 +58,48 @@ export default function InstructionCategoryPageClient({
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-4">
           <div className="mb-8 flex items-center">
-            <Link href="/#security-requirements">
+            <Link href="/advanced#security-requirements">
               <Button variant="ghost" size="sm" className="gap-1">
                 <ChevronLeft className="h-4 w-4" />
                 <span>{language === "ar" ? "رجوع" : "Back"}</span>
               </Button>
             </Link>
-            <h1 className="text-3xl font-bold text-center flex-1">{categoryTitle}</h1>
+            <h1 className="text-3xl font-bold text-center flex-1">
+              {categoryTitle}
+            </h1>
           </div>
 
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription className="flex items-center justify-between w-full">
               <span>{yearsError.message}</span>
-              <Button variant="outline" size="sm" onClick={() => refetchYears()}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => refetchYears()}
+              >
                 {language === "ar" ? "إعادة المحاولة" : "Retry"}
               </Button>
             </AlertDescription>
           </Alert>
         </div>
       </div>
-    )
+    );
   }
 
   return (
     <div className="pt-24 pb-16">
       <div className="container mx-auto px-4">
         <div className="mb-8 flex items-center">
-          <Link href="/#security-requirements">
+          <Link href="/advanced#security-requirements">
             <Button variant="ghost" size="sm" className="gap-1">
               <ChevronLeft className="h-4 w-4" />
               <span>{language === "ar" ? "رجوع" : "Back"}</span>
             </Button>
           </Link>
-          <h1 className="text-3xl font-bold text-center flex-1">{categoryTitle}</h1>
+          <h1 className="text-3xl font-bold text-center flex-1">
+            {categoryTitle}
+          </h1>
         </div>
 
         <div className="mb-8 text-center">
@@ -102,7 +114,9 @@ export default function InstructionCategoryPageClient({
           <div className="text-center py-12">
             <Calendar className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
             <p className="text-muted-foreground text-lg">
-              {language === "ar" ? "لا توجد سنوات متاحة لهذه الفئة" : "No years available for this category"}
+              {language === "ar"
+                ? "لا توجد سنوات متاحة لهذه الفئة"
+                : "No years available for this category"}
             </p>
           </div>
         ) : (
@@ -128,7 +142,9 @@ export default function InstructionCategoryPageClient({
                         {yearItem.year}
                       </h3>
                       <p className="text-muted-foreground">
-                        {language === "ar" ? `تعليمات عام ${yearItem.year}` : `${yearItem.year} Instructions`}
+                        {language === "ar"
+                          ? `تعليمات عام ${yearItem.year}`
+                          : `${yearItem.year} Instructions`}
                       </p>
                       <div className="mt-4 text-sm text-primary opacity-0 group-hover:opacity-100 transition-opacity">
                         {language === "ar" ? "انقر للعرض" : "Click to view"}
@@ -142,5 +158,5 @@ export default function InstructionCategoryPageClient({
         )}
       </div>
     </div>
-  )
+  );
 }

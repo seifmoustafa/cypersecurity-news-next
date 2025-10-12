@@ -58,7 +58,6 @@ export default function Footer() {
       links: [
         { title: language === "ar" ? "التعليمات" : "Instructions", href: "/advanced/instructions/category", icon: FileText },
         { title: language === "ar" ? "الإجراءات الأمنية" : "Security Procedures", href: "/advanced/procedures", icon: Settings },
-        { title: language === "ar" ? "الحماية الشخصية" : "Personal Protection", href: "/advanced/personal-protect", icon: Settings }
       ]
     },
     {
@@ -81,7 +80,6 @@ export default function Footer() {
       links: [
         { title: language === "ar" ? "فيديوهات" : "Videos", href: "/advanced/videos", icon: Play },
         { title: language === "ar" ? "المحاضرات" : "Lectures", href: "/advanced/lectures", icon: GraduationCap },
-        { title: language === "ar" ? "العروض التقديمية" : "Presentations", href: "/advanced/presentations", icon: Presentation },
         { title: language === "ar" ? "المنظومات الرئيسية" : "Main Systems", href: "/advanced/systems", icon: Database },
         { title: language === "ar" ? "الأنظمة المساعدة" : "Helper Systems", href: "/advanced/helper-systems", icon: Settings }
       ]

@@ -35,7 +35,7 @@ export default function DefinitionCategoryPageClient({
         <div className="container mx-auto px-4">
           {/* Back Button to Standards */}
           <div className={`mb-6 ${isRtl ? "text-right" : "text-left"}`}>
-            <Link href="/#concepts">
+            <Link href="/advanced#concepts">
               <Button variant="ghost" size="sm" className={`gap-2 ${isRtl ? "flex-row-reverse" : ""}`}>
                 {isRtl ? <ArrowRight className="h-4 w-4" /> : <ArrowLeft className="h-4 w-4" />}
                 <span>{language === "ar" ? "العودة للمفاهيم" : "Back to Standards"}</span>
