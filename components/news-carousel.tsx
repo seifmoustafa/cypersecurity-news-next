@@ -275,7 +275,7 @@ export default function NewsCarousel() {
                       target.src = "/placeholder.svg";
                     }}
                     placeholder="blur"
-                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                   />
 
                   {/* Subtle overlay for better text readability */}
@@ -318,22 +318,12 @@ export default function NewsCarousel() {
                       </div>
 
                       {/* Enhanced Title */}
-                      <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 line-clamp-2 leading-tight text-white drop-shadow-2xl pb-6">
-                        <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-100 bg-clip-text text-transparent">
+                      <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold leading-none text-white drop-shadow-2xl">
+                        <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-100 bg-clip-text text-transparent block truncate max-w-xl md:max-w-xl lg:max-w-xl pb-10">
                           {displayTitle}
                         </span>
                       </h2>
 
-                      {/* Enhanced Summary */}
-                      {hasValidSummary && (
-                        <div className="mb-10">
-                          <p className="text-lg md:text-xl text-gray-100 line-clamp-3 leading-relaxed drop-shadow-lg font-medium max-w-4xl">
-                            {cleanSummary}
-                          </p>
-                        </div>
-                      )}
-
-                      {/* Enhanced Read More Button */}
                       <Link
                         href={`/advanced/news/${currentNews.id}`}
                         className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 dark:from-blue-700 dark:to-blue-800 dark:hover:from-blue-800 dark:hover:to-blue-900 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-xl shadow-blue-500/40 dark:shadow-blue-500/50 border border-blue-500/40 dark:border-blue-400/40 backdrop-blur-sm"

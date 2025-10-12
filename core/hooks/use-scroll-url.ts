@@ -5,11 +5,13 @@ export function useScrollUrl() {
   const router = useRouter()
   const pathname = usePathname()
   const isHomePage = pathname === "/"
+  const isAdvancedPage = pathname === "/advanced"
+  const isActivePage = isHomePage || isAdvancedPage
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const lastHashRef = useRef<string>("")
 
   useEffect(() => {
-    if (!isHomePage) return
+    if (!isActivePage) return
 
     const handleScroll = () => {
       // Clear existing timeout
@@ -71,11 +73,11 @@ export function useScrollUrl() {
       }
       window.removeEventListener("scroll", handleScroll)
     }
-  }, [isHomePage])
+  }, [isActivePage])
 
   // Handle browser back/forward navigation
   useEffect(() => {
-    if (!isHomePage) return
+    if (!isActivePage) return
 
     const handlePopState = () => {
       const hash = window.location.hash
@@ -90,5 +92,5 @@ export function useScrollUrl() {
 
     window.addEventListener("popstate", handlePopState)
     return () => window.removeEventListener("popstate", handlePopState)
-  }, [isHomePage])
+  }, [isActivePage])
 }

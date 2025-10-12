@@ -81,7 +81,7 @@ export default function LawCategoryPageClient({
                   : `No laws available at the moment`}
               </p>
               <Link
-                href="/#standards"
+                href="/#concepts"
                 className="inline-block bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-md"
               >
                 {language === "ar" ? "العودة للمفاهيم" : "Back to Standards"}

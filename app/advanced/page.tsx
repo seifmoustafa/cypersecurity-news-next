@@ -80,7 +80,7 @@ export default function Home() {
       <SecurityRequirementsSection />
 
       {/* Add Framework Preview Section */}
-      <div id="standards" className="section-anchor pt-16 -mt-16"></div>
+      <div id="concepts" className="section-anchor pt-16 -mt-16"></div>
       <CybersecurityConceptsSection />
 
       <div id="media" className="section-anchor pt-16 -mt-16"></div>

@@ -33,7 +33,7 @@ import {
 import Link from "next/link";
 
 export default function Footer() {
-  const { language } = useLanguage();
+  const {t, language } = useLanguage();
   const isRtl = language === "ar";
 
   const footerSections = [
@@ -71,7 +71,6 @@ export default function Footer() {
         { title: language === "ar" ? "القوانين واللوائح" : "Laws & Regulations", href: "/advanced/laws", icon: Scale },
         { title: language === "ar" ? "التنظيم" : "Regulation", href: "/advanced/regulation", icon: Settings },
         { title: language === "ar" ? "إطار العمل" : "Framework", href: "/advanced/framework", icon: Building2 },
-        { title: language === "ar" ? "المعايير" : "Standards", href: "/advanced/standards", icon: CheckCircle }
       ]
     },
     {
@@ -236,11 +235,11 @@ export default function Footer() {
                 </div>
                 <div className="flex items-center justify-center">
                   <Mail className={`h-5 w-5 text-blue-600 dark:text-blue-400 mr-3 rtl:mr-0 rtl:ml-3`} />
-                  <span className="text-slate-700 dark:text-white">info@cybersecurity.gov</span>
+                  <span className="text-slate-700 dark:text-white">{"scanss@isd.gov.eg"}</span>
                 </div>
                 <div className="flex items-center justify-center">
                   <Phone className={`h-5 w-5 text-blue-600 dark:text-blue-400 mr-3 rtl:mr-0 rtl:ml-3`} />
-                  <span className="text-slate-700 dark:text-white">+966 11 123 4567</span>
+                  <span className="text-slate-700 dark:text-white">{"76272"}</span>
                 </div>
               </div>
             </div>
@@ -254,9 +253,7 @@ export default function Footer() {
               {/* Copyright */}
               <div className="text-center md:text-right rtl:md:text-left">
                 <p className="text-slate-600 dark:text-slate-300 text-sm">
-                  {language === "ar"
-                    ? "حقوق النشر © 2025 / فرع حرب المعلومات من إدارة نظم المعلومات جميع الحقوق محفوظة"
-                    : "Copyright © 2025 / Technical Insurance Center MMC. All rights reserved"}
+                  {t("beginners.footer.copyright")}
                 </p>
               </div>
               

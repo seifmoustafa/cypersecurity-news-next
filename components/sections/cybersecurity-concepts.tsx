@@ -125,7 +125,7 @@ export default function CybersecurityConceptsSection() {
       const customEvent = event as CustomEvent
       const { sectionId, tab } = customEvent.detail
 
-      if (sectionId === "standards" && tab) {
+      if (sectionId === "concepts" && tab) {
         setActiveTab(tab)
       }
     }
@@ -152,7 +152,7 @@ export default function CybersecurityConceptsSection() {
 
   if (loading) {
     return (
-      <SectionContainer id="standards" className="bg-muted/30">
+      <SectionContainer id="concepts" className="bg-muted/30">
         <SectionHeader title={t("section.cybersecurityConcepts")} subtitle={t("cybersecurityConcepts.subtitle")} />
         <div className="animate-pulse">
           <div className="h-10 bg-gray-300 dark:bg-gray-700 rounded max-w-md mx-auto mb-8"></div>
@@ -177,7 +177,7 @@ export default function CybersecurityConceptsSection() {
 
   return (
     <div className={isRtl ? "rtl" : "ltr"} dir={isRtl ? "rtl" : "ltr"}>
-      <SectionContainer id="standards" className="bg-gradient-to-br from-slate-50/50 via-white to-blue-50/30 dark:from-slate-950/30 dark:via-slate-900 dark:to-blue-950/20">
+      <SectionContainer id="concepts" className="bg-gradient-to-br from-slate-50/50 via-white to-blue-50/30 dark:from-slate-950/30 dark:via-slate-900 dark:to-blue-950/20">
         <SectionHeader title={t("section.cybersecurityConcepts")} subtitle={t("cybersecurityConcepts.subtitle")} />
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -413,10 +413,10 @@ export default function CybersecurityConceptsSection() {
                 <div className="flex justify-center">
                   <Link
                     href="/advanced/framework"
-                    className="inline-flex items-center gap-3 justify-center rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 px-10 py-4 text-lg font-semibold text-white transition-all duration-300 transform hover:scale-105 shadow-xl shadow-blue-500/30 dark:shadow-blue-500/40 border border-blue-500/30 dark:border-blue-400/30"
+                    className="inline-flex items-center gap-3 justify-center rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 px-10 py-4 text-lg font-semibold !text-black dark:!text-white transition-all duration-300 transform hover:scale-105 shadow-xl shadow-blue-500/30 dark:shadow-blue-500/40 border border-blue-500/30 dark:border-blue-400/30 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 text-shadow [&_*]:!text-black [&_*]:dark:!text-white"
                   >
                     {language === "ar" ? "استكشف" : "Explore"}
-                    <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 transition-transform duration-300 !text-black dark:!text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </Link>

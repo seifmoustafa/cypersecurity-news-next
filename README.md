@@ -7,7 +7,7 @@ A comprehensive cybersecurity news and information platform built with Next.js.
 ### Dynamic Scroll URL Updates
 The home page now features dynamic URL updates while scrolling through different sections:
 
-- **Automatic URL Updates**: As you scroll through the page, the URL automatically updates to reflect the current section (e.g., `/#awareness`, `/#security-requirements`, `/#standards`)
+- **Automatic URL Updates**: As you scroll through the page, the URL automatically updates to reflect the current section (e.g., `/#awareness`, `/#security-requirements`, `/#concepts`)
 - **Browser Navigation**: When you navigate to a page within any section and press the browser's back button, you'll return to the exact section you were viewing
 - **Smooth Scrolling**: All section navigation includes smooth scrolling for a better user experience
 - **Debounced Updates**: URL updates are debounced to prevent excessive history entries
@@ -23,7 +23,7 @@ The home page now features dynamic URL updates while scrolling through different
 
 - `/#awareness` - Awareness section
 - `/#security-requirements` - Security requirements section  
-- `/#standards` - Cybersecurity concepts section
+- `/#concepts` - Cybersecurity concepts section
 - `/#media` - Media library section
 - `/#helpers` - Helper systems section
 - `/#systems` - Main systems section
@@ -56,7 +56,7 @@ The feature is implemented using:
 
 1. Navigate to the home page
 2. Scroll through different sections
-3. Notice the URL updates automatically (e.g., `/#awareness`, `/#standards`)
+3. Notice the URL updates automatically (e.g., `/#awareness`, `/#concepts`)
 4. Click on any navigation item in the header to jump to a specific section
 5. Navigate to any sub-page and use the browser's back button to return to your previous section
 

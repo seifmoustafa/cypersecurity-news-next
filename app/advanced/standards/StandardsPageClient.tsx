@@ -43,7 +43,7 @@ export default function StandardsPageClient({
       <MainLayout>
         <div className="pt-24 pb-16">
           <div className="container mx-auto px-4">
-            <Link href="/#standards">
+            <Link href="/#concepts">
               <Button
                 variant="ghost"
                 size="sm"
