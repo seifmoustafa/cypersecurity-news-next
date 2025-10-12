@@ -92,7 +92,7 @@ export default function Footer() {
       links: [
         { title: language === "ar" ? "الإجراءات" : "Procedures", href: "/advanced/procedures", icon: Settings },
         { title: language === "ar" ? "الضوابط" : "Controls", href: "/advanced/procedures", icon: Settings },
-        { title: language === "ar" ? "الضمانات" : "Safeguards", href: "/advanced/procedures", icon: Settings }
+        { title: language === "ar" ? "إجراءات الحماية" : "Safeguards", href: "/advanced/procedures", icon: Settings }
       ]
     }
   ];

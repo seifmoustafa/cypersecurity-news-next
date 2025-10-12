@@ -301,7 +301,7 @@ export default function Header({
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-xl border-b border-blue-200/30 dark:border-blue-800/30 shadow-lg shadow-blue-500/10 dark:shadow-blue-500/20">
-      <div className="container mx-auto px-4 max-w-full 2xl:max-w-[1600px]">
+      <div className="container mx-auto px-2 sm:px-3 lg:px-4 max-w-full 2xl:max-w-[1600px]">
         <div className="h-20 flex items-center justify-between">
           {/* Enhanced Logo */}
           <div className="flex items-center group">
@@ -324,7 +324,7 @@ export default function Header({
                 {/* </div> */}
               </div>
               <div className="flex flex-col">
-                <span className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 group-hover:from-blue-700 group-hover:to-cyan-600 transition-all duration-300">
+                <span className="text-lg lg:text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 group-hover:from-blue-700 group-hover:to-cyan-600 transition-all duration-300 whitespace-nowrap">
                   <span className="hidden sm:inline">{t("hero.title")}</span>
                   <span className="sm:hidden">CyberSec</span>
                 </span>
@@ -333,17 +333,17 @@ export default function Header({
           </div>
 
           {/* Enhanced Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-1 rtl:space-x-reverse xl:space-x-2">
+          <nav className="hidden lg:flex items-center space-x-1 rtl:space-x-reverse xl:space-x-2 2xl:space-x-3">
             <Button
               variant="ghost"
               size="sm"
-              className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-xs xl:text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-md"
+              className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-sm lg:text-base xl:text-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-md px-2 lg:px-3 xl:px-4 py-2 lg:py-2.5 xl:py-3"
               onClick={(e) => {
                 e.preventDefault();
                 router.push("/advanced");
               }}
             >
-              <Home className="h-4 w-4 mr-1 rtl:ml-1 rtl:mr-0" />
+              <Home className="h-4 w-4 lg:h-5 lg:w-5 xl:h-6 xl:w-6 mr-1 rtl:ml-1 rtl:mr-0" />
               {t("nav.home")}
             </Button>
 
@@ -354,7 +354,7 @@ export default function Header({
                   variant="ghost"
                   size="sm"
                   className={cn(
-                    "flex items-center gap-2 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-xs xl:text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-md",
+                    "flex items-center gap-2 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-sm lg:text-base xl:text-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-md px-2 lg:px-3 xl:px-4 py-2 lg:py-2.5 xl:py-3",
                     openDropdown === group.title
                       ? "bg-blue-50/50 dark:bg-blue-900/20 shadow-md"
                       : ""
@@ -364,7 +364,7 @@ export default function Header({
                   {t(`section.${group.title}`)}
                   <ChevronDown
                     className={cn(
-                      "h-3 w-3 xl:h-4 xl:w-4 opacity-50 transition-all duration-300",
+                      "h-4 w-4 lg:h-5 lg:w-5 xl:h-6 xl:w-6 opacity-50 transition-all duration-300",
                       openDropdown === group.title
                         ? "rotate-180 opacity-100"
                         : ""
@@ -376,7 +376,7 @@ export default function Header({
                 {openDropdown === group.title && (
                   <div
                     className={cn(
-                      "absolute top-full mt-2 min-w-[220px] bg-white dark:bg-gray-900 border border-blue-200/40 dark:border-blue-800/40 shadow-xl shadow-blue-500/10 dark:shadow-blue-500/20 rounded-xl py-2 z-[100] animate-in slide-in-from-top-2 duration-300",
+                      "absolute top-full mt-2 min-w-[240px] lg:min-w-[280px] xl:min-w-[320px] bg-white dark:bg-gray-900 border border-blue-200/40 dark:border-blue-800/40 shadow-xl shadow-blue-500/10 dark:shadow-blue-500/20 rounded-xl py-3 z-[100] animate-in slide-in-from-top-2 duration-300",
                       isRtl ? "right-0" : "left-0"
                     )}
                     onClick={(e) => e.stopPropagation()}
@@ -385,7 +385,7 @@ export default function Header({
                       <button
                         key={item.key}
                         className={cn(
-                          "w-full px-4 py-3 text-left text-xs xl:text-sm hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-sm group",
+                          "w-full px-4 lg:px-5 xl:px-6 py-3 lg:py-4 text-left text-sm lg:text-base xl:text-lg hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-sm group",
                           item.href.split("?")[0].substring(1) === activeSection
                             ? "font-medium text-primary bg-blue-50/30 dark:bg-blue-900/10"
                             : "text-foreground"
@@ -404,7 +404,7 @@ export default function Header({
                           <span>{t(item.key)}</span>
                           <ChevronRight
                             className={cn(
-                              "h-3 w-3 opacity-0 group-hover:opacity-100 transition-all duration-300",
+                              "h-4 w-4 lg:h-5 lg:w-5 xl:h-6 xl:w-6 opacity-0 group-hover:opacity-100 transition-all duration-300",
                               isRtl ? "rotate-180" : ""
                             )}
                           />
@@ -418,7 +418,7 @@ export default function Header({
           </nav>
 
           {/* Enhanced Action Buttons */}
-          <div className="flex items-center gap-1 md:gap-2">
+          <div className="flex items-center gap-0.5 md:gap-1">
             {/* Layout Switch Button */}
             <TooltipProvider>
               <Tooltip>
@@ -432,7 +432,7 @@ export default function Header({
                         ? t("nav.advancedMode")
                         : t("nav.beginnersMode")
                     }
-                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-9 w-9 md:h-11 md:w-11 transition-all duration-300 hover:scale-110 hover:shadow-md group"
+                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-8 w-8 md:h-10 md:w-10 transition-all duration-300 hover:scale-110 hover:shadow-md group"
                   >
                     {isBeginnersMode ? (
                       <ToggleRight className="h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-transform duration-300 text-green-500" />
@@ -464,7 +464,7 @@ export default function Header({
                     size="icon"
                     onClick={handleSearchToggle}
                     title={t("common.search")}
-                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-9 w-9 md:h-11 md:w-11 transition-all duration-300 hover:scale-110 hover:shadow-md group"
+                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-8 w-8 md:h-10 md:w-10 transition-all duration-300 hover:scale-110 hover:shadow-md group"
                   >
                     <Search className="h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-transform duration-300" />
                     <span className="sr-only">{t("common.search")}</span>
@@ -484,7 +484,7 @@ export default function Header({
                     size="icon"
                     onClick={toggleTips}
                     title={tipsDisabled ? t("tips.enable") : t("tips.disable")}
-                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-9 w-9 md:h-11 md:w-11 transition-all duration-300 hover:scale-110 hover:shadow-md group"
+                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-8 w-8 md:h-10 md:w-10 transition-all duration-300 hover:scale-110 hover:shadow-md group"
                   >
                     <LightbulbIcon
                       className={`h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-all duration-300 ${
@@ -510,7 +510,7 @@ export default function Header({
                     size="icon"
                     onClick={handleLanguageToggle}
                     title={t("common.language")}
-                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-9 w-9 md:h-11 md:w-11 transition-all duration-300 hover:scale-110 hover:shadow-md group"
+                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-8 w-8 md:h-10 md:w-10 transition-all duration-300 hover:scale-110 hover:shadow-md group"
                   >
                     <Globe className="h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-transform duration-300" />
                     <span className="sr-only">{t("common.language")}</span>
@@ -532,7 +532,7 @@ export default function Header({
                     title={
                       isDarkMode ? t("common.lightMode") : t("common.darkMode")
                     }
-                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-9 w-9 md:h-11 md:w-11 transition-all duration-300 hover:scale-110 hover:shadow-md group"
+                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-8 w-8 md:h-10 md:w-10 transition-all duration-300 hover:scale-110 hover:shadow-md group"
                   >
                     {isDarkMode ? (
                       <SunIcon className="h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-transform duration-300" />
@@ -563,7 +563,7 @@ export default function Header({
                     size="icon"
                     onClick={() => router.push("/")}
                     title={t("nav.home")}
-                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-9 w-9 md:h-11 md:w-11 transition-all duration-300 hover:scale-110 hover:shadow-md group"
+                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-8 w-8 md:h-10 md:w-10 transition-all duration-300 hover:scale-110 hover:shadow-md group"
                   >
                     <Home className="h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-transform duration-300" />
                     <span className="sr-only">{t("nav.home")}</span>
@@ -579,7 +579,7 @@ export default function Header({
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-9 w-9 md:h-11 md:w-11 transition-all duration-300 hover:scale-110 hover:shadow-md group"
+              className="lg:hidden hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-8 w-8 md:h-10 md:w-10 transition-all duration-300 hover:scale-110 hover:shadow-md group"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? (
@@ -637,20 +637,20 @@ export default function Header({
               {/* Layout Switch in Mobile */}
               <div className="py-2 border-b border-blue-200/30 dark:border-blue-800/30">
                 <button
-                  className="flex items-center gap-3 px-4 py-3 text-sm rounded-xl transition-all duration-300 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 hover:scale-[1.02] hover:shadow-md text-foreground/80 w-full text-left group"
+                  className="flex items-center gap-3 px-4 py-3 text-base lg:text-lg rounded-xl transition-all duration-300 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 hover:scale-[1.02] hover:shadow-md text-foreground/80 w-full text-left group"
                   onClick={handleLayoutSwitch}
                 >
                   {isBeginnersMode ? (
-                    <ToggleRight className="h-4 w-4 text-green-500 group-hover:scale-110 transition-transform duration-300" />
+                    <ToggleRight className="h-5 w-5 lg:h-6 lg:w-6 text-green-500 group-hover:scale-110 transition-transform duration-300" />
                   ) : (
-                    <ToggleLeft className="h-4 w-4 text-blue-500 group-hover:scale-110 transition-transform duration-300" />
+                    <ToggleLeft className="h-5 w-5 lg:h-6 lg:w-6 text-blue-500 group-hover:scale-110 transition-transform duration-300" />
                   )}
                   {isBeginnersMode
                     ? t("nav.advancedMode")
                     : t("nav.beginnersMode")}
                   <ChevronRight
                     className={cn(
-                      "h-4 w-4 ml-auto opacity-0 group-hover:opacity-100 transition-all duration-300",
+                      "h-5 w-5 lg:h-6 lg:w-6 ml-auto opacity-0 group-hover:opacity-100 transition-all duration-300",
                       isRtl ? "rotate-180" : ""
                     )}
                   />
@@ -659,18 +659,18 @@ export default function Header({
 
               <div className="py-2">
                 <button
-                  className="flex items-center gap-3 px-4 py-3 text-sm rounded-xl transition-all duration-300 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 hover:scale-[1.02] hover:shadow-md text-foreground/80 w-full text-left group"
+                  className="flex items-center gap-3 px-4 py-3 text-base lg:text-lg rounded-xl transition-all duration-300 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 hover:scale-[1.02] hover:shadow-md text-foreground/80 w-full text-left group"
                   onClick={(e) => {
                     e.preventDefault();
                     setMobileMenuOpen(false);
                     router.push("/advanced");
                   }}
                 >
-                  <Home className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                  <Home className="h-5 w-5 lg:h-6 lg:w-6 group-hover:scale-110 transition-transform duration-300" />
                   {t("nav.home")}
                   <ChevronRight
                     className={cn(
-                      "h-4 w-4 ml-auto opacity-0 group-hover:opacity-100 transition-all duration-300",
+                      "h-5 w-5 lg:h-6 lg:w-6 ml-auto opacity-0 group-hover:opacity-100 transition-all duration-300",
                       isRtl ? "rotate-180" : ""
                     )}
                   />
@@ -681,7 +681,7 @@ export default function Header({
                 <div key={group.title} className="py-2">
                   {/* Enhanced Group with items in mobile menu */}
                   <>
-                    <h3 className="text-sm font-bold text-primary mb-3 px-2 py-1 bg-blue-50/50 dark:bg-blue-900/20 rounded-lg">
+                    <h3 className="text-base lg:text-lg font-bold text-primary mb-3 px-3 py-2 bg-blue-50/50 dark:bg-blue-900/20 rounded-lg">
                       {t(`section.${group.title}`)}
                     </h3>
                     <div className="space-y-2 pl-4 rtl:pr-4 rtl:pl-0">
@@ -689,7 +689,7 @@ export default function Header({
                         <button
                           key={item.key}
                           className={cn(
-                            "flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-all duration-300 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 hover:scale-[1.02] hover:shadow-sm w-full text-left group",
+                            "flex items-center gap-3 px-4 py-3 text-sm lg:text-base rounded-lg transition-all duration-300 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 hover:scale-[1.02] hover:shadow-sm w-full text-left group",
                             item.href.split("?")[0].substring(1) ===
                               activeSection
                               ? "text-primary font-medium bg-blue-50/30 dark:bg-blue-900/10"
@@ -708,7 +708,7 @@ export default function Header({
                           <span>{t(item.key)}</span>
                           <ChevronRight
                             className={cn(
-                              "h-3 w-3 ml-auto opacity-0 group-hover:opacity-100 transition-all duration-300",
+                              "h-4 w-4 lg:h-5 lg:w-5 ml-auto opacity-0 group-hover:opacity-100 transition-all duration-300",
                               isRtl ? "rotate-180" : ""
                             )}
                           />

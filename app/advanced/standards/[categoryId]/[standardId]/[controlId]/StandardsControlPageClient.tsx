@@ -104,7 +104,7 @@ export default function StandardsControlPageClient({ control, categoryId, standa
 
           {/* Safeguards Section */}
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold">{language === "ar" ? "الضمانات" : "Safeguards"}</h2>
+            <h2 className="text-2xl font-bold">{language === "ar" ? "إجراءات الحماية" : "Safeguards"}</h2>
             
             {loading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -140,7 +140,7 @@ export default function StandardsControlPageClient({ control, categoryId, standa
             ) : (
               <div className="text-center py-12">
                 <p className="text-muted-foreground text-lg">
-                  {language === "ar" ? "لا توجد ضمانات متاحة" : "No safeguards available"}
+                  {language === "ar" ? "لا توجد إجراءات حماية متاحة" : "No safeguards available"}
                 </p>
               </div>
             )}

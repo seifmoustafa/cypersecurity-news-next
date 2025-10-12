@@ -9,6 +9,7 @@ import { ArrowLeft, Calendar, FileText, Shield } from "lucide-react"
 import Link from "next/link"
 import { useLanguage } from "@/components/language-provider"
 import { container } from "@/core/di/container"
+import { extractTextContent } from "@/lib/content-purifier"
 
 interface TechniquePageClientProps {
   technique: {
@@ -61,7 +62,7 @@ export default function TechniquePageClient({ technique, procedureId, controlId,
               <Link href={`/advanced/procedures/${procedureId}/${controlId}/${safeguardId}`}>
                 <Button variant="outline" size="sm" className="gap-2">
                   <ArrowLeft className="h-4 w-4" />
-                  <span>{language === "ar" ? "رجوع إلى الضمان" : "Back to Safeguard"}</span>
+                  <span>{language === "ar" ? "رجوع إلى إجراء الحماية" : "Back to Safeguard"}</span>
                 </Button>
               </Link>
             </div>
@@ -131,7 +132,7 @@ export default function TechniquePageClient({ technique, procedureId, controlId,
                           {language === "ar" ? step.nameAr || step.nameEn : step.nameEn || step.nameAr}
                         </h3>
                         <p className="text-sm text-muted-foreground line-clamp-3">
-                          {language === "ar" ? step.descriptionAr || step.descriptionEn : step.descriptionEn || step.descriptionAr}
+                          {extractTextContent(language === "ar" ? step.descriptionAr || step.descriptionEn : step.descriptionEn || step.descriptionAr)}
                         </p>
                       </CardContent>
                     </Card>

@@ -62,7 +62,7 @@ export default function StandardsTechniquePageClient({ technique, categoryId, st
               <Link href={`/advanced/standards/${categoryId}/${standardId}/${controlId}/${safeguardId}`}>
                 <Button variant="outline" size="sm" className="gap-2">
                   <ArrowLeft className="h-4 w-4" />
-                  <span>{language === "ar" ? "رجوع إلى الضمان" : "Back to Safeguard"}</span>
+                  <span>{language === "ar" ? "رجوع إلى الإجراءات حماية" : "Back to Safeguard"}</span>
                 </Button>
               </Link>
             </div>
