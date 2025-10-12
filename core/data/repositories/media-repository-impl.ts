@@ -130,6 +130,45 @@ export class MediaRepositoryImpl implements MediaRepository {
     }
   }
 
+  async getVideosByCategoryForProfessionals(categoryId: string, page = 1, pageSize = 10, search?: string): Promise<VideosPaginatedResponse> {
+    try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        pageSize: pageSize.toString(),
+      })
+
+      if (search && search.trim()) {
+        params.append("search", search.trim())
+      }
+
+      const response = await this.dataSource.get<VideosPaginatedResponse>(`/Videos/professionals/${categoryId}?${params.toString()}`)
+
+      // Transform video and image URLs to include base URL
+      const baseImageUrl = this.dataSource.getBaseImageUrl()
+      const transformedData = response.data.map((video) => ({
+        ...video,
+        videoUrl: video.videoUrl ? `${baseImageUrl}${video.videoUrl}` : video.videoUrl,
+        imageUrl: video.imageUrl ? `${baseImageUrl}${video.imageUrl}` : video.imageUrl,
+      }))
+
+      return {
+        ...response,
+        data: transformedData,
+      }
+    } catch (error) {
+      console.error("MediaRepository: Error fetching videos by category for professionals:", error)
+      return {
+        data: [],
+        pagination: {
+          itemsCount: 0,
+          pagesCount: 0,
+          pageSize: pageSize,
+          currentPage: page,
+        },
+      }
+    }
+  }
+
   async getApiVideoById(id: string): Promise<ApiVideo | null> {
     try {
       const video = await this.dataSource.get<ApiVideo>(`/videos/${id}`)

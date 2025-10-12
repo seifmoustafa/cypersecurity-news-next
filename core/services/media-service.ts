@@ -59,6 +59,10 @@ export class MediaService {
     return this.mediaRepository.getVideosByCategory(categoryId, page, pageSize, search)
   }
 
+  async getVideosByCategoryForProfessionals(categoryId: string, page = 1, pageSize = 10, search?: string): Promise<VideosPaginatedResponse> {
+    return this.mediaRepository.getVideosByCategoryForProfessionals(categoryId, page, pageSize, search)
+  }
+
   async getApiVideoById(id: string): Promise<ApiVideo> {
     const video = await this.mediaRepository.getApiVideoById(id)
     if (!video) {

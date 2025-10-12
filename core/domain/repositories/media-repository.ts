@@ -26,6 +26,7 @@ export interface MediaRepository {
   getPresentationById(id: string): Promise<Presentation | null>
   getVideos(page?: number, pageSize?: number, search?: string): Promise<VideosPaginatedResponse>
   getVideosByCategory(categoryId: string, page?: number, pageSize?: number, search?: string): Promise<VideosPaginatedResponse>
+  getVideosByCategoryForProfessionals(categoryId: string, page?: number, pageSize?: number, search?: string): Promise<VideosPaginatedResponse>
   getApiVideoById(id: string): Promise<ApiVideo | null>
   getLectures(page?: number, pageSize?: number, search?: string): Promise<LecturesPaginatedResponse>
   getLecturesByCategory(categoryId: string, page?: number, pageSize?: number, search?: string): Promise<LecturesPaginatedResponse>
