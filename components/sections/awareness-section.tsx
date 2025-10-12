@@ -12,6 +12,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useNewsCategories } from "@/core/hooks/use-news-categories"
 import { useNewsByCategory } from "@/core/hooks/use-news-by-category"
+import { useNewsByCategoryForProfessionals } from "@/core/hooks/use-news-by-category-for-professionals"
 import { useLatestArticles } from "@/core/hooks/use-articles"
 import { container } from "@/core/di/container"
 import { getLocalizedText } from "@/lib/utils"
@@ -24,7 +25,7 @@ export default function AwarenessSection() {
   const { t, language, isRtl } = useLanguage()
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState("news")
-  const [activeNewsCategory, setActiveNewsCategory] = useState("all")
+  const [activeNewsCategory, setActiveNewsCategory] = useState("")
 
   // Fetch real articles from API
   const { articles, loading: articlesLoading } = useLatestArticles(3)
@@ -43,18 +44,27 @@ export default function AwarenessSection() {
     fetchAwarenessData()
   }, [])
 
+  // Set the first category as default when categories load
+  useEffect(() => {
+    if (categories.length > 0 && !activeNewsCategory) {
+      setActiveNewsCategory(categories[0].id)
+    }
+  }, [categories, activeNewsCategory])
+
   // Listen for external tab-change events
   useEffect(() => {
     const handleTabChange = (e: Event) => {
       const { sectionId, tab } = (e as CustomEvent).detail || {}
       if (sectionId === "awareness" && tab) {
         setActiveTab(tab)
-        if (tab === "news") setActiveNewsCategory("all")
+        if (tab === "news" && categories.length > 0) {
+          setActiveNewsCategory(categories[0].id)
+        }
       }
     }
     window.addEventListener("tabchange", handleTabChange)
     return () => window.removeEventListener("tabchange", handleTabChange)
-  }, [])
+  }, [categories])
 
   return (
     <SectionContainer id="awareness" className="bg-gradient-to-br from-blue-50/50 via-white to-cyan-50/30 dark:from-blue-950/30 dark:via-slate-900 dark:to-cyan-950/20">
@@ -87,13 +97,7 @@ export default function AwarenessSection() {
             <TabsList
               className={`w-full max-w-5xl mx-auto mb-12 flex flex-wrap justify-center bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-blue-200/40 dark:border-blue-800/40 shadow-md shadow-blue-500/10 dark:shadow-blue-500/20 ${isRtl ? "flex-row-reverse" : ""}`}
             >
-              <TabsTrigger value="all" className="flex-grow font-medium transition-all duration-300 hover:scale-105">
-                <span className="flex items-center gap-2">
-                  <Globe className="h-4 w-4" />
-                  {language === "ar" ? "الكل" : "All"}
-                </span>
-              </TabsTrigger>
-              {!categoriesLoading &&
+              {!categoriesLoading && categories.length > 0 ? (
                 categories.map((cat) => (
                   <TabsTrigger key={cat.id} value={cat.id} className="flex-grow font-medium transition-all duration-300 hover:scale-105">
                     <span className="flex items-center gap-2">
@@ -101,22 +105,31 @@ export default function AwarenessSection() {
                       {language === "ar" ? cat.name || cat.nameEn : cat.nameEn || cat.name}
                     </span>
                   </TabsTrigger>
-                ))}
+                ))
+              ) : (
+                <div className="text-muted-foreground py-4">
+                  {language === "ar" ? "لا توجد فئات متاحة" : "No categories available"}
+                </div>
+              )}
             </TabsList>
 
-            <TabsContent value="all">
-              <AllNewsContent />
-            </TabsContent>
-
-            {categories.map((cat) => (
-              <TabsContent key={cat.id} value={cat.id}>
-                <CategoryNewsContent
-                  categoryId={cat.id}
-                  categoryName={language === "ar" ? (cat.name || cat.nameEn || "") : (cat.nameEn || cat.name || "")}
-                  categoryNameEn={cat.nameEn || cat.name || ""}
-                />
-              </TabsContent>
-            ))}
+            {!categoriesLoading && categories.length > 0 ? (
+              categories.map((cat) => (
+                <TabsContent key={cat.id} value={cat.id}>
+                  <CategoryNewsContent
+                    categoryId={cat.id}
+                    categoryName={language === "ar" ? (cat.name || cat.nameEn || "") : (cat.nameEn || cat.name || "")}
+                    categoryNameEn={cat.nameEn || cat.name || ""}
+                  />
+                </TabsContent>
+              ))
+            ) : (
+              <div className="text-center py-10">
+                <p className="text-muted-foreground">
+                  {language === "ar" ? "لا توجد فئات أخبار متاحة" : "No news categories available"}
+                </p>
+              </div>
+            )}
           </Tabs>
         </TabsContent>
 
@@ -171,8 +184,8 @@ function AllNewsContent() {
     const load = async () => {
       setLoading(true)
       try {
-        // Get first 6 news items for preview
-        const data = await container.services.news.getNewsByCategory(null, 1, 6)
+        // Get first 6 news items for preview using the professionals endpoint
+        const data = await container.services.news.getNewsByCategoryForProfessionals("3d25ba9f-3a6f-4c04-bfb0-488cc22822ed", 1, 6)
         setAllNews(data)
       } catch (error) {
         console.error("Error fetching all news:", error)
@@ -223,7 +236,7 @@ function CategoryNewsContent({
   categoryNameEn: string
 }) {
   const { language, isRtl } = useLanguage()
-  const { news, loading } = useNewsByCategory(categoryId, 1, 6)
+  const { news, loading } = useNewsByCategoryForProfessionals(categoryId, 1, 6)
 
   // Use the category ID directly for URL generation
   const categoryUrl = categoryId

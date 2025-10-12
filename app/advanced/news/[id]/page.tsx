@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { container } from "@/core/di/container"
 import NewsDetailPageClient from "./NewsDetailPageClient"
+import MainLayout from "@/components/layouts/main-layout"
 
 interface PageProps {
   params: {
@@ -43,7 +44,11 @@ export default async function NewsDetailPage({ params }: PageProps) {
       notFound()
     }
 
-    return <NewsDetailPageClient news={news} />
+    return (
+      <MainLayout>
+        <NewsDetailPageClient news={news} />
+      </MainLayout>
+    )
   } catch (error) {
     console.error("❌ Error in NewsDetailPage:", error)
     notFound()

@@ -113,6 +113,39 @@ export class NewsRepositoryImpl implements NewsRepository {
     }
   }
 
+  async getNewsByCategoryForProfessionals(categoryId: string | null, page = 1, pageSize = 10, search?: string): Promise<News[]> {
+    try {
+      let endpoint: string
+      
+      if (categoryId && categoryId !== "all" && categoryId.trim() !== "") {
+        console.log(`🔍 Fetching news for specific category ID: "${categoryId}" (professionals)`)
+        endpoint = `/News/professionals/${categoryId}?page=${page}&pageSize=${pageSize}`
+        
+        if (search && search.trim()) {
+          endpoint += `&search=${encodeURIComponent(search.trim())}`
+        }
+      } else {
+        console.log("🔍 Fetching ALL news (no category filter) (professionals)")
+        endpoint = `/News/professionals/3d25ba9f-3a6f-4c04-bfb0-488cc22822ed?page=${page}&pageSize=${pageSize}`
+        
+        if (search && search.trim()) {
+          endpoint += `&search=${encodeURIComponent(search.trim())}`
+        }
+      }
+
+      console.log(`📡 API endpoint: ${endpoint}`)
+      const response = await this.apiDataSource.get<NewsResponse>(endpoint)
+      const newsData = this.transformNewsData(response.data)
+
+      console.log(`✅ Successfully fetched ${newsData.length} news items`)
+      return newsData
+    } catch (error) {
+      console.error(`❌ Error fetching news by category "${categoryId}" (professionals):`, error)
+      // DON'T FALLBACK TO ALL NEWS - Let the error bubble up
+      throw error
+    }
+  }
+
   async getLatestNews(count = 5): Promise<News[]> {
     try {
       const response = await this.apiDataSource.get<LatestNews[]>("/News/last5")

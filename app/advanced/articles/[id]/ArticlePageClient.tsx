@@ -28,20 +28,7 @@ export default function ArticlePageClient({ article }: ArticlePageClientProps) {
     <MainLayout>
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4 py-8">
-        {/* Breadcrumb */}
-        <div className={`mb-8 ${isRtl ? "text-right" : "text-left"}`}>
-          <div className={`flex items-center gap-2 text-sm text-muted-foreground ${isRtl ? "flex-row-reverse" : ""}`}>
-            <Link href="/" className="hover:text-primary transition-colors">
-              {t("nav.home")}
-            </Link>
-            <span>{isRtl ? "←" : "→"}</span>
-            <Link href="/advanced/articles" className="hover:text-primary transition-colors">
-              {t("articles.title")}
-            </Link>
-            <span>{isRtl ? "←" : "→"}</span>
-            <span className="text-foreground font-medium line-clamp-1">{displayTitle}</span>
-          </div>
-        </div>
+        
 
         {/* Back Button */}
         <div className={`mb-8 ${isRtl ? "text-right" : "text-left"}`}>

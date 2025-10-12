@@ -51,6 +51,15 @@ export class NewsService {
     }
   }
 
+  async getNewsByCategoryForProfessionals(categoryId: string | null, page = 1, pageSize = 10, search?: string): Promise<News[]> {
+    try {
+      return await this.repository.getNewsByCategoryForProfessionals(categoryId, page, pageSize, search)
+    } catch (error) {
+      console.error("NewsService: Error getting news by category for professionals:", error)
+      return []
+    }
+  }
+
   async getLatestNews(count = 5): Promise<News[]> {
     try {
       return await this.repository.getLatestNews(count)

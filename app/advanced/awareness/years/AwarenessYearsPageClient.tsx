@@ -32,7 +32,7 @@ export default function AwarenessYearsPageClient() {
       <div className="container mx-auto px-4 py-8">
         {/* Back Button to Homepage Awareness Section */}
         <div className="mb-6">
-          <Button variant="ghost" onClick={() => router.push("/#awareness")} className="flex items-center gap-2">
+          <Button variant="ghost" onClick={() => router.push("/advanced#awareness")} className="flex items-center gap-2">
             {isRtl ? <ArrowRight className="h-4 w-4" /> : <ArrowLeft className="h-4 w-4" />}
             {language === "ar" ? "العودة للرئيسية" : "Back to Home"}
           </Button>

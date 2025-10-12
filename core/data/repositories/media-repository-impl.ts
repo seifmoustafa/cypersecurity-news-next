@@ -548,7 +548,7 @@ export class MediaRepositoryImpl implements MediaRepository {
         params.append("search", search.trim())
       }
 
-      const response = await this.dataSource.get<ArticlesPaginatedResponse>(`/Articles/beginners?${params.toString()}`)
+      const response = await this.dataSource.get<ArticlesPaginatedResponse>(`/Articles/professionals?${params.toString()}`)
 
       // Transform image URLs to include base URL
       const baseImageUrl = this.dataSource.getBaseImageUrl()

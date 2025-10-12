@@ -38,8 +38,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function NewsCategoryPage({ params }: PageProps) {
   try {
-    // Get news for this category first
-    const newsData = await container.services.news.getNewsByCategory(params.id, 1, 100)
+    // Get news for this category first using the professionals endpoint
+    const newsData = await container.services.news.getNewsByCategoryForProfessionals(params.id, 1, 100)
 
     if (!newsData || newsData.length === 0) {
       notFound()
