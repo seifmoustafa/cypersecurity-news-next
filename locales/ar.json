@@ -31,7 +31,7 @@
     "awareness": "التوعية",
     "news": "الأخبار",
     "videos": "فيديوهات",
-    "definitions": "المفاهيم",
+    "definitions": "دليل المصطلحات",
     "framework": "إطار العمل",
     "standards": "المعايير",
     "cybersecurityRegulation": "تنظيم الأمن السيبراني",
@@ -89,9 +89,9 @@
         "presentations": "العروض التقديمية"
       },
       "definitions": {
-        "title": "المفاهيم",
+        "title": "دليل المصطلحات",
         "description": "قاموس شامل للمصطلحات والمفاهيم الأساسية في الأمن السيبراني",
-        "terms": "المصطلحات الأساسية",
+        "terms": "دليل المصطلحات الأساسية",
         "categories": "التصنيفات"
       },
       "personalProtect": {
@@ -317,6 +317,8 @@
     "viewAll": "عرض الكل"
   },
   "common": {
+    "watch": "مشاهدة",
+    "explore": "استكشف",
     "simpleLayout": "صفحة المبتدئيين",
     "fullLayout": "كل الإطار",
     "backToList": "العودة للقائمة",
@@ -570,5 +572,37 @@
     "updated": "تاريخ التحديث",
     "status": "الحالة",
     "previewNotAvailable": "المعاينة غير متاحة"
+  },
+  "search": {
+    "title": "البحث",
+    "searchResults": "نتائج البحث",
+    "helperCategories": "فئات الإرشادات",
+    "searchPlaceholder": "ابحث في المحتوى...",
+    "searchError": "خطأ في البحث",
+    "noResults": "لا توجد نتائج",
+    "noResultsDescription": "لم نتمكن من العثور على أي محتوى يطابق بحثك",
+    "noHelperCategories": "لا توجد فئات إرشادات",
+    "noHelperCategoriesDescription": "لا توجد فئات إرشادات متاحة حالياً",
+    "resultsCount": "{{count}} نتيجة",
+    "categoriesCount": "{{count}} فئة",
+    "entityTypes": {
+      "all": "الكل",
+      "video": "فيديوهات",
+      "lecture": "المحاضرات",
+      "news": "الأخبار",
+      "definition": "المفاهيم",
+      "awareness": "التوعية",
+      "reference": "المراجع",
+      "helperCategory": "فئات الإرشادات"
+    },
+    "entityTypesSingular": {
+      "video": "فيديو",
+      "lecture": "محاضرة",
+      "news": "خبر",
+      "definition": "مفهوم",
+      "awareness": "توعية",
+      "reference": "مرجع",
+      "helperCategory": "فئة إرشادات"
+    }
   }
 }

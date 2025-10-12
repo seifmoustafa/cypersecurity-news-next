@@ -117,7 +117,7 @@ export default function LectureDetailPage({ params }: LectureDetailPageProps) {
               {/* Featured Image */}
               <div className="relative group">
                 <div className="relative h-96 overflow-hidden rounded-3xl shadow-2xl">
-                  <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                  <div className="w-full h-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
                     <div className="bg-white/20 backdrop-blur-sm rounded-full p-8">
                       <FileText className="h-16 w-16 text-white" />
                     </div>
@@ -127,7 +127,7 @@ export default function LectureDetailPage({ params }: LectureDetailPageProps) {
                   {/* Floating Category Badge */}
                   <div className="absolute top-6 left-6">
                     <div className="flex items-center gap-2 px-4 py-2 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-full shadow-lg border border-white/20 dark:border-white/10">
-                      <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                      <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-blue-500 rounded-full"></div>
                       <span className="text-sm font-semibold text-gray-900 dark:text-white">
                         {language === "ar" ? "محاضرة " : "Educational Lecture"}
                       </span>
@@ -169,7 +169,7 @@ export default function LectureDetailPage({ params }: LectureDetailPageProps) {
                 {/* Meta Information */}
                 <div className="flex flex-wrap items-center gap-6 py-6 border-t border-b border-gray-200 dark:border-gray-700">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-full flex items-center justify-center">
+                    <div className="w-10 h-10 bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-900/30 dark:to-blue-900/30 rounded-full flex items-center justify-center">
                       <Calendar className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
                     </div>
                     <div>
@@ -183,7 +183,7 @@ export default function LectureDetailPage({ params }: LectureDetailPageProps) {
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 rounded-full flex items-center justify-center">
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-blue-100 dark:from-blue-900/30 dark:to-blue-900/30 rounded-full flex items-center justify-center">
                       <FileText className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                     </div>
                     <div>
@@ -206,9 +206,9 @@ export default function LectureDetailPage({ params }: LectureDetailPageProps) {
               )}
 
               {/* Tags Section */}
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl p-6 border border-blue-200 dark:border-blue-800">
+              <div className="bg-gradient-to-r from-blue-50 to-blue-50 dark:from-blue-900/20 dark:to-blue-900/20 rounded-2xl p-6 border border-blue-200 dark:border-blue-800">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 rounded-full flex items-center justify-center">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-blue-100 dark:from-blue-900/30 dark:to-blue-900/30 rounded-full flex items-center justify-center">
                     <Tag className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -217,7 +217,7 @@ export default function LectureDetailPage({ params }: LectureDetailPageProps) {
                 </div>
                 <div className="flex flex-wrap gap-3">
                   {lecture.forBeginners && (
-                    <span className="px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-800 dark:text-blue-200 text-sm font-medium rounded-full border border-blue-200 dark:border-blue-800 hover:from-blue-200 hover:to-purple-200 dark:hover:from-blue-800/50 dark:hover:to-purple-800/50 transition-all duration-300">
+                    <span className="px-4 py-2 bg-gradient-to-r from-blue-100 to-blue-100 dark:from-blue-900/30 dark:to-blue-900/30 text-blue-800 dark:text-blue-200 text-sm font-medium rounded-full border border-blue-200 dark:border-blue-800 hover:from-blue-200 hover:to-blue-200 dark:hover:from-blue-800/50 dark:hover:to-blue-800/50 transition-all duration-300">
                       {language === "ar" ? "للعامة" : "For Beginners"}
                     </span>
                   )}
@@ -230,10 +230,10 @@ export default function LectureDetailPage({ params }: LectureDetailPageProps) {
               </div>
 
               {/* Share Section */}
-              <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-slate-800 dark:to-slate-700 rounded-2xl p-8 border border-indigo-200 dark:border-indigo-800">
+              <div className="bg-gradient-to-r from-indigo-50 to-blue-50 dark:from-slate-800 dark:to-slate-700 rounded-2xl p-8 border border-indigo-200 dark:border-indigo-800">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-full flex items-center justify-center">
+                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-900/30 dark:to-blue-900/30 rounded-full flex items-center justify-center">
                       <Share2 className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
                     </div>
                     <div>
@@ -261,9 +261,9 @@ export default function LectureDetailPage({ params }: LectureDetailPageProps) {
             {/* Sidebar */}
             <div className="space-y-8">
               {/* Quick Stats */}
-              <div className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-slate-800 dark:to-slate-700 rounded-2xl p-6 border border-indigo-200 dark:border-indigo-800">
+              <div className="bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-slate-800 dark:to-slate-700 rounded-2xl p-6 border border-indigo-200 dark:border-indigo-800">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-full flex items-center justify-center">
+                  <div className="w-10 h-10 bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-900/30 dark:to-blue-900/30 rounded-full flex items-center justify-center">
                     <TrendingUp className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white">

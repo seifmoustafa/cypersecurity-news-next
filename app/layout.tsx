@@ -35,16 +35,21 @@ export default function RootLayout({
         />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(() => {
-              try {
-                const storageKey = 'theme-preference';
-                const stored = localStorage.getItem(storageKey);
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                const isDark = stored ? stored === 'dark' : prefersDark;
-                const root = document.documentElement.classList;
-                if (isDark) root.add('dark'); else root.remove('dark');
-              } catch (_) {}
-            })();`,
+            __html: `
+              (function() {
+                try {
+                  var storageKey = 'theme-preference';
+                  var stored = localStorage.getItem(storageKey);
+                  var isDark = stored ? stored === 'dark' : true; // Default to dark
+                  var root = document.documentElement;
+                  if (isDark) {
+                    root.classList.add('dark');
+                  } else {
+                    root.classList.remove('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
           }}
         />
       </head>
@@ -65,5 +70,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-

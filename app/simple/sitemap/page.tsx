@@ -289,7 +289,7 @@ export default function BeginnersSitemapPage() {
     },
     {
       id: "definitions",
-      title: language === "ar" ? "المفاهيم" : "Definitions",
+      title: language === "ar" ? "دليل المصطلحات" : "Definitions",
       icon: BookOpen,
       href: "/simple/definitions-categories",
       description: language === "ar" ? "تعريفات الأمن السيبراني" : "Cybersecurity definitions",

@@ -98,7 +98,7 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
             </p>
             <Link 
               href="/simple/media/references"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-2xl hover:from-indigo-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
             >
               {isRtl ? (
                 <>
@@ -136,7 +136,7 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
               {/* Featured Image */}
               <div className="relative group">
                 <div className="relative h-96 overflow-hidden rounded-3xl shadow-2xl">
-                  <div className="w-full h-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center">
+                  <div className="w-full h-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
                     <div className="bg-white/20 backdrop-blur-sm rounded-full p-12 group-hover:scale-110 transition-transform duration-300">
                       <FileText className="h-24 w-24 text-white" />
                     </div>
@@ -146,7 +146,7 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
                   {/* Floating Category Badge */}
                   <div className="absolute top-6 left-6">
                     <div className="flex items-center gap-2 px-4 py-2 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-full shadow-lg border border-white/20 dark:border-white/10">
-                      <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full"></div>
+                      <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full"></div>
                       <span className="text-sm font-semibold text-gray-900 dark:text-white">
                         {language === "ar" ? "مرجع" : "Reference"}
                       </span>
@@ -161,7 +161,7 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
                         download
                         className="flex items-center gap-2 px-6 py-3 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-full shadow-lg border border-white/20 dark:border-white/10 hover:bg-white dark:hover:bg-slate-800 transition-all duration-300"
                       >
-                        <Download className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                        <Download className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                         <span className="text-sm font-semibold text-gray-900 dark:text-white">
                           {language === "ar" ? "تحميل" : "Download"}
                         </span>
@@ -179,7 +179,7 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
                   </h1>
                   
                   {displaySummary && (
-                    <div className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-slate-800 dark:to-slate-700 p-6 rounded-2xl border-l-4 border-purple-500">
+                    <div className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-700 p-6 rounded-2xl border-l-4 border-blue-500">
                       {displaySummary}
                     </div>
                   )}
@@ -188,8 +188,8 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
                 {/* Meta Information */}
                 <div className="flex flex-wrap items-center gap-6 py-6 border-t border-b border-gray-200 dark:border-gray-700">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-purple-100 to-indigo-100 dark:from-purple-900/30 dark:to-indigo-900/30 rounded-full flex items-center justify-center">
-                      <Calendar className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-full flex items-center justify-center">
+                      <Calendar className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                     </div>
                     <div>
                       <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
@@ -221,17 +221,17 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
 
               {/* Article Content */}
               {displayDescription && (
-                <div className="prose prose-xl dark:prose-invert max-w-none prose-headings:text-gray-900 dark:prose-headings:text-white prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-strong:text-gray-900 dark:prose-strong:text-white prose-a:text-purple-600 dark:prose-a:text-purple-400 prose-a:no-underline hover:prose-a:underline prose-blockquote:border-purple-500 prose-blockquote:bg-purple-50 dark:prose-blockquote:bg-purple-900/20 prose-blockquote:rounded-xl prose-blockquote:p-6">
+                <div className="prose prose-xl dark:prose-invert max-w-none prose-headings:text-gray-900 dark:prose-headings:text-white prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-strong:text-gray-900 dark:prose-strong:text-white prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 dark:prose-blockquote:bg-blue-900/20 prose-blockquote:rounded-xl prose-blockquote:p-6">
                   <div dangerouslySetInnerHTML={{ __html: displayDescription }} />
                 </div>
               )}
 
               {/* Tags Section */}
               {reference.tags && reference.tags.length > 0 && (
-                <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-2xl p-6 border border-purple-200 dark:border-purple-800">
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-2xl p-6 border border-blue-200 dark:border-blue-800">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-gradient-to-br from-purple-100 to-indigo-100 dark:from-purple-900/30 dark:to-indigo-900/30 rounded-full flex items-center justify-center">
-                      <Tag className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-full flex items-center justify-center">
+                      <Tag className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                     </div>
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                       {language === "ar" ? "العلامات" : "Tags"}
@@ -241,7 +241,7 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
                     {reference.tags.map((tag, index) => (
                       <span 
                         key={index}
-                        className="px-4 py-2 bg-gradient-to-r from-purple-100 to-indigo-100 dark:from-purple-900/30 dark:to-indigo-900/30 text-purple-800 dark:text-purple-200 text-sm font-medium rounded-full border border-purple-200 dark:border-purple-800 hover:from-purple-200 hover:to-indigo-200 dark:hover:from-purple-800/50 dark:hover:to-indigo-800/50 transition-all duration-300"
+                        className="px-4 py-2 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 text-sm font-medium rounded-full border border-blue-200 dark:border-blue-800 hover:from-blue-200 hover:to-indigo-200 dark:hover:from-blue-800/50 dark:hover:to-indigo-800/50 transition-all duration-300"
                       >
                         #{tag}
                       </span>
@@ -251,11 +251,11 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
               )}
 
               {/* Share Section */}
-              <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-slate-800 dark:to-slate-700 rounded-2xl p-8 border border-purple-200 dark:border-purple-800">
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-700 rounded-2xl p-8 border border-blue-200 dark:border-blue-800">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-indigo-100 dark:from-purple-900/30 dark:to-indigo-900/30 rounded-full flex items-center justify-center">
-                      <Share2 className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-full flex items-center justify-center">
+                      <Share2 className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -285,8 +285,8 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
               {filteredRelatedReferences.length > 0 && (
                 <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-slate-700">
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 bg-gradient-to-br from-purple-100 to-indigo-100 dark:from-purple-900/30 dark:to-indigo-900/30 rounded-full flex items-center justify-center">
-                      <BookOpen className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-full flex items-center justify-center">
+                      <BookOpen className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                     </div>
                     <h2 className="text-xl font-bold text-gray-900 dark:text-white">
                       {language === "ar" ? "مراجع ذات صلة" : "Related References"}
@@ -306,7 +306,7 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
                           style={{ animationDelay: `${index * 100}ms` }}
                         >
                           <div className="space-y-3">
-                            <h3 className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300 line-clamp-2">
+                            <h3 className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 line-clamp-2">
                               {relatedTitle}
                             </h3>
                             
@@ -316,13 +316,13 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
                             </div>
                             
                             <div className="flex items-center justify-between">
-                              <span className="text-sm font-medium text-purple-600 dark:text-purple-400 group-hover:text-purple-700 dark:group-hover:text-purple-300 transition-colors duration-300">
+                              <span className="text-sm font-medium text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors duration-300">
                                 {language === "ar" ? "عرض المرجع" : "View Reference"}
                               </span>
                               {isRtl ? (
-                                <ArrowLeft className="h-4 w-4 text-purple-600 dark:text-purple-400 group-hover:-translate-x-1 transition-transform duration-300" />
+                                <ArrowLeft className="h-4 w-4 text-blue-600 dark:text-blue-400 group-hover:-translate-x-1 transition-transform duration-300" />
                               ) : (
-                                <ArrowRight className="h-4 w-4 text-purple-600 dark:text-purple-400 group-hover:translate-x-1 transition-transform duration-300" />
+                                <ArrowRight className="h-4 w-4 text-blue-600 dark:text-blue-400 group-hover:translate-x-1 transition-transform duration-300" />
                               )}
                             </div>
                           </div>
@@ -334,10 +334,10 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
               )}
 
               {/* Quick Stats */}
-              <div className="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-slate-800 dark:to-slate-700 rounded-2xl p-6 border border-purple-200 dark:border-purple-800">
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-700 rounded-2xl p-6 border border-blue-200 dark:border-blue-800">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-purple-100 to-indigo-100 dark:from-purple-900/30 dark:to-indigo-900/30 rounded-full flex items-center justify-center">
-                    <TrendingUp className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-full flex items-center justify-center">
+                    <TrendingUp className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                     {language === "ar" ? "معلومات المرجع" : "Reference Info"}

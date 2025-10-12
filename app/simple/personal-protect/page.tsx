@@ -161,7 +161,7 @@ export default function PersonalProtectPage() {
                 </div>
 
                 {/* Quick Access Links - Responsive */}
-                <div className="space-y-1 sm:space-y-2 flex-1 flex flex-col justify-center">
+                <div className="space-y-1 sm:space-y-2 flex-1 flex flex-col justify-start">
                   {videoCategories.map((category, categoryIndex) => (
                     <Link
                       key={`video-${category.id}`}

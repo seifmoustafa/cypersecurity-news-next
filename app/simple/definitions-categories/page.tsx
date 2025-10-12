@@ -53,7 +53,7 @@ export default function SimpleDefinitionsCategoriesPage() {
         <div className="container mx-auto px-4 py-8">
           <Breadcrumbs 
             items={[
-              { label: language === "ar" ? "المفاهيم" : "Definitions" }
+              { label: language === "ar" ? "دليل المصطلحات" : "Definitions" }
             ]} 
           />
 
@@ -66,7 +66,7 @@ export default function SimpleDefinitionsCategoriesPage() {
             </h1>
             <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
               {language === "ar" 
-                ? "حدث خطأ أثناء تحميل فئات المفاهيم. يرجى المحاولة مرة أخرى."
+                ? "حدث خطأ أثناء تحميل فئات دليل المصطلحات. يرجى المحاولة مرة أخرى."
                 : "An error occurred while loading definition categories. Please try again."
               }
             </p>
@@ -98,7 +98,7 @@ export default function SimpleDefinitionsCategoriesPage() {
         {/* Breadcrumbs */}
         <Breadcrumbs 
           items={[
-            { label: language === "ar" ? "المفاهيم" : "Definitions" }
+            { label: language === "ar" ? "دليل المصطلحات" : "Definitions" }
           ]} 
         />
 
@@ -110,7 +110,7 @@ export default function SimpleDefinitionsCategoriesPage() {
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder={language === "ar" ? "ابحث في فئات المفاهيم..." : "Search definition categories..."}
+                placeholder={language === "ar" ? "ابحث في فئات دليل المصطلحات..." : "Search definition categories..."}
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-indigo-500 outline-none text-gray-900 dark:text-white"
               />
             </div>
@@ -173,7 +173,7 @@ export default function SimpleDefinitionsCategoriesPage() {
                         {displayName}
                       </h3>
                       <p className="text-gray-600 dark:text-gray-400 text-sm">
-                        {language === "ar" ? "انقر لعرض المفاهيم" : "Click to view definitions"}
+                        {language === "ar" ? "انقر لعرض دليل المصطلحات" : "Click to view definitions"}
                       </p>
                       
                       {/* Arrow */}

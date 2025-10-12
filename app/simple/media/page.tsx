@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useLanguage } from "@/components/language-provider"
-import { 
-  Video, 
-  Play, 
-  GraduationCap, 
-  Presentation, 
+import { useEffect, useState } from "react";
+import { useLanguage } from "@/components/language-provider";
+import {
+  Video,
+  Play,
+  GraduationCap,
+  Presentation,
   Newspaper,
   ArrowRight,
   ArrowLeft,
@@ -23,63 +23,69 @@ import {
   FileText,
   BookOpen,
   Shield,
-  Calendar
-} from "lucide-react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { container } from "@/core/di/container"
-import Breadcrumbs from "@/components/breadcrumbs"
-import { useReferences } from "@/core/hooks/use-references"
-import { useLectureCategories } from "@/core/hooks/use-lecture-categories"
+  Calendar,
+} from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { container } from "@/core/di/container";
+import Breadcrumbs from "@/components/breadcrumbs";
+import { useReferences } from "@/core/hooks/use-references";
+import { useLectureCategories } from "@/core/hooks/use-lecture-categories";
 
 export default function BeginnersMediaPage() {
-  const { language, t } = useLanguage()
-  const isRtl = language === "ar"
+  const { language, t } = useLanguage();
+  const isRtl = language === "ar";
   const [mediaStats, setMediaStats] = useState({
     videos: 0,
     lectures: 0,
-  })
+  });
 
-  
   // Fetch categories and data from backend
-  const { references, loading: referencesLoading } = useReferences("", 1, 2)
-  const { categories: lectureCategories } = useLectureCategories(1, 100)
+  const { references, loading: referencesLoading } = useReferences("", 1, 100);
+  const { categories: lectureCategories } = useLectureCategories(1, 100);
 
   useEffect(() => {
     const fetchMediaStats = async () => {
       try {
         // Fetch real data from backend services
-        const mediaData = await container.services.media.getAllMedia(1, 100)
-        
+        const mediaData = await container.services.media.getAllMedia(1, 100);
+
         setMediaStats({
-          videos: mediaData?.filter((item: any) => item.type === 'video').length || 0,
-          lectures: mediaData?.filter((item: any) => item.type === 'lecture').length || 0,
-        })
+          videos:
+            mediaData?.filter((item: any) => item.type === "video").length || 0,
+          lectures:
+            mediaData?.filter((item: any) => item.type === "lecture").length ||
+            0,
+        });
       } catch (error) {
-        console.error('Error fetching media stats:', error)
+        console.error("Error fetching media stats:", error);
         // Fallback to default counts
         setMediaStats({
           videos: 50,
           lectures: 30,
-        })
+        });
       }
-    }
+    };
 
-    fetchMediaStats()
-  }, [])
+    fetchMediaStats();
+  }, []);
 
   const mediaCategories = [
     {
       id: "references",
       title: language === "ar" ? "مراجع" : "References",
-      description: language === "ar" ? "مراجع وموارد شاملة للبحث والتعلم المتقدم" : "Comprehensive references and resources for advanced research and learning",
+      description:
+        language === "ar"
+          ? "مراجع وموارد شاملة للبحث والتعلم المتقدم"
+          : "Comprehensive references and resources for advanced research and learning",
       icon: BookOpen,
       color: "from-sky-500 to-blue-600",
       bgColor: "bg-sky-50 dark:bg-sky-900/20",
       borderColor: "border-sky-200 dark:border-sky-800",
       count: "",
       href: "/simple/media/references",
-      imagePath: "/assets/images/beginners/Gemini_Generated_Image_ry6ctary6ctary6c.png",
+      imagePath:
+        "/assets/images/beginners/Gemini_Generated_Image_ry6ctary6ctary6c.png",
       items: [
         {
           title: language === "ar" ? "الكتب المرجعية" : "Reference Books",
@@ -96,26 +102,31 @@ export default function BeginnersMediaPage() {
           href: "/simple/media/references/guides",
           icon: FileText,
         },
-      ]
+      ],
     },
     {
       id: "lectures",
       title: language === "ar" ? "المحاضرات" : "Lectures",
-      description: language === "ar" ? "محاضرات مفصلة من خبراء الأمن السيبراني" : "Detailed lectures from cybersecurity experts",
+      description:
+        language === "ar"
+          ? "محاضرات مفصلة من خبراء الأمن السيبراني"
+          : "Detailed lectures from cybersecurity experts",
       icon: GraduationCap,
       color: "from-blue-500 to-cyan-600",
       bgColor: "bg-blue-50 dark:bg-blue-900/20",
       borderColor: "border-blue-200 dark:border-blue-800",
       count: "",
       href: "/simple/media/lectures",
-      imagePath: "/assets/images/beginners/Gemini_Generated_Image_2q2d7n2q2d7n2q2d.png",
-      items: lectureCategories.map(category => ({
-        title: language === "ar" ? category.name : category.nameEn || category.name,
+      imagePath:
+        "/assets/images/beginners/Gemini_Generated_Image_2q2d7n2q2d7n2q2d.png",
+      items: lectureCategories.map((category) => ({
+        title:
+          language === "ar" ? category.name : category.nameEn || category.name,
         href: `/simple/media/lectures/${category.id}`,
         icon: GraduationCap,
-      }))
-    }
-  ]
+      })),
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
@@ -130,18 +141,19 @@ export default function BeginnersMediaPage() {
       <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 pt-16 sm:pt-20 md:pt-24 pb-6 sm:pb-8">
         {/* Breadcrumbs - Responsive */}
         <div className="mb-4 sm:mb-6 md:mb-8">
-          <Breadcrumbs 
+          <Breadcrumbs
             items={[
-              { label: language === "ar" ? "المكتبة الثقافية" : "Media Library" }
-            ]} 
+              {
+                label: language === "ar" ? "المكتبة الثقافية" : "Media Library",
+              },
+            ]}
           />
         </div>
-
 
         {/* Media Categories Grid - Responsive */}
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 max-w-7xl mx-auto">
           {mediaCategories.map((category, index) => {
-            const IconComponent = category.icon
+            const IconComponent = category.icon;
             return (
               <Link
                 key={category.id}
@@ -151,17 +163,18 @@ export default function BeginnersMediaPage() {
                 <div
                   className={`relative ${category.bgColor} backdrop-blur-sm border-2 ${category.borderColor} rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-green-500/20 h-full flex flex-col cursor-pointer`}
                   onMouseMove={(e) => {
-                    const el = e.currentTarget as HTMLDivElement
-                    const rect = el.getBoundingClientRect()
-                    const x = e.clientX - rect.left
-                    const y = e.clientY - rect.top
-                    const rotateX = ((y - rect.height / 2) / rect.height) * -5
-                    const rotateY = ((x - rect.width / 2) / rect.width) * 5
-                    el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`
+                    const el = e.currentTarget as HTMLDivElement;
+                    const rect = el.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const rotateX = ((y - rect.height / 2) / rect.height) * -5;
+                    const rotateY = ((x - rect.width / 2) / rect.width) * 5;
+                    el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
                   }}
                   onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLDivElement
-                    el.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)"
+                    const el = e.currentTarget as HTMLDivElement;
+                    el.style.transform =
+                      "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
                   }}
                   style={{ transform: "perspective(1000px)" }}
                 >
@@ -187,7 +200,7 @@ export default function BeginnersMediaPage() {
                     </div>
 
                     {/* Quick Access Links - Responsive */}
-                    <div className="space-y-1 sm:space-y-2 flex-1 flex flex-col justify-center">
+                    <div className="space-y-1 sm:space-y-2 flex-1 flex flex-col justify-start">
                       {category.id === "references" ? (
                         // Show actual references for references card
                         <>
@@ -195,7 +208,10 @@ export default function BeginnersMediaPage() {
                             // Loading state
                             <>
                               {[...Array(2)].map((_, index) => (
-                                <div key={index} className="flex items-center justify-between p-2 sm:p-3 bg-white/50 dark:bg-white/5 rounded-md sm:rounded-lg border border-white/20 dark:border-white/10 animate-pulse">
+                                <div
+                                  key={index}
+                                  className="flex items-center justify-between p-2 sm:p-3 bg-white/50 dark:bg-white/5 rounded-md sm:rounded-lg border border-white/20 dark:border-white/10 animate-pulse"
+                                >
                                   <div className="flex-1 min-w-0">
                                     <div className="h-3 sm:h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-1 sm:mb-2"></div>
                                     <div className="h-2 sm:h-3 bg-gray-300 dark:bg-gray-700 rounded w-1/2"></div>
@@ -206,57 +222,41 @@ export default function BeginnersMediaPage() {
                             </>
                           ) : references.length > 0 ? (
                             // Show actual references
-                            references.slice(0, 2).map((reference, referenceIndex) => (
-                              <Link
-                                key={reference.id}
-                                href={`/simple/media/references/${reference.id}`}
-                                onClick={(e) => e.stopPropagation()}
-                                className="flex items-center justify-between p-2 sm:p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-md sm:rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
-                              >
-                                <div className="flex-1 min-w-0">
-                                  <span className="text-gray-700 dark:text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium group-hover/item:text-purple-700 dark:group-hover/item:text-purple-400 transition-colors duration-300 line-clamp-1">
-                                    {language === "ar" ? reference.title : reference.titleEn || reference.title}
-                                  </span>
-                                  <div className="flex items-center gap-1 sm:gap-2 mt-1">
-                                    <Calendar className="h-2 w-2 sm:h-3 sm:w-3 text-gray-400" />
-                                    <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                                      {new Date(reference.createdAt).toLocaleDateString()}
+                            references
+                              .slice(0, 2)
+                              .map((reference, referenceIndex) => (
+                                <Link
+                                  key={reference.id}
+                                  href={`/simple/media/references/${reference.id}`}
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="flex items-center justify-between p-2 sm:p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-md sm:rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
+                                >
+                                  <div className="flex-1 min-w-0">
+                                    <span className="text-gray-700 dark:text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium group-hover/item:text-blue-700 dark:group-hover/item:text-blue-400 transition-colors duration-300 line-clamp-1">
+                                      {language === "ar"
+                                        ? reference.title
+                                        : reference.titleEn || reference.title}
                                     </span>
                                   </div>
-                                </div>
-                                <div className="flex items-center">
-                                  {isRtl ? (
-                                    <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-purple-600 dark:group-hover/item:text-purple-400 transition-colors duration-300" />
-                                  ) : (
-                                    <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-purple-600 dark:group-hover/item:text-purple-400 transition-colors duration-300" />
-                                  )}
-                                </div>
-                              </Link>
-                            ))
+                                  <div className="flex items-center">
+                                    {isRtl ? (
+                                      <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-blue-600 dark:group-hover/item:text-blue-400 transition-colors duration-300" />
+                                    ) : (
+                                      <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-blue-600 dark:group-hover/item:text-blue-400 transition-colors duration-300" />
+                                    )}
+                                  </div>
+                                </Link>
+                              ))
                           ) : (
                             // Empty state - show message
-                            <div className="flex items-center justify-center p-3 sm:p-4 md:p-5 lg:p-6 bg-white/50 dark:bg-white/5 rounded-md sm:rounded-lg border border-white/20 dark:border-white/10">
+                            <div className="flex items-center justify-start p-3 sm:p-4 md:p-5 lg:p-6 bg-white/50 dark:bg-white/5 rounded-md sm:rounded-lg border border-white/20 dark:border-white/10">
                               <span className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm md:text-base font-medium text-center">
-                                {language === "ar" ? "لا توجد مراجع متاحة حالياً" : "No references available at the moment"}
+                                {language === "ar"
+                                  ? "لا توجد مراجع متاحة حالياً"
+                                  : "No references available at the moment"}
                               </span>
                             </div>
                           )}
-                          <Link
-                            href="/simple/media/references"
-                            onClick={(e) => e.stopPropagation()}
-                            className="flex items-center justify-center p-2 sm:p-3 bg-purple-500/20 dark:bg-purple-500/10 hover:bg-purple-500/30 dark:hover:bg-purple-500/20 rounded-md sm:rounded-lg transition-all duration-300 group/item border border-purple-500/30 dark:border-purple-500/20 hover:border-purple-500/50 dark:hover:border-purple-500/30"
-                          >
-                            <span className="text-purple-700 dark:text-purple-400 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium group-hover/item:text-purple-800 dark:group-hover/item:text-purple-300 transition-colors duration-300">
-                              {language === "ar" ? "عرض المزيد" : "View More"}
-                            </span>
-                            <div className="flex items-center ml-1 sm:ml-2">
-                              {isRtl ? (
-                                <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 text-purple-600 dark:text-purple-400 group-hover/item:text-purple-700 dark:group-hover/item:text-purple-300 transition-colors duration-300" />
-                              ) : (
-                                <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 text-purple-600 dark:text-purple-400 group-hover/item:text-purple-700 dark:group-hover/item:text-purple-300 transition-colors duration-300" />
-                              )}
-                            </div>
-                          </Link>
                         </>
                       ) : (
                         // Show regular items for other cards
@@ -284,10 +284,10 @@ export default function BeginnersMediaPage() {
                   </div>
                 </div>
               </Link>
-            )
+            );
           })}
         </div>
       </div>
     </div>
-  )
+  );
 }

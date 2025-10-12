@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation"
 import { useLanguage } from "@/components/language-provider"
 import { useSearch } from "@/core/hooks/use-search"
 import { useDebounce } from "@/hooks/use-debounce"
+import { useHelperCategories } from "@/hooks/use-helper-categories"
 import { 
   Search, 
   Video, 
@@ -13,22 +14,34 @@ import {
   Calendar,
   ArrowRight,
   ArrowLeft,
-  Presentation,
   Newspaper,
   GraduationCap,
   FileText,
   Eye,
   Star,
-  Play
+  Play,
+  HelpCircle
 } from "lucide-react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import Breadcrumbs from "@/components/breadcrumbs"
 import VideoModal from "@/components/video-modal"
 import { formatDateRTL } from "@/lib/content-purifier"
 
 export default function BeginnersSearchPage() {
-  const { language } = useLanguage()
+  const { language, t } = useLanguage()
   const isRtl = language === "ar"
+  
+  // Fallback translations for missing keys
+  const fallbackTranslation = (key: string, fallbackAr: string, fallbackEn: string) => {
+    const translation = t(key)
+    if (translation === key) {
+      // Translation not found, use fallback
+      return language === "ar" ? fallbackAr : fallbackEn
+    }
+    return translation
+  }
+  const router = useRouter()
   const searchParams = useSearchParams()
   const [query, setQuery] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
@@ -37,6 +50,9 @@ export default function BeginnersSearchPage() {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
   
   const debouncedQuery = useDebounce(query, 500)
+  
+  // Fetch helper categories
+  const { categories: helperCategories, loading: categoriesLoading } = useHelperCategories(1, 100)
   
   // Initialize query from URL parameters
   useEffect(() => {
@@ -56,27 +72,25 @@ export default function BeginnersSearchPage() {
   )
 
   const entityTypes = [
-    { id: "all", title: language === "ar" ? "الكل" : "All" },
-    { id: "Article", title: language === "ar" ? "المقالات" : "Articles" },
-    { id: "Video", title: language === "ar" ? "فيديوهات" : "Videos" },
-    { id: "Presentation", title: language === "ar" ? "العروض التقديمية" : "Presentations" },
-    { id: "Lecture", title: language === "ar" ? "المحاضرات" : "Lectures" },
-    { id: "News", title: language === "ar" ? "الأخبار" : "News" },
-    { id: "Definition", title: language === "ar" ? "المفاهيم" : "Definitions" },
-    { id: "Awareness", title: language === "ar" ? "التوعية" : "Awareness" },
-    { id: "Reference", title: language === "ar" ? "المراجع" : "References" }
+    { id: "all", title: fallbackTranslation("search.entityTypes.all", "الكل", "All") },
+    { id: "Video", title: fallbackTranslation("search.entityTypes.video", "فيديوهات", "Videos") },
+    { id: "Lecture", title: fallbackTranslation("search.entityTypes.lecture", "المحاضرات", "Lectures") },
+    { id: "News", title: fallbackTranslation("search.entityTypes.news", "الأخبار", "News") },
+    { id: "Definition", title: fallbackTranslation("search.entityTypes.definition", "دليل المصطلحات", "Definitions") },
+    { id: "Awareness", title: fallbackTranslation("search.entityTypes.awareness", "التوعية", "Awareness") },
+    { id: "Reference", title: fallbackTranslation("search.entityTypes.reference", "المراجع", "References") },
+    { id: "HelperCategory", title: fallbackTranslation("search.entityTypes.helperCategory", "فئات الإرشادات", "Helper Categories") }
   ]
 
   const getTypeIcon = (entityType: string) => {
     switch (entityType) {
       case "Video": return Video
-      case "Article": return FileText
       case "Definition": return BookOpen
-      case "Presentation": return Presentation
       case "Lecture": return GraduationCap
       case "News": return Newspaper
       case "Awareness": return ShieldCheck
       case "Reference": return BookOpen
+      case "HelperCategory": return HelpCircle
       default: return FileText
     }
   }
@@ -84,15 +98,27 @@ export default function BeginnersSearchPage() {
   const getTypeColor = (entityType: string) => {
     switch (entityType) {
       case "Video": return "from-blue-500 to-blue-600"
-      case "Article": return "from-blue-500 to-cyan-600"
       case "Definition": return "from-cyan-500 to-blue-600"
-      case "Presentation": return "from-teal-500 to-blue-600"
       case "Lecture": return "from-sky-500 to-blue-600"
       case "News": return "from-teal-500 to-green-600"
       case "Awareness": return "from-sky-400 to-blue-500"
       case "Reference": return "from-gray-500 to-slate-600"
+      case "HelperCategory": return "from-blue-500 to-blue-600"
       default: return "from-gray-500 to-slate-600"
     }
+  }
+
+  const getLocalizedTypeName = (entityType: string) => {
+    const typeMap = {
+      "Video": fallbackTranslation("search.entityTypesSingular.video", "فيديو", "Video"),
+      "Lecture": fallbackTranslation("search.entityTypesSingular.lecture", "محاضرة", "Lecture"),
+      "News": fallbackTranslation("search.entityTypesSingular.news", "خبر", "News"),
+      "Definition": fallbackTranslation("search.entityTypesSingular.definition", "مفهوم", "Definition"),
+      "Awareness": fallbackTranslation("search.entityTypesSingular.awareness", "توعية", "Awareness"),
+      "Reference": fallbackTranslation("search.entityTypesSingular.reference", "مرجع", "Reference"),
+      "HelperCategory": fallbackTranslation("search.entityTypesSingular.helperCategory", "فئة إرشادات", "Helper Category")
+    }
+    return typeMap[entityType as keyof typeof typeMap] || entityType
   }
 
 
@@ -101,8 +127,20 @@ export default function BeginnersSearchPage() {
     return html.replace(/<[^>]*>/g, "")
   }
 
+  // Handle HelperCategory selection differently
   const filteredResults = selectedType === "all" 
     ? results 
+    : selectedType === "HelperCategory"
+    ? helperCategories.map(category => ({
+        id: category.id,
+        title: language === "ar" ? category.title : category.titleEn || category.title,
+        summary: language === "ar" ? "فئة إرشادات" : "Helper category",
+        entityType: "HelperCategory" as const,
+        imageUrl: category.imageUrl,
+        createdTimestamp: category.createdAt,
+        navigationRoute: `/simple/personal-protect/helper-categories?category=${category.id}`,
+        highlights: []
+      }))
     : results.filter(result => result.entityType === selectedType)
 
   const handlePageChange = (page: number) => {
@@ -133,7 +171,7 @@ export default function BeginnersSearchPage() {
         {/* Breadcrumbs */}
         <Breadcrumbs 
           items={[
-            { label: language === "ar" ? "البحث" : "Search" }
+            { label: fallbackTranslation("search.title", "البحث", "Search") }
           ]} 
         />
 
@@ -145,7 +183,7 @@ export default function BeginnersSearchPage() {
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder={language === "ar" ? "ابحث في المحتوى..." : "Search content..."}
+                placeholder={fallbackTranslation("search.searchPlaceholder", "ابحث في المحتوى...", "Search content...")}
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-green-500 outline-none text-gray-900 dark:text-white"
               />
             </div>
@@ -158,19 +196,30 @@ export default function BeginnersSearchPage() {
         {/* Content Type Filter */}
         <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8">
           <div className="flex flex-wrap gap-2">
-            {entityTypes.map((entityType) => (
-              <button
-                key={entityType.id}
-                onClick={() => setSelectedType(entityType.id)}
-                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
-                  selectedType === entityType.id
-                    ? "bg-green-500 text-white shadow-lg"
-                    : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
-                }`}
-              >
-                {entityType.title}
-              </button>
-            ))}
+            {entityTypes.map((entityType) => {
+              const isHelperCategory = entityType.id === "HelperCategory"
+              const isDisabled = isHelperCategory && categoriesLoading
+              
+              return (
+                <button
+                  key={entityType.id}
+                  onClick={() => !isDisabled && setSelectedType(entityType.id)}
+                  disabled={isDisabled}
+                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+                    selectedType === entityType.id
+                      ? "bg-green-500 text-white shadow-lg"
+                      : isDisabled
+                      ? "bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed"
+                      : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                  }`}
+                >
+                  {entityType.title}
+                  {isHelperCategory && categoriesLoading && (
+                    <span className="ml-2 animate-spin">⟳</span>
+                  )}
+                </button>
+              )
+            })}
           </div>
         </div>
 
@@ -180,7 +229,7 @@ export default function BeginnersSearchPage() {
             <div className="flex items-center gap-2 text-red-600 dark:text-red-400">
               <Search className="h-5 w-5" />
               <span className="font-medium">
-                {language === "ar" ? "خطأ في البحث" : "Search Error"}
+                {fallbackTranslation("search.searchError", "خطأ في البحث", "Search Error")}
               </span>
             </div>
             <p className="text-red-600 dark:text-red-400 mt-2">{error}</p>
@@ -208,10 +257,18 @@ export default function BeginnersSearchPage() {
           <div className="mb-8">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                {language === "ar" ? "نتائج البحث" : "Search Results"}
-                {metadata && (
+                {selectedType === "HelperCategory" 
+                  ? fallbackTranslation("search.helperCategories", "فئات الإرشادات", "Helper Categories")
+                  : fallbackTranslation("search.searchResults", "نتائج البحث", "Search Results")
+                }
+                {selectedType !== "HelperCategory" && metadata && (
                   <span className="text-lg font-normal text-gray-500 dark:text-gray-400 mx-2">
                     ({metadata.totalResults} {language === "ar" ? "نتيجة" : "results"})
+                  </span>
+                )}
+                {selectedType === "HelperCategory" && (
+                  <span className="text-lg font-normal text-gray-500 dark:text-gray-400 mx-2">
+                    ({filteredResults.length} {language === "ar" ? "فئة" : "categories"})
                   </span>
                 )}
               </h2>
@@ -279,7 +336,7 @@ export default function BeginnersSearchPage() {
                         </div>
                         <div>
                           <div className="text-sm text-gray-500 dark:text-gray-400 mb-1 flex items-center gap-2">
-                            <Eye className="h-4 w-4" /> {result.entityType}
+                            <Eye className="h-4 w-4" /> {getLocalizedTypeName(result.entityType)}
                           </div>
                         </div>
                       </div>
@@ -291,7 +348,10 @@ export default function BeginnersSearchPage() {
 
                       {/* Result Summary */}
                       <div className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-6 line-clamp-3">
-                        {displaySummary}
+                        {result.entityType === "HelperCategory" 
+                          ? (language === "ar" ? "فئة إرشادات للحماية الشخصية" : "Personal protection helper category")
+                          : displaySummary
+                        }
                       </div>
 
                       {/* Highlights */}
@@ -314,8 +374,10 @@ export default function BeginnersSearchPage() {
                       <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-blue-400">
                         <span className="mr-2 rtl:mr-0 rtl:ml-2">
                           {isVideo 
-                            ? (language === "ar" ? "مشاهدة" : "Watch")
-                            : (language === "ar" ? "عرض" : "View")
+                            ? t("common.watch")
+                            : result.entityType === "HelperCategory"
+                            ? t("common.explore")
+                            : t("common.view")
                           }
                         </span>
                         {isVideo ? (
@@ -336,6 +398,10 @@ export default function BeginnersSearchPage() {
                       <button onClick={() => handleVideoClick(result.id)} className="w-full">
                         <CardContent />
                       </button>
+                    ) : result.entityType === "HelperCategory" ? (
+                      <button onClick={() => router.push(result.navigationRoute)} className="w-full">
+                        <CardContent />
+                      </button>
                     ) : (
                       <Link href={result.navigationRoute} className="block">
                         <CardContent />
@@ -346,8 +412,8 @@ export default function BeginnersSearchPage() {
               })}
             </div>
 
-            {/* Pagination */}
-            {pagination && pagination.pagesCount > 1 && (
+            {/* Pagination - Only show for non-HelperCategory results */}
+            {selectedType !== "HelperCategory" && pagination && pagination.pagesCount > 1 && (
               <div className="flex items-center justify-center gap-2 mt-8">
                 <button
                   onClick={() => handlePageChange(currentPage - 1)}
@@ -359,7 +425,7 @@ export default function BeginnersSearchPage() {
                   ) : (
                     <ArrowLeft className="h-4 w-4" />
                   )}
-                  {language === "ar" ? "السابق" : "Previous"}
+                  {t("common.previous")}
                 </button>
                 
                 <div className="flex items-center gap-1">
@@ -386,7 +452,7 @@ export default function BeginnersSearchPage() {
                   disabled={currentPage === pagination.pagesCount}
                   className="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
-                  {language === "ar" ? "التالي" : "Next"}
+                  {t("common.next")}
                   {isRtl ? (
                     <ArrowLeft className="h-4 w-4" />
                   ) : (
@@ -399,17 +465,20 @@ export default function BeginnersSearchPage() {
         )}
 
         {/* No Results */}
-        {!loading && query && filteredResults.length === 0 && (
+        {!loading && ((selectedType !== "HelperCategory" && query && filteredResults.length === 0) || (selectedType === "HelperCategory" && filteredResults.length === 0)) && (
           <div className="text-center py-12">
             <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg border border-slate-200 dark:border-slate-700">
               <Search className="h-16 w-16 text-gray-400 mx-auto mb-4" />
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                {language === "ar" ? "لا توجد نتائج" : "No Results Found"}
+                {selectedType === "HelperCategory" 
+                  ? fallbackTranslation("search.noHelperCategories", "لا توجد فئات إرشادات", "No Helper Categories Found")
+                  : fallbackTranslation("search.noResults", "لا توجد نتائج", "No Results Found")
+                }
               </h3>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                {language === "ar" 
-                  ? "لم نتمكن من العثور على أي محتوى يطابق بحثك"
-                  : "We couldn't find any content matching your search"
+                {selectedType === "HelperCategory" 
+                  ? fallbackTranslation("search.noHelperCategoriesDescription", "لا توجد فئات إرشادات متاحة حالياً", "No helper categories are currently available")
+                  : fallbackTranslation("search.noResultsDescription", "لم نتمكن من العثور على أي محتوى يطابق بحثك", "We couldn't find any content matching your search")
                 }
               </p>
             </div>

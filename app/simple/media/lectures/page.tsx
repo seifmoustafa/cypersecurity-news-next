@@ -16,7 +16,7 @@ export default function SimpleLectureCategoriesPage() {
   const [query, setQuery] = useState("")
   const debouncedQuery = useDebounce(query, 500)
 
-  const { categories, loading, error } = useLectureCategories(1, 100, debouncedQuery)
+  const { categories, loading, error } = useLectureCategories(1, 10, debouncedQuery)
 
   if (loading) {
     return (
@@ -51,7 +51,7 @@ export default function SimpleLectureCategoriesPage() {
                   className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-white"
                 />
               </div>
-              <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-3 rounded-xl">
+              <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-xl">
                 <GraduationCap className="h-6 w-6 text-white" />
               </div>
             </div>
@@ -104,7 +104,6 @@ export default function SimpleLectureCategoriesPage() {
         <Breadcrumbs 
           items={[
             { label: language === "ar" ? "المكتبة الثقافية" : "Media Library", href: "/simple/media" },
-            { label: language === "ar" ? "دروس " : "Educational Lessons", href: "/simple/media/lessons" },
             { label: language === "ar" ? "فئات المحاضرات" : "Lecture Categories" }
           ]} 
         />
@@ -121,7 +120,7 @@ export default function SimpleLectureCategoriesPage() {
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-white"
               />
             </div>
-            <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-3 rounded-xl">
+            <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-xl">
               <GraduationCap className="h-6 w-6 text-white" />
             </div>
           </div>
@@ -153,12 +152,20 @@ export default function SimpleLectureCategoriesPage() {
                 style={{ transform: "perspective(900px)" }}
               >
                 {/* Thumbnail */}
-                <div className="relative aspect-video bg-gradient-to-br from-blue-500 to-blue-600">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="bg-white/20 backdrop-blur-sm rounded-full p-6 group-hover:scale-110 transition-transform duration-300">
-                      <GraduationCap className="h-12 w-12 text-white" />
+                <div className="relative h-48 bg-gradient-to-br from-blue-500 to-blue-600">
+                  {category.imageUrl ? (
+                    <img
+                      src={category.imageUrl}
+                      alt={language === "ar" ? category.name : category.nameEn || category.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="bg-white/20 backdrop-blur-sm rounded-full p-6 group-hover:scale-110 transition-transform duration-300">
+                        <GraduationCap className="h-12 w-12 text-white" />
+                      </div>
                     </div>
-                  </div>
+                  )}
                   <div className="absolute top-4 right-4 bg-black/50 text-white text-xs px-3 py-1 rounded-full">
                     {language === "ar" ? "فئة محاضرة" : "Lecture Category"}
                   </div>
@@ -168,7 +175,7 @@ export default function SimpleLectureCategoriesPage() {
                 <div className="p-8">
                   {/* Category Header */}
                   <div className="flex items-center mb-6">
-                    <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-3 rounded-xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+                    <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
                       <GraduationCap className="h-6 w-6 text-white" />
                     </div>
                     <div>
@@ -192,7 +199,7 @@ export default function SimpleLectureCategoriesPage() {
                   </div>
 
                   {/* Category Footer */}
-                  <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-blue-400">
+                  <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-blue-400">
                     <span className="mr-2 rtl:mr-0 rtl:ml-2">
                       {language === "ar" ? "استكشف المحاضرات" : "Explore Lectures"}
                     </span>

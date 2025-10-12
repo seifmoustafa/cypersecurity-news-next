@@ -411,7 +411,41 @@
     "metadata": "MetaData",
     "somethingWrong": "Something went wrong",
     "additionalDetails": "Additional Details:",
-    "viewFullArticle": "View Full Article"
+    "viewFullArticle": "View Full Article",
+    "watch": "Watch",
+    "explore": "Explore"
+  },
+  "search": {
+    "title": "Search",
+    "searchResults": "Search Results",
+    "helperCategories": "Helper Categories",
+    "searchPlaceholder": "Search content...",
+    "searchError": "Search Error",
+    "noResults": "No Results Found",
+    "noResultsDescription": "We couldn't find any content matching your search",
+    "noHelperCategories": "No Helper Categories Found",
+    "noHelperCategoriesDescription": "No helper categories are currently available",
+    "resultsCount": "{{count}} results",
+    "categoriesCount": "{{count}} categories",
+    "entityTypes": {
+      "all": "All",
+      "video": "Videos",
+      "lecture": "Lectures", 
+      "news": "News",
+      "definition": "Definitions",
+      "awareness": "Awareness",
+      "reference": "References",
+      "helperCategory": "Helper Categories"
+    },
+    "entityTypesSingular": {
+      "video": "Video",
+      "lecture": "Lecture",
+      "news": "News",
+      "definition": "Definition", 
+      "awareness": "Awareness",
+      "reference": "Reference",
+      "helperCategory": "Helper Category"
+    }
   },
   "hero": {
     "title": "Cybersecurity Portal",

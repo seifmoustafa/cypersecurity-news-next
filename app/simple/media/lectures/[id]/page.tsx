@@ -65,7 +65,7 @@ export default function LectureCategoryPage({ params }: LectureCategoryPageProps
                   className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-white"
                 />
               </div>
-              <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-3 rounded-xl">
+              <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-xl">
                 <GraduationCap className="h-6 w-6 text-white" />
               </div>
             </div>
@@ -135,7 +135,7 @@ export default function LectureCategoryPage({ params }: LectureCategoryPageProps
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-white"
               />
             </div>
-            <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-3 rounded-xl">
+            <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-xl">
               <GraduationCap className="h-6 w-6 text-white" />
             </div>
           </div>
@@ -196,7 +196,7 @@ export default function LectureCategoryPage({ params }: LectureCategoryPageProps
                 <div className="p-8">
                   {/* Lecture Header */}
                   <div className="flex items-center mb-6">
-                    <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-3 rounded-xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+                    <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
                       <FileText className="h-6 w-6 text-white" />
                     </div>
                     <div>
@@ -217,7 +217,7 @@ export default function LectureCategoryPage({ params }: LectureCategoryPageProps
                   </div>
 
                   {/* Lecture Footer */}
-                  <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-blue-400">
+                  <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-blue-400">
                     <span className="mr-2 rtl:mr-0 rtl:ml-2">
                       {language === "ar" ? "قراءة المحاضرة" : "Read Lecture"}
                     </span>

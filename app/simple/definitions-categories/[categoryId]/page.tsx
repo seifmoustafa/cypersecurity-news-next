@@ -63,7 +63,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
         <div className="container mx-auto px-4 py-8">
           <Breadcrumbs 
             items={[
-              { label: language === "ar" ? "المفاهيم" : "Definitions", href: "/simple/definitions-categories" },
+              { label: language === "ar" ? "دليل المصطلحات" : "Definitions", href: "/simple/definitions-categories" },
               { label: language === "ar" ? "الفئة" : "Category" }
             ]} 
           />
@@ -73,11 +73,11 @@ export default function CategoryPage({ params }: CategoryPageProps) {
               <BookOpen className="h-12 w-12 text-red-600 dark:text-red-400" />
             </div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              {language === "ar" ? "خطأ في تحميل المفاهيم" : "Error Loading Definitions"}
+              {language === "ar" ? "خطأ في تحميل دليل المصطلحات" : "Error Loading Definitions"}
             </h1>
             <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
               {language === "ar" 
-                ? "حدث خطأ أثناء تحميل مفاهيم هذه الفئة. يرجى المحاولة مرة أخرى."
+                ? "حدث خطأ أثناء تحميل دليل المصطلحات لهذه الفئة. يرجى المحاولة مرة أخرى."
                 : "An error occurred while loading definitions for this category. Please try again."
               }
             </p>
@@ -109,7 +109,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
         {/* Breadcrumbs */}
         <Breadcrumbs 
           items={[
-            { label: language === "ar" ? "المفاهيم" : "Definitions", href: "/simple/definitions-categories" },
+            { label: language === "ar" ? "دليل المصطلحات" : "Definitions", href: "/simple/definitions-categories" },
             { label: language === "ar" ? "الفئة" : "Category" }
           ]} 
         />
@@ -122,7 +122,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder={language === "ar" ? "ابحث في المفاهيم..." : "Search definitions..."}
+                placeholder={language === "ar" ? "ابحث في دليل المصطلحات..." : "Search definitions..."}
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-teal-500 outline-none text-gray-900 dark:text-white"
               />
             </div>
@@ -147,7 +147,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
             <p className="text-gray-600 dark:text-gray-400">
               {query ? 
                 (language === "ar" ? "جرب البحث بكلمات مختلفة" : "Try searching with different keywords") :
-                (language === "ar" ? "سيتم إضافة المزيد من المفاهيم قريباً" : "More definitions will be added soon")
+                (language === "ar" ? "سيتم إضافة المزيد من دليل المصطلحات قريباً" : "More definitions will be added soon")
               }
             </p>
           </div>

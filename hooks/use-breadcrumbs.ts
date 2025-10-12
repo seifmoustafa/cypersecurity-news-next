@@ -84,7 +84,7 @@ export function useDefinitionBreadcrumbs(categoryId: string, definitionId: strin
   const category = categories.find(cat => cat.id === categoryId)
   
   const items: BreadcrumbItem[] = [
-    { label: language === "ar" ? "المفاهيم" : "Definitions", href: "/simple/definitions-categories" },
+    { label: language === "ar" ? "دليل المصطلحات" : "Definitions", href: "/simple/definitions-categories" },
     { 
       label: category ? getLocalizedName(category, language) : getCategoryName(categoryId, language),
       href: `/simple/definitions-categories/${categoryId}`

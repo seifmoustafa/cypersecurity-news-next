@@ -82,7 +82,7 @@ export default function ReferencesPage() {
             </p>
             <button 
               onClick={() => window.location.reload()}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-2xl hover:from-indigo-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
             >
               {language === "ar" ? "إعادة المحاولة" : "Try Again"}
             </button>
@@ -120,16 +120,16 @@ export default function ReferencesPage() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={language === "ar" ? "ابحث في المراجع..." : "Search references..."}
-                className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-purple-500 outline-none text-gray-900 dark:text-white"
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-white"
               />
             </div>
             <button
               type="submit"
-              className="bg-gradient-to-r from-purple-500 to-indigo-600 p-3 rounded-xl hover:from-purple-600 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="bg-gradient-to-r from-blue-500 to-indigo-600 p-3 rounded-xl hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               <Search className="h-6 w-6 text-white" />
             </button>
-            <div className="bg-gradient-to-r from-purple-500 to-indigo-600 p-3 rounded-xl">
+            <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-3 rounded-xl">
               <BookOpen className="h-6 w-6 text-white" />
             </div>
           </form>
@@ -159,7 +159,7 @@ export default function ReferencesPage() {
                 className="group"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="bg-white dark:bg-slate-800 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-lg hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-500 hover:scale-[1.02] h-full will-change-transform overflow-hidden"
+                <div className="bg-white dark:bg-slate-800 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-lg hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 hover:scale-[1.02] h-full will-change-transform overflow-hidden"
                   onMouseMove={(e) => {
                     const el = e.currentTarget as HTMLDivElement
                     const rect = el.getBoundingClientRect()
@@ -198,7 +198,7 @@ export default function ReferencesPage() {
                   <div className="p-8">
                     {/* Reference Header */}
                     <div className="flex items-center mb-6">
-                      <div className="bg-gradient-to-r from-purple-500 to-indigo-600 p-3 rounded-xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
+                      <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-3 rounded-xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
                         <BookOpen className="h-6 w-6 text-white" />
                       </div>
                       <div>
@@ -210,12 +210,12 @@ export default function ReferencesPage() {
                     </div>
 
                     {/* Reference Title */}
-                    <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-6 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300 line-clamp-2">
+                    <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-6 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 line-clamp-2">
                       {displayTitle}
                     </h3>
 
                     {/* Reference Footer */}
-                    <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-purple-400">
+                    <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-blue-400">
                       <span className="mr-2 rtl:mr-0 rtl:ml-2">
                         {language === "ar" ? "عرض المرجع" : "View Reference"}
                       </span>
@@ -252,7 +252,7 @@ export default function ReferencesPage() {
                     onClick={() => handlePageChange(page)}
                     className={`px-4 py-2 rounded-lg transition-all duration-300 ${
                       currentPage === page
-                        ? 'bg-purple-600 text-white shadow-lg'
+                        ? 'bg-blue-600 text-white shadow-lg'
                         : 'border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
                     }`}
                   >

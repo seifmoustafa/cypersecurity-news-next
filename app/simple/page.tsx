@@ -228,9 +228,9 @@ export default function BeginnersHome() {
     //   title: t("beginners.cards.definitions.title"),
     //   description: t("beginners.cards.definitions.description"),
     //   icon: BookOpen,
-    //   color: "from-indigo-500 to-purple-600",
+    //   color: "from-indigo-500 to-blue-600",
     //   bgColor:
-    //     "bg-gradient-to-br from-indigo-50/80 to-purple-50/60 dark:from-indigo-900/30 dark:to-purple-900/20",
+    //     "bg-gradient-to-br from-indigo-50/80 to-blue-50/60 dark:from-indigo-900/30 dark:to-blue-900/20",
     //   borderColor: "border-indigo-300/60 dark:border-indigo-600/40",
     //   href: "/simple/definitions-categories",
     //   items: definitionCategories.slice(0, 2).map(category => ({
@@ -310,9 +310,9 @@ export default function BeginnersHome() {
     //   title: t("beginners.cards.definitions.title"),
     //   description: t("beginners.cards.definitions.description"),
     //   icon: BookOpen,
-    //   color: "from-indigo-500 to-purple-600",
+    //   color: "from-indigo-500 to-blue-600",
     //   bgColor:
-    //     "bg-gradient-to-br from-indigo-50/80 to-purple-50/60 dark:from-indigo-900/30 dark:to-purple-900/20",
+    //     "bg-gradient-to-br from-indigo-50/80 to-blue-50/60 dark:from-indigo-900/30 dark:to-blue-900/20",
     //   borderColor: "border-indigo-300/60 dark:border-indigo-600/40",
     //   href: "/simple/definitions-categories",
     //   items: definitionCategories.slice(0, 2).map(category => ({
@@ -392,9 +392,9 @@ export default function BeginnersHome() {
     //   title: t("beginners.cards.definitions.title"),
     //   description: t("beginners.cards.definitions.description"),
     //   icon: BookOpen,
-    //   color: "from-indigo-500 to-purple-600",
+    //   color: "from-indigo-500 to-blue-600",
     //   bgColor:
-    //     "bg-gradient-to-br from-indigo-50/80 to-purple-50/60 dark:from-indigo-900/30 dark:to-purple-900/20",
+    //     "bg-gradient-to-br from-indigo-50/80 to-blue-50/60 dark:from-indigo-900/30 dark:to-blue-900/20",
     //   borderColor: "border-indigo-300/60 dark:border-indigo-600/40",
     //   href: "/simple/definitions-categories",
     //   items: definitionCategories.slice(0, 2).map(category => ({

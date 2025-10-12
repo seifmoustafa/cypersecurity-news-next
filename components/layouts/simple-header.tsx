@@ -165,14 +165,14 @@ export default function SimpleHeader({
                   variant="ghost"
                   size="sm"
                   className={cn(
-                    "flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg",
+                    "flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base",
                 pathname === "/"
                       ? "bg-green-500/20 text-green-600 dark:text-green-300 shadow-lg backdrop-blur-sm border border-green-500/30"
                       : "text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
                   )}
               onClick={(e) => handleNavigation(e, "/")}
                 >
-              <Home className="h-4 w-4" />
+              <Home className="h-3 w-3 sm:h-4 sm:w-4" />
               الرئيسية
                 </Button>
 
@@ -181,14 +181,14 @@ export default function SimpleHeader({
                       variant="ghost"
               size="sm"
               className={cn(
-                "flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg",
+                "flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base",
                 pathname === "/simple"
                   ? "bg-green-500/20 text-green-600 dark:text-green-300 shadow-lg backdrop-blur-sm border border-green-500/30"
                   : "text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
               )}
               onClick={(e) => handleNavigation(e, "/simple")}
             >
-              <Users className="h-4 w-4" />
+              <Users className="h-3 w-3 sm:h-4 sm:w-4" />
               الواجهة العامة
                     </Button>
 
@@ -197,14 +197,14 @@ export default function SimpleHeader({
                       variant="ghost"
               size="sm"
               className={cn(
-                "flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg",
+                "flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base",
                 pathname === "/advanced"
                   ? "bg-green-500/20 text-green-600 dark:text-green-300 shadow-lg backdrop-blur-sm border border-green-500/30"
                   : "text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
               )}
               onClick={(e) => handleNavigation(e, "/advanced")}
             >
-              <Settings className="h-4 w-4" />
+              <Settings className="h-3 w-3 sm:h-4 sm:w-4" />
               واجهة المتخصصين
                     </Button>
 
@@ -213,14 +213,14 @@ export default function SimpleHeader({
               variant="ghost"
               size="sm"
               className={cn(
-                "flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg",
+                "flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base",
                 pathname === "/simple/sitemap"
                   ? "bg-green-500/20 text-green-600 dark:text-green-300 shadow-lg backdrop-blur-sm border border-green-500/30"
                   : "text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
               )}
               onClick={(e) => handleNavigation(e, "/simple/sitemap")}
             >
-              <Map className="h-4 w-4" />
+              <Map className="h-3 w-3 sm:h-4 sm:w-4" />
               خريطة الموقع
             </Button>
 
@@ -229,10 +229,10 @@ export default function SimpleHeader({
               variant="ghost"
               size="sm"
               onClick={toggleTips}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
+              className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
             >
               <LightbulbIcon
-                className={`h-4 w-4 ${
+                className={`h-3 w-3 sm:h-4 sm:w-4 ${
                   tipsDisabled
                     ? "opacity-50 text-gray-400 dark:text-slate-400"
                     : "text-yellow-500 dark:text-yellow-400"
@@ -246,9 +246,9 @@ export default function SimpleHeader({
               variant="ghost"
               size="sm"
               onClick={handleSearchToggle}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
+              className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
             >
-              <Search className="h-4 w-4" />
+              <Search className="h-3 w-3 sm:h-4 sm:w-4" />
               البحث
             </Button>
 
@@ -257,9 +257,9 @@ export default function SimpleHeader({
               variant="ghost"
               size="sm"
               onClick={handleLanguageToggle}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
+              className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
             >
-              <Globe className="h-4 w-4" />
+              <Globe className="h-3 w-3 sm:h-4 sm:w-4" />
               تغيير اللغة
             </Button>
 
@@ -268,12 +268,12 @@ export default function SimpleHeader({
               variant="ghost"
               size="sm"
               onClick={handleThemeToggle}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
+              className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
             >
               {isDarkMode ? (
-                <SunIcon className="h-4 w-4" />
+                <SunIcon className="h-3 w-3 sm:h-4 sm:w-4" />
               ) : (
-                <MoonIcon className="h-4 w-4" />
+                <MoonIcon className="h-3 w-3 sm:h-4 sm:w-4" />
               )}
               {isDarkMode ? "نهاري" : "ليلي"}
             </Button>
@@ -355,66 +355,66 @@ export default function SimpleHeader({
                   {/* 1. الرئيسية */}
                   <button
                     className={cn(
-                      "flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group",
+                      "flex items-center gap-2 sm:gap-3 px-3 py-2.5 text-sm sm:text-base rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group",
                       pathname === "/"
                         ? "bg-green-500/20 text-green-600 dark:text-green-300 border border-green-500/30"
                         : "text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white"
                     )}
                     onClick={(e) => handleNavigation(e, "/")}
                   >
-                    <Home className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                    <Home className="h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform duration-300" />
                     <span>الرئيسية</span>
                   </button>
 
                   {/* 2. الواجهة العامة */}
                   <button
                     className={cn(
-                      "flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group",
+                      "flex items-center gap-2 sm:gap-3 px-3 py-2.5 text-sm sm:text-base rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group",
                       pathname === "/simple"
                         ? "bg-green-500/20 text-green-600 dark:text-green-300 border border-green-500/30"
                         : "text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white"
                     )}
                     onClick={(e) => handleNavigation(e, "/simple")}
                   >
-                    <Users className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                    <Users className="h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform duration-300" />
                     <span>الواجهة العامة</span>
                   </button>
 
                   {/* 3. واجهة المتخصصين */}
                 <button
                     className={cn(
-                      "flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group",
+                      "flex items-center gap-2 sm:gap-3 px-3 py-2.5 text-sm sm:text-base rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group",
                       pathname === "/advanced"
                         ? "bg-green-500/20 text-green-600 dark:text-green-300 border border-green-500/30"
                         : "text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white"
                     )}
                     onClick={(e) => handleNavigation(e, "/advanced")}
                   >
-                    <Settings className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                    <Settings className="h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform duration-300" />
                     <span>واجهة المتخصصين</span>
                   </button>
 
                   {/* 4. خريطة الموقع */}
                   <button
                     className={cn(
-                      "flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group",
+                      "flex items-center gap-2 sm:gap-3 px-3 py-2.5 text-sm sm:text-base rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group",
                       pathname === "/simple/sitemap"
                         ? "bg-green-500/20 text-green-600 dark:text-green-300 border border-green-500/30"
                         : "text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white"
                     )}
                     onClick={(e) => handleNavigation(e, "/simple/sitemap")}
                   >
-                    <Map className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                    <Map className="h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform duration-300" />
                     <span>خريطة الموقع</span>
                 </button>
 
                   {/* 5. تفعيل/إيقاف النصائح */}
                 <button
-                    className="flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white"
+                    className="flex items-center gap-2 sm:gap-3 px-3 py-2.5 text-sm sm:text-base rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white"
                   onClick={toggleTips}
                 >
                   <LightbulbIcon
-                    className={`h-4 w-4 group-hover:scale-110 transition-transform duration-300 ${
+                    className={`h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform duration-300 ${
                       tipsDisabled
                         ? "opacity-50 text-gray-400 dark:text-slate-400"
                         : "text-yellow-500 dark:text-yellow-400"
@@ -425,31 +425,31 @@ export default function SimpleHeader({
 
                   {/* 6. البحث */}
                   <button
-                    className="flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white"
+                    className="flex items-center gap-2 sm:gap-3 px-3 py-2.5 text-sm sm:text-base rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white"
                     onClick={handleSearchToggle}
                   >
-                    <Search className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                    <Search className="h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform duration-300" />
                     <span>البحث</span>
                   </button>
 
                   {/* 7. تغيير اللغة */}
                   <button
-                    className="flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white"
+                    className="flex items-center gap-2 sm:gap-3 px-3 py-2.5 text-sm sm:text-base rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white"
                     onClick={handleLanguageToggle}
                   >
-                    <Globe className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                    <Globe className="h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform duration-300" />
                     <span>تغيير اللغة</span>
                 </button>
 
                   {/* 8. نهاري/ليلي */}
                       <button
-                    className="flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white"
+                    className="flex items-center gap-2 sm:gap-3 px-3 py-2.5 text-sm sm:text-base rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white"
                     onClick={handleThemeToggle}
                   >
                     {isDarkMode ? (
-                      <SunIcon className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                      <SunIcon className="h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform duration-300" />
                     ) : (
-                      <MoonIcon className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                      <MoonIcon className="h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform duration-300" />
                     )}
                     <span>{isDarkMode ? "نهاري" : "ليلي"}</span>
                       </button>
