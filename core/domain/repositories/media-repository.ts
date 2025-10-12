@@ -30,6 +30,7 @@ export interface MediaRepository {
   getApiVideoById(id: string): Promise<ApiVideo | null>
   getLectures(page?: number, pageSize?: number, search?: string): Promise<LecturesPaginatedResponse>
   getLecturesByCategory(categoryId: string, page?: number, pageSize?: number, search?: string): Promise<LecturesPaginatedResponse>
+  getLecturesByCategoryForProfessionals(categoryId: string, page?: number, pageSize?: number, search?: string): Promise<LecturesPaginatedResponse>
   getApiLectureById(id: string): Promise<ApiLecture | null>
   getLectureBySlug(slug: string): Promise<ApiLecture | null>
   getPresentations(page?: number, pageSize?: number, search?: string): Promise<PresentationsPaginatedResponse>

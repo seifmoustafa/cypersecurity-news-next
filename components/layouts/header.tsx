@@ -48,6 +48,7 @@ export default function Header({
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [isBeginnersMode, setIsBeginnersMode] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const pathname = usePathname();
   const router = useRouter();
@@ -70,12 +71,12 @@ export default function Header({
           isScroll: true,
           tab: "bulletins",
         },
-        {
-          key: "awareness.articles",
-          href: "#awareness",
-          isScroll: true,
-          tab: "articles",
-        },
+        // {
+        //   key: "awareness.articles",
+        //   href: "#awareness",
+        //   isScroll: true,
+        //   tab: "articles",
+        // },
       ],
     },
     {
@@ -205,6 +206,22 @@ export default function Header({
     }
   }, [openDropdown]);
 
+  // Reset navigating state when pathname changes
+  useEffect(() => {
+    setIsNavigating(false);
+  }, [pathname]);
+
+  // Add timeout to reset navigation state if it gets stuck
+  useEffect(() => {
+    if (isNavigating) {
+      const timeout = setTimeout(() => {
+        setIsNavigating(false);
+      }, 5000); // Reset after 5 seconds if navigation doesn't complete
+
+      return () => clearTimeout(timeout);
+    }
+  }, [isNavigating]);
+
   if (!mounted) return null;
 
   const isDarkMode = theme === "dark";
@@ -235,13 +252,17 @@ export default function Header({
   };
 
   const handleLayoutSwitch = () => {
+    if (isNavigating) return; // Prevent multiple rapid clicks
+    
     const newMode = !isBeginnersMode;
     setIsBeginnersMode(newMode);
     localStorage.setItem("beginnersMode", newMode.toString());
 
     // If switching to beginners mode, redirect to beginners layout
     if (newMode) {
-      window.location.href = "/simple";
+      setIsNavigating(true);
+      // Use replace instead of push to avoid history issues
+      router.replace("/simple");
     }
   };
 
@@ -252,13 +273,16 @@ export default function Header({
     tab?: string
   ) => {
     e.preventDefault();
+    if (isNavigating) return; // Prevent multiple rapid clicks
+    
     setMobileMenuOpen(false);
     setOpenDropdown(null);
 
     console.log("Navigation triggered:", { href, isScroll, isHomePage });
 
     if (href === "/") {
-      router.push("/advanced");
+      setIsNavigating(true);
+      router.replace("/advanced");
       return;
     }
 
@@ -292,10 +316,12 @@ export default function Header({
         sessionStorage.setItem(`${hashPart.substring(1)}_activeTab`, tab);
       }
 
-      window.location.href = navigationUrl;
+      setIsNavigating(true);
+      router.replace(navigationUrl);
     } else {
       console.log("Regular navigation to:", href);
-      router.push(href);
+      setIsNavigating(true);
+      router.replace(href);
     }
   };
 
@@ -310,7 +336,7 @@ export default function Header({
               className="flex items-center space-x-3 rtl:space-x-reverse group-hover:scale-105 transition-all duration-300"
               onClick={(e) => {
                 e.preventDefault();
-                router.push("/advanced");
+                router.replace("/advanced");
               }}
             >
               <div className="relative">
@@ -340,7 +366,7 @@ export default function Header({
               className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-sm lg:text-base xl:text-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-md px-2 lg:px-3 xl:px-4 py-2 lg:py-2.5 xl:py-3"
               onClick={(e) => {
                 e.preventDefault();
-                router.push("/advanced");
+                router.replace("/advanced");
               }}
             >
               <Home className="h-4 w-4 lg:h-5 lg:w-5 xl:h-6 xl:w-6 mr-1 rtl:ml-1 rtl:mr-0" />
@@ -561,7 +587,7 @@ export default function Header({
                   <Button
                     variant="ghost"
                     size="icon"
-                    onClick={() => router.push("/")}
+                    onClick={() => router.replace("/")}
                     title={t("nav.home")}
                     className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-8 w-8 md:h-10 md:w-10 transition-all duration-300 hover:scale-110 hover:shadow-md group"
                   >
@@ -608,7 +634,7 @@ export default function Header({
                   if (e.key === "Enter") {
                     const query = e.currentTarget.value.trim();
                     if (query) {
-                      router.push(`/advanced/search?q=${encodeURIComponent(query)}`);
+                      router.replace(`/advanced/search?q=${encodeURIComponent(query)}`);
                       setSearchOpen(false);
                     }
                   } else if (e.key === "Escape") {
@@ -663,7 +689,7 @@ export default function Header({
                   onClick={(e) => {
                     e.preventDefault();
                     setMobileMenuOpen(false);
-                    router.push("/advanced");
+                    router.replace("/advanced");
                   }}
                 >
                   <Home className="h-5 w-5 lg:h-6 lg:w-6 group-hover:scale-110 transition-transform duration-300" />

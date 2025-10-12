@@ -84,12 +84,6 @@ export default function AwarenessSection() {
               {t("awareness.bulletins")}
             </span>
           </TabsTrigger>
-          <TabsTrigger value="articles" className="flex-1 font-semibold transition-all duration-300 hover:scale-105">
-            <span className="flex items-center gap-2">
-              <BookOpen className="h-4 w-4" />
-              {t("awareness.articles")}
-            </span>
-          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="news">
@@ -135,39 +129,6 @@ export default function AwarenessSection() {
 
         <TabsContent value="bulletins">
           <CurrentYearAwarenessContent />
-        </TabsContent>
-
-        <TabsContent value="articles">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={isRtl ? { direction: 'rtl' } : {}}>
-            {articlesLoading ? (
-              // Loading skeleton
-              Array(3)
-                .fill(0)
-                .map((_, i) => (
-                  <Card key={i} className="h-[300px] animate-pulse">
-                    <div className="h-48 bg-gray-300 dark:bg-gray-700"></div>
-                    <CardContent className="p-6">
-                      <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
-                      <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full"></div>
-                    </CardContent>
-                  </Card>
-                ))
-            ) : articles.length > 0 ? (
-              articles.map((item, idx) => <ArticleCard key={item.id} item={item} index={idx} />)
-            ) : (
-              <div className="col-span-full text-center py-10">
-                <p className="text-muted-foreground">{t("common.noData")}</p>
-              </div>
-            )}
-          </div>
-          {/* View All Articles Button */}
-          {articles.length > 0 && !articlesLoading && (
-            <div className="mt-8 text-center">
-              <Link href="/advanced/articles">
-                <Button variant="outline">{language === "ar" ? "عرض جميع المقالات" : "View All Articles"}</Button>
-              </Link>
-            </div>
-          )}
         </TabsContent>
       </Tabs>
     </SectionContainer>

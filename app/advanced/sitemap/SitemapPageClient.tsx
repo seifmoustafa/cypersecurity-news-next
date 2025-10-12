@@ -457,20 +457,20 @@ export default function SitemapPageClient() {
           loading: loading,
           count: newsCategories.length,
         },
-        {
-          id: "articles",
-          title: language === "ar" ? "المقالات" : "Articles",
-          icon: FileText,
-          href: "/advanced/articles",
-          description:
-            language === "ar" ? "مقالات متخصصة" : "Specialized articles",
-          type: "leaf",
-          level: 1,
-          color: "text-blue-500",
-        },
+        // {
+        //   id: "articles",
+        //   title: language === "ar" ? "المقالات" : "Articles",
+        //   icon: FileText,
+        //   href: "/advanced/articles",
+        //   description:
+        //     language === "ar" ? "مقالات متخصصة" : "Specialized articles",
+        //   type: "leaf",
+        //   level: 1,
+        //   color: "text-blue-500",
+        // },
         {
           id: "awareness-years",
-          title: language === "ar" ? "سنوات التوعية" : "Awareness Years",
+          title: language === "ar" ? "نشرات التوعية" : "Awareness Articles",
           icon: Calendar,
           href: "/advanced/awareness/years",
           description:

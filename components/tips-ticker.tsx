@@ -23,7 +23,7 @@ export default function TipsTicker() {
   const [containerWidth, setContainerWidth] = useState(0)
   const [textWidth, setTextWidth] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
-  const [selectedTip, setSelectedTip] = useState<Tip | null>(null)
+  const [selectedTip, setSelectedTip] = useState<(Tip & { type?: string }) | null>(null)
   const [tipDialogOpen, setTipDialogOpen] = useState(false)
 
   // Fixed speed in pixels per second - increased for faster animation
@@ -70,18 +70,19 @@ export default function TipsTicker() {
     // Find the tip in the ticker items
     const tickerItem = tickerItems.find(item => item.id === tipId)
     if (tickerItem) {
-      // Create a tip object from the ticker item data
-      const tip: Tip = {
+      // Create a tip object from the ticker item data with all available information
+      const tip: Tip & { type?: string } = {
         id: tickerItem.id,
         title: tickerItem.title,
-        titleEn: tickerItem.titleEn || "",
-        subtitle: "", // We don't have subtitle in ticker items
-        subtitleEn: "",
-        summary: tickerItem.text?.[language] || tickerItem.text?.en || tickerItem.text?.ar || "",
-        summaryEn: tickerItem.text?.en || tickerItem.text?.ar || "",
+        titleEn: tickerItem.titleEn || tickerItem.title,
+        subtitle: tickerItem.subtitle || "",
+        subtitleEn: tickerItem.subtitleEn || "",
+        summary: tickerItem.summary || tickerItem.text?.[language] || tickerItem.text?.en || tickerItem.text?.ar || "",
+        summaryEn: tickerItem.summaryEn || tickerItem.text?.en || tickerItem.text?.ar || "",
         isActive: true,
         createdAt: new Date().toISOString(),
-        updatedAt: null
+        updatedAt: null,
+        type: tickerItem.type
       }
       setSelectedTip(tip)
       setTipDialogOpen(true)
@@ -94,15 +95,19 @@ export default function TipsTicker() {
     setSelectedTip(null)
   }
 
-  const getIcon = (type: string) => {
+  const getIcon = (type: string, size: "small" | "large" = "small") => {
+    const iconSize = size === "large" ? "h-6 w-6" : "h-4 w-4"
+    const iconColor = size === "large" ? "text-white" : ""
+    const spacing = size === "large" ? "" : `${isRtl ? "ml-1.5" : "mr-1.5"}`
+    
     switch (type) {
       case "warning":
-        return <AlertTriangle className={`${isRtl ? "ml-1.5" : "mr-1.5"} h-4 w-4 text-yellow-500`} />
+        return <AlertTriangle className={`${spacing} ${iconSize} ${iconColor || "text-yellow-500"}`} />
       case "alert":
-        return <AlertTriangle className={`${isRtl ? "ml-1.5" : "mr-1.5"} h-4 w-4 text-red-500`} />
+        return <AlertTriangle className={`${spacing} ${iconSize} ${iconColor || "text-red-500"}`} />
       case "info":
       default:
-        return <Shield className={`${isRtl ? "ml-1.5" : "mr-1.5"} h-4 w-4 text-primary`} />
+        return <Shield className={`${spacing} ${iconSize} ${iconColor || "text-primary"}`} />
     }
   }
 
@@ -144,58 +149,62 @@ export default function TipsTicker() {
                   {getIcon(item.type || "info")}
                 </div>
               </div>
-              {item.text?.[language] || ""}
+              {language === "ar" ? item.title : (item.titleEn || item.title)}
             </span>
           ))}
         </div>
       </div>
 
-    {/* Custom Tip Modal */}
+    {/* Custom Tip Modal - Enhanced to match simple-tips-ticker design */}
     {tipDialogOpen && selectedTip && (
-      <div className="fixed inset-0 z-50 flex items-center justify-center">
-        {/* Backdrop */}
-        <div 
-          className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-          onClick={handleDialogClose}
-        />
-        
-        {/* Modal Content */}
-        <div className="relative bg-white dark:bg-gray-900 rounded-lg shadow-xl max-w-2xl w-full mx-4 overflow-hidden border border-primary/20">
-          {/* Header section with colored background */}
-          <div className="bg-primary/10 dark:bg-primary/20 p-6 flex items-center gap-4 border-b border-primary/20">
-            <div className="bg-primary/20 dark:bg-primary/30 p-3 rounded-full">
-              <LightbulbIcon className="h-8 w-8 text-primary" />
-            </div>
-            <div className="flex-1">
-              <h2 className="text-2xl font-bold text-primary">{t("common.tipOfTheDay")}</h2>
-              <p className="text-lg font-medium">{language === "ar" ? selectedTip.title : selectedTip.titleEn}</p>
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div className="relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-w-lg w-full mx-4 border border-slate-200 dark:border-slate-700">
+          {/* Header */}
+          <div className="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700">
+            <div className="flex items-center space-x-3 rtl:space-x-reverse flex-1 min-w-0">
+              <div className="bg-gradient-to-r from-blue-500 to-cyan-500 p-3 rounded-xl flex-shrink-0">
+                {getIcon(selectedTip.type || "info", "large")}
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                  {language === "ar" ? "نصيحة أمنية" : "Security Tip of the Day"}
+                </h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  {language === "ar" ? "تعلم شيئاً جديداً" : "Learn something new every day"}
+                </p>
+              </div>
             </div>
             <Button
               variant="ghost"
               size="icon"
               onClick={handleDialogClose}
-              className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              className="h-8 w-8 hover:bg-slate-100 dark:hover:bg-slate-800 flex-shrink-0"
             >
-              <X className="h-5 w-5" />
+              <X className="h-4 w-4" />
             </Button>
           </div>
 
-          {/* Content section */}
+          {/* Content */}
           <div className="p-6">
-            <div className="space-y-4">
-              {/* Subtitle */}
-              {(language === "ar" ? selectedTip.subtitle : selectedTip.subtitleEn) && (
-                <p className="text-lg font-semibold text-primary">{language === "ar" ? selectedTip.subtitle : selectedTip.subtitleEn}</p>
-              )}
-
-              {/* Summary/Content */}
-              <p className="text-base leading-relaxed">{language === "ar" ? selectedTip.summary : selectedTip.summaryEn}</p>
-            </div>
-
-            {/* Custom close button */}
-            <div className="mt-6 flex justify-center gap-3">
-              <Button className="px-8 py-2 bg-primary hover:bg-primary/90 text-white" onClick={handleDialogClose}>
-                {t("common.understood")}
+            <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+              {language === "ar" ? selectedTip.title : selectedTip.titleEn}
+            </h4>
+            {(selectedTip.subtitle || selectedTip.subtitleEn) && (
+              <p className="text-lg text-gray-700 dark:text-gray-200 mb-4 font-medium">
+                {language === "ar" ? selectedTip.subtitle : selectedTip.subtitleEn}
+              </p>
+            )}
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
+              {language === "ar" ? selectedTip.summary : selectedTip.summaryEn}
+            </p>
+            
+            {/* Action Buttons */}
+            <div className="flex space-x-3 rtl:space-x-reverse">
+              <Button
+                onClick={handleDialogClose}
+                className="flex-1 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white"
+              >
+                {language === "ar" ? "فهمت" : "Got it"}
               </Button>
             </div>
           </div>

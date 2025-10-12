@@ -261,6 +261,44 @@ export class MediaRepositoryImpl implements MediaRepository {
     }
   }
 
+  async getLecturesByCategoryForProfessionals(categoryId: string, page = 1, pageSize = 10, search?: string): Promise<LecturesPaginatedResponse> {
+    try {
+      const params = new URLSearchParams({
+        page: page.toString(),
+        pageSize: pageSize.toString(),
+      })
+
+      if (search && search.trim()) {
+        params.append("search", search.trim())
+      }
+
+      const response = await this.dataSource.get<LecturesPaginatedResponse>(`/Lectures/professionals/${categoryId}?${params.toString()}`)
+
+      // Transform document URLs to include base URL
+      const baseImageUrl = this.dataSource.getBaseImageUrl()
+      const transformedData = response.data.map((lecture) => ({
+        ...lecture,
+        documentUrl: lecture.documentUrl ? `${baseImageUrl}${lecture.documentUrl}` : lecture.documentUrl,
+      }))
+
+      return {
+        ...response,
+        data: transformedData,
+      }
+    } catch (error) {
+      console.error("MediaRepository: Error fetching lectures by category for professionals:", error)
+      return {
+        data: [],
+        pagination: {
+          itemsCount: 0,
+          pagesCount: 0,
+          pageSize: pageSize,
+          currentPage: page,
+        },
+      }
+    }
+  }
+
   async getApiLectureById(id: string): Promise<ApiLecture | null> {
     try {
       const lecture = await this.dataSource.get<ApiLecture>(`/Lectures/${id}`)

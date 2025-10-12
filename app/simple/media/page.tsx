@@ -76,7 +76,7 @@ export default function BeginnersMediaPage() {
       title: language === "ar" ? "مراجع" : "References",
       description:
         language === "ar"
-          ? "مراجع وموارد شاملة للبحث والتعلم المتقدم"
+          ? "الكتب والمراجع العلمية الشاملة في مجال الأمن السيبراني"
           : "Comprehensive references and resources for advanced research and learning",
       icon: BookOpen,
       color: "from-sky-500 to-blue-600",
@@ -109,7 +109,7 @@ export default function BeginnersMediaPage() {
       title: language === "ar" ? "المحاضرات" : "Lectures",
       description:
         language === "ar"
-          ? "محاضرات مفصلة من خبراء الأمن السيبراني"
+          ? "محاضرات ثقافية وتوعوية في مجال الأمن السيبراني"
           : "Detailed lectures from cybersecurity experts",
       icon: GraduationCap,
       color: "from-blue-500 to-cyan-600",

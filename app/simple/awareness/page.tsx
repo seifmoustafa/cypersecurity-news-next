@@ -158,7 +158,7 @@ export default function SimpleAwarenessPage() {
       title: language === "ar" ? "الأخبار" : "News",
       description:
         language === "ar"
-          ? "آخر أخبار وتحديثات الأمن السيبراني"
+          ? "أخبار متنوعة في مجال الأمن السيبراني"
           : "Latest cybersecurity news and updates",
       icon: Newspaper,
         color: "from-sky-400 to-blue-500",
@@ -209,7 +209,7 @@ export default function SimpleAwarenessPage() {
       title: language === "ar" ? "نشرات التوعية" : "Awareness Materials",
       description:
         language === "ar"
-          ? "نشرات توعوية مبسطة حسب السنوات"
+          ? "الصادرة من إدارة نظم المعلومات"
           : "Awareness materials by year",
       icon: Lightbulb,
         color: "from-blue-400 to-cyan-500",
@@ -592,7 +592,7 @@ export default function SimpleAwarenessPage() {
                     </div>
 
                     {/* Quick Access Links - Responsive */}
-                    <div className="space-y-1 sm:space-y-2 flex-1 flex flex-col justify-center">
+                    <div className="space-y-1 sm:space-y-2 flex-1 flex flex-col justify-start">
                       {/* OLD WAY (commented): Scrollable content with max height
                       <div className="space-y-2 flex-1 flex flex-col justify-start overflow-y-auto max-h-64">
                       */}

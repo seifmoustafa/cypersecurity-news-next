@@ -56,7 +56,7 @@ export default function SimpleHeader({
   // Handle debounced search
   useEffect(() => {
     if (debouncedSearchQuery.trim() && searchOpen) {
-      router.push(
+      router.replace(
         `/simple/search?q=${encodeURIComponent(debouncedSearchQuery)}`
       );
       setSearchOpen(false);
@@ -89,7 +89,7 @@ export default function SimpleHeader({
   const handleNavigation = (e: React.MouseEvent, href: string) => {
     e.preventDefault();
     setMobileMenuOpen(false);
-    router.push(href);
+    router.replace(href);
   };
 
   // New navigation items as requested
@@ -140,7 +140,7 @@ export default function SimpleHeader({
               className="flex items-center space-x-3 rtl:space-x-reverse group-hover:scale-105 transition-all duration-500"
               onClick={(e) => {
                 e.preventDefault();
-                router.push("/simple");
+                router.replace("/simple");
               }}
             >
               <img
@@ -316,7 +316,7 @@ export default function SimpleHeader({
                   if (e.key === "Enter") {
                     const query = e.currentTarget.value.trim();
                     if (query) {
-                      router.push(
+                      router.replace(
                         `/simple/search?q=${encodeURIComponent(query)}`
                       );
                       setSearchOpen(false);

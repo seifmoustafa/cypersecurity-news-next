@@ -2,14 +2,20 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { container } from "@/core/di/container"
 import LecturePageClient from "./LecturePageClient"
+import { use } from "react"
 
 interface PageProps {
-  params: { id: string }
+  params: Promise<{ 
+    categoryId: string
+    lectureId: string
+  }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ categoryId: string, lectureId: string }> }): Promise<Metadata> {
   try {
-    const lecture = await container.services.media.getApiLectureById(params.id)
+    const resolvedParams = await params
+    const lecture = await container.services.media.getApiLectureById(resolvedParams.lectureId)
 
     if (!lecture) {
       return {
@@ -30,15 +36,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 }
 
-export default async function LecturePage({ params }: PageProps) {
+export default async function LecturePage({ params, searchParams }: PageProps) {
   try {
-    const lecture = await container.services.media.getApiLectureById(params.id)
+    // Resolve the params Promise
+    const resolvedParams = await params
+    const lecture = await container.services.media.getApiLectureById(resolvedParams.lectureId)
+    
+    // We already have the categoryId from the route params
+    const categoryId = resolvedParams.categoryId
 
     if (!lecture) {
       notFound()
     }
 
-    return <LecturePageClient lecture={lecture} />
+    return <LecturePageClient lecture={lecture} categoryId={categoryId} />
   } catch (error) {
     console.error("❌ Error in LecturePage:", error)
     notFound()

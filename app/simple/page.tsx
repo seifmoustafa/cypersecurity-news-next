@@ -68,7 +68,7 @@ export default function BeginnersHome() {
     {
       id: "personal-protect",
       title: language === "ar" ? "الحماية الشخصية" : "Personal Protection",
-      description: language === "ar" ? "أدوات وإرشادات للحماية الشخصية" : "Tools and guides for personal protection",
+      description: language === "ar" ? "مادة تعليمية لشرح المفاهيم واستعراض اساليب الحماية باسلوب بسيط وسهل" : "Tools and guides for personal protection",
       icon: ShieldCheck,
       color: "from-cyan-500 to-blue-600",
       bgColor:
@@ -95,7 +95,7 @@ export default function BeginnersHome() {
       title: language === "ar" ? "التوعية" : "Awareness",
       description:
         language === "ar"
-          ? "الأخبار نشرات التوعية المبسطة"
+          ? "مصدر حيوي لمواكبة أحدث الأخبار والتقنيات الدفاعية الجديدة في المجال"
           : "News and awareness bulletins",
       icon: Lightbulb,
       color: "from-sky-400 to-blue-500",

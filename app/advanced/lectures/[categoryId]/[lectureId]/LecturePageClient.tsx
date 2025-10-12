@@ -6,13 +6,14 @@ import { Card, CardContent } from "@/components/ui/card"
 import MainLayout from "@/components/layouts/main-layout"
 import { useLanguage } from "@/components/language-provider"
 import { useRouter } from "next/navigation"
-import type { ApiLecture } from "@/core/domain/models/advanced/media"
+import type { ApiLecture } from "@/core/domain/models/media"
 
 interface LecturePageClientProps {
   lecture: ApiLecture
+  categoryId: string
 }
 
-export default function LecturePageClient({ lecture }: LecturePageClientProps) {
+export default function LecturePageClient({ lecture, categoryId }: LecturePageClientProps) {
   const { language, isRtl } = useLanguage()
   const router = useRouter()
 
@@ -64,6 +65,10 @@ export default function LecturePageClient({ lecture }: LecturePageClientProps) {
     }
   }
 
+  const handleBack = () => {
+    router.push(`/advanced/lectures/${categoryId}`)
+  }
+
   return (
     <MainLayout>
       <div className="min-h-screen bg-background">
@@ -73,11 +78,11 @@ export default function LecturePageClient({ lecture }: LecturePageClientProps) {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => router.push("/advanced/lectures")}
+              onClick={handleBack}
               className={`flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
             >
               <ArrowLeft className="h-4 w-4" />
-              {language === "ar" ? "العودة للمحاضرات" : "Back to Lectures"}
+              {language === "ar" ? "العودة إلى الفئة" : "Back to Category"}
             </Button>
           </div>
 

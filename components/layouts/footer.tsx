@@ -46,7 +46,7 @@ export default function Footer() {
         { title: language === "ar" ? "الرئيسية" : "Home", href: "/advanced", icon: Home },
         { title: language === "ar" ? "الأخبار" : "News", href: "/advanced/news", icon: AlertTriangle },
         { title: language === "ar" ? "التوعية للعام الحالي" : "Awareness current year", href: "/advanced/awareness", icon: Users },
-        { title: language === "ar" ? "المقالات" : "Articles", href: "/advanced/articles", icon: FileText },
+        // { title: language === "ar" ? "المقالات" : "Articles", href: "/advanced/articles", icon: FileText },
         { title: language === "ar" ? "سنوات التوعية" : "Awareness Years", href: "/advanced/awareness/years", icon: Calendar }
       ]
     },

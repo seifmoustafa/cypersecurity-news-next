@@ -79,6 +79,10 @@ export class MediaService {
     return this.mediaRepository.getLecturesByCategory(categoryId, page, pageSize, search)
   }
 
+  async getLecturesByCategoryForProfessionals(categoryId: string, page = 1, pageSize = 10, search?: string): Promise<LecturesPaginatedResponse> {
+    return this.mediaRepository.getLecturesByCategoryForProfessionals(categoryId, page, pageSize, search)
+  }
+
   async getApiLectureById(id: string): Promise<ApiLecture> {
     const lecture = await this.mediaRepository.getApiLectureById(id)
     if (!lecture) {

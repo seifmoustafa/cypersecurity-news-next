@@ -6,7 +6,7 @@ import SectionHeader from "@/components/ui/section-header"
 import SectionContainer from "@/components/ui/section-container"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { container } from "@/core/di/container"
-import type { ApiVideo, ApiLecture, ApiPresentation } from "@/core/domain/models/media"  
+import type { ApiVideo, ApiLecture, ApiPresentation, VideoCategory, LectureCategory } from "@/core/domain/models/media"  
 import { slugify, getLocalizedText } from "@/lib/utils"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -14,6 +14,8 @@ import { ArrowRight, ArrowLeft, Play, BookOpen, Presentation, Calendar, Clock, X
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { useVideoCategoriesForProfessionals } from "@/core/hooks/use-video-categories-for-professionals"
 import { useVideosByCategoryForProfessionals } from "@/core/hooks/use-videos-by-category-for-professionals"
+import { useLectureCategoriesForProfessionals } from "@/core/hooks/use-lecture-categories-for-professionals"
+import { useLecturesByCategoryForProfessionals } from "@/core/hooks/use-lectures-by-category-for-professionals"
 import { useDebounce } from "@/hooks/use-debounce"
 
 export default function MediaLibrarySection() {
@@ -29,6 +31,7 @@ export default function MediaLibrarySection() {
   const [presentationsLoading, setPresentationsLoading] = useState(true)
   const [selectedVideo, setSelectedVideo] = useState<ApiVideo | null>(null)
   const [activeVideoCategory, setActiveVideoCategory] = useState<string | null>(null)
+  const [activeLectureCategory, setActiveLectureCategory] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
   const debouncedSearch = useDebounce(searchQuery, 500)
 
@@ -38,6 +41,17 @@ export default function MediaLibrarySection() {
   // Videos for selected category
   const { videos: categoryVideos, loading: categoryVideosLoading } = useVideosByCategoryForProfessionals(
     activeVideoCategory || "",
+    1,
+    100,
+    debouncedSearch
+  )
+
+  // Lecture categories for professionals
+  const { categories: lectureCategories, loading: lectureCategoriesLoading } = useLectureCategoriesForProfessionals(1, 100, debouncedSearch)
+  
+  // Lectures for selected category
+  const { lectures: categoryLectures, loading: categoryLecturesLoading } = useLecturesByCategoryForProfessionals(
+    activeLectureCategory || "",
     1,
     100,
     debouncedSearch
@@ -74,6 +88,13 @@ export default function MediaLibrarySection() {
       setActiveVideoCategory(videoCategories[0].id)
     }
   }, [videoCategories, activeVideoCategory])
+
+  // Set first lecture category as active when categories load
+  useEffect(() => {
+    if (lectureCategories.length > 0 && !activeLectureCategory) {
+      setActiveLectureCategory(lectureCategories[0].id)
+    }
+  }, [lectureCategories, activeLectureCategory])
 
   // Fetch videos from API
   useEffect(() => {
@@ -169,7 +190,7 @@ export default function MediaLibrarySection() {
                   </div>
                 ) : (
                   <div className={`flex ${isRtl ? 'flex-row-reverse space-x-reverse' : 'flex-row'} space-x-2`}>
-                    {videoCategories.map((category) => (
+                    {videoCategories.map((category: VideoCategory) => (
                       <button
                         key={category.id}
                         onClick={() => setActiveVideoCategory(category.id)}
@@ -226,29 +247,61 @@ export default function MediaLibrarySection() {
         </TabsContent>
 
         <TabsContent value="lectures" className="mt-0">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={isRtl ? { direction: 'rtl' } : {}}>
-            {lecturesLoading ? (
-              // Loading skeletons
-              Array.from({ length: 6 }).map((_, index) => (
-                <div key={index} className="animate-pulse">
-                  <div className="aspect-video bg-muted rounded-lg mb-4"></div>
-                  <div className="h-4 bg-muted rounded mb-2"></div>
-                  <div className="h-3 bg-muted rounded w-3/4"></div>
-                </div>
-              ))
-            ) : lectures.length > 0 ? (
-              lectures.map((lecture) => <LectureCard key={lecture.id} lecture={lecture} />)
-            ) : (
-              <div className="col-span-full text-center py-8">
-                <p className="text-muted-foreground">{t("media.noLectures")}</p>
+          {/* Lecture Categories Tabs */}
+          {lectureCategories.length > 0 && (
+            <div className="mb-8">
+              <div className="flex overflow-x-auto pb-2 mb-6 justify-center">
+                {lectureCategoriesLoading ? (
+                  <div className="flex space-x-4">
+                    {[...Array(3)].map((_, index) => (
+                      <div key={index} className="flex-shrink-0 w-32 h-12 bg-muted rounded-lg animate-pulse"></div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className={`flex ${isRtl ? 'flex-row-reverse space-x-reverse' : 'flex-row'} space-x-2`}>
+                    {lectureCategories.map((category: LectureCategory) => (
+                      <button
+                        key={category.id}
+                        onClick={() => setActiveLectureCategory(category.id)}
+                        className={`flex-shrink-0 px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
+                          activeLectureCategory === category.id
+                            ? "bg-blue-600 text-white shadow-lg"
+                            : "bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-blue-900/50"
+                        }`}
+                      >
+                        {language === "ar" ? category.name : category.nameEn || category.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
 
-          {lectures.length > 0 && (
+              {/* Lectures for Selected Category */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={isRtl ? { direction: 'rtl' } : {}}>
+                {categoryLecturesLoading ? (
+                  // Loading skeletons
+                  Array.from({ length: 6 }).map((_, index) => (
+                    <div key={index} className="animate-pulse">
+                      <div className="aspect-video bg-muted rounded-lg mb-4"></div>
+                      <div className="h-4 bg-muted rounded mb-2"></div>
+                      <div className="h-3 bg-muted rounded w-3/4"></div>
+                    </div>
+                  ))
+                ) : categoryLectures.length > 0 ? (
+                  categoryLectures.map((lecture) => <LectureCard key={lecture.id} lecture={lecture} />)
+                ) : (
+                  <div className="col-span-full text-center py-8">
+                    <p className="text-muted-foreground">{t("media.noLectures")}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {lectureCategories.length > 0 && (
             <div className="flex justify-center mt-12">
               <Button 
-                onClick={() => router.push("/advanced/lectures")} 
+                onClick={() => router.push(`/advanced/lectures/${activeLectureCategory}`)} 
                 className="group bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 px-8 py-4 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-xl shadow-blue-500/30 dark:shadow-blue-500/40 border border-blue-500/30 dark:border-blue-400/30"
               >
                 {t("common.viewAll")}
@@ -423,15 +476,14 @@ const VideoCard = ({ video, onClick }: { video: ApiVideo; onClick: (video: ApiVi
   )
 }
 
-// Enhanced Lecture Card Component for API lectures with slug-based navigation
+// Enhanced Lecture Card Component for API lectures with category-based navigation
 const LectureCard = ({ lecture }: { lecture: ApiLecture }) => {
   const { language, isRtl } = useLanguage()
   const router = useRouter()
 
   const handleCardClick = () => {
-    const englishTitle = lecture.nameEn || ""
-    const slug = slugify(englishTitle, lecture.id)
-    router.push(`/advanced/lectures/${slug}`)
+    // Navigate to the nested route structure: /advanced/lectures/[categoryId]/[lectureId]
+    router.push(`/advanced/lectures/${lecture.lectureCategoryId}/${lecture.id}`)
   }
 
   const formatDate = (dateString: string) => {

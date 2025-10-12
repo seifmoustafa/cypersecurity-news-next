@@ -25,7 +25,7 @@ export default function LawCategoryPageClient({
       ? category?.name || category?.nameEn || ""
       : category?.nameEn || category?.name || "";
   const handleBackClick = () => {
-    window.location.href = "/advanced#concepts";
+    router.replace("/advanced#concepts");
   };
   return (
     <MainLayout>

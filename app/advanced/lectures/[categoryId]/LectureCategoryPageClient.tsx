@@ -10,17 +10,23 @@ import { Skeleton } from "@/components/ui/skeleton"
 import MainLayout from "@/components/layouts/main-layout"
 import { useLanguage } from "@/components/language-provider"
 import { container } from "@/core/di/container"
-import { getLocalizedText } from "@/lib/utils"
-import type { ApiLecture, LecturesPaginatedResponse } from "@/core/domain/models/advanced/media"
+import { getLocalizedText, slugify } from "@/lib/utils"
+import type { ApiLecture, LecturesPaginatedResponse, LectureCategory } from "@/core/domain/models/media"
 import Link from "next/link"
 
-interface LecturesPageClientProps {
+interface LectureCategoryPageClientProps {
   initialLectures: LecturesPaginatedResponse
   initialSearch: string
   initialPage: number
+  category: LectureCategory
 }
 
-export default function LecturesPageClient({ initialLectures, initialSearch, initialPage }: LecturesPageClientProps) {
+export default function LectureCategoryPageClient({ 
+  initialLectures, 
+  initialSearch, 
+  initialPage,
+  category 
+}: LectureCategoryPageClientProps) {
   const { language, isRtl } = useLanguage()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -30,6 +36,8 @@ export default function LecturesPageClient({ initialLectures, initialSearch, ini
   const [searchTerm, setSearchTerm] = useState(initialSearch)
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(initialPage)
+  // State to track if initial data has been processed
+  const [initialDataProcessed, setInitialDataProcessed] = useState(false)
 
   const getDisplayName = (lecture: ApiLecture) => {
     return language === "ar" ? lecture.nameAr || lecture.nameEn || "" : lecture.nameEn || lecture.nameAr || ""
@@ -51,7 +59,7 @@ export default function LecturesPageClient({ initialLectures, initialSearch, ini
   const fetchLectures = useCallback(async (page: number, search: string) => {
     try {
       setLoading(true)
-      const response = await container.services.media.getLectures(page, 12, search)
+      const response = await container.services.media.getLecturesByCategoryForProfessionals(category.id, page, 12, search)
       setLectures(response.data || [])
       setPagination(response.pagination)
     } catch (error) {
@@ -61,7 +69,7 @@ export default function LecturesPageClient({ initialLectures, initialSearch, ini
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [category.id])
 
   const updateURL = useCallback(
     (search: string, page: number) => {
@@ -70,11 +78,48 @@ export default function LecturesPageClient({ initialLectures, initialSearch, ini
       if (page > 1) params.set("page", page.toString())
 
       const queryString = params.toString()
-      const newURL = queryString ? `/advanced/lectures?${queryString}` : "/advanced/lectures"
+      const newURL = queryString ? `/advanced/lectures/${category.id}?${queryString}` : `/advanced/lectures/${category.id}`
       router.push(newURL, { scroll: false })
     },
-    [router],
+    [router, category.id],
   )
+
+  // Effect to handle URL parameter changes
+  useEffect(() => {
+    const search = searchParams.get('search') || ''
+    const page = Number(searchParams.get('page')) || 1
+    
+    // Always update state when URL parameters change
+    if (search !== searchTerm) {
+      setSearchTerm(search)
+      // Fetch lectures when search term changes
+      fetchLectures(page, search)
+    }
+    
+    if (page !== currentPage) {
+      setCurrentPage(page)
+      // Fetch lectures when page changes
+      fetchLectures(page, search)
+    }
+  }, [searchParams, fetchLectures, currentPage, searchTerm])
+
+  // Effect to handle category changes (when navigating between categories)
+  useEffect(() => {
+    // Reset to first page when category changes
+    setCurrentPage(1)
+    setSearchTerm("")
+    fetchLectures(1, "")
+    updateURL("", 1)
+  }, [category.id, fetchLectures, updateURL])
+
+  // Effect to handle initial data when component mounts or receives new props
+  useEffect(() => {
+    // Update state with initial data when component mounts
+    setLectures(initialLectures.data || [])
+    setPagination(initialLectures.pagination)
+    setSearchTerm(initialSearch)
+    setCurrentPage(initialPage)
+  }, [initialLectures, initialSearch, initialPage])
 
   // Debounced search
   useEffect(() => {
@@ -87,7 +132,7 @@ export default function LecturesPageClient({ initialLectures, initialSearch, ini
     }, 500)
 
     return () => clearTimeout(timer)
-  }, [searchTerm, fetchLectures, updateURL, initialSearch, initialPage, currentPage])
+  }, [searchTerm, fetchLectures, updateURL, initialSearch, initialPage, currentPage, searchParams])
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
@@ -107,6 +152,8 @@ export default function LecturesPageClient({ initialLectures, initialSearch, ini
       document.body.removeChild(link)
     }
   }
+
+  const categoryName = language === "ar" ? category.name : category.nameEn || category.name
 
   return (
     <MainLayout>
@@ -129,7 +176,7 @@ export default function LecturesPageClient({ initialLectures, initialSearch, ini
             <div className={`text-center ${isRtl ? "text-right" : "text-left"}`}>
               <h1 className={`text-4xl font-bold mb-4 ${isRtl ? "text-right" : "text-left"}`}>
                 <BookOpen className="inline-block mr-3 h-8 w-8 text-primary" />
-                {language === "ar" ? "المحاضرات" : "Lectures"}
+                {categoryName}
               </h1>
               <p className="text-muted-foreground text-lg">
                 {language === "ar"
@@ -198,7 +245,7 @@ export default function LecturesPageClient({ initialLectures, initialSearch, ini
                   <Card key={lecture.id} className="group hover:shadow-lg transition-all duration-300 overflow-hidden">
                     <CardContent className="p-6">
                       <div className="flex items-start gap-3 mb-4">
-                        <div className="p-2 bg-primary/10 rounded-lg">
+                        <div className="bg-primary/10 p-2 rounded-lg">
                           <BookOpen className="h-5 w-5 text-primary" />
                         </div>
                         <div className="flex-1 min-w-0">
@@ -216,14 +263,20 @@ export default function LecturesPageClient({ initialLectures, initialSearch, ini
                       </div>
 
                       <div className="flex gap-2">
-                        <Button asChild className="flex-1">
-                          <Link href={`/advanced/lectures/${lecture.id}`}>
-                            {language === "ar" ? "قراءة المحاضرة" : "Read Lecture"}
-                          </Link>
-                        </Button>
-
+                        <Link
+                          href={`/advanced/lectures/${category.id}/${lecture.id}`}
+                          className="flex-1"
+                        >
+                          <Button variant="outline" size="sm" className="w-full">
+                            {language === "ar" ? "عرض" : "View"}
+                          </Button>
+                        </Link>
                         {lecture.documentUrl && (
-                          <Button variant="outline" size="sm" onClick={() => handleDownload(lecture)} className="px-3">
+                          <Button
+                            size="sm"
+                            onClick={() => handleDownload(lecture)}
+                            className="flex items-center gap-1"
+                          >
                             <Download className="h-4 w-4" />
                           </Button>
                         )}
@@ -235,35 +288,25 @@ export default function LecturesPageClient({ initialLectures, initialSearch, ini
 
               {/* Pagination */}
               {pagination.pagesCount > 1 && (
-                <div className="flex justify-center gap-2">
+                <div className="flex justify-center items-center gap-2 mt-8">
                   <Button
                     variant="outline"
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage <= 1}
+                    onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                    disabled={currentPage === 1}
                   >
                     {language === "ar" ? "السابق" : "Previous"}
                   </Button>
-
-                  <div className="flex items-center gap-2">
-                    {Array.from({ length: Math.min(5, pagination.pagesCount) }, (_, i) => {
-                      const pageNum = i + 1
-                      return (
-                        <Button
-                          key={pageNum}
-                          variant={currentPage === pageNum ? "default" : "outline"}
-                          size="sm"
-                          onClick={() => handlePageChange(pageNum)}
-                        >
-                          {pageNum}
-                        </Button>
-                      )
-                    })}
-                  </div>
-
+                  
+                  <span className="text-sm text-muted-foreground px-4">
+                    {language === "ar"
+                      ? `الصفحة ${currentPage} من ${pagination.pagesCount}`
+                      : `Page ${currentPage} of ${pagination.pagesCount}`}
+                  </span>
+                  
                   <Button
                     variant="outline"
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage >= pagination.pagesCount}
+                    onClick={() => handlePageChange(Math.min(pagination.pagesCount, currentPage + 1))}
+                    disabled={currentPage === pagination.pagesCount}
                   >
                     {language === "ar" ? "التالي" : "Next"}
                   </Button>
