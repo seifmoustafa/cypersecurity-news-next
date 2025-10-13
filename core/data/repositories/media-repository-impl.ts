@@ -185,6 +185,69 @@ export class MediaRepositoryImpl implements MediaRepository {
     }
   }
 
+  // Add these new methods for creating/updating videos
+  async createVideo(videoData: Partial<ApiVideo> & { imageUploadId?: string }): Promise<ApiVideo> {
+    try {
+      // Prepare the payload
+      const payload: Record<string, any> = {
+        ...videoData,
+        // Include imageUploadId in the payload if it exists
+        ...(videoData.imageUploadId && { imageUploadId: videoData.imageUploadId })
+      };
+
+      // Remove undefined values
+      Object.keys(payload).forEach(key => {
+        if (payload[key] === undefined) {
+          delete payload[key];
+        }
+      });
+
+      const response = await this.dataSource.post<ApiVideo>("/videos", payload);
+
+      // Transform URLs to include base URL
+      const baseImageUrl = this.dataSource.getBaseImageUrl();
+      return {
+        ...response,
+        videoUrl: response.videoUrl ? `${baseImageUrl}${response.videoUrl}` : response.videoUrl,
+        imageUrl: response.imageUrl ? `${baseImageUrl}${response.imageUrl}` : response.imageUrl,
+      };
+    } catch (error) {
+      console.error("MediaRepository: Error creating video:", error);
+      throw error;
+    }
+  }
+
+  async updateVideo(id: string, videoData: Partial<ApiVideo> & { imageUploadId?: string }): Promise<ApiVideo> {
+    try {
+      // Prepare the payload
+      const payload: Record<string, any> = {
+        ...videoData,
+        // Include imageUploadId in the payload if it exists
+        ...(videoData.imageUploadId && { imageUploadId: videoData.imageUploadId })
+      };
+
+      // Remove undefined values
+      Object.keys(payload).forEach(key => {
+        if (payload[key] === undefined) {
+          delete payload[key];
+        }
+      });
+
+      const response = await this.dataSource.put<ApiVideo>(`/videos/${id}`, payload);
+
+      // Transform URLs to include base URL
+      const baseImageUrl = this.dataSource.getBaseImageUrl();
+      return {
+        ...response,
+        videoUrl: response.videoUrl ? `${baseImageUrl}${response.videoUrl}` : response.videoUrl,
+        imageUrl: response.imageUrl ? `${baseImageUrl}${response.imageUrl}` : response.imageUrl,
+      };
+    } catch (error) {
+      console.error("MediaRepository: Error updating video:", error);
+      throw error;
+    }
+  }
+
   async getLectures(page = 1, pageSize = 10, search?: string): Promise<LecturesPaginatedResponse> {
     try {
       const params = new URLSearchParams({

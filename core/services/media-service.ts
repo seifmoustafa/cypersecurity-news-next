@@ -71,6 +71,14 @@ export class MediaService {
     return video
   }
 
+  async createVideo(videoData: Partial<ApiVideo> & { imageUploadId?: string }): Promise<ApiVideo> {
+    return this.mediaRepository.createVideo(videoData);
+  }
+
+  async updateVideo(id: string, videoData: Partial<ApiVideo> & { imageUploadId?: string }): Promise<ApiVideo> {
+    return this.mediaRepository.updateVideo(id, videoData);
+  }
+
   async getLectures(page = 1, pageSize = 10, search?: string): Promise<LecturesPaginatedResponse> {
     return this.mediaRepository.getLectures(page, pageSize, search)
   }

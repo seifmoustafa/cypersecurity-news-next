@@ -34,7 +34,6 @@ export interface MediaRepository {
   getApiLectureById(id: string): Promise<ApiLecture | null>
   getLectureBySlug(slug: string): Promise<ApiLecture | null>
   getPresentations(page?: number, pageSize?: number, search?: string): Promise<PresentationsPaginatedResponse>
-  getPresentationsByCategory(categoryId: string, page?: number, pageSize?: number, search?: string): Promise<PresentationsPaginatedResponse>
   getApiPresentationById(id: string): Promise<ApiPresentation | null>
   getPresentationBySlug(slug: string): Promise<ApiPresentation | null>
   getVideoCategories(page?: number, pageSize?: number, search?: string): Promise<VideoCategoriesResponse>
@@ -43,6 +42,11 @@ export interface MediaRepository {
   getLectureCategoriesForProfessionals(page?: number, pageSize?: number, search?: string): Promise<LectureCategoriesResponse>
   getPresentationCategories(page?: number, pageSize?: number, search?: string): Promise<PresentationCategoriesResponse>
   getPresentationCategoriesForProfessionals(page?: number, pageSize?: number, search?: string): Promise<PresentationCategoriesResponse>
+  getPresentationsByCategory(categoryId: string, page?: number, pageSize?: number, search?: string): Promise<PresentationsPaginatedResponse>
   getArticles(page?: number, pageSize?: number, search?: string): Promise<ArticlesPaginatedResponse>
   getApiArticleById(id: string): Promise<ApiArticle | null>
+  
+  // New methods for video creation and update
+  createVideo(videoData: Partial<ApiVideo> & { imageUploadId?: string }): Promise<ApiVideo>
+  updateVideo(id: string, videoData: Partial<ApiVideo> & { imageUploadId?: string }): Promise<ApiVideo>
 }
