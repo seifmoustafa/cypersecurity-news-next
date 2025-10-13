@@ -127,9 +127,7 @@ export default function SimpleVideoCategoriesPage() {
             {
               label:
                 language === "ar" ? "الحماية الشخصية" : "Personal Protection",
-              href: "/simple/personal-protect",
             },
-            { label: language === "ar" ? "فيديوهات" : "Educational Videos" },
           ]}
         />
 
@@ -183,7 +181,7 @@ export default function SimpleVideoCategoriesPage() {
             {categories.map((category, index) => (
               <Link
                 key={category.id}
-                href={`/simple/personal-protect/videos/${category.id}`}
+                href={`/simple/personal-protect/${category.id}`}
                 className="group"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
