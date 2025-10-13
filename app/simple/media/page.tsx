@@ -223,7 +223,7 @@ export default function BeginnersMediaPage() {
                           ) : references.length > 0 ? (
                             // Show actual references
                             references
-                              .slice(0, 2)
+                              .slice(0, 200)
                               .map((reference, referenceIndex) => (
                                 <Link
                                   key={reference.id}

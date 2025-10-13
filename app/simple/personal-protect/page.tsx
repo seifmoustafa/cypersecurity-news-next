@@ -154,7 +154,7 @@ export default function PersonalProtectPage() {
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl leading-relaxed">
                     {language === "ar" 
-                      ? "فيديوهات  تفاعلية لتعلم أساسيات الأمن السيبراني والحماية الشخصية"
+                      ? "فيدوهات تعليمية لشرح مفاهيم وأساسيات الأمن السيبراني والحماية الشخصية"
                       : "Interactive educational videos to learn cybersecurity fundamentals and personal protection"
                     }
                   </p>
@@ -226,7 +226,7 @@ export default function PersonalProtectPage() {
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl leading-relaxed">
                     {language === "ar" 
-                      ? "إرشادات وأدلة شاملة للحماية الشخصية والأمن السيبراني"
+                      ? "لوحات إرشادية في مجال الأمن السيبراني بهدف الحماية الشخصية"
                       : "Comprehensive guides and instructions for personal protection and cybersecurity"
                     }
                   </p>

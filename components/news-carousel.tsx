@@ -10,6 +10,8 @@ import Link from "next/link";
 import { useLatestNews } from "@/core/hooks/use-news";
 import { slugify } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
+import { formatDate } from "date-fns";
+import { formatDateArabicNumbers } from "@/lib/content-purifier";
 
 export default function NewsCarousel() {
   const { language, t, isRtl } = useLanguage();
@@ -311,15 +313,18 @@ export default function NewsCarousel() {
                             <div className="absolute inset-0 bg-yellow-400 rounded-full blur-sm opacity-60 animate-pulse"></div>
                             <div className="relative w-3 h-3 bg-yellow-400 rounded-full shadow-lg"></div>
                           </div>
-                          {new Date(
+                          {
+                            formatDateArabicNumbers(currentNews.date || currentNews.createdAt)
+                          }
+                          {/* {new Date(
                             currentNews.date || currentNews.createdAt
-                          ).toLocaleDateString("en-US")}
+                          ).toLocaleDateString("en-US")} */}
                         </span>
                       </div>
 
                       {/* Enhanced Title */}
-                      <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold leading-none text-white drop-shadow-2xl">
-                        <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-100 bg-clip-text text-transparent block truncate max-w-xl md:max-w-xl lg:max-w-xl pb-10">
+                      <h2 className="text-xl md:text-2xl lg:text-3xl font-bold leading-none text-white drop-shadow-2xl">
+                        <span className="bg-gradient-to-r from-white via-blue-100 to-blue-100 bg-clip-text text-transparent block  max-w-10xl md:max-w-10xl lg:max-w-10xl pb-10">
                           {displayTitle}
                         </span>
                       </h2>

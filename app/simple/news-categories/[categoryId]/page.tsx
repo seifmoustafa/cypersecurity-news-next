@@ -231,7 +231,7 @@ export default function NewsCategoryPage({ params }: NewsCategoryPageProps) {
                         <Calendar className="h-3 w-3" />
                         <span>
                           {language === "ar" 
-                            ? new Date(newsItem.date).toLocaleDateString('ar-SA')
+                            ? new Date(newsItem.date).toLocaleDateString('ar-US')
                             : new Date(newsItem.date).toLocaleDateString('en-US')
                           }
                         </span>
