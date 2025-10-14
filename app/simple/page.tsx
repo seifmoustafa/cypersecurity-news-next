@@ -75,20 +75,17 @@ export default function BeginnersHome() {
         "bg-gradient-to-br from-cyan-50/80 to-blue-50/60 dark:from-cyan-900/30 dark:to-blue-900/20",
       borderColor: "border-cyan-300/60 dark:border-cyan-600/40",
       href: "/simple/personal-protect",
-      items: [
-        {
-          title: language === "ar" ? "فيديوهات" : "Educational Videos",
-          href: "/simple/personal-protect/videos",
-          icon: Video,
-          count: "",
-        },
-        {
-          title: language === "ar" ? "إرشادات" : "Helpers",
-          href: "/simple/personal-protect/helpers",
-          icon: BookOpen,
-          count: "",
-        },
-      ],
+      // Show all video categories like definitions categories (without helpers button)
+      items: videoCategories.map((category) => ({
+        title:
+          language === "ar"
+            ? category.name
+            : category.nameEn || category.name,
+        href: `/simple/personal-protect/${category.id}`,
+        icon: Video,
+        count: "",
+        imageUrl: null, // Don't show images in main page
+      })),
     },
     {
       id: "awareness",
@@ -153,32 +150,6 @@ export default function BeginnersHome() {
         "bg-gradient-to-br from-blue-50/80 to-blue-50/60 dark:from-blue-900/30 dark:to-blue-900/20",
       borderColor: "border-blue-300/60 dark:border-blue-600/40",
       href: "/simple/definitions-categories",
-      // OLD WAY (commented): Show only first 2 categories + show more
-      // items: definitionCategories
-      //   .slice(0, 2)
-      //   .map((category) => ({
-      //     title:
-      //       language === "ar"
-      //         ? category.name
-      //         : category.nameEn || category.name,
-      //     href: `/simple/definitions-categories/${category.id}`,
-      //     icon: BookOpen,
-      //     count: "",
-      //     imageUrl: null, // Don't show images in main page
-      //   }))
-      //   .concat([
-      //     {
-      //       title:
-      //         language === "ar"
-      //           ? "عرض المزيد من الفئات"
-      //           : "View More Categories",
-      //       href: "/simple/definitions-categories",
-      //       icon: ArrowRight,
-      //       count: "",
-      //       imageUrl: null,
-      //     },
-      //   ]),
-      
       // NEW WAY: Show all categories
       items: definitionCategories.map((category) => ({
         title:
@@ -550,75 +521,30 @@ export default function BeginnersHome() {
 
                       {/* Quick Access Links - Responsive */}
                       <div className="space-y-1 sm:space-y-2 flex-1 flex flex-col justify-start">
-                        {/* OLD WAY (commented): Scrollable content with max height
-                        <div className="space-y-2 flex-1 flex flex-col justify-start overflow-y-auto max-h-64">
-                        */}
-                        {card.id === "personal-protect" ? (
-                          // Show two main buttons: Videos and Helpers
-                          <>
-                            {/* Videos Button */}
-                            <Link
-                              href="/simple/personal-protect/videos"
-                              onClick={(e) => e.stopPropagation()}
-                              className="flex items-center justify-between p-2 sm:p-3 md:p-4 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-md sm:rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
-                            >
-                              <span className="text-gray-700 dark:text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium group-hover/item:text-blue-700 dark:group-hover/item:text-blue-400 transition-colors duration-300">
-                                {language === "ar" ? "فيديوهات" : "Educational Videos"}
-                              </span>
-                              <div className="flex items-center">
-                                {isRtl ? (
-                                  <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-blue-600 dark:group-hover/item:text-blue-400 transition-colors duration-300" />
-                                ) : (
-                                  <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-blue-600 dark:group-hover/item:text-blue-400 transition-colors duration-300" />
-                                )}
-                              </div>
-                            </Link>
-                            
-                            {/* Helpers Button */}
-                            <Link
-                              href="/simple/personal-protect/helpers"
-                              onClick={(e) => e.stopPropagation()}
-                              className="flex items-center justify-between p-2 sm:p-3 md:p-4 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-md sm:rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
-                            >
-                              <span className="text-gray-700 dark:text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium group-hover/item:text-green-700 dark:group-hover/item:text-green-400 transition-colors duration-300">
-                                {language === "ar" ? "إرشادات" : "Helpers"}
-                              </span>
-                              <div className="flex items-center">
-                                {isRtl ? (
-                                  <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
-                                ) : (
-                                  <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
-                                )}
-                              </div>
-                            </Link>
-                          </>
-                        ) : (
-                          // Show regular items for other cards
-                          card.items?.map((item, itemIndex) => (
-                            <Link
-                              key={itemIndex}
-                              href={item.href}
-                              onClick={(e) => e.stopPropagation()}
-                              className="flex items-center justify-between p-2 sm:p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-md sm:rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
-                            >
-                              <span className="text-gray-700 dark:text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium group-hover/item:text-green-700 dark:group-hover/item:text-green-400 transition-colors duration-300">
-                                {item.title}
-                              </span>
-                              <div className="flex items-center">
-                                {item.count && (
-                                  <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mr-1 sm:mr-2 bg-white/60 dark:bg-white/10 px-1 sm:px-2 py-1 rounded-full group-hover/item:bg-green-200 dark:group-hover/item:bg-green-800 group-hover/item:text-green-700 dark:group-hover/item:text-green-200 transition-colors duration-300">
-                                    {item.count}
-                                  </span>
-                                )}
-                                {isRtl ? (
-                                  <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
-                                ) : (
-                                  <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
-                                )}
-                              </div>
-                            </Link>
-                          ))
-                        )}
+                        {card.items?.map((item, itemIndex) => (
+                          <Link
+                            key={itemIndex}
+                            href={item.href}
+                            onClick={(e) => e.stopPropagation()}
+                            className="flex items-center justify-between p-2 sm:p-3 bg-white/50 dark:bg-white/5 hover:bg-white/80 dark:hover:bg-white/10 rounded-md sm:rounded-lg transition-all duration-300 group/item border border-white/20 dark:border-white/10 hover:border-white/40 dark:hover:border-white/20"
+                          >
+                            <span className="text-gray-700 dark:text-white text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium group-hover/item:text-green-700 dark:group-hover/item:text-green-400 transition-colors duration-300">
+                              {item.title}
+                            </span>
+                            <div className="flex items-center">
+                              {item.count && (
+                                <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mr-1 sm:mr-2 bg-white/60 dark:bg-white/10 px-1 sm:px-2 py-1 rounded-full group-hover/item:bg-green-200 dark:group-hover/item:bg-green-800 group-hover/item:text-green-700 dark:group-hover/item:text-green-200 transition-colors duration-300">
+                                  {item.count}
+                                </span>
+                              )}
+                              {isRtl ? (
+                                <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
+                              ) : (
+                                <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 dark:text-gray-400 group-hover/item:text-green-600 dark:group-hover/item:text-green-400 transition-colors duration-300" />
+                              )}
+                            </div>
+                          </Link>
+                        ))}
                       </div>
                     </div>
                   </div>

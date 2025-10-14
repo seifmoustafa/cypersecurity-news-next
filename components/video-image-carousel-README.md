@@ -176,7 +176,7 @@ The component uses Tailwind CSS and supports:
 
 ### Personal Protect Videos
 The component is already integrated into the personal protect videos section at:
-`/simple/personal-protect/videos/[id]/[videoId]`
+`/simple/personal-protect/[id]/[videoId]`
 
 ### Personal Protect Steps
 The component is integrated into the personal protect steps at:

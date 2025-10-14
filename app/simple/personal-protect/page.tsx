@@ -25,7 +25,7 @@ export default function SimpleVideoCategoriesPage() {
 
   const { categories, loading, error } = useVideoCategories(
     1,
-    100,
+    10,
     debouncedQuery
   );
 
@@ -252,14 +252,14 @@ export default function SimpleVideoCategoriesPage() {
                     {/* Category Description */}
                     <div className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-6 line-clamp-3">
                       {language === "ar"
-                        ? "تصفح فيديوهات في هذه الفئة"
+                        ? "تصفح إجراءات الحماية الشخصية في هذه الفئة"
                         : "Browse educational videos in this category"}
                     </div>
 
                     {/* Category Footer */}
                     <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-blue-400">
                       <span className="mr-2 rtl:mr-0 rtl:ml-2">
-                        {language === "ar" ? "تصفح فيديوهات" : "Browse Videos"}
+                        {language === "ar" ? "تصفح إجراءات الحماية الشخصية" : "Browse Videos"}
                       </span>
                       {isRtl ? (
                         <ArrowLeft className="h-4 w-4 group-hover/btn:-translate-x-1 transition-transform duration-300" />

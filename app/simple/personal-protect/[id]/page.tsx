@@ -391,7 +391,7 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                     {/* Video Footer */}
                     <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-teal-500 to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-blue-400">
                       <span className="mr-2 rtl:mr-0 rtl:ml-2">
-                        {language === "ar" ? "مشاهدة الفيديو" : "Watch Video"}
+                        {language === "ar" ? "مشاهدة الحماية الشخصية" : "Watch Video"}
                       </span>
                       {isRtl ? (
                         <ArrowLeft className="h-4 w-4 group-hover/btn:-translate-x-1 transition-transform duration-300" />
