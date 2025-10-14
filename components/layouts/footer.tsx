@@ -100,7 +100,7 @@ export default function Footer() {
   const quickLinks = [
     { title: language === "ar" ? "خريطة الموقع" : "Site Map", href: "/advanced/sitemap", icon: Map },
     { title: language === "ar" ? "البحث المتقدم" : "Advanced Search", href: "/advanced/search", icon: Search },
-    { title: language === "ar" ? "الواجهة العامة" : "Simple Mode", href: "/simple", icon: Users },
+    { title: language === "ar" ? "واجهة غير المتخصصين" : "Simple Mode", href: "/simple", icon: Users },
     { title: language === "ar" ? "الصفحة الرئيسية" : "Home", href: "/", icon: Home }
   ];
 

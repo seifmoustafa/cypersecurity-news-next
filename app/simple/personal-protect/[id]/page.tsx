@@ -345,7 +345,7 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                     <div className="absolute top-4 right-4 bg-blue-500/90 text-white text-xs px-3 py-1 rounded-full">
                       {video.forBeginners
                         ? language === "ar"
-                          ? "للعامة"
+                          ? "لغير المتخصصين"
                           : "Beginners"
                         : ""}
                       {video.forBeginners && video.forProfessionals

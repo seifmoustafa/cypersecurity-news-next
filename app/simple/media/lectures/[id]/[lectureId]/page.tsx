@@ -218,7 +218,7 @@ export default function LectureDetailPage({ params }: LectureDetailPageProps) {
                 <div className="flex flex-wrap gap-3">
                   {lecture.forBeginners && (
                     <span className="px-4 py-2 bg-gradient-to-r from-blue-100 to-blue-100 dark:from-blue-900/30 dark:to-blue-900/30 text-blue-800 dark:text-blue-200 text-sm font-medium rounded-full border border-blue-200 dark:border-blue-800 hover:from-blue-200 hover:to-blue-200 dark:hover:from-blue-800/50 dark:hover:to-blue-800/50 transition-all duration-300">
-                      {language === "ar" ? "للعامة" : "For Beginners"}
+                      {language === "ar" ? "لغير المتخصصين" : "For Beginners"}
                     </span>
                   )}
                   {lecture.forProfessionals && (

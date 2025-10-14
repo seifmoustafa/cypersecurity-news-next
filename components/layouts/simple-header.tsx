@@ -104,7 +104,7 @@ export default function SimpleHeader({
       key: "nav.beginnersMode",
       href: "/simple",
       icon: Users,
-      label: "الواجهة العامة"
+      label: "واجهة غير المتخصصين"
     },
     {
       key: "nav.advancedMode",
@@ -176,7 +176,7 @@ export default function SimpleHeader({
               الرئيسية
                 </Button>
 
-            {/* 2. الواجهة العامة */}
+            {/* 2. واجهة غير المتخصصين */}
                     <Button
                       variant="ghost"
               size="sm"
@@ -189,7 +189,7 @@ export default function SimpleHeader({
               onClick={(e) => handleNavigation(e, "/simple")}
             >
               <Users className="h-3 w-3 sm:h-4 sm:w-4" />
-              الواجهة العامة
+              واجهة غير المتخصصين
                     </Button>
 
             {/* 3. واجهة المتخصصين */}
@@ -366,7 +366,7 @@ export default function SimpleHeader({
                     <span>الرئيسية</span>
                   </button>
 
-                  {/* 2. الواجهة العامة */}
+                  {/* 2. واجهة غير المتخصصين */}
                   <button
                     className={cn(
                       "flex items-center gap-2 sm:gap-3 px-3 py-2.5 text-sm sm:text-base rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group",
@@ -377,7 +377,7 @@ export default function SimpleHeader({
                     onClick={(e) => handleNavigation(e, "/simple")}
                   >
                     <Users className="h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform duration-300" />
-                    <span>الواجهة العامة</span>
+                    <span>واجهة غير المتخصصين</span>
                   </button>
 
                   {/* 3. واجهة المتخصصين */}

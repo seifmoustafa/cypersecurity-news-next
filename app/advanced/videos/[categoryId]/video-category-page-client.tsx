@@ -18,7 +18,7 @@ import Breadcrumbs from "@/components/breadcrumbs";
 import { useVideosByCategoryForProfessionals } from "@/core/hooks/use-videos-by-category-for-professionals";
 import { useVideoCategoriesForProfessionals } from "@/core/hooks/use-video-categories-for-professionals";
 import { useDebounce } from "@/hooks/use-debounce";
-import VideoModal from "@/components/video-modal";
+import VideoImageCarousel from "@/components/video-image-carousel";
 import MainLayout from "@/components/layouts/main-layout";
 import { Button } from "@/components/ui/button";
 
@@ -41,8 +41,8 @@ export default function VideoCategoryPageClient({
   const { language } = useLanguage();
   const isRtl = language === "ar";
   const [query, setQuery] = useState(initialSearch);
-  const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedVideoIndex, setSelectedVideoIndex] = useState<number | null>(null);
+  const [showCarousel, setShowCarousel] = useState(false);
   const debouncedQuery = useDebounce(query, 500);
 
   const { videos, loading, error } = useVideosByCategoryForProfessionals(
@@ -56,14 +56,18 @@ export default function VideoCategoryPageClient({
     100
   );
 
-  const handleVideoClick = (videoId: string) => {
-    setSelectedVideoId(videoId);
-    setIsModalOpen(true);
+  const handleVideoClick = (videoIndex: number) => {
+    setSelectedVideoIndex(videoIndex);
+    setShowCarousel(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedVideoId(null);
+  const handleCloseCarousel = () => {
+    setShowCarousel(false);
+    setSelectedVideoIndex(null);
+  };
+
+  const handleCarouselItemChange = (item: any, index: number) => {
+    setSelectedVideoIndex(index);
   };
 
   const categoryName =
@@ -122,7 +126,7 @@ export default function VideoCategoryPageClient({
             </div>
           </div>
 
-          {/* Videos Grid */}
+          {/* Videos Grid or Carousel */}
           {(loading || videos.length === 0) && !debouncedQuery ? (
             <div className="text-center py-12">
               <Video className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
@@ -137,12 +141,67 @@ export default function VideoCategoryPageClient({
                   : "No videos found in this category"}
               </p>
             </div>
+          ) : showCarousel && selectedVideoIndex !== null ? (
+            /* Video/Image Carousel */
+            <div className="bg-white dark:bg-slate-800 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-lg overflow-hidden">
+              <VideoImageCarousel
+                items={videos.map((v) => ({
+                  id: v.id,
+                  name: v.nameAr,
+                  nameEn: v.nameEn,
+                  summary: v.summaryAr,
+                  summaryEn: v.summaryEn,
+                  content: null,
+                  contentEn: null,
+                  imageUrl: v.imageUrl,
+                  videoUrl: v.videoUrl,
+                  order: 0,
+                  createdAt: v.createdAt,
+                }))}
+                initialIndex={selectedVideoIndex}
+                onItemChange={handleCarouselItemChange}
+                className="w-full"
+              />
+
+              {/* Carousel Controls */}
+              <div className="p-6 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-700 dark:to-slate-800">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="bg-gradient-to-r from-teal-500 to-blue-600 p-3 rounded-xl">
+                      <Video className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
+                        {language === "ar" ? "مشغل الفيديوهات" : "Video Player"}
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">
+                        {language === "ar"
+                          ? "استخدم الأسهم للتنقل بين الفيديوهات"
+                          : "Use arrows to navigate between videos"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={handleCloseCarousel}
+                    className="inline-flex items-center px-6 py-3 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-300 font-semibold rounded-xl transition-colors duration-300"
+                  >
+                    {isRtl ? (
+                      <ArrowRight className="h-5 w-5 mr-2" />
+                    ) : (
+                      <ArrowLeft className="h-5 w-5 mr-2" />
+                    )}
+                    {language === "ar" ? "العودة للقائمة" : "Back to List"}
+                  </button>
+                </div>
+              </div>
+            </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {videos.map((video: any, index: number) => (
                 <button
                   key={video.id}
-                  onClick={() => handleVideoClick(video.id)}
+                  onClick={() => handleVideoClick(index)}
                   className="group w-full text-left"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
@@ -202,7 +261,7 @@ export default function VideoCategoryPageClient({
                       <div className="absolute top-4 right-4 bg-blue-500/90 text-white text-xs px-3 py-1 rounded-full">
                         {video.forBeginners
                           ? language === "ar"
-                            ? "للعامة"
+                            ? "لغير المتخصصين"
                             : "Beginners"
                           : ""}
                         {video.forBeginners && video.forProfessionals
@@ -263,13 +322,6 @@ export default function VideoCategoryPageClient({
             </div>
           )}
         </div>
-
-        {/* Video Modal */}
-        <VideoModal
-          videoId={selectedVideoId}
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-        />
       </div>
     </MainLayout>
   );
