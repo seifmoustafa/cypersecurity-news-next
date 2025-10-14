@@ -1,101 +1,116 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useRef, useCallback } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { 
-  Play, 
-  Pause, 
-  ChevronLeft, 
-  ChevronRight, 
-  Volume2, 
-  VolumeX, 
-  Maximize, 
+import { useState, useEffect, useRef, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Play,
+  Pause,
+  ChevronLeft,
+  ChevronRight,
+  Volume2,
+  VolumeX,
+  Maximize,
   Minimize,
   Image as ImageIcon,
   Video,
   SkipBack,
   SkipForward,
   RotateCcw,
-  X
-} from "lucide-react"
-import { useLanguage } from "@/components/language-provider"
+  X,
+  ZoomIn,
+  ZoomOut,
+} from "lucide-react";
+import { useLanguage } from "@/components/language-provider";
 
 interface MediaItem {
-  id: string
-  name: string | null
-  nameEn: string | null
-  summary: string | null
-  summaryEn: string | null
-  content: string | null
-  contentEn: string | null
-  imageUrl: string | null
-  videoUrl: string | null
-  order: number
-  createdAt: string
+  id: string;
+  name: string | null;
+  nameEn: string | null;
+  summary: string | null;
+  summaryEn: string | null;
+  content: string | null;
+  contentEn: string | null;
+  imageUrl: string | null;
+  videoUrl: string | null;
+  order: number;
+  createdAt: string;
 }
 
 interface VideoImageCarouselProps {
-  items: MediaItem[]
-  initialIndex?: number
-  onItemChange?: (item: MediaItem, index: number) => void
-  className?: string
+  items: MediaItem[];
+  initialIndex?: number;
+  onItemChange?: (item: MediaItem, index: number) => void;
+  className?: string;
 }
 
 // Tooltip component with smart positioning to prevent clipping
 interface TooltipProps {
-  children: React.ReactNode
-  text: string
-  position?: 'top' | 'bottom' | 'left' | 'right'
-  className?: string
+  children: React.ReactNode;
+  text: string;
+  position?: "top" | "bottom" | "left" | "right";
+  className?: string;
 }
 
-function Tooltip({ children, text, position = 'top', className = '' }: TooltipProps) {
-  const [isVisible, setIsVisible] = useState(false)
-  const [actualPosition, setActualPosition] = useState(position)
-  const tooltipRef = useRef<HTMLDivElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-  
+function Tooltip({
+  children,
+  text,
+  position = "top",
+  className = "",
+}: TooltipProps) {
+  const [isVisible, setIsVisible] = useState(false);
+  const [actualPosition, setActualPosition] = useState(position);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
   // Smart positioning to prevent clipping
   useEffect(() => {
     if (isVisible && tooltipRef.current && containerRef.current) {
-      const tooltip = tooltipRef.current
-      const container = containerRef.current
-      const rect = container.getBoundingClientRect()
-      const tooltipRect = tooltip.getBoundingClientRect()
-      
-      let newPosition = position
-      
+      const tooltip = tooltipRef.current;
+      const container = containerRef.current;
+      const rect = container.getBoundingClientRect();
+      const tooltipRect = tooltip.getBoundingClientRect();
+
+      let newPosition = position;
+
       // Check if tooltip would be clipped and adjust position
-      if (position === 'top' && rect.top - tooltipRect.height < 0) {
-        newPosition = 'bottom'
-      } else if (position === 'bottom' && rect.bottom + tooltipRect.height > window.innerHeight) {
-        newPosition = 'top'
-      } else if (position === 'left' && rect.left - tooltipRect.width < 0) {
-        newPosition = 'right'
-      } else if (position === 'right' && rect.right + tooltipRect.width > window.innerWidth) {
-        newPosition = 'left'
+      if (position === "top" && rect.top - tooltipRect.height < 0) {
+        newPosition = "bottom";
+      } else if (
+        position === "bottom" &&
+        rect.bottom + tooltipRect.height > window.innerHeight
+      ) {
+        newPosition = "top";
+      } else if (position === "left" && rect.left - tooltipRect.width < 0) {
+        newPosition = "right";
+      } else if (
+        position === "right" &&
+        rect.right + tooltipRect.width > window.innerWidth
+      ) {
+        newPosition = "left";
       }
-      
-      setActualPosition(newPosition)
+
+      setActualPosition(newPosition);
     }
-  }, [isVisible, position])
-  
+  }, [isVisible, position]);
+
   const positionClasses = {
-    top: 'bottom-full left-1/2 transform -translate-x-1/2 mb-2',
-    bottom: 'top-full left-1/2 transform -translate-x-1/2 mt-2',
-    left: 'right-full top-1/2 transform -translate-y-1/2 mr-2',
-    right: 'left-full top-1/2 transform -translate-y-1/2 ml-2'
-  }
-  
+    top: "bottom-full left-1/2 transform -translate-x-1/2 mb-2",
+    bottom: "top-full left-1/2 transform -translate-x-1/2 mt-2",
+    left: "right-full top-1/2 transform -translate-y-1/2 mr-2",
+    right: "left-full top-1/2 transform -translate-y-1/2 ml-2",
+  };
+
   const arrowClasses = {
-    top: 'top-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-t-black/90',
-    bottom: 'bottom-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-b-black/90',
-    left: 'left-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-l-black/90',
-    right: 'right-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-r-black/90'
-  }
+    top: "top-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-t-black/90",
+    bottom:
+      "bottom-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-b-black/90",
+    left: "left-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-l-black/90",
+    right:
+      "right-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-r-black/90",
+  };
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className={`relative inline-block ${className}`}
       onMouseEnter={() => setIsVisible(true)}
@@ -111,292 +126,376 @@ function Tooltip({ children, text, position = 'top', className = '' }: TooltipPr
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.2 }}
             className={`absolute z-50 px-3 py-2 text-sm text-white bg-black/90 backdrop-blur-sm rounded-lg whitespace-nowrap max-w-xs ${positionClasses[actualPosition]}`}
-            style={{ 
-              maxWidth: '200px',
-              wordWrap: 'break-word',
-              whiteSpace: 'normal'
+            style={{
+              maxWidth: "200px",
+              wordWrap: "break-word",
+              whiteSpace: "normal",
             }}
           >
             {text}
-            <div className={`absolute w-0 h-0 border-4 ${arrowClasses[actualPosition]}`} />
+            <div
+              className={`absolute w-0 h-0 border-4 ${arrowClasses[actualPosition]}`}
+            />
           </motion.div>
         )}
       </AnimatePresence>
     </div>
-  )
+  );
 }
 
-export default function VideoImageCarousel({ 
-  items, 
-  initialIndex = 0, 
+export default function VideoImageCarousel({
+  items,
+  initialIndex = 0,
   onItemChange,
-  className = ""
+  className = "",
 }: VideoImageCarouselProps) {
-  const { language } = useLanguage()
-  const isRtl = language === "ar"
-  
-  const [currentIndex, setCurrentIndex] = useState(initialIndex)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [isMuted, setIsMuted] = useState(false)
-  const [volume, setVolume] = useState(1)
-  const [showVolumeControl, setShowVolumeControl] = useState(false)
-  const [isFullscreen, setIsFullscreen] = useState(false)
-  const [showControls, setShowControls] = useState(true)
-  const [progress, setProgress] = useState(0)
-  const [duration, setDuration] = useState(0)
-  const [isLoading, setIsLoading] = useState(false)
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false)
-  
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const controlsTimeoutRef = useRef<NodeJS.Timeout>()
-  const progressIntervalRef = useRef<NodeJS.Timeout>()
+  const { language } = useLanguage();
+  const isRtl = language === "ar";
 
-  const currentItem = items[currentIndex]
-  const hasVideo = currentItem?.videoUrl
-  const hasImage = currentItem?.imageUrl
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const [volume, setVolume] = useState(1);
+  const [showVolumeControl, setShowVolumeControl] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showControls, setShowControls] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
+  const [isPanning, setIsPanning] = useState(false);
+  const [panStart, setPanStart] = useState({ x: 0, y: 0 });
+  const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 }); // Position where zoom was initiated
+
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+
+  const currentItem = items[currentIndex];
+  const hasVideo = currentItem?.videoUrl;
+  const hasImage = currentItem?.imageUrl;
 
   // Update current item when index changes
   useEffect(() => {
     if (onItemChange && currentItem) {
-      onItemChange(currentItem, currentIndex)
+      onItemChange(currentItem, currentIndex);
     }
-  }, [currentIndex, currentItem, onItemChange])
+  }, [currentIndex, currentItem, onItemChange]);
 
   // Update current index when initialIndex changes
   useEffect(() => {
-    setCurrentIndex(initialIndex)
-  }, [initialIndex])
+    setCurrentIndex(initialIndex);
+  }, [initialIndex]);
+
+  // Reset zoom when item changes
+  useEffect(() => {
+    setZoomLevel(1);
+    setIsZoomed(false);
+    setImagePosition({ x: 0, y: 0 });
+  }, [currentIndex]);
 
   // Handle video events
   const handleVideoLoad = useCallback(() => {
     if (videoRef.current) {
-      setDuration(videoRef.current.duration)
-      setIsLoading(false)
-      setIsVideoLoaded(true)
+      setDuration(videoRef.current.duration);
+      setIsLoading(false);
+      setIsVideoLoaded(true);
       // Auto-play video when loaded
       if (hasVideo) {
         videoRef.current.play().catch(() => {
           // Autoplay failed, user needs to interact first
-          setIsPlaying(false)
-        })
+          setIsPlaying(false);
+        });
       }
     }
-  }, [hasVideo])
+  }, [hasVideo]);
 
   const handleVideoTimeUpdate = useCallback(() => {
     if (videoRef.current) {
-      setProgress(videoRef.current.currentTime)
+      setProgress(videoRef.current.currentTime);
     }
-  }, [])
+  }, []);
 
   const handleVideoEnded = useCallback(() => {
-    setIsPlaying(false)
-    goToNext()
-  }, [])
+    setIsPlaying(false);
+    goToNext();
+  }, []);
 
   const handleVideoPlay = useCallback(() => {
-    setIsPlaying(true)
-  }, [])
+    setIsPlaying(true);
+  }, []);
 
   const handleVideoPause = useCallback(() => {
-    setIsPlaying(false)
-  }, [])
+    setIsPlaying(false);
+  }, []);
 
   // Navigation functions
   const goToPrevious = useCallback(() => {
-    setCurrentIndex(prev => prev > 0 ? prev - 1 : items.length - 1)
-    setIsPlaying(false)
-    setIsVideoLoaded(false)
-  }, [items.length])
+    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : items.length - 1));
+    setIsPlaying(false);
+    setIsVideoLoaded(false);
+  }, [items.length]);
 
   const goToNext = useCallback(() => {
-    setCurrentIndex(prev => prev < items.length - 1 ? prev + 1 : 0)
-    setIsPlaying(false)
-    setIsVideoLoaded(false)
-  }, [items.length])
+    setCurrentIndex((prev) => (prev < items.length - 1 ? prev + 1 : 0));
+    setIsPlaying(false);
+    setIsVideoLoaded(false);
+  }, [items.length]);
 
   const goToItem = useCallback((index: number) => {
-    setCurrentIndex(index)
-    setIsPlaying(false)
-    setIsVideoLoaded(false)
-  }, [])
+    setCurrentIndex(index);
+    setIsPlaying(false);
+    setIsVideoLoaded(false);
+  }, []);
 
   // Video controls
   const togglePlayPause = useCallback(() => {
-    if (!hasVideo || !videoRef.current) return
-    
+    if (!hasVideo || !videoRef.current) return;
+
     if (isPlaying) {
-      videoRef.current.pause()
+      videoRef.current.pause();
     } else {
       videoRef.current.play().catch(() => {
-        setIsPlaying(false)
-      })
+        setIsPlaying(false);
+      });
     }
-  }, [hasVideo, isPlaying])
+  }, [hasVideo, isPlaying]);
 
   // Handle video click for play/pause
   const handleVideoClick = useCallback(() => {
     if (hasVideo) {
-      togglePlayPause()
+      togglePlayPause();
     }
-  }, [hasVideo, togglePlayPause])
+  }, [hasVideo, togglePlayPause]);
 
   const toggleMute = useCallback(() => {
-    if (!hasVideo || !videoRef.current) return
-    
-    videoRef.current.muted = !isMuted
-    setIsMuted(!isMuted)
-  }, [hasVideo, isMuted])
+    if (!hasVideo || !videoRef.current) return;
 
-  const handleVolumeChange = useCallback((newVolume: number) => {
-    if (!hasVideo || !videoRef.current) return
-    
-    setVolume(newVolume)
-    videoRef.current.volume = newVolume
-    videoRef.current.muted = newVolume === 0
-    setIsMuted(newVolume === 0)
-  }, [hasVideo])
+    videoRef.current.muted = !isMuted;
+    setIsMuted(!isMuted);
+  }, [hasVideo, isMuted]);
+
+  const handleVolumeChange = useCallback(
+    (newVolume: number) => {
+      if (!hasVideo || !videoRef.current) return;
+
+      setVolume(newVolume);
+      videoRef.current.volume = newVolume;
+      videoRef.current.muted = newVolume === 0;
+      setIsMuted(newVolume === 0);
+    },
+    [hasVideo]
+  );
 
   const handleVolumeMouseEnter = useCallback(() => {
-    setShowVolumeControl(true)
-  }, [])
+    setShowVolumeControl(true);
+  }, []);
 
   const handleVolumeMouseLeave = useCallback(() => {
-    setShowVolumeControl(false)
-  }, [])
+    setShowVolumeControl(false);
+  }, []);
 
-  const handleProgressClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!hasVideo || !videoRef.current) return
-    
-    const rect = e.currentTarget.getBoundingClientRect()
-    const clickX = e.clientX - rect.left
-    const newTime = (clickX / rect.width) * duration
-    videoRef.current.currentTime = newTime
-  }, [hasVideo, duration])
+  // Progress bar
+  const handleProgressClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (!hasVideo || !videoRef.current) return;
 
+      const rect = e.currentTarget.getBoundingClientRect();
+      const percent = (e.clientX - rect.left) / rect.width;
+      const newTime = percent * duration;
+
+      videoRef.current.currentTime = newTime;
+      setProgress(newTime);
+    },
+    [hasVideo, duration]
+  );
+
+  // Fullscreen
   const toggleFullscreen = useCallback(() => {
-    if (!containerRef.current) return
-    
-    if (!isFullscreen) {
-      if (containerRef.current.requestFullscreen) {
-        containerRef.current.requestFullscreen()
-        setIsFullscreen(true)
-      }
+    if (!containerRef.current) return;
+
+    if (!document.fullscreenElement) {
+      containerRef.current.requestFullscreen().catch(() => {
+        console.warn("Fullscreen request failed");
+      });
+      setIsFullscreen(true);
     } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen()
-        setIsFullscreen(false)
-      }
+      document.exitFullscreen();
+      setIsFullscreen(false);
     }
-  }, [isFullscreen])
+  }, []);
 
-  // Handle double-click for fullscreen
-  const handleDoubleClick = useCallback(() => {
-    toggleFullscreen()
-  }, [toggleFullscreen])
+  // Image zoom functions with enhanced functionality
+  const resetZoom = useCallback(() => {
+    setZoomLevel(1);
+    setIsZoomed(false);
+    setImagePosition({ x: 0, y: 0 });
+    setIsPanning(false);
+  }, []);
 
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      switch (e.key) {
-        case 'ArrowLeft':
-          e.preventDefault()
-          goToPrevious()
-          break
-        case 'ArrowRight':
-          e.preventDefault()
-          goToNext()
-          break
-        case ' ':
-          e.preventDefault()
-          togglePlayPause()
-          break
-        case 'm':
-        case 'M':
-          e.preventDefault()
-          toggleMute()
-          break
-        case 'f':
-        case 'F':
-          e.preventDefault()
-          toggleFullscreen()
-          break
-        case 'Escape':
-          if (isFullscreen) {
-            toggleFullscreen()
+  const zoomAtPosition = useCallback((newZoomLevel: number, clientX: number, clientY: number) => {
+    if (!containerRef.current || !imageRef.current) return;
+    
+    const container = containerRef.current;
+    const image = imageRef.current;
+    
+    // Get container bounds
+    const containerRect = container.getBoundingClientRect();
+    
+    // Calculate container center
+    const containerCenterX = containerRect.left + containerRect.width / 2;
+    const containerCenterY = containerRect.top + containerRect.height / 2;
+    
+    // Calculate click position relative to container center
+    const clickX = clientX - containerCenterX;
+    const clickY = clientY - containerCenterY;
+    
+    // Calculate new position to keep click position stable
+    const scaleChange = newZoomLevel / zoomLevel;
+    const newPositionX = imagePosition.x * scaleChange - clickX * (scaleChange - 1);
+    const newPositionY = imagePosition.y * scaleChange - clickY * (scaleChange - 1);
+    
+    // Apply boundary constraints
+    const imageNaturalWidth = image.naturalWidth;
+    const imageNaturalHeight = image.naturalHeight;
+    
+    // Calculate scaled dimensions
+    const scaledWidth = imageNaturalWidth * newZoomLevel;
+    const scaledHeight = imageNaturalHeight * newZoomLevel;
+    
+    // Calculate boundaries
+    const maxX = Math.max(0, (scaledWidth - containerRect.width) / 2);
+    const maxY = Math.max(0, (scaledHeight - containerRect.height) / 2);
+    
+    // Constrain position
+    const constrainedX = Math.max(-maxX, Math.min(maxX, newPositionX));
+    const constrainedY = Math.max(-maxY, Math.min(maxY, newPositionY));
+    
+    setZoomLevel(newZoomLevel);
+    setImagePosition({ x: constrainedX, y: constrainedY });
+    
+    if (newZoomLevel > 1) {
+      setIsZoomed(true);
+    } else {
+      setIsZoomed(false);
+      setImagePosition({ x: 0, y: 0 }); // Reset position when zooming out completely
+    }
+  }, [zoomLevel, imagePosition, containerRef, imageRef]);
+
+  const toggleZoom = useCallback(
+    (clientX?: number, clientY?: number) => {
+      if (!hasImage || hasVideo) return;
+
+      // Define zoom levels (1x, 2x, 3x, 4x, 5x)
+      const zoomLevels = [1, 2, 3, 4, 5];
+      
+      if (isZoomed) {
+        // Find the next zoom level
+        const currentIndex = zoomLevels.indexOf(zoomLevel);
+        if (currentIndex < zoomLevels.length - 1) {
+          // Zoom to next level
+          const newZoomLevel = zoomLevels[currentIndex + 1];
+          if (clientX !== undefined && clientY !== undefined) {
+            zoomAtPosition(newZoomLevel, clientX, clientY);
+          } else {
+            setZoomLevel(newZoomLevel);
+            setIsZoomed(newZoomLevel > 1);
           }
-          break
+        } else {
+          // If at max zoom, reset to original size
+          resetZoom();
+        }
+      } else {
+        // If not zoomed, start at first zoom level (2x)
+        const newZoomLevel = 2;
+        if (clientX !== undefined && clientY !== undefined && containerRef.current) {
+          zoomAtPosition(newZoomLevel, clientX, clientY);
+        } else {
+          setZoomLevel(newZoomLevel);
+          setIsZoomed(true);
+          setImagePosition({ x: 0, y: 0 });
+        }
       }
-    }
+    },
+    [hasImage, hasVideo, isZoomed, zoomLevel, resetZoom, zoomAtPosition, containerRef]
+  );
 
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [goToPrevious, goToNext, togglePlayPause, toggleMute, toggleFullscreen, isFullscreen])
+  // Handle double click for fullscreen/zoom with position
+  const handleDoubleClick = useCallback(
+    (e: React.MouseEvent) => {
+      // Prevent double click from triggering navigation
+      e.stopPropagation();
 
-  // Listen for fullscreen changes
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement)
-    }
-
-    document.addEventListener('fullscreenchange', handleFullscreenChange)
-    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange)
-  }, [])
+      if (hasVideo) {
+        toggleFullscreen();
+      } else if (hasImage) {
+        // For images, zoom at click position
+        toggleZoom(e.clientX, e.clientY);
+      }
+    },
+    [hasVideo, hasImage, toggleFullscreen, toggleZoom]
+  );
 
   // Auto-hide controls
   const resetControlsTimeout = useCallback(() => {
     if (controlsTimeoutRef.current) {
-      clearTimeout(controlsTimeoutRef.current)
+      clearTimeout(controlsTimeoutRef.current);
     }
-    setShowControls(true)
+    setShowControls(true);
     controlsTimeoutRef.current = setTimeout(() => {
       if (isPlaying && hasVideo) {
-        setShowControls(false)
+        setShowControls(false);
       }
-    }, 3000)
-  }, [isPlaying, hasVideo])
+    }, 3000);
+  }, [isPlaying, hasVideo]);
 
   useEffect(() => {
-    resetControlsTimeout()
+    resetControlsTimeout();
     return () => {
       if (controlsTimeoutRef.current) {
-        clearTimeout(controlsTimeoutRef.current)
+        clearTimeout(controlsTimeoutRef.current);
       }
-    }
-  }, [resetControlsTimeout])
+    };
+  }, [resetControlsTimeout]);
 
   // Progress tracking
   useEffect(() => {
     if (isPlaying && hasVideo) {
       progressIntervalRef.current = setInterval(() => {
         if (videoRef.current) {
-          setProgress(videoRef.current.currentTime)
+          setProgress(videoRef.current.currentTime);
         }
-      }, 100)
+      }, 100);
     } else {
       if (progressIntervalRef.current) {
-        clearInterval(progressIntervalRef.current)
+        clearInterval(progressIntervalRef.current);
       }
     }
 
     return () => {
       if (progressIntervalRef.current) {
-        clearInterval(progressIntervalRef.current)
+        clearInterval(progressIntervalRef.current);
       }
-    }
-  }, [isPlaying, hasVideo])
+    };
+  }, [isPlaying, hasVideo]);
 
   // Format time helper
   const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60)
-    const seconds = Math.floor(time % 60)
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`
-  }
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  };
 
   if (!items.length || !currentItem) {
     return (
-      <div className={`flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-xl ${className}`}>
+      <div
+        className={`flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-xl ${className}`}
+      >
         <div className="text-center p-8">
           <ImageIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-500 dark:text-gray-400">
@@ -404,7 +503,7 @@ export default function VideoImageCarousel({
           </p>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -421,7 +520,7 @@ export default function VideoImageCarousel({
           border: 2px solid white;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
-        
+
         .slider::-moz-range-thumb {
           width: 16px;
           height: 16px;
@@ -431,29 +530,31 @@ export default function VideoImageCarousel({
           border: 2px solid white;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
-        
+
         .slider::-webkit-slider-track {
           height: 4px;
           border-radius: 2px;
           background: transparent;
         }
-        
+
         .slider::-moz-range-track {
           height: 4px;
           border-radius: 2px;
           background: transparent;
         }
       `}</style>
-      
+
       {/* Main Container */}
-      <div 
+      <div
         ref={containerRef}
-        className={`relative bg-black rounded-xl overflow-hidden group ${isFullscreen ? 'fixed inset-0 z-50' : ''}`}
+        className={`relative bg-black rounded-xl overflow-hidden group ${
+          isFullscreen ? "fixed inset-0 z-50" : ""
+        }`}
         onMouseMove={resetControlsTimeout}
         onMouseLeave={() => setShowControls(false)}
       >
         {/* Main Media Display */}
-        <div 
+        <div
           className="relative aspect-video bg-gradient-to-br from-gray-900 to-black"
           onDoubleClick={handleDoubleClick}
           onClick={handleVideoClick}
@@ -471,7 +572,11 @@ export default function VideoImageCarousel({
                 <video
                   ref={videoRef}
                   className="w-full h-full object-contain cursor-pointer"
-                  poster={hasImage ? currentItem.imageUrl : undefined}
+                  poster={
+                    hasImage && currentItem.imageUrl
+                      ? currentItem.imageUrl
+                      : undefined
+                  }
                   onLoadedData={handleVideoLoad}
                   onTimeUpdate={handleVideoTimeUpdate}
                   onEnded={handleVideoEnded}
@@ -484,23 +589,200 @@ export default function VideoImageCarousel({
                   autoPlay
                   playsInline
                 >
-                  <source src={currentItem.videoUrl} type="video/mp4" />
-                  {language === "ar" ? "متصفحك لا يدعم تشغيل الفيديو" : "Your browser does not support the video tag"}
+                  <source src={currentItem.videoUrl || ""} type="video/mp4" />
+                  {language === "ar"
+                    ? "متصفحك لا يدعم تشغيل الفيديو"
+                    : "Your browser does not support the video tag"}
                 </video>
               ) : hasImage ? (
-                <img
-                  src={currentItem.imageUrl}
-                  alt={language === "ar" ? currentItem.name : currentItem.nameEn || currentItem.name}
-                  className="w-full h-full object-contain cursor-pointer"
-                  loading="eager"
-                  onLoad={() => setIsLoading(false)}
-                />
+                <div
+                  className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 relative overflow-hidden"
+                  onDoubleClick={handleDoubleClick}
+                  onMouseDown={(e) => {
+                    if (isZoomed) {
+                      setIsPanning(true);
+                      setPanStart({ x: e.clientX, y: e.clientY });
+                      e.preventDefault();
+                    }
+                  }}
+                  onMouseMove={(e) => {
+                    if (isPanning && isZoomed && containerRef.current && imageRef.current) {
+                      const deltaX = e.clientX - panStart.x;
+                      const deltaY = e.clientY - panStart.y;
+                      
+                      const container = containerRef.current;
+                      const image = imageRef.current;
+                      
+                      const containerRect = container.getBoundingClientRect();
+                      
+                      // Calculate scaled image dimensions using natural dimensions
+                      const scaledWidth = image.naturalWidth * zoomLevel;
+                      const scaledHeight = image.naturalHeight * zoomLevel;
+                      
+                      // Calculate boundaries to prevent panning beyond image edges
+                      // Only allow panning when the scaled image is larger than the container
+                      const canPanX = scaledWidth > containerRect.width;
+                      const canPanY = scaledHeight > containerRect.height;
+                      
+                      // Calculate max pan distances (how far we can move the image)
+                      const maxPanX = canPanX ? (scaledWidth - containerRect.width) / 2 : 0;
+                      const maxPanY = canPanY ? (scaledHeight - containerRect.height) / 2 : 0;
+                      
+                      // Calculate new position with constraints
+                      let newX = imagePosition.x;
+                      let newY = imagePosition.y;
+                      
+                      // Only update position if panning is allowed in that direction
+                      if (canPanX) {
+                        newX = Math.max(-maxPanX, Math.min(maxPanX, imagePosition.x + deltaX));
+                      }
+                      if (canPanY) {
+                        newY = Math.max(-maxPanY, Math.min(maxPanY, imagePosition.y + deltaY));
+                      }
+                      
+                      setImagePosition({ x: newX, y: newY });
+                      
+                      // Update pan start position for smooth dragging
+                      setPanStart({ x: e.clientX, y: e.clientY });
+                    }
+                  }}
+                  onMouseUp={() => setIsPanning(false)}
+                  onMouseLeave={() => setIsPanning(false)}
+                >
+                  <img
+                    ref={imageRef}
+                    src={currentItem.imageUrl || ""}
+                    alt={
+                      language === "ar"
+                        ? currentItem.name || ""
+                        : currentItem.nameEn || currentItem.name || ""
+                    }
+                    className={`cursor-pointer ${
+                      isZoomed
+                        ? isPanning
+                          ? "cursor-grabbing"
+                          : "cursor-grab"
+                        : "cursor-zoom-in"
+                    }`}
+                    style={{
+                      transform: `scale(${zoomLevel}) translate(${imagePosition.x}px, ${imagePosition.y}px)`,
+                      transition:
+                        isZoomed && !isPanning ? "transform 0.3s ease" : "none",
+                      maxWidth: "100%",
+                      maxHeight: "100%",
+                      objectFit: "contain",
+                      transformOrigin: "center center",
+                    }}
+                    loading="eager"
+                    onLoad={() => setIsLoading(false)}
+                  />
+                  <div className="absolute top-4 right-4 flex gap-2 z-10">
+                    {isZoomed ? (
+                      <>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            // Define zoom levels (1x, 2x, 3x, 4x, 5x)
+                            const zoomLevels = [1, 2, 3, 4, 5];
+                            const currentIndex = zoomLevels.indexOf(zoomLevel);
+                            
+                            if (currentIndex < zoomLevels.length - 1) {
+                              // Zoom to next level
+                              const newZoomLevel = zoomLevels[currentIndex + 1];
+                              zoomAtPosition(
+                                newZoomLevel,
+                                containerRef.current
+                                  ? containerRef.current.clientWidth / 2
+                                  : 0,
+                                containerRef.current
+                                  ? containerRef.current.clientHeight / 2
+                                  : 0
+                              );
+                            } else {
+                              // If at max zoom, reset to original size
+                              resetZoom();
+                            }
+                          }}
+                          className="bg-black/60 hover:bg-black/80 backdrop-blur-sm rounded-full p-2 transition-all duration-200 cursor-pointer"
+                          title={language === "ar" ? "تكبير" : "Zoom in"}
+                        >
+                          <ZoomIn className="h-5 w-5 text-white" />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            // Zoom out to previous level or reset if at minimum zoom
+                            const zoomLevels = [1, 2, 3, 4, 5];
+                            const currentIndex = zoomLevels.indexOf(zoomLevel);
+                            
+                            if (currentIndex > 0) {
+                              // Zoom to previous level
+                              const newZoomLevel = zoomLevels[currentIndex - 1];
+                              zoomAtPosition(
+                                newZoomLevel,
+                                containerRef.current
+                                  ? containerRef.current.clientWidth / 2
+                                  : 0,
+                                containerRef.current
+                                  ? containerRef.current.clientHeight / 2
+                                  : 0
+                              );
+                            } else {
+                              // If at minimum zoom (or 1x), reset to original size
+                              resetZoom();
+                            }
+                          }}
+                          className="bg-black/60 hover:bg-black/80 backdrop-blur-sm rounded-full p-2 transition-all duration-200 cursor-pointer"
+                          title={language === "ar" ? "تصغير" : "Zoom out"}
+                        >
+                          <ZoomOut className="h-5 w-5 text-white" />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            resetZoom();
+                          }}
+                          className="bg-black/60 hover:bg-black/80 backdrop-blur-sm rounded-full p-2 transition-all duration-200 cursor-pointer"
+                          title={
+                            language === "ar"
+                              ? "إعادة تعيين التكبير"
+                              : "Reset zoom"
+                          }
+                        >
+                          <RotateCcw className="h-5 w-5 text-white" />
+                        </button>
+                      </>
+                    ) : (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          // Start at first zoom level (2x)
+                          const newZoomLevel = 2;
+                          toggleZoom(
+                            containerRef.current
+                              ? containerRef.current.clientWidth / 2
+                              : 0,
+                            containerRef.current
+                              ? containerRef.current.clientHeight / 2
+                              : 0
+                          );
+                        }}
+                        className="bg-black/60 hover:bg-black/80 backdrop-blur-sm rounded-full p-2 transition-all duration-200 cursor-pointer"
+                        title={language === "ar" ? "تكبير" : "Zoom in"}
+                      >
+                        <ZoomIn className="h-5 w-5 text-white" />
+                      </button>
+                    )}
+                  </div>
+                </div>
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
                   <div className="text-center">
                     <ImageIcon className="h-16 w-16 text-gray-400 mx-auto mb-4" />
                     <p className="text-gray-400 text-lg">
-                      {language === "ar" ? "لا توجد وسائط متاحة" : "No media available"}
+                      {language === "ar"
+                        ? "لا توجد وسائط متاحة"
+                        : "No media available"}
                     </p>
                   </div>
                 </div>
@@ -527,7 +809,7 @@ export default function VideoImageCarousel({
                 onClick={isRtl ? goToNext : goToPrevious}
                 onDoubleClick={(e) => e.stopPropagation()}
                 className={`absolute top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 backdrop-blur-sm rounded-full p-4 transition-all duration-300 hover:scale-110 group ${
-                  isRtl ? 'right-6' : 'left-6'
+                  isRtl ? "right-6" : "left-6"
                 } opacity-100`}
               >
                 {isRtl ? (
@@ -540,7 +822,7 @@ export default function VideoImageCarousel({
                 onClick={isRtl ? goToPrevious : goToNext}
                 onDoubleClick={(e) => e.stopPropagation()}
                 className={`absolute top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 backdrop-blur-sm rounded-full p-4 transition-all duration-300 hover:scale-110 group ${
-                  isRtl ? 'left-6' : 'right-6'
+                  isRtl ? "left-6" : "right-6"
                 } opacity-100`}
               >
                 {isRtl ? (
@@ -555,8 +837,8 @@ export default function VideoImageCarousel({
           {/* Play/Pause Overlay - Only for videos */}
           {hasVideo && !isPlaying && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <Tooltip 
-                text={language === "ar" ? "تشغيل الفيديو" : "Play video"} 
+              <Tooltip
+                text={language === "ar" ? "تشغيل الفيديو" : "Play video"}
                 position="top"
               >
                 <button
@@ -600,8 +882,16 @@ export default function VideoImageCarousel({
                 <div className="flex items-center gap-4">
                   {/* Play/Pause - Only for videos */}
                   {hasVideo && (
-                    <Tooltip 
-                      text={isPlaying ? (language === "ar" ? "إيقاف مؤقت" : "Pause") : (language === "ar" ? "تشغيل" : "Play")} 
+                    <Tooltip
+                      text={
+                        isPlaying
+                          ? language === "ar"
+                            ? "إيقاف مؤقت"
+                            : "Pause"
+                          : language === "ar"
+                          ? "تشغيل"
+                          : "Play"
+                      }
                       position="top"
                     >
                       <button
@@ -620,26 +910,40 @@ export default function VideoImageCarousel({
                   {/* Previous/Next */}
                   {items.length > 1 && (
                     <>
-                      <Tooltip 
-                        text={language === "ar" ? "الفيديو السابق" : "Previous video"} 
+                      <Tooltip
+                        text={
+                          language === "ar"
+                            ? "الفيديو السابق"
+                            : "Previous video"
+                        }
                         position="top"
                       >
                         <button
                           onClick={goToPrevious}
                           className="text-white hover:text-blue-400 transition-colors duration-200"
                         >
-                          {isRtl ? <SkipForward className="h-5 w-5" /> : <SkipBack className="h-5 w-5" />}
+                          {isRtl ? (
+                            <SkipForward className="h-5 w-5" />
+                          ) : (
+                            <SkipBack className="h-5 w-5" />
+                          )}
                         </button>
                       </Tooltip>
-                      <Tooltip 
-                        text={language === "ar" ? "الفيديو التالي" : "Next video"} 
+                      <Tooltip
+                        text={
+                          language === "ar" ? "الفيديو التالي" : "Next video"
+                        }
                         position="top"
                       >
                         <button
                           onClick={goToNext}
                           className="text-white hover:text-blue-400 transition-colors duration-200"
                         >
-                          {isRtl ? <SkipBack className="h-5 w-5" /> : <SkipForward className="h-5 w-5" />}
+                          {isRtl ? (
+                            <SkipBack className="h-5 w-5" />
+                          ) : (
+                            <SkipForward className="h-5 w-5" />
+                          )}
                         </button>
                       </Tooltip>
                     </>
@@ -647,15 +951,23 @@ export default function VideoImageCarousel({
 
                   {/* Volume - Only for videos */}
                   {hasVideo && (
-                    <div 
+                    <div
                       className="relative"
                       onMouseEnter={handleVolumeMouseEnter}
                       onMouseLeave={handleVolumeMouseLeave}
                     >
                       {/* Only show tooltip when volume control is not visible */}
                       {!showVolumeControl && (
-                        <Tooltip 
-                          text={isMuted ? (language === "ar" ? "إلغاء كتم الصوت" : "Unmute") : (language === "ar" ? "كتم الصوت" : "Mute")} 
+                        <Tooltip
+                          text={
+                            isMuted
+                              ? language === "ar"
+                                ? "إلغاء كتم الصوت"
+                                : "Unmute"
+                              : language === "ar"
+                              ? "كتم الصوت"
+                              : "Mute"
+                          }
                           position="top"
                         >
                           <button
@@ -670,7 +982,7 @@ export default function VideoImageCarousel({
                           </button>
                         </Tooltip>
                       )}
-                      
+
                       {/* Show button without tooltip when volume control is visible */}
                       {showVolumeControl && (
                         <button
@@ -684,7 +996,7 @@ export default function VideoImageCarousel({
                           )}
                         </button>
                       )}
-                      
+
                       {/* Volume Control Bar */}
                       <AnimatePresence>
                         {showVolumeControl && (
@@ -704,10 +1016,14 @@ export default function VideoImageCarousel({
                               max="1"
                               step="0.1"
                               value={volume}
-                              onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
+                              onChange={(e) =>
+                                handleVolumeChange(parseFloat(e.target.value))
+                              }
                               className="w-20 h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer slider"
                               style={{
-                                background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${volume * 100}%, #4b5563 ${volume * 100}%, #4b5563 100%)`
+                                background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${
+                                  volume * 100
+                                }%, #4b5563 ${volume * 100}%, #4b5563 100%)`,
                               }}
                             />
                             <span className="text-white text-xs font-mono min-w-[2rem] text-center">
@@ -749,8 +1065,16 @@ export default function VideoImageCarousel({
                   </span>
 
                   {/* Fullscreen */}
-                  <Tooltip 
-                    text={isFullscreen ? (language === "ar" ? "الخروج من وضع الشاشة الكاملة" : "Exit fullscreen") : (language === "ar" ? "وضع الشاشة الكاملة" : "Fullscreen")} 
+                  <Tooltip
+                    text={
+                      isFullscreen
+                        ? language === "ar"
+                          ? "الخروج من وضع الشاشة الكاملة"
+                          : "Exit fullscreen"
+                        : language === "ar"
+                        ? "وضع الشاشة الكاملة"
+                        : "Fullscreen"
+                    }
                     position="top"
                   >
                     <button
@@ -782,11 +1106,15 @@ export default function VideoImageCarousel({
             >
               <div className="bg-black/60 backdrop-blur-sm rounded-lg p-4">
                 <h3 className="text-white font-semibold text-lg mb-1">
-                  {language === "ar" ? currentItem.name : currentItem.nameEn || currentItem.name}
+                  {language === "ar"
+                    ? currentItem.name
+                    : currentItem.nameEn || currentItem.name}
                 </h3>
                 {(currentItem.summary || currentItem.summaryEn) && (
                   <p className="text-white/80 text-sm line-clamp-2">
-                    {language === "ar" ? currentItem.summary : currentItem.summaryEn || currentItem.summary}
+                    {language === "ar"
+                      ? currentItem.summary
+                      : currentItem.summaryEn || currentItem.summary}
                   </p>
                 )}
               </div>
@@ -800,23 +1128,31 @@ export default function VideoImageCarousel({
         <div className="mt-4">
           <div className="flex gap-2 overflow-x-auto scrollbar-hide">
             {items.map((item, index) => (
-              <Tooltip 
+              <Tooltip
                 key={item.id}
-                text={language === "ar" ? item.name : item.nameEn || item.name} 
+                text={
+                  language === "ar"
+                    ? item.name || ""
+                    : item.nameEn || item.name || ""
+                }
                 position="top"
               >
                 <button
                   onClick={() => goToItem(index)}
                   className={`flex-shrink-0 w-20 h-12 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
                     index === currentIndex
-                      ? 'border-blue-500 scale-105'
-                      : 'border-gray-300 dark:border-gray-600 hover:border-blue-400'
+                      ? "border-blue-500 scale-105"
+                      : "border-gray-300 dark:border-gray-600 hover:border-blue-400"
                   }`}
                 >
                   {item.imageUrl ? (
                     <img
                       src={item.imageUrl}
-                      alt={language === "ar" ? item.name : item.nameEn || item.name}
+                      alt={
+                        language === "ar"
+                          ? item.name || ""
+                          : item.nameEn || item.name || ""
+                      }
                       className="w-full h-full object-cover"
                     />
                   ) : (
@@ -835,5 +1171,5 @@ export default function VideoImageCarousel({
         </div>
       )}
     </div>
-  )
+  );
 }
