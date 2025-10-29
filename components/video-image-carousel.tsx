@@ -169,12 +169,17 @@ export default function VideoImageCarousel({
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 }); // Position where zoom was initiated
+  const [isDragging, setIsDragging] = useState(false);
+  const [hoverProgress, setHoverProgress] = useState<number | null>(null);
+  const [hoverPosition, setHoverPosition] = useState<number | null>(null);
+  const [previewTime, setPreviewTime] = useState<number | null>(null);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const imageRef = useRef<HTMLImageElement>(null);
+  const progressBarRef = useRef<HTMLDivElement>(null);
 
   const currentItem = items[currentIndex];
   const hasVideo = currentItem?.videoUrl;
@@ -192,12 +197,22 @@ export default function VideoImageCarousel({
     setCurrentIndex(initialIndex);
   }, [initialIndex]);
 
-  // Reset zoom when item changes
+  // Reset zoom and preview when item changes
   useEffect(() => {
     setZoomLevel(1);
     setIsZoomed(false);
     setImagePosition({ x: 0, y: 0 });
+    setHoverProgress(null);
+    setHoverPosition(null);
+    setPreviewTime(null);
+    // no preview image to reset
+    setIsDragging(false);
+    
+    // nothing to clear
   }, [currentIndex]);
+
+  // Cleanup on unmount - nothing for now
+  useEffect(() => {}, []);
 
   // Handle video events
   const handleVideoLoad = useCallback(() => {
@@ -300,19 +315,116 @@ export default function VideoImageCarousel({
     setShowVolumeControl(false);
   }, []);
 
-  // Progress bar
-  const handleProgressClick = useCallback(
+  // No image preview capture – hover shows only time
+
+  // Get progress from mouse event
+  const getProgressFromEvent = useCallback(
+    (e: React.MouseEvent<HTMLDivElement> | MouseEvent): number => {
+      if (!progressBarRef.current || !duration) return 0;
+
+      const rect = progressBarRef.current.getBoundingClientRect();
+      const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      return percent * duration;
+    },
+    [duration]
+  );
+
+  // Handle progress bar hover
+  const handleProgressMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (!hasVideo || !videoRef.current || isDragging) return;
+
+      const newTime = getProgressFromEvent(e);
+      setPreviewTime(newTime);
+      setHoverPosition(e.clientX);
+
+      const rect = progressBarRef.current?.getBoundingClientRect();
+      if (rect) {
+        const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        setHoverProgress(percent);
+      }
+
+      // Do NOT seek or capture on hover – just show time tooltip
+    },
+    [hasVideo, isDragging, getProgressFromEvent]
+  );
+
+  const handleProgressMouseLeave = useCallback(() => {
+    if (!isDragging) {
+      setHoverProgress(null);
+      setHoverPosition(null);
+      setPreviewTime(null);
+      // no image preview
+    }
+  }, [isDragging]);
+
+  // Handle progress bar drag start
+  const handleProgressMouseDown = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (!hasVideo || !videoRef.current) return;
+      e.preventDefault();
 
-      const rect = e.currentTarget.getBoundingClientRect();
-      const percent = (e.clientX - rect.left) / rect.width;
-      const newTime = percent * duration;
+      setIsDragging(true);
+      const newTime = getProgressFromEvent(e);
+      setPreviewTime(newTime);
 
+      // no image preview
+    },
+    [hasVideo, getProgressFromEvent]
+  );
+
+  // Handle progress bar drag
+  useEffect(() => {
+    if (!isDragging) return;
+
+    const handleMouseMove = async (e: MouseEvent) => {
+      if (!hasVideo || !videoRef.current || !progressBarRef.current) return;
+
+      const newTime = getProgressFromEvent(e);
+      setPreviewTime(newTime);
+      setHoverPosition(e.clientX);
+
+      const rect = progressBarRef.current.getBoundingClientRect();
+      if (rect) {
+        const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        setHoverProgress(percent);
+      }
+
+      // Do NOT capture while dragging – just show time tooltip
+    };
+
+    const handleMouseUp = (e: MouseEvent) => {
+      if (!hasVideo || !videoRef.current) return;
+
+      const newTime = getProgressFromEvent(e);
+      videoRef.current.currentTime = newTime;
+      setProgress(newTime);
+      setIsDragging(false);
+      setHoverProgress(null);
+      setHoverPosition(null);
+      setPreviewTime(null);
+      // no image preview
+    };
+
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isDragging, hasVideo, getProgressFromEvent]);
+
+  // Progress bar click (when not dragging)
+  const handleProgressClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (!hasVideo || !videoRef.current || isDragging) return;
+
+      const newTime = getProgressFromEvent(e);
       videoRef.current.currentTime = newTime;
       setProgress(newTime);
     },
-    [hasVideo, duration]
+    [hasVideo, isDragging, getProgressFromEvent]
   );
 
   // Fullscreen
@@ -329,6 +441,48 @@ export default function VideoImageCarousel({
       setIsFullscreen(false);
     }
   }, []);
+
+  // Keyboard controls: Space (play/pause), Arrows (+/-5s), F (fullscreen), Esc (exit)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!hasVideo || !videoRef.current) return;
+
+      // Ignore when focused on inputs/textareas/contentEditable elements
+      const target = e.target as HTMLElement | null;
+      if (target) {
+        const tag = target.tagName.toLowerCase();
+        const isEditable = target.isContentEditable || tag === "input" || tag === "textarea" || tag === "select";
+        if (isEditable) return;
+      }
+
+      if (e.code === "Space") {
+        e.preventDefault();
+        togglePlayPause();
+      } else if (e.code === "ArrowRight") {
+        e.preventDefault();
+        const newTime = Math.min(duration, (videoRef.current.currentTime || 0) + 5);
+        videoRef.current.currentTime = newTime;
+        setProgress(newTime);
+      } else if (e.code === "ArrowLeft") {
+        e.preventDefault();
+        const newTime = Math.max(0, (videoRef.current.currentTime || 0) - 5);
+        videoRef.current.currentTime = newTime;
+        setProgress(newTime);
+      } else if (e.code === "KeyF") {
+        e.preventDefault();
+        toggleFullscreen();
+      } else if (e.code === "Escape") {
+        if (document.fullscreenElement) {
+          e.preventDefault();
+          document.exitFullscreen();
+          setIsFullscreen(false);
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [hasVideo, duration, togglePlayPause, toggleFullscreen]);
 
   // Image zoom functions with enhanced functionality
   const resetZoom = useCallback(() => {
@@ -864,15 +1018,51 @@ export default function VideoImageCarousel({
             >
               {/* Progress Bar - Only for videos */}
               {hasVideo && duration > 0 && (
-                <div className="mb-4">
+                <div className="mb-4 relative" dir="ltr">
+
+                  {/* Progress Bar Container - Always LTR */}
                   <div
-                    className="w-full h-1 bg-white/30 rounded-full cursor-pointer hover:h-2 transition-all duration-200"
+                    ref={progressBarRef}
+                    className="relative w-full h-1 bg-white/30 rounded-full cursor-pointer hover:h-2 transition-all duration-200 group"
+                    style={{ direction: "ltr" }}
                     onClick={handleProgressClick}
+                    onMouseMove={handleProgressMouseMove}
+                    onMouseLeave={handleProgressMouseLeave}
+                    onMouseDown={handleProgressMouseDown}
                   >
+                    {/* Progress Fill */}
                     <div
                       className="h-full bg-blue-500 rounded-full transition-all duration-200"
                       style={{ width: `${(progress / duration) * 100}%` }}
                     />
+
+                    {/* Hover/Drag Indicator */}
+                    {(hoverProgress !== null || isDragging) && (
+                      <div
+                        className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-lg border-2 border-blue-500 z-10 transition-all duration-100"
+                        style={{
+                          left: `${((hoverProgress ?? progress / duration) * 100)}%`,
+                          transform: "translate(-50%, -50%)",
+                          cursor: isDragging ? "grabbing" : "grab",
+                        }}
+                      />
+                    )}
+
+                    {/* Hover Time Tooltip */}
+                    {(hoverProgress !== null || (isDragging && previewTime !== null)) && hoverPosition !== null && progressBarRef.current && previewTime !== null && (
+                      <div
+                        className="absolute bottom-full mb-2 pointer-events-none z-20 transition-all duration-100"
+                        style={{
+                          left: `${((hoverProgress ?? progress / duration) * 100)}%`,
+                          transform: "translateX(-50%)",
+                          maxWidth: `${progressBarRef.current.offsetWidth * 0.9}px`,
+                        }}
+                      >
+                        <div className="px-3 py-1 bg-black/90 rounded text-white text-xs font-mono">
+                          {formatTime(previewTime)}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}

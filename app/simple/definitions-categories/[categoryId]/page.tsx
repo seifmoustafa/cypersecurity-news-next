@@ -171,13 +171,13 @@ export default function CategoryPage({ params }: CategoryPageProps) {
                         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300">
                           {displayTerm}
                         </h3>
-                        <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4 line-clamp-3">
+                        <p className="text-gray-600 dark:text-gray-400 text-2xl leading-relaxed mb-4 line-clamp-2">
                           {displayDefinition}
                         </p>
                       </div>
                       
                       {/* Meta Information */}
-                      <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+                      {/* <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
                         <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                           <Calendar className="h-4 w-4" />
                           <span>{formattedDate}</span>
@@ -187,7 +187,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
                         ) : (
                           <ArrowRight className="h-5 w-5 text-gray-400 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300" />
                         )}
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </Link>
