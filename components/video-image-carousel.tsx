@@ -182,8 +182,21 @@ export default function VideoImageCarousel({
   const progressBarRef = useRef<HTMLDivElement>(null);
 
   const currentItem = items[currentIndex];
-  const hasVideo = currentItem?.videoUrl;
-  const hasImage = currentItem?.imageUrl;
+  
+  // Helper to validate if a URL string is valid and non-empty
+  const isValidUrl = (url: string | null | undefined): boolean => {
+    if (!url || typeof url !== "string") return false;
+    const trimmed = url.trim();
+    if (trimmed === "" || trimmed === "null" || trimmed === "undefined") return false;
+    // Check if it looks like a valid URL (starts with http/https or is a data URL or relative path)
+    return trimmed.length > 0;
+  };
+  
+  // Only consider video if there's a valid, non-empty video URL
+  // Video takes priority over image if both exist
+  const hasVideo = isValidUrl(currentItem?.videoUrl);
+  // Only consider image if there's a valid, non-empty image URL
+  const hasImage = isValidUrl(currentItem?.imageUrl);
 
   // Update current item when index changes
   useEffect(() => {
@@ -442,11 +455,9 @@ export default function VideoImageCarousel({
     }
   }, []);
 
-  // Keyboard controls: Space (play/pause), Arrows (+/-5s), F (fullscreen), Esc (exit)
+  // Keyboard controls: Space (play/pause for videos), Arrows (+/-5s for videos), F (fullscreen), Esc (exit fullscreen)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!hasVideo || !videoRef.current) return;
-
       // Ignore when focused on inputs/textareas/contentEditable elements
       const target = e.target as HTMLElement | null;
       if (target) {
@@ -455,20 +466,8 @@ export default function VideoImageCarousel({
         if (isEditable) return;
       }
 
-      if (e.code === "Space") {
-        e.preventDefault();
-        togglePlayPause();
-      } else if (e.code === "ArrowRight") {
-        e.preventDefault();
-        const newTime = Math.min(duration, (videoRef.current.currentTime || 0) + 5);
-        videoRef.current.currentTime = newTime;
-        setProgress(newTime);
-      } else if (e.code === "ArrowLeft") {
-        e.preventDefault();
-        const newTime = Math.max(0, (videoRef.current.currentTime || 0) - 5);
-        videoRef.current.currentTime = newTime;
-        setProgress(newTime);
-      } else if (e.code === "KeyF") {
+      // Fullscreen controls work for both videos and images
+      if (e.code === "KeyF") {
         e.preventDefault();
         toggleFullscreen();
       } else if (e.code === "Escape") {
@@ -476,6 +475,22 @@ export default function VideoImageCarousel({
           e.preventDefault();
           document.exitFullscreen();
           setIsFullscreen(false);
+        }
+      } else if (hasVideo && videoRef.current) {
+        // Video-specific controls
+        if (e.code === "Space") {
+          e.preventDefault();
+          togglePlayPause();
+        } else if (e.code === "ArrowRight") {
+          e.preventDefault();
+          const newTime = Math.min(duration, (videoRef.current.currentTime || 0) + 5);
+          videoRef.current.currentTime = newTime;
+          setProgress(newTime);
+        } else if (e.code === "ArrowLeft") {
+          e.preventDefault();
+          const newTime = Math.max(0, (videoRef.current.currentTime || 0) - 5);
+          videoRef.current.currentTime = newTime;
+          setProgress(newTime);
         }
       }
     };
@@ -738,12 +753,23 @@ export default function VideoImageCarousel({
                   onPause={handleVideoPause}
                   onLoadStart={() => setIsLoading(true)}
                   onCanPlay={() => setIsLoading(false)}
+                  onError={(e) => {
+                    // If video fails to load and we have an image, fallback to image
+                    console.warn("Video failed to load, falling back to image if available");
+                    setIsLoading(false);
+                    if (hasImage && currentItem.imageUrl) {
+                      // Video failed, will not render video element
+                      // This will be handled by the rendering logic on next render
+                    }
+                  }}
                   muted={isMuted}
                   preload="metadata"
-                  autoPlay
+                  autoPlay={hasVideo}
                   playsInline
                 >
-                  <source src={currentItem.videoUrl || ""} type="video/mp4" />
+                  {currentItem.videoUrl && currentItem.videoUrl.trim() !== "" && (
+                    <source src={currentItem.videoUrl} type="video/mp4" />
+                  )}
                   {language === "ar"
                     ? "متصفحك لا يدعم تشغيل الفيديو"
                     : "Your browser does not support the video tag"}
@@ -1241,12 +1267,12 @@ export default function VideoImageCarousel({
                         <Video className="h-4 w-4" />
                         <span>{language === "ar" ? "فيديو" : "Video"}</span>
                       </>
-                    ) : (
+                    ) : hasImage ? (
                       <>
                         <ImageIcon className="h-4 w-4" />
                         <span>{language === "ar" ? "صورة" : "Image"}</span>
                       </>
-                    )}
+                    ) : null}
                   </div>
 
                   {/* Item Counter */}

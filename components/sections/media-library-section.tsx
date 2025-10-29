@@ -10,7 +10,7 @@ import type { ApiVideo, ApiLecture, ApiPresentation, VideoCategory, LectureCateg
 import { slugify, getLocalizedText } from "@/lib/utils"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, ArrowLeft, Play, BookOpen, Presentation, Calendar, Clock, X, Maximize2, Minimize2, Search, Video } from "lucide-react"
+import { ArrowRight, ArrowLeft, Play, BookOpen, Presentation, Calendar, Clock, X, Maximize2, Minimize2, Search, Video, Image as ImageIcon } from "lucide-react"
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { useVideoCategoriesForProfessionals } from "@/core/hooks/use-video-categories-for-professionals"
 import { useVideosByCategoryForProfessionals } from "@/core/hooks/use-videos-by-category-for-professionals"
@@ -352,16 +352,44 @@ export default function MediaLibrarySection() {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
                           <div className="bg-gradient-to-r from-teal-500 to-blue-600 p-3 rounded-xl">
-                            <Video className="h-6 w-6 text-white" />
+                            {(() => {
+                              // Check if all items are images (no videos)
+                              const allItemsAreImages = categoryVideos.every(
+                                (v) => !v.videoUrl || v.videoUrl.trim() === "" || v.videoUrl === "null"
+                              );
+                              return allItemsAreImages ? (
+                                <ImageIcon className="h-6 w-6 text-white" />
+                              ) : (
+                                <Video className="h-6 w-6 text-white" />
+                              );
+                            })()}
                           </div>
                           <div>
                             <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
-                              {language === "ar" ? "مشغل الفيديوهات" : "Video Player"}
+                              {(() => {
+                                // Check if all items are images (no videos)
+                                const allItemsAreImages = categoryVideos.every(
+                                  (v) => !v.videoUrl || v.videoUrl.trim() === "" || v.videoUrl === "null"
+                                );
+                                return allItemsAreImages
+                                  ? (language === "ar" ? "مشغل الصور" : "Image Viewer")
+                                  : (language === "ar" ? "مشغل الفيديوهات" : "Video Player");
+                              })()}
                             </h3>
                             <p className="text-sm text-gray-600 dark:text-gray-300">
-                              {language === "ar"
-                                ? "استخدم الأسهم للتنقل بين الفيديوهات"
-                                : "Use arrows to navigate between videos"}
+                              {(() => {
+                                // Check if all items are images (no videos)
+                                const allItemsAreImages = categoryVideos.every(
+                                  (v) => !v.videoUrl || v.videoUrl.trim() === "" || v.videoUrl === "null"
+                                );
+                                return allItemsAreImages
+                                  ? (language === "ar"
+                                      ? "استخدم الأسهم للتنقل بين الصور"
+                                      : "Use arrows to navigate between images")
+                                  : (language === "ar"
+                                      ? "استخدم الأسهم للتنقل بين الفيديوهات"
+                                      : "Use arrows to navigate between videos");
+                              })()}
                             </p>
                           </div>
                         </div>
@@ -603,6 +631,16 @@ export default function MediaLibrarySection() {
 const VideoCard = ({ video, onClick }: { video: ApiVideo; onClick: (videoIndex: number) => void }) => {
   const { language, isRtl } = useLanguage()
 
+  // Check if this is an image-only item (no video URL)
+  const isValidUrl = (url: string | null | undefined): boolean => {
+    if (!url || typeof url !== "string") return false;
+    const trimmed = url.trim();
+    return trimmed !== "" && trimmed !== "null" && trimmed !== "undefined" && trimmed.length > 0;
+  };
+  
+  const hasVideo = isValidUrl(video.videoUrl);
+  const hasImage = isValidUrl(video.imageUrl);
+
   const handleCardClick = () => {
     onClick(0) // We'll handle the index in the parent component
   }
@@ -627,9 +665,9 @@ const VideoCard = ({ video, onClick }: { video: ApiVideo; onClick: (videoIndex: 
       style={{ transform: "perspective(900px)", animationDelay: "0ms" }}
     >
       <div className="bg-white dark:bg-slate-800 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 dark:hover:shadow-blue-500/30 transition-all duration-500 hover:scale-[1.02] h-full will-change-transform overflow-hidden">
-        {/* Video Thumbnail */}
+        {/* Media Thumbnail */}
         <div className="relative aspect-video bg-gradient-to-br from-blue-500 to-blue-600">
-          {video.imageUrl ? (
+          {video.imageUrl && hasImage ? (
             <img
               src={video.imageUrl}
               alt={language === "ar" ? video.nameAr : video.nameEn || video.nameAr}
@@ -638,22 +676,37 @@ const VideoCard = ({ video, onClick }: { video: ApiVideo; onClick: (videoIndex: 
           ) : (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="bg-white/20 backdrop-blur-sm rounded-full p-6 group-hover:scale-110 transition-transform duration-300">
-                <Play className="h-12 w-12 text-white" />
+                {hasVideo ? (
+                  <Play className="h-12 w-12 text-white" />
+                ) : (
+                  <ImageIcon className="h-12 w-12 text-white" />
+                )}
               </div>
             </div>
           )}
 
-          {/* Play Button Overlay */}
-          <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors duration-300">
-            <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 group-hover:scale-110 transition-transform duration-300">
-              <Play className="h-8 w-8 text-blue-600 ml-1" />
+          {/* Play Button Overlay - Only show for videos */}
+          {hasVideo && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors duration-300">
+              <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 group-hover:scale-110 transition-transform duration-300">
+                <Play className="h-8 w-8 text-blue-600 ml-1" />
+              </div>
             </div>
-          </div>
+          )}
 
-          {/* Video Duration Badge */}
-          <div className="absolute bottom-4 right-4 bg-black/70 text-white text-xs px-2 py-1 rounded">
-            <Clock className="h-3 w-3 inline mr-1" />
-            {language === "ar" ? "فيديو" : "Video"}
+          {/* Media Type Badge */}
+          <div className="absolute bottom-4 right-4 bg-black/70 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
+            {hasVideo ? (
+              <>
+                <Clock className="h-3 w-3" />
+                <span>{language === "ar" ? "فيديو" : "Video"}</span>
+              </>
+            ) : (
+              <>
+                <ImageIcon className="h-3 w-3" />
+                <span>{language === "ar" ? "صورة" : "Image"}</span>
+              </>
+            )}
           </div>
 
           {/* Category Badge */}

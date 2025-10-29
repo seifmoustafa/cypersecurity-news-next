@@ -36,6 +36,7 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
     null
   );
   const [showCarousel, setShowCarousel] = useState(false);
+  const [currentItemHasVideo, setCurrentItemHasVideo] = useState(true);
   const debouncedQuery = useDebounce(query, 500);
 
   // Unwrap the params Promise
@@ -63,6 +64,19 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
   const handleVideoClick = (videoIndex: number) => {
     setSelectedVideoIndex(videoIndex);
     setShowCarousel(true);
+    // Initialize current item type
+    const video = videos[videoIndex];
+    const isValidUrl = (url: string | null | undefined): boolean => {
+      if (!url || typeof url !== "string") return false;
+      const trimmed = url.trim();
+      return (
+        trimmed !== "" &&
+        trimmed !== "null" &&
+        trimmed !== "undefined" &&
+        trimmed.length > 0
+      );
+    };
+    setCurrentItemHasVideo(isValidUrl(video?.videoUrl));
   };
 
   const handleCloseCarousel = () => {
@@ -72,6 +86,18 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
 
   const handleCarouselItemChange = (item: any, index: number) => {
     setSelectedVideoIndex(index);
+    // Check if current item has video
+    const isValidUrl = (url: string | null | undefined): boolean => {
+      if (!url || typeof url !== "string") return false;
+      const trimmed = url.trim();
+      return (
+        trimmed !== "" &&
+        trimmed !== "null" &&
+        trimmed !== "undefined" &&
+        trimmed.length > 0
+      );
+    };
+    setCurrentItemHasVideo(isValidUrl(item.videoUrl));
   };
 
   if (loading) {
@@ -113,9 +139,6 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                   }
                   className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-white"
                 />
-              </div>
-              <div className="bg-gradient-to-rfrom-teal-500 to-blue-600 p-3 rounded-xl">
-                <Video className="h-6 w-6 text-white" />
               </div>
             </div>
           </div>
@@ -196,9 +219,6 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-white"
               />
             </div>
-            <div className="bg-gradient-to-r from-teal-500 to-blue-600 p-3 rounded-xl">
-              <Video className="h-6 w-6 text-white" />
-            </div>
           </div>
         </div>
 
@@ -252,16 +272,30 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className="bg-gradient-to-r from-teal-500 to-blue-600 p-3 rounded-xl">
-                    <Video className="h-6 w-6 text-white" />
+                    {currentItemHasVideo ? (
+                      <Video className="h-6 w-6 text-white" />
+                    ) : (
+                      <ImageIcon className="h-6 w-6 text-white" />
+                    )}
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
-                      {language === "ar" ? "مشغل الفيديوهات" : "Video Player"}
+                      {currentItemHasVideo
+                        ? language === "ar"
+                          ? "مشغل الفيديوهات"
+                          : "Video Player"
+                        : language === "ar"
+                        ? "مشغل الصور"
+                        : "Image Viewer"}
                     </h3>
                     <p className="text-sm text-gray-600 dark:text-gray-300">
-                      {language === "ar"
-                        ? "استخدم الأسهم للتنقل بين الفيديوهات"
-                        : "Use arrows to navigate between videos"}
+                      {currentItemHasVideo
+                        ? language === "ar"
+                          ? "استخدم الأسهم للتنقل بين الفيديوهات"
+                          : "Use arrows to navigate between videos"
+                        : language === "ar"
+                        ? "استخدم الأسهم للتنقل بين الصور"
+                        : "Use arrows to navigate between images"}
                     </p>
                   </div>
                 </div>
@@ -308,38 +342,79 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                   }}
                   style={{ transform: "perspective(900px)" }}
                 >
-                  {/* Video Thumbnail */}
+                  {/* Media Thumbnail */}
                   <div className="relative aspect-video bg-gradient-to-br from-blue-500 to-blue-600">
-                    {video.imageUrl ? (
-                      <img
-                        src={video.imageUrl}
-                        alt={
-                          language === "ar"
-                            ? video.nameAr
-                            : video.nameEn || video.nameAr
-                        }
-                        className="w-full h-full object-fill group-hover:scale-105 transition-transform duration-300"
-                      />
-                    ) : (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="bg-white/20 backdrop-blur-sm rounded-full p-6 group-hover:scale-110 transition-transform duration-300">
-                          <Video className="h-12 w-12 text-white" />
-                        </div>
-                      </div>
-                    )}
+                    {(() => {
+                      // Check if this is an image-only item (no video URL)
+                      const isValidUrl = (
+                        url: string | null | undefined
+                      ): boolean => {
+                        if (!url || typeof url !== "string") return false;
+                        const trimmed = url.trim();
+                        return (
+                          trimmed !== "" &&
+                          trimmed !== "null" &&
+                          trimmed !== "undefined" &&
+                          trimmed.length > 0
+                        );
+                      };
+                      const hasVideo = isValidUrl(video.videoUrl);
+                      const hasImage = isValidUrl(video.imageUrl);
 
-                    {/* Play Button Overlay */}
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors duration-300">
-                      <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 group-hover:scale-110 transition-transform duration-300">
-                        <Play className="h-8 w-8 text-blue-600 ml-1" />
-                      </div>
-                    </div>
+                      return (
+                        <>
+                          {video.imageUrl && hasImage ? (
+                            <img
+                              src={video.imageUrl}
+                              alt={
+                                language === "ar"
+                                  ? video.nameAr
+                                  : video.nameEn || video.nameAr
+                              }
+                              className="w-full h-full object-fill group-hover:scale-105 transition-transform duration-300"
+                            />
+                          ) : (
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="bg-white/20 backdrop-blur-sm rounded-full p-6 group-hover:scale-110 transition-transform duration-300">
+                                {hasVideo ? (
+                                  <Video className="h-12 w-12 text-white" />
+                                ) : (
+                                  <ImageIcon className="h-12 w-12 text-white" />
+                                )}
+                              </div>
+                            </div>
+                          )}
 
-                    {/* Video Duration Badge */}
-                    <div className="absolute bottom-4 right-4 bg-black/70 text-white text-xs px-2 py-1 rounded">
-                      <Clock className="h-3 w-3 inline mr-1" />
-                      {language === "ar" ? "فيديو" : "Video"}
-                    </div>
+                          {/* Play Button Overlay - Only show for videos */}
+                          {hasVideo && (
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors duration-300">
+                              <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 group-hover:scale-110 transition-transform duration-300">
+                                <Play className="h-8 w-8 text-blue-600 ml-1" />
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Media Type Badge */}
+                          <div className="absolute bottom-4 right-4 bg-black/70 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
+                            {hasVideo ? (
+                              <>
+                                <Clock className="h-3 w-3" />
+                                <span>
+                                  {language === "ar" ? "فيديو" : "Video"}
+                                </span>
+                              </>
+                            ) : (
+                              <>
+                                <ImageIcon className="h-3 w-3" />
+                                <span>
+                                  {language === "ar" ? "صورة" : "Image"}
+                                </span>
+                              </>
+                            )}
+                          </div>
+                        </>
+                      );
+                    })()}
 
                     {/* Category Badge */}
                     <div className="absolute top-4 right-4 bg-blue-500/90 text-white text-xs px-3 py-1 rounded-full">
@@ -364,7 +439,11 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                     {/* Video Header */}
                     <div className="flex items-center mb-4">
                       <div className="bg-gradient-to-r from-teal-500 to-blue-600 p-2 rounded-lg mr-3 rtl:mr-0 rtl:ml-3 group-hover:scale-110 transition-transform duration-500 shadow-lg">
-                        <Video className="h-4 w-4 text-white" />
+                        {video.videoUrl ? (
+                          <Video className="h-4 w-4 text-white" />
+                        ) : (
+                          <ImageIcon className="h-4 w-4 text-white" />
+                        )}
                       </div>
                       <div>
                         <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
@@ -391,7 +470,9 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                     {/* Video Footer */}
                     <div className="inline-flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-teal-500 to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group/btn focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white/10 focus:ring-blue-400">
                       <span className="mr-2 rtl:mr-0 rtl:ml-2">
-                        {language === "ar" ? "مشاهدة الحماية الشخصية" : "Watch Video"}
+                        {language === "ar"
+                          ? "مشاهدة الحماية الشخصية"
+                          : "Watch Video"}
                       </span>
                       {isRtl ? (
                         <ArrowLeft className="h-4 w-4 group-hover/btn:-translate-x-1 transition-transform duration-300" />
