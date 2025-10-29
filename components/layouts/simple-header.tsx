@@ -16,6 +16,7 @@ import {
   Map,
   Users,
   Settings,
+  FileText,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
@@ -41,6 +42,7 @@ export default function SimpleHeader({
   const [searchOpen, setSearchOpen] = useState(false);
   const [tipsDisabled, setTipsDisabled] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [sitemapDropdownOpen, setSitemapDropdownOpen] = useState(false);
 
   const pathname = usePathname();
   const router = useRouter();
@@ -208,21 +210,55 @@ export default function SimpleHeader({
               واجهة المتخصصين
                     </Button>
 
-            {/* 4. خريطة الموقع */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className={cn(
-                "flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base",
-                pathname === "/simple/sitemap"
-                  ? "bg-green-500/20 text-green-600 dark:text-green-300 shadow-lg backdrop-blur-sm border border-green-500/30"
-                  : "text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
-              )}
-              onClick={(e) => handleNavigation(e, "/simple/sitemap")}
+            {/* 4. خريطة الموقع - Dropdown on hover */}
+            <div 
+              className="relative group"
+              onMouseEnter={() => setSitemapDropdownOpen(true)}
+              onMouseLeave={() => setSitemapDropdownOpen(false)}
             >
-              <Map className="h-3 w-3 sm:h-4 sm:w-4" />
-              خريطة الموقع
-            </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className={cn(
+                  "flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base",
+                  pathname === "/simple/sitemap" || pathname === "/simple/sitemap/static"
+                    ? "bg-green-500/20 text-green-600 dark:text-green-300 shadow-lg backdrop-blur-sm border border-green-500/30"
+                    : "text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
+                )}
+              >
+                <Map className="h-3 w-3 sm:h-4 sm:w-4" />
+                خريطة الموقع
+              </Button>
+              
+              {/* Dropdown Menu */}
+              {sitemapDropdownOpen && (
+                <div 
+                  className={cn(
+                    "absolute top-full mt-1 min-w-[180px] bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-md shadow-lg z-50 overflow-hidden",
+                    isRtl ? "left-0" : "right-0"
+                  )}
+                  onMouseEnter={() => setSitemapDropdownOpen(true)}
+                  onMouseLeave={() => setSitemapDropdownOpen(false)}
+                >
+                  <Link 
+                    href="/simple/sitemap"
+                    className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
+                    onClick={() => setSitemapDropdownOpen(false)}
+                  >
+                    <Map className="h-4 w-4" />
+                    خريطة تفاعلية
+                  </Link>
+                  <Link 
+                    href="/simple/sitemap/static"
+                    className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
+                    onClick={() => setSitemapDropdownOpen(false)}
+                  >
+                    <FileText className="h-4 w-4" />
+                    خريطة ثابتة
+                  </Link>
+                </div>
+              )}
+            </div>
 
             {/* 5. تفعيل/إيقاف النصائح */}
             <Button
@@ -394,19 +430,39 @@ export default function SimpleHeader({
                     <span>واجهة المتخصصين</span>
                   </button>
 
-                  {/* 4. خريطة الموقع */}
-                  <button
-                    className={cn(
-                      "flex items-center gap-2 sm:gap-3 px-3 py-2.5 text-sm sm:text-base rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group",
-                      pathname === "/simple/sitemap"
-                        ? "bg-green-500/20 text-green-600 dark:text-green-300 border border-green-500/30"
-                        : "text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white"
-                    )}
-                    onClick={(e) => handleNavigation(e, "/simple/sitemap")}
-                  >
-                    <Map className="h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform duration-300" />
-                    <span>خريطة الموقع</span>
-                </button>
+                  {/* 4. خريطة الموقع - Mobile dropdown */}
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 sm:gap-3 px-3 py-2.5 text-sm sm:text-base rounded-lg text-gray-700 dark:text-slate-300 border border-gray-200 dark:border-slate-700">
+                      <Map className="h-4 w-4 sm:h-5 sm:w-5" />
+                      <span>خريطة الموقع</span>
+                    </div>
+                    <div className="rtl:mr-6 ltr:ml-6 space-y-1">
+                      <button
+                        className={cn(
+                          "flex items-center gap-2 sm:gap-3 px-3 py-2 text-sm rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 w-full text-left group",
+                          pathname === "/simple/sitemap"
+                            ? "bg-green-500/20 text-green-600 dark:text-green-300 border border-green-500/30"
+                            : "text-gray-600 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white"
+                        )}
+                        onClick={(e) => handleNavigation(e, "/simple/sitemap")}
+                      >
+                        <Map className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                        <span>خريطة تفاعلية</span>
+                      </button>
+                      <button
+                        className={cn(
+                          "flex items-center gap-2 sm:gap-3 px-3 py-2 text-sm rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 w-full text-left group",
+                          pathname === "/simple/sitemap/static"
+                            ? "bg-green-500/20 text-green-600 dark:text-green-300 border border-green-500/30"
+                            : "text-gray-600 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white"
+                        )}
+                        onClick={(e) => handleNavigation(e, "/simple/sitemap/static")}
+                      >
+                        <FileText className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
+                        <span>خريطة ثابتة</span>
+                      </button>
+                    </div>
+                  </div>
 
                   {/* 5. تفعيل/إيقاف النصائح */}
                 <button
