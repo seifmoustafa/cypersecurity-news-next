@@ -8,8 +8,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export default function StaticSitemapPage() {
-  const { language, t } = useLanguage();
-  const isRtl = language === "ar";
+  const { t, isRtl } = useLanguage();
   const [isFullScreen, setIsFullScreen] = useState(false);
   
   // Zoom state
@@ -156,13 +155,11 @@ export default function StaticSitemapPage() {
               <FileText className="h-6 w-6 text-white" />
             </div>
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
-              {language === "ar" ? "خريطة الموقع الثابتة" : "Static Sitemap"}
+              {t("beginners.staticSitemap.title")}
             </h1>
           </div>
           <p className="text-gray-600 dark:text-gray-400 text-lg">
-            {language === "ar" 
-              ? "عرض ثابت لخريطة الموقع" 
-              : "Static view of the website sitemap"}
+            {t("beginners.staticSitemap.subtitle")}
           </p>
         </div>
 
@@ -175,7 +172,7 @@ export default function StaticSitemapPage() {
             >
               <Image
                 src="/app-icon.png"
-                alt={language === "ar" ? "خريطة الموقع" : "Sitemap"}
+                alt={t("beginners.staticSitemap.sitemap")}
                 fill
                 className="object-contain transition-transform duration-300 group-hover:scale-105"
                 priority
@@ -193,7 +190,7 @@ export default function StaticSitemapPage() {
                     }}
                   >
                     <Maximize2 className="h-5 w-5" />
-                    {language === "ar" ? "عرض كامل الشاشة" : "View Full Screen"}
+                    {t("beginners.staticSitemap.viewFullScreen")}
                   </Button>
                 </div>
               </div>
@@ -333,7 +330,7 @@ export default function StaticSitemapPage() {
               <img
                 ref={imageRef}
                 src="/app-icon.png"
-                alt={language === "ar" ? "خريطة الموقع" : "Sitemap"}
+                alt={t("beginners.staticSitemap.sitemap")}
                 className="max-w-full max-h-[95vh] w-auto h-auto select-none"
                 style={{
                   transform: `scale(${zoomLevel}) translate(${imagePosition.x}px, ${imagePosition.y}px)`,
@@ -366,7 +363,7 @@ export default function StaticSitemapPage() {
           >
             <Link href="/simple">
               <Home className="h-4 w-4" />
-              {language === "ar" ? "العودة للرئيسية" : "Back to Home"}
+              {t("beginners.staticSitemap.backToHome")}
             </Link>
           </Button>
           <Button
@@ -376,7 +373,7 @@ export default function StaticSitemapPage() {
           >
             <Link href="/simple/sitemap">
               <FileText className="h-4 w-4" />
-              {language === "ar" ? "خريطة تفاعلية" : "Interactive Sitemap"}
+              {t("beginners.staticSitemap.interactiveSitemap")}
             </Link>
           </Button>
         </div>

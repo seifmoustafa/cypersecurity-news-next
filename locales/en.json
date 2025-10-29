@@ -124,6 +124,15 @@
       "sitemap": "Site Map",
       "beginnersInterface": "Beginners Interface"
     },
+    "staticSitemap": {
+      "title": "Static Sitemap",
+      "subtitle": "Static view of the website sitemap",
+      "viewFullScreen": "View Full Screen",
+      "sitemap": "Sitemap",
+      "backToHome": "Back to Home",
+      "interactiveSitemap": "Interactive Sitemap",
+      "staticSitemap": "Static Sitemap"
+    },
     "footer": {
       "title": "Cybersecurity Portal for Beginners",
       "subtitle": "A simplified cybersecurity platform providing basic knowledge and simple tools for cybersecurity beginners",
