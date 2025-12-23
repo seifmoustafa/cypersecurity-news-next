@@ -314,10 +314,10 @@ export default function BeginnersSearchPage() {
                           </div>
                         </div>
                       )}
-                      <div className={`absolute bottom-4 ${language === "ar" ? "right-4" : "left-4"} bg-black/50 text-white text-xs px-3 py-1 rounded-full flex items-center gap-1 ${language === "ar" ? "flex-row-reverse" : ""}`}>
+                      {/* <div className={`absolute bottom-4 ${language === "ar" ? "right-4" : "left-4"} bg-black/50 text-white text-xs px-3 py-1 rounded-full flex items-center gap-1 ${language === "ar" ? "flex-row-reverse" : ""}`}>
                         <Calendar className="h-3 w-3" />
                         {formatDateRTL(result.createdTimestamp, language)}
-                      </div>
+                      </div> */}
                       {isVideo && (
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="bg-black/50 rounded-full p-4 group-hover:scale-110 transition-transform duration-300">

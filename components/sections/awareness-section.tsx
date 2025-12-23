@@ -276,7 +276,7 @@ function NewsCard({ item, index }: NewsCardProps) {
             <div
               className={`absolute top-3 ${isRtl ? "right-3" : "left-3"} bg-blue-600/95 dark:bg-blue-700/95 text-white text-xs px-3 py-1.5 rounded-full backdrop-blur-sm border border-blue-500/30 dark:border-blue-400/30 shadow-lg`}
             >
-              {new Date(item.date || item.createdAt).toLocaleDateString("en-US")}
+              {new Date(item.date).toLocaleDateString("en-US")}
             </div>
           </div>
 

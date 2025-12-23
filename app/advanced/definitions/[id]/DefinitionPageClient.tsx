@@ -69,10 +69,10 @@ export default function DefinitionPageClient({ definition, category }: Definitio
                   <span>{categoryName}</span>
                 </div>
               )}
-              <div className={`flex items-center gap-1 ${isRtl ? "flex-row-reverse" : ""}`}>
+              {/* <div className={`flex items-center gap-1 ${isRtl ? "flex-row-reverse" : ""}`}>
                 <Calendar className="h-4 w-4" />
                 <span>{formatDate(definition.createdAt)}</span>
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -134,7 +134,7 @@ export default function DefinitionPageClient({ definition, category }: Definitio
                     )}
 
                     {/* Created Date */}
-                    <div>
+                    {/* <div>
                       <dt
                         className={`text-sm font-medium text-muted-foreground mb-1 ${isRtl ? "text-right" : "text-left"}`}
                       >
@@ -143,7 +143,7 @@ export default function DefinitionPageClient({ definition, category }: Definitio
                       <dd className={`text-sm ${isRtl ? "text-right" : "text-left"}`}>
                         {formatDate(definition.createdAt)}
                       </dd>
-                    </div>
+                    </div> */}
 
                     {/* Updated Date */}
                     {definition.updatedAt && (

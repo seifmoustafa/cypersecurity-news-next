@@ -169,9 +169,9 @@ export default function StandardsCategoryPageClient({
                             <Badge variant="secondary" className="text-xs">
                               {language === "ar" ? category.nameAr : category.nameEn}
                             </Badge>
-                            <span className="text-xs text-muted-foreground">
+                            {/* <span className="text-xs text-muted-foreground">
                               {new Date(standard.createdAt).toLocaleDateString("en-US")}
-                            </span>
+                            </span> */}
                           </div>
                         </CardContent>
                       </Card>

@@ -208,7 +208,7 @@ export class NewsRepositoryImpl implements NewsRepository {
       // Add full image URL if imageUrl exists
       imageUrl: item.imageUrl ? `${this.baseImageUrl}${item.imageUrl}` : null,
       // Use createdAt as date if date is null
-      date: item.date || item.createdAt,
+      date: item.date,
       // Add UI compatibility fields
       featured: false,
       category: "general",
@@ -226,7 +226,7 @@ export class NewsRepositoryImpl implements NewsRepository {
       summaryEn: item.summaryEn,
       // Apply the same image URL transformation
       imageUrl: item.imageUrl ? `${this.baseImageUrl}${item.imageUrl}` : null,
-      date: item.date || item.createdAt || new Date().toISOString(),
+      date: item.date,
       tags: item.tags || [],
       isActive: item.isActive !== undefined ? item.isActive : true,
       createdAt: item.createdAt || new Date().toISOString(),

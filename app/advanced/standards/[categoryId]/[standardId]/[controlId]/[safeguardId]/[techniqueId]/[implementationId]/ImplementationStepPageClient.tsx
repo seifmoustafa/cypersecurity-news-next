@@ -238,7 +238,7 @@ export default function ImplementationStepPageClient({
                   {language === "ar" ? "معلومات إضافية" : "Additional Information"}
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground">
-                  <div>
+                  {/* <div>
                     <span className="font-medium">{language === "ar" ? "تاريخ الإنشاء:" : "Created:"}</span>
                     <span className="ml-2">
                       {implementationStep.createdAt !== "0001-01-01T00:00:00"
@@ -247,7 +247,7 @@ export default function ImplementationStepPageClient({
                           ? "غير محدد"
                           : "Not specified"}
                     </span>
-                  </div>
+                  </div> */}
                   {implementationStep.updatedAt && (
                     <div>
                       <span className="font-medium">{language === "ar" ? "آخر تحديث:" : "Updated:"}</span>

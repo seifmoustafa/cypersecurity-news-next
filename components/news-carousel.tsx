@@ -314,7 +314,7 @@ export default function NewsCarousel() {
                             <div className="relative w-3 h-3 bg-yellow-400 rounded-full shadow-lg"></div>
                           </div>
                           {
-                            formatDateArabicNumbers(currentNews.date || currentNews.createdAt)
+                            formatDateArabicNumbers(currentNews.date)
                           }
                           {/* {new Date(
                             currentNews.date || currentNews.createdAt

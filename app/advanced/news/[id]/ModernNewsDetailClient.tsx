@@ -213,11 +213,11 @@ export default function ModernNewsDetailClient({ slug }: ModernNewsDetailClientP
                 </div>
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
-                  <span>{formatDate(currentNews.date || currentNews.createdAt)}</span>
+                  <span>{formatDate(currentNews.date)}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock className="h-4 w-4" />
-                  <span>{getTimeAgo(currentNews.date || currentNews.createdAt)}</span>
+                  <span>{getTimeAgo(currentNews.date)}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Eye className="h-4 w-4" />
@@ -395,7 +395,7 @@ export default function ModernNewsDetailClient({ slug }: ModernNewsDetailClientP
                               </h4>
                               <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
                                 <Clock className="h-3 w-3" />
-                                {getTimeAgo(item.date || item.createdAt)}
+                                {getTimeAgo(item.date)}
                               </div>
                             </div>
                           </div>

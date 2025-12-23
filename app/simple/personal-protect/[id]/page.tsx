@@ -445,12 +445,12 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                           <ImageIcon className="h-4 w-4 text-white" />
                         )}
                       </div>
-                      <div>
+                      {/* <div>
                         <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
                           <Clock className="h-3 w-3" />{" "}
                           {new Date(video.createdAt).toLocaleDateString()}
                         </div>
-                      </div>
+                      </div> */}
                     </div>
 
                     {/* Video Title */}

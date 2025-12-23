@@ -58,7 +58,7 @@ export default function ArticlePageClient({ article }: ArticlePageClientProps) {
                 <div className="p-2 bg-primary/10 rounded-full">
                   <FileText className="h-6 w-6 text-primary" />
                 </div>
-                <div
+                {/* <div
                   className={`flex items-center gap-2 text-sm text-muted-foreground ${isRtl ? "flex-row-reverse" : ""}`}
                 >
                   <Calendar className="h-4 w-4" />
@@ -69,7 +69,7 @@ export default function ArticlePageClient({ article }: ArticlePageClientProps) {
                       day: "numeric",
                     })}
                   </span>
-                </div>
+                </div> */}
               </div>
 
               <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">{displayTitle}</h1>

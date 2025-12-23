@@ -735,10 +735,10 @@ const VideoCard = ({ video, onClick }: { video: ApiVideo; onClick: (videoIndex: 
               <Play className="h-4 w-4 text-white" />
             </div>
             <div>
-              <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
+              {/* <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
                 <Clock className="h-3 w-3" />{" "}
                 {new Date(video.createdAt).toLocaleDateString()}
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -853,12 +853,12 @@ const LectureCard = ({ lecture }: { lecture: ApiLecture }) => {
             <div className="bg-gradient-to-r from-violet-500 to-purple-600 p-2 rounded-lg mr-3 rtl:mr-0 rtl:ml-3 group-hover:scale-110 transition-transform duration-500 shadow-lg">
               <BookOpen className="h-4 w-4 text-white" />
             </div>
-            <div>
+            {/* <div>
               <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
                 <Clock className="h-3 w-3" />{" "}
                 {new Date(lecture.createdAt).toLocaleDateString()}
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Lecture Title */}
@@ -965,12 +965,12 @@ const PresentationCard = ({ presentation }: { presentation: ApiPresentation }) =
             <div className="bg-gradient-to-r from-teal-500 to-green-600 p-2 rounded-lg mr-3 rtl:mr-0 rtl:ml-3 group-hover:scale-110 transition-transform duration-500 shadow-lg">
               <Presentation className="h-4 w-4 text-white" />
             </div>
-            <div>
+            {/* <div>
               <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
                 <Clock className="h-3 w-3" />{" "}
                 {new Date(presentation.createdAt).toLocaleDateString()}
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Presentation Title */}

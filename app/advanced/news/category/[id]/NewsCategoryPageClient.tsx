@@ -94,7 +94,7 @@ function NewsCard({ item }: { item: News }) {
 
   const displayTitle = getDisplayTitle(item)
   const displaySummary = getDisplaySummary(item)
-  const date = item?.date ? new Date(item.date) : item?.createdAt ? new Date(item.createdAt) : new Date()
+  const date = new Date(item!.date!)
 
   // Don't render if no title
   if (!displayTitle) {

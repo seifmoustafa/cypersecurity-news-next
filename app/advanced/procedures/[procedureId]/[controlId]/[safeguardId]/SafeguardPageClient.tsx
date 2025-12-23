@@ -1,54 +1,69 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import MainLayout from "@/components/layouts/main-layout"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { ArrowLeft, Calendar, FileText, Shield } from "lucide-react"
-import Link from "next/link"
-import { useLanguage } from "@/components/language-provider"
-import { container } from "@/core/di/container"
+import { useEffect, useState } from "react";
+import MainLayout from "@/components/layouts/main-layout";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ArrowLeft, Calendar, FileText, Shield } from "lucide-react";
+import Link from "next/link";
+import { useLanguage } from "@/components/language-provider";
+import { container } from "@/core/di/container";
 
 interface SafeguardPageClientProps {
   safeguard: {
-    id: string
-    name: string
-    nameAr: string
-    nameEn: string
-    description: string
-    descriptionAr: string
-    descriptionEn: string
-    code: string
-    createdAt: string
-    isActive: boolean
-  }
-  procedureId: string
-  controlId: string
+    id: string;
+    name: string;
+    nameAr: string;
+    nameEn: string;
+    description: string;
+    descriptionAr: string;
+    descriptionEn: string;
+    code: string;
+    createdAt: string;
+    isActive: boolean;
+  };
+  procedureId: string;
+  controlId: string;
 }
 
-export default function SafeguardPageClient({ safeguard, procedureId, controlId }: SafeguardPageClientProps) {
-  const { language, isRtl } = useLanguage()
-  const [techniques, setTechniques] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
+export default function SafeguardPageClient({
+  safeguard,
+  procedureId,
+  controlId,
+}: SafeguardPageClientProps) {
+  const { language, isRtl } = useLanguage();
+  const [techniques, setTechniques] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTechniques = async () => {
       try {
-        const techniquesData = await container.services.procedures.getTechniquesBySafeguardId(safeguard.id, 1, 100)
-        setTechniques(techniquesData.data)
+        const techniquesData =
+          await container.services.procedures.getTechniquesBySafeguardId(
+            safeguard.id,
+            1,
+            100
+          );
+        setTechniques(techniquesData.data);
       } catch (error) {
-        console.error("Error fetching techniques:", error)
+        console.error("Error fetching techniques:", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchTechniques()
-  }, [safeguard.id])
+    fetchTechniques();
+  }, [safeguard.id]);
 
-  const title = language === "ar" ? safeguard.nameAr || safeguard.nameEn : safeguard.nameEn || safeguard.nameAr
-  const description = language === "ar" ? safeguard.descriptionAr || safeguard.descriptionEn : safeguard.descriptionEn || safeguard.descriptionAr
+  const title =
+    language === "ar"
+      ? safeguard.nameAr || safeguard.nameEn
+      : safeguard.nameEn || safeguard.nameAr;
+  const description =
+    language === "ar"
+      ? safeguard.descriptionAr || safeguard.descriptionEn
+      : safeguard.descriptionEn || safeguard.descriptionAr;
 
   return (
     <MainLayout>
@@ -60,7 +75,11 @@ export default function SafeguardPageClient({ safeguard, procedureId, controlId 
               <Link href={`/advanced/procedures/${procedureId}/${controlId}`}>
                 <Button variant="outline" size="sm" className="gap-2">
                   <ArrowLeft className="h-4 w-4" />
-                  <span>{language === "ar" ? "رجوع إلى عنصر التحكم" : "Back to Control"}</span>
+                  <span>
+                    {language === "ar"
+                      ? "رجوع إلى عنصر التحكم"
+                      : "Back to Control"}
+                  </span>
                 </Button>
               </Link>
             </div>
@@ -79,15 +98,26 @@ export default function SafeguardPageClient({ safeguard, procedureId, controlId 
                         {safeguard.code || "N/A"}
                       </Badge>
                     </div>
-                    <h1 className={`text-4xl font-bold mb-4 ${isRtl ? "text-right" : "text-left"}`}>
+                    <h1
+                      className={`text-4xl font-bold mb-4 ${
+                        isRtl ? "text-right" : "text-left"
+                      }`}
+                    >
                       {title}
                     </h1>
                     {description && (
-                      <p className={`text-xl text-muted-foreground leading-relaxed ${isRtl ? "text-right" : "text-left"}`}>
-                        {description}
+                      <p
+                        className={`text-xl text-muted-foreground leading-relaxed ${
+                          isRtl ? "text-right" : "text-left"
+                        }`}
+                      >
+                        {description
+                          .replace(/<\/?[^>]+(>|$)/g, "")
+                          .replace(/<br\s*\/?>/gi, "\n")
+                          .replace(/<\/p>/gi, "\n")}
                       </p>
                     )}
-                    <div className="flex items-center gap-4 mt-6">
+                    {/* <div className="flex items-center gap-4 mt-6">
                       <Badge variant="outline" className="gap-2">
                         <Calendar className="h-3 w-3" />
                         {new Date(safeguard.createdAt).toLocaleDateString("en-US")}
@@ -95,7 +125,7 @@ export default function SafeguardPageClient({ safeguard, procedureId, controlId 
                       <Badge variant={safeguard.isActive ? "default" : "secondary"}>
                         {safeguard.isActive ? (language === "ar" ? "نشط" : "Active") : (language === "ar" ? "غير نشط" : "Inactive")}
                       </Badge>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </CardContent>
@@ -104,18 +134,26 @@ export default function SafeguardPageClient({ safeguard, procedureId, controlId 
 
           {/* Techniques Section */}
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold">{language === "ar" ? "التقنيات" : "Techniques"}</h2>
-            
+            <h2 className="text-2xl font-bold">
+              {language === "ar" ? "التقنيات" : "Techniques"}
+            </h2>
+
             {loading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <div key={i} className="bg-gray-300 rounded-lg h-32 animate-pulse"></div>
+                  <div
+                    key={i}
+                    className="bg-gray-300 rounded-lg h-32 animate-pulse"
+                  ></div>
                 ))}
               </div>
             ) : techniques.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {techniques.map((technique) => (
-                  <Link key={technique.id} href={`/advanced/procedures/${procedureId}/${controlId}/${safeguard.id}/${technique.id}`}>
+                  <Link
+                    key={technique.id}
+                    href={`/advanced/procedures/${procedureId}/${controlId}/${safeguard.id}/${technique.id}`}
+                  >
                     <Card className="hover:shadow-lg transition-shadow cursor-pointer">
                       <CardContent className="p-6">
                         <div className="flex items-center gap-3 mb-3">
@@ -127,10 +165,21 @@ export default function SafeguardPageClient({ safeguard, procedureId, controlId 
                           </Badge>
                         </div>
                         <h3 className="font-bold mb-2 line-clamp-2">
-                          {language === "ar" ? technique.nameAr || technique.nameEn : technique.nameEn || technique.nameAr}
+                          {language === "ar"
+                            ? technique.nameAr || technique.nameEn
+                            : technique.nameEn || technique.nameAr}
                         </h3>
                         <p className="text-sm text-muted-foreground line-clamp-3">
-                          {language === "ar" ? technique.descriptionAr || technique.descriptionEn : technique.descriptionEn || technique.descriptionAr}
+                          {language === "ar"
+                            ? technique.descriptionAr
+                                
+                                ||
+                              technique.descriptionEn
+                                
+                            : technique.descriptionEn
+                                ||
+                              technique.descriptionAr
+                               }
                         </p>
                       </CardContent>
                     </Card>
@@ -140,7 +189,9 @@ export default function SafeguardPageClient({ safeguard, procedureId, controlId 
             ) : (
               <div className="text-center py-12">
                 <p className="text-muted-foreground text-lg">
-                  {language === "ar" ? "لا توجد تقنيات متاحة" : "No techniques available"}
+                  {language === "ar"
+                    ? "لا توجد تقنيات متاحة"
+                    : "No techniques available"}
                 </p>
               </div>
             )}
@@ -148,5 +199,5 @@ export default function SafeguardPageClient({ safeguard, procedureId, controlId 
         </div>
       </div>
     </MainLayout>
-  )
+  );
 }

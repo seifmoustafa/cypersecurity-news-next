@@ -91,7 +91,7 @@ export default function PersonalProtectControlStepDetailPageClient({
                         {language === "ar" ? "لا يوجد ملخص متاح" : "No summary available"}
                       </p>
                     )}
-                    <div className="flex items-center gap-4 mt-6">
+                    {/* <div className="flex items-center gap-4 mt-6">
                       <Badge variant="outline" className="gap-2 bg-background border-green-500/30 text-foreground hover:bg-green-500/10 transition-colors">
                         <Calendar className="h-3 w-3" />
                         {new Date(step.createdAt).toLocaleDateString("en-US", {
@@ -100,7 +100,7 @@ export default function PersonalProtectControlStepDetailPageClient({
                           year: "numeric"
                         })}
                       </Badge>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </CardContent>

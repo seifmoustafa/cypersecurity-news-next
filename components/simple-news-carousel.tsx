@@ -196,7 +196,7 @@ export default function SimpleNewsCarousel() {
                                 <div className="absolute inset-0 bg-yellow-400 rounded-full blur-sm opacity-60 animate-pulse"></div>
                                 <div className="relative w-2 h-2 bg-yellow-400 rounded-full shadow-lg"></div>
                               </div>
-                              {formatDateArabicNumbers(latestNews[currentSlide]?.date||latestNews[currentSlide]?.createdAt)}
+                              {formatDateArabicNumbers(latestNews[currentSlide]?.date)}
                               {/* {latestNews[currentSlide]?.date ? new Date(latestNews[currentSlide].date).toLocaleDateString("en-US") : ""} */}
                             </span>
                           </div>

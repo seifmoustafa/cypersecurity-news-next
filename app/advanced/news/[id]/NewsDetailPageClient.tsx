@@ -30,7 +30,7 @@ export default function NewsDetailPageClient({ news }: NewsDetailPageClientProps
   const newsTitle = getTitle(news)
   const newsSummary = getSummary(news)
   const newsContent = getContent(news)
-  const date = news.date ? new Date(news.date) : news.createdAt ? new Date(news.createdAt) : new Date()
+  const date = new Date(news!.date!)
 
   // Clean HTML tags from content
   const cleanContent = newsContent ? newsContent.replace(/<\/?[^>]+(>|$)/g, "") : ""

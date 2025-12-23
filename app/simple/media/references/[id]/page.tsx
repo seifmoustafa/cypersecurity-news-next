@@ -121,7 +121,7 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
   const displayTitle = language === "ar" ? reference.title : (reference.titleEn || reference.title)
   const displayDescription = language === "ar" ? reference.description : (reference.descriptionEn || reference.description)
   const displaySummary = language === "ar" ? reference.summary : (reference.summaryEn || reference.summary)
-  const formattedDate = new Date(reference.createdAt).toLocaleDateString()
+  // const formattedDate = new Date(reference.createdAt).toLocaleDateString()
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
@@ -187,7 +187,7 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
 
                 {/* Meta Information */}
                 <div className="flex flex-wrap items-center gap-6 py-6 border-t border-b border-gray-200 dark:border-gray-700">
-                  <div className="flex items-center gap-3">
+                  {/* <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-full flex items-center justify-center">
                       <Calendar className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                     </div>
@@ -199,7 +199,7 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
                         {formattedDate}
                       </p>
                     </div>
-                  </div>
+                  </div> */}
 
                   {reference.pdfUrl && (
                     <div className="flex items-center gap-3">
@@ -296,7 +296,7 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
                   <div className="space-y-4">
                     {filteredRelatedReferences.map((relatedItem, index) => {
                       const relatedTitle = language === "ar" ? relatedItem.title : (relatedItem.titleEn || relatedItem.title)
-                      const relatedDate = new Date(relatedItem.createdAt).toLocaleDateString()
+                      // const relatedDate = new Date(relatedItem.createdAt).toLocaleDateString()
                       
                       return (
                         <Link
@@ -310,10 +310,10 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
                               {relatedTitle}
                             </h3>
                             
-                            <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                            {/* <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                               <Calendar className="h-3 w-3" />
                               <span>{relatedDate}</span>
-                            </div>
+                            </div> */}
                             
                             <div className="flex items-center justify-between">
                               <span className="text-sm font-medium text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors duration-300">
@@ -345,14 +345,14 @@ export default function ReferenceDetailPage({ params }: ReferenceDetailPageProps
                 </div>
                 
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between">
+                  {/* <div className="flex items-center justify-between">
                     <span className="text-sm text-gray-600 dark:text-gray-400">
                       {language === "ar" ? "تاريخ الإنشاء" : "Created"}
                     </span>
                     <span className="text-sm font-semibold text-gray-900 dark:text-white">
                       {formattedDate}
                     </span>
-                  </div>
+                  </div> */}
                   
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-gray-600 dark:text-gray-400">

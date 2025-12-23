@@ -79,7 +79,7 @@ export default function PersonalProtectControlPageClient({ control, categoryId, 
                         {description}
                       </p>
                     )}
-                    <div className="flex items-center gap-4 mt-6">
+                    {/* <div className="flex items-center gap-4 mt-6">
                       <Badge variant="outline" className="gap-2">
                         <Calendar className="h-3 w-3" />
                         {new Date(control.createdAt).toLocaleDateString("en-US")}
@@ -87,7 +87,7 @@ export default function PersonalProtectControlPageClient({ control, categoryId, 
                       <Badge variant={control.isActive ? "default" : "secondary"}>
                         {control.isActive ? (language === "ar" ? "نشط" : "Active") : (language === "ar" ? "غير نشط" : "Inactive")}
                       </Badge>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </CardContent>

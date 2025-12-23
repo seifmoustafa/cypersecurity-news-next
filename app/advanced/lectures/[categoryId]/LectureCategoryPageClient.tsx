@@ -146,7 +146,7 @@ export default function LectureCategoryPageClient({
     if (documentUrl) {
       const link = document.createElement("a")
       link.href = documentUrl
-      link.download = `${getDisplayName(lecture) || "lecture"}.pdf`
+      // link.download = `${getDisplayName(lecture) || "lecture"}.pdf`
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)

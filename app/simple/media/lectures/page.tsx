@@ -178,11 +178,11 @@ export default function SimpleLectureCategoriesPage() {
                     <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-xl mr-4 rtl:mr-0 rtl:ml-4 group-hover:scale-110 transition-transform duration-500 shadow-lg">
                       <GraduationCap className="h-6 w-6 text-white" />
                     </div>
-                    <div>
+                    {/* <div>
                       <div className="text-sm text-gray-500 dark:text-gray-400 mb-1 flex items-center gap-2">
                         <Calendar className="h-4 w-4" /> {new Date(category.createdAt).toLocaleDateString()}
                       </div>
-                    </div>
+                    </div> */}
                   </div>
 
                   {/* Category Title */}

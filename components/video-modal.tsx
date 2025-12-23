@@ -160,7 +160,7 @@ export default function VideoModal({ videoId, isOpen, onClose }: VideoModalProps
                     <Video className="h-5 w-5 text-white" />
                   </div>
                   <div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-4">
+                    {/* <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-4">
                       <span className="flex items-center gap-1">
                         <Calendar className="h-4 w-4" />
                         {new Date(video.createdAt).toLocaleDateString()}
@@ -169,7 +169,7 @@ export default function VideoModal({ videoId, isOpen, onClose }: VideoModalProps
                         <Clock className="h-4 w-4" />
                         {language === "ar" ? "فيديو تعليمي" : "Educational Video"}
                       </span>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 

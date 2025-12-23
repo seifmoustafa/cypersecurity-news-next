@@ -38,14 +38,14 @@ export default function LawPageClient({ law, category }: LawPageClientProps) {
   const lawContent = getContent(law)
 
   // Format dates
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    })
-  }
+  // const formatDate = (dateString: string) => {
+  //   const date = new Date(dateString)
+  //   return date.toLocaleDateString("en-US", {
+  //     year: "numeric",
+  //     month: "long",
+  //     day: "numeric",
+  //   })
+  // }
 
   const handleDownload = () => {
     if (law.documentUrl) {
@@ -82,12 +82,12 @@ export default function LawPageClient({ law, category }: LawPageClientProps) {
               <div
                 className={`flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-6 ${isRtl ? "justify-end" : "justify-start"}`}
               >
-                {law.effectiveDate && (
+                {/* {law.effectiveDate && (
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4" />
                     <span>{formatDate(law.effectiveDate)}</span>
                   </div>
-                )}
+                )} */}
                 {category && (
                   <div className="flex items-center gap-2">
                     <Tag className="h-4 w-4" />
@@ -115,11 +115,7 @@ export default function LawPageClient({ law, category }: LawPageClientProps) {
               <div className="text-foreground leading-relaxed">
                 {lawContent.split("\n").map(
                   (paragraph, index) =>
-                    paragraph.trim() && (
-                      <p key={index} className="mb-4">
-                        {paragraph}
-                      </p>
-                    ),
+                   <p key={index} className="mb-4">{paragraph}</p>
                 )}
               </div>
             </div>
@@ -127,10 +123,10 @@ export default function LawPageClient({ law, category }: LawPageClientProps) {
             {/* Additional Law Details */}
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Dates */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">{language === "ar" ? "التواريخ المهمة" : "Important Dates"}</h3>
+              {/* <div className="space-y-4">
+                <h3 className="text-lg font-semibold">{language === "ar" ? "التواريخ المهمة" : "Important Dates"}</h3> */}
 
-                {law.enactmentDate && (
+                {/* {law.enactmentDate && (
                   <div className="flex items-center gap-3">
                     <Calendar className="h-4 w-4 text-muted-foreground" />
                     <div>
@@ -138,9 +134,9 @@ export default function LawPageClient({ law, category }: LawPageClientProps) {
                       <p className="text-sm text-muted-foreground">{formatDate(law.enactmentDate)}</p>
                     </div>
                   </div>
-                )}
+                )} */}
 
-                {law.issueDate && (
+                {/* {law.issueDate && (
                   <div className="flex items-center gap-3">
                     <Calendar className="h-4 w-4 text-muted-foreground" />
                     <div>
@@ -148,9 +144,9 @@ export default function LawPageClient({ law, category }: LawPageClientProps) {
                       <p className="text-sm text-muted-foreground">{formatDate(law.issueDate)}</p>
                     </div>
                   </div>
-                )}
+                )} */}
 
-                {law.effectiveDate && (
+                {/* {law.effectiveDate && (
                   <div className="flex items-center gap-3">
                     <Calendar className="h-4 w-4 text-muted-foreground" />
                     <div>
@@ -158,8 +154,8 @@ export default function LawPageClient({ law, category }: LawPageClientProps) {
                       <p className="text-sm text-muted-foreground">{formatDate(law.effectiveDate)}</p>
                     </div>
                   </div>
-                )}
-              </div>
+                )} */}
+              {/* </div> */}
 
               {/* Tags */}
               {law.tags && law.tags.length > 0 && (
@@ -211,9 +207,9 @@ export default function LawPageClient({ law, category }: LawPageClientProps) {
                   </Button>
                 </Link>
 
-                <div className="text-sm text-muted-foreground">
+                {/* <div className="text-sm text-muted-foreground">
                   {language === "ar" ? "تم النشر في" : "Published on"} {law.createdAt && formatDate(law.createdAt)}
-                </div>
+                </div> */}
               </div>
             </footer>
           </article>

@@ -176,11 +176,11 @@ export default function ProceduresPageClient() {
                           </CardHeader>
                           <CardContent className="pt-0">
                             <p
-                              className={`text-sm text-muted-foreground leading-relaxed line-clamp-3 ${isRtl ? "text-right" : "text-left"}`}
+                              className={`whitespace-per-line text-sm text-muted-foreground leading-relaxed line-clamp-3 ${isRtl ? "text-right" : "text-left"}`}
                             >
-                              {description || (language === "ar" ? "لا يوجد وصف متاح" : "No description available")}
+                              {description.replace(/<\/?[^>]+(>|$)/g, "").replace(/<br\s*\/?>/gi,"\n").replace(/<\/p>/gi,"\n").trim() || (language === "ar" ? "لا يوجد وصف متاح" : "No description available")}
                             </p>
-                                                         <div className="mt-4 flex items-center justify-between">
+                                                         {/* <div className="mt-4 flex items-center justify-between">
                                <span className="text-xs text-muted-foreground">
                                  {new Date(procedure.createdAt).toLocaleDateString("en-US", {
                                    month: "numeric",
@@ -189,7 +189,7 @@ export default function ProceduresPageClient() {
                                  })}
                                </span>
                               <div className="w-2 h-2 bg-primary/30 rounded-full group-hover:bg-primary transition-colors"></div>
-                            </div>
+                            </div> */}
                           </CardContent>
                         </Card>
                       </motion.div>

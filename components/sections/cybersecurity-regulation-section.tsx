@@ -152,7 +152,7 @@ function RegulationCategoryContent({ categoryId }: RegulationCategoryContentProp
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={isRtl ? { direction: 'rtl' } : {}}>
-        {(isRtl ? [...regulations].reverse() : regulations)
+        {(isRtl ? [...regulations] : regulations)
           .slice(0, 6)
           .map((item, index) => (
             <RegulationCard key={item.id} item={item} index={index} />

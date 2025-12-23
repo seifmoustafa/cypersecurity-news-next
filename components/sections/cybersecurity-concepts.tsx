@@ -347,11 +347,11 @@ export default function CybersecurityConceptsSection() {
                                         ? item.summary || item.summaryEn
                                         : item.summaryEn || item.summary}
                                     </p>
-                                    <p className="text-sm text-primary mt-2">
+                                    {/* <p className="text-sm text-primary mt-2">
                                       {new Date(item.issueDate).toLocaleDateString(
                                         "en-US",
                                       )}
-                                    </p>
+                                    </p> */}
                                   </CardContent>
                                 </Card>
                               </motion.div>

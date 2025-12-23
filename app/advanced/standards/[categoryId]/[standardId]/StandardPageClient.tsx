@@ -86,7 +86,7 @@ export default function StandardPageClient({ standard, categoryId }: StandardPag
                         {description}
                       </p>
                     )}
-                    <div className="flex items-center gap-4 mt-6">
+                    {/* <div className="flex items-center gap-4 mt-6">
                       <Badge variant="outline" className="gap-2">
                         <Calendar className="h-3 w-3" />
                         {new Date(standard.createdAt).toLocaleDateString("en-US")}
@@ -94,7 +94,7 @@ export default function StandardPageClient({ standard, categoryId }: StandardPag
                       <Badge variant={standard.isActive ? "default" : "secondary"}>
                         {standard.isActive ? (language === "ar" ? "نشط" : "Active") : (language === "ar" ? "غير نشط" : "Inactive")}
                       </Badge>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </CardContent>

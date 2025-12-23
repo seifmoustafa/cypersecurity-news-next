@@ -115,11 +115,11 @@ function LawCard({ item }: { item: Law }) {
 
   const displayTitle = getDisplayTitle(item);
   const displaySummary = getDisplaySummary(item);
-  const date = item?.effectiveDate
-    ? new Date(item.effectiveDate)
-    : item?.createdAt
-    ? new Date(item.createdAt)
-    : new Date();
+  // const date = item?.effectiveDate
+  //   ? new Date(item.effectiveDate)
+  //   : item?.createdAt
+  //   ? new Date(item.createdAt)
+  //   : new Date();
 
   // Don't render if no title
   if (!displayTitle) {

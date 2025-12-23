@@ -76,7 +76,7 @@ export default function PresentationPageClient({ presentation }: PresentationPag
                   </p>
 
                   {/* Metadata */}
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-6">
+                  {/* <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-6">
                     <div className="flex items-center gap-2">
                       <Calendar className="h-4 w-4" />
                       <span>{formatDate(presentation.createdAt)}</span>
@@ -85,7 +85,7 @@ export default function PresentationPageClient({ presentation }: PresentationPag
                       <FileText className="h-4 w-4" />
                       <span>PowerPoint Presentation</span>
                     </div>
-                  </div>
+                  </div> */}
 
                   {/* Download Button */}
                   <Button onClick={handleDownload} size="lg" className="flex items-center gap-2">
@@ -179,10 +179,10 @@ export default function PresentationPageClient({ presentation }: PresentationPag
                       <span className="text-sm text-muted-foreground">{t("presentation.format")}</span>
                       <Badge variant="outline">PPTX</Badge>
                     </div>
-                    <div className="flex justify-between items-center">
+                    {/* <div className="flex justify-between items-center">
                       <span className="text-sm text-muted-foreground">{t("presentation.created")}</span>
                       <span className="text-sm">{formatDate(presentation.createdAt)}</span>
-                    </div>
+                    </div> */}
                     {presentation.updatedAt && (
                       <div className="flex justify-between items-center">
                         <span className="text-sm text-muted-foreground">{t("presentation.updated")}</span>

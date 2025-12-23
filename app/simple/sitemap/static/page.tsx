@@ -171,7 +171,7 @@ export default function StaticSitemapPage() {
               onClick={() => setIsFullScreen(true)}
             >
               <Image
-                src="/app-icon.png"
+                src="/assets/images/beginners/sitemap.svg"
                 alt={t("beginners.staticSitemap.sitemap")}
                 fill
                 className="object-contain transition-transform duration-300 group-hover:scale-105"
@@ -329,7 +329,7 @@ export default function StaticSitemapPage() {
             >
               <img
                 ref={imageRef}
-                src="/app-icon.png"
+                src="/assets/images/beginners/sitemap.svg"
                 alt={t("beginners.staticSitemap.sitemap")}
                 className="max-w-full max-h-[95vh] w-auto h-auto select-none"
                 style={{

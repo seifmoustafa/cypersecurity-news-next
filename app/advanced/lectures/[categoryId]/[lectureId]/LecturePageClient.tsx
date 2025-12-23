@@ -45,7 +45,7 @@ export default function LecturePageClient({ lecture, categoryId }: LecturePageCl
     if (documentUrl) {
       const link = document.createElement("a")
       link.href = documentUrl
-      link.download = `${getDisplayName() || "lecture"}.pdf`
+      // link.download = `${getDisplayName() || "lecture"}.pdf`
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
@@ -96,10 +96,10 @@ export default function LecturePageClient({ lecture, categoryId }: LecturePageCl
                 <div
                   className={`flex items-center gap-4 mb-6 ${isRtl ? "justify-end flex-row-reverse" : "justify-start"}`}
                 >
-                  <div className={`flex items-center gap-2 text-muted-foreground ${isRtl ? "flex-row-reverse" : ""}`}>
+                  {/* <div className={`flex items-center gap-2 text-muted-foreground ${isRtl ? "flex-row-reverse" : ""}`}>
                     <Calendar className="h-4 w-4" />
                     <span>{formatDate(lecture.createdAt)}</span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
@@ -143,15 +143,15 @@ export default function LecturePageClient({ lecture, categoryId }: LecturePageCl
                   </h3>
 
                   <div className="space-y-4">
-                    <div>
+                    {/* <div>
                       <p className={`text-sm text-muted-foreground mb-1 ${isRtl ? "text-right" : "text-left"}`}>
                         {language === "ar" ? "تاريخ الإنشاء" : "Created Date"}
                       </p>
                       <p className={`text-sm font-medium ${isRtl ? "text-right" : "text-left"}`}>
                         {formatDate(lecture.createdAt)}
                       </p>
-                    </div>
-
+                    </div> */}
+{/* 
                     {lecture.updatedAt && (
                       <div>
                         <p className={`text-sm text-muted-foreground mb-1 ${isRtl ? "text-right" : "text-left"}`}>
@@ -161,13 +161,13 @@ export default function LecturePageClient({ lecture, categoryId }: LecturePageCl
                           {formatDate(lecture.updatedAt)}
                         </p>
                       </div>
-                    )}
+                    )} */}
 
                     {lecture.documentUrl && (
                       <div className="pt-4 border-t">
                         <Button onClick={handleDownload} className={`w-full ${isRtl ? "flex-row-reverse" : ""}`}>
                           <Download className="h-4 w-4 mr-2" />
-                          {language === "ar" ? "تحميل PDF" : "Download PDF"}
+                          {language === "ar" ? "تحميل" : "Download"}
                         </Button>
                       </div>
                     )}

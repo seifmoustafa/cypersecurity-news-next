@@ -146,7 +146,7 @@ export default function AwarenessDetailPage({ params }: AwarenessDetailPageProps
 
   const purifiedContent = purifyContent(instruction.content)
   const displayTitle = language === "ar" ? instruction.title : (instruction.titleEn || instruction.title)
-  const formattedDate = language === "ar" ? formatDateArabicNumbers(instruction.createdAt) : formatDate(instruction.createdAt)
+  // const formattedDate = language === "ar" ? formatDateArabicNumbers(instruction.createdAt) : formatDate(instruction.createdAt)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
@@ -207,14 +207,14 @@ export default function AwarenessDetailPage({ params }: AwarenessDetailPageProps
                     <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-sky-100 dark:from-blue-900/30 dark:to-sky-900/30 rounded-full flex items-center justify-center">
                       <Calendar className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                     </div>
-                    <div>
+                    {/* <div>
                       <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
                         {t('awareness.published')}
                       </p>
                       <p className="text-lg font-semibold text-gray-900 dark:text-white">
                         {formattedDate}
                       </p>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -352,14 +352,14 @@ export default function AwarenessDetailPage({ params }: AwarenessDetailPageProps
                     </span>
                   </div>
                   
-                  <div className="flex items-center justify-between">
+                  {/* <div className="flex items-center justify-between">
                     <span className="text-sm text-gray-600 dark:text-gray-400">
                       {t('awareness.published')}
                     </span>
                     <span className="text-sm font-semibold text-gray-900 dark:text-white">
                       {formattedDate}
                     </span>
-                  </div>
+                  </div> */}
                   
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-gray-600 dark:text-gray-400">

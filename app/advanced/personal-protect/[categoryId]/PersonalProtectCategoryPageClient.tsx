@@ -77,7 +77,7 @@ export default function PersonalProtectCategoryPageClient({ category }: Personal
                         {description}
                       </p>
                     )}
-                    <div className="flex items-center gap-4 mt-6">
+                    {/* <div className="flex items-center gap-4 mt-6">
                       <Badge variant="outline" className="gap-2">
                         <Calendar className="h-3 w-3" />
                         {new Date(category.createdAt).toLocaleDateString("en-US")}
@@ -85,7 +85,7 @@ export default function PersonalProtectCategoryPageClient({ category }: Personal
                       <Badge variant={category.isActive ? "default" : "secondary"}>
                         {category.isActive ? (language === "ar" ? "نشط" : "Active") : (language === "ar" ? "غير نشط" : "Inactive")}
                       </Badge>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </CardContent>

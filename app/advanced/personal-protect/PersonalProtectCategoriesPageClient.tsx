@@ -201,7 +201,7 @@ export default function PersonalProtectCategoriesPageClient() {
                             >
                               {description || (language === "ar" ? "لا يوجد وصف متاح" : "No description available")}
                             </p>
-                            <div className="mt-4 flex items-center justify-between">
+                            {/* <div className="mt-4 flex items-center justify-between">
                               <span className="text-xs text-muted-foreground">
                                 {new Date(category.createdAt).toLocaleDateString("en-US", {
                                   month: "numeric",
@@ -210,7 +210,7 @@ export default function PersonalProtectCategoriesPageClient() {
                                 })}
                               </span>
                               <div className="w-2 h-2 bg-green-500/30 rounded-full group-hover:bg-green-500 transition-colors"></div>
-                            </div>
+                            </div> */}
                           </CardContent>
                         </Card>
                       </motion.div>

@@ -102,7 +102,7 @@ export default function LectureDetailPage({ params }: LectureDetailPageProps) {
   const displayTitle = language === "ar" ? lecture.nameAr : lecture.nameEn || lecture.nameAr
   const displaySummary = language === "ar" ? lecture.summaryAr : lecture.summaryEn || lecture.summaryAr
   const displayContent = language === "ar" ? lecture.contentAr : lecture.contentEn || lecture.contentAr
-  const formattedDate = new Date(lecture.createdAt).toLocaleDateString()
+  // const formattedDate = new Date(lecture.createdAt).toLocaleDateString()
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
@@ -172,14 +172,14 @@ export default function LectureDetailPage({ params }: LectureDetailPageProps) {
                     <div className="w-10 h-10 bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-900/30 dark:to-blue-900/30 rounded-full flex items-center justify-center">
                       <Calendar className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
                     </div>
-                    <div>
+                    {/* <div>
                       <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
                         {language === "ar" ? "تاريخ النشر" : "Published"}
                       </p>
                       <p className="text-lg font-semibold text-gray-900 dark:text-white">
                         {formattedDate}
                       </p>
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="flex items-center gap-3">
@@ -272,14 +272,14 @@ export default function LectureDetailPage({ params }: LectureDetailPageProps) {
                 </div>
                 
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between">
+                  {/* <div className="flex items-center justify-between">
                     <span className="text-sm text-gray-600 dark:text-gray-400">
                       {language === "ar" ? "تاريخ النشر" : "Published"}
                     </span>
                     <span className="text-sm font-semibold text-gray-900 dark:text-white">
                       {formattedDate}
                     </span>
-                  </div>
+                  </div> */}
                   
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-gray-600 dark:text-gray-400">

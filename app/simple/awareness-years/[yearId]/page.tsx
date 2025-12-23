@@ -9,6 +9,7 @@ import { useAwarenessByYearId } from "@/core/hooks/use-awareness"
 import { useAwarenessYears } from "@/core/hooks/use-awareness"
 import { useDebounce } from "@/hooks/use-debounce"
 import { use } from "react"
+import { formatDateArabic } from "@/lib/content-purifier"
 
 interface AwarenessYearPageProps {
   params: Promise<{
@@ -225,15 +226,15 @@ export default function AwarenessYearPage({ params }: AwarenessYearPageProps) {
 
                     {/* Meta Information */}
                     <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-slate-700">
-                      <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                      {/* <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                         <Calendar className="h-3 w-3" />
                         <span>
                           {language === "ar" 
-                            ? new Date(instruction.createdAt).toLocaleDateString('ar-SA')
+                            ? formatDateArabic(instruction.createdAt)
                             : new Date(instruction.createdAt).toLocaleDateString('en-US')
                           }
                         </span>
-                      </div>
+                      </div> */}
                       
                       <div className="flex items-center gap-1 text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors duration-300">
                         <span className="text-sm font-medium">

@@ -174,11 +174,11 @@ function ArticleCard({ article, index }: ArticleCardProps) {
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
-            <div
+            {/* <div
               className={`absolute top-2 ${isRtl ? "right-2" : "left-2"} bg-primary text-white text-xs px-2 py-1 rounded`}
             >
               {new Date(article.createdAt).toLocaleDateString("en-US")}
-            </div>
+            </div> */}
           </div>
 
           <CardContent className={`p-4 ${isRtl ? "text-right" : "text-left"}`}>

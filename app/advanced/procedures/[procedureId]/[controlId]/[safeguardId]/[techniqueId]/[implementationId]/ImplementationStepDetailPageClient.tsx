@@ -1,25 +1,38 @@
-"use client"
+"use client";
 
-import MainLayout from "@/components/layouts/main-layout"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { ChevronLeft, Shield, Calendar, FileText, Image as ImageIcon, Download, Eye } from "lucide-react"
-import Link from "next/link"
-import { useLanguage } from "@/components/language-provider"
-import type { ProcedureImplementationStep } from "@/core/domain/models/procedure"
-import { getLocalizedText } from "@/lib/utils"
-import Image from "next/image"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { useState } from "react"
+import MainLayout from "@/components/layouts/main-layout";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  ChevronLeft,
+  Shield,
+  Calendar,
+  FileText,
+  Image as ImageIcon,
+  Download,
+  Eye,
+} from "lucide-react";
+import Link from "next/link";
+import { useLanguage } from "@/components/language-provider";
+import type { ProcedureImplementationStep } from "@/core/domain/models/procedure";
+import { getLocalizedText } from "@/lib/utils";
+import Image from "next/image";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { useState } from "react";
 
 interface ImplementationStepDetailPageClientProps {
-  procedureId: string
-  controlId: string
-  safeguardId: string
-  techniqueId: string
-  implementationId: string
-  implementationStep: ProcedureImplementationStep
+  procedureId: string;
+  controlId: string;
+  safeguardId: string;
+  techniqueId: string;
+  implementationId: string;
+  implementationStep: ProcedureImplementationStep;
 }
 
 export default function ImplementationStepDetailPageClient({
@@ -30,11 +43,19 @@ export default function ImplementationStepDetailPageClient({
   implementationId,
   implementationStep,
 }: ImplementationStepDetailPageClientProps) {
-  const { language, isRtl } = useLanguage()
-  const [imageDialogOpen, setImageDialogOpen] = useState(false)
+  const { language, isRtl } = useLanguage();
+  const [imageDialogOpen, setImageDialogOpen] = useState(false);
 
-  const title = getLocalizedText(language, implementationStep.nameAr, implementationStep.nameEn)
-  const description = getLocalizedText(language, implementationStep.descriptionAr, implementationStep.descriptionEn)
+  const title = getLocalizedText(
+    language,
+    implementationStep.nameAr,
+    implementationStep.nameEn
+  );
+  const description = getLocalizedText(
+    language,
+    implementationStep.descriptionAr,
+    implementationStep.descriptionEn
+  );
 
   return (
     <MainLayout>
@@ -43,10 +64,20 @@ export default function ImplementationStepDetailPageClient({
           {/* Header */}
           <div className="mb-12">
             <div className="flex items-center gap-4 mb-8">
-              <Link href={`/advanced/procedures/${procedureId}/${controlId}/${safeguardId}/${techniqueId}`}>
-                <Button variant="outline" size="sm" className="gap-2 hover:bg-primary/5 transition-colors">
+              <Link
+                href={`/advanced/procedures/${procedureId}/${controlId}/${safeguardId}/${techniqueId}`}
+              >
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-2 hover:bg-primary/5 transition-colors"
+                >
                   <ChevronLeft className="h-4 w-4" />
-                  <span>{language === "ar" ? "رجوع إلى التقنية" : "Back to Technique"}</span>
+                  <span>
+                    {language === "ar"
+                      ? "رجوع إلى التقنية"
+                      : "Back to Technique"}
+                  </span>
                 </Button>
               </Link>
             </div>
@@ -62,29 +93,51 @@ export default function ImplementationStepDetailPageClient({
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-4 mb-4">
-                      <Badge variant="secondary" className="font-mono text-sm px-3 py-1 bg-primary/10 text-primary border-primary/20">
+                      <Badge
+                        variant="secondary"
+                        className="font-mono text-sm px-3 py-1 bg-primary/10 text-primary border-primary/20"
+                      >
                         Step {implementationStep.orderNum + 1}
                       </Badge>
                       <Badge variant="outline" className="text-xs">
-                        {language === "ar" ? "خطوة تنفيذ" : "Implementation Step"}
+                        {language === "ar"
+                          ? "خطوة تنفيذ"
+                          : "Implementation Step"}
                       </Badge>
                     </div>
-                    <h1 className={`text-4xl font-bold mb-4 bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent ${isRtl ? "text-right" : "text-left"}`}>
+                    <h1
+                      className={`text-4xl font-bold mb-4 bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent ${
+                        isRtl ? "text-right" : "text-left"
+                      }`}
+                    >
                       {title}
                     </h1>
                     {description ? (
-                      <div 
-                        className={`text-xl text-muted-foreground leading-relaxed ${isRtl ? "text-right" : "text-left"}`}
-                        dangerouslySetInnerHTML={{ 
-                          __html: getLocalizedText(language, implementationStep.descriptionAr, implementationStep.descriptionEn) 
-                        }}
-                      />
+                      <p
+                        className={`text-xl text-muted-foreground leading-relaxed ${
+                          isRtl ? "text-right" : "text-left"
+                        }`}
+                      >
+                        {getLocalizedText(
+                          language,
+                          implementationStep
+                            .descriptionAr,
+                          implementationStep
+                            .descriptionEn
+                        )}{" "}
+                      </p>
                     ) : (
-                      <p className={`text-xl text-muted-foreground leading-relaxed ${isRtl ? "text-right" : "text-left"}`}>
-                        {language === "ar" ? "لا يوجد وصف متاح" : "No description available"}
+                      <p
+                        className={`text-xl text-muted-foreground leading-relaxed ${
+                          isRtl ? "text-right" : "text-left"
+                        }`}
+                      >
+                        {language === "ar"
+                          ? "لا يوجد وصف متاح"
+                          : "No description available"}
                       </p>
                     )}
-                    <div className="flex items-center gap-4 mt-6">
+                    {/* <div className="flex items-center gap-4 mt-6">
                       <Badge variant="outline" className="gap-2 bg-background border-primary/30 text-foreground hover:bg-primary/10 transition-colors">
                         <Calendar className="h-3 w-3" />
                         {new Date(implementationStep.createdAt).toLocaleDateString("en-US", {
@@ -93,7 +146,7 @@ export default function ImplementationStepDetailPageClient({
                           year: "numeric"
                         })}
                       </Badge>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </CardContent>
@@ -103,21 +156,36 @@ export default function ImplementationStepDetailPageClient({
           {/* Content Sections */}
           <div className="space-y-10">
             {/* Description Section */}
-            {(implementationStep.descriptionAr || implementationStep.descriptionEn) && (
+            {(implementationStep
+              .descriptionAr ||
+              implementationStep
+                .descriptionEn) && (
               <Card className="border-0 shadow-xl bg-gradient-to-br from-card to-card/50 backdrop-blur-sm">
                 <CardHeader className="pb-6">
-                  <CardTitle className={`flex items-center gap-3 text-2xl font-bold ${isRtl ? "text-right" : "text-left"}`}>
+                  <CardTitle
+                    className={`flex items-center gap-3 text-2xl font-bold ${
+                      isRtl ? "text-right" : "text-left"
+                    }`}
+                  >
                     <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
                       <FileText className="h-5 w-5 text-primary" />
                     </div>
-                    {language === "ar" ? "الوصف التفصيلي" : "Detailed Description"}
+                    {language === "ar"
+                      ? "الوصف التفصيلي"
+                      : "Detailed Description"}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="pb-8">
-                  <div 
-                    className={`prose prose-lg dark:prose-invert max-w-none leading-relaxed ${isRtl ? "text-right" : "text-left"}`}
-                    dangerouslySetInnerHTML={{ 
-                      __html: getLocalizedText(language, implementationStep.descriptionAr, implementationStep.descriptionEn) 
+                  <div
+                    className={`prose prose-lg dark:prose-invert max-w-none leading-relaxed ${
+                      isRtl ? "text-right" : "text-left"
+                    }`}
+                    dangerouslySetInnerHTML={{
+                      __html: getLocalizedText(
+                        language,
+                        implementationStep.descriptionAr,
+                        implementationStep.descriptionEn
+                      ),
                     }}
                   />
                 </CardContent>
@@ -128,7 +196,11 @@ export default function ImplementationStepDetailPageClient({
             {implementationStep.imageUrl && (
               <Card className="border-0 shadow-xl bg-gradient-to-br from-card to-card/50 backdrop-blur-sm">
                 <CardHeader className="pb-6">
-                  <CardTitle className={`flex items-center gap-3 text-2xl font-bold ${isRtl ? "text-right" : "text-left"}`}>
+                  <CardTitle
+                    className={`flex items-center gap-3 text-2xl font-bold ${
+                      isRtl ? "text-right" : "text-left"
+                    }`}
+                  >
                     <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
                       <ImageIcon className="h-5 w-5 text-primary" />
                     </div>
@@ -189,7 +261,11 @@ export default function ImplementationStepDetailPageClient({
             {implementationStep.documentUrl && (
               <Card className="border-0 shadow-xl bg-gradient-to-br from-card to-card/50 backdrop-blur-sm">
                 <CardHeader className="pb-6">
-                  <CardTitle className={`flex items-center gap-3 text-2xl font-bold ${isRtl ? "text-right" : "text-left"}`}>
+                  <CardTitle
+                    className={`flex items-center gap-3 text-2xl font-bold ${
+                      isRtl ? "text-right" : "text-left"
+                    }`}
+                  >
                     <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
                       <FileText className="h-5 w-5 text-primary" />
                     </div>
@@ -204,22 +280,31 @@ export default function ImplementationStepDetailPageClient({
                       </div>
                       <div>
                         <p className="font-bold text-xl text-foreground">
-                          {language === "ar" ? "مستند التنفيذ" : "Implementation Document"}
+                          {language === "ar"
+                            ? "مستند التنفيذ"
+                            : "Implementation Document"}
                         </p>
                         <p className="text-muted-foreground mt-1">
-                          {language === "ar" ? "انقر لتحميل المستند" : "Click to download document"}
+                          {language === "ar"
+                            ? "انقر لتحميل المستند"
+                            : "Click to download document"}
                         </p>
                       </div>
                     </div>
-                    <Button asChild className="gap-3 px-6 py-3 bg-primary hover:bg-primary/90 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
-                      <a 
-                        href={implementationStep.documentUrl} 
+                    <Button
+                      asChild
+                      className="gap-3 px-6 py-3 bg-primary hover:bg-primary/90 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                    >
+                      <a
+                        href={implementationStep.documentUrl}
                         download
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         <Download className="h-5 w-5" />
-                        {language === "ar" ? "تحميل المستند" : "Download Document"}
+                        {language === "ar"
+                          ? "تحميل المستند"
+                          : "Download Document"}
                       </a>
                     </Button>
                   </div>
@@ -230,5 +315,5 @@ export default function ImplementationStepDetailPageClient({
         </div>
       </div>
     </MainLayout>
-  )
+  );
 }

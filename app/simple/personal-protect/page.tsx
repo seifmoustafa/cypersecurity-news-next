@@ -235,10 +235,10 @@ export default function SimpleVideoCategoriesPage() {
                         <Video className="h-6 w-6 text-white" />
                       </div>
                       <div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400 mb-1 flex items-center gap-2">
+                        {/* <div className="text-sm text-gray-500 dark:text-gray-400 mb-1 flex items-center gap-2">
                           <BookOpen className="h-4 w-4" />{" "}
                           {new Date(category.createdAt).toLocaleDateString()}
-                        </div>
+                        </div> */}
                       </div>
                     </div>
 

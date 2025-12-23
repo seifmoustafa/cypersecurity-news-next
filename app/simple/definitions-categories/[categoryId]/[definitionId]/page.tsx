@@ -1,42 +1,45 @@
-"use client"
+"use client";
 
-import { use } from "react"
-import Link from "next/link"
-import { useLanguage } from "@/components/language-provider"
-import { 
-  Calendar, 
-  ArrowRight, 
-  ArrowLeft, 
+import { use } from "react";
+import Link from "next/link";
+import { useLanguage } from "@/components/language-provider";
+import {
+  Calendar,
+  ArrowRight,
+  ArrowLeft,
   BookOpen,
   Share2,
   FileText,
-  TrendingUp
-} from "lucide-react"
-import { ShareButton } from "@/components/ui/share-button"
-import Breadcrumbs from "@/components/breadcrumbs"
-import { useDefinition } from "@/core/hooks/use-definition"
-import { useDefinitionBreadcrumbs } from "@/hooks/use-breadcrumbs"
-import { formatDateArabicNumbers, formatDate } from "@/lib/content-purifier"
+  TrendingUp,
+} from "lucide-react";
+import { ShareButton } from "@/components/ui/share-button";
+import Breadcrumbs from "@/components/breadcrumbs";
+import { useDefinition } from "@/core/hooks/use-definition";
+import { useDefinitionBreadcrumbs } from "@/hooks/use-breadcrumbs";
+import { formatDateArabicNumbers, formatDate } from "@/lib/content-purifier";
 
 interface IndividualDefinitionPageProps {
   params: Promise<{
-    categoryId: string
-    definitionId: string
-  }>
+    categoryId: string;
+    definitionId: string;
+  }>;
 }
 
-export default function IndividualDefinitionPage({ params }: IndividualDefinitionPageProps) {
-  const { language } = useLanguage()
-  const isRtl = language === "ar"
-  
+export default function IndividualDefinitionPage({
+  params,
+}: IndividualDefinitionPageProps) {
+  const { language } = useLanguage();
+  const isRtl = language === "ar";
+
   // Unwrap params using React.use()
-  const resolvedParams = use(params)
-  const { categoryId, definitionId } = resolvedParams
-  
+  const resolvedParams = use(params);
+  const { categoryId, definitionId } = resolvedParams;
+
   // Get breadcrumbs with dynamic data
-  const { items: breadcrumbItems, isLoading: breadcrumbLoading } = useDefinitionBreadcrumbs(categoryId, definitionId)
-  
-  const { definition, loading, error } = useDefinition(definitionId)
+  const { items: breadcrumbItems, isLoading: breadcrumbLoading } =
+    useDefinitionBreadcrumbs(categoryId, definitionId);
+
+  const { definition, loading, error } = useDefinition(definitionId);
 
   if (loading) {
     return (
@@ -54,11 +57,14 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
                 <div className="h-6 bg-gray-300 dark:bg-gray-700 rounded-lg mb-8 w-3/4 animate-pulse"></div>
                 <div className="space-y-4">
                   {[...Array(6)].map((_, i) => (
-                    <div key={i} className="h-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"></div>
+                    <div
+                      key={i}
+                      className="h-4 bg-gray-300 dark:bg-gray-700 rounded animate-pulse"
+                    ></div>
                   ))}
                 </div>
               </div>
-              
+
               {/* Sidebar Skeleton */}
               <div className="space-y-6">
                 <div className="h-64 bg-gray-300 dark:bg-gray-700 rounded-2xl animate-pulse"></div>
@@ -68,7 +74,7 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   if (error || !definition) {
@@ -82,15 +88,16 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
               <BookOpen className="h-12 w-12 text-red-600 dark:text-red-400" />
             </div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              {language === "ar" ? "خطأ في تحميل المفهوم" : "Error Loading Definition"}
+              {language === "ar"
+                ? "خطأ في تحميل المفهوم"
+                : "Error Loading Definition"}
             </h1>
             <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
-              {language === "ar" 
+              {language === "ar"
                 ? "حدث خطأ أثناء تحميل المفهوم. يرجى المحاولة مرة أخرى."
-                : "An error occurred while loading the definition. Please try again."
-              }
+                : "An error occurred while loading the definition. Please try again."}
             </p>
-            <Link 
+            <Link
               href={`/simple/definitions-categories/${categoryId}`}
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-teal-500 to-blue-600 text-white rounded-2xl hover:from-teal-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl font-medium"
             >
@@ -109,20 +116,27 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
           </div>
         </div>
       </div>
-    )
+    );
   }
 
-  const displayTerm = language === "ar" ? definition.term : (definition.termEn || definition.term)
-  const displayDefinition = language === "ar" ? definition.definitionText : (definition.definitionEn || definition.definitionText)
-  const formattedDate = language === "ar" ? formatDateArabicNumbers(definition.createdAt) : formatDate(definition.createdAt)
+  const displayTerm =
+    language === "ar" ? definition.term : definition.termEn || definition.term;
+  const displayDefinition =
+    language === "ar"
+      ? definition.definitionText
+      : definition.definitionEn || definition.definitionText;
+  // const formattedDate = language === "ar" ? formatDateArabicNumbers(definition.createdAt) : formatDate(definition.createdAt)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-teal-100 dark:from-slate-950 dark:via-gray-950 dark:to-slate-900">
       {/* Cybersecurity Pattern Background */}
       <div className="absolute inset-0 opacity-5 dark:opacity-10">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }}></div>
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }}
+        ></div>
       </div>
 
       <div className="relative z-10 container mx-auto px-4 pt-24 pb-12">
@@ -154,7 +168,7 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
               </div>
 
               {/* Meta Information */}
-              <div className="px-8 lg:px-10 pb-6">
+              {/* <div className="px-8 lg:px-10 pb-6">
                 <div className="flex flex-wrap items-center gap-6 py-6 border-t border-b border-gray-200 dark:border-gray-700">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-gradient-to-br from-teal-100 to-blue-100 dark:from-teal-900/30 dark:to-blue-900/30 rounded-full flex items-center justify-center">
@@ -186,12 +200,16 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
                     </div>
                   )}
                 </div>
-              </div>
+              </div> */}
 
               {/* Definition Content */}
-              <div className="px-8 lg:px-10 pb-8">
+              <div className="flex flex-wrap items-center gap-6 py-6 border-t border-b border-gray-200 dark:border-gray-700 mx-10">
                 <div className="prose prose-xl dark:prose-invert max-w-none prose-headings:text-gray-900 dark:prose-headings:text-white prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-strong:text-gray-900 dark:prose-strong:text-white prose-a:text-teal-600 dark:prose-a:text-teal-400 prose-a:no-underline hover:prose-a:underline prose-blockquote:border-teal-500 prose-blockquote:bg-teal-50 dark:prose-blockquote:bg-teal-900/20 prose-blockquote:rounded-xl prose-blockquote:p-6">
-                  <p className="text-xl leading-relaxed">{displayDefinition}</p>
+                  {displayDefinition.split("\n").map((paragraph, index) => (
+                    <p key={index} className="mb-4">
+                      {paragraph}
+                    </p>
+                  ))}
                 </div>
               </div>
 
@@ -205,17 +223,29 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
-                          {language === "ar" ? "شارك هذا المفهوم" : "Share This Definition"}
+                          {language === "ar"
+                            ? "شارك هذا المفهوم"
+                            : "Share This Definition"}
                         </h3>
                         <p className="text-sm text-gray-600 dark:text-gray-300">
-                          {language === "ar" ? "ساعد الآخرين في العثور على هذا المحتوى" : "Help others find this content"}
+                          {language === "ar"
+                            ? "ساعد الآخرين في العثور على هذا المحتوى"
+                            : "Help others find this content"}
                         </p>
                       </div>
                     </div>
                     <ShareButton
                       title={displayTerm}
-                      url={typeof window !== 'undefined' ? window.location.href : ''}
-                      text={language === "ar" ? `تعريف: ${displayTerm}` : `Definition: ${displayTerm}`}
+                      url={
+                        typeof window !== "undefined"
+                          ? window.location.href
+                          : ""
+                      }
+                      text={
+                        language === "ar"
+                          ? `تعريف: ${displayTerm}`
+                          : `Definition: ${displayTerm}`
+                      }
                       className="font-semibold"
                     >
                       {language === "ar" ? "مشاركة" : "Share"}
@@ -239,19 +269,23 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
                 </h2>
               </div>
               <div className="space-y-4 text-gray-700 dark:text-gray-300">
-                <div className="flex justify-between items-center">
+                {/* <div className="flex justify-between items-center">
                   <span className="font-medium">{language === "ar" ? "تاريخ الإنشاء" : "Created Date"}:</span>
                   <span className="font-semibold text-gray-900 dark:text-white">{formattedDate}</span>
-                </div>
+                </div> */}
                 <div className="flex justify-between items-center">
-                  <span className="font-medium">{language === "ar" ? "المستوى" : "Level"}:</span>
+                  <span className="font-medium">
+                    {language === "ar" ? "المستوى" : "Level"}:
+                  </span>
                   <span className="font-semibold text-gray-900 dark:text-white">
                     {language === "ar" ? "مبتدئ" : "Beginner"}
                   </span>
                 </div>
                 {definition.source && (
                   <div className="flex justify-between items-center">
-                    <span className="font-medium">{language === "ar" ? "المصدر" : "Source"}:</span>
+                    <span className="font-medium">
+                      {language === "ar" ? "المصدر" : "Source"}:
+                    </span>
                     <span className="font-semibold text-green-600 dark:text-green-400">
                       {language === "ar" ? "متوفر" : "Available"}
                     </span>
@@ -270,15 +304,17 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
                   {language === "ar" ? "التنقل" : "Navigation"}
                 </h2>
               </div>
-              
+
               <div className="space-y-4">
-                <Link 
+                <Link
                   href={`/simple/definitions-categories/${categoryId}`}
                   className="block p-4 bg-gray-50 dark:bg-slate-700 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors duration-300 group"
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300">
-                      {language === "ar" ? "العودة إلى الفئة" : "Back to Category"}
+                      {language === "ar"
+                        ? "العودة إلى الفئة"
+                        : "Back to Category"}
                     </span>
                     {isRtl ? (
                       <ArrowLeft className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300" />
@@ -287,7 +323,7 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
                     )}
                   </div>
                 </Link>
-                <Link 
+                <Link
                   href="/simple/definitions-categories"
                   className="block p-4 bg-gray-50 dark:bg-slate-700 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors duration-300 group"
                 >
@@ -308,5 +344,5 @@ export default function IndividualDefinitionPage({ params }: IndividualDefinitio
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -57,7 +57,7 @@ export default function AwarenessYearPageClient({ year }: AwarenessYearPageClien
   const handleDownload = (documentUrl: string, title: string) => {
     if (documentUrl) {
       const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.replace("/api", "") || ""
-      const fullUrl = `${baseUrl}${documentUrl}`
+      const fullUrl = `${documentUrl}`
 
       // Create a temporary link and trigger download
       const link = document.createElement("a")

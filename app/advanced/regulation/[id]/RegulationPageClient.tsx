@@ -88,7 +88,8 @@ export default function RegulationPageClient({ regulationId }: RegulationPageCli
   const title = language === "ar" ? regulation.title || regulation.titleEn || "" : regulation.titleEn || regulation.title || ""
   const summary = language === "ar" ? regulation.summary || regulation.summaryEn || "" : regulation.summaryEn || regulation.summary || ""
   const content = language === "ar" ? regulation.content || regulation.contentEn || "" : regulation.contentEn || regulation.content || ""
-  const date = regulation.issueDate ? new Date(regulation.issueDate) : regulation.effectiveDate ? new Date(regulation.effectiveDate) : regulation.createdAt ? new Date(regulation.createdAt) : new Date()
+  const date = regulation.issueDate ? new Date(regulation.issueDate) : regulation.effectiveDate ? new Date(regulation.effectiveDate) : 
+    regulation.createdAt ? new Date(regulation.createdAt) : new Date()
 
   // Clean HTML tags from summary only (keep content as HTML)
   const cleanSummary = summary ? summary.replace(/<\/?[^>]+(>|$)/g, "") : ""
