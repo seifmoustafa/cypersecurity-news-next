@@ -25,12 +25,12 @@ export default function HomePage() {
     // Do not force theme; respect user's saved preference
   }, []);
 
-  const handleSimpleMode = async () => {
-    router.push("/simple");
+  const handleSimpleMode = () => {
+    window.location.href = "/simple";
   };
 
-  const handleAdvancedMode = async () => {
-    router.push("/advanced");
+  const handleAdvancedMode = () => {
+    window.location.href = "/advanced";
   };
 
   return (
@@ -68,10 +68,10 @@ export default function HomePage() {
       </div>
 
       <div className="relative z-10 flex-1 flex flex-col">
-          <div className="container mx-auto px-4 h-full flex flex-col pb-2">
+        <div className="container mx-auto px-4 h-full flex flex-col pb-2">
           {/* Main Title Section - fixed height */}
-            <div className="flex-0 h-[25%] pt-2 pb-1 text-center select-none mt-4">
-              <h1 className="text-[clamp(28px,4vw,56px)] font-extrabold leading-[1.1] mb-4 tracking-tight" style={{ fontFamily: 'Cairo, sans-serif' }}>
+          <div className="flex-0 h-[25%] pt-2 pb-1 text-center select-none mt-4">
+            <h1 className="text-[clamp(28px,4vw,56px)] font-extrabold leading-[1.1] mb-4 tracking-tight" style={{ fontFamily: 'Cairo, sans-serif' }}>
               <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent animate-gradient-x">
                 {t("homepage.title")}
               </span>
@@ -83,13 +83,13 @@ export default function HomePage() {
           </div>
 
           {/* Mode Selection Area - fills remaining space */}
-            <div className="flex-1 h-[75%] grid grid-cols-1 lg:grid-cols-2 gap-32 lg:gap-48 xl:gap-56 max-w-7xl mx-auto place-items-stretch items-stretch">
+          <div className="flex-1 h-[75%] grid grid-cols-1 lg:grid-cols-2 gap-32 lg:gap-48 xl:gap-56 max-w-7xl mx-auto place-items-stretch items-stretch">
             {/* Simple Mode Card */}
             <div className="group relative h-full">
               <div className="relative h-full px-2">
                 {/* Image Section */}
-                  <div className="relative mb-8 h-[45%] min-h-[140px]">
-                    <div className="relative w-full h-full">
+                <div className="relative mb-8 h-[45%] min-h-[140px]">
+                  <div className="relative w-full h-full">
                     {/* Original carousel-style laptop mockup */}
                     <div className="absolute left-1/2 -translate-x-1/2 w-[130%] h-full bg-gray-800/60 rounded-2xl shadow-2xl ring-1 ring-white/10">
                       {/* Screen */}
@@ -140,7 +140,7 @@ export default function HomePage() {
               <div className="relative h-full px-2">
                 {/* Image Section */}
                 <div className="relative mb-8 h-[45%] min-h-[140px]">
-                    <div className="relative w-full h-full">
+                  <div className="relative w-full h-full">
                     {/* Original carousel-style laptop mockup */}
                     <div className="absolute left-1/2 -translate-x-1/2 w-[130%] h-full bg-gray-800/60 rounded-2xl shadow-2xl ring-1 ring-white/10">
                       {/* Screen */}

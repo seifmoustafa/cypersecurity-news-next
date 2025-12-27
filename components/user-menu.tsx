@@ -32,7 +32,7 @@ export function UserMenu() {
                   <Button
                         variant="default"
                         size="sm"
-                        onClick={() => router.push("/login")}
+                        onClick={() => window.location.href = "/login"}
                         className="gap-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-md hover:shadow-lg transition-all"
                   >
                         <LogIn className="h-4 w-4" />
@@ -102,24 +102,26 @@ export function UserMenu() {
 
                         {/* Profile Link */}
                         <DropdownMenuItem asChild className="cursor-pointer rounded-lg">
-                              <Link
+                              <a
                                     href="/profile"
+                                    onClick={(e) => { e.preventDefault(); window.location.href = "/profile"; }}
                                     className="flex items-center gap-3 px-3 py-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
                               >
                                     <User className="h-4 w-4" />
                                     <span>{t("nav.profile")}</span>
-                              </Link>
+                              </a>
                         </DropdownMenuItem>
 
                         {/* Settings Link */}
                         <DropdownMenuItem asChild className="cursor-pointer rounded-lg">
-                              <Link
+                              <a
                                     href="/change-password"
+                                    onClick={(e) => { e.preventDefault(); window.location.href = "/change-password"; }}
                                     className="flex items-center gap-3 px-3 py-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
                               >
                                     <Settings className="h-4 w-4" />
                                     <span>{t("profile.changePassword")}</span>
-                              </Link>
+                              </a>
                         </DropdownMenuItem>
 
                         <DropdownMenuSeparator className="bg-slate-200 dark:bg-slate-700" />

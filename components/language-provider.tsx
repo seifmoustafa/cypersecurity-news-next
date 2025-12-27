@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useState, type ReactNode, useEffect } from "react"
+import { createContext, useContext, useState, type ReactNode, useEffect, useLayoutEffect } from "react"
 import { getTranslation, getDirection, type Language, type TranslationKey } from "@/lib/i18n"
 import { getFontFamily } from "@/lib/fonts"
 
@@ -13,6 +13,9 @@ interface LanguageContextType {
 }
 
 export const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
+
+// Use useLayoutEffect on client, useEffect on server (to avoid SSR warning)
+const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   // Initialize with default language to prevent hydration mismatch
@@ -39,20 +42,23 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     }
   }, [language, mounted])
 
-  // Update document direction based on language
-  useEffect(() => {
-    if (!mounted) return
+  // Update document direction based on language - use useLayoutEffect for synchronous update
+  // This runs on EVERY render to ensure fonts are applied during client-side navigation
+  useIsomorphicLayoutEffect(() => {
+    // Always apply font styles - don't wait for mounted
+    // This ensures fonts are applied on client-side navigation, not just initial load
+    if (typeof window === "undefined") return
 
     document.documentElement.dir = dir
     document.documentElement.lang = language
 
     // Add a class to the body for language-specific styling
-    document.body.classList.toggle("rtl", isRtl)
-    document.body.classList.toggle("ltr", !isRtl)
+    document.body.classList.remove("rtl", "ltr")
+    document.body.classList.add(isRtl ? "rtl" : "ltr")
 
     // Update font family based on language
     document.body.style.fontFamily = getFontFamily(isRtl)
-  }, [language, dir, isRtl, mounted])
+  }) // No dependencies - runs on every render
 
   const t = (key: TranslationKey): string => {
     return getTranslation(language, key)

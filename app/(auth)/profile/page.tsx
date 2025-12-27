@@ -166,13 +166,8 @@ export default function ProfilePage() {
 
       return (
             <div
-                  className={`min-h-screen p-4 md:p-8 relative overflow-hidden transition-colors duration-300 font-cairo`}
+                  className={`min-h-screen p-4 md:p-8 relative overflow-hidden transition-colors duration-300`}
                   dir={isRtl ? "rtl" : "ltr"}
-                  style={{
-                        fontFamily: isRtl
-                              ? "var(--font-cairo), 'Cairo', 'Segoe UI', Tahoma, sans-serif"
-                              : "var(--font-roboto), 'Roboto', 'Segoe UI', Tahoma, sans-serif"
-                  }}
             >
                   {/* Background */}
                   <div className={`absolute inset-0 ${isDark ? "bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" : "bg-gradient-to-br from-slate-50 via-gray-100 to-slate-100"}`} />

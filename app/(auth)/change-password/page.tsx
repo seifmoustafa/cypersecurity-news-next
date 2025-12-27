@@ -116,7 +116,6 @@ export default function ChangePasswordPage() {
             <div
                   className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden transition-colors duration-300"
                   dir={isRtl ? "rtl" : "ltr"}
-                  style={{ fontFamily: "var(--font-cairo), var(--font-roboto), sans-serif" }}
             >
                   {/* Background */}
                   <div className={`absolute inset-0 ${isDark ? "bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" : "bg-gradient-to-br from-slate-50 via-gray-100 to-slate-100"}`} />
