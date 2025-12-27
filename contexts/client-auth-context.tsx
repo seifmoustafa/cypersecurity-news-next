@@ -116,7 +116,8 @@ export function ClientAuthProvider({ children }: { children: ReactNode }) {
             }
       }, [service]);
 
-      // Logout function
+      // Logout function - clears state but doesn't redirect
+      // The UI will update to show login button instead of user menu
       const logout = useCallback(async () => {
             setIsLoading(true);
             try {
@@ -124,9 +125,9 @@ export function ClientAuthProvider({ children }: { children: ReactNode }) {
             } finally {
                   setClient(null);
                   setIsLoading(false);
-                  router.push("/login");
+                  // Don't redirect - let the UI update in place
             }
-      }, [service, router]);
+      }, [service]);
 
       // Update profile function
       const updateProfile = useCallback(async (data: UpdateClientProfileRequest): Promise<boolean> => {

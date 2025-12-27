@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/components/language-provider"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
-  import type { Video } from "@/core/domain/models/media"
+import type { Video } from "@/core/domain/models/media"
+import { CommentSection } from "@/components/video/comments"
 
 interface VideoPageClientProps {
   video: Video
@@ -43,7 +44,13 @@ export default function VideoPageClient({ video }: VideoPageClientProps) {
             allowFullScreen
           ></iframe>
         </div>
+
+        {/* Comments Section */}
+        <div className="border-t pt-8">
+          <CommentSection videoId={video.id} />
+        </div>
       </div>
     </div>
   )
 }
+

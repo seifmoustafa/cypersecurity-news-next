@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useClientAuth } from "@/contexts/client-auth-context";
 import { useLanguage } from "@/components/language-provider";
@@ -21,6 +21,16 @@ export default function LoginPage() {
       const [password, setPassword] = useState("");
       const [showPassword, setShowPassword] = useState(false);
 
+      const searchParams = useSearchParams();
+      const returnUrl = searchParams?.get("returnUrl");
+
+      // Store returnUrl in sessionStorage for password change flow
+      useEffect(() => {
+            if (returnUrl) {
+                  sessionStorage.setItem("authReturnUrl", decodeURIComponent(returnUrl));
+            }
+      }, [returnUrl]);
+
       const handleSubmit = async (e: React.FormEvent) => {
             e.preventDefault();
             clearError();
@@ -32,9 +42,13 @@ export default function LoginPage() {
             const result = await login(username, password);
 
             if (result.success && !result.mustChangePassword) {
-                  // Navigate to home page after successful login
-                  // Don't use router.back() because it might go back to /change-password
-                  router.push("/simple");
+                  // Get stored return URL or default to home
+                  const storedReturnUrl = sessionStorage.getItem("authReturnUrl");
+                  sessionStorage.removeItem("authReturnUrl");
+
+                  // Navigate to return URL or home page after successful login
+                  const redirectTo = storedReturnUrl || "/simple";
+                  window.location.href = redirectTo;
             }
             // If mustChangePassword, context already redirected to /change-password
       };

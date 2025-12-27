@@ -28,11 +28,16 @@ export function UserMenu() {
 
       // Not authenticated - show login button
       if (!isAuthenticated) {
+            const handleLogin = () => {
+                  const returnUrl = encodeURIComponent(window.location.pathname + window.location.search);
+                  window.location.href = `/login?returnUrl=${returnUrl}`;
+            };
+
             return (
                   <Button
                         variant="default"
                         size="sm"
-                        onClick={() => window.location.href = "/login"}
+                        onClick={handleLogin}
                         className="gap-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-md hover:shadow-lg transition-all"
                   >
                         <LogIn className="h-4 w-4" />

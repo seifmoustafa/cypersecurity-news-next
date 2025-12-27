@@ -29,6 +29,7 @@ import { PersonalProtectSubCategoryRepositoryImpl } from "../data/repositories/p
 import { PersonalProtectControlRepositoryImpl } from "../data/repositories/personal-protect-control-repository-impl";
 import { PersonalProtectControlStepRepositoryImpl } from "../data/repositories/personal-protect-control-step-repository-impl";
 import { HelperRepositoryImpl } from "../data/repositories/helper-repository-impl";
+import { VideoCommentRepositoryImpl } from "../data/repositories/video-comment-repository-impl";
 
 // Services
 import { NewsService } from "../services/news-service";
@@ -60,6 +61,7 @@ import { PersonalProtectControlStepService } from "../services/personal-protect-
 import { HelperService } from "../services/helper-service";
 import { ClientAuthService } from "../services/client-auth-service";
 import { ClientAuthRepositoryImpl } from "../data/repositories/client-auth-repository-impl";
+import { VideoCommentsService } from "../services/video-comments-service";
 
 class Container {
   private _apiDataSource: ApiDataSource | null = null;
@@ -168,6 +170,9 @@ class Container {
         ),
         clientAuth: new ClientAuthService(
           new ClientAuthRepositoryImpl()
+        ),
+        videoComments: new VideoCommentsService(
+          new VideoCommentRepositoryImpl()
         ),
       };
     }

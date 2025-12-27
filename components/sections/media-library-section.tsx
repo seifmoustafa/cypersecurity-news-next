@@ -6,7 +6,7 @@ import SectionHeader from "@/components/ui/section-header"
 import SectionContainer from "@/components/ui/section-container"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { container } from "@/core/di/container"
-import type { ApiVideo, ApiLecture, ApiPresentation, VideoCategory, LectureCategory } from "@/core/domain/models/media"  
+import type { ApiVideo, ApiLecture, ApiPresentation, VideoCategory, LectureCategory } from "@/core/domain/models/media"
 import { slugify, getLocalizedText } from "@/lib/utils"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -18,6 +18,7 @@ import { useLectureCategoriesForProfessionals } from "@/core/hooks/use-lecture-c
 import { useLecturesByCategoryForProfessionals } from "@/core/hooks/use-lectures-by-category-for-professionals"
 import { useDebounce } from "@/hooks/use-debounce"
 import VideoImageCarousel from "@/components/video-image-carousel"
+import { CommentSection } from "@/components/video/comments"
 
 export default function MediaLibrarySection() {
   const { t, language, isRtl } = useLanguage()
@@ -43,7 +44,7 @@ export default function MediaLibrarySection() {
 
   // Video categories for professionals
   const { categories: videoCategories, loading: videoCategoriesLoading, error: videoCategoriesError } = useVideoCategoriesForProfessionals(1, 100, debouncedCategorySearch)
-  
+
   // Videos for selected category
   const { videos: categoryVideos, loading: categoryVideosLoading, error: categoryVideosError } = useVideosByCategoryForProfessionals(
     activeVideoCategory || "",
@@ -54,7 +55,7 @@ export default function MediaLibrarySection() {
 
   // Lecture categories for professionals
   const { categories: lectureCategories, loading: lectureCategoriesLoading, error: lectureCategoriesError } = useLectureCategoriesForProfessionals(1, 100, debouncedCategorySearch)
-  
+
   // Lectures for selected category
   const { lectures: categoryLectures, loading: categoryLecturesLoading, error: categoryLecturesError } = useLecturesByCategoryForProfessionals(
     activeLectureCategory || "",
@@ -265,8 +266,8 @@ export default function MediaLibrarySection() {
                 <p className="text-red-600 dark:text-red-400 text-sm">
                   {videoCategoriesError}
                 </p>
-                <Button 
-                  onClick={() => window.location.reload()} 
+                <Button
+                  onClick={() => window.location.reload()}
                   className="mt-4 bg-red-600 hover:bg-red-700 text-white"
                 >
                   {language === "ar" ? "إعادة المحاولة" : "Retry"}
@@ -291,11 +292,10 @@ export default function MediaLibrarySection() {
                     <button
                       key={category.id}
                       onClick={() => setActiveVideoCategory(category.id)}
-                      className={`flex-shrink-0 px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
-                        activeVideoCategory === category.id
+                      className={`flex-shrink-0 px-6 py-3 rounded-lg font-medium transition-all duration-300 ${activeVideoCategory === category.id
                           ? "bg-blue-600 text-white shadow-lg"
                           : "bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-blue-900/50"
-                      }`}
+                        }`}
                     >
                       {language === "ar" ? category.name : category.nameEn || category.name}
                     </button>
@@ -317,8 +317,8 @@ export default function MediaLibrarySection() {
                       <p className="text-red-600 dark:text-red-400 text-sm">
                         {categoryVideosError}
                       </p>
-                      <Button 
-                        onClick={() => window.location.reload()} 
+                      <Button
+                        onClick={() => window.location.reload()}
                         className="mt-4 bg-red-600 hover:bg-red-700 text-white"
                       >
                         {language === "ar" ? "إعادة المحاولة" : "Retry"}
@@ -384,11 +384,11 @@ export default function MediaLibrarySection() {
                                 );
                                 return allItemsAreImages
                                   ? (language === "ar"
-                                      ? "استخدم الأسهم للتنقل بين الصور"
-                                      : "Use arrows to navigate between images")
+                                    ? "استخدم الأسهم للتنقل بين الصور"
+                                    : "Use arrows to navigate between images")
                                   : (language === "ar"
-                                      ? "استخدم الأسهم للتنقل بين الفيديوهات"
-                                      : "Use arrows to navigate between videos");
+                                    ? "استخدم الأسهم للتنقل بين الفيديوهات"
+                                    : "Use arrows to navigate between videos");
                               })()}
                             </p>
                           </div>
@@ -407,12 +407,17 @@ export default function MediaLibrarySection() {
                         </button>
                       </div>
                     </div>
+
+                    {/* Comments Section */}
+                    <div className="p-6 border-t border-slate-200 dark:border-slate-700">
+                      <CommentSection videoId={categoryVideos[selectedVideoIndex].id} />
+                    </div>
                   </div>
                 ) : categoryVideosLoading ? (
                   // Loading skeletons
                   Array.from({ length: 6 }).map((_, index) => (
-                    <div 
-                      key={index} 
+                    <div
+                      key={index}
                       className="bg-white dark:bg-slate-800 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-lg overflow-hidden animate-pulse"
                       style={{ animationDelay: `${index * 100}ms` }}
                     >
@@ -426,10 +431,10 @@ export default function MediaLibrarySection() {
                   ))
                 ) : categoryVideos.length > 0 ? (
                   categoryVideos.map((video, index) => (
-                    <VideoCard 
-                      key={video.id} 
-                      video={video} 
-                      onClick={() => handleVideoClick(index)} 
+                    <VideoCard
+                      key={video.id}
+                      video={video}
+                      onClick={() => handleVideoClick(index)}
                     />
                   ))
                 ) : (
@@ -441,8 +446,8 @@ export default function MediaLibrarySection() {
                           ? "لا توجد فيديوهات تطابق البحث"
                           : "No videos match your search"
                         : language === "ar"
-                        ? "لا توجد فيديوهات متاحة"
-                        : "No videos available"}
+                          ? "لا توجد فيديوهات متاحة"
+                          : "No videos available"}
                     </h3>
                     <p className="text-muted-foreground">
                       {debouncedSearch
@@ -450,8 +455,8 @@ export default function MediaLibrarySection() {
                           ? "جرب البحث بكلمات مختلفة"
                           : "Try searching with different keywords"
                         : language === "ar"
-                        ? "لم يتم العثور على أي فيديوهات في هذه الفئة"
-                        : "No videos found in this category"}
+                          ? "لم يتم العثور على أي فيديوهات في هذه الفئة"
+                          : "No videos found in this category"}
                     </p>
                   </div>
                 )}
@@ -461,8 +466,8 @@ export default function MediaLibrarySection() {
 
           {videoCategories.length > 0 && !videoCategoriesLoading && !videoCategoriesError && !showVideoCarousel && (
             <div className="flex justify-center mt-12">
-              <Button 
-                onClick={() => router.push(`/advanced/videos/${activeVideoCategory}`)} 
+              <Button
+                onClick={() => router.push(`/advanced/videos/${activeVideoCategory}`)}
                 className="group bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 px-8 py-4 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-xl shadow-blue-500/30 dark:shadow-blue-500/40 border border-blue-500/30 dark:border-blue-400/30"
                 dir={isRtl ? "rtl" : "ltr"}
               >
@@ -493,8 +498,8 @@ export default function MediaLibrarySection() {
                 <p className="text-red-600 dark:text-red-400 text-sm">
                   {lectureCategoriesError}
                 </p>
-                <Button 
-                  onClick={() => window.location.reload()} 
+                <Button
+                  onClick={() => window.location.reload()}
                   className="mt-4 bg-red-600 hover:bg-red-700 text-white"
                 >
                   {language === "ar" ? "إعادة المحاولة" : "Retry"}
@@ -519,11 +524,10 @@ export default function MediaLibrarySection() {
                     <button
                       key={category.id}
                       onClick={() => setActiveLectureCategory(category.id)}
-                      className={`flex-shrink-0 px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
-                        activeLectureCategory === category.id
+                      className={`flex-shrink-0 px-6 py-3 rounded-lg font-medium transition-all duration-300 ${activeLectureCategory === category.id
                           ? "bg-blue-600 text-white shadow-lg"
                           : "bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-blue-900/50"
-                      }`}
+                        }`}
                     >
                       {language === "ar" ? category.name : category.nameEn || category.name}
                     </button>
@@ -545,8 +549,8 @@ export default function MediaLibrarySection() {
                       <p className="text-red-600 dark:text-red-400 text-sm">
                         {categoryLecturesError}
                       </p>
-                      <Button 
-                        onClick={() => window.location.reload()} 
+                      <Button
+                        onClick={() => window.location.reload()}
                         className="mt-4 bg-red-600 hover:bg-red-700 text-white"
                       >
                         {language === "ar" ? "إعادة المحاولة" : "Retry"}
@@ -556,8 +560,8 @@ export default function MediaLibrarySection() {
                 ) : categoryLecturesLoading ? (
                   // Loading skeletons
                   Array.from({ length: 6 }).map((_, index) => (
-                    <div 
-                      key={index} 
+                    <div
+                      key={index}
                       className="bg-white dark:bg-slate-800 rounded-3xl border-2 border-slate-200 dark:border-slate-700 shadow-lg overflow-hidden animate-pulse"
                       style={{ animationDelay: `${index * 100}ms` }}
                     >
@@ -571,9 +575,9 @@ export default function MediaLibrarySection() {
                   ))
                 ) : categoryLectures.length > 0 ? (
                   categoryLectures.map((lecture, index) => (
-                    <LectureCard 
-                      key={lecture.id} 
-                      lecture={lecture} 
+                    <LectureCard
+                      key={lecture.id}
+                      lecture={lecture}
                     />
                   ))
                 ) : (
@@ -585,8 +589,8 @@ export default function MediaLibrarySection() {
                           ? "لا توجد محاضرات تطابق البحث"
                           : "No lectures match your search"
                         : language === "ar"
-                        ? "لا توجد محاضرات متاحة"
-                        : "No lectures available"}
+                          ? "لا توجد محاضرات متاحة"
+                          : "No lectures available"}
                     </h3>
                     <p className="text-muted-foreground">
                       {debouncedSearch
@@ -594,8 +598,8 @@ export default function MediaLibrarySection() {
                           ? "جرب البحث بكلمات مختلفة"
                           : "Try searching with different keywords"
                         : language === "ar"
-                        ? "لم يتم العثور على أي محاضرات في هذه الفئة"
-                        : "No lectures found in this category"}
+                          ? "لم يتم العثور على أي محاضرات في هذه الفئة"
+                          : "No lectures found in this category"}
                     </p>
                   </div>
                 )}
@@ -605,8 +609,8 @@ export default function MediaLibrarySection() {
 
           {lectureCategories.length > 0 && !lectureCategoriesLoading && !lectureCategoriesError && (
             <div className="flex justify-center mt-12">
-              <Button 
-                onClick={() => router.push(`/advanced/lectures/${activeLectureCategory}`)} 
+              <Button
+                onClick={() => router.push(`/advanced/lectures/${activeLectureCategory}`)}
                 className="group bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 px-8 py-4 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-xl shadow-blue-500/30 dark:shadow-blue-500/40 border border-blue-500/30 dark:border-blue-400/30"
                 dir={isRtl ? "rtl" : "ltr"}
               >
@@ -637,7 +641,7 @@ const VideoCard = ({ video, onClick }: { video: ApiVideo; onClick: (videoIndex: 
     const trimmed = url.trim();
     return trimmed !== "" && trimmed !== "null" && trimmed !== "undefined" && trimmed.length > 0;
   };
-  
+
   const hasVideo = isValidUrl(video.videoUrl);
   const hasImage = isValidUrl(video.imageUrl);
 

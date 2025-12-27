@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import Breadcrumbs from "@/components/breadcrumbs";
 import VideoImageCarousel from "@/components/video-image-carousel";
+import { CommentSection } from "@/components/video/comments";
 import { useVideosByCategory } from "@/core/hooks/use-videos-by-category";
 import { useVideoCategories } from "@/core/hooks/use-video-categories";
 import { useDebounce } from "@/hooks/use-debounce";
@@ -58,8 +59,8 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
       ? currentCategory.name
       : currentCategory.nameEn || currentCategory.name
     : language === "ar"
-    ? "فئة فيديوهات"
-    : "Video Category";
+      ? "فئة فيديوهات"
+      : "Video Category";
 
   const handleVideoClick = (videoIndex: number) => {
     setSelectedVideoIndex(videoIndex);
@@ -232,8 +233,8 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                   ? "لا توجد فيديوهات تطابق البحث"
                   : "No videos match your search"
                 : language === "ar"
-                ? "لا توجد فيديوهات متاحة"
-                : "No videos available"}
+                  ? "لا توجد فيديوهات متاحة"
+                  : "No videos available"}
             </h3>
             <p className="text-muted-foreground">
               {debouncedQuery
@@ -241,8 +242,8 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                   ? "جرب البحث بكلمات مختلفة"
                   : "Try searching with different keywords"
                 : language === "ar"
-                ? "لم يتم العثور على أي فيديوهات في هذه الفئة"
-                : "No videos found in this category"}
+                  ? "لم يتم العثور على أي فيديوهات في هذه الفئة"
+                  : "No videos found in this category"}
             </p>
           </div>
         ) : showCarousel && selectedVideoIndex !== null ? (
@@ -285,8 +286,8 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                           ? "مشغل الفيديوهات"
                           : "Video Player"
                         : language === "ar"
-                        ? "مشغل الصور"
-                        : "Image Viewer"}
+                          ? "مشغل الصور"
+                          : "Image Viewer"}
                     </h3>
                     <p className="text-sm text-gray-600 dark:text-gray-300">
                       {currentItemHasVideo
@@ -294,8 +295,8 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                           ? "استخدم الأسهم للتنقل بين الفيديوهات"
                           : "Use arrows to navigate between videos"
                         : language === "ar"
-                        ? "استخدم الأسهم للتنقل بين الصور"
-                        : "Use arrows to navigate between images"}
+                          ? "استخدم الأسهم للتنقل بين الصور"
+                          : "Use arrows to navigate between images"}
                     </p>
                   </div>
                 </div>
@@ -312,6 +313,11 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
                   {language === "ar" ? "العودة للقائمة" : "Back to List"}
                 </button>
               </div>
+            </div>
+
+            {/* Comments Section */}
+            <div className="p-6 border-t border-slate-200 dark:border-slate-700">
+              <CommentSection videoId={videos[selectedVideoIndex].id} />
             </div>
           </div>
         ) : (

@@ -19,6 +19,7 @@ import { useVideosByCategoryForProfessionals } from "@/core/hooks/use-videos-by-
 import { useVideoCategoriesForProfessionals } from "@/core/hooks/use-video-categories-for-professionals";
 import { useDebounce } from "@/hooks/use-debounce";
 import VideoImageCarousel from "@/components/video-image-carousel";
+import { CommentSection } from "@/components/video/comments";
 import MainLayout from "@/components/layouts/main-layout";
 import { Button } from "@/components/ui/button";
 
@@ -194,6 +195,11 @@ export default function VideoCategoryPageClient({
                     {language === "ar" ? "العودة للقائمة" : "Back to List"}
                   </button>
                 </div>
+              </div>
+
+              {/* Comments Section */}
+              <div className="p-6 border-t border-slate-200 dark:border-slate-700">
+                <CommentSection videoId={videos[selectedVideoIndex].id} />
               </div>
             </div>
           ) : (
