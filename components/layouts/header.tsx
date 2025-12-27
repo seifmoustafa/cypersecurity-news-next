@@ -29,6 +29,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { UserMenu } from "@/components/user-menu";
 
 interface HeaderProps {
   onToggleTheme: () => void;
@@ -123,7 +124,7 @@ export default function Header({
           isScroll: true,
           tab: "framework",
         },
-        
+
       ],
     },
     {
@@ -136,7 +137,7 @@ export default function Header({
           isScroll: true,
           tab: "lectures",
         },
-        
+
       ],
     },
     {
@@ -253,7 +254,7 @@ export default function Header({
 
   const handleLayoutSwitch = () => {
     if (isNavigating) return; // Prevent multiple rapid clicks
-    
+
     const newMode = !isBeginnersMode;
     setIsBeginnersMode(newMode);
     localStorage.setItem("beginnersMode", newMode.toString());
@@ -274,7 +275,7 @@ export default function Header({
   ) => {
     e.preventDefault();
     if (isNavigating) return; // Prevent multiple rapid clicks
-    
+
     setMobileMenuOpen(false);
     setOpenDropdown(null);
 
@@ -342,11 +343,11 @@ export default function Header({
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl blur-md opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
                 {/* <div className="relative bg-gradient-to-r from-blue-500 to-cyan-500 p-2.5 rounded-xl shadow-lg"> */}
-                  <img
-                    src="/assets/app-icon"
-                    alt="Cybersecurity Portal"
-                    className="h-12 w-12 object-contain group-hover:scale-110 transition-all duration-500"
-                  />
+                <img
+                  src="/assets/app-icon"
+                  alt="Cybersecurity Portal"
+                  className="h-12 w-12 object-contain group-hover:scale-110 transition-all duration-500"
+                />
                 {/* </div> */}
               </div>
               <div className="flex flex-col">
@@ -513,9 +514,8 @@ export default function Header({
                     className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-8 w-8 md:h-10 md:w-10 transition-all duration-300 hover:scale-110 hover:shadow-md group"
                   >
                     <LightbulbIcon
-                      className={`h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-all duration-300 ${
-                        tipsDisabled ? "opacity-50" : "text-yellow-500"
-                      }`}
+                      className={`h-4 w-4 md:h-5 md:w-5 group-hover:scale-110 transition-all duration-300 ${tipsDisabled ? "opacity-50" : "text-yellow-500"
+                        }`}
                     />
                     <span className="sr-only">
                       {tipsDisabled ? t("tips.enable") : t("tips.disable")}
@@ -579,6 +579,9 @@ export default function Header({
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
+
+            {/* User Menu (Login/Profile) */}
+            <UserMenu />
 
             {/* Home Button */}
             <TooltipProvider>
@@ -724,7 +727,7 @@ export default function Header({
                           onClick={(e) =>
                             handleNavigation(
                               e,
-                            item.href,
+                              item.href,
                               item.isScroll,
                               (item as any).tab
                             )

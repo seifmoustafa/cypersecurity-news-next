@@ -58,6 +58,8 @@ import { PersonalProtectSubCategoryService } from "../services/personal-protect-
 import { PersonalProtectControlService } from "../services/personal-protect-control-service";
 import { PersonalProtectControlStepService } from "../services/personal-protect-control-step-service";
 import { HelperService } from "../services/helper-service";
+import { ClientAuthService } from "../services/client-auth-service";
+import { ClientAuthRepositoryImpl } from "../data/repositories/client-auth-repository-impl";
 
 class Container {
   private _apiDataSource: ApiDataSource | null = null;
@@ -163,6 +165,9 @@ class Container {
         ),
         helper: new HelperService(
           new HelperRepositoryImpl(this.apiDataSource)
+        ),
+        clientAuth: new ClientAuthService(
+          new ClientAuthRepositoryImpl()
         ),
       };
     }
@@ -276,6 +281,10 @@ class Container {
 
   get helperService() {
     return this.services.helper;
+  }
+
+  get clientAuthService() {
+    return this.services.clientAuth;
   }
 }
 

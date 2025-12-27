@@ -1,5 +1,4 @@
 {
-  
   "carousel": {
     "item1": {
       "title": "بوابة الأمن السيبراني الشاملة التي تقلل المخاطر بشكل ملموس",
@@ -42,10 +41,63 @@
     "media": "المكتبة الثقافية",
     "personalProtect": "الحماية الشخصية",
     "beginnersMode": "واجهة غير المتخصصين",
-    "advancedMode": "الوضع المتقدم"
+    "advancedMode": "الوضع المتقدم",
+    "profile": "الملف الشخصي",
+    "myAccount": "حسابي"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "username": "اسم المستخدم",
+    "password": "كلمة المرور",
+    "usernamePlaceholder": "أدخل اسم المستخدم",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "loginDescription": "قم بتسجيل الدخول للوصول إلى حسابك",
+    "loginError": "خطأ في تسجيل الدخول",
+    "invalidCredentials": "اسم المستخدم أو كلمة المرور غير صحيحة",
+    "needHelp": "هل تحتاج مساعدة؟",
+    "contactAdmin": "تواصل مع المسؤول",
+    "welcomeBack": "مرحباً بعودتك",
+    "secureLogin": "تسجيل دخول آمن",
+    "currentPassword": "كلمة المرور الحالية",
+    "newPassword": "كلمة المرور الجديدة",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "currentPasswordPlaceholder": "أدخل كلمة المرور الحالية",
+    "newPasswordPlaceholder": "أدخل كلمة المرور الجديدة",
+    "confirmPasswordPlaceholder": "أعد إدخال كلمة المرور الجديدة",
+    "passwordTooShort": "كلمة المرور يجب أن تكون 5 أحرف على الأقل",
+    "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
+    "mustChangePasswordDescription": "يجب عليك تغيير كلمة المرور قبل المتابعة",
+    "firstLoginWarning": "هذا تسجيل الدخول الأول لحسابك. يرجى تغيير كلمة المرور للمتابعة.",
+    "sessionExpired": "انتهت الجلسة",
+    "pleaseLoginAgain": "يرجى تسجيل الدخول مرة أخرى"
+  },
+  "profile": {
+    "title": "الملف الشخصي",
+    "subtitle": "إدارة معلومات حسابك",
+    "lockedFields": "حقول غير قابلة للتعديل",
+    "editableFields": "حقول قابلة للتعديل",
+    "sNumber": "الرقم العسكري",
+    "mNumber": "الرقم المدني",
+    "username": "اسم المستخدم",
+    "firstName": "الاسم الأول",
+    "lastName": "اسم العائلة",
+    "rank": "الرتبة",
+    "phone": "رقم الهاتف",
+    "itBranch": "فرع تقنية المعلومات",
+    "cdm": "CDM",
+    "strategicNumber": "الرقم الاستراتيجي",
+    "optional": "اختياري",
+    "changePassword": "تغيير كلمة المرور",
+    "changePasswordDescription": "قم بتغيير كلمة المرور الخاصة بك",
+    "updateSuccess": "تم تحديث الملف الشخصي بنجاح",
+    "updateError": "حدث خطأ أثناء تحديث الملف الشخصي",
+    "passwordChangeSuccess": "تم تغيير كلمة المرور بنجاح",
+    "avatarUpload": "تحميل صورة شخصية",
+    "removeAvatar": "إزالة الصورة"
   },
   "awareness": {
-    "news":"الأخبار",
+    "news": "الأخبار",
     "bulletins": "نشرة توعية",
     "articles": "مقالات",
     "title": "التوعية والأخبار",
@@ -112,7 +164,6 @@
         "description": "التوعية والأخبار المتعلقة بالأمن السيبراني",
         "news": "الأخبار",
         "awareness": "التوعية"
-        
       }
     },
     "cta": {
@@ -156,8 +207,8 @@
       "selectRank": "اختر الرتبة",
       "fullName": "الاسم الكامل",
       "enterFullName": "أدخل اسمك الكامل",
-      "militaryNumber": "الرقم العسكري",
-      "enterMilitaryNumber": "أدخل الرقم العسكري",
+      "militaryNumber": "رقم الأقدمية",
+      "enterMilitaryNumber": "أدخل رقم الأقدمية",
       "nationalNumber": "الرقم القومي",
       "enterNationalNumber": "أدخل الرقم القومي",
       "unit": "الوحدة",
@@ -168,7 +219,7 @@
       "enterPhoneNumber": "أدخل رقم هاتفك",
       "validationErrors": {
         "emailInvalid": "يرجى إدخال عنوان بريد إلكتروني صحيح",
-        "militaryNumberInvalid": "الرقم العسكري يجب أن يحتوي على أرقام فقط",
+        "militaryNumberInvalid": "رقم الأقدمية يجب أن يحتوي على أرقام فقط",
         "nationalNumberInvalid": "الرقم الوطني يجب أن يحتوي على أرقام فقط",
         "phoneNumberInvalid": "رقم الهاتف يجب أن يحتوي على أرقام فقط"
       },
@@ -376,6 +427,9 @@
     "search": "بحث",
     "searchPlaceholder": "البحث...",
     "cancel": "إلغاء",
+    "edit": "تعديل",
+    "save": "حفظ",
+    "saving": "جاري الحفظ...",
     "searching": "جاري البحث...",
     "foundResults": "تم العثور على {{count}} نتيجة لـ \"{{term}}\"",
     "searchDescription": "أدخل مصطلحات البحث للعثور على المحتوى ذي الصلة عبر جميع الأقسام",

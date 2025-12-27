@@ -69,6 +69,8 @@ const config = {
       },
       fontFamily: {
         sans: ["var(--font-cairo)", "var(--font-roboto)", "sans-serif"],
+        cairo: ["var(--font-cairo)", "Cairo", "sans-serif"],
+        roboto: ["var(--font-roboto)", "Roboto", "sans-serif"],
       },
       keyframes: {
         "accordion-down": {
@@ -156,14 +158,14 @@ const config = {
           textShadow: "0 0 10px rgba(0, 120, 255, 0.7)",
         },
       }
-      
+
       // Add ticker pause utility
       const tickerPause = {
         ".animate-pause": {
           animationPlayState: "paused",
         },
       }
-      
+
       addUtilities(tickerPause)
       addUtilities(newUtilities)
     },

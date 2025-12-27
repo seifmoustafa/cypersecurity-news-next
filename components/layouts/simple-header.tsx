@@ -25,6 +25,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useDebounce } from "@/hooks/use-debounce";
+import { UserMenu } from "@/components/user-menu";
 
 interface BeginnersHeaderProps {
   onToggleTheme: () => void;
@@ -135,184 +136,186 @@ export default function SimpleHeader({
         <div className="h-20 flex items-center justify-between">
           {/* Left side: Logo + Navigation */}
           <div className="flex items-center space-x-6 rtl:space-x-reverse">
-          {/* Cybersecurity Logo */}
+            {/* Cybersecurity Logo */}
             <div className="flex items-center group">
-            <Link
-              href="/simple"
-              className="flex items-center space-x-3 rtl:space-x-reverse group-hover:scale-105 transition-all duration-500"
-              onClick={(e) => {
-                e.preventDefault();
-                router.replace("/simple");
-              }}
-            >
-              <img
+              <Link
+                href="/simple"
+                className="flex items-center space-x-3 rtl:space-x-reverse group-hover:scale-105 transition-all duration-500"
+                onClick={(e) => {
+                  e.preventDefault();
+                  router.replace("/simple");
+                }}
+              >
+                <img
                   src="/app-icon.png"
-                alt="Cybersecurity Portal"
-                className="h-12 w-12 object-contain group-hover:scale-110 transition-all duration-500"
-              />
-              <div className="flex flex-col">
-                <span className="text-xl font-bold text-gray-800 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-300 transition-all duration-500 drop-shadow-lg">
-                  <span className="hidden sm:inline">
-                    {t("beginners.title")}
+                  alt="Cybersecurity Portal"
+                  className="h-12 w-12 object-contain group-hover:scale-110 transition-all duration-500"
+                />
+                <div className="flex flex-col">
+                  <span className="text-xl font-bold text-gray-800 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-300 transition-all duration-500 drop-shadow-lg">
+                    <span className="hidden sm:inline">
+                      {t("beginners.title")}
+                    </span>
                   </span>
-                </span>
-              </div>
-            </Link>
-          </div>
+                </div>
+              </Link>
+            </div>
 
             {/* Desktop Navigation - New 8 buttons as requested */}
-          <nav className="hidden lg:flex items-center space-x-2 rtl:space-x-reverse">
-            {/* 1. الرئيسية */}
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className={cn(
-                    "flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base",
-                pathname === "/"
-                      ? "bg-green-500/20 text-green-600 dark:text-green-300 shadow-lg backdrop-blur-sm border border-green-500/30"
-                      : "text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
-                  )}
-              onClick={(e) => handleNavigation(e, "/")}
-                >
-              <Home className="h-3 w-3 sm:h-4 sm:w-4" />
-              الرئيسية
-                </Button>
-
-            {/* 2. واجهة غير المتخصصين */}
-                    <Button
-                      variant="ghost"
-              size="sm"
-              className={cn(
-                "flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base",
-                pathname === "/simple"
-                  ? "bg-green-500/20 text-green-600 dark:text-green-300 shadow-lg backdrop-blur-sm border border-green-500/30"
-                  : "text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
-              )}
-              onClick={(e) => handleNavigation(e, "/simple")}
-            >
-              <Users className="h-3 w-3 sm:h-4 sm:w-4" />
-              واجهة غير المتخصصين
-                    </Button>
-
-            {/* 3. واجهة المتخصصين */}
-                    <Button
-                      variant="ghost"
-              size="sm"
-              className={cn(
-                "flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base",
-                pathname === "/advanced"
-                  ? "bg-green-500/20 text-green-600 dark:text-green-300 shadow-lg backdrop-blur-sm border border-green-500/30"
-                  : "text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
-              )}
-              onClick={(e) => handleNavigation(e, "/advanced")}
-            >
-              <Settings className="h-3 w-3 sm:h-4 sm:w-4" />
-              واجهة المتخصصين
-                    </Button>
-
-            {/* 4. خريطة الموقع - Dropdown on hover */}
-            <div 
-              className="relative group"
-              onMouseEnter={() => setSitemapDropdownOpen(true)}
-              onMouseLeave={() => setSitemapDropdownOpen(false)}
-            >
+            <nav className="hidden lg:flex items-center space-x-2 rtl:space-x-reverse">
+              {/* 1. الرئيسية */}
               <Button
                 variant="ghost"
                 size="sm"
                 className={cn(
                   "flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base",
-                  pathname === "/simple/sitemap" || pathname === "/simple/sitemap/static"
+                  pathname === "/"
                     ? "bg-green-500/20 text-green-600 dark:text-green-300 shadow-lg backdrop-blur-sm border border-green-500/30"
                     : "text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
                 )}
+                onClick={(e) => handleNavigation(e, "/")}
               >
-                <Map className="h-3 w-3 sm:h-4 sm:w-4" />
-                خريطة الموقع
+                <Home className="h-3 w-3 sm:h-4 sm:w-4" />
+                الرئيسية
               </Button>
-              
-              {/* Dropdown Menu */}
-              {sitemapDropdownOpen && (
-                <div 
-                  className={cn(
-                    "absolute top-full mt-1 min-w-[180px] bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-md shadow-lg z-50 overflow-hidden",
-                    isRtl ? "left-0" : "right-0"
-                  )}
-                  onMouseEnter={() => setSitemapDropdownOpen(true)}
-                  onMouseLeave={() => setSitemapDropdownOpen(false)}
-                >
-                  <Link 
-                    href="/simple/sitemap"
-                    className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
-                    onClick={() => setSitemapDropdownOpen(false)}
-                  >
-                    <Map className="h-4 w-4" />
-                    خريطة تفاعلية
-                  </Link>
-                  <Link 
-                    href="/simple/sitemap/static"
-                    className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
-                    onClick={() => setSitemapDropdownOpen(false)}
-                  >
-                    <FileText className="h-4 w-4" />
-                    خريطة ثابتة
-                  </Link>
-                </div>
-              )}
-            </div>
 
-            {/* 5. تفعيل/إيقاف النصائح */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={toggleTips}
-              className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
-            >
-              <LightbulbIcon
-                className={`h-3 w-3 sm:h-4 sm:w-4 ${
-                  tipsDisabled
+              {/* 2. واجهة غير المتخصصين */}
+              <Button
+                variant="ghost"
+                size="sm"
+                className={cn(
+                  "flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base",
+                  pathname === "/simple"
+                    ? "bg-green-500/20 text-green-600 dark:text-green-300 shadow-lg backdrop-blur-sm border border-green-500/30"
+                    : "text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
+                )}
+                onClick={(e) => handleNavigation(e, "/simple")}
+              >
+                <Users className="h-3 w-3 sm:h-4 sm:w-4" />
+                واجهة غير المتخصصين
+              </Button>
+
+              {/* 3. واجهة المتخصصين */}
+              <Button
+                variant="ghost"
+                size="sm"
+                className={cn(
+                  "flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base",
+                  pathname === "/advanced"
+                    ? "bg-green-500/20 text-green-600 dark:text-green-300 shadow-lg backdrop-blur-sm border border-green-500/30"
+                    : "text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
+                )}
+                onClick={(e) => handleNavigation(e, "/advanced")}
+              >
+                <Settings className="h-3 w-3 sm:h-4 sm:w-4" />
+                واجهة المتخصصين
+              </Button>
+
+              {/* 4. خريطة الموقع - Dropdown on hover */}
+              <div
+                className="relative group"
+                onMouseEnter={() => setSitemapDropdownOpen(true)}
+                onMouseLeave={() => setSitemapDropdownOpen(false)}
+              >
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={cn(
+                    "flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base",
+                    pathname === "/simple/sitemap" || pathname === "/simple/sitemap/static"
+                      ? "bg-green-500/20 text-green-600 dark:text-green-300 shadow-lg backdrop-blur-sm border border-green-500/30"
+                      : "text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
+                  )}
+                >
+                  <Map className="h-3 w-3 sm:h-4 sm:w-4" />
+                  خريطة الموقع
+                </Button>
+
+                {/* Dropdown Menu */}
+                {sitemapDropdownOpen && (
+                  <div
+                    className={cn(
+                      "absolute top-full mt-1 min-w-[180px] bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-md shadow-lg z-50 overflow-hidden",
+                      isRtl ? "left-0" : "right-0"
+                    )}
+                    onMouseEnter={() => setSitemapDropdownOpen(true)}
+                    onMouseLeave={() => setSitemapDropdownOpen(false)}
+                  >
+                    <Link
+                      href="/simple/sitemap"
+                      className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
+                      onClick={() => setSitemapDropdownOpen(false)}
+                    >
+                      <Map className="h-4 w-4" />
+                      خريطة تفاعلية
+                    </Link>
+                    <Link
+                      href="/simple/sitemap/static"
+                      className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors"
+                      onClick={() => setSitemapDropdownOpen(false)}
+                    >
+                      <FileText className="h-4 w-4" />
+                      خريطة ثابتة
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {/* 5. تفعيل/إيقاف النصائح */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleTips}
+                className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
+              >
+                <LightbulbIcon
+                  className={`h-3 w-3 sm:h-4 sm:w-4 ${tipsDisabled
                     ? "opacity-50 text-gray-400 dark:text-slate-400"
                     : "text-yellow-500 dark:text-yellow-400"
-                }`}
-              />
-              {tipsDisabled ? "تفعيل النصائح" : "إيقاف النصائح"}
-            </Button>
+                    }`}
+                />
+                {tipsDisabled ? "تفعيل النصائح" : "إيقاف النصائح"}
+              </Button>
 
-            {/* 6. البحث */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleSearchToggle}
-              className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
-            >
-              <Search className="h-3 w-3 sm:h-4 sm:w-4" />
-              البحث
-            </Button>
+              {/* 6. البحث */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleSearchToggle}
+                className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
+              >
+                <Search className="h-3 w-3 sm:h-4 sm:w-4" />
+                البحث
+              </Button>
 
-            {/* 7. تغيير اللغة */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleLanguageToggle}
-              className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
-            >
-              <Globe className="h-3 w-3 sm:h-4 sm:w-4" />
-              تغيير اللغة
-            </Button>
+              {/* 7. تغيير اللغة */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleLanguageToggle}
+                className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
+              >
+                <Globe className="h-3 w-3 sm:h-4 sm:w-4" />
+                تغيير اللغة
+              </Button>
 
-            {/* 8. نهاري/ليلي */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleThemeToggle}
-              className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
-            >
-              {isDarkMode ? (
-                <SunIcon className="h-3 w-3 sm:h-4 sm:w-4" />
-              ) : (
-                <MoonIcon className="h-3 w-3 sm:h-4 sm:w-4" />
-              )}
-              {isDarkMode ? "نهاري" : "ليلي"}
-            </Button>
+              {/* 8. نهاري/ليلي */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleThemeToggle}
+                className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-xs sm:text-sm lg:text-base text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:text-gray-900 dark:hover:text-white"
+              >
+                {isDarkMode ? (
+                  <SunIcon className="h-3 w-3 sm:h-4 sm:w-4" />
+                ) : (
+                  <MoonIcon className="h-3 w-3 sm:h-4 sm:w-4" />
+                )}
+                {isDarkMode ? "نهاري" : "ليلي"}
+              </Button>
+
+              {/* User Menu (Login/Profile) */}
+              <UserMenu />
             </nav>
           </div>
 
@@ -417,7 +420,7 @@ export default function SimpleHeader({
                   </button>
 
                   {/* 3. واجهة المتخصصين */}
-                <button
+                  <button
                     className={cn(
                       "flex items-center gap-2 sm:gap-3 px-3 py-2.5 text-sm sm:text-base rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group",
                       pathname === "/advanced"
@@ -465,17 +468,16 @@ export default function SimpleHeader({
                   </div>
 
                   {/* 5. تفعيل/إيقاف النصائح */}
-                <button
+                  <button
                     className="flex items-center gap-2 sm:gap-3 px-3 py-2.5 text-sm sm:text-base rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white"
-                  onClick={toggleTips}
-                >
-                  <LightbulbIcon
-                    className={`h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform duration-300 ${
-                      tipsDisabled
+                    onClick={toggleTips}
+                  >
+                    <LightbulbIcon
+                      className={`h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform duration-300 ${tipsDisabled
                         ? "opacity-50 text-gray-400 dark:text-slate-400"
                         : "text-yellow-500 dark:text-yellow-400"
-                    }`}
-                  />
+                        }`}
+                    />
                     <span>{tipsDisabled ? "تفعيل النصائح" : "إيقاف النصائح"}</span>
                   </button>
 
@@ -495,10 +497,10 @@ export default function SimpleHeader({
                   >
                     <Globe className="h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform duration-300" />
                     <span>تغيير اللغة</span>
-                </button>
+                  </button>
 
                   {/* 8. نهاري/ليلي */}
-                      <button
+                  <button
                     className="flex items-center gap-2 sm:gap-3 px-3 py-2.5 text-sm sm:text-base rounded-lg transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800/50 hover:scale-[1.02] hover:shadow-sm w-full text-left group text-gray-700 dark:text-slate-300 hover:text-gray-900 dark:hover:text-white"
                     onClick={handleThemeToggle}
                   >
@@ -508,7 +510,7 @@ export default function SimpleHeader({
                       <MoonIcon className="h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform duration-300" />
                     )}
                     <span>{isDarkMode ? "نهاري" : "ليلي"}</span>
-                      </button>
+                  </button>
                 </div>
               </div>
             </nav>
