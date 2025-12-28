@@ -1,16 +1,17 @@
 "use client";
 
 import { useLanguage } from "@/components/language-provider";
-import { 
-  ArrowRight, 
+import { RealtimeStatsFooter } from "@/components/RealtimeStatsFooter";
+import {
+  ArrowRight,
   ArrowLeft,
-  Map, 
-  Mail, 
-  Phone, 
-  Globe, 
-  Facebook, 
-  Twitter, 
-  Linkedin, 
+  Map,
+  Mail,
+  Phone,
+  Globe,
+  Facebook,
+  Twitter,
+  Linkedin,
   Youtube,
   ChevronRight,
   ChevronLeft,
@@ -33,7 +34,7 @@ import {
 import Link from "next/link";
 
 export default function Footer() {
-  const {t, language } = useLanguage();
+  const { t, language } = useLanguage();
   const isRtl = language === "ar";
 
   const footerSections = [
@@ -115,7 +116,7 @@ export default function Footer() {
     <footer className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 text-white overflow-hidden">
       {/* Light mode background */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:hidden"></div>
-      
+
       {/* Dark mode background pattern */}
       <div className="absolute inset-0 opacity-5 dark:opacity-5">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.1),transparent_50%)]"></div>
@@ -170,7 +171,7 @@ export default function Footer() {
                       const LinkIcon = link.icon;
                       return (
                         <li key={linkIndex}>
-                          <Link 
+                          <Link
                             href={link.href}
                             className="flex items-center text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-white transition-all duration-300 group/link py-2 px-3 rounded-lg hover:bg-white/60 dark:hover:bg-white/5 shadow-sm hover:shadow-md"
                           >
@@ -254,10 +255,10 @@ export default function Footer() {
                   {t("beginners.footer.copyright")}
                 </p>
               </div>
-              
+
               {/* Additional Links */}
               <div className="flex items-center space-x-6 rtl:space-x-reverse">
-                <Link 
+                <Link
                   href="/advanced/sitemap"
                   className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm font-medium flex items-center group"
                 >
@@ -265,7 +266,7 @@ export default function Footer() {
                   {language === "ar" ? "خريطة الموقع" : "Site Map"}
                 </Link>
                 <div className="w-px h-4 bg-blue-200 dark:bg-slate-600"></div>
-                <Link 
+                <Link
                   href="/advanced"
                   className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm font-medium flex items-center group"
                 >
@@ -276,6 +277,9 @@ export default function Footer() {
             </div>
           </div>
         </div>
+
+        {/* Real-time Stats */}
+        <RealtimeStatsFooter />
       </div>
     </footer>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/components/language-provider";
+import { RealtimeStatsFooter } from "@/components/RealtimeStatsFooter";
 import {
   ArrowRight,
   ArrowLeft,
@@ -350,6 +351,9 @@ export default function SimpleFooter() {
             </div>
           </div>
         </div>
+
+        {/* Real-time Stats */}
+        <RealtimeStatsFooter />
       </div>
     </footer>
   );

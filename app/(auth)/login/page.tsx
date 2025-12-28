@@ -12,7 +12,7 @@ import { Loader2, Eye, EyeOff, ArrowLeft, ArrowRight, Lock, User, Globe, Phone, 
 import Image from "next/image";
 
 export default function LoginPage() {
-      const { login, isLoading, error, clearError } = useClientAuth();
+      const { login, isLoading, error, clearError, isAuthenticated } = useClientAuth();
       const { t, language, setLanguage, isRtl } = useLanguage();
       const { theme, setTheme } = useTheme();
       const router = useRouter();
@@ -23,6 +23,13 @@ export default function LoginPage() {
 
       const searchParams = useSearchParams();
       const returnUrl = searchParams?.get("returnUrl");
+
+      // Redirect if already authenticated
+      useEffect(() => {
+            if (isAuthenticated && !isLoading) {
+                  router.replace("/simple");
+            }
+      }, [isAuthenticated, isLoading, router]);
 
       // Store returnUrl in sessionStorage for password change flow
       useEffect(() => {
@@ -46,9 +53,9 @@ export default function LoginPage() {
                   const storedReturnUrl = sessionStorage.getItem("authReturnUrl");
                   sessionStorage.removeItem("authReturnUrl");
 
-                  // Navigate to return URL or home page after successful login
+                  // Navigate to return URL or home page - use replace to remove /login from history
                   const redirectTo = storedReturnUrl || "/simple";
-                  window.location.href = redirectTo;
+                  router.replace(redirectTo);
             }
             // If mustChangePassword, context already redirected to /change-password
       };
