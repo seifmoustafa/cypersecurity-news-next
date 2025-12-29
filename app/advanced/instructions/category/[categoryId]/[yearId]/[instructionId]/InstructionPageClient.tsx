@@ -14,20 +14,30 @@ import { useInstructionsBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 interface InstructionPageClientProps {
   instruction: Instruction
   categoryId: string
+  categoryName?: string
+  categoryNameAr?: string
   yearId: string
+  year?: string
 }
 
-export default function InstructionPageClient({ instruction, categoryId, yearId }: InstructionPageClientProps) {
+export default function InstructionPageClient({
+  instruction,
+  categoryId,
+  categoryName,
+  categoryNameAr,
+  yearId,
+  year
+}: InstructionPageClientProps) {
   const { language } = useLanguage()
   const [imageDialogOpen, setImageDialogOpen] = useState(false)
 
   // Breadcrumbs
   const { items: breadcrumbItems } = useInstructionsBreadcrumbs(
     categoryId,
-    undefined,
-    undefined,
+    categoryName,
+    categoryNameAr,
     yearId,
-    undefined,
+    year,
     instruction.titleEn ?? instruction.title ?? undefined,
     instruction.title ?? instruction.titleEn ?? undefined
   )

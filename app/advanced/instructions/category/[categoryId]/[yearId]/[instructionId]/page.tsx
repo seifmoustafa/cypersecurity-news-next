@@ -50,6 +50,22 @@ export default async function InstructionPage({ params }: PageProps) {
       return notFound()
     }
 
+    // Fetch category and year data for breadcrumbs
+    let category
+    let year
+
+    try {
+      category = await container.services.instructionCategories.getCategoryById(categoryId)
+    } catch (error) {
+      console.warn("Could not fetch category:", error)
+    }
+
+    try {
+      year = await container.services.instructionYears.getYearById(yearId)
+    } catch (error) {
+      console.warn("Could not fetch year:", error)
+    }
+
     console.log(`✅ Successfully loaded instruction:`, fullInstruction.titleEn || fullInstruction.title)
 
     return (
@@ -57,7 +73,10 @@ export default async function InstructionPage({ params }: PageProps) {
         <InstructionPageClient
           instruction={fullInstruction}
           categoryId={categoryId}
+          categoryName={category?.nameEn}
+          categoryNameAr={category?.name}
           yearId={yearId}
+          year={year?.year?.toString()}
         />
       </MainLayout>
     )
