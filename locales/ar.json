@@ -670,5 +670,10 @@
       "reference": "مرجع",
       "helperCategory": "فئة إرشادات"
     }
+  },
+  "footer":{
+    "siteVisits":"زوار الموقع",
+    "connectedNow":"متصل الأن",
+    "visit":"زيارة"
   }
 }

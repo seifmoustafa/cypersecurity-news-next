@@ -633,5 +633,10 @@
     "updated": "Updated",
     "status": "Status",
     "previewNotAvailable": "Preview not available"
+  },
+  "footer":{
+    "siteVisits":"Site Visitors",
+    "connectedNow":"Connected now",
+    "visit":"Visit"
   }
 }

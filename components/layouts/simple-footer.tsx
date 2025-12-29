@@ -202,7 +202,17 @@ export default function SimpleFooter() {
 
       <div className="relative z-10">
         {/* Top Section - Main Content */}
-        <div className="container mx-auto px-4 py-20">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+          className="container mx-auto px-4 py-4"
+        >
+          <RealtimeStatsFooter />
+          <div className="h-40 w-px bg-slate-600/50" />
+
           {/* Header Section */}
           {/* <div className="text-center mb-20">
             <div className="flex items-center justify-center mb-8">
@@ -299,6 +309,7 @@ export default function SimpleFooter() {
           </div> */}
 
           {/* Contact Section */}
+
           <div className="flex justify-center mb-16">
             <div className="text-center">
               <h3 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
@@ -353,7 +364,6 @@ export default function SimpleFooter() {
         </div>
 
         {/* Real-time Stats */}
-        <RealtimeStatsFooter />
       </div>
     </footer>
   );

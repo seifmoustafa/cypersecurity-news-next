@@ -8,8 +8,7 @@ interface RealtimeStats {
       totalVisits: number;
 }
 
-const HUB_URL = process.env.NEXT_PUBLIC_API_BASE_URL?.replace("/api", "") + "/hubs/stats";
-
+const HUB_URL = process.env.NEXT_PUBLIC_API_BASE_URL+"/hubs/stats";
 // Singleton connection - shared across all components
 let globalConnection: signalR.HubConnection | null = null;
 let connectionPromise: Promise<void> | null = null;
