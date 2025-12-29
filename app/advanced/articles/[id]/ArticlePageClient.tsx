@@ -1,13 +1,13 @@
 "use client"
 
 import { useLanguage } from "@/components/language-provider"
-import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ChevronLeft, ChevronRight, Calendar, FileText } from "lucide-react"
+import { FileText } from "lucide-react"
 import Image from "next/image"
-import Link from "next/link"
 import type { Article } from "@/entities"
 import MainLayout from "@/components/layouts/main-layout"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useArticlesBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 interface ArticlePageClientProps {
   article: Article
@@ -15,6 +15,12 @@ interface ArticlePageClientProps {
 
 export default function ArticlePageClient({ article }: ArticlePageClientProps) {
   const { language, isRtl, t } = useLanguage()
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useArticlesBreadcrumbs(
+    article.titleEn ?? article.title ?? undefined,
+    article.title ?? article.titleEn ?? undefined
+  )
 
   // Get content based on current language
   const displayTitle =
@@ -26,39 +32,30 @@ export default function ArticlePageClient({ article }: ArticlePageClientProps) {
 
   return (
     <MainLayout>
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
-      <div className="container mx-auto px-4 py-8">
-        
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
+        <div className="container mx-auto px-4 pt-24 pb-16">
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
 
-        {/* Back Button */}
-        <div className={`mb-8 ${isRtl ? "text-right" : "text-left"}`}>
-          <Link href="/advanced/articles">
-            <Button variant="outline" className={`${isRtl ? "flex-row-reverse" : ""}`}>
-              {isRtl ? <ChevronRight className="h-4 w-4 mr-2" /> : <ChevronLeft className="h-4 w-4 mr-2" />}
-              {t("articles.backToArticles")}
-            </Button>
-          </Link>
-        </div>
-
-        {/* Article Content */}
-        <div className="max-w-4xl mx-auto">
-          <article className="bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden">
-            {/* Header Image */}
-            {article.imageUrl && (
-              <div className="relative h-64 md:h-96">
-                <Image src={article.imageUrl || "/placeholder.svg"} alt={displayTitle} fill className="object-cover" />
-              </div>
-            )}
-
-            {/* Article Header */}
-            <div className={`p-6 md:p-8 ${isRtl ? "text-right" : "text-left"}`}>
-              <div
-                className={`flex items-center gap-4 mb-6 ${isRtl ? "flex-row-reverse justify-end" : "justify-start"}`}
-              >
-                <div className="p-2 bg-primary/10 rounded-full">
-                  <FileText className="h-6 w-6 text-primary" />
+          {/* Article Content */}
+          <div className="max-w-4xl mx-auto">
+            <article className="bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden">
+              {/* Header Image */}
+              {article.imageUrl && (
+                <div className="relative h-64 md:h-96">
+                  <Image src={article.imageUrl || "/placeholder.svg"} alt={displayTitle} fill className="object-cover" />
                 </div>
-                {/* <div
+              )}
+
+              {/* Article Header */}
+              <div className={`p-6 md:p-8 ${isRtl ? "text-right" : "text-left"}`}>
+                <div
+                  className={`flex items-center gap-4 mb-6 ${isRtl ? "flex-row-reverse justify-end" : "justify-start"}`}
+                >
+                  <div className="p-2 bg-primary/10 rounded-full">
+                    <FileText className="h-6 w-6 text-primary" />
+                  </div>
+                  {/* <div
                   className={`flex items-center gap-2 text-sm text-muted-foreground ${isRtl ? "flex-row-reverse" : ""}`}
                 >
                   <Calendar className="h-4 w-4" />
@@ -70,34 +67,34 @@ export default function ArticlePageClient({ article }: ArticlePageClientProps) {
                     })}
                   </span>
                 </div> */}
+                </div>
+
+                <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">{displayTitle}</h1>
+
+                {displaySummary && <p className="text-lg text-muted-foreground mb-6 leading-relaxed">{displaySummary}</p>}
+
+                {/* Tags */}
+                {article.tags && article.tags.length > 0 && (
+                  <div className={`flex flex-wrap gap-2 mb-8 ${isRtl ? "justify-end" : "justify-start"}`}>
+                    {article.tags.map((tag, index) => (
+                      <Badge key={index} variant="secondary">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
               </div>
 
-              <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">{displayTitle}</h1>
+              {/* Article Content */}
+              <div className={`px-6 md:px-8 pb-8 ${isRtl ? "text-right" : "text-left"}`}>
+                <div
+                  className="prose prose-lg max-w-none dark:prose-invert"
+                  dangerouslySetInnerHTML={{ __html: displayContent }}
+                />
+              </div>
 
-              {displaySummary && <p className="text-lg text-muted-foreground mb-6 leading-relaxed">{displaySummary}</p>}
-
-              {/* Tags */}
-              {article.tags && article.tags.length > 0 && (
-                <div className={`flex flex-wrap gap-2 mb-8 ${isRtl ? "justify-end" : "justify-start"}`}>
-                  {article.tags.map((tag, index) => (
-                    <Badge key={index} variant="secondary">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Article Content */}
-            <div className={`px-6 md:px-8 pb-8 ${isRtl ? "text-right" : "text-left"}`}>
-              <div
-                className="prose prose-lg max-w-none dark:prose-invert"
-                dangerouslySetInnerHTML={{ __html: displayContent }}
-              />
-            </div>
-
-            {/* Article Footer */}
-            {/* <div
+              {/* Article Footer */}
+              {/* <div
               className={`px-6 md:px-8 pb-6 border-t border-gray-200 dark:border-gray-700 ${isRtl ? "text-right" : "text-left"}`}
             >
               <div className={`flex items-center justify-between pt-6 ${isRtl ? "flex-row-reverse" : ""}`}>
@@ -121,10 +118,10 @@ export default function ArticlePageClient({ article }: ArticlePageClientProps) {
                 </Link>
               </div>
             </div> */}
-          </article>
+            </article>
+          </div>
         </div>
       </div>
-    </div>
     </MainLayout>
   )
 }

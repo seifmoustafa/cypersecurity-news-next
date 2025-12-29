@@ -4,17 +4,18 @@ import { container } from "@/core/di/container"
 import StandardsCategoryPageClient from "./StandardsCategoryPageClient"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     categoryId: string
-  }
-  searchParams: {
+  }>
+  searchParams: Promise<{
     page?: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const category = await container.standardsService.getStandardCategoryById(params.categoryId)
+    const resolvedParams = await params
+    const category = await container.standardsService.getStandardCategoryById(resolvedParams.categoryId)
 
     if (!category) {
       return {
@@ -37,10 +38,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function StandardsCategoryPage({ params, searchParams }: PageProps) {
-  const page = Number.parseInt(searchParams.page || "1", 10)
+  const resolvedParams = await params
+  const resolvedSearchParams = await searchParams
+  const page = Number.parseInt(resolvedSearchParams.page || "1", 10)
 
   try {
-    const category = await container.standardsService.getStandardCategoryById(params.categoryId)
+    const category = await container.standardsService.getStandardCategoryById(resolvedParams.categoryId)
 
     if (!category) {
       notFound()

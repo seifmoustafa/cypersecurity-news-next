@@ -3,11 +3,12 @@
 import { useEffect, useState } from "react"
 import { useLanguage } from "@/components/language-provider"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { ArrowLeft, ArrowRight, Calendar, FileText, Download, Eye } from "lucide-react"
+import { FileText, Download } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
 import { container } from "@/core/di/container"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useRegulationBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 interface RegulationPageClientProps {
   regulationId: string
@@ -26,7 +27,7 @@ export default function RegulationPageClient({ regulationId }: RegulationPageCli
         setError(null)
 
         const regulationData = await container.services.regulations.getRegulationById(regulationId)
-        
+
         if (!regulationData) {
           setError("Regulation not found")
           return
@@ -46,16 +47,25 @@ export default function RegulationPageClient({ regulationId }: RegulationPageCli
     }
   }, [regulationId])
 
+  // Breadcrumbs - show loading state initially
+  const { items: breadcrumbItems } = useRegulationBreadcrumbs(
+    regulation?.regulationCategoryId,
+    regulation?.categoryNameEn ?? regulation?.categoryName,
+    regulation?.categoryName ?? regulation?.categoryNameEn,
+    regulation?.titleEn ?? regulation?.title,
+    regulation?.title ?? regulation?.titleEn
+  )
+
   if (loading) {
     return (
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="animate-pulse">
-            <div className="h-8 bg-gray-300 rounded w-3/4 mb-4"></div>
-            <div className="h-64 bg-gray-300 rounded mb-6"></div>
-            <div className="h-4 bg-gray-300 rounded w-full mb-2"></div>
-            <div className="h-4 bg-gray-300 rounded w-full mb-2"></div>
-            <div className="h-4 bg-gray-300 rounded w-2/3 mb-4"></div>
+            <div className="h-8 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
+            <div className="h-64 bg-gray-300 dark:bg-gray-700 rounded mb-6"></div>
+            <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full mb-2"></div>
+            <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full mb-2"></div>
+            <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-2/3 mb-4"></div>
           </div>
         </div>
       </div>
@@ -75,8 +85,7 @@ export default function RegulationPageClient({ regulationId }: RegulationPageCli
             </p>
             <Link href="/advanced/regulation">
               <Button>
-                {isRtl ? <ArrowRight className="ml-2 h-4 w-4" /> : <ArrowLeft className="mr-2 h-4 w-4" />}
-                {language === "ar" ? "العودة إلى اللوائح" : "Back to Regulations"}
+                {language === "ar" ? "عرض جميع اللوائح" : "View All Regulations"}
               </Button>
             </Link>
           </div>
@@ -88,24 +97,33 @@ export default function RegulationPageClient({ regulationId }: RegulationPageCli
   const title = language === "ar" ? regulation.title || regulation.titleEn || "" : regulation.titleEn || regulation.title || ""
   const summary = language === "ar" ? regulation.summary || regulation.summaryEn || "" : regulation.summaryEn || regulation.summary || ""
   const content = language === "ar" ? regulation.content || regulation.contentEn || "" : regulation.contentEn || regulation.content || ""
-  const date = regulation.issueDate ? new Date(regulation.issueDate) : regulation.effectiveDate ? new Date(regulation.effectiveDate) : 
-    regulation.createdAt ? new Date(regulation.createdAt) : new Date()
 
   // Clean HTML tags from summary only (keep content as HTML)
-  const cleanSummary = summary ? summary.replace(/<\/?[^>]+(>|$)/g, "") : ""
+  const cleanSummary = summary ? summary.replace(/<\/?[^>]+([^>]|$)/g, "") : ""
+
+  const handleDownload = () => {
+    if (regulation.documentUrl) {
+      window.open(regulation.documentUrl, "_blank")
+    }
+  }
 
   return (
     <div className="pt-24 pb-16">
       <div className="container mx-auto px-4 max-w-4xl">
-        {/* Back button */}
-        <div className="mb-6">
-          <Link href="/advanced/regulation">
-            <Button variant="outline" size="sm">
-              {isRtl ? <ArrowRight className="ml-2 h-4 w-4" /> : <ArrowLeft className="mr-2 h-4 w-4" />}
-              {language === "ar" ? "العودة إلى اللوائح" : "Back to Regulations"}
-            </Button>
-          </Link>
-        </div>
+        {/* Breadcrumbs */}
+        <AdvancedBreadcrumbs items={breadcrumbItems} />
+
+        {/* Header Image */}
+        {regulation.imageUrl && (
+          <div className="relative h-64 md:h-80 mb-8 rounded-xl overflow-hidden shadow-lg">
+            <Image
+              src={regulation.imageUrl}
+              alt={title}
+              fill
+              className="object-cover"
+            />
+          </div>
+        )}
 
         {/* Article header */}
         <article className={`${isRtl ? "text-right" : "text-left"}`}>
@@ -115,19 +133,16 @@ export default function RegulationPageClient({ regulationId }: RegulationPageCli
             {/* Meta information */}
             <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-6">
               <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                <span>
-                  {date.toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
                 <FileText className="h-4 w-4" />
                 <span>{language === "ar" ? "لائحة" : "Regulation"}</span>
               </div>
+              {regulation.categoryName && (
+                <div className="flex items-center gap-2">
+                  <span className="bg-primary/10 text-primary px-2 py-1 rounded-md text-xs">
+                    {language === "ar" ? regulation.categoryName : regulation.categoryNameEn || regulation.categoryName}
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Summary */}
@@ -137,6 +152,24 @@ export default function RegulationPageClient({ regulationId }: RegulationPageCli
               </div>
             )}
           </header>
+
+          {/* Document Download */}
+          {regulation.documentUrl && (
+            <div className="mb-8 p-4 bg-muted rounded-lg">
+              <div className={`flex items-center justify-between ${isRtl ? "flex-row-reverse" : ""}`}>
+                <div className={isRtl ? "text-right" : "text-left"}>
+                  <h3 className="font-semibold mb-1">{language === "ar" ? "وثيقة اللائحة" : "Regulation Document"}</h3>
+                  <p className="text-sm text-muted-foreground">
+                    {language === "ar" ? "تحميل النسخة الكاملة من اللائحة" : "Download the complete regulation document"}
+                  </p>
+                </div>
+                <Button onClick={handleDownload}>
+                  <Download className={`h-4 w-4 ${isRtl ? "ml-2" : "mr-2"}`} />
+                  {language === "ar" ? "تحميل" : "Download"}
+                </Button>
+              </div>
+            </div>
+          )}
 
           {/* Article content */}
           <div className="prose prose-lg max-w-none dark:prose-invert">
@@ -148,23 +181,6 @@ export default function RegulationPageClient({ regulationId }: RegulationPageCli
               </p>
             )}
           </div>
-
-          {/* Article footer */}
-          <footer className="mt-12 pt-8 border-t border-border">
-            <div className="flex justify-between items-center">
-              <Link href="/advanced/regulation">
-                <Button variant="outline">
-                  {isRtl ? <ArrowRight className="ml-2 h-4 w-4" /> : <ArrowLeft className="mr-2 h-4 w-4" />}
-                  {language === "ar" ? "العودة إلى اللوائح" : "Back to Regulations"}
-                </Button>
-              </Link>
-
-              <div className="text-sm text-muted-foreground">
-                {language === "ar" ? "تم النشر في" : "Published on"}{" "}
-                {date.toLocaleDateString("en-US")}
-              </div>
-            </div>
-          </footer>
         </article>
       </div>
     </div>

@@ -4,14 +4,15 @@ import { container } from "@/core/di/container"
 import LawCategoryPageClient from "./LawCategoryPageClient"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const category = await container.services.laws.getCategoryById(params.id)
+    const resolvedParams = await params
+    const category = await container.services.laws.getCategoryById(resolvedParams.id)
 
     if (!category) {
       return {
@@ -33,7 +34,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function LawCategoryPage({ params }: PageProps) {
   try {
-    const category = await container.services.laws.getCategoryById(params.id)
+    const resolvedParams = await params
+    const category = await container.services.laws.getCategoryById(resolvedParams.id)
 
     if (!category) {
       notFound()

@@ -4,18 +4,19 @@ import { container } from "@/core/di/container"
 import StandardsTechniquePageClient from "./StandardsTechniquePageClient"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     categoryId: string
     standardId: string
     controlId: string
     safeguardId: string
     techniqueId: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const technique = await container.standardsService.getTechniqueById(params.techniqueId)
+    const resolvedParams = await params
+    const technique = await container.standardsService.getTechniqueById(resolvedParams.techniqueId)
 
     if (!technique) {
       return {
@@ -41,13 +42,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function StandardsTechniquePage({ params }: PageProps) {
   try {
-    const technique = await container.standardsService.getTechniqueById(params.techniqueId)
+    const resolvedParams = await params
+    const technique = await container.standardsService.getTechniqueById(resolvedParams.techniqueId)
 
     if (!technique) {
       notFound()
     }
 
-    return <StandardsTechniquePageClient technique={technique} categoryId={params.categoryId} standardId={params.standardId} controlId={params.controlId} safeguardId={params.safeguardId} />
+    return <StandardsTechniquePageClient technique={technique} categoryId={resolvedParams.categoryId} standardId={resolvedParams.standardId} controlId={resolvedParams.controlId} safeguardId={resolvedParams.safeguardId} />
   } catch (error) {
     console.error("❌ Error in StandardsTechniquePage:", error)
     notFound()

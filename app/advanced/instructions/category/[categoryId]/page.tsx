@@ -5,13 +5,14 @@ import { container } from "@/core/di/container"
 import InstructionCategoryPageClient from "./InstructionCategoryPageClient"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     categoryId: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { categoryId } = params
+  const resolvedParams = await params
+  const { categoryId } = resolvedParams
 
   try {
     const category = await container.services.instructionCategories.getCategoryById(categoryId)
@@ -30,7 +31,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function InstructionCategoryPage({ params }: PageProps) {
-  const { categoryId } = params
+  const resolvedParams = await params
+  const { categoryId } = resolvedParams
 
   try {
     // Find category by ID

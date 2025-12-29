@@ -5,15 +5,16 @@ import InstructionPageClient from "./InstructionPageClient"
 import { container } from "@/core/di/container"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     categoryId: string
     yearId: string
     instructionId: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { instructionId } = params
+  const resolvedParams = await params
+  const { instructionId } = resolvedParams
 
   try {
     const instruction = await container.services.instructions.getInstructionById(instructionId)
@@ -35,7 +36,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function InstructionPage({ params }: PageProps) {
-  const { instructionId, categoryId, yearId } = params
+  const resolvedParams = await params
+  const { instructionId, categoryId, yearId } = resolvedParams
 
   try {
     console.log(`🚀 Loading instruction page for ID: ${instructionId}`)

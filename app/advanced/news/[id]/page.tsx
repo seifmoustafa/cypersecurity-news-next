@@ -5,14 +5,15 @@ import NewsDetailPageClient from "./NewsDetailPageClient"
 import MainLayout from "@/components/layouts/main-layout"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const news = await container.services.news.getNewsById(params.id)
+    const resolvedParams = await params
+    const news = await container.services.news.getNewsById(resolvedParams.id)
 
     if (!news) {
       return {
@@ -38,7 +39,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function NewsDetailPage({ params }: PageProps) {
   try {
-    const news = await container.services.news.getNewsById(params.id)
+    const resolvedParams = await params
+    const news = await container.services.news.getNewsById(resolvedParams.id)
 
     if (!news) {
       notFound()

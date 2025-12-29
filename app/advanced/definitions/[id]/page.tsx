@@ -4,13 +4,14 @@ import DefinitionPageClient from "./DefinitionPageClient"
 import type { Metadata } from "next"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const definition = await container.services.definitions.getDefinitionById(params.id)
+  const resolvedParams = await params
+  const definition = await container.services.definitions.getDefinitionById(resolvedParams.id)
 
   if (!definition) {
     return {
@@ -26,7 +27,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function DefinitionPage({ params }: PageProps) {
   try {
-    const definition = await container.services.definitions.getDefinitionById(params.id)
+    const resolvedParams = await params
+    const definition = await container.services.definitions.getDefinitionById(resolvedParams.id)
 
     if (!definition) {
       notFound()

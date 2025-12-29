@@ -4,14 +4,15 @@ import { container } from "@/core/di/container"
 import PresentationPageClient from "./PresentationPageClient"
 
 interface PresentationPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PresentationPageProps): Promise<Metadata> {
   try {
-    const presentation = await container.services.media.getApiPresentationById(params.id)
+    const resolvedParams = await params
+    const presentation = await container.services.media.getApiPresentationById(resolvedParams.id)
 
     if (!presentation) {
       return {
@@ -42,7 +43,8 @@ export async function generateMetadata({ params }: PresentationPageProps): Promi
 
 export default async function PresentationPage({ params }: PresentationPageProps) {
   try {
-    const presentation = await container.services.media.getApiPresentationById(params.id)
+    const resolvedParams = await params
+    const presentation = await container.services.media.getApiPresentationById(resolvedParams.id)
 
     if (!presentation) {
       notFound()

@@ -1,17 +1,17 @@
 "use client"
 
 import { useState } from "react"
-import { motion } from "framer-motion"
 import MainLayout from "@/components/layouts/main-layout"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
-import { ChevronLeft, Shield, Calendar, Eye, Download, Play, FileText, Image as ImageIcon } from "lucide-react"
-import Link from "next/link"
+import { Shield, Eye, Download, Play, FileText, Image as ImageIcon } from "lucide-react"
 import Image from "next/image"
 import { useLanguage } from "@/components/language-provider"
-import { getLocalizedText, purifyHtml, isValidHtmlContent } from "@/lib/utils"
+import { getLocalizedText, isValidHtmlContent } from "@/lib/utils"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { usePersonalProtectBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 interface PersonalProtectControlStepDetailPageClientProps {
   categoryId: string
@@ -45,6 +45,21 @@ export default function PersonalProtectControlStepDetailPageClient({
   const [videoDialogOpen, setVideoDialogOpen] = useState(false)
   const [imageDialogOpen, setImageDialogOpen] = useState(false)
 
+  // Breadcrumbs
+  const { items: breadcrumbItems } = usePersonalProtectBreadcrumbs(
+    categoryId,
+    undefined,
+    undefined,
+    subcategoryId,
+    undefined,
+    undefined,
+    controlId,
+    undefined,
+    undefined,
+    step.nameEn ?? step.name,
+    step.name ?? step.nameEn
+  )
+
   const stepTitle = getLocalizedText(language, step.name, step.nameEn)
   const stepSummary = getLocalizedText(language, step.summary, step.summaryEn)
   const stepContent = getLocalizedText(language, step.content, step.contentEn)
@@ -54,17 +69,11 @@ export default function PersonalProtectControlStepDetailPageClient({
     <MainLayout>
       <div className="pt-24 pb-16 bg-gradient-to-br from-background to-muted/20">
         <div className="container mx-auto px-4 max-w-7xl">
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
+
           {/* Header */}
           <div className="mb-8">
-            <div className="flex items-center gap-4 mb-6">
-              <Link href={`/advanced/personal-protect/${categoryId}/${subcategoryId}/${controlId}`}>
-                <Button variant="outline" size="sm" className="gap-2">
-                  <ChevronLeft className="h-4 w-4" />
-                  <span>{language === "ar" ? "رجوع إلى الإجراء التحكم" : "Back to Control"}</span>
-                </Button>
-              </Link>
-            </div>
-
             {/* Step Title Card */}
             <Card className="border-0 shadow-lg bg-gradient-to-r from-green-500/5 to-green-500/10 backdrop-blur-sm">
               <CardContent className="p-8">

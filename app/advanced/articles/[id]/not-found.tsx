@@ -27,8 +27,7 @@ export default function ArticleNotFound() {
         <div className="space-y-4">
           <Link href="/advanced/articles" className="block">
             <Button className={`w-full ${isRtl ? "flex-row-reverse" : ""}`}>
-              {isRtl ? <ArrowRight className="h-4 w-4 mr-2" /> : <ArrowLeft className="h-4 w-4 mr-2" />}
-              {language === "ar" ? "رجوع إلى المقالات" : "Back to Articles"}
+              {language === "ar" ? "عرض المقالات" : "View Articles"}
             </Button>
           </Link>
           <Link href="/" className="block">

@@ -2,12 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  ArrowLeft, 
-  Calendar, 
-  Clock, 
-  Eye, 
-  Share2, 
+import {
+  Calendar,
+  Clock,
+  Eye,
+  Share2,
   Bookmark,
   User,
   Tag,
@@ -32,6 +31,8 @@ import { useLatestNews } from "@/core/hooks/use-news";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs";
+import { useNewsBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs";
 
 interface ModernNewsDetailClientProps {
   slug: string;
@@ -55,7 +56,7 @@ export default function ModernNewsDetailClient({ slug }: ModernNewsDetailClientP
     if (foundNews) {
       setCurrentNews(foundNews);
       setLikes(foundNews.likes || Math.floor(Math.random() * 100));
-      
+
       // Find related news (same category or random)
       const related = news
         .filter(item => item.id !== foundNews.id)
@@ -63,6 +64,12 @@ export default function ModernNewsDetailClient({ slug }: ModernNewsDetailClientP
       setRelatedNews(related);
     }
   }, [news, slug]);
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useNewsBreadcrumbs(
+    currentNews?.titleEn ?? currentNews?.title,
+    currentNews?.title ?? currentNews?.titleEn
+  );
 
   const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString(language === "ar" ? "ar-SA" : "en-US", {
@@ -78,7 +85,7 @@ export default function ModernNewsDetailClient({ slug }: ModernNewsDetailClientP
     const now = new Date();
     const newsDate = new Date(date);
     const diffInHours = Math.floor((now.getTime() - newsDate.getTime()) / (1000 * 60 * 60));
-    
+
     if (diffInHours < 1) return language === "ar" ? "الآن" : "Just now";
     if (diffInHours < 24) return `${diffInHours}h ago`;
     const diffInDays = Math.floor(diffInHours / 24);
@@ -88,7 +95,7 @@ export default function ModernNewsDetailClient({ slug }: ModernNewsDetailClientP
   const handleShare = async (platform: string) => {
     const url = window.location.href;
     const title = currentNews?.title || "";
-    
+
     switch (platform) {
       case "facebook":
         window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, "_blank");
@@ -127,7 +134,7 @@ export default function ModernNewsDetailClient({ slug }: ModernNewsDetailClientP
               <div className="h-8 bg-muted animate-pulse rounded-lg w-1/4"></div>
               <div className="h-4 bg-muted animate-pulse rounded-lg w-1/2"></div>
             </div>
-            
+
             {/* Loading Content */}
             <div className="space-y-6">
               <div className="h-96 bg-muted animate-pulse rounded-xl"></div>
@@ -145,22 +152,15 @@ export default function ModernNewsDetailClient({ slug }: ModernNewsDetailClientP
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 dark:from-slate-900 dark:via-blue-900/20 dark:to-slate-900">
-      <div className="container mx-auto px-4 py-20 max-w-full 2xl:max-w-[1600px]">
-        {/* Back Button */}
+      <div className="container mx-auto px-4 pt-24 pb-16 max-w-full 2xl:max-w-[1600px]">
+        {/* Breadcrumbs */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4 }}
           className="mb-8"
         >
-          <Button
-            variant="outline"
-            onClick={() => router.back()}
-            className="glass border-white/20 dark:border-white/10 hover:shadow-modern transition-all duration-300"
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            {language === "ar" ? "العودة" : "Back"}
-          </Button>
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -183,9 +183,8 @@ export default function ModernNewsDetailClient({ slug }: ModernNewsDetailClientP
                     variant="ghost"
                     size="icon"
                     onClick={handleBookmark}
-                    className={`glass border-white/20 dark:border-white/10 transition-all duration-300 ${
-                      isBookmarked ? "text-yellow-500" : "text-muted-foreground"
-                    }`}
+                    className={`glass border-white/20 dark:border-white/10 transition-all duration-300 ${isBookmarked ? "text-yellow-500" : "text-muted-foreground"
+                      }`}
                   >
                     <Bookmark className={`h-4 w-4 ${isBookmarked ? "fill-current" : ""}`} />
                   </Button>
@@ -242,16 +241,16 @@ export default function ModernNewsDetailClient({ slug }: ModernNewsDetailClientP
                   <p className="text-xl text-muted-foreground font-medium">
                     {currentNews.summary}
                   </p>
-                  
+
                   {/* Simulated article content */}
                   <div className="space-y-4">
                     <p>
-                      {language === "ar" 
+                      {language === "ar"
                         ? "في عالم يتطور فيه التهديدات السيبرانية بسرعة، أصبح من الضروري أن تبقى المنظمات والحكومات في حالة تأهب مستمر. هذا المقال يسلط الضوء على أحدث التطورات في مجال الأمن السيبراني والاستراتيجيات المتبعة لحماية البنية التحتية الرقمية."
                         : "In a world where cyber threats evolve rapidly, it has become essential for organizations and governments to remain in a state of constant vigilance. This article highlights the latest developments in cybersecurity and the strategies adopted to protect digital infrastructure."
                       }
                     </p>
-                    
+
                     <p>
                       {language === "ar"
                         ? "تشير الإحصائيات الحديثة إلى زيادة ملحوظة في عدد الهجمات السيبرانية الموجهة ضد المؤسسات الحكومية والخاصة. هذه الهجمات تتراوح من محاولات الاختراق البسيطة إلى الهجمات المعقدة التي تستهدف البنية التحتية الحيوية."
@@ -294,9 +293,8 @@ export default function ModernNewsDetailClient({ slug }: ModernNewsDetailClientP
                   <Button
                     variant="outline"
                     onClick={handleLike}
-                    className={`glass border-white/20 dark:border-white/10 transition-all duration-300 ${
-                      isLiked ? "text-red-500 border-red-500/50" : ""
-                    }`}
+                    className={`glass border-white/20 dark:border-white/10 transition-all duration-300 ${isLiked ? "text-red-500 border-red-500/50" : ""
+                      }`}
                   >
                     <Heart className={`mr-2 h-4 w-4 ${isLiked ? "fill-current" : ""}`} />
                     {likes}

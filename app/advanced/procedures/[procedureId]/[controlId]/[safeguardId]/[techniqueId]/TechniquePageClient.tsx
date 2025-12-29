@@ -2,14 +2,15 @@
 
 import { useEffect, useState } from "react";
 import MainLayout from "@/components/layouts/main-layout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Calendar, FileText, Shield } from "lucide-react";
+import { Shield } from "lucide-react";
 import Link from "next/link";
 import { useLanguage } from "@/components/language-provider";
 import { container } from "@/core/di/container";
 import { extractTextContent } from "@/lib/content-purifier";
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs";
+import { useSimpleAdvancedBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs";
 
 interface TechniquePageClientProps {
   technique: {
@@ -38,6 +39,15 @@ export default function TechniquePageClient({
   const { language, isRtl } = useLanguage();
   const [implementationSteps, setImplementationSteps] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useSimpleAdvancedBreadcrumbs([
+    { label: "Procedures", labelAr: "الإجراءات", href: "/advanced/procedures" },
+    { label: "Procedure", labelAr: "الإجراء", href: `/advanced/procedures/${procedureId}` },
+    { label: "Control", labelAr: "عنصر التحكم", href: `/advanced/procedures/${procedureId}/${controlId}` },
+    { label: "Safeguard", labelAr: "إجراء الحماية", href: `/advanced/procedures/${procedureId}/${controlId}/${safeguardId}` },
+    { label: technique.nameEn || technique.nameAr, labelAr: technique.nameAr || technique.nameEn },
+  ]);
 
   useEffect(() => {
     const fetchImplementationSteps = async () => {
@@ -72,23 +82,11 @@ export default function TechniquePageClient({
     <MainLayout>
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-4 max-w-6xl">
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
+
           {/* Header */}
           <div className="mb-8">
-            <div className="flex items-center gap-4 mb-6">
-              <Link
-                href={`/advanced/procedures/${procedureId}/${controlId}/${safeguardId}`}
-              >
-                <Button variant="outline" size="sm" className="gap-2">
-                  <ArrowLeft className="h-4 w-4" />
-                  <span>
-                    {language === "ar"
-                      ? "رجوع إلى إجراء الحماية"
-                      : "Back to Safeguard"}
-                  </span>
-                </Button>
-              </Link>
-            </div>
-
             <Card className="border-0 shadow-lg bg-gradient-to-r from-purple-500/5 to-purple-600/10">
               <CardContent className="p-8">
                 <div className="flex items-start gap-6">
@@ -104,17 +102,15 @@ export default function TechniquePageClient({
                       </Badge>
                     </div>
                     <h1
-                      className={`text-4xl font-bold mb-4 ${
-                        isRtl ? "text-right" : "text-left"
-                      }`}
+                      className={`text-4xl font-bold mb-4 ${isRtl ? "text-right" : "text-left"
+                        }`}
                     >
                       {title}
                     </h1>
                     {description && (
                       <p
-                        className={`text-xl text-muted-foreground leading-relaxed ${
-                          isRtl ? "text-right" : "text-left"
-                        }`}
+                        className={`text-xl text-muted-foreground leading-relaxed ${isRtl ? "text-right" : "text-left"
+                          }`}
                       >
                         {description
                           .replace(/<\/?[^>]+(>|$)/g, "")
@@ -178,13 +174,13 @@ export default function TechniquePageClient({
                           {extractTextContent(
                             language === "ar"
                               ? step.descriptionAr
-                                  ||
-                                  step.descriptionEn
-                                   
+                              ||
+                              step.descriptionEn
+
                               : step.descriptionEn
-                                   ||
-                                  step.descriptionAr
-                                  
+                              ||
+                              step.descriptionAr
+
                           )}
                         </p>
                       </CardContent>

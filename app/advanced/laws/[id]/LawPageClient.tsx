@@ -1,11 +1,12 @@
 "use client"
-import Link from "next/link"
 import MainLayout from "@/components/layouts/main-layout"
 import { useLanguage } from "@/components/language-provider"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, ArrowRight, Calendar, Tag, Download, Building } from "lucide-react"
+import { Tag, Download, Building } from "lucide-react"
 import type { Law } from "@/core/domain/models/law"
 import type { LawCategory } from "@/core/domain/models/law-category"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useLawsBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 interface LawPageClientProps {
   law: Law
@@ -14,6 +15,15 @@ interface LawPageClientProps {
 
 export default function LawPageClient({ law, category }: LawPageClientProps) {
   const { language, isRtl } = useLanguage()
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useLawsBreadcrumbs(
+    category?.id,
+    category?.nameEn ?? category?.name,
+    category?.name ?? category?.nameEn,
+    law.titleEn ?? law.title ?? undefined,
+    law.title ?? law.titleEn ?? undefined
+  )
 
   // Get content based on language
   const getTitle = (item: Law) => {
@@ -37,41 +47,18 @@ export default function LawPageClient({ law, category }: LawPageClientProps) {
   const lawSummary = getSummary(law)
   const lawContent = getContent(law)
 
-  // Format dates
-  // const formatDate = (dateString: string) => {
-  //   const date = new Date(dateString)
-  //   return date.toLocaleDateString("en-US", {
-  //     year: "numeric",
-  //     month: "long",
-  //     day: "numeric",
-  //   })
-  // }
-
   const handleDownload = () => {
     if (law.documentUrl) {
       window.open(law.documentUrl, "_blank")
     }
   }
 
-  const backUrl = category ? `/advanced/laws/category/${category.id}` : "/advanced#concepts"
-
   return (
     <MainLayout>
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-4 max-w-4xl">
-          {/* Back button */}
-          <div className="mb-6">
-            <Link href={backUrl}>
-              <Button variant="outline" size="sm">
-                {isRtl ? <ArrowRight className="ml-2 h-4 w-4" /> : <ArrowLeft className="mr-2 h-4 w-4" />}
-                {category
-                  ? `${language === "ar" ? "العودة للمفاهيم" : "Back to"} ${getCategoryName()}`
-                  : language === "ar"
-                    ? "العودة للمفاهيم"
-                    : "Back to Standards"}
-              </Button>
-            </Link>
-          </div>
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
 
           {/* Law header */}
           <article className={`${isRtl ? "text-right" : "text-left"}`}>
@@ -115,7 +102,7 @@ export default function LawPageClient({ law, category }: LawPageClientProps) {
               <div className="text-foreground leading-relaxed">
                 {lawContent.split("\n").map(
                   (paragraph, index) =>
-                   <p key={index} className="mb-4">{paragraph}</p>
+                    <p key={index} className="mb-4">{paragraph}</p>
                 )}
               </div>
             </div>
@@ -126,7 +113,7 @@ export default function LawPageClient({ law, category }: LawPageClientProps) {
               {/* <div className="space-y-4">
                 <h3 className="text-lg font-semibold">{language === "ar" ? "التواريخ المهمة" : "Important Dates"}</h3> */}
 
-                {/* {law.enactmentDate && (
+              {/* {law.enactmentDate && (
                   <div className="flex items-center gap-3">
                     <Calendar className="h-4 w-4 text-muted-foreground" />
                     <div>
@@ -136,7 +123,7 @@ export default function LawPageClient({ law, category }: LawPageClientProps) {
                   </div>
                 )} */}
 
-                {/* {law.issueDate && (
+              {/* {law.issueDate && (
                   <div className="flex items-center gap-3">
                     <Calendar className="h-4 w-4 text-muted-foreground" />
                     <div>
@@ -146,7 +133,7 @@ export default function LawPageClient({ law, category }: LawPageClientProps) {
                   </div>
                 )} */}
 
-                {/* {law.effectiveDate && (
+              {/* {law.effectiveDate && (
                   <div className="flex items-center gap-3">
                     <Calendar className="h-4 w-4 text-muted-foreground" />
                     <div>
@@ -192,26 +179,6 @@ export default function LawPageClient({ law, category }: LawPageClientProps) {
                 </div>
               </div>
             )}
-
-            {/* Law footer */}
-            <footer className="mt-12 pt-8 border-t border-border">
-              <div className={`flex justify-between items-center ${isRtl ? "flex-row-reverse" : ""}`}>
-                <Link href={backUrl}>
-                  <Button variant="outline">
-                    {isRtl ? <ArrowRight className="ml-2 h-4 w-4" /> : <ArrowLeft className="mr-2 h-4 w-4" />}
-                    {category
-                      ? `${language === "ar" ? "العودة إلى" : "Back to"} ${getCategoryName()}`
-                      : language === "ar"
-                        ? "العودة للمفاهيم"
-                        : "Back to Standards"}
-                  </Button>
-                </Link>
-
-                {/* <div className="text-sm text-muted-foreground">
-                  {language === "ar" ? "تم النشر في" : "Published on"} {law.createdAt && formatDate(law.createdAt)}
-                </div> */}
-              </div>
-            </footer>
           </article>
         </div>
       </div>

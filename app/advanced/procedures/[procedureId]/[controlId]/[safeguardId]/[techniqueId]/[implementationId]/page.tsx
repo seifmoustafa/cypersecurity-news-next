@@ -4,18 +4,19 @@ import { container } from "@/core/di/container"
 import ImplementationStepDetailPageClient from "./ImplementationStepDetailPageClient"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     procedureId: string
     controlId: string
     safeguardId: string
     techniqueId: string
     implementationId: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const implementationStep = await container.services.procedures.getImplementationStepById(params.implementationId)
+    const resolvedParams = await params
+    const implementationStep = await container.services.procedures.getImplementationStepById(resolvedParams.implementationId)
 
     if (!implementationStep) {
       return {
@@ -41,7 +42,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ImplementationStepDetailPage({ params }: PageProps) {
   try {
-    const implementationStep = await container.services.procedures.getImplementationStepById(params.implementationId)
+    const resolvedParams = await params
+    const implementationStep = await container.services.procedures.getImplementationStepById(resolvedParams.implementationId)
 
     if (!implementationStep) {
       notFound()
@@ -49,11 +51,11 @@ export default async function ImplementationStepDetailPage({ params }: PageProps
 
     return (
       <ImplementationStepDetailPageClient
-        procedureId={params.procedureId}
-        controlId={params.controlId}
-        safeguardId={params.safeguardId}
-        techniqueId={params.techniqueId}
-        implementationId={params.implementationId}
+        procedureId={resolvedParams.procedureId}
+        controlId={resolvedParams.controlId}
+        safeguardId={resolvedParams.safeguardId}
+        techniqueId={resolvedParams.techniqueId}
+        implementationId={resolvedParams.implementationId}
         implementationStep={implementationStep}
       />
     )

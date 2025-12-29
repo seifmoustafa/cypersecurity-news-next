@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react"
 import MainLayout from "@/components/layouts/main-layout"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { ArrowLeft, Calendar, FileText, Shield } from "lucide-react"
+import { Shield } from "lucide-react"
 import Link from "next/link"
 import { useLanguage } from "@/components/language-provider"
 import { container } from "@/core/di/container"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useSimpleAdvancedBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 interface StandardsTechniquePageClientProps {
   technique: {
@@ -34,6 +35,16 @@ export default function StandardsTechniquePageClient({ technique, categoryId, st
   const [implementationSteps, setImplementationSteps] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useSimpleAdvancedBreadcrumbs([
+    { label: "Standards", labelAr: "المعايير", href: "/advanced/standards" },
+    { label: "Category", labelAr: "الفئة", href: `/advanced/standards/${categoryId}` },
+    { label: "Standard", labelAr: "المعيار", href: `/advanced/standards/${categoryId}/${standardId}` },
+    { label: "Control", labelAr: "عنصر التحكم", href: `/advanced/standards/${categoryId}/${standardId}/${controlId}` },
+    { label: "Safeguard", labelAr: "إجراء الحماية", href: `/advanced/standards/${categoryId}/${standardId}/${controlId}/${safeguardId}` },
+    { label: technique.nameEn ?? technique.nameAr ?? "", labelAr: technique.nameAr ?? technique.nameEn ?? "" },
+  ])
+
   useEffect(() => {
     const fetchImplementationSteps = async () => {
       try {
@@ -56,17 +67,11 @@ export default function StandardsTechniquePageClient({ technique, categoryId, st
     <MainLayout>
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-4 max-w-6xl">
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
+
           {/* Header */}
           <div className="mb-8">
-            <div className="flex items-center gap-4 mb-6">
-              <Link href={`/advanced/standards/${categoryId}/${standardId}/${controlId}/${safeguardId}`}>
-                <Button variant="outline" size="sm" className="gap-2">
-                  <ArrowLeft className="h-4 w-4" />
-                  <span>{language === "ar" ? "رجوع إلى الإجراءات حماية" : "Back to Safeguard"}</span>
-                </Button>
-              </Link>
-            </div>
-
             <Card className="border-0 shadow-lg bg-gradient-to-r from-purple-500/5 to-purple-600/10">
               <CardContent className="p-8">
                 <div className="flex items-start gap-6">
@@ -107,7 +112,7 @@ export default function StandardsTechniquePageClient({ technique, categoryId, st
           {/* Implementation Steps Section */}
           <div className="space-y-6">
             <h2 className="text-2xl font-bold">{language === "ar" ? "خطوات التنفيذ" : "Implementation Steps"}</h2>
-            
+
             {loading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[1, 2, 3, 4, 5, 6].map((i) => (

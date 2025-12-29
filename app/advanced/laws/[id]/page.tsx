@@ -4,47 +4,60 @@ import { container } from "@/core/di/container"
 import LawPageClient from "./LawPageClient"
 
 interface PageProps {
-  params: {
-    id: string
-  }
+      params: Promise<{
+            id: string
+      }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  try {
-    const law = await container.services.laws.getLawById(params.id)
+      try {
+            const resolvedParams = await params
+            const law = await container.services.laws.getLawById(resolvedParams.id)
 
-    if (!law) {
-      return {
-        title: "Law Not Found | Cybersecurity Portal",
+            if (!law) {
+                  return {
+                        title: "Law Not Found | Cybersecurity Portal",
+                        description: "The requested law could not be found.",
+                  }
+            }
+
+            const title = law.titleEn || law.title || ""
+            const summary = law.summaryEn || law.summary || ""
+
+            return {
+                  title: `${title} | Cybersecurity Portal`,
+                  description: summary,
+            }
+      } catch (error) {
+            return {
+                  title: "Law | Cybersecurity Portal",
+                  description: "Law details",
+            }
       }
-    }
-
-    return {
-      title: `${law.titleEn || law.title} | Cybersecurity Portal`,
-      description: law.summaryEn || law.summary || "Cybersecurity law details",
-    }
-  } catch (error) {
-    console.error("❌ Error generating metadata for law:", error)
-    return {
-      title: "Law | Cybersecurity Portal",
-    }
-  }
 }
 
 export default async function LawPage({ params }: PageProps) {
-  try {
-    const law = await container.services.laws.getLawById(params.id)
+      try {
+            const resolvedParams = await params
+            const law = await container.services.laws.getLawById(resolvedParams.id)
 
-    if (!law) {
-      notFound()
-    }
+            if (!law) {
+                  notFound()
+            }
 
-    // Get the category details using the correct method name
-    const category = await container.services.laws.getCategoryById(law.categoryId)
+            // Get the category if categoryId exists
+            let category = null
+            if (law.categoryId) {
+                  try {
+                        category = await container.services.laws.getCategoryById(law.categoryId)
+                  } catch (e) {
+                        console.error("Error fetching law category:", e)
+                  }
+            }
 
-    return <LawPageClient law={law} category={category} />
-  } catch (error) {
-    console.error("❌ Error in LawPage:", error)
-    notFound()
-  }
+            return <LawPageClient law={law} category={category} />
+      } catch (error) {
+            console.error("❌ Error in LawPage:", error)
+            notFound()
+      }
 }

@@ -14,6 +14,8 @@ import { getLocalizedText } from "@/lib/utils"
 import { usePersonalProtectCategories } from "@/core/hooks/use-personal-protect-categories"
 import { Pagination } from "@/components/ui/pagination"
 import { PersonalProtectCategory } from "@/core/domain/models/personal-protect"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useSimpleAdvancedBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 // Category icons mapping
 const categoryIcons: Record<string, React.ReactNode> = {
@@ -31,6 +33,11 @@ export default function PersonalProtectCategoriesPageClient() {
   const [currentPage, setCurrentPage] = useState(1)
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("")
   const pageSize = 12
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useSimpleAdvancedBreadcrumbs([
+    { label: "Personal Protect", labelAr: "الحماية الشخصية" },
+  ])
 
   const { categories, loading, error, pagination, refetch } = usePersonalProtectCategories(
     debouncedSearchTerm,
@@ -73,17 +80,11 @@ export default function PersonalProtectCategoriesPageClient() {
     <MainLayout>
       <div className="pt-24 pb-16 bg-gradient-to-br from-background to-muted/20">
         <div className="container mx-auto px-4 max-w-7xl">
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
+
           {/* Header */}
           <div className="mb-8">
-            <div className="flex items-center gap-4 mb-6">
-              <Link href="/advanced#security-requirements">
-                <Button variant="outline" size="sm" className="gap-2">
-                  <ChevronLeft className="h-4 w-4" />
-                  <span>{language === "ar" ? "رجوع" : "Back"}</span>
-                </Button>
-              </Link>
-            </div>
-
             {/* Page Title */}
             <div className="text-center mb-8">
               <div className="w-16 h-16 bg-green-50 dark:bg-green-900/20 rounded-full flex items-center justify-center mx-auto mb-4">

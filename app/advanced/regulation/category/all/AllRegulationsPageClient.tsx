@@ -6,7 +6,6 @@ import { useRegulations } from "@/core/hooks/use-regulations"
 import MainLayout from "@/components/layouts/main-layout"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { getLocalizedText } from "@/lib/utils"
@@ -14,11 +13,19 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 import { Pagination } from "@/components/ui/pagination"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useSimpleAdvancedBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 export default function AllRegulationsPageClient() {
   const { language, isRtl } = useLanguage()
   const [page, setPage] = useState(1)
   const pageSize = 12
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useSimpleAdvancedBreadcrumbs([
+    { label: "Regulations", labelAr: "اللوائح", href: "/advanced/regulation" },
+    { label: "All", labelAr: "الكل" },
+  ])
 
   const { regulations, loading, error, pagination, refetch } = useRegulations(page, pageSize)
 
@@ -30,15 +37,8 @@ export default function AllRegulationsPageClient() {
   if (error) {
     return (
       <MainLayout>
-        <div className="container mx-auto px-4 py-8">
-          <div className="mb-6">
-            <Link href="/advanced#concepts">
-              <Button variant="ghost" className="group flex items-center text-muted-foreground hover:text-foreground">
-                <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                {language === "ar" ? "العودة إلى اللوائح" : "Back to Regulations"}
-              </Button>
-            </Link>
-          </div>
+        <div className="container mx-auto px-4 pt-24 pb-16">
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
 
           <Alert variant="destructive" className="mb-6">
             <AlertCircle className="h-4 w-4" />
@@ -55,15 +55,8 @@ export default function AllRegulationsPageClient() {
 
   return (
     <MainLayout>
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-6">
-          <Link href="/advanced#concepts">
-            <Button variant="ghost" className="group flex items-center text-muted-foreground hover:text-foreground">
-              <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-              {language === "ar" ? "العودة إلى اللوائح" : "Back to Regulations"}
-            </Button>
-          </Link>
-        </div>
+      <div className="container mx-auto px-4 pt-24 pb-16">
+        <AdvancedBreadcrumbs items={breadcrumbItems} />
 
         {loading ? (
           <>

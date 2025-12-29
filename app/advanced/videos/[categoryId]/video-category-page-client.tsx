@@ -14,7 +14,6 @@ import {
   Play,
   Clock,
 } from "lucide-react";
-import Breadcrumbs from "@/components/breadcrumbs";
 import { useVideosByCategoryForProfessionals } from "@/core/hooks/use-videos-by-category-for-professionals";
 import { useVideoCategoriesForProfessionals } from "@/core/hooks/use-video-categories-for-professionals";
 import { useDebounce } from "@/hooks/use-debounce";
@@ -22,6 +21,8 @@ import VideoImageCarousel from "@/components/video-image-carousel";
 import { CommentSection } from "@/components/video/comments";
 import MainLayout from "@/components/layouts/main-layout";
 import { Button } from "@/components/ui/button";
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs";
+import { useSimpleAdvancedBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs";
 
 interface VideoCategoryPageClientProps {
   initialVideos: any[];
@@ -52,6 +53,13 @@ export default function VideoCategoryPageClient({
     12,
     debouncedQuery
   );
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useSimpleAdvancedBreadcrumbs([
+    { label: "Media", labelAr: "المكتبة", href: "/advanced#media" },
+    { label: "Videos", labelAr: "الفيديوهات", href: "/advanced#media" },
+    { label: category.nameEn ?? category.name, labelAr: category.name ?? category.nameEn },
+  ]);
   const { categories: allCategories } = useVideoCategoriesForProfessionals(
     1,
     100
@@ -86,24 +94,8 @@ export default function VideoCategoryPageClient({
         </div>
 
         <div className="relative z-10 container mx-auto px-4 pt-24 pb-8">
-          {/* Header with Back Button */}
-          <div className="flex items-center gap-4 mb-6">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => router.push("/advanced#media")}
-              className="group"
-            >
-              {isRtl ? (
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              ) : (
-                <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-              )}
-              <span className={isRtl ? "mr-2" : "ml-2"}>
-                {language === "ar" ? "العودة إلى الرئيسية" : "Back to Home"}
-              </span>
-            </Button>
-          </div>
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
 
           {/* Search Section */}
           <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8">
@@ -187,12 +179,7 @@ export default function VideoCategoryPageClient({
                     onClick={handleCloseCarousel}
                     className="inline-flex items-center px-6 py-3 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-300 font-semibold rounded-xl transition-colors duration-300"
                   >
-                    {isRtl ? (
-                      <ArrowRight className="h-5 w-5 mr-2" />
-                    ) : (
-                      <ArrowLeft className="h-5 w-5 mr-2" />
-                    )}
-                    {language === "ar" ? "العودة للقائمة" : "Back to List"}
+                    {language === "ar" ? "عودة للقائمة" : "Back to List"}
                   </button>
                 </div>
               </div>

@@ -9,10 +9,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
-import { ChevronLeft, ChevronRight, ArrowLeft, ArrowRight, Globe, Home, Building } from "lucide-react"
-import Link from "next/link"
+import { ArrowLeft, ArrowRight, Globe, Home, Building } from "lucide-react"
 import { container } from "@/core/di/container"
 import type { StandardCategory, Standard, StandardsPaginatedResponse } from "@/core/domain/models/standard"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useStandardsBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 interface StandardsCategoryPageClientProps {
   category: StandardCategory
@@ -31,6 +32,13 @@ export default function StandardsCategoryPageClient({
   const [currentPage, setCurrentPage] = useState(initialPage)
   const [loading, setLoading] = useState(false)
 
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useStandardsBreadcrumbs(
+    category.id,
+    category.nameEn ?? category.nameAr,
+    category.nameAr ?? category.nameEn
+  )
+
   const getCategoryIcon = (categoryName?: string) => {
     const name = (categoryName ?? "").toLowerCase()
     if (name.includes("international")) return <Globe className="h-5 w-5 text-primary" />
@@ -41,7 +49,6 @@ export default function StandardsCategoryPageClient({
 
   const handleStandardClick = (standard: Standard) => {
     console.log("Standard clicked:", standard)
-    // Changed: Use ID instead of slug
     const url = `/advanced/standards/${category.id}/${standard.id}`
     console.log("Navigating to:", url)
     router.push(url)
@@ -56,7 +63,6 @@ export default function StandardsCategoryPageClient({
       setStandards(response)
       setCurrentPage(page)
 
-      // Update URL without page reload
       const url = new URL(window.location.href)
       if (page === 1) {
         url.searchParams.delete("page")
@@ -71,7 +77,6 @@ export default function StandardsCategoryPageClient({
     }
   }
 
-  // Safe access to standards data with fallbacks
   const standardsData = standards?.data || []
   const totalItems = standards?.pagination?.itemsCount || 0
   const pageSize = standards?.pagination?.pageSize || 12
@@ -82,15 +87,8 @@ export default function StandardsCategoryPageClient({
       <MainLayout>
         <div className="pt-36 pb-16">
           <div className="container mx-auto px-4">
-            {/* Breadcrumb */}
-            <div className={`mb-8 ${isRtl ? "text-right" : "text-left"}`}>
-              <Link href="/advanced/standards">
-                <Button variant="ghost" size="sm" className={`gap-2 ${isRtl ? "flex-row-reverse" : "flex-row"}`}>
-                  {isRtl ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-                  <span>{language === "ar" ? "رجوع إلى المعايير" : "Back to Standards"}</span>
-                </Button>
-              </Link>
-            </div>
+            {/* Breadcrumbs */}
+            <AdvancedBreadcrumbs items={breadcrumbItems} />
 
             {/* Page Header */}
             <div className={`mb-12 ${isRtl ? "text-right" : "text-left"}`}>
@@ -106,9 +104,8 @@ export default function StandardsCategoryPageClient({
                 </Badge>
               </div>
               <p
-                className={`text-lg text-muted-foreground max-w-2xl ${
-                  isRtl ? "text-right ml-auto" : "text-left mr-auto"
-                }`}
+                className={`text-lg text-muted-foreground max-w-2xl ${isRtl ? "text-right ml-auto" : "text-left mr-auto"
+                  }`}
               >
                 {language === "ar"
                   ? `استعرض جميع المعايير في فئة ${category.nameAr}`
@@ -157,9 +154,8 @@ export default function StandardsCategoryPageClient({
                         </CardHeader>
                         <CardContent className={isRtl ? "text-right" : "text-left"}>
                           <p
-                            className={`text-muted-foreground line-clamp-3 text-sm mb-4 ${
-                              isRtl ? "text-right" : "text-left"
-                            }`}
+                            className={`text-muted-foreground line-clamp-3 text-sm mb-4 ${isRtl ? "text-right" : "text-left"
+                              }`}
                           >
                             {language === "ar" ? standard.descriptionAr : standard.descriptionEn}
                           </p>

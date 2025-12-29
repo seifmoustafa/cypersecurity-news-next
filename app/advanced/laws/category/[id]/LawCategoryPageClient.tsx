@@ -7,6 +7,8 @@ import { useLanguage } from "@/components/language-provider";
 import { useState } from "react";
 import type { LawCategory } from "@/core/domain/models/law-category";
 import { Law } from "@/core/domain/models/law";
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs";
+import { useLawsBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs";
 
 interface LawCategoryPageClientProps {
   category: LawCategory;
@@ -20,17 +22,25 @@ export default function LawCategoryPageClient({
   const { language, isRtl } = useLanguage();
   const [currentLaws] = useState<Law[]>(laws || []);
 
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useLawsBreadcrumbs(
+    category?.id,
+    category?.nameEn ?? category?.name,
+    category?.name ?? category?.nameEn
+  );
+
   const displayCategoryName =
     language === "ar"
       ? category?.name || category?.nameEn || ""
       : category?.nameEn || category?.name || "";
-  const handleBackClick = () => {
-    router.replace("/advanced#concepts");
-  };
+
   return (
     <MainLayout>
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-4">
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
+
           <div className="mb-12 text-center">
             <h1 className="text-3xl md:text-4xl font-bold mb-2 text-foreground">
               {displayCategoryName}
@@ -43,29 +53,6 @@ export default function LawCategoryPageClient({
                 ? `${currentLaws.length} قانون متاح`
                 : `${currentLaws.length} laws available`}
             </div>
-          </div>
-          <div className="mb-6 flex items-center">
-            <button
-              onClick={handleBackClick}
-              className="flex items-center text-primary hover:text-primary/80 transition-colors"
-              aria-label="Back to advanced"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className={`h-5 w-5 ${isRtl ? "mr-1 rotate-180" : "ml-1"}`}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-              {language === "ar" ? "العودة للمفاهيم" : "Back"}
-            </button>
           </div>
           {currentLaws.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -84,7 +71,7 @@ export default function LawCategoryPageClient({
                 href="/advanced#concepts"
                 className="inline-block bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-md"
               >
-                {language === "ar" ? "العودة للمفاهيم" : "Back to Standards"}
+                {language === "ar" ? "عرض القوانين" : "View Laws"}
               </Link>
             </div>
           )}
@@ -135,9 +122,8 @@ function LawCard({ item }: { item: Law }) {
     <Link href={`/advanced/laws/${item.id}`} className="group">
       <div className="bg-card border rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg h-full flex flex-col">
         <div
-          className={`p-4 flex-1 flex flex-col ${
-            isRtl ? "text-right" : "text-left"
-          }`}
+          className={`p-4 flex-1 flex flex-col ${isRtl ? "text-right" : "text-left"
+            }`}
         >
           <h3 className="text-lg font-bold mb-2 line-clamp-2 text-foreground group-hover:text-primary transition-colors">
             {displayTitle}
@@ -149,9 +135,8 @@ function LawCard({ item }: { item: Law }) {
           {/* Tags */}
           {item.tags && item.tags.length > 0 && (
             <div
-              className={`flex flex-wrap gap-1 mb-4 ${
-                isRtl ? "justify-end" : "justify-start"
-              }`}
+              className={`flex flex-wrap gap-1 mb-4 ${isRtl ? "justify-end" : "justify-start"
+                }`}
             >
               {item.tags.slice(0, 2).map((tag, index) => (
                 <span

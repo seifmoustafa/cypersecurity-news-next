@@ -6,10 +6,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { ArrowLeft, ArrowRight, Download, Calendar, FileText, Presentation } from "lucide-react"
+import { Download, FileText, Presentation } from "lucide-react"
 import type { ApiPresentation } from "@/core/domain/models/media"
-import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { usePresentationsBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 interface PresentationPageClientProps {
   presentation: ApiPresentation
@@ -17,19 +18,12 @@ interface PresentationPageClientProps {
 
 export default function PresentationPageClient({ presentation }: PresentationPageClientProps) {
   const { t, language, isRtl } = useLanguage()
-  const router = useRouter()
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    const options: Intl.DateTimeFormatOptions = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }
-    return date.toLocaleDateString("en-US")
-  }
+  // Breadcrumbs
+  const { items: breadcrumbItems } = usePresentationsBreadcrumbs(
+    presentation.nameEn ?? presentation.nameAr ?? undefined,
+    presentation.nameAr ?? presentation.nameEn ?? undefined
+  )
 
   const handleDownload = () => {
     if (presentation.presentationUrl) {
@@ -45,17 +39,10 @@ export default function PresentationPageClient({ presentation }: PresentationPag
       <div className="min-h-screen bg-background">
         {/* Header */}
         <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-background border-b">
-          <div className="container mx-auto px-4 py-8">
+          <div className="container mx-auto px-4 pt-24 pb-8">
             <div className={`max-w-4xl mx-auto ${isRtl ? "rtl" : "ltr"}`}>
-              {/* Back Button */}
-              <Button
-                variant="ghost"
-                onClick={() => router.back()}
-                className={`mb-6 ${isRtl ? "flex-row-reverse" : ""}`}
-              >
-                {isRtl ? <ArrowRight className="ml-2 h-4 w-4" /> : <ArrowLeft className="mr-2 h-4 w-4" />}
-                {t("common.back")}
-              </Button>
+              {/* Breadcrumbs */}
+              <AdvancedBreadcrumbs items={breadcrumbItems} />
 
               {/* Presentation Header */}
               <div className="flex flex-col lg:flex-row gap-8 items-start">
@@ -183,12 +170,6 @@ export default function PresentationPageClient({ presentation }: PresentationPag
                       <span className="text-sm text-muted-foreground">{t("presentation.created")}</span>
                       <span className="text-sm">{formatDate(presentation.createdAt)}</span>
                     </div> */}
-                    {presentation.updatedAt && (
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-muted-foreground">{t("presentation.updated")}</span>
-                        <span className="text-sm">{formatDate(presentation.updatedAt)}</span>
-                      </div>
-                    )}
                     <div className="flex justify-between items-center">
                       <span className="text-sm text-muted-foreground">{t("presentation.status")}</span>
                       <Badge variant={presentation.isActive ? "default" : "secondary"}>

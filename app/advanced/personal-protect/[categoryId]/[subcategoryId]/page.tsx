@@ -4,15 +4,16 @@ import { container } from "@/core/di/container"
 import PersonalProtectSubCategoryPageClient from "./PersonalProtectSubCategoryPageClient"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     categoryId: string
     subcategoryId: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const subCategory = await container.services.personalProtect.getSubCategoryById(params.subcategoryId)
+    const resolvedParams = await params
+    const subCategory = await container.services.personalProtect.getSubCategoryById(resolvedParams.subcategoryId)
 
     if (!subCategory) {
       return {
@@ -38,13 +39,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function PersonalProtectSubCategoryPage({ params }: PageProps) {
   try {
-    const subCategory = await container.services.personalProtect.getSubCategoryById(params.subcategoryId)
+    const resolvedParams = await params
+    const subCategory = await container.services.personalProtect.getSubCategoryById(resolvedParams.subcategoryId)
 
     if (!subCategory) {
       notFound()
     }
 
-    return <PersonalProtectSubCategoryPageClient subCategory={subCategory} categoryId={params.categoryId} />
+    return <PersonalProtectSubCategoryPageClient subCategory={subCategory} categoryId={resolvedParams.categoryId} />
   } catch (error) {
     console.error("❌ Error in PersonalProtectSubCategoryPage:", error)
     notFound()

@@ -13,6 +13,8 @@ import { useLanguage } from "@/components/language-provider"
 import { getLocalizedText } from "@/lib/utils"
 import { useProcedures } from "@/core/hooks/use-procedures"
 import { Pagination } from "@/components/ui/pagination"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useSimpleAdvancedBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 export default function ProceduresPageClient() {
   const { language, isRtl } = useLanguage()
@@ -20,6 +22,11 @@ export default function ProceduresPageClient() {
   const [currentPage, setCurrentPage] = useState(1)
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("")
   const pageSize = 12
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useSimpleAdvancedBreadcrumbs([
+    { label: "Procedures", labelAr: "الإجراءات" },
+  ])
 
   const { procedures, loading, error, pagination, refetch } = useProcedures(
     currentPage,
@@ -52,17 +59,11 @@ export default function ProceduresPageClient() {
     <MainLayout>
       <div className="pt-24 pb-16 bg-gradient-to-br from-background to-muted/20">
         <div className="container mx-auto px-4 max-w-7xl">
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
+
           {/* Header */}
           <div className="mb-8">
-            <div className="flex items-center gap-4 mb-6">
-              <Link href="/advanced#security-requirements">
-                <Button variant="outline" size="sm" className="gap-2">
-                  <ChevronLeft className="h-4 w-4" />
-                  <span>{language === "ar" ? "رجوع" : "Back"}</span>
-                </Button>
-              </Link>
-            </div>
-
             {/* Page Title */}
             <div className="text-center mb-8">
               <div className="w-16 h-16 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -178,9 +179,9 @@ export default function ProceduresPageClient() {
                             <p
                               className={`whitespace-per-line text-sm text-muted-foreground leading-relaxed line-clamp-3 ${isRtl ? "text-right" : "text-left"}`}
                             >
-                              {description.replace(/<\/?[^>]+(>|$)/g, "").replace(/<br\s*\/?>/gi,"\n").replace(/<\/p>/gi,"\n").trim() || (language === "ar" ? "لا يوجد وصف متاح" : "No description available")}
+                              {description.replace(/<\/?[^>]+(>|$)/g, "").replace(/<br\s*\/?>/gi, "\n").replace(/<\/p>/gi, "\n").trim() || (language === "ar" ? "لا يوجد وصف متاح" : "No description available")}
                             </p>
-                                                         {/* <div className="mt-4 flex items-center justify-between">
+                            {/* <div className="mt-4 flex items-center justify-between">
                                <span className="text-xs text-muted-foreground">
                                  {new Date(procedure.createdAt).toLocaleDateString("en-US", {
                                    month: "numeric",

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { Search, BookOpen, Download, ArrowLeft } from "lucide-react"
+import { Search, BookOpen, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
@@ -13,6 +13,8 @@ import { container } from "@/core/di/container"
 import { getLocalizedText, slugify } from "@/lib/utils"
 import type { ApiLecture, LecturesPaginatedResponse, LectureCategory } from "@/core/domain/models/media"
 import Link from "next/link"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useLecturesBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 interface LectureCategoryPageClientProps {
   initialLectures: LecturesPaginatedResponse
@@ -21,15 +23,22 @@ interface LectureCategoryPageClientProps {
   category: LectureCategory
 }
 
-export default function LectureCategoryPageClient({ 
-  initialLectures, 
-  initialSearch, 
+export default function LectureCategoryPageClient({
+  initialLectures,
+  initialSearch,
   initialPage,
-  category 
+  category
 }: LectureCategoryPageClientProps) {
   const { language, isRtl } = useLanguage()
   const router = useRouter()
   const searchParams = useSearchParams()
+
+  // Breadcrumbs  
+  const { items: breadcrumbItems } = useLecturesBreadcrumbs(
+    category.id,
+    category.nameEn ?? category.name,
+    category.name ?? category.nameEn
+  )
 
   const [lectures, setLectures] = useState<ApiLecture[]>(initialLectures.data || [])
   const [pagination, setPagination] = useState(initialLectures.pagination)
@@ -88,14 +97,14 @@ export default function LectureCategoryPageClient({
   useEffect(() => {
     const search = searchParams.get('search') || ''
     const page = Number(searchParams.get('page')) || 1
-    
+
     // Always update state when URL parameters change
     if (search !== searchTerm) {
       setSearchTerm(search)
       // Fetch lectures when search term changes
       fetchLectures(page, search)
     }
-    
+
     if (page !== currentPage) {
       setCurrentPage(page)
       // Fetch lectures when page changes
@@ -157,22 +166,13 @@ export default function LectureCategoryPageClient({
 
   return (
     <MainLayout>
-      <div className="min-h-screen bg-background">
-        <div className="container mx-auto px-4 py-8">
+      <div className="min-h-screen bg-background pt-24 pb-16">
+        <div className="container mx-auto px-4">
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
+
           {/* Header */}
           <div className="mb-8">
-            <div className="flex items-center gap-4 mb-6">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => router.push("/advanced#media")}
-                className={`flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
-              >
-                <ArrowLeft className="h-4 w-4" />
-                {language === "ar" ? "العودة للمكتبة" : "Back to Media"}
-              </Button>
-            </div>
-
             <div className={`text-center ${isRtl ? "text-right" : "text-left"}`}>
               <h1 className={`text-4xl font-bold mb-4 ${isRtl ? "text-right" : "text-left"}`}>
                 <BookOpen className="inline-block mr-3 h-8 w-8 text-primary" />
@@ -296,13 +296,13 @@ export default function LectureCategoryPageClient({
                   >
                     {language === "ar" ? "السابق" : "Previous"}
                   </Button>
-                  
+
                   <span className="text-sm text-muted-foreground px-4">
                     {language === "ar"
                       ? `الصفحة ${currentPage} من ${pagination.pagesCount}`
                       : `Page ${currentPage} of ${pagination.pagesCount}`}
                   </span>
-                  
+
                   <Button
                     variant="outline"
                     onClick={() => handlePageChange(Math.min(pagination.pagesCount, currentPage + 1))}

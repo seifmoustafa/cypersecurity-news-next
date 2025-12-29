@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react"
 import MainLayout from "@/components/layouts/main-layout"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { ArrowLeft, Calendar, FileText, Shield } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
+import { Shield } from "lucide-react"
 import Link from "next/link"
 import { useLanguage } from "@/components/language-provider"
 import { container } from "@/core/di/container"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { usePersonalProtectBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 interface PersonalProtectCategoryPageClientProps {
   category: {
@@ -26,6 +26,13 @@ export default function PersonalProtectCategoryPageClient({ category }: Personal
   const { language, isRtl } = useLanguage()
   const [subCategories, setSubCategories] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = usePersonalProtectBreadcrumbs(
+    category.id,
+    category.nameEn ?? category.name,
+    category.name ?? category.nameEn
+  )
 
   useEffect(() => {
     const fetchSubCategories = async () => {
@@ -49,17 +56,11 @@ export default function PersonalProtectCategoryPageClient({ category }: Personal
     <MainLayout>
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-4 max-w-6xl">
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
+
           {/* Header */}
           <div className="mb-8">
-            <div className="flex items-center gap-4 mb-6">
-              <Link href="/advanced/personal-protect">
-                <Button variant="outline" size="sm" className="gap-2">
-                  <ArrowLeft className="h-4 w-4" />
-                  <span>{language === "ar" ? "رجوع إلى الحماية الشخصية" : "Back to Personal Protection"}</span>
-                </Button>
-              </Link>
-            </div>
-
             <Card className="border-0 shadow-lg bg-gradient-to-r from-green-500/5 to-green-600/10">
               <CardContent className="p-8">
                 <div className="flex items-start gap-6">
@@ -95,7 +96,7 @@ export default function PersonalProtectCategoryPageClient({ category }: Personal
           {/* Sub-Categories Section */}
           <div className="space-y-6">
             <h2 className="text-2xl font-bold">{language === "ar" ? "الفئات الفرعية" : "Sub-Categories"}</h2>
-            
+
             {loading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[1, 2, 3, 4, 5, 6].map((i) => (

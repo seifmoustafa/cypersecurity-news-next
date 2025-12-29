@@ -7,18 +7,23 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Search, Calendar, ArrowRight, ArrowLeft } from "lucide-react"
+import { Search, Calendar, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { useRouter } from "next/navigation"
 import MainLayout from "@/components/layouts/main-layout"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useSimpleAdvancedBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 export default function AwarenessYearsPageClient() {
   const { language, isRtl } = useLanguage()
-  const router = useRouter()
   const [search, setSearch] = useState("")
   const [page, setPage] = useState(1)
   const pageSize = 100
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useSimpleAdvancedBreadcrumbs([
+    { label: "Awareness Years", labelAr: "سنوات التوعية" },
+  ])
 
   const { data, loading, error } = useAwarenessYears(search, page, pageSize)
 
@@ -29,14 +34,9 @@ export default function AwarenessYearsPageClient() {
 
   return (
     <MainLayout>
-      <div className="container mx-auto px-4 py-8">
-        {/* Back Button to Homepage Awareness Section */}
-        <div className="mb-6">
-          <Button variant="ghost" onClick={() => router.push("/advanced#awareness")} className="flex items-center gap-2">
-            {isRtl ? <ArrowRight className="h-4 w-4" /> : <ArrowLeft className="h-4 w-4" />}
-            {language === "ar" ? "العودة للرئيسية" : "Back to Home"}
-          </Button>
-        </div>
+      <div className="container mx-auto px-4 pt-24 pb-16">
+        {/* Breadcrumbs */}
+        <AdvancedBreadcrumbs items={breadcrumbItems} />
 
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-4">

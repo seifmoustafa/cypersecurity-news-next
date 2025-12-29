@@ -3,49 +3,51 @@ import { notFound } from "next/navigation"
 import { container } from "@/core/di/container"
 import ArticlePageClient from "./ArticlePageClient"
 
-interface ArticlePageProps {
-  params: {
-    id: string
-  }
+interface PageProps {
+      params: Promise<{
+            id: string
+      }>
 }
 
-export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
-  try {
-    const article = await container.services.articles.getArticleById(params.id)
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+      try {
+            const resolvedParams = await params
+            const article = await container.services.articles.getArticleById(resolvedParams.id)
 
-    if (!article) {
-      return {
-        title: "Article Not Found | CYS Portal",
-        description: "The requested article could not be found",
+            if (!article) {
+                  return {
+                        title: "Article Not Found | Cybersecurity Portal",
+                        description: "The requested article could not be found.",
+                  }
+            }
+
+            const title = article.titleEn || article.title || ""
+            const summary = article.summaryEn || article.summary || ""
+
+            return {
+                  title: `${title} | Cybersecurity Portal`,
+                  description: summary,
+            }
+      } catch (error) {
+            return {
+                  title: "Article | Cybersecurity Portal",
+                  description: "Article details",
+            }
       }
-    }
-
-    return {
-      title: `${article.titleEn || article.title} | CYS Portal`,
-      description: article.summaryEn || article.summary || "Read this cybersecurity article",
-    }
-  } catch (error) {
-    return {
-      title: "Article Not Found | CYS Portal",
-      description: "The requested article could not be found",
-    }
-  }
 }
 
-export default async function ArticlePage({ params }: ArticlePageProps) {
-  try {
-    console.log(`🔍 Attempting to fetch article with ID: ${params.id}`)
-    const article = await container.services.articles.getArticleById(params.id)
+export default async function ArticlePage({ params }: PageProps) {
+      try {
+            const resolvedParams = await params
+            const article = await container.services.articles.getArticleById(resolvedParams.id)
 
-    if (!article) {
-      console.log(`❌ No article found for ID: ${params.id}`)
-      notFound()
-    }
+            if (!article) {
+                  notFound()
+            }
 
-    console.log(`✅ Successfully loaded article: ${article.title || article.titleEn}`)
-    return <ArticlePageClient article={article} />
-  } catch (error) {
-    console.error(`❌ Error in ArticlePage for ID ${params.id}:`, error)
-    notFound()
-  }
+            return <ArticlePageClient article={article} />
+      } catch (error) {
+            console.error("❌ Error in ArticlePage:", error)
+            notFound()
+      }
 }

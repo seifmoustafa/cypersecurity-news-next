@@ -6,12 +6,13 @@ import { useAwarenessYears, useAwarenessByYearId } from "@/core/hooks/use-awaren
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Search, ArrowRight, ArrowLeft, Calendar, Download, FileText } from "lucide-react"
+import { Search, Calendar, Download, FileText } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { useRouter } from "next/navigation"
 import { getLocalizedText } from "@/lib/utils"
 import MainLayout from "@/components/layouts/main-layout"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useAwarenessBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 interface AwarenessYearPageClientProps {
   year: string
@@ -19,11 +20,13 @@ interface AwarenessYearPageClientProps {
 
 export default function AwarenessYearPageClient({ year }: AwarenessYearPageClientProps) {
   const { language, isRtl } = useLanguage()
-  const router = useRouter()
   const [search, setSearch] = useState("")
   const [page, setPage] = useState(1)
   const [yearId, setYearId] = useState<string>("")
   const pageSize = 12
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useAwarenessBreadcrumbs(year)
 
   // First, get all years to find the yearId for the given year
   const { data: yearsData } = useAwarenessYears("", 1, 100)
@@ -107,14 +110,9 @@ export default function AwarenessYearPageClient({ year }: AwarenessYearPageClien
 
   return (
     <MainLayout>
-      <div className="container mx-auto px-4 py-8">
-        {/* Back Button to Years Page */}
-        <div className="mb-6">
-          <Button variant="ghost" onClick={() => router.push("/advanced/awareness/years")} className="flex items-center gap-2">
-            {isRtl ? <ArrowRight className="h-4 w-4" /> : <ArrowLeft className="h-4 w-4" />}
-            {language === "ar" ? "العودة للسنوات" : "Back to Years"}
-          </Button>
-        </div>
+      <div className="container mx-auto px-4 pt-24 pb-16">
+        {/* Breadcrumbs */}
+        <AdvancedBreadcrumbs items={breadcrumbItems} />
 
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-4">

@@ -6,6 +6,11 @@ export const metadata: Metadata = {
   description: "Awareness content for specific year",
 }
 
-export default function AwarenessYearPage({ params }: { params: { year: string } }) {
-  return <AwarenessYearPageClient year={params.year} />
+interface PageProps {
+  params: Promise<{ year: string }>
+}
+
+export default async function AwarenessYearPage({ params }: PageProps) {
+  const resolvedParams = await params
+  return <AwarenessYearPageClient year={resolvedParams.year} />
 }

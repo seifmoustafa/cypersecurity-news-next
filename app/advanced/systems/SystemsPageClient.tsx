@@ -11,8 +11,9 @@ import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
 import { ExternalLink, Search, ArrowLeft, ArrowRight } from "lucide-react"
 import Image from "next/image"
-import Link from "next/link"
 import MainLayout from "@/components/layouts/main-layout"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useSimpleAdvancedBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 interface SystemsPageClientProps {
   initialSystems: SystemsPaginatedResponse
@@ -28,6 +29,11 @@ export default function SystemsPageClient({ initialSystems }: SystemsPageClientP
   const [searchTerm, setSearchTerm] = useState(searchParams.get("search") || "")
   const [currentPage, setCurrentPage] = useState(Number.parseInt(searchParams.get("page") || "1"))
   const [pagination, setPagination] = useState(initialSystems.pagination)
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useSimpleAdvancedBreadcrumbs([
+    { label: "Systems", labelAr: "الأنظمة" },
+  ])
 
   const loadSystems = async (page: number, search?: string) => {
     try {
@@ -73,17 +79,13 @@ export default function SystemsPageClient({ initialSystems }: SystemsPageClientP
 
   return (
     <MainLayout>
-      <div className="min-h-screen bg-background">
-        <div className="container mx-auto px-4 py-8">
+      <div className="min-h-screen bg-background pt-24 pb-16">
+        <div className="container mx-auto px-4">
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
+
           {/* Header */}
           <div className="text-center mb-8">
-            <Link
-              href="/advanced#systems"
-              className={`inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors mb-4 ${isRtl ? "flex-row-reverse" : ""}`}
-            >
-              {isRtl ? <ArrowRight className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />}
-              {t("systemsPage.backToHome")}
-            </Link>
             <h1 className={`text-4xl font-bold text-foreground mb-4 ${isRtl ? "text-right" : "text-left"}`}>
               {t("systemsPage.title")}
             </h1>

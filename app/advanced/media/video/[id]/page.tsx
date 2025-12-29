@@ -4,14 +4,15 @@ import { container } from "@/core/di/container"
 import VideoPageClient from "./VideoPageClient"
 
 interface VideoPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: VideoPageProps): Promise<Metadata> {
   try {
-    const video = await container.services.media.getApiVideoById(params.id)
+    const resolvedParams = await params
+    const video = await container.services.media.getApiVideoById(resolvedParams.id)
 
     if (!video) {
       return {
@@ -34,7 +35,8 @@ export async function generateMetadata({ params }: VideoPageProps): Promise<Meta
 
 export default async function VideoPage({ params }: VideoPageProps) {
   try {
-    const video = await container.services.media.getApiVideoById(params.id)
+    const resolvedParams = await params
+    const video = await container.services.media.getApiVideoById(resolvedParams.id)
 
     if (!video) {
       notFound()

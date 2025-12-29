@@ -3,7 +3,7 @@ import { useInstructionYearsByCategory } from "@/core/hooks/use-instruction-year
 import type { InstructionCategory } from "@/core/domain/models/instruction-category";
 import { useLanguage } from "@/components/language-provider";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Calendar } from "lucide-react";
+import { Calendar } from "lucide-react";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -11,6 +11,8 @@ import { AlertCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { getLocalizedText } from "@/lib/utils";
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs";
+import { useInstructionsBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs";
 
 interface InstructionCategoryPageClientProps {
   categoryId: string;
@@ -28,6 +30,13 @@ export default function InstructionCategoryPageClient({
     error: yearsError,
     refetch: refetchYears,
   } = useInstructionYearsByCategory(initialCategory.id);
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useInstructionsBreadcrumbs(
+    categoryId,
+    initialCategory.nameEn ?? initialCategory.name,
+    initialCategory.name ?? initialCategory.nameEn
+  );
 
   const categoryTitle = getLocalizedText(
     language,
@@ -57,17 +66,10 @@ export default function InstructionCategoryPageClient({
     return (
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-4">
-          <div className="mb-8 flex items-center">
-            <Link href="/advanced#security-requirements">
-              <Button variant="ghost" size="sm" className="gap-1">
-                <ChevronLeft className="h-4 w-4" />
-                <span>{language === "ar" ? "رجوع" : "Back"}</span>
-              </Button>
-            </Link>
-            <h1 className="text-3xl font-bold text-center flex-1">
-              {categoryTitle}
-            </h1>
-          </div>
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
+          <h1 className="text-3xl font-bold text-center mb-8">
+            {categoryTitle}
+          </h1>
 
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
@@ -90,17 +92,10 @@ export default function InstructionCategoryPageClient({
   return (
     <div className="pt-24 pb-16">
       <div className="container mx-auto px-4">
-        <div className="mb-8 flex items-center">
-          <Link href="/advanced#security-requirements">
-            <Button variant="ghost" size="sm" className="gap-1">
-              <ChevronLeft className="h-4 w-4" />
-              <span>{language === "ar" ? "رجوع" : "Back"}</span>
-            </Button>
-          </Link>
-          <h1 className="text-3xl font-bold text-center flex-1">
-            {categoryTitle}
-          </h1>
-        </div>
+        <AdvancedBreadcrumbs items={breadcrumbItems} />
+        <h1 className="text-3xl font-bold text-center mb-8">
+          {categoryTitle}
+        </h1>
 
         <div className="mb-8 text-center">
           <p className="text-muted-foreground text-lg">

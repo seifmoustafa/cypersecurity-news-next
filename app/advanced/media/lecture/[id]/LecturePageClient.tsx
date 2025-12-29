@@ -5,9 +5,17 @@ import { notFound } from "next/navigation"
 import Image from "next/image"
 import MainLayout from "@/components/layouts/main-layout"
 import { Button } from "@/components/ui/button"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useSimpleAdvancedBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 export default function LecturePageClient({ params }: { params: { id: string } }) {
   const lecture = mediaLibraryData.lectures.find((item) => item.id.toString() === params.id)
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useSimpleAdvancedBreadcrumbs([
+    { label: "Media", labelAr: "المكتبة", href: "/advanced#media" },
+    { label: "Lectures", labelAr: "المحاضرات" },
+  ])
 
   if (!lecture) {
     notFound()
@@ -15,8 +23,9 @@ export default function LecturePageClient({ params }: { params: { id: string } }
 
   return (
     <MainLayout>
-      <article className="pt-36 pb-16 bg-gradient-to-br from-blue-50/30 via-white to-purple-50/30 dark:from-blue-950/30 dark:via-slate-900 dark:to-purple-950/30">
+      <article className="pt-24 pb-16 bg-gradient-to-br from-blue-50/30 via-white to-purple-50/30 dark:from-blue-950/30 dark:via-slate-900 dark:to-purple-950/30">
         <div className="container mx-auto px-4">
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
           <div className="max-w-5xl mx-auto">
             {/* Enhanced Header Section */}
             <div className="mb-12 text-center">
@@ -26,14 +35,14 @@ export default function LecturePageClient({ params }: { params: { id: string } }
                 </svg>
                 Lecture
               </div>
-              
+
               <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 dark:from-blue-400 dark:via-purple-400 dark:to-blue-400 bg-clip-text text-transparent">
                 {lecture.title.ar}
               </h1>
               <h2 className="text-xl md:text-2xl font-semibold mb-8 text-muted-foreground">
                 {lecture.title.en}
               </h2>
-              
+
               <div className="max-w-3xl mx-auto">
                 <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-blue-200/30 dark:border-blue-800/30 shadow-lg shadow-blue-500/10 dark:shadow-blue-500/20">
                   <p className="text-lg text-muted-foreground mb-4">{lecture.description.ar}</p>

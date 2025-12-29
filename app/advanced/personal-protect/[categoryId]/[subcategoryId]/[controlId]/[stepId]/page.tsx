@@ -4,17 +4,18 @@ import { container } from "@/core/di/container"
 import PersonalProtectControlStepDetailPageClient from "./PersonalProtectControlStepDetailPageClient"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     categoryId: string
     subcategoryId: string
     controlId: string
     stepId: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const step = await container.services.personalProtectControlStep.getPersonalProtectControlStepById(params.stepId)
+    const resolvedParams = await params
+    const step = await container.services.personalProtectControlStep.getPersonalProtectControlStepById(resolvedParams.stepId)
 
     if (!step) {
       return {
@@ -40,7 +41,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function PersonalProtectControlStepDetailPage({ params }: PageProps) {
   try {
-    const step = await container.services.personalProtectControlStep.getPersonalProtectControlStepById(params.stepId)
+    const resolvedParams = await params
+    const step = await container.services.personalProtectControlStep.getPersonalProtectControlStepById(resolvedParams.stepId)
 
     if (!step) {
       notFound()
@@ -48,10 +50,10 @@ export default async function PersonalProtectControlStepDetailPage({ params }: P
 
     return (
       <PersonalProtectControlStepDetailPageClient
-        categoryId={params.categoryId}
-        subcategoryId={params.subcategoryId}
-        controlId={params.controlId}
-        stepId={params.stepId}
+        categoryId={resolvedParams.categoryId}
+        subcategoryId={resolvedParams.subcategoryId}
+        controlId={resolvedParams.controlId}
+        stepId={resolvedParams.stepId}
         step={step}
       />
     )

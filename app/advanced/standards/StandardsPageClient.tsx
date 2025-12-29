@@ -11,12 +11,12 @@ import {
   Building,
   ArrowRight,
   ArrowLeft,
-  ChevronRight,
-  ChevronLeft,
 } from "lucide-react";
 import Link from "next/link";
 import { getLocalizedText } from "@/lib/utils";
 import type { StandardCategory } from "@/core/domain/models/standard";
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs";
+import { useSimpleAdvancedBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs";
 
 interface StandardsPageClientProps {
   categories: StandardCategory[];
@@ -26,6 +26,11 @@ export default function StandardsPageClient({
   categories,
 }: StandardsPageClientProps) {
   const { language, isRtl, t } = useLanguage();
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useSimpleAdvancedBreadcrumbs([
+    { label: "Standards", labelAr: "المعايير" },
+  ]);
 
   const getCategoryIcon = (categoryName?: string) => {
     const name = (categoryName ?? "").toLowerCase();
@@ -43,28 +48,14 @@ export default function StandardsPageClient({
       <MainLayout>
         <div className="pt-24 pb-16">
           <div className="container mx-auto px-4">
-            <Link href="/advanced#concepts">
-              <Button
-                variant="ghost"
-                size="sm"
-                className={`gap-2 ${isRtl ? "flex-row-reverse" : "flex-row"}`}
-              >
-                {isRtl ? (
-                  <ChevronRight className="h-4 w-4" />
-                ) : (
-                  <ChevronLeft className="h-4 w-4" />
-                )}
-                <span>
-                  {language === "ar" ? "رجوع إلى الرئيسية" : "Back to Home"}
-                </span>
-              </Button>
-            </Link>
+            {/* Breadcrumbs */}
+            <AdvancedBreadcrumbs items={breadcrumbItems} />
+
             {/* Page Header */}
             <div className="mb-12">
               <div
-                className={`text-center mb-8 ${
-                  isRtl ? "text-right" : "text-left"
-                }`}
+                className={`text-center mb-8 ${isRtl ? "text-right" : "text-left"
+                  }`}
               >
                 <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 bg-clip-text text-transparent mb-4">
                   {t("standards.title")}
@@ -96,9 +87,8 @@ export default function StandardsPageClient({
                               </div>
                             </div>
                             <CardTitle
-                              className={`text-xl ${
-                                isRtl ? "text-right" : "text-left"
-                              }`}
+                              className={`text-xl ${isRtl ? "text-right" : "text-left"
+                                }`}
                             >
                               {language === "ar"
                                 ? category.nameAr
@@ -106,9 +96,8 @@ export default function StandardsPageClient({
                             </CardTitle>
                           </CardHeader>
                           <CardContent
-                            className={`text-center ${
-                              isRtl ? "text-right" : "text-left"
-                            }`}
+                            className={`text-center ${isRtl ? "text-right" : "text-left"
+                              }`}
                           >
                             <p className="text-muted-foreground mb-6 line-clamp-3">
                               {language === "ar"
@@ -117,9 +106,8 @@ export default function StandardsPageClient({
                             </p>
                             <Button
                               variant="outline"
-                              className={`w-full gap-2 ${
-                                isRtl ? "flex-row-reverse" : ""
-                              }`}
+                              className={`w-full gap-2 ${isRtl ? "flex-row-reverse" : ""
+                                }`}
                             >
                               <span>{t("standards.explore")}</span>
                               {isRtl ? (

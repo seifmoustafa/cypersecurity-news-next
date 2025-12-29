@@ -4,15 +4,16 @@ import { container } from "@/core/di/container"
 import ControlPageClient from "./ControlPageClient"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     procedureId: string
     controlId: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const control = await container.services.procedures.getControlById(params.controlId)
+    const resolvedParams = await params
+    const control = await container.services.procedures.getControlById(resolvedParams.controlId)
 
     if (!control) {
       return {
@@ -38,13 +39,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ControlPage({ params }: PageProps) {
   try {
-    const control = await container.services.procedures.getControlById(params.controlId)
+    const resolvedParams = await params
+    const control = await container.services.procedures.getControlById(resolvedParams.controlId)
 
     if (!control) {
       notFound()
     }
 
-    return <ControlPageClient control={control} procedureId={params.procedureId} />
+    return <ControlPageClient control={control} procedureId={resolvedParams.procedureId} />
   } catch (error) {
     console.error("❌ Error in ControlPage:", error)
     notFound()

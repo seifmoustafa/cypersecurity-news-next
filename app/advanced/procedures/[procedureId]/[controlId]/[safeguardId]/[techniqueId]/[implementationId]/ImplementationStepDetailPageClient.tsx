@@ -5,15 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
-  ChevronLeft,
   Shield,
-  Calendar,
   FileText,
   Image as ImageIcon,
   Download,
   Eye,
 } from "lucide-react";
-import Link from "next/link";
 import { useLanguage } from "@/components/language-provider";
 import type { ProcedureImplementationStep } from "@/core/domain/models/procedure";
 import { getLocalizedText } from "@/lib/utils";
@@ -25,6 +22,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useState } from "react";
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs";
+import { useSimpleAdvancedBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs";
 
 interface ImplementationStepDetailPageClientProps {
   procedureId: string;
@@ -46,6 +45,16 @@ export default function ImplementationStepDetailPageClient({
   const { language, isRtl } = useLanguage();
   const [imageDialogOpen, setImageDialogOpen] = useState(false);
 
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useSimpleAdvancedBreadcrumbs([
+    { label: "Procedures", labelAr: "الإجراءات", href: "/advanced/procedures" },
+    { label: "Procedure", labelAr: "الإجراء", href: `/advanced/procedures/${procedureId}` },
+    { label: "Control", labelAr: "عنصر التحكم", href: `/advanced/procedures/${procedureId}/${controlId}` },
+    { label: "Safeguard", labelAr: "إجراء الحماية", href: `/advanced/procedures/${procedureId}/${controlId}/${safeguardId}` },
+    { label: "Technique", labelAr: "التقنية", href: `/advanced/procedures/${procedureId}/${controlId}/${safeguardId}/${techniqueId}` },
+    { label: implementationStep.nameEn ?? implementationStep.nameAr ?? "", labelAr: implementationStep.nameAr ?? implementationStep.nameEn ?? "" },
+  ]);
+
   const title = getLocalizedText(
     language,
     implementationStep.nameAr,
@@ -61,27 +70,11 @@ export default function ImplementationStepDetailPageClient({
     <MainLayout>
       <div className="pt-24 pb-16 bg-gradient-to-br from-background via-background to-muted/30">
         <div className="container mx-auto px-4 max-w-6xl">
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
+
           {/* Header */}
           <div className="mb-12">
-            <div className="flex items-center gap-4 mb-8">
-              <Link
-                href={`/advanced/procedures/${procedureId}/${controlId}/${safeguardId}/${techniqueId}`}
-              >
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="gap-2 hover:bg-primary/5 transition-colors"
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                  <span>
-                    {language === "ar"
-                      ? "رجوع إلى التقنية"
-                      : "Back to Technique"}
-                  </span>
-                </Button>
-              </Link>
-            </div>
-
             {/* Implementation Step Title Card */}
             <Card className="border-0 shadow-2xl bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 backdrop-blur-sm">
               <CardContent className="p-10">
@@ -106,17 +99,15 @@ export default function ImplementationStepDetailPageClient({
                       </Badge>
                     </div>
                     <h1
-                      className={`text-4xl font-bold mb-4 bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent ${
-                        isRtl ? "text-right" : "text-left"
-                      }`}
+                      className={`text-4xl font-bold mb-4 bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent ${isRtl ? "text-right" : "text-left"
+                        }`}
                     >
                       {title}
                     </h1>
                     {description ? (
                       <p
-                        className={`text-xl text-muted-foreground leading-relaxed ${
-                          isRtl ? "text-right" : "text-left"
-                        }`}
+                        className={`text-xl text-muted-foreground leading-relaxed ${isRtl ? "text-right" : "text-left"
+                          }`}
                       >
                         {getLocalizedText(
                           language,
@@ -128,9 +119,8 @@ export default function ImplementationStepDetailPageClient({
                       </p>
                     ) : (
                       <p
-                        className={`text-xl text-muted-foreground leading-relaxed ${
-                          isRtl ? "text-right" : "text-left"
-                        }`}
+                        className={`text-xl text-muted-foreground leading-relaxed ${isRtl ? "text-right" : "text-left"
+                          }`}
                       >
                         {language === "ar"
                           ? "لا يوجد وصف متاح"
@@ -160,46 +150,43 @@ export default function ImplementationStepDetailPageClient({
               .descriptionAr ||
               implementationStep
                 .descriptionEn) && (
-              <Card className="border-0 shadow-xl bg-gradient-to-br from-card to-card/50 backdrop-blur-sm">
-                <CardHeader className="pb-6">
-                  <CardTitle
-                    className={`flex items-center gap-3 text-2xl font-bold ${
-                      isRtl ? "text-right" : "text-left"
-                    }`}
-                  >
-                    <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
-                      <FileText className="h-5 w-5 text-primary" />
-                    </div>
-                    {language === "ar"
-                      ? "الوصف التفصيلي"
-                      : "Detailed Description"}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="pb-8">
-                  <div
-                    className={`prose prose-lg dark:prose-invert max-w-none leading-relaxed ${
-                      isRtl ? "text-right" : "text-left"
-                    }`}
-                    dangerouslySetInnerHTML={{
-                      __html: getLocalizedText(
-                        language,
-                        implementationStep.descriptionAr,
-                        implementationStep.descriptionEn
-                      ),
-                    }}
-                  />
-                </CardContent>
-              </Card>
-            )}
+                <Card className="border-0 shadow-xl bg-gradient-to-br from-card to-card/50 backdrop-blur-sm">
+                  <CardHeader className="pb-6">
+                    <CardTitle
+                      className={`flex items-center gap-3 text-2xl font-bold ${isRtl ? "text-right" : "text-left"
+                        }`}
+                    >
+                      <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                        <FileText className="h-5 w-5 text-primary" />
+                      </div>
+                      {language === "ar"
+                        ? "الوصف التفصيلي"
+                        : "Detailed Description"}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="pb-8">
+                    <div
+                      className={`prose prose-lg dark:prose-invert max-w-none leading-relaxed ${isRtl ? "text-right" : "text-left"
+                        }`}
+                      dangerouslySetInnerHTML={{
+                        __html: getLocalizedText(
+                          language,
+                          implementationStep.descriptionAr,
+                          implementationStep.descriptionEn
+                        ),
+                      }}
+                    />
+                  </CardContent>
+                </Card>
+              )}
 
             {/* Image Section */}
             {implementationStep.imageUrl && (
               <Card className="border-0 shadow-xl bg-gradient-to-br from-card to-card/50 backdrop-blur-sm">
                 <CardHeader className="pb-6">
                   <CardTitle
-                    className={`flex items-center gap-3 text-2xl font-bold ${
-                      isRtl ? "text-right" : "text-left"
-                    }`}
+                    className={`flex items-center gap-3 text-2xl font-bold ${isRtl ? "text-right" : "text-left"
+                      }`}
                   >
                     <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
                       <ImageIcon className="h-5 w-5 text-primary" />
@@ -262,9 +249,8 @@ export default function ImplementationStepDetailPageClient({
               <Card className="border-0 shadow-xl bg-gradient-to-br from-card to-card/50 backdrop-blur-sm">
                 <CardHeader className="pb-6">
                   <CardTitle
-                    className={`flex items-center gap-3 text-2xl font-bold ${
-                      isRtl ? "text-right" : "text-left"
-                    }`}
+                    className={`flex items-center gap-3 text-2xl font-bold ${isRtl ? "text-right" : "text-left"
+                      }`}
                   >
                     <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
                       <FileText className="h-5 w-5 text-primary" />

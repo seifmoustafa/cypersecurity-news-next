@@ -5,7 +5,7 @@ import type { InstructionCategory } from "@/core/domain/models/instruction-categ
 import type { Instruction } from "@/core/domain/models/instruction"
 import { useLanguage } from "@/components/language-provider"
 import { Button } from "@/components/ui/button"
-import { ChevronLeft, FileText, Download, Calendar, Eye, Clock } from "lucide-react"
+import { FileText, Download, Calendar, Eye, Clock } from "lucide-react"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -13,6 +13,8 @@ import { useInstructionsByYearId } from "@/core/hooks/use-instructions"
 import { useState } from "react"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useInstructionsBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 interface InstructionYearPageClientProps {
   categoryId: string
@@ -149,6 +151,15 @@ export default function InstructionYearPageClient({
   const [currentPage, setCurrentPage] = useState(1)
   const pageSize = 10
 
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useInstructionsBreadcrumbs(
+    categoryId,
+    initialCategory.nameEn ?? initialCategory.name,
+    initialCategory.name ?? initialCategory.nameEn,
+    yearId,
+    String(initialYear.year)
+  )
+
   // Debug: Log the year ID being passed
   console.log("Year ID being passed to hook:", initialYear.id)
   console.log("Full initialYear object:", initialYear)
@@ -179,20 +190,15 @@ export default function InstructionYearPageClient({
   return (
     <div className="pt-24 pb-16">
       <div className="container mx-auto px-4">
+        {/* Breadcrumbs */}
+        <AdvancedBreadcrumbs items={breadcrumbItems} />
+
         {/* Header */}
-        <div className="mb-8 flex items-center">
-          <Link href={`/advanced/instructions/category/${categoryId}`}>
-            <Button variant="ghost" size="sm" className="gap-1">
-              <ChevronLeft className="h-4 w-4" />
-              <span>{language === "ar" ? "رجوع" : "Back"}</span>
-            </Button>
-          </Link>
-          <h1 className="text-3xl font-bold text-center flex-1">
-            {language === "ar"
-              ? `تعليمات ${categoryTitle} - ${initialYear.year}`
-              : `${categoryTitle} Instructions - ${initialYear.year}`}
-          </h1>
-        </div>
+        <h1 className="text-3xl font-bold text-center mb-8">
+          {language === "ar"
+            ? `تعليمات ${categoryTitle} - ${initialYear.year}`
+            : `${categoryTitle} Instructions - ${initialYear.year}`}
+        </h1>
 
         {/* Year Info Card */}
         <Card className="mb-8">

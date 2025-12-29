@@ -14,8 +14,9 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Download, Search, ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import MainLayout from "@/components/layouts/main-layout";
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs";
+import { useSimpleAdvancedBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs";
 
 interface HelperSystemsPageClientProps {
   initialHelperSystems: HelperSystemsResponse;
@@ -27,6 +28,11 @@ export default function HelperSystemsPageClient({
   const { language, isRtl } = useLanguage();
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useSimpleAdvancedBreadcrumbs([
+    { label: "Helper Systems", labelAr: "الأنظمة المساعدة" },
+  ]);
 
   const [helperSystems, setHelperSystems] = useState<HelperSystem[]>(
     initialHelperSystems.data || []
@@ -59,9 +65,8 @@ export default function HelperSystemsPageClient({
       }
       params.set("page", page.toString());
 
-      const newUrl = `/advanced/helper-systems${
-        params.toString() ? `?${params.toString()}` : ""
-      }`;
+      const newUrl = `/advanced/helper-systems${params.toString() ? `?${params.toString()}` : ""
+        }`;
       router.replace(newUrl, { scroll: false });
     } catch (error) {
       console.error("Error loading helper systems:", error);
@@ -86,7 +91,7 @@ export default function HelperSystemsPageClient({
     console.log("Url of the helper", downloadUrl);
     const link = document.createElement("a");
     link.href = downloadUrl;
-    link.rel="noopener"
+    link.rel = "noopener"
     // link.download = name || "download";
     // link.target = "_blank";
     document.body.appendChild(link);
@@ -108,34 +113,22 @@ export default function HelperSystemsPageClient({
 
   return (
     <MainLayout>
-      <div className="min-h-screen bg-background">
-        <div className="container mx-auto px-4 py-8">
+      <div className="min-h-screen bg-background pt-24 pb-16">
+        <div className="container mx-auto px-4">
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
+
           {/* Header */}
           <div className="text-center mb-8">
-            <Link
-              href="/advanced#helper-systems"
-              className={`inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors mb-4 ${
-                isRtl ? "flex-row-reverse" : ""
-              }`}
-            >
-              {isRtl ? (
-                <ArrowRight className="w-4 h-4" />
-              ) : (
-                <ArrowLeft className="w-4 h-4" />
-              )}
-              {language === "ar" ? "العودة للرئيسية" : "Back to Home"}
-            </Link>
             <h1
-              className={`text-4xl font-bold text-foreground mb-4 ${
-                isRtl ? "text-right" : "text-left"
-              }`}
+              className={`text-4xl font-bold text-foreground mb-4 ${isRtl ? "text-right" : "text-left"
+                }`}
             >
               {language === "ar" ? "الأنظمة المساعدة" : "Helper Systems"}
             </h1>
             <p
-              className={`text-muted-foreground text-lg ${
-                isRtl ? "text-right" : "text-left"
-              }`}
+              className={`text-muted-foreground text-lg ${isRtl ? "text-right" : "text-left"
+                }`}
             >
               {language === "ar"
                 ? "تصفح وتحميل جميع الأنظمة المساعدة المتاحة"
@@ -147,9 +140,8 @@ export default function HelperSystemsPageClient({
           <div className="mb-8">
             <div className="relative max-w-md mx-auto">
               <Search
-                className={`absolute top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5 ${
-                  isRtl ? "right-3" : "left-3"
-                }`}
+                className={`absolute top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5 ${isRtl ? "right-3" : "left-3"
+                  }`}
               />
               <Input
                 type="text"
@@ -206,16 +198,14 @@ export default function HelperSystemsPageClient({
                         </div>
                       )}
                       <h3
-                        className={`text-xl font-semibold text-foreground mb-2 ${
-                          isRtl ? "text-right" : "text-left"
-                        }`}
+                        className={`text-xl font-semibold text-foreground mb-2 ${isRtl ? "text-right" : "text-left"
+                          }`}
                       >
                         {getDisplayName(system)}
                       </h3>
                       <p
-                        className={`text-muted-foreground mb-4 line-clamp-2 ${
-                          isRtl ? "text-right" : "text-left"
-                        }`}
+                        className={`text-muted-foreground mb-4 line-clamp-2 ${isRtl ? "text-right" : "text-left"
+                          }`}
                       >
                         {getDisplayDescription(system)}
                       </p>
@@ -246,8 +236,8 @@ export default function HelperSystemsPageClient({
                     ? "لا توجد نتائج للبحث"
                     : "No search results found"
                   : language === "ar"
-                  ? "لا توجد أنظمة مساعدة متاحة"
-                  : "No helper systems available"}
+                    ? "لا توجد أنظمة مساعدة متاحة"
+                    : "No helper systems available"}
               </p>
             </div>
           )}

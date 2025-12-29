@@ -1,12 +1,13 @@
 "use client"
 
-import { ArrowLeft, BookOpen, Download, Calendar } from "lucide-react"
+import { BookOpen, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import MainLayout from "@/components/layouts/main-layout"
 import { useLanguage } from "@/components/language-provider"
-import { useRouter } from "next/navigation"
 import type { ApiLecture } from "@/core/domain/models/media"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useLecturesBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 interface LecturePageClientProps {
   lecture: ApiLecture
@@ -15,7 +16,15 @@ interface LecturePageClientProps {
 
 export default function LecturePageClient({ lecture, categoryId }: LecturePageClientProps) {
   const { language, isRtl } = useLanguage()
-  const router = useRouter()
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useLecturesBreadcrumbs(
+    categoryId,
+    undefined,
+    undefined,
+    lecture.nameEn ?? lecture.nameAr ?? undefined,
+    lecture.nameAr ?? lecture.nameEn ?? undefined
+  )
 
   const getDisplayName = () => {
     return language === "ar" ? lecture.nameAr || lecture.nameEn || "" : lecture.nameEn || lecture.nameAr || ""
@@ -45,46 +54,18 @@ export default function LecturePageClient({ lecture, categoryId }: LecturePageCl
     if (documentUrl) {
       const link = document.createElement("a")
       link.href = documentUrl
-      // link.download = `${getDisplayName() || "lecture"}.pdf`
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
     }
   }
 
-  const formatDate = (dateString: string) => {
-    try {
-      const date = new Date(dateString)
-      return date.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-    } catch {
-      return dateString
-    }
-  }
-
-  const handleBack = () => {
-    router.push(`/advanced/lectures/${categoryId}`)
-  }
-
   return (
     <MainLayout>
       <div className="min-h-screen bg-background">
-        <div className="container mx-auto px-4 py-8">
-          {/* Back Button */}
-          <div className="mb-6">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleBack}
-              className={`flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
-            >
-              <ArrowLeft className="h-4 w-4" />
-              {language === "ar" ? "العودة إلى الفئة" : "Back to Category"}
-            </Button>
-          </div>
+        <div className="container mx-auto px-4 pt-24 pb-16">
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Main Content */}
@@ -151,7 +132,7 @@ export default function LecturePageClient({ lecture, categoryId }: LecturePageCl
                         {formatDate(lecture.createdAt)}
                       </p>
                     </div> */}
-{/* 
+                    {/* 
                     {lecture.updatedAt && (
                       <div>
                         <p className={`text-sm text-muted-foreground mb-1 ${isRtl ? "text-right" : "text-left"}`}>

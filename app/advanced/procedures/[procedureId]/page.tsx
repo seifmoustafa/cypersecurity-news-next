@@ -4,14 +4,15 @@ import { container } from "@/core/di/container"
 import ProcedurePageClient from "./ProcedurePageClient"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     procedureId: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const procedure = await container.services.procedures.getProcedureById(params.procedureId)
+    const resolvedParams = await params
+    const procedure = await container.services.procedures.getProcedureById(resolvedParams.procedureId)
 
     if (!procedure) {
       return {
@@ -37,7 +38,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ProcedurePage({ params }: PageProps) {
   try {
-    const procedure = await container.services.procedures.getProcedureById(params.procedureId)
+    const resolvedParams = await params
+    const procedure = await container.services.procedures.getProcedureById(resolvedParams.procedureId)
 
     if (!procedure) {
       notFound()

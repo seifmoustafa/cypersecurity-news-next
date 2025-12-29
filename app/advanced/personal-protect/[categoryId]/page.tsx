@@ -4,14 +4,15 @@ import { container } from "@/core/di/container"
 import PersonalProtectCategoryPageClient from "./PersonalProtectCategoryPageClient"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     categoryId: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const category = await container.services.personalProtect.getPersonalProtectCategoryById(params.categoryId)
+    const resolvedParams = await params
+    const category = await container.services.personalProtect.getPersonalProtectCategoryById(resolvedParams.categoryId)
 
     if (!category) {
       return {
@@ -37,7 +38,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function PersonalProtectCategoryPage({ params }: PageProps) {
   try {
-    const category = await container.services.personalProtect.getPersonalProtectCategoryById(params.categoryId)
+    const resolvedParams = await params
+    const category = await container.services.personalProtect.getPersonalProtectCategoryById(resolvedParams.categoryId)
 
     if (!category) {
       notFound()

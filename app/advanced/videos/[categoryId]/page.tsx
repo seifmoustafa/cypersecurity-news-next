@@ -14,11 +14,12 @@ import {
   Play,
   Image as ImageIcon,
 } from "lucide-react";
-import Breadcrumbs from "@/components/breadcrumbs";
 import VideoImageCarousel from "@/components/video-image-carousel";
 import { CommentSection } from "@/components/video/comments";
 import MainLayout from "@/components/layouts/main-layout";
 import { Button } from "@/components/ui/button";
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs";
+import { useSimpleAdvancedBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs";
 
 interface VideoCategoryPageProps {
   params: Promise<{
@@ -60,6 +61,13 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
     : language === "ar"
       ? "فئة فيديوهات"
       : "Video Category";
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useSimpleAdvancedBreadcrumbs([
+    { label: "Media", labelAr: "المكتبة", href: "/advanced#media" },
+    { label: "Videos", labelAr: "الفيديوهات", href: "/advanced#media" },
+    { label: category?.nameEn ?? category?.name ?? "Category", labelAr: category?.name ?? category?.nameEn ?? "فئة" },
+  ]);
 
   const isValidUrl = (url: string | null | undefined): boolean => {
     if (!url || typeof url !== "string") return false;
@@ -126,18 +134,9 @@ export default function VideoCategoryPage({ params }: VideoCategoryPageProps) {
           }}
         />
 
-        <div className="container relative mx-auto px-4 py-6 md:py-8" dir={isRtl ? "rtl" : "ltr"}>
+        <div className="container relative mx-auto px-4 pt-24 pb-8" dir={isRtl ? "rtl" : "ltr"}>
           {/* Breadcrumbs */}
-          <div className="mb-6">
-            <Breadcrumbs
-              items={[
-                { label: isRtl ? "الرئيسية" : "Home", href: "/advanced" },
-                { label: isRtl ? "المكتبة" : "Library", href: "/advanced#media" },
-                { label: isRtl ? "الفيديوهات" : "Videos", href: "/advanced#media" },
-                { label: categoryName, href: "#" },
-              ]}
-            />
-          </div>
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
 
           {/* Header with Search */}
           <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 mb-8">

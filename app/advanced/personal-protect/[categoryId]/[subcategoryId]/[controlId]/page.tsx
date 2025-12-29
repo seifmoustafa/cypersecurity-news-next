@@ -4,16 +4,17 @@ import { container } from "@/core/di/container"
 import PersonalProtectControlPageClient from "./PersonalProtectControlPageClient"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     categoryId: string
     subcategoryId: string
     controlId: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const control = await container.services.personalProtect.getControlById(params.controlId)
+    const resolvedParams = await params
+    const control = await container.services.personalProtect.getControlById(resolvedParams.controlId)
 
     if (!control) {
       return {
@@ -39,13 +40,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function PersonalProtectControlPage({ params }: PageProps) {
   try {
-    const control = await container.services.personalProtect.getControlById(params.controlId)
+    const resolvedParams = await params
+    const control = await container.services.personalProtect.getControlById(resolvedParams.controlId)
 
     if (!control) {
       notFound()
     }
 
-    return <PersonalProtectControlPageClient control={control} categoryId={params.categoryId} subcategoryId={params.subcategoryId} />
+    return <PersonalProtectControlPageClient control={control} categoryId={resolvedParams.categoryId} subcategoryId={resolvedParams.subcategoryId} />
   } catch (error) {
     console.error("❌ Error in PersonalProtectControlPage:", error)
     notFound()

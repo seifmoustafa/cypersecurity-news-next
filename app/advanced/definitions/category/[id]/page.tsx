@@ -4,13 +4,14 @@ import DefinitionCategoryPageClient from "./DefinitionCategoryPageClient"
 import type { Metadata } from "next"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const category = await container.services.definitions.getCategoryById(params.id)
+  const resolvedParams = await params
+  const category = await container.services.definitions.getCategoryById(resolvedParams.id)
 
   if (!category) {
     return {
@@ -26,7 +27,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function DefinitionCategoryPage({ params }: PageProps) {
   try {
-    const category = await container.services.definitions.getCategoryById(params.id)
+    const resolvedParams = await params
+    const category = await container.services.definitions.getCategoryById(resolvedParams.id)
 
     if (!category) {
       notFound()

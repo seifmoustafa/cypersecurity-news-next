@@ -5,14 +5,15 @@ import InstructionYearPageClient from "./InstructionYearPageClient"
 import { container } from "@/core/di/container"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     categoryId: string
     yearId: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { categoryId, yearId } = params
+  const resolvedParams = await params
+  const { categoryId, yearId } = resolvedParams
 
   try {
     const category = await container.services.instructionCategories.getCategoryById(categoryId)
@@ -34,7 +35,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function InstructionYearPage({ params }: PageProps) {
-  const { categoryId, yearId } = params
+  const resolvedParams = await params
+  const { categoryId, yearId } = resolvedParams
 
   try {
     // Find category by ID

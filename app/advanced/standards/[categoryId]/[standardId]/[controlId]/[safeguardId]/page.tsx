@@ -4,17 +4,18 @@ import { container } from "@/core/di/container"
 import StandardsSafeguardPageClient from "./StandardsSafeguardPageClient"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     categoryId: string
     standardId: string
     controlId: string
     safeguardId: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const safeguard = await container.standardsService.getSafeguardById(params.safeguardId)
+    const resolvedParams = await params
+    const safeguard = await container.standardsService.getSafeguardById(resolvedParams.safeguardId)
 
     if (!safeguard) {
       return {
@@ -40,13 +41,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function StandardsSafeguardPage({ params }: PageProps) {
   try {
-    const safeguard = await container.standardsService.getSafeguardById(params.safeguardId)
+    const resolvedParams = await params
+    const safeguard = await container.standardsService.getSafeguardById(resolvedParams.safeguardId)
 
     if (!safeguard) {
       notFound()
     }
 
-    return <StandardsSafeguardPageClient safeguard={safeguard} categoryId={params.categoryId} standardId={params.standardId} controlId={params.controlId} />
+    return <StandardsSafeguardPageClient safeguard={safeguard} categoryId={resolvedParams.categoryId} standardId={resolvedParams.standardId} controlId={resolvedParams.controlId} />
   } catch (error) {
     console.error("❌ Error in StandardsSafeguardPage:", error)
     notFound()

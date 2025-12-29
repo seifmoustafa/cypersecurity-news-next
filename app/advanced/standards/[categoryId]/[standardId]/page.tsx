@@ -4,15 +4,16 @@ import { container } from "@/core/di/container"
 import StandardPageClient from "./StandardPageClient"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     categoryId: string
     standardId: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const standard = await container.standardsService.getStandardById(params.standardId)
+    const resolvedParams = await params
+    const standard = await container.standardsService.getStandardById(resolvedParams.standardId)
 
     if (!standard) {
       return {
@@ -38,13 +39,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function StandardPage({ params }: PageProps) {
   try {
-    const standard = await container.standardsService.getStandardById(params.standardId)
+    const resolvedParams = await params
+    const standard = await container.standardsService.getStandardById(resolvedParams.standardId)
 
     if (!standard) {
       notFound()
     }
 
-    return <StandardPageClient standard={standard} categoryId={params.categoryId} />
+    return <StandardPageClient standard={standard} categoryId={resolvedParams.categoryId} />
   } catch (error) {
     console.error("❌ Error in StandardPage:", error)
     notFound()

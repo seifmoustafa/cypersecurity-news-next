@@ -15,6 +15,9 @@ import {
 import Link from "next/link";
 import { useLanguage } from "@/components/language-provider";
 import { container } from "@/core/di/container";
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs";
+import { useProcedureBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs";
+
 
 interface ProcedurePageClientProps {
   procedure: {
@@ -36,6 +39,12 @@ export default function ProcedurePageClient({
   const { language, isRtl } = useLanguage();
   const [controls, setControls] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useProcedureBreadcrumbs(
+    procedure.nameEn || procedure.nameAr,
+    procedure.nameAr || procedure.nameEn
+  );
 
   useEffect(() => {
     const fetchControls = async () => {
@@ -70,21 +79,11 @@ export default function ProcedurePageClient({
     <MainLayout>
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-4 max-w-6xl">
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
+
           {/* Header */}
           <div className="mb-8">
-            <div className="flex items-center gap-4 mb-6">
-              <Link href="/advanced/procedures">
-                <Button variant="outline" size="sm" className="gap-2">
-                  <ArrowLeft className="h-4 w-4" />
-                  <span>
-                    {language === "ar"
-                      ? "رجوع إلى الإجراءات"
-                      : "Back to Procedures"}
-                  </span>
-                </Button>
-              </Link>
-            </div>
-
             <Card className="border-0 shadow-lg bg-gradient-to-r from-primary/5 to-primary/10">
               <CardContent className="p-8">
                 <div className="flex items-start gap-6">
@@ -95,17 +94,15 @@ export default function ProcedurePageClient({
                   </div>
                   <div className="flex-1 min-w-0">
                     <h1
-                      className={`text-4xl font-bold mb-4 ${
-                        isRtl ? "text-right" : "text-left"
-                      }`}
+                      className={`text-4xl font-bold mb-4 ${isRtl ? "text-right" : "text-left"
+                        }`}
                     >
                       {title}
                     </h1>
                     {description && (
                       <p
-                        className={`whitespace-per-line text-xl text-muted-foreground leading-relaxed ${
-                          isRtl ? "text-right" : "text-left"
-                        }`}
+                        className={`whitespace-per-line text-xl text-muted-foreground leading-relaxed ${isRtl ? "text-right" : "text-left"
+                          }`}
                       >
                         {description
                           .replace(/<\/?[^>]+(>|$)/g, "")
@@ -169,21 +166,21 @@ export default function ProcedurePageClient({
                         <p className="text-sm text-muted-foreground line-clamp-3">
                           {language === "ar"
                             ? control.descriptionAr
-                                .replace(/<\/?[^>]+(>|$)/g, "")
-                                .replace(/<br\s*\/?>/gi, "\n")
-                                .replace(/<\/p>/gi, "\n") ||
-                              control.descriptionEn
-                                .replace(/<\/?[^>]+(>|$)/g, "")
-                                .replace(/<br\s*\/?>/gi, "\n")
-                                .replace(/<\/p>/gi, "\n")
+                              .replace(/<\/?[^>]+(>|$)/g, "")
+                              .replace(/<br\s*\/?>/gi, "\n")
+                              .replace(/<\/p>/gi, "\n") ||
+                            control.descriptionEn
+                              .replace(/<\/?[^>]+(>|$)/g, "")
+                              .replace(/<br\s*\/?>/gi, "\n")
+                              .replace(/<\/p>/gi, "\n")
                             : control.descriptionEn
-                                .replace(/<\/?[^>]+(>|$)/g, "")
-                                .replace(/<br\s*\/?>/gi, "\n")
-                                .replace(/<\/p>/gi, "\n") ||
-                              control.descriptionAr
-                                .replace(/<\/?[^>]+(>|$)/g, "")
-                                .replace(/<br\s*\/?>/gi, "\n")
-                                .replace(/<\/p>/gi, "\n")}
+                              .replace(/<\/?[^>]+(>|$)/g, "")
+                              .replace(/<br\s*\/?>/gi, "\n")
+                              .replace(/<\/p>/gi, "\n") ||
+                            control.descriptionAr
+                              .replace(/<\/?[^>]+(>|$)/g, "")
+                              .replace(/<br\s*\/?>/gi, "\n")
+                              .replace(/<\/p>/gi, "\n")}
                         </p>
                       </CardContent>
                     </Card>

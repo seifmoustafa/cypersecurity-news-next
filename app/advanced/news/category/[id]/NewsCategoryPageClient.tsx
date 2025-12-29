@@ -2,10 +2,11 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { ChevronLeft, ChevronRight } from "lucide-react"
 import MainLayout from "@/components/layouts/main-layout"
 import { useLanguage } from "@/components/language-provider"
 import type { News } from "@/core/domain/models/news"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useNewsBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 interface NewsCategoryPageClientProps {
   category: {
@@ -19,24 +20,21 @@ interface NewsCategoryPageClientProps {
 export default function NewsCategoryPageClient({ category, news }: NewsCategoryPageClientProps) {
   const { language, isRtl } = useLanguage()
 
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useNewsBreadcrumbs(
+    category.id,
+    category.nameEn ?? category.name,
+    category.name ?? category.nameEn
+  )
+
   const displayCategoryName = language === "ar" ? category.name : category.nameEn
 
   return (
     <MainLayout>
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-4">
-          {/* Back Button */}
-          <div className="mb-6">
-            <Link
-              href="/advanced#awareness"
-              className={`inline-flex items-center px-4 py-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl border border-blue-200/30 dark:border-blue-800/30 shadow-md shadow-blue-500/10 dark:shadow-blue-500/20 text-primary hover:text-primary/80 transition-all duration-300 hover:scale-105 hover:shadow-lg ${
-                isRtl ? "flex-row-reverse" : ""
-              }`}
-            >
-              {isRtl ? <ChevronRight className="h-4 w-4 mr-1" /> : <ChevronLeft className="h-4 w-4 mr-1" />}
-              {language === "ar" ? "العودة إلي التوعية" : "Back to Awareness"}
-            </Link>
-          </div>
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
 
           <div className="mb-12 text-center">
             <h1 className="text-3xl md:text-4xl font-bold mb-2 text-foreground">{displayCategoryName}</h1>
@@ -59,12 +57,6 @@ export default function NewsCategoryPageClient({ category, news }: NewsCategoryP
               <p className="text-muted-foreground text-lg mb-4">
                 {language === "ar" ? `لا توجد أخبار متاحة حالياً` : `No news available at the moment`}
               </p>
-              <Link
-                href="/advanced#awareness"
-                className="inline-block bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-md"
-              >
-                {language === "ar" ? "العودة إلى الوعي الأمني" : "Back to Awareness"}
-              </Link>
             </div>
           )}
         </div>

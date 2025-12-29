@@ -4,17 +4,18 @@ import { container } from "@/core/di/container"
 import TechniquePageClient from "./TechniquePageClient"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     procedureId: string
     controlId: string
     safeguardId: string
     techniqueId: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const technique = await container.services.procedures.getTechniqueById(params.techniqueId)
+    const resolvedParams = await params
+    const technique = await container.services.procedures.getTechniqueById(resolvedParams.techniqueId)
 
     if (!technique) {
       return {
@@ -40,13 +41,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function TechniquePage({ params }: PageProps) {
   try {
-    const technique = await container.services.procedures.getTechniqueById(params.techniqueId)
+    const resolvedParams = await params
+    const technique = await container.services.procedures.getTechniqueById(resolvedParams.techniqueId)
 
     if (!technique) {
       notFound()
     }
 
-    return <TechniquePageClient technique={technique} procedureId={params.procedureId} controlId={params.controlId} safeguardId={params.safeguardId} />
+    return <TechniquePageClient technique={technique} procedureId={resolvedParams.procedureId} controlId={resolvedParams.controlId} safeguardId={resolvedParams.safeguardId} />
   } catch (error) {
     console.error("❌ Error in TechniquePage:", error)
     notFound()

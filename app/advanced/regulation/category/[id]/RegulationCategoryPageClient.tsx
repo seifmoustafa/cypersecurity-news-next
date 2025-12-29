@@ -5,9 +5,11 @@ import { useLanguage } from "@/components/language-provider"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { ArrowLeft, ArrowRight, Calendar, FileText } from "lucide-react"
+import { Calendar, FileText } from "lucide-react"
 import Link from "next/link"
 import { container } from "@/core/di/container"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useRegulationBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 interface RegulationCategoryPageClientProps {
   categoryId: string
@@ -20,6 +22,13 @@ export default function RegulationCategoryPageClient({ categoryId }: RegulationC
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useRegulationBreadcrumbs(
+    categoryId,
+    category?.name_En ?? category?.name,
+    category?.name ?? category?.name_En
+  )
+
   useEffect(() => {
     const fetchCategoryData = async () => {
       try {
@@ -29,7 +38,7 @@ export default function RegulationCategoryPageClient({ categoryId }: RegulationC
         // Fetch category details
         const categoryData = await container.services.regulationCategories.getCategoryById(categoryId)
         console.log("Category data:", categoryData)
-        
+
         if (!categoryData) {
           setError("Category not found")
           return
@@ -74,8 +83,9 @@ export default function RegulationCategoryPageClient({ categoryId }: RegulationC
 
   if (error || !category) {
     return (
-      <div className="pt-36 pb-16">
+      <div className="pt-24 pb-16">
         <div className="container mx-auto px-4 max-w-4xl text-center">
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
           <div className="py-12">
             <h1 className="text-2xl font-bold mb-4 text-foreground">
               {language === "ar" ? "الفئة غير موجودة" : "Category Not Found"}
@@ -84,10 +94,7 @@ export default function RegulationCategoryPageClient({ categoryId }: RegulationC
               {error || (language === "ar" ? "لم يتم العثور على الفئة المطلوبة" : "The requested category could not be found")}
             </p>
             <Link href="/advanced/regulation">
-              <Button>
-                {isRtl ? <ArrowRight className="ml-2 h-4 w-4" /> : <ArrowLeft className="mr-2 h-4 w-4" />}
-                {language === "ar" ? "العودة إلى اللوائح" : "Back to Regulations"}
-              </Button>
+              <Button>{language === "ar" ? "عرض جميع اللوائح" : "View All Regulations"}</Button>
             </Link>
           </div>
         </div>
@@ -100,6 +107,8 @@ export default function RegulationCategoryPageClient({ categoryId }: RegulationC
   return (
     <div className="pt-24 pb-16">
       <div className="container mx-auto px-4">
+        <AdvancedBreadcrumbs items={breadcrumbItems} />
+
         <div className="mb-12 text-center">
           <h1 className="text-3xl md:text-4xl font-bold mb-2 text-foreground">{displayCategoryName}</h1>
           <h2 className="text-xl text-foreground/80">
@@ -160,15 +169,15 @@ function RegulationCard({ regulation }: { regulation: any }) {
               {language === "ar" ? "لائحة" : "Regulation"}
             </Badge>
           </div>
-          
+
           <h3 className="text-lg font-bold mb-3 line-clamp-2 text-foreground group-hover:text-primary transition-colors">
             {displayTitle}
           </h3>
-          
+
           <p className="text-sm text-muted-foreground mb-4 line-clamp-3 flex-1">
             {hasValidSummary ? cleanSummary : ""}
           </p>
-          
+
           <div className="flex items-center justify-between mt-auto">
             <div className="flex items-center gap-1 text-xs text-muted-foreground">
               <Calendar className="h-3 w-3" />

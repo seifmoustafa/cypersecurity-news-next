@@ -6,10 +6,12 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { ArrowLeft, ArrowRight, Download, FileText, BookOpen, Shield, CheckCircle, AlertCircle } from "lucide-react"
+import { Download, FileText, BookOpen, Shield, CheckCircle, AlertCircle } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { container } from "@/core/di/container"
 import MainLayout from "@/components/layouts/main-layout"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useAwarenessBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 interface AwarenessDetailPageClientProps {
   year: string
@@ -93,10 +95,17 @@ export default function AwarenessDetailPageClient({ year, id }: AwarenessDetailP
     }
   }
 
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useAwarenessBreadcrumbs(
+    year,
+    awareness?.titleEn ?? awareness?.title,
+    awareness?.title ?? awareness?.titleEn
+  )
+
   if (loading) {
     return (
       <MainLayout>
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 pt-24 pb-16">
           <div className="max-w-4xl mx-auto">
             {/* Loading Skeleton */}
             <div className="animate-pulse space-y-6">
@@ -119,7 +128,7 @@ export default function AwarenessDetailPageClient({ year, id }: AwarenessDetailP
   if (error || !awareness) {
     return (
       <MainLayout>
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 pt-24 pb-16">
           <div className="max-w-2xl mx-auto text-center">
             <Card className="p-8 dark:bg-slate-900 dark:border-slate-800">
               <AlertCircle className="h-16 w-16 text-red-500 mx-auto mb-4" />
@@ -128,7 +137,7 @@ export default function AwarenessDetailPageClient({ year, id }: AwarenessDetailP
               </h1>
               <p className="text-muted-foreground mb-6">{error}</p>
               <Button onClick={() => router.push(`/advanced/awareness/${year}`)}>
-                {language === "ar" ? "العودة" : "Go Back"}
+                {language === "ar" ? "عرض الكل" : "View All"}
               </Button>
             </Card>
           </div>
@@ -139,22 +148,9 @@ export default function AwarenessDetailPageClient({ year, id }: AwarenessDetailP
 
   return (
     <MainLayout>
-      <div className="container mx-auto px-4 py-8">
-        {/* Enhanced Back Button */}
-        <div className="mb-8">
-          <Button
-            variant="ghost"
-            onClick={() => router.push(`/advanced/awareness/${year}`)}
-            className="group flex items-center gap-2 hover:bg-accent dark:hover:bg-slate-800 rounded-lg px-4 py-2 transition-all duration-200"
-          >
-            {isRtl ? (
-              <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-            ) : (
-              <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-            )}
-            <span className="font-medium">{language === "ar" ? `العودة لعام ${year}` : `Back to ${year}`}</span>
-          </Button>
-        </div>
+      <div className="container mx-auto px-4 pt-24 pb-16">
+        {/* Breadcrumbs */}
+        <AdvancedBreadcrumbs items={breadcrumbItems} />
 
         {/* Enhanced Content */}
         <div className="max-w-4xl mx-auto">

@@ -5,14 +5,15 @@ import MainLayout from "@/components/layouts/main-layout"
 import RegulationCategoryPageClient from "./RegulationCategoryPageClient"
 
 interface RegulationCategoryPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: RegulationCategoryPageProps): Promise<Metadata> {
   try {
-    const category = await container.services.regulationCategories.getCategoryById(params.id)
+    const resolvedParams = await params
+    const category = await container.services.regulationCategories.getCategoryById(resolvedParams.id)
 
     if (!category) {
       return {
@@ -37,7 +38,8 @@ export async function generateMetadata({ params }: RegulationCategoryPageProps):
 
 export default async function RegulationCategoryPage({ params }: RegulationCategoryPageProps) {
   try {
-    const category = await container.services.regulationCategories.getCategoryById(params.id)
+    const resolvedParams = await params
+    const category = await container.services.regulationCategories.getCategoryById(resolvedParams.id)
 
     if (!category) {
       notFound()
@@ -45,7 +47,7 @@ export default async function RegulationCategoryPage({ params }: RegulationCateg
 
     return (
       <MainLayout>
-        <RegulationCategoryPageClient categoryId={params.id} />
+        <RegulationCategoryPageClient categoryId={resolvedParams.id} />
       </MainLayout>
     )
   } catch (error) {

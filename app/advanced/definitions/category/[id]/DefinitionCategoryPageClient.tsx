@@ -3,10 +3,11 @@
 import { useLanguage } from "@/components/language-provider"
 import MainLayout from "@/components/layouts/main-layout"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { BookOpen, ArrowLeft, ArrowRight } from "lucide-react"
+import { BookOpen } from "lucide-react"
 import { Definition, DefinitionCategory } from "@/core/domain/models/definition"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useDefinitionsBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 interface DefinitionCategoryPageClientProps {
   category: DefinitionCategory
@@ -26,6 +27,13 @@ export default function DefinitionCategoryPageClient({
 }: DefinitionCategoryPageClientProps) {
   const { language, isRtl } = useLanguage()
 
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useDefinitionsBreadcrumbs(
+    category.id,
+    category.nameEn ?? category.name,
+    category.name ?? category.nameEn
+  )
+
   const categoryName = language === "ar" ? category.name : category.nameEn
   const definitionsCount = pagination?.itemsCount || definitions.length
 
@@ -33,15 +41,8 @@ export default function DefinitionCategoryPageClient({
     <MainLayout>
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-4">
-          {/* Back Button to Standards */}
-          <div className={`mb-6 ${isRtl ? "text-right" : "text-left"}`}>
-            <Link href="/advanced#concepts">
-              <Button variant="ghost" size="sm" className={`gap-2 ${isRtl ? "flex-row-reverse" : ""}`}>
-                {isRtl ? <ArrowRight className="h-4 w-4" /> : <ArrowLeft className="h-4 w-4" />}
-                <span>{language === "ar" ? "العودة للمفاهيم" : "Back to Standards"}</span>
-              </Button>
-            </Link>
-          </div>
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
 
           {/* Header */}
           <div className="text-center mb-12">

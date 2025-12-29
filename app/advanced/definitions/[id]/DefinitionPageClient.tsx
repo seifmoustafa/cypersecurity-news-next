@@ -2,12 +2,13 @@
 
 import { useLanguage } from "@/components/language-provider"
 import MainLayout from "@/components/layouts/main-layout"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
-import { ArrowLeft, ArrowRight, BookOpen, Calendar, Tag } from "lucide-react"
+import { BookOpen, Tag } from "lucide-react"
 import type { Definition, DefinitionCategory } from "@/core/domain/models/advanced/definition"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useDefinitionsBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 interface DefinitionPageClientProps {
   definition: Definition
@@ -24,36 +25,26 @@ export default function DefinitionPageClient({ definition, category }: Definitio
       : definition.definitionEn || definition.definitionText
   const categoryName = category ? (language === "ar" ? category.name : category.nameEn) : ""
 
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useDefinitionsBreadcrumbs(
+    category?.id,
+    category?.nameEn ?? category?.name,
+    category?.name ?? category?.nameEn,
+    definition.termEn ?? definition.term ?? undefined,
+    definition.term ?? definition.termEn ?? undefined
+  )
+
   const getCategoryUrl = () => {
     if (!category) return "#"
     return `/advanced/definitions/category/${category.id}`
-  }
-
-  const formatDate = (dateString: string) => {
-    try {
-      const date = new Date(dateString)
-      return date.toLocaleDateString("en-US")
-    } catch {
-      return dateString
-    }
   }
 
   return (
     <MainLayout>
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-4">
-          {/* Back Button */}
-          <div className={`mb-6 ${isRtl ? "text-right" : "text-left"}`}>
-            <Link href={getCategoryUrl()}>
-              <Button variant="ghost" size="sm" className={`gap-2 ${isRtl ? "flex-row-reverse" : ""}`}>
-                {isRtl ? <ArrowRight className="h-4 w-4" /> : <ArrowLeft className="h-4 w-4" />}
-                <span>
-                  {language === "ar" ? "العودة إلى" : "Back to"}{" "}
-                  {categoryName || (language === "ar" ? "التعريفات" : "Definitions")}
-                </span>
-              </Button>
-            </Link>
-          </div>
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
 
           {/* Header */}
           <div className={`mb-8 ${isRtl ? "text-right" : "text-left"}`}>
@@ -146,7 +137,7 @@ export default function DefinitionPageClient({ definition, category }: Definitio
                     </div> */}
 
                     {/* Updated Date */}
-                    {definition.updatedAt && (
+                    {/* {definition.updatedAt && (
                       <div>
                         <dt
                           className={`text-sm font-medium text-muted-foreground mb-1 ${isRtl ? "text-right" : "text-left"}`}
@@ -157,7 +148,7 @@ export default function DefinitionPageClient({ definition, category }: Definitio
                           {formatDate(definition.updatedAt)}
                         </dd>
                       </div>
-                    )}
+                    )} */}
                   </div>
                 </CardContent>
               </Card>

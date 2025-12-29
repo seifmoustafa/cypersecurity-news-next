@@ -3,12 +3,13 @@
 import type { Instruction } from "@/core/domain/models/instruction"
 import { useLanguage } from "@/components/language-provider"
 import { Button } from "@/components/ui/button"
-import { ChevronLeft, FileText, Download, Calendar, Eye } from "lucide-react"
-import Link from "next/link"
+import { FileText, Download, Eye } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { useState } from "react"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useInstructionsBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 interface InstructionPageClientProps {
   instruction: Instruction
@@ -20,6 +21,17 @@ export default function InstructionPageClient({ instruction, categoryId, yearId 
   const { language } = useLanguage()
   const [imageDialogOpen, setImageDialogOpen] = useState(false)
 
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useInstructionsBreadcrumbs(
+    categoryId,
+    undefined,
+    undefined,
+    yearId,
+    undefined,
+    instruction.titleEn ?? instruction.title ?? undefined,
+    instruction.title ?? instruction.titleEn ?? undefined
+  )
+
   const title = language === "ar" ? instruction.title : instruction.titleEn
   const content = language === "ar" ? instruction.content : instruction.contentEn
   const summary = language === "ar" ? instruction.summary : instruction.summaryEn
@@ -27,15 +39,8 @@ export default function InstructionPageClient({ instruction, categoryId, yearId 
   return (
     <div className="pt-24 pb-16">
       <div className="container mx-auto px-4 max-w-4xl">
-        {/* Header */}
-        <div className="mb-8 flex items-center">
-          <Link href={`/advanced/instructions/category/${categoryId}/${yearId}`}>
-            <Button variant="ghost" size="sm" className="gap-1">
-              <ChevronLeft className="h-4 w-4" />
-              <span>{language === "ar" ? "رجوع إلى القائمة" : "Back to List"}</span>
-            </Button>
-          </Link>
-        </div>
+        {/* Breadcrumbs */}
+        <AdvancedBreadcrumbs items={breadcrumbItems} />
 
         {/* Main Content */}
         <article className="space-y-8">
@@ -44,23 +49,11 @@ export default function InstructionPageClient({ instruction, categoryId, yearId 
             <h1 className="text-4xl font-bold leading-tight">{title}</h1>
 
             <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-              <div className="flex items-center gap-1">
-                <Calendar className="h-4 w-4" />
-                <span>
-                  {new Date(instruction.publishDate).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </span>
-              </div>
-
               <div className="flex items-center gap-2">
                 <Badge variant="secondary">
                   <FileText className="h-3 w-3 mr-1" />
                   {language === "ar" ? "تعليمات" : "Instructions"}
                 </Badge>
-                {instruction.isActive && <Badge variant="default">{language === "ar" ? "نشط" : "Active"}</Badge>}
               </div>
             </div>
           </div>
@@ -154,7 +147,7 @@ export default function InstructionPageClient({ instruction, categoryId, yearId 
             </Card>
           )}
 
-         
+
         </article>
       </div>
     </div>

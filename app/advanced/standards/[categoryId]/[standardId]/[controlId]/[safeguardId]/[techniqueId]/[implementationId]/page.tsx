@@ -4,19 +4,20 @@ import { container } from "@/core/di/container"
 import ImplementationStepPageClient from "./ImplementationStepPageClient"
 
 interface PageProps {
-  params: {
+  params: Promise<{
     categoryId: string
     standardId: string
     controlId: string
     safeguardId: string
     techniqueId: string
     implementationId: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const implementationStep = await container.standardsService.getImplementationStepById(params.implementationId)
+    const resolvedParams = await params
+    const implementationStep = await container.standardsService.getImplementationStepById(resolvedParams.implementationId)
 
     if (!implementationStep) {
       return {
@@ -42,7 +43,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ImplementationStepPage({ params }: PageProps) {
   try {
-    const implementationStep = await container.standardsService.getImplementationStepById(params.implementationId)
+    const resolvedParams = await params
+    const implementationStep = await container.standardsService.getImplementationStepById(resolvedParams.implementationId)
 
     if (!implementationStep) {
       notFound()
@@ -50,12 +52,12 @@ export default async function ImplementationStepPage({ params }: PageProps) {
 
     return (
       <ImplementationStepPageClient
-        categoryId={params.categoryId}
-        standardId={params.standardId}
-        controlId={params.controlId}
-        safeguardId={params.safeguardId}
-        techniqueId={params.techniqueId}
-        implementationId={params.implementationId}
+        categoryId={resolvedParams.categoryId}
+        standardId={resolvedParams.standardId}
+        controlId={resolvedParams.controlId}
+        safeguardId={resolvedParams.safeguardId}
+        techniqueId={resolvedParams.techniqueId}
+        implementationId={resolvedParams.implementationId}
         implementationStep={implementationStep}
       />
     )

@@ -7,10 +7,10 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { 
-  Search, 
-  Scale, 
-  Calendar, 
+import {
+  Search,
+  Scale,
+  Calendar,
   Filter,
   ChevronRight,
   ChevronLeft,
@@ -20,6 +20,9 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import type { LawCategory } from "@/core/domain/models/law-category";
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs";
+import { useSimpleAdvancedBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs";
+import MainLayout from "@/components/layouts/main-layout";
 
 export default function LawsPageClient() {
   const { language } = useLanguage();
@@ -29,6 +32,11 @@ export default function LawsPageClient() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useSimpleAdvancedBreadcrumbs([
+    { label: "Laws", labelAr: "القوانين" },
+  ]);
 
   useEffect(() => {
     const fetchAllCategories = async () => {
@@ -60,8 +68,8 @@ export default function LawsPageClient() {
   const filteredCategories = allCategories.filter((category) => {
     const name = language === "ar" ? category.name : category.nameEn;
     return name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-           category.nameEn?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-           category.name?.toLowerCase().includes(searchTerm.toLowerCase());
+      category.nameEn?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      category.name?.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
   // Calculate pagination for filtered results
@@ -123,169 +131,174 @@ export default function LawsPageClient() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 dark:from-slate-900 dark:via-slate-800/30 dark:to-slate-900">
-      <div className="container mx-auto px-4 py-16">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="flex items-center justify-center mb-6">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-600 rounded-full blur-lg opacity-30"></div>
-              <div className="relative bg-gradient-to-r from-purple-500 to-blue-600 p-4 rounded-full">
-                <Scale className="h-8 w-8 text-white" />
+    <MainLayout>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 dark:from-slate-900 dark:via-slate-800/30 dark:to-slate-900 pt-24 pb-16">
+        <div className="container mx-auto px-4">
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
+
+          {/* Header */}
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center mb-6">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-600 rounded-full blur-lg opacity-30"></div>
+                <div className="relative bg-gradient-to-r from-purple-500 to-blue-600 p-4 rounded-full">
+                  <Scale className="h-8 w-8 text-white" />
+                </div>
               </div>
+              <h1 className="ml-4 text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400">
+                {language === "ar" ? "فئات القوانين واللوائح" : "Law & Regulation Categories"}
+              </h1>
             </div>
-            <h1 className="ml-4 text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400">
-              {language === "ar" ? "فئات القوانين واللوائح" : "Law & Regulation Categories"}
-            </h1>
+            <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
+              {language === "ar"
+                ? "تصفح فئات القوانين واللوائح الأمنية السيبرانية المختلفة للوصول إلى القوانين المتخصصة"
+                : "Browse different categories of cybersecurity laws and regulations to access specialized legal documents"
+              }
+            </p>
           </div>
-          <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
-            {language === "ar" 
-              ? "تصفح فئات القوانين واللوائح الأمنية السيبرانية المختلفة للوصول إلى القوانين المتخصصة"
-              : "Browse different categories of cybersecurity laws and regulations to access specialized legal documents"
-            }
-          </p>
-        </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-0 shadow-lg">
-            <CardContent className="p-6 text-center">
-              <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">
-                {allCategories.length}
-              </div>
-              <div className="text-slate-600 dark:text-slate-300">
-                {language === "ar" ? "إجمالي الفئات" : "Total Categories"}
+          {/* Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-0 shadow-lg">
+              <CardContent className="p-6 text-center">
+                <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">
+                  {allCategories.length}
+                </div>
+                <div className="text-slate-600 dark:text-slate-300">
+                  {language === "ar" ? "إجمالي الفئات" : "Total Categories"}
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-0 shadow-lg">
+              <CardContent className="p-6 text-center">
+                <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+                  {totalPages}
+                </div>
+                <div className="text-slate-600 dark:text-slate-300">
+                  {language === "ar" ? "إجمالي الصفحات" : "Total Pages"}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Search */}
+          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-0 shadow-lg mb-8">
+            <CardContent className="p-6">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
+                <Input
+                  type="text"
+                  placeholder={language === "ar" ? "البحث في القوانين واللوائح..." : "Search laws and regulations..."}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 bg-white/50 dark:bg-slate-700/50 border-slate-200 dark:border-slate-600"
+                />
               </div>
             </CardContent>
           </Card>
-          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-0 shadow-lg">
-            <CardContent className="p-6 text-center">
-              <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
-                {totalPages}
-              </div>
-              <div className="text-slate-600 dark:text-slate-300">
-                {language === "ar" ? "إجمالي الصفحات" : "Total Pages"}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
 
-        {/* Search */}
-        <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-0 shadow-lg mb-8">
-          <CardContent className="p-6">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
-              <Input
-                type="text"
-                placeholder={language === "ar" ? "البحث في القوانين واللوائح..." : "Search laws and regulations..."}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-white/50 dark:bg-slate-700/50 border-slate-200 dark:border-slate-600"
-              />
-            </div>
-          </CardContent>
-        </Card>
+          {/* Results Count */}
+          <div className="mb-6">
+            <p className="text-slate-600 dark:text-slate-300">
+              {language === "ar"
+                ? `عرض ${paginatedCategories.length} من ${totalFilteredItems} فئة قانونية - انقر على أي فئة لعرض القوانين المتخصصة`
+                : `Showing ${paginatedCategories.length} of ${totalFilteredItems} legal categories - Click on any category to view specialized laws`
+              }
+            </p>
+          </div>
 
-        {/* Results Count */}
-        <div className="mb-6">
-          <p className="text-slate-600 dark:text-slate-300">
-            {language === "ar" 
-              ? `عرض ${paginatedCategories.length} من ${totalFilteredItems} فئة قانونية - انقر على أي فئة لعرض القوانين المتخصصة`
-              : `Showing ${paginatedCategories.length} of ${totalFilteredItems} legal categories - Click on any category to view specialized laws`
-            }
-          </p>
-        </div>
+          {/* Categories Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {paginatedCategories.map((category, index) => {
+              const categoryName = language === "ar" ? category.name : category.nameEn;
 
-        {/* Categories Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {paginatedCategories.map((category, index) => {
-            const categoryName = language === "ar" ? category.name : category.nameEn;
-            
-            return (
-              <Card key={category.id} className="group hover:shadow-2xl transition-all duration-500 border-0 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm overflow-hidden">
-                <CardHeader className="pb-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <Badge className={`${getCategoryColor(index)} text-sm font-medium`}>
-                      #{index + 1}
-                    </Badge>
-                    <div className="flex items-center text-slate-500 dark:text-slate-400">
-                      <Building2 className="h-5 w-5" />
+              return (
+                <Card key={category.id} className="group hover:shadow-2xl transition-all duration-500 border-0 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm overflow-hidden">
+                  <CardHeader className="pb-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <Badge className={`${getCategoryColor(index)} text-sm font-medium`}>
+                        #{index + 1}
+                      </Badge>
+                      <div className="flex items-center text-slate-500 dark:text-slate-400">
+                        <Building2 className="h-5 w-5" />
+                      </div>
                     </div>
-                  </div>
-                  <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors line-clamp-2">
-                    {categoryName || category.nameEn || "Unnamed Category"}
-                  </h3>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <Link href={`/advanced/laws/category/${category.id}`}>
-                    <Button className="w-full bg-gradient-to-r from-purple-500 to-blue-600 hover:opacity-90 text-white border-0">
-                      <Scale className="h-4 w-4 mr-2" />
-                      {language === "ar" ? "عرض الفئة" : "View Category"}
-                      <ChevronRight className="h-4 w-4 ml-2" />
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-2">
-            <Button
-              variant="outline"
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              className="flex items-center gap-2"
-            >
-              <ChevronLeft className="h-4 w-4" />
-              {language === "ar" ? "السابق" : "Previous"}
-            </Button>
-            
-            <div className="flex gap-1">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <Button
-                  key={page}
-                  variant={page === currentPage ? "default" : "outline"}
-                  onClick={() => handlePageChange(page)}
-                  className="w-10 h-10"
-                >
-                  {page}
-                </Button>
-              ))}
-            </div>
-            
-            <Button
-              variant="outline"
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              className="flex items-center gap-2"
-            >
-              {language === "ar" ? "التالي" : "Next"}
-              <ChevronRight className="h-4 w-4" />
-            </Button>
+                    <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors line-clamp-2">
+                      {categoryName || category.nameEn || "Unnamed Category"}
+                    </h3>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <Link href={`/advanced/laws/category/${category.id}`}>
+                      <Button className="w-full bg-gradient-to-r from-purple-500 to-blue-600 hover:opacity-90 text-white border-0">
+                        <Scale className="h-4 w-4 mr-2" />
+                        {language === "ar" ? "عرض الفئة" : "View Category"}
+                        <ChevronRight className="h-4 w-4 ml-2" />
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
-        )}
 
-        {/* No Results */}
-        {totalFilteredItems === 0 && (
-          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-0 shadow-lg">
-            <CardContent className="p-12 text-center">
-              <Scale className="h-16 w-16 text-slate-400 mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">
-                {language === "ar" ? "لا توجد فئات" : "No Categories Found"}
-              </h3>
-              <p className="text-slate-600 dark:text-slate-300">
-                {language === "ar" 
-                  ? "لم يتم العثور على فئات قانونية تطابق معايير البحث الخاصة بك"
-                  : "No legal categories found matching your search criteria"
-                }
-              </p>
-            </CardContent>
-          </Card>
-        )}
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center gap-2">
+              <Button
+                variant="outline"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="flex items-center gap-2"
+              >
+                <ChevronLeft className="h-4 w-4" />
+                {language === "ar" ? "السابق" : "Previous"}
+              </Button>
+
+              <div className="flex gap-1">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <Button
+                    key={page}
+                    variant={page === currentPage ? "default" : "outline"}
+                    onClick={() => handlePageChange(page)}
+                    className="w-10 h-10"
+                  >
+                    {page}
+                  </Button>
+                ))}
+              </div>
+
+              <Button
+                variant="outline"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="flex items-center gap-2"
+              >
+                {language === "ar" ? "التالي" : "Next"}
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
+
+          {/* No Results */}
+          {totalFilteredItems === 0 && (
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-0 shadow-lg">
+              <CardContent className="p-12 text-center">
+                <Scale className="h-16 w-16 text-slate-400 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">
+                  {language === "ar" ? "لا توجد فئات" : "No Categories Found"}
+                </h3>
+                <p className="text-slate-600 dark:text-slate-300">
+                  {language === "ar"
+                    ? "لم يتم العثور على فئات قانونية تطابق معايير البحث الخاصة بك"
+                    : "No legal categories found matching your search criteria"
+                  }
+                </p>
+              </CardContent>
+            </Card>
+          )}
+        </div>
       </div>
-    </div>
+    </MainLayout>
   );
 }

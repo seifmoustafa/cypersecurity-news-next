@@ -4,7 +4,6 @@ import { useEffect, useState } from "react"
 import MainLayout from "@/components/layouts/main-layout"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, Settings } from "lucide-react"
-import Link from "next/link"
 import { useLanguage } from "@/components/language-provider"
 import { container } from "@/core/di/container"
 import type {
@@ -14,6 +13,8 @@ import type {
   Technique,
   ImplementationStep,
 } from "@/core/domain/models/standard"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useSimpleAdvancedBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 interface ImplementationStepPageClientProps {
   categoryId: string
@@ -41,6 +42,17 @@ export default function ImplementationStepPageClient({
   const [standard, setStandard] = useState<Standard | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useSimpleAdvancedBreadcrumbs([
+    { label: "Standards", labelAr: "المعايير", href: "/advanced/standards" },
+    { label: "Category", labelAr: "الفئة", href: `/advanced/standards/${categoryId}` },
+    { label: "Standard", labelAr: "المعيار", href: `/advanced/standards/${categoryId}/${standardId}` },
+    { label: "Control", labelAr: "عنصر التحكم", href: `/advanced/standards/${categoryId}/${standardId}/${controlId}` },
+    { label: "Safeguard", labelAr: "إجراء الحماية", href: `/advanced/standards/${categoryId}/${standardId}/${controlId}/${safeguardId}` },
+    { label: "Technique", labelAr: "التقنية", href: `/advanced/standards/${categoryId}/${standardId}/${controlId}/${safeguardId}/${techniqueId}` },
+    { label: implementationStep.nameEn ?? implementationStep.nameAr ?? "", labelAr: implementationStep.nameAr ?? implementationStep.nameEn ?? "" },
+  ])
 
   const standardsService = container.standardsService
 
@@ -137,17 +149,11 @@ export default function ImplementationStepPageClient({
     <MainLayout>
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-4">
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
+
           {/* Header Section */}
           <div className="mb-8">
-            <div className="flex items-center justify-between mb-6">
-              <Link href={`/advanced/standards/${categoryId}/${standardId}/${controlId}/${safeguardId}/${techniqueId}`}>
-                <Button variant="ghost" size="sm" className="gap-2 hover:bg-primary/10">
-                  <ChevronLeft className="h-4 w-4" />
-                  <span>{language === "ar" ? "رجوع إلى التقنية" : "Back to Technique"}</span>
-                </Button>
-              </Link>
-            </div>
-
             <div className="bg-gradient-to-r from-green-500/10 to-green-600/10 dark:from-green-400/10 dark:to-green-500/10 rounded-xl p-6 border border-green-200 dark:border-green-800">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-2 bg-green-100 dark:bg-green-900/50 rounded-lg">
@@ -248,20 +254,13 @@ export default function ImplementationStepPageClient({
                           : "Not specified"}
                     </span>
                   </div> */}
-                  {implementationStep.updatedAt && (
-                    <div>
-                      <span className="font-medium">{language === "ar" ? "آخر تحديث:" : "Updated:"}</span>
-                      <span className="ml-2">{new Date(implementationStep.updatedAt).toLocaleDateString()}</span>
-                    </div>
-                  )}
                   <div>
                     <span className="font-medium">{language === "ar" ? "الحالة:" : "Status:"}</span>
                     <span
-                      className={`ml-2 px-2 py-1 rounded text-xs ${
-                        implementationStep.isActive
+                      className={`ml-2 px-2 py-1 rounded text-xs ${implementationStep.isActive
                           ? "bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-200"
                           : "bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-200"
-                      }`}
+                        }`}
                     >
                       {implementationStep.isActive
                         ? language === "ar"

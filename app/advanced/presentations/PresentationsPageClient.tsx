@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { Search, Presentation, Download, ArrowLeft } from "lucide-react"
+import { Search, Presentation, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
@@ -13,6 +13,8 @@ import { container } from "@/core/di/container"
 import { getLocalizedText } from "@/lib/utils"
 import type { ApiPresentation, PresentationsPaginatedResponse } from "@/core/domain/models/media"
 import Link from "next/link"
+import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
+import { useSimpleAdvancedBreadcrumbs } from "@/hooks/use-advanced-breadcrumbs"
 
 interface PresentationsPageClientProps {
   initialPresentations?: PresentationsPaginatedResponse
@@ -28,6 +30,11 @@ export default function PresentationsPageClient({
   const { language, isRtl } = useLanguage()
   const router = useRouter()
   const searchParams = useSearchParams()
+
+  // Breadcrumbs
+  const { items: breadcrumbItems } = useSimpleAdvancedBreadcrumbs([
+    { label: "Presentations", labelAr: "العروض التقديمية" },
+  ])
 
   const [presentations, setPresentations] = useState<ApiPresentation[]>(initialPresentations?.data || [])
   const [pagination, setPagination] = useState(
@@ -123,22 +130,13 @@ export default function PresentationsPageClient({
 
   return (
     <MainLayout>
-      <div className="min-h-screen bg-background">
-        <div className="container mx-auto px-4 py-8">
+      <div className="min-h-screen bg-background pt-24 pb-16">
+        <div className="container mx-auto px-4">
+          {/* Breadcrumbs */}
+          <AdvancedBreadcrumbs items={breadcrumbItems} />
+
           {/* Header */}
           <div className="mb-8">
-            <div className="flex items-center gap-4 mb-6">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => router.push("/advanced#media")}
-                className={`flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
-              >
-                <ArrowLeft className="h-4 w-4" />
-                {language === "ar" ? "العودة للمكتبة" : "Back to Media"}
-              </Button>
-            </div>
-
             <div className={`text-center ${isRtl ? "text-right" : "text-left"}`}>
               <h1 className={`text-4xl font-bold mb-4 ${isRtl ? "text-right" : "text-left"}`}>
                 <Presentation className="inline-block mr-3 h-8 w-8 text-primary" />
