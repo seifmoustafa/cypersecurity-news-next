@@ -5,7 +5,8 @@ import SimpleHeader from "./simple-header";
 import SimpleFooter from "./simple-footer";
 import { useTheme } from "next-themes";
 import { useLanguage } from "@/components/language-provider";
-import FloatingSystemButton from "@/components/floating-system-button";
+import FloatingSystemButton from "@/components/floating-system-button"
+import BackToTopButton from "@/components/back-to-top-button";
 import { useEffect } from "react";
 
 interface BeginnersLayoutProps {
@@ -35,6 +36,8 @@ export default function SimpleLayout({ children }: BeginnersLayoutProps) {
         {children}
         {/* Floating system button for pinned system */}
         <FloatingSystemButton />
+        {/* Back to top button */}
+        <BackToTopButton />
       </main>
       <SimpleFooter />
     </div>
