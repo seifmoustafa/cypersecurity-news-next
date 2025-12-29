@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import Header from "./header";
 import Footer from "./footer";
 import FloatingSystemButton from "@/components/floating-system-button";
+import BackToTopButton from "@/components/back-to-top-button";
 import { useTheme } from "next-themes";
 import { useLanguage } from "@/components/language-provider";
 import { useEffect } from "react";
@@ -36,6 +37,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
       <main className="flex-grow pt-36 w-full">{children}</main>
       <Footer />
       <FloatingSystemButton />
+      <BackToTopButton />
     </div>
   );
 }
