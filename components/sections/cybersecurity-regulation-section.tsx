@@ -74,9 +74,8 @@ export default function CybersecurityRegulationSection() {
       {categories.length > 0 ? (
         <Tabs defaultValue={categories[0]?.id || ""} className="w-full">
           <TabsList
-            className={`w-full max-w-2xl mx-auto mb-8 flex flex-wrap justify-center ${
-              isRtl ? "flex-row-reverse" : ""
-            }`}
+            className={`w-full max-w-2xl mx-auto mb-8 flex flex-wrap justify-center ${isRtl ? "flex-row-reverse" : ""
+              }`}
           >
             {categories.map((category) => (
               <TabsTrigger key={category.id} value={category.id} className="flex-grow">
@@ -161,7 +160,7 @@ function RegulationCategoryContent({ categoryId }: RegulationCategoryContentProp
       {regulations.length > 0 && (
         <div className="mt-8 text-center">
           <Link
-            href={`/advanced/regulation/category/${categoryId}`}
+            href={`/advanced/regulations/category/${categoryId}`}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90"
           >
             {language === "ar" ? "عرض الكل" : "View All"}
@@ -197,11 +196,11 @@ function RegulationCard({ item, index }: RegulationCardProps) {
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
-      <Link href={`/advanced/regulation/${item.id}`}>
+      <Link href={`/advanced/regulations/${item.id}`}>
         <Card className="overflow-hidden h-[280px] transition-all duration-300 hover:shadow-lg hover:border-primary/50 cursor-pointer border border-blue-200/30 dark:border-blue-800/30 flex flex-col">
           <div className="relative h-32 flex-shrink-0">
             <Image
-              src={item.imageUrl || "/placeholder.svg?height=200&width=400"}
+              src={item.imageUrl && item.imageUrl.startsWith("http") ? item.imageUrl : "/placeholder.svg?height=200&width=400"}
               alt={title}
               fill
               className="object-cover"

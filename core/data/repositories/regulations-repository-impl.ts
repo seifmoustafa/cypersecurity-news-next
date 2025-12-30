@@ -19,8 +19,13 @@ export class RegulationsRepositoryImpl implements RegulationsRepository {
   private transformRegulation(regulation: Regulation): Regulation {
     return {
       ...regulation,
-      imageUrl: regulation.imageUrl ? `${this.baseImageUrl}${regulation.imageUrl}` : regulation.imageUrl,
-      documentUrl: regulation.documentUrl ? `${this.baseImageUrl}${regulation.documentUrl}` : regulation.documentUrl,
+      // Only construct full URL if we have both baseImageUrl AND the relative path
+      imageUrl: regulation.imageUrl && this.baseImageUrl
+        ? `${this.baseImageUrl}${regulation.imageUrl}`
+        : "",
+      documentUrl: regulation.documentUrl && this.baseImageUrl
+        ? `${this.baseImageUrl}${regulation.documentUrl}`
+        : "",
     }
   }
 
