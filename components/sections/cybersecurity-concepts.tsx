@@ -48,8 +48,7 @@ export default function CybersecurityConceptsSection() {
               const categoryDefinitions = await container.services.definitions.getDefinitionsByCategoryForProfessionals(
                 category.id,
                 1,
-                10,
-                "س"
+                10
               )
               definitionsData[category.id] = categoryDefinitions.data
             } catch (error) {
@@ -214,9 +213,8 @@ export default function CybersecurityConceptsSection() {
             {definitionCategories.length > 0 ? (
               <Tabs defaultValue={definitionCategories[0]?.id || ""} className="w-full">
                 <TabsList
-                  className={`w-full max-w-2xl mx-auto mb-8 flex flex-wrap justify-center ${
-                    isRtl ? "flex-row-reverse" : ""
-                  }`}
+                  className={`w-full max-w-2xl mx-auto mb-8 flex flex-wrap justify-center ${isRtl ? "flex-row-reverse" : ""
+                    }`}
                 >
                   {definitionCategories.map((category) => (
                     <TabsTrigger key={category.id} value={category.id} className="flex-grow">
@@ -310,9 +308,8 @@ export default function CybersecurityConceptsSection() {
             {lawCategories.length > 0 ? (
               <Tabs defaultValue={lawCategories[0]?.id || ""} className="w-full">
                 <TabsList
-                  className={`w-full max-w-2xl mx-auto mb-8 flex flex-wrap justify-center ${
-                    isRtl ? "flex-row-reverse" : ""
-                  }`}
+                  className={`w-full max-w-2xl mx-auto mb-8 flex flex-wrap justify-center ${isRtl ? "flex-row-reverse" : ""
+                    }`}
                 >
                   {lawCategories.map((category) => (
                     <TabsTrigger key={category.id} value={category.id} className="flex-grow">

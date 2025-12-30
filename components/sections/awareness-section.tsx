@@ -163,16 +163,16 @@ function AllNewsContent() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={isRtl ? { direction: 'rtl' } : {}}>
         {loading
           ? Array(3)
-              .fill(0)
-              .map((_, i) => (
-                <Card key={i} className="h-[300px] animate-pulse">
-                  <div className="h-48 bg-gray-300 dark:bg-gray-700"></div>
-                  <CardContent className="p-6">
-                    <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
-                    <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full"></div>
-                  </CardContent>
-                </Card>
-              ))
+            .fill(0)
+            .map((_, i) => (
+              <Card key={i} className="h-[300px] animate-pulse">
+                <div className="h-48 bg-gray-300 dark:bg-gray-700"></div>
+                <CardContent className="p-6">
+                  <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
+                  <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full"></div>
+                </CardContent>
+              </Card>
+            ))
           : allNews.map((item, idx) => <NewsCard key={item.id} item={item} index={idx} />)}
       </div>
       {allNews.length > 0 && !loading && (
@@ -207,21 +207,21 @@ function CategoryNewsContent({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={isRtl ? { direction: 'rtl' } : {}}>
         {loading
           ? Array(3)
-              .fill(0)
-              .map((_, i) => (
-                <Card key={i} className="h-[300px] animate-pulse">
-                  <div className="h-48 bg-gray-300 dark:bg-gray-700"></div>
-                  <CardContent className="p-6">
-                    <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
-                    <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full"></div>
-                  </CardContent>
-                </Card>
-              ))
-          : news.map((item, idx) => <NewsCard key={item.id} item={item} index={idx} />)}
+            .fill(0)
+            .map((_, i) => (
+              <Card key={i} className="h-[300px] animate-pulse">
+                <div className="h-48 bg-gray-300 dark:bg-gray-700"></div>
+                <CardContent className="p-6">
+                  <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
+                  <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full"></div>
+                </CardContent>
+              </Card>
+            ))
+          : news.map((item, idx) => <NewsCard key={item.id} item={item} index={idx} categoryId={categoryId} />)}
       </div>
       {news.length > 0 && !loading && (
         <div className="mt-8 text-center">
-          <Link href={`/advanced/news/category/${categoryUrl}`}>
+          <Link href={`/advanced/news/${categoryId}`}>
             <Button variant="outline">{language === "ar" ? `عرض جميع أخبار ${categoryName}` : `View All ${categoryName} News`}</Button>
           </Link>
         </div>
@@ -233,8 +233,9 @@ function CategoryNewsContent({
 interface NewsCardProps {
   item: any
   index: number
+  categoryId?: string
 }
-function NewsCard({ item, index }: NewsCardProps) {
+function NewsCard({ item, index, categoryId }: NewsCardProps) {
   const { language, isRtl } = useLanguage()
 
   // Get title for display based on current language
@@ -263,7 +264,7 @@ function NewsCard({ item, index }: NewsCardProps) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       whileHover={{ y: -5 }}
     >
-      <Link href={`/advanced/news/${item.id}`} className="group">
+      <Link href={categoryId ? `/advanced/news/${categoryId}/${item.id}` : `/advanced/news`} className="group">
         <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 dark:hover:shadow-blue-500/30 hover:border-primary/50 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-blue-200/30 dark:border-blue-800/30">
           <div className="relative h-48">
             <Image

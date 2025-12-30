@@ -445,7 +445,7 @@ export default function SitemapPageClient() {
                 ? category.name
                 : category.nameEn || category.name,
             icon: AlertTriangle,
-            href: `/advanced/news/${category.id}`,
+            href: `/advanced/news/category/${category.id}`,
             description:
               language === "ar"
                 ? `أخبار ${category.name}`
@@ -484,7 +484,7 @@ export default function SitemapPageClient() {
             id: `awareness-year-${year.id}`,
             title: year.year.toString(),
             icon: Calendar,
-            href: `/advanced/awareness/${year.year}`,
+            href: `/advanced/awareness/years/${year.id}`,
             description:
               language === "ar"
                 ? `نشرات توعية ${year.year}`
@@ -692,8 +692,9 @@ export default function SitemapPageClient() {
             description:
               language === "ar"
                 ? `تعليمات ${instructionCat.name}`
-                : `Instructions for ${instructionCat.nameEn || instructionCat.name
-                }`,
+                : `Instructions for ${
+                    instructionCat.nameEn || instructionCat.name
+                  }`,
             type: "branch",
             level: 2,
             color: "text-green-400",
@@ -736,8 +737,9 @@ export default function SitemapPageClient() {
             description:
               language === "ar"
                 ? `إجراءات ${procedure.nameAr || procedure.nameEn || ""}`
-                : `Procedures for ${procedure.nameEn || procedure.nameAr || ""
-                }`,
+                : `Procedures for ${
+                    procedure.nameEn || procedure.nameAr || ""
+                  }`,
             type: "branch" as const,
             level: 2,
             color: "text-green-400",
@@ -768,8 +770,9 @@ export default function SitemapPageClient() {
                   description:
                     language === "ar"
                       ? `ضمان ${safeguard.nameAr || safeguard.nameEn || ""}`
-                      : `Safeguard ${safeguard.nameEn || safeguard.nameAr || ""
-                      }`,
+                      : `Safeguard ${
+                          safeguard.nameEn || safeguard.nameAr || ""
+                        }`,
                   type: "branch" as const,
                   level: 4,
                   color: "text-green-200",
@@ -784,10 +787,12 @@ export default function SitemapPageClient() {
                       href: `/advanced/procedures/${procedure.id}#technique-${technique.id}`,
                       description:
                         language === "ar"
-                          ? `تقنية ${technique.nameAr || technique.nameEn || ""
-                          }`
-                          : `Technique ${technique.nameEn || technique.nameAr || ""
-                          }`,
+                          ? `تقنية ${
+                              technique.nameAr || technique.nameEn || ""
+                            }`
+                          : `Technique ${
+                              technique.nameEn || technique.nameAr || ""
+                            }`,
                       type: "leaf" as const,
                       level: 5,
                       color: "text-green-100",
@@ -956,8 +961,9 @@ export default function SitemapPageClient() {
           <>
             {/* Vertical connecting line - thicker and more visible */}
             <div
-              className={`absolute top-0 bottom-0 w-2 bg-gradient-to-b from-blue-500 via-blue-600 to-blue-400 dark:from-blue-400 dark:via-blue-500 dark:to-blue-300 shadow-lg ${isRtl ? "right-0" : "left-0"
-                }`}
+              className={`absolute top-0 bottom-0 w-2 bg-gradient-to-b from-blue-500 via-blue-600 to-blue-400 dark:from-blue-400 dark:via-blue-500 dark:to-blue-300 shadow-lg ${
+                isRtl ? "right-0" : "left-0"
+              }`}
               style={{
                 [isRtl ? "right" : "left"]: `${indentLevel - lineOffset}px`,
               }}
@@ -965,15 +971,17 @@ export default function SitemapPageClient() {
 
             {/* Horizontal connecting line - thicker and longer */}
             <div
-              className={`absolute top-8 w-20 h-2 bg-gradient-to-r from-blue-500 to-blue-400 dark:from-blue-400 dark:to-blue-300 shadow-lg ${isRtl ? "right-0" : "left-0"
-                }`}
+              className={`absolute top-8 w-20 h-2 bg-gradient-to-r from-blue-500 to-blue-400 dark:from-blue-400 dark:to-blue-300 shadow-lg ${
+                isRtl ? "right-0" : "left-0"
+              }`}
               style={{ [isRtl ? "right" : "left"]: `${indentLevel - 80}px` }}
             />
 
             {/* Connection point - larger circle */}
             <div
-              className={`absolute top-7 w-4 h-4 bg-blue-600 dark:bg-blue-400 rounded-full border-3 border-white dark:border-slate-800 shadow-lg ${isRtl ? "right-0" : "left-0"
-                }`}
+              className={`absolute top-7 w-4 h-4 bg-blue-600 dark:bg-blue-400 rounded-full border-3 border-white dark:border-slate-800 shadow-lg ${
+                isRtl ? "right-0" : "left-0"
+              }`}
               style={{
                 [isRtl ? "right" : "left"]: `${indentLevel - lineOffset - 8}px`,
               }}
@@ -982,8 +990,9 @@ export default function SitemapPageClient() {
         )}
 
         <div
-          className={`${getNodeStyles()} ${isRtl ? "mr-8" : "ml-8"} ${hasChildren ? "cursor-pointer" : ""
-            }`}
+          className={`${getNodeStyles()} ${isRtl ? "mr-8" : "ml-8"} ${
+            hasChildren ? "cursor-pointer" : ""
+          }`}
           style={{ [isRtl ? "marginRight" : "marginLeft"]: `${indentLevel}px` }}
           onMouseEnter={() => setHoveredNode(node.id)}
           onMouseLeave={() => setHoveredNode(null)}
@@ -993,11 +1002,11 @@ export default function SitemapPageClient() {
           onKeyDown={
             hasChildren
               ? (e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  toggleSection(node.id);
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    toggleSection(node.id);
+                  }
                 }
-              }
               : undefined
           }
           aria-expanded={hasChildren ? isExpanded : undefined}
@@ -1012,12 +1021,13 @@ export default function SitemapPageClient() {
               {/* Enhanced Icon with better styling */}
               <div className="flex-shrink-0 relative">
                 <div
-                  className={`p-4 rounded-xl transition-all duration-200 ${node.type === "root"
+                  className={`p-4 rounded-xl transition-all duration-200 ${
+                    node.type === "root"
                       ? "bg-white/25 backdrop-blur-sm shadow-lg"
                       : node.type === "branch"
-                        ? "bg-slate-100 dark:bg-slate-700 border-2 border-slate-200 dark:border-slate-600 shadow-md"
-                        : "bg-slate-50 dark:bg-slate-600 border-2 border-slate-100 dark:border-slate-500 shadow-sm"
-                    }`}
+                      ? "bg-slate-100 dark:bg-slate-700 border-2 border-slate-200 dark:border-slate-600 shadow-md"
+                      : "bg-slate-50 dark:bg-slate-600 border-2 border-slate-100 dark:border-slate-500 shadow-sm"
+                  }`}
                 >
                   <node.icon className={getIconStyles()} />
                 </div>
@@ -1025,8 +1035,9 @@ export default function SitemapPageClient() {
                 {/* Enhanced Glow Effect */}
                 {isHovered && (
                   <div
-                    className={`absolute inset-0 rounded-lg bg-gradient-to-r ${node.gradient || "from-blue-500 to-blue-500"
-                      } opacity-20 blur-sm`}
+                    className={`absolute inset-0 rounded-lg bg-gradient-to-r ${
+                      node.gradient || "from-blue-500 to-blue-500"
+                    } opacity-20 blur-sm`}
                   />
                 )}
               </div>
@@ -1038,12 +1049,13 @@ export default function SitemapPageClient() {
                   {node.href ? (
                     <Link
                       href={node.href}
-                      className={`font-bold truncate ${node.type === "root"
+                      className={`font-bold truncate ${
+                        node.type === "root"
                           ? "text-white text-xl"
                           : hasChildren
-                            ? "text-slate-900 dark:text-slate-100 text-lg"
-                            : "text-slate-800 dark:text-slate-200 text-base"
-                        } hover:underline hover:text-blue-600 dark:hover:text-blue-400`}
+                          ? "text-slate-900 dark:text-slate-100 text-lg"
+                          : "text-slate-800 dark:text-slate-200 text-base"
+                      } hover:underline hover:text-blue-600 dark:hover:text-blue-400`}
                       onClick={(e) => e.stopPropagation()}
                       aria-label={`فتح ${node.title}`}
                     >
@@ -1052,10 +1064,11 @@ export default function SitemapPageClient() {
                   ) : hasChildren ? (
                     <button
                       type="button"
-                      className={`font-bold truncate text-left ${node.type === "root"
+                      className={`font-bold truncate text-left ${
+                        node.type === "root"
                           ? "text-white text-xl"
                           : "text-slate-900 dark:text-slate-100 text-lg"
-                        }`}
+                      }`}
                       aria-expanded={isExpanded}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -1066,10 +1079,11 @@ export default function SitemapPageClient() {
                     </button>
                   ) : (
                     <span
-                      className={`font-bold truncate ${node.type === "root"
+                      className={`font-bold truncate ${
+                        node.type === "root"
                           ? "text-white text-xl"
                           : "text-slate-800 dark:text-slate-200 text-base"
-                        }`}
+                      }`}
                     >
                       {node.title}
                     </span>
@@ -1079,10 +1093,11 @@ export default function SitemapPageClient() {
                   <div className="flex items-center space-x-1 rtl:space-x-reverse">
                     {node.count !== undefined && (
                       <span
-                        className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold ${node.type === "root"
+                        className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold ${
+                          node.type === "root"
                             ? "bg-white/20 text-white border border-white/30"
                             : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 border border-blue-200 dark:border-blue-700"
-                          }`}
+                        }`}
                       >
                         {node.count}
                       </span>
@@ -1098,10 +1113,11 @@ export default function SitemapPageClient() {
 
                 {node.description && (
                   <p
-                    className={`mt-2 truncate ${node.type === "root"
+                    className={`mt-2 truncate ${
+                      node.type === "root"
                         ? "text-white/90 text-base"
                         : "text-slate-600 dark:text-slate-300 text-sm"
-                      }`}
+                    }`}
                   >
                     {node.description}
                   </p>
@@ -1113,10 +1129,11 @@ export default function SitemapPageClient() {
             <div className="flex items-center space-x-2 rtl:space-x-reverse">
               {hasChildren && (
                 <div
-                  className={`p-2 rounded-lg transition-all duration-200 ${node.type === "root"
+                  className={`p-2 rounded-lg transition-all duration-200 ${
+                    node.type === "root"
                       ? "text-white/80"
                       : "text-slate-500 dark:text-slate-400"
-                    }`}
+                  }`}
                 >
                   {isExpanded ? (
                     <ChevronDown className="h-5 w-5" />
@@ -1128,10 +1145,11 @@ export default function SitemapPageClient() {
               {node.href && (
                 <Link
                   href={node.href}
-                  className={`p-2 rounded-lg transition-all duration-200 ${node.type === "root"
+                  className={`p-2 rounded-lg transition-all duration-200 ${
+                    node.type === "root"
                       ? "hover:bg-white/20 text-white border border-white/20"
                       : "hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-500 border border-blue-200 dark:border-blue-700"
-                    }`}
+                  }`}
                   aria-label={`Navigate to ${node.title}`}
                   onClick={(e) => e.stopPropagation()} // Prevent parent click when clicking link
                 >
@@ -1169,10 +1187,11 @@ export default function SitemapPageClient() {
           className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border-2 border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600 transition-colors overflow-hidden mb-4"
         >
           <div
-            className={`${hasGradient
+            className={`${
+              hasGradient
                 ? `bg-gradient-to-r ${node.gradient} text-white`
                 : "bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100"
-              } p-4`}
+            } p-4`}
           >
             <div className="flex items-center justify-between">
               <div
@@ -1182,39 +1201,43 @@ export default function SitemapPageClient() {
                 }}
               >
                 <node.icon
-                  className={`h-7 w-7 ${hasGradient
+                  className={`h-7 w-7 ${
+                    hasGradient
                       ? "text-white"
                       : "text-blue-600 dark:text-blue-300"
-                    }`}
+                  }`}
                 />
                 <div>
                   {node.href ? (
                     <Link
                       href={node.href}
-                      className={`text-xl font-bold hover:underline ${hasGradient
+                      className={`text-xl font-bold hover:underline ${
+                        hasGradient
                           ? "text-white hover:text-blue-50"
                           : "text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-300"
-                        }`}
+                      }`}
                       onClick={(e) => e.stopPropagation()}
                     >
                       {node.title}
                     </Link>
                   ) : (
                     <h3
-                      className={`text-xl font-bold ${hasGradient
+                      className={`text-xl font-bold ${
+                        hasGradient
                           ? "text-white"
                           : "text-slate-900 dark:text-slate-100"
-                        }`}
+                      }`}
                     >
                       {node.title}
                     </h3>
                   )}
                   {node.description && (
                     <p
-                      className={`${hasGradient
+                      className={`${
+                        hasGradient
                           ? "text-white/90"
                           : "text-slate-600 dark:text-slate-300"
-                        } text-base`}
+                      } text-base`}
                     >
                       {node.description}
                     </p>
@@ -1224,10 +1247,11 @@ export default function SitemapPageClient() {
               <div className="flex items-center space-x-2 rtl:space-x-reverse">
                 {node.count !== undefined && (
                   <span
-                    className={`${hasGradient
+                    className={`${
+                      hasGradient
                         ? "bg-white/20 text-white"
                         : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
-                      } px-3 py-1 rounded-full text-base font-semibold`}
+                    } px-3 py-1 rounded-full text-base font-semibold`}
                   >
                     {node.count}
                   </span>
@@ -1235,10 +1259,11 @@ export default function SitemapPageClient() {
                 {hasChildren && (
                   <button
                     onClick={() => toggleSection(node.id)}
-                    className={`${hasGradient
+                    className={`${
+                      hasGradient
                         ? "bg-white/20 hover:bg-white/30 text-white"
                         : "bg-slate-200 hover:bg-slate-300 text-slate-700 dark:bg-slate-600 dark:hover:bg-slate-500 dark:text-slate-100"
-                      } p-3 rounded-lg transition-all duration-200`}
+                    } p-3 rounded-lg transition-all duration-200`}
                   >
                     {isExpanded ? (
                       <ChevronDown className="h-5 w-5" />
@@ -1250,10 +1275,11 @@ export default function SitemapPageClient() {
                 {node.href && (
                   <Link
                     href={node.href}
-                    className={`${hasGradient
+                    className={`${
+                      hasGradient
                         ? "bg-white/20 hover:bg-white/30 text-white"
                         : "bg-slate-200 hover:bg-slate-300 text-slate-700 dark:bg-slate-600 dark:hover:bg-slate-500 dark:text-slate-100"
-                      } p-3 rounded-lg transition-all duration-200`}
+                    } p-3 rounded-lg transition-all duration-200`}
                     onClick={(e) => e.stopPropagation()}
                   >
                     <ExternalLink className="h-5 w-5" />
@@ -1359,18 +1385,19 @@ export default function SitemapPageClient() {
                     <button
                       key={mode}
                       onClick={() => setViewMode(mode)}
-                      className={`px-3 py-1 rounded-md text-sm font-medium transition-all duration-200 ${viewMode === mode
+                      className={`px-3 py-1 rounded-md text-sm font-medium transition-all duration-200 ${
+                        viewMode === mode
                           ? "bg-white dark:bg-slate-600 text-blue-600 dark:text-blue-400 shadow-sm"
                           : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
-                        }`}
+                      }`}
                     >
                       {mode === "tree"
                         ? language === "ar"
                           ? "شجرة"
                           : "Tree"
                         : language === "ar"
-                          ? "قائمة"
-                          : "List"}
+                        ? "قائمة"
+                        : "List"}
                     </button>
                   ))}
                 </div>

@@ -2,15 +2,16 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { useLanguage } from "@/components/language-provider"
 import { container } from "@/core/di/container"
-import type { InstructionCategoriesResponse } from "@/core/domain/models/instruction-category"
-import { FileText, Folder, TrendingUp, Sparkles, Search } from "lucide-react"
+import type { DefinitionCategory, DefinitionCategoriesPaginatedResponse } from "@/core/domain/models/definition"
+import { BookOpen, Sparkles, Search } from "lucide-react"
 import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
 
-export default function InstructionCategoriesPage() {
+export default function DefinitionsPage() {
       const { language, isRtl } = useLanguage()
-      const [data, setData] = useState<InstructionCategoriesResponse | null>(null)
+      const [data, setData] = useState<DefinitionCategoriesPaginatedResponse | null>(null)
       const [loading, setLoading] = useState(true)
       const [searchQuery, setSearchQuery] = useState("")
 
@@ -18,10 +19,11 @@ export default function InstructionCategoriesPage() {
             const fetchData = async () => {
                   try {
                         setLoading(true)
-                        const response = await container.services.instructionCategories.getAllCategories(1, 100)
+                        // Fetch categories for professionals (advanced layout)
+                        const response = await container.services.definitions.getAllCategoriesForProfessionals(1, 100)
                         setData(response)
                   } catch (error) {
-                        console.error("❌ Error fetching instruction categories:", error)
+                        console.error("❌ Error fetching definition categories:", error)
                   } finally {
                         setLoading(false)
                   }
@@ -39,7 +41,7 @@ export default function InstructionCategoriesPage() {
             return (
                   <div className="min-h-screen">
                         <div className="container mx-auto px-4 pt-8 pb-16">
-                              <AdvancedBreadcrumbs items={[{ label: language === "ar" ? "التعليمات" : "Instructions" }]} />
+                              <AdvancedBreadcrumbs items={[{ label: language === "ar" ? "التعريفات" : "Definitions" }]} />
                               <div className="animate-pulse space-y-8 mt-8">
                                     <div className="h-12 bg-gray-300 dark:bg-gray-700 rounded w-1/3"></div>
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -56,23 +58,23 @@ export default function InstructionCategoriesPage() {
       return (
             <div className="min-h-screen">
                   <div className="container mx-auto px-4 pt-8 pb-16">
-                        {/* Breadcrumbs: Home > Instructions */}
-                        <AdvancedBreadcrumbs items={[{ label: language === "ar" ? "التعليمات" : "Instructions" }]} />
+                        {/* Breadcrumbs: Home > Definitions */}
+                        <AdvancedBreadcrumbs items={[{ label: language === "ar" ? "التعريفات" : "Definitions" }]} />
 
                         {/* Header */}
                         <div className="mb-10 mt-6">
                               <div className="inline-flex items-center justify-center p-3 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl mb-6 shadow-lg shadow-blue-500/30">
-                                    <FileText className="h-8 w-8 text-white" />
+                                    <BookOpen className="h-8 w-8 text-white" />
                               </div>
 
                               <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent">
-                                    {language === "ar" ? "فئات التعليمات" : "Instructions Categories"}
+                                    {language === "ar" ? "فئات التعريفات" : "Definition Categories"}
                               </h1>
 
                               <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl">
                                     {language === "ar"
-                                          ? "تصفح تعليمات الأمن السيبراني حسب الفئة"
-                                          : "Browse cybersecurity instructions by category"}
+                                          ? "تصفح تعريفات ومفاهيم الأمن السيبراني"
+                                          : "Browse cybersecurity definitions and concepts"}
                               </p>
 
                               <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-900/30 rounded-full">
@@ -100,11 +102,10 @@ export default function InstructionCategoriesPage() {
                         {/* Categories Grid */}
                         {filteredCategories.length === 0 ? (
                               <div className="text-center py-16">
-                                    {/* <Folder className="h-16 w-16 text-gray-400 mx-auto mb-4" /> */}
                                     <p className="text-xl text-gray-600 dark:text-gray-400">
                                           {searchQuery
                                                 ? (language === "ar" ? "لا توجد نتائج للبحث" : "No search results")
-                                                : (language === "ar" ? "لا توجد فئات تعليمات متاحة" : "No instruction categories available")
+                                                : (language === "ar" ? "لا توجد فئات تعريفات متاحة" : "No definition categories available")
                                           }
                                     </p>
                               </div>
@@ -120,28 +121,41 @@ export default function InstructionCategoriesPage() {
       )
 }
 
-function CategoryCard({ category, language, isRtl }: { category: any; language: string; isRtl: boolean }) {
+function CategoryCard({ category, language, isRtl }: { category: DefinitionCategory; language: string; isRtl: boolean }) {
       const name = language === "ar" ? category.name : (category.nameEn || category.name)
 
       return (
-            <Link href={`/advanced/instructions/category/${category.id}`} className="group">
-                  <article className="h-full bg-white/10 dark:bg-slate-800/50 rounded-2xl backdrop-blur-sm border border-white/20 dark:border-gray-700 overflow-hidden hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 hover:-translate-y-2 p-6">
-                        {/* Icon */}
-                        <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20 mb-6 group-hover:scale-110 transition-transform">
-                              <FileText className="h-7 w-7 text-white" />
-                        </div>
+            <Link href={`/advanced/definitions/category/${category.id}`} className="group">
+                  <article className="h-full bg-white/10 dark:bg-slate-800/50 rounded-2xl backdrop-blur-sm border border-white/20 dark:border-gray-700 overflow-hidden hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 hover:-translate-y-2">
+                        {/* Image */}
+                        {category.imageUrl ? (
+                              <div className="relative h-40 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 overflow-hidden">
+                                    <Image
+                                          src={category.imageUrl}
+                                          alt={name}
+                                          fill
+                                          className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                    />
+                              </div>
+                        ) : (
+                              <div className="h-40 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 flex items-center justify-center">
+                                    <BookOpen className="h-16 w-16 text-blue-400 dark:text-blue-600" />
+                              </div>
+                        )}
 
                         {/* Content */}
-                        <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                              {name}
-                        </h3>
+                        <div className="p-6">
+                              <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                                    {name}
+                              </h3>
 
-                        {/* Browse Link */}
-                        <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium text-sm group-hover:gap-3 transition-all">
-                              <span>{language === "ar" ? "تصفح السنوات" : "Browse Years"}</span>
-                              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isRtl ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"} />
-                              </svg>
+                              {/* Browse Link */}
+                              <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium text-sm group-hover:gap-3 transition-all">
+                                    <span>{language === "ar" ? "تصفح التعريفات" : "Browse Definitions"}</span>
+                                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isRtl ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"} />
+                                    </svg>
+                              </div>
                         </div>
                   </article>
             </Link>

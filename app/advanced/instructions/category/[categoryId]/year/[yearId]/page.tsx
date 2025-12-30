@@ -1,25 +1,29 @@
 "use client"
 
 import { use, useEffect, useState } from "react"
+import Link from "next/link"
 import { useLanguage } from "@/components/language-provider"
 import { container } from "@/core/di/container"
-import type { AwarenessResponse } from "@/core/domain/models/awareness"
-import { FileText, Calendar, TrendingUp, Sparkles, Search } from "lucide-react"
+import type { InstructionCategory } from "@/core/domain/models/instruction-category"
+import type { InstructionYear } from "@/core/domain/models/instruction-year"
+import type { InstructionsPaginatedResponse } from "@/core/domain/models/instruction"
+import { FileText, Calendar, TrendingUp, Sparkles, Search, Download } from "lucide-react"
 import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
-import Link from "next/link"
 
-interface YearPageProps {
+interface YearInstructionsPageProps {
       params: Promise<{
-            year: string
+            categoryId: string
+            yearId: string
       }>
 }
 
-export default function AwarenessYearPage({ params }: YearPageProps) {
+export default function InstructionYearPage({ params }: YearInstructionsPageProps) {
       const { language, isRtl } = useLanguage()
       const resolvedParams = use(params)
 
-      const [data, setData] = useState<AwarenessResponse | null>(null)
-      const [yearData, setYearData] = useState<any>(null)
+      const [category, setCategory] = useState<InstructionCategory | null>(null)
+      const [yearData, setYearData] = useState<InstructionYear | null>(null)
+      const [instructionsData, setInstructionsData] = useState<InstructionsPaginatedResponse | null>(null)
       const [loading, setLoading] = useState(true)
       const [searchQuery, setSearchQuery] = useState("")
 
@@ -28,37 +32,42 @@ export default function AwarenessYearPage({ params }: YearPageProps) {
                   try {
                         setLoading(true)
 
-                        // First get all years to find the yearId for the year number
-                        const yearsResponse = await container.services.awareness.getAllAwarenessYears("", 1, 100)
-                        const foundYear = yearsResponse.data.find((y: any) => y.year.toString() === resolvedParams.year)
+                        // Fetch category
+                        const categoryData = await container.services.instructionCategories.getCategoryById(resolvedParams.categoryId)
+                        setCategory(categoryData)
 
-                        if (foundYear) {
-                              setYearData(foundYear)
-                              // Then get bulletins for that year
-                              const response = await container.services.awareness.getAwarenessByYearId(foundYear.id, "", 1, 100)
-                              setData(response)
-                        }
+                        // Fetch year data
+                        const year = await container.services.instructionYears.getYearById(resolvedParams.yearId)
+                        setYearData(year)
+
+                        // Fetch instructions for this year
+                        const instructions = await container.services.instructions.getInstructionsByYearId(resolvedParams.yearId, 1, 100)
+                        setInstructionsData(instructions)
                   } catch (error) {
-                        console.error("❌ Error fetching year awareness data:", error)
+                        console.error("❌ Error fetching year instructions:", error)
                   } finally {
                         setLoading(false)
                   }
             }
             fetchData()
-      }, [resolvedParams.year])
+      }, [resolvedParams.categoryId, resolvedParams.yearId])
 
-      const filteredItems = data?.data.filter(item => {
+      const categoryName = category ? (language === "ar" ? category.name : (category.nameEn || category.name)) : ""
+      const instructions = instructionsData?.data || []
+
+      const filteredInstructions = instructions.filter(item => {
             const title = language === "ar" ? item.title : (item.titleEn || item.title)
             return title?.toLowerCase().includes(searchQuery.toLowerCase())
-      }) || []
+      })
 
       if (loading) {
             return (
                   <div className="min-h-screen">
                         <div className="container mx-auto px-4 pt-8 pb-16">
                               <AdvancedBreadcrumbs items={[
-                                    { label: language === "ar" ? "التوعية" : "Awareness", href: "/advanced/awareness" },
-                                    { label: resolvedParams.year }
+                                    { label: language === "ar" ? "التعليمات" : "Instructions", href: "/advanced/instructions/category" },
+                                    { label: "..." },
+                                    { label: "..." }
                               ]} />
                               <div className="animate-pulse space-y-8 mt-8">
                                     <div className="h-12 bg-gray-300 dark:bg-gray-700 rounded w-1/2"></div>
@@ -76,10 +85,11 @@ export default function AwarenessYearPage({ params }: YearPageProps) {
       return (
             <div className="min-h-screen">
                   <div className="container mx-auto px-4 pt-8 pb-16">
-                        {/* Breadcrumbs: Home > Awareness > [Year] */}
+                        {/* Breadcrumbs: Home > Instructions > [Category] > [Year] */}
                         <AdvancedBreadcrumbs items={[
-                              { label: language === "ar" ? "التوعية" : "Awareness", href: "/advanced/awareness" },
-                              { label: resolvedParams.year }
+                              { label: language === "ar" ? "التعليمات" : "Instructions", href: "/advanced/instructions/category" },
+                              { label: categoryName, href: `/advanced/instructions/category/${resolvedParams.categoryId}` },
+                              { label: yearData?.year?.toString() || "" }
                         ]} />
 
                         {/* Header */}
@@ -89,32 +99,22 @@ export default function AwarenessYearPage({ params }: YearPageProps) {
                               </div> */}
 
                               <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent">
-                                    {language === "ar" ? `نشرات التوعية ${resolvedParams.year}` : `${resolvedParams.year} Awareness Bulletins`}
+                                    {language === "ar"
+                                          ? `تعليمات ${categoryName} - ${yearData?.year}`
+                                          : `${categoryName} Instructions - ${yearData?.year}`}
                               </h1>
 
                               <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl">
                                     {language === "ar"
-                                          ? `تصفح جميع نشرات التوعية لعام ${resolvedParams.year}`
-                                          : `Browse all awareness bulletins for ${resolvedParams.year}`}
+                                          ? `تصفح جميع تعليمات ${categoryName} لعام ${yearData?.year}`
+                                          : `Browse all ${categoryName} instructions for ${yearData?.year}`}
                               </p>
 
-                              <div className="mt-4 flex flex-wrap items-center gap-4">
-                                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-900/30 rounded-full">
-                                          <Sparkles className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                                          <span className="text-sm font-medium text-blue-700 dark:text-blue-300">
-                                                {language === "ar" ? `${filteredItems.length} نشرة متاحة` : `${filteredItems.length} bulletins available`}
-                                          </span>
-                                    </div>
-
-                                    <Link
-                                          href="/advanced/awareness/years"
-                                          className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-full hover:bg-indigo-200 dark:hover:bg-indigo-900/50 transition-colors"
-                                    >
-                                          <Calendar className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
-                                          <span className="text-sm font-medium text-indigo-700 dark:text-indigo-300">
-                                                {language === "ar" ? "جميع السنوات" : "All Years"}
-                                          </span>
-                                    </Link>
+                              <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-900/30 rounded-full">
+                                    <Sparkles className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                                    <span className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                                          {language === "ar" ? `${filteredInstructions.length} تعليمة متاحة` : `${filteredInstructions.length} instructions available`}
+                                    </span>
                               </div>
                         </div>
 
@@ -126,27 +126,34 @@ export default function AwarenessYearPage({ params }: YearPageProps) {
                                           type="text"
                                           value={searchQuery}
                                           onChange={(e) => setSearchQuery(e.target.value)}
-                                          placeholder={language === "ar" ? "ابحث في النشرات..." : "Search bulletins..."}
+                                          placeholder={language === "ar" ? "ابحث في التعليمات..." : "Search instructions..."}
                                           className="w-full pl-12 rtl:pl-4 rtl:pr-12 pr-4 py-3 bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                                     />
                               </div>
                         </div>
 
-                        {/* Bulletins Grid */}
-                        {filteredItems.length === 0 ? (
+                        {/* Instructions Grid */}
+                        {filteredInstructions.length === 0 ? (
                               <div className="text-center py-16">
                                     <FileText className="h-16 w-16 text-gray-400 mx-auto mb-4" />
                                     <p className="text-xl text-gray-600 dark:text-gray-400">
                                           {searchQuery
                                                 ? (language === "ar" ? "لا توجد نتائج للبحث" : "No search results")
-                                                : (language === "ar" ? "لا توجد نشرات متاحة لهذا العام" : "No bulletins available for this year")
+                                                : (language === "ar" ? "لا توجد تعليمات متاحة لهذا العام" : "No instructions available for this year")
                                           }
                                     </p>
                               </div>
                         ) : (
                               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                    {filteredItems.map((item) => (
-                                          <AwarenessCard key={item.id} item={item} year={resolvedParams.year} language={language} isRtl={isRtl} />
+                                    {filteredInstructions.map((item) => (
+                                          <InstructionCard
+                                                key={item.id}
+                                                item={item}
+                                                categoryId={resolvedParams.categoryId}
+                                                yearId={resolvedParams.yearId}
+                                                language={language}
+                                                isRtl={isRtl}
+                                          />
                                     ))}
                               </div>
                         )}
@@ -155,23 +162,26 @@ export default function AwarenessYearPage({ params }: YearPageProps) {
       )
 }
 
-function AwarenessCard({ item, year, language, isRtl }: { item: any; year: string; language: string; isRtl: boolean }) {
+function InstructionCard({ item, categoryId, yearId, language, isRtl }: { item: any; categoryId: string; yearId: string; language: string; isRtl: boolean }) {
       const title = language === "ar" ? item.title : (item.titleEn || item.title)
       const summary = language === "ar" ? item.summary : (item.summaryEn || item.summary)
-
       const cleanSummary = (summary || "").replace(/<\/?[^>]+(>|$)/g, "").trim()
 
       return (
-            <Link href={`/advanced/awareness/${year}/${item.id}`} className="group">
+            <Link href={`/advanced/instructions/category/${categoryId}/year/${yearId}/${item.id}`} className="group">
                   <article className="h-full bg-white/10 dark:bg-slate-800/50 rounded-2xl backdrop-blur-sm border border-white/20 dark:border-gray-700 overflow-hidden hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 hover:-translate-y-2 p-6">
-                        {/* Icon & Year Badge */}
+                        {/* Icon & Badge */}
                         <div className="flex items-start justify-between mb-6">
                               <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
                                     <FileText className="h-6 w-6 text-white" />
                               </div>
-                              <div className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 rounded-full">
-                                    <span className="text-xs font-medium text-blue-600 dark:text-blue-400">{item.year || year}</span>
-                              </div>
+
+                              {item.documentUrl && (
+                                    <div className="px-3 py-1 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center gap-1">
+                                          <Download className="h-3 w-3 text-green-600 dark:text-green-400" />
+                                          <span className="text-xs font-medium text-green-600 dark:text-green-400">PDF</span>
+                                    </div>
+                              )}
                         </div>
 
                         {/* Content */}
@@ -187,7 +197,7 @@ function AwarenessCard({ item, year, language, isRtl }: { item: any; year: strin
 
                         {/* Read More */}
                         <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium text-sm group-hover:gap-3 transition-all mt-auto">
-                              <span>{language === "ar" ? "اقرأ المزيد" : "Read more"}</span>
+                              <span>{language === "ar" ? "عرض التفاصيل" : "View Details"}</span>
                               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isRtl ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"} />
                               </svg>

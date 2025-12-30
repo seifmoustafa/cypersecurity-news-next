@@ -3,23 +3,28 @@
 import { use, useEffect, useState } from "react"
 import { useLanguage } from "@/components/language-provider"
 import { container } from "@/core/di/container"
-import type { Awareness } from "@/core/domain/models/awareness"
+import type { Instruction } from "@/core/domain/models/instruction"
+import type { InstructionCategory } from "@/core/domain/models/instruction-category"
+import type { InstructionYear } from "@/core/domain/models/instruction-year"
 import { FileText, Calendar, Share2, Eye, TrendingUp, Download } from "lucide-react"
 import AdvancedBreadcrumbs from "@/components/advanced-breadcrumbs"
 import { Button } from "@/components/ui/button"
 
-interface AwarenessDetailPageProps {
+interface InstructionDetailPageProps {
       params: Promise<{
-            year: string
+            categoryId: string
+            yearId: string
             id: string
       }>
 }
 
-export default function AwarenessDetailPage({ params }: AwarenessDetailPageProps) {
+export default function InstructionDetailPage({ params }: InstructionDetailPageProps) {
       const { language, isRtl } = useLanguage()
       const resolvedParams = use(params)
 
-      const [awareness, setAwareness] = useState<Awareness | null>(null)
+      const [instruction, setInstruction] = useState<Instruction | null>(null)
+      const [category, setCategory] = useState<InstructionCategory | null>(null)
+      const [yearData, setYearData] = useState<InstructionYear | null>(null)
       const [loading, setLoading] = useState(true)
       const [error, setError] = useState<string | null>(null)
       const [isDownloading, setIsDownloading] = useState(false)
@@ -28,23 +33,32 @@ export default function AwarenessDetailPage({ params }: AwarenessDetailPageProps
             const fetchData = async () => {
                   try {
                         setLoading(true)
-                        const response = await container.services.awareness.getAwarenessById(resolvedParams.id)
-                        setAwareness(response)
+
+                        // Fetch instruction
+                        const instructionData = await container.services.instructions.getInstructionById(resolvedParams.id)
+                        setInstruction(instructionData)
+
+                        // Fetch category for breadcrumbs
+                        const categoryData = await container.services.instructionCategories.getCategoryById(resolvedParams.categoryId)
+                        setCategory(categoryData)
+
+                        // Fetch year for breadcrumbs
+                        const year = await container.services.instructionYears.getYearById(resolvedParams.yearId)
+                        setYearData(year)
                   } catch (err) {
-                        console.error("❌ Error fetching awareness:", err)
-                        setError(language === "ar" ? "حدث خطأ في تحميل النشرة" : "Error loading bulletin")
+                        console.error("❌ Error fetching instruction:", err)
+                        setError(language === "ar" ? "حدث خطأ في تحميل التعليمة" : "Error loading instruction")
                   } finally {
                         setLoading(false)
                   }
             }
             fetchData()
-      }, [resolvedParams.id, language])
+      }, [resolvedParams.id, resolvedParams.categoryId, resolvedParams.yearId, language])
 
       const handleDownload = async (documentUrl: string, title: string) => {
             if (documentUrl) {
                   setIsDownloading(true)
                   try {
-                        // Create a temporary link and trigger download
                         const link = document.createElement("a")
                         link.href = documentUrl
                         link.download = `${title}.pdf`
@@ -60,13 +74,16 @@ export default function AwarenessDetailPage({ params }: AwarenessDetailPageProps
             }
       }
 
+      const categoryName = category ? (language === "ar" ? category.name : (category.nameEn || category.name)) : ""
+
       if (loading) {
             return (
                   <div className="min-h-screen">
                         <div className="container mx-auto px-4 pt-8 pb-16">
                               <AdvancedBreadcrumbs items={[
-                                    { label: language === "ar" ? "التوعية" : "Awareness", href: "/advanced/awareness" },
-                                    { label: resolvedParams.year, href: `/advanced/awareness/${resolvedParams.year}` },
+                                    { label: language === "ar" ? "التعليمات" : "Instructions", href: "/advanced/instructions/category" },
+                                    { label: "..." },
+                                    { label: "..." },
                                     { label: "..." }
                               ]} />
                               <div className="animate-pulse space-y-8 mt-8">
@@ -82,12 +99,12 @@ export default function AwarenessDetailPage({ params }: AwarenessDetailPageProps
             )
       }
 
-      if (error || !awareness) {
+      if (error || !instruction) {
             return (
                   <div className="min-h-screen">
                         <div className="container mx-auto px-4 pt-8 pb-16">
                               <AdvancedBreadcrumbs items={[
-                                    { label: language === "ar" ? "التوعية" : "Awareness", href: "/advanced/awareness" },
+                                    { label: language === "ar" ? "التعليمات" : "Instructions", href: "/advanced/instructions/category" },
                                     { label: language === "ar" ? "خطأ" : "Error" }
                               ]} />
 
@@ -96,10 +113,10 @@ export default function AwarenessDetailPage({ params }: AwarenessDetailPageProps
                                           <FileText className="h-12 w-12 text-red-500" />
                                     </div>
                                     <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                                          {language === "ar" ? "النشرة غير موجودة" : "Bulletin Not Found"}
+                                          {language === "ar" ? "التعليمة غير موجودة" : "Instruction Not Found"}
                                     </h1>
                                     <p className="text-gray-600 dark:text-gray-400 mb-8">
-                                          {error || (language === "ar" ? "عذراً، النشرة المطلوبة غير متاحة" : "Sorry, the requested bulletin is not available")}
+                                          {error || (language === "ar" ? "عذراً، التعليمة المطلوبة غير متاحة" : "Sorry, the requested instruction is not available")}
                                     </p>
                               </div>
                         </div>
@@ -107,18 +124,18 @@ export default function AwarenessDetailPage({ params }: AwarenessDetailPageProps
             )
       }
 
-      const title = language === "ar" ? awareness.title : (awareness.titleEn || awareness.title)
-      const content = language === "ar" ? awareness.content : (awareness.contentEn || awareness.content)
-      const summary = language === "ar" ? awareness.summary : (awareness.summaryEn || awareness.summary)
-      const documentUrl = (awareness as any).documentUrl
+      const title = language === "ar" ? instruction.title : (instruction.titleEn || instruction.title)
+      const content = language === "ar" ? instruction.content : (instruction.contentEn || instruction.content)
+      const summary = language === "ar" ? instruction.summary : (instruction.summaryEn || instruction.summary)
 
       return (
             <div className="min-h-screen">
                   <div className="container mx-auto px-4 pt-8 pb-16">
-                        {/* Breadcrumbs: Home > Awareness > [Year] > [Bulletin] */}
+                        {/* Breadcrumbs: Home > Instructions > [Category] > [Year] > [Instruction] */}
                         <AdvancedBreadcrumbs items={[
-                              { label: language === "ar" ? "التوعية" : "Awareness", href: "/advanced/awareness" },
-                              { label: resolvedParams.year, href: `/advanced/awareness/${resolvedParams.year}` },
+                              { label: language === "ar" ? "التعليمات" : "Instructions", href: "/advanced/instructions/category" },
+                              { label: categoryName, href: `/advanced/instructions/category/${resolvedParams.categoryId}` },
+                              { label: yearData?.year?.toString() || "", href: `/advanced/instructions/category/${resolvedParams.categoryId}/year/${resolvedParams.yearId}` },
                               { label: title || "" }
                         ]} />
 
@@ -135,13 +152,13 @@ export default function AwarenessDetailPage({ params }: AwarenessDetailPageProps
                                                       <div className="flex items-center gap-3 mb-4 flex-wrap">
                                                             <div className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full flex items-center gap-2">
                                                                   <Calendar className="h-4 w-4 text-white" />
-                                                                  <span className="text-sm font-medium text-white">{awareness.year || resolvedParams.year}</span>
+                                                                  <span className="text-sm font-medium text-white">{yearData?.year}</span>
                                                             </div>
 
                                                             {/* Download Button in Header */}
-                                                            {documentUrl && (
+                                                            {instruction.documentUrl && (
                                                                   <Button
-                                                                        onClick={() => handleDownload(documentUrl, title || "document")}
+                                                                        onClick={() => handleDownload(instruction.documentUrl!, title || "document")}
                                                                         disabled={isDownloading}
                                                                         className="bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-sm"
                                                                   >
@@ -186,7 +203,7 @@ export default function AwarenessDetailPage({ params }: AwarenessDetailPageProps
                                           />
 
                                           {/* Document Download Section */}
-                                          {documentUrl && (
+                                          {instruction.documentUrl && (
                                                 <div className="mt-10 p-6 bg-blue-500/10 rounded-2xl border border-blue-500/20">
                                                       <div className="flex items-center justify-between flex-wrap gap-4">
                                                             <div className="flex items-center gap-3">
@@ -195,7 +212,7 @@ export default function AwarenessDetailPage({ params }: AwarenessDetailPageProps
                                                                   </div>
                                                                   <div>
                                                                         <p className="font-medium text-gray-900 dark:text-white">
-                                                                              {language === "ar" ? "مستند التوعية الأمنية" : "Security Awareness Document"}
+                                                                              {language === "ar" ? "مستند التعليمة" : "Instruction Document"}
                                                                         </p>
                                                                         <p className="text-sm text-gray-600 dark:text-gray-400">
                                                                               {language === "ar" ? "تحميل المستند كاملاً بصيغة PDF" : "Download full document as PDF"}
@@ -203,7 +220,7 @@ export default function AwarenessDetailPage({ params }: AwarenessDetailPageProps
                                                                   </div>
                                                             </div>
                                                             <Button
-                                                                  onClick={() => handleDownload(documentUrl, title || "document")}
+                                                                  onClick={() => handleDownload(instruction.documentUrl!, title || "document")}
                                                                   disabled={isDownloading}
                                                                   className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
                                                             >
@@ -222,7 +239,7 @@ export default function AwarenessDetailPage({ params }: AwarenessDetailPageProps
                                                       <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
                                                             <Eye className="h-5 w-5" />
                                                             <span className="text-sm">
-                                                                  {language === "ar" ? "شارك هذه النشرة مع الآخرين" : "Share this bulletin with others"}
+                                                                  {language === "ar" ? "شارك هذه التعليمة مع الآخرين" : "Share this instruction with others"}
                                                             </span>
                                                       </div>
 

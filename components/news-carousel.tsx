@@ -110,15 +110,13 @@ export default function NewsCarousel() {
           <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8">
             <div className="container mx-auto">
               <div
-                className={`max-w-3xl ${
-                  isRtl ? "mr-0 ml-auto text-right" : "ml-0 mr-auto text-left"
-                }`}
+                className={`max-w-3xl ${isRtl ? "mr-0 ml-auto text-right" : "ml-0 mr-auto text-left"
+                  }`}
               >
                 {/* Date skeleton */}
                 <Skeleton
-                  className={`mb-2 h-8 w-24 ${
-                    isRtl ? "float-right" : "float-left"
-                  }`}
+                  className={`mb-2 h-8 w-24 ${isRtl ? "float-right" : "float-left"
+                    }`}
                 />
                 <div className="clear-both"></div>
 
@@ -138,14 +136,12 @@ export default function NewsCarousel() {
 
           {/* Skeleton for navigation buttons */}
           <Skeleton
-            className={`absolute top-1/2 ${
-              isRtl ? "right-4" : "left-4"
-            } -translate-y-1/2 h-10 w-10 rounded-full`}
+            className={`absolute top-1/2 ${isRtl ? "right-4" : "left-4"
+              } -translate-y-1/2 h-10 w-10 rounded-full`}
           />
           <Skeleton
-            className={`absolute top-1/2 ${
-              isRtl ? "left-4" : "right-4"
-            } -translate-y-1/2 h-10 w-10 rounded-full`}
+            className={`absolute top-1/2 ${isRtl ? "left-4" : "right-4"
+              } -translate-y-1/2 h-10 w-10 rounded-full`}
           />
 
           {/* Skeleton for indicators */}
@@ -205,9 +201,8 @@ export default function NewsCarousel() {
         <div className="container mx-auto">
           <div className="flex items-center justify-between">
             <h1
-              className={`text-2xl md:text-3xl font-bold text-white ${
-                isRtl ? "text-right" : "text-left"
-              } flex items-center gap-4`}
+              className={`text-2xl md:text-3xl font-bold text-white ${isRtl ? "text-right" : "text-left"
+                } flex items-center gap-4`}
             >
               <div className="relative">
                 <div className="absolute inset-0 bg-yellow-400 rounded-full blur-md opacity-60 animate-pulse"></div>
@@ -298,11 +293,10 @@ export default function NewsCarousel() {
                 <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12 text-white z-20">
                   <div className="container mx-auto">
                     <div
-                      className={`max-w-5xl ${
-                        isRtl
+                      className={`max-w-5xl ${isRtl
                           ? "mr-0 ml-auto text-right"
                           : "ml-0 mr-auto text-left"
-                      }`}
+                        }`}
                     >
                       {/* Enhanced Date Badge */}
                       <div
@@ -330,7 +324,7 @@ export default function NewsCarousel() {
                       </h2>
 
                       <Link
-                        href={`/advanced/news/${currentNews.id}`}
+                        href={`/advanced/news/${currentNews.categoryId}/${currentNews.id}`}
                         className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 dark:from-blue-700 dark:to-blue-800 dark:hover:from-blue-800 dark:hover:to-blue-900 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-xl shadow-blue-500/40 dark:shadow-blue-500/50 border border-blue-500/40 dark:border-blue-400/40 backdrop-blur-sm"
                       >
                         {t("common.readMore")}
@@ -359,9 +353,8 @@ export default function NewsCarousel() {
           <Button
             variant="ghost"
             size="icon"
-            className={`absolute top-1/2 ${
-              isRtl ? "right-8" : "left-8"
-            } -translate-y-1/2 bg-gradient-to-r from-blue-600/90 to-cyan-600/90 hover:from-blue-700 hover:to-cyan-700 dark:from-blue-700/90 dark:to-cyan-700/90 dark:hover:from-blue-800 dark:hover:to-cyan-800 text-white rounded-full z-20 backdrop-blur-xl border border-blue-500/50 dark:border-blue-400/50 transition-all duration-300 hover:scale-110 shadow-2xl shadow-blue-500/50 dark:shadow-blue-500/60 w-14 h-14`}
+            className={`absolute top-1/2 ${isRtl ? "right-8" : "left-8"
+              } -translate-y-1/2 bg-gradient-to-r from-blue-600/90 to-cyan-600/90 hover:from-blue-700 hover:to-cyan-700 dark:from-blue-700/90 dark:to-cyan-700/90 dark:hover:from-blue-800 dark:hover:to-cyan-800 text-white rounded-full z-20 backdrop-blur-xl border border-blue-500/50 dark:border-blue-400/50 transition-all duration-300 hover:scale-110 shadow-2xl shadow-blue-500/50 dark:shadow-blue-500/60 w-14 h-14`}
             onClick={prevSlide}
             aria-label={t("common.previous")}
           >
@@ -375,9 +368,8 @@ export default function NewsCarousel() {
           <Button
             variant="ghost"
             size="icon"
-            className={`absolute top-1/2 ${
-              isRtl ? "left-8" : "right-8"
-            } -translate-y-1/2 bg-gradient-to-r from-blue-600/90 to-cyan-600/90 hover:from-blue-700 hover:to-cyan-700 dark:from-blue-700/90 dark:to-cyan-700/90 dark:hover:from-blue-800 dark:hover:to-cyan-800 text-white rounded-full z-20 backdrop-blur-xl border border-blue-500/50 dark:border-blue-400/50 transition-all duration-300 hover:scale-110 shadow-2xl shadow-blue-500/50 dark:shadow-blue-500/60 w-14 h-14`}
+            className={`absolute top-1/2 ${isRtl ? "left-8" : "right-8"
+              } -translate-y-1/2 bg-gradient-to-r from-blue-600/90 to-cyan-600/90 hover:from-blue-700 hover:to-cyan-700 dark:from-blue-700/90 dark:to-cyan-700/90 dark:hover:from-blue-800 dark:hover:to-cyan-800 text-white rounded-full z-20 backdrop-blur-xl border border-blue-500/50 dark:border-blue-400/50 transition-all duration-300 hover:scale-110 shadow-2xl shadow-blue-500/50 dark:shadow-blue-500/60 w-14 h-14`}
             onClick={nextSlide}
             aria-label={t("common.next")}
           >
@@ -393,11 +385,10 @@ export default function NewsCarousel() {
             {news.map((_, index) => (
               <button
                 key={index}
-                className={`w-5 h-5 rounded-full transition-all duration-300 ${
-                  index === currentIndex
+                className={`w-5 h-5 rounded-full transition-all duration-300 ${index === currentIndex
                     ? "bg-gradient-to-r from-blue-500 to-cyan-500 shadow-2xl shadow-blue-500/70 scale-125 border-2 border-white/60 backdrop-blur-sm"
                     : "bg-white/40 hover:bg-white/60 hover:scale-110 border border-white/40 backdrop-blur-sm"
-                }`}
+                  }`}
                 onClick={() => goToSlide(index)}
                 aria-label={`Go to slide ${index + 1}`}
               />
@@ -590,7 +581,7 @@ export default function NewsCarousel() {
                       {hasValidSummary ? cleanSummary : ""}
                     </p>
                     <Link
-                      href={`/advanced/news/${currentNews.id}`}
+                      href={`/advanced/news/${currentNews.categoryId}/${currentNews.id}`}
                       className="inline-block bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md transition-colors"
                     >
                       {t("common.readMore")}

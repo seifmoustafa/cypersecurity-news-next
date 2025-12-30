@@ -22,6 +22,7 @@ interface NewsCardProps extends Partial<News> {
   subtitle?: string
   fullDescription?: string
   details?: string
+  categoryId?: string
 }
 
 const cardMotionVariants = {
@@ -45,6 +46,7 @@ export default function NewsCard({
   content,
   contentEn,
   imageUrl,
+  categoryId,
 }: NewsCardProps) {
   const [open, setOpen] = useState(false)
   const { language, isRtl, t } = useLanguage()
@@ -147,7 +149,7 @@ export default function NewsCard({
 
           <DialogFooter className="flex justify-between">
             <Link
-              href={`/advanced/news/${id}`}
+              href={categoryId ? `/advanced/news/${categoryId}/${id}` : `/advanced/news`}
               className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md transition-colors"
             >
               {t("common.viewFullArticle")}
