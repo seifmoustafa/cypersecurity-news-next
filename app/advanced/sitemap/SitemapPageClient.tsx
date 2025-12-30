@@ -576,7 +576,7 @@ export default function SitemapPageClient() {
           id: "regulations",
           title: language === "ar" ? "التنظيم" : "Regulation",
           icon: Settings,
-          href: "/advanced/regulation",
+          href: "/advanced/regulations",
           description:
             language === "ar" ? "الإطار التنظيمي" : "Regulatory framework",
           type: "branch",
@@ -589,7 +589,7 @@ export default function SitemapPageClient() {
                 ? category.name
                 : category.name_En || category.name,
             icon: Settings,
-            href: `/advanced/regulation/category/${category.id}`,
+            href: `/advanced/regulations/category/${category.id}`,
             description:
               language === "ar"
                 ? `تنظيم ${category.name}`
@@ -607,7 +607,7 @@ export default function SitemapPageClient() {
                       ? regulation.title
                       : regulation.titleEn || regulation.title,
                   icon: FileText,
-                  href: `/advanced/regulation/${regulation.id}`,
+                  href: `/advanced/regulations/${regulation.id}`,
                   description:
                     language === "ar"
                       ? `تنظيم ${regulation.title}`

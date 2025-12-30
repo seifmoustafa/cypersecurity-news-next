@@ -108,7 +108,7 @@ export default function Footer() {
         },
         {
           title: language === "ar" ? "التنظيم" : "Regulation",
-          href: "/advanced/regulation",
+          href: "/advanced/regulations",
           icon: Settings,
         },
         {

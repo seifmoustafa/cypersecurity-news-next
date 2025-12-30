@@ -10,4 +10,4 @@ export * from "./personal-protect-control-step.entity"
 
 // Add other entities here as they are created
 // export * from './user.entity'
-// export * from './advanced/regulation.entity'
+// export * from './advanced/regulations.entity'

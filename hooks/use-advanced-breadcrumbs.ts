@@ -225,14 +225,14 @@ export function useRegulationBreadcrumbs(
 ): { items: AdvancedBreadcrumbItem[]; isLoading: boolean } {
       const items = useMemo(() => {
             const breadcrumbs: AdvancedBreadcrumbItem[] = [
-                  { label: "Regulations", labelAr: "اللوائح", href: "/advanced/regulation" },
+                  { label: "Regulations", labelAr: "اللوائح", href: "/advanced/regulations" },
             ]
 
             if (categoryId && (categoryName || categoryNameAr)) {
                   breadcrumbs.push({
                         label: categoryName || categoryNameAr || "",
                         labelAr: categoryNameAr || categoryName || "",
-                        href: `/advanced/regulation/category/${categoryId}`,
+                        href: `/advanced/regulations/category/${categoryId}`,
                   })
             }
 
