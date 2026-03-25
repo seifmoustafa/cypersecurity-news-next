@@ -255,14 +255,14 @@ export default function LoginPage() {
                                                 <Button
                                                       type="button"
                                                       variant="outline"
-                                                      className={`w-full h-12 rounded-xl border-2 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 ${
+                                                      className={`w-full min-h-[48px] h-auto py-3 rounded-xl border-2 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 text-sm whitespace-normal text-center ${
                                                             isDark 
                                                             ? "border-slate-700 bg-slate-800/50 hover:bg-slate-700 text-white hover:border-slate-600" 
                                                             : "border-slate-200 bg-white hover:bg-slate-50 text-slate-700 hover:border-slate-300"
                                                       }`}
                                                 >
-                                                      <Lock className="w-4 h-4" />
-                                                      {t("auth.signInWithKeycloak") || "Sign in with Keycloak"}
+                                                      <Lock className="w-4 h-4 flex-shrink-0" />
+                                                      <span>{t("auth.signInWithKeycloak") || "Sign in with Keycloak"}</span>
                                                 </Button>
                                           </a>
                                     </form>

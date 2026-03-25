@@ -72,7 +72,7 @@
     "sessionExpired": "انتهت الجلسة",
     "pleaseLoginAgain": "يرجى تسجيل الدخول مرة أخرى",
     "or": "أو",
-    "signInWithKeycloak": "تسجيل الدخول باستخدام موفر الهوية الموحدة (Keycloak)"
+    "signInWithKeycloak": "الدخول عبر موفر الهوية الموحدة (Keycloak)"
   },
   "profile": {
     "title": "الملف الشخصي",
@@ -81,6 +81,7 @@
     "editableFields": "حقول قابلة للتعديل",
     "sNumber": "الرقم العسكري",
     "mNumber": "الرقم المدني",
+    "nationalNumber": "الرقم القومي",
     "username": "اسم المستخدم",
     "firstName": "الاسم الأول",
     "lastName": "اسم العائلة",

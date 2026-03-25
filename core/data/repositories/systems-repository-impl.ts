@@ -67,7 +67,12 @@ export class SystemsRepositoryImpl implements SystemsRepository {
     try {
       console.log(`🔄 SystemsRepository: Fetching pinned system`)
 
-      const system = await this.dataSource.get<System>(`/MainSystems/pinned`)
+      const system = await this.dataSource.get<System | null>(`/MainSystems/pinned`)
+
+      if (!system) {
+        console.log(`ℹ️ SystemsRepository: No pinned system found`);
+        return null;
+      }
 
       // Transform image URL to include base URL (without /api)
       const transformedSystem = {

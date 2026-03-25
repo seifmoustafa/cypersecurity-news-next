@@ -3,6 +3,7 @@
 export interface Client {
       id: string;
       sNumber: string;
+      nationalNumber: string;
       mNumber: string;
       userName: string;
       firstName: string;

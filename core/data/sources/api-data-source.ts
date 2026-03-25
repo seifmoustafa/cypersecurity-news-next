@@ -25,6 +25,9 @@ export class ApiDataSource {
     })
 
     if (!response.ok) {
+      if (response.status === 404) {
+        return null as unknown as T
+      }
       throw new Error(`HTTP error! status: ${response.status}`)
     }
 

@@ -328,10 +328,10 @@ export default function Header({
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-xl border-b border-blue-200/30 dark:border-blue-800/30 shadow-lg shadow-blue-500/10 dark:shadow-blue-500/20">
-      <div className="container mx-auto px-2 sm:px-3 lg:px-4 max-w-full 2xl:max-w-[1600px]">
-        <div className="h-20 flex items-center justify-between">
+      <div className="container mx-auto px-3 sm:px-4 lg:px-6 max-w-full 2xl:max-w-[1600px]">
+        <div className="h-20 flex items-center justify-between gap-2">
           {/* Enhanced Logo */}
-          <div className="flex items-center group">
+          <div className="flex-shrink-0 flex items-center group">
             <Link
               href="/advanced"
               className="flex items-center space-x-3 rtl:space-x-reverse group-hover:scale-105 transition-all duration-300"
@@ -360,18 +360,18 @@ export default function Header({
           </div>
 
           {/* Enhanced Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-1 rtl:space-x-reverse xl:space-x-2 2xl:space-x-3">
+          <nav className="hidden xl:flex flex-1 min-w-0 items-center justify-center space-x-1 rtl:space-x-reverse xl:space-x-2">
             <Button
               variant="ghost"
               size="sm"
-              className="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-sm lg:text-base xl:text-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-md px-2 lg:px-3 xl:px-4 py-2 lg:py-2.5 xl:py-3"
+              className="flex-shrink-0 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-xs lg:text-sm xl:text-base font-medium transition-all duration-300 hover:scale-105 hover:shadow-md px-1.5 lg:px-2 xl:px-3 py-1.5 lg:py-2 whitespace-nowrap"
               onClick={(e) => {
                 e.preventDefault();
                 router.replace("/advanced");
               }}
             >
-              <Home className="h-4 w-4 lg:h-5 lg:w-5 xl:h-6 xl:w-6 mr-1 rtl:ml-1 rtl:mr-0" />
-              {t("nav.home")}
+              <Home className="h-4 w-4 mr-1 rtl:ml-1 rtl:mr-0 flex-shrink-0" />
+              <span className="truncate">{t("nav.home")}</span>
             </Button>
 
             {navGroups.map((group) => (
@@ -381,17 +381,17 @@ export default function Header({
                   variant="ghost"
                   size="sm"
                   className={cn(
-                    "flex items-center gap-2 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-sm lg:text-base xl:text-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-md px-2 lg:px-3 xl:px-4 py-2 lg:py-2.5 xl:py-3",
+                    "flex items-center gap-1 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-xs lg:text-sm xl:text-base font-medium transition-all duration-300 hover:scale-105 hover:shadow-md px-1.5 lg:px-2 xl:px-3 py-1.5 lg:py-2 whitespace-nowrap",
                     openDropdown === group.title
                       ? "bg-blue-50/50 dark:bg-blue-900/20 shadow-md"
                       : ""
                   )}
                   onClick={(e) => handleDropdownToggle(group.title, e)}
                 >
-                  {t(`section.${group.title}`)}
+                  <span className="truncate">{t(`section.${group.title}`)}</span>
                   <ChevronDown
                     className={cn(
-                      "h-4 w-4 lg:h-5 lg:w-5 xl:h-6 xl:w-6 opacity-50 transition-all duration-300",
+                      "h-3 w-3 lg:h-4 lg:w-4 opacity-50 transition-all duration-300 flex-shrink-0",
                       openDropdown === group.title
                         ? "rotate-180 opacity-100"
                         : ""
@@ -445,7 +445,7 @@ export default function Header({
           </nav>
 
           {/* Enhanced Action Buttons */}
-          <div className="flex items-center gap-0.5 md:gap-1">
+          <div className="flex-shrink-0 flex items-center gap-0.5 md:gap-1">
             {/* Layout Switch Button */}
             <TooltipProvider>
               <Tooltip>
@@ -608,7 +608,7 @@ export default function Header({
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-8 w-8 md:h-10 md:w-10 transition-all duration-300 hover:scale-110 hover:shadow-md group"
+              className="xl:hidden hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-8 w-8 md:h-10 md:w-10 transition-all duration-300 hover:scale-110 hover:shadow-md group"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? (
@@ -660,7 +660,7 @@ export default function Header({
 
       {/* Enhanced Mobile Navigation */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white dark:bg-gray-900 border-b border-blue-200/30 dark:border-blue-800/30 max-h-[80vh] overflow-y-auto shadow-xl shadow-blue-500/10 dark:shadow-blue-500/20 animate-in slide-in-from-top-2 duration-300">
+        <div className="xl:hidden bg-white dark:bg-gray-900 border-b border-blue-200/30 dark:border-blue-800/30 max-h-[80vh] overflow-y-auto shadow-xl shadow-blue-500/10 dark:shadow-blue-500/20 animate-in slide-in-from-top-2 duration-300">
           <div className="container mx-auto px-4 py-6">
             <nav className="flex flex-col space-y-4">
               {/* Layout Switch in Mobile */}
@@ -747,6 +747,11 @@ export default function Header({
                   </>
                 </div>
               ))}
+              
+              {/* Mobile User Menu */}
+              <div className="py-2 mt-4 border-t border-blue-200/30 dark:border-blue-800/30 pt-4 px-2">
+                <UserMenu />
+              </div>
             </nav>
           </div>
         </div>

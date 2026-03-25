@@ -81,6 +81,7 @@
     "editableFields": "Editable Fields",
     "sNumber": "Military Number",
     "mNumber": "Civil Number",
+    "nationalNumber": "National Number",
     "username": "Username",
     "firstName": "First Name",
     "lastName": "Last Name",

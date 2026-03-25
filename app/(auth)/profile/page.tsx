@@ -300,7 +300,7 @@ export default function ProfilePage() {
                                                       </h3>
                                                 </div>
 
-                                                <div className="grid gap-4 md:grid-cols-3">
+                                                <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
                                                       <div className="space-y-2">
                                                             <Label className={`text-xs font-medium flex items-center gap-2 ${isDark ? "text-slate-500" : "text-slate-500"}`}>
                                                                   <Hash className="h-3 w-3" />
@@ -308,6 +308,17 @@ export default function ProfilePage() {
                                                             </Label>
                                                             <Input
                                                                   value={client.sNumber}
+                                                                  disabled
+                                                                  className={`h-11 cursor-not-allowed rounded-xl ${isDark ? "bg-slate-800/30 border-slate-700/30 text-slate-400" : "bg-slate-100 border-slate-200 text-slate-500"}`}
+                                                            />
+                                                      </div>
+                                                      <div className="space-y-2">
+                                                            <Label className={`text-xs font-medium flex items-center gap-2 ${isDark ? "text-slate-500" : "text-slate-500"}`}>
+                                                                  <Hash className="h-3 w-3" />
+                                                                  {t("profile.nationalNumber")}
+                                                            </Label>
+                                                            <Input
+                                                                  value={client.nationalNumber}
                                                                   disabled
                                                                   className={`h-11 cursor-not-allowed rounded-xl ${isDark ? "bg-slate-800/30 border-slate-700/30 text-slate-400" : "bg-slate-100 border-slate-200 text-slate-500"}`}
                                                             />

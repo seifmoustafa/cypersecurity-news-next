@@ -132,7 +132,7 @@ export default function SimpleHeader({
         <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_25%,rgba(59,130,246,0.03)_50%,transparent_75%)] dark:bg-[linear-gradient(90deg,transparent_25%,rgba(59,130,246,0.05)_50%,transparent_75%)] bg-[length:40px_40px]"></div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 max-w-full 2xl:max-w-[1600px]">
+      <div className="relative z-10 container mx-auto px-3 sm:px-4 lg:px-6 max-w-full 2xl:max-w-[1600px]">
         <div className="h-20 flex items-center justify-between">
           {/* Left side: Logo + Navigation */}
           <div className="flex items-center space-x-6 rtl:space-x-reverse">
@@ -162,7 +162,7 @@ export default function SimpleHeader({
             </div>
 
             {/* Desktop Navigation - New 8 buttons as requested */}
-            <nav className="hidden lg:flex items-center space-x-2 rtl:space-x-reverse">
+            <nav className="hidden xl:flex items-center space-x-2 rtl:space-x-reverse">
               {/* 1. الرئيسية */}
               <Button
                 variant="ghost"
@@ -320,7 +320,7 @@ export default function SimpleHeader({
           </div>
 
           {/* Mobile menu button - positioned on the right */}
-          <div className="lg:hidden">
+          <div className="xl:hidden">
             <Button
               variant="ghost"
               size="icon"
@@ -341,7 +341,7 @@ export default function SimpleHeader({
       {/* Search Bar */}
       {searchOpen && (
         <div className="absolute top-full left-0 right-0 z-40 bg-gradient-to-r from-gray-100 to-white dark:from-slate-900 dark:to-gray-900 border-b border-gray-200 dark:border-slate-700/50 shadow-2xl shadow-gray-900/10 dark:shadow-slate-900/20 animate-in slide-in-from-top-2 duration-300">
-          <div className="container mx-auto px-4 py-6 max-w-full 2xl:max-w-[1600px]">
+          <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-6 max-w-full 2xl:max-w-[1600px]">
             <div className="flex items-center gap-3 bg-gray-200/50 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-4 border border-gray-300/50 dark:border-slate-700/50">
               <Search className="h-6 w-6 text-green-600 dark:text-green-400" />
               <input
@@ -385,7 +385,7 @@ export default function SimpleHeader({
 
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-gradient-to-r from-gray-100 to-white dark:from-slate-900 dark:to-gray-900 border-b border-gray-200 dark:border-slate-700/50 max-h-[80vh] overflow-y-auto shadow-2xl shadow-gray-900/10 dark:shadow-slate-900/20 animate-in slide-in-from-top-2 duration-300">
+        <div className="xl:hidden bg-gradient-to-r from-gray-100 to-white dark:from-slate-900 dark:to-gray-900 border-b border-gray-200 dark:border-slate-700/50 max-h-[80vh] overflow-y-auto shadow-2xl shadow-gray-900/10 dark:shadow-slate-900/20 animate-in slide-in-from-top-2 duration-300">
           <div className="container mx-auto px-4 py-6">
             <nav className="flex flex-col space-y-4">
               {/* Navigation Items */}
@@ -511,6 +511,11 @@ export default function SimpleHeader({
                     )}
                     <span>{isDarkMode ? "نهاري" : "ليلي"}</span>
                   </button>
+                  
+                  {/* Mobile User Menu */}
+                  <div className="pt-4 mt-2 border-t border-gray-200 dark:border-slate-700 w-full flex justify-end">
+                    <UserMenu />
+                  </div>
                 </div>
               </div>
             </nav>

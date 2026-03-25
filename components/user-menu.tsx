@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useKeycloak } from "@/contexts/keycloak-context";
+import { useClientProfile, useClientLogout } from "@/core/hooks/use-client-auth";
 import { useLanguage } from "@/components/language-provider";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,7 +22,8 @@ function getInitials(firstName?: string, lastName?: string): string {
 }
 
 export function UserMenu() {
-      const { user, systemClient, isLoading, isAuthenticated, login, logout } = useKeycloak();
+      const { client, isAuthenticated, isLoading } = useClientProfile();
+      const { logout } = useClientLogout();
       const { t, isRtl } = useLanguage();
       const router = useRouter();
       const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +34,7 @@ export function UserMenu() {
       };
 
       const handleLogin = () => {
-            login();
+             router.push("/login");
       };
 
       // Loading state
@@ -60,11 +61,11 @@ export function UserMenu() {
             );
       }
 
-      // Get user display info from either systemClient (backend) or Keycloak user
-      const displayName = systemClient?.name || user?.fullName || user?.username || "User";
-      const firstName = systemClient?.username || user?.firstName || user?.username || "User";
-      const lastName = user?.lastName || "";
-      const avatar = null; // Keycloak doesn't provide avatar by default
+      // Get user display info
+      const displayName = client ? `${client.firstName} ${client.lastName}` : "User";
+      const firstName = client?.firstName || client?.userName || "User";
+      const lastName = client?.lastName || "";
+      const avatar = client?.avatar || null;
 
       return (
             <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
@@ -77,7 +78,7 @@ export function UserMenu() {
                               {/* Avatar */}
                               <div className="relative">
                                     <div className="h-8 w-8 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white text-xs font-bold border-2 border-green-500/30">
-                                          {getInitials(user?.firstName || firstName, user?.lastName)}
+                                          {getInitials(firstName, lastName)}
                                     </div>
                                     {/* Online indicator */}
                                     <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-white dark:border-slate-900" />
@@ -102,7 +103,7 @@ export function UserMenu() {
                                     {displayName}
                               </p>
                               <p className="text-xs text-slate-500 dark:text-slate-400">
-                                    {user?.email || user?.username || "Keycloak User"}
+                                    {client?.mNumber || client?.userName || "User"}
                               </p>
                         </div>
 
