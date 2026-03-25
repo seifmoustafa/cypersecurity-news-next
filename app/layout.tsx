@@ -4,7 +4,6 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/components/language-provider";
 import { ClientAuthProvider } from "@/contexts/client-auth-context";
-import { KeycloakProvider } from "@/contexts/keycloak-context";
 import ErrorBoundary from "@/components/error-boundary";
 import LoadingScreen from "@/components/loading-screen";
 import { Suspense } from "react";
@@ -66,13 +65,11 @@ export default function RootLayout({
             enableSystem={false}
             disableTransitionOnChange
           >
-            <KeycloakProvider>
-              <ClientAuthProvider>
-                <ErrorBoundary>
-                  <Suspense fallback={<LoadingScreen />}>{children}</Suspense>
-                </ErrorBoundary>
-              </ClientAuthProvider>
-            </KeycloakProvider>
+            <ClientAuthProvider>
+              <ErrorBoundary>
+                <Suspense fallback={<LoadingScreen />}>{children}</Suspense>
+              </ErrorBoundary>
+            </ClientAuthProvider>
           </ThemeProvider>
         </LanguageProvider>
       </body>
