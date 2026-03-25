@@ -70,7 +70,9 @@
     "mustChangePasswordDescription": "You must change your password before continuing",
     "firstLoginWarning": "This is your first login. Please change your password to continue.",
     "sessionExpired": "Session Expired",
-    "pleaseLoginAgain": "Please login again"
+    "pleaseLoginAgain": "Please login again",
+    "or": "OR",
+    "signInWithKeycloak": "Sign in with Keycloak"
   },
   "profile": {
     "title": "Profile",

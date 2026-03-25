@@ -70,7 +70,9 @@
     "mustChangePasswordDescription": "يجب عليك تغيير كلمة المرور قبل المتابعة",
     "firstLoginWarning": "هذا تسجيل الدخول الأول لحسابك. يرجى تغيير كلمة المرور للمتابعة.",
     "sessionExpired": "انتهت الجلسة",
-    "pleaseLoginAgain": "يرجى تسجيل الدخول مرة أخرى"
+    "pleaseLoginAgain": "يرجى تسجيل الدخول مرة أخرى",
+    "or": "أو",
+    "signInWithKeycloak": "تسجيل الدخول باستخدام موفر الهوية الموحدة (Keycloak)"
   },
   "profile": {
     "title": "الملف الشخصي",
