@@ -29,11 +29,6 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
       <head>
-        <title>بوابة الأمن السيبراني | Cybersecurity Portal</title>
-        <meta
-          name="description"
-          content="أحدث المستجدات والتحليلات حول التهديدات السيبرانية وتقنيات الحماية"
-        />
         <script
           dangerouslySetInnerHTML={{
             __html: `

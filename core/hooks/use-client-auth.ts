@@ -59,85 +59,24 @@ export function useClientLogin(): UseClientLoginReturn {
       return { login, isLoading, error, clearError };
 }
 
+import { useClientAuth } from "@/contexts/client-auth-context";
+
 // ============================================================================
 // useClientProfile - Hook for profile management
 // ============================================================================
 
-interface UseClientProfileReturn {
-      client: Client | null;
-      isLoading: boolean;
-      error: string | null;
-      isAuthenticated: boolean;
-      mustChangePassword: boolean;
-      loadProfile: () => Promise<void>;
-      updateProfile: (data: UpdateClientProfileRequest) => Promise<boolean>;
-      clearError: () => void;
-}
-
-export function useClientProfile(): UseClientProfileReturn {
-      const [client, setClient] = useState<Client | null>(null);
-      const [isLoading, setIsLoading] = useState(true);
-      const [error, setError] = useState<string | null>(null);
-      const router = useRouter();
-
-      const isAuthenticated = !!client;
-      const mustChangePassword = client?.mustChangePassword ?? false;
-
-      const loadProfile = useCallback(async () => {
-            if (!container.services.clientAuth.hasStoredCredentials()) {
-                  setIsLoading(false);
-                  return;
-            }
-
-            setIsLoading(true);
-            try {
-                  const profile = await container.services.clientAuth.loadProfile();
-                  setClient(profile);
-            } catch (err) {
-                  console.error("Failed to load profile:", err);
-                  setClient(null);
-            } finally {
-                  setIsLoading(false);
-            }
-      }, []);
-
-      const updateProfile = useCallback(async (data: UpdateClientProfileRequest): Promise<boolean> => {
-            if (mustChangePassword) {
-                  router.push("/change-password");
-                  return false;
-            }
-
-            setError(null);
-            try {
-                  const updated = await container.services.clientAuth.updateProfile(data);
-                  if (updated) {
-                        setClient(updated);
-                        return true;
-                  }
-                  return false;
-            } catch (err) {
-                  const message = err instanceof Error ? err.message : "Update failed";
-                  setError(message);
-                  return false;
-            }
-      }, [mustChangePassword, router]);
-
-      const clearError = useCallback(() => setError(null), []);
-
-      // Auto-load profile on mount
-      useEffect(() => {
-            loadProfile();
-      }, [loadProfile]);
+export function useClientProfile() {
+      const auth = useClientAuth();
 
       return {
-            client,
-            isLoading,
-            error,
-            isAuthenticated,
-            mustChangePassword,
-            loadProfile,
-            updateProfile,
-            clearError,
+            client: auth.client,
+            isLoading: auth.isLoading,
+            error: auth.error,
+            isAuthenticated: auth.isAuthenticated,
+            mustChangePassword: auth.mustChangePassword,
+            loadProfile: async () => {}, // Handled automatically by context
+            updateProfile: auth.updateProfile,
+            clearError: auth.clearError,
       };
 }
 

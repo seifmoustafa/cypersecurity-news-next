@@ -251,7 +251,7 @@ export default function LoginPage() {
                                                 <div className="flex-grow border-t border-inherit"></div>
                                           </div>
 
-                                          <a href="http://localhost:5035/api/Client/Auth/keycloak/login" className="w-full block">
+                                          <a href={`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5035/api'}/Client/Auth/keycloak/login`} className="w-full block">
                                                 <Button
                                                       type="button"
                                                       variant="outline"

@@ -75,10 +75,21 @@ export class ClientAuthRepositoryImpl implements ClientAuthRepository {
                   headers["Content-Type"] = "application/json";
             }
 
-            const response = await fetch(`${this.baseUrl}${endpoint}`, {
-                  ...options,
-                  headers,
-            });
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+
+            let response: Response;
+            try {
+                  response = await fetch(`${this.baseUrl}${endpoint}`, {
+                        ...options,
+                        headers,
+                        signal: controller.signal as any,
+                  });
+            } catch (error) {
+                  throw new Error(error instanceof Error ? error.message : "Network error");
+            } finally {
+                  clearTimeout(timeoutId);
+            }
 
             if (!response.ok) {
                   const errorData = await response.json().catch(() => ({}));
