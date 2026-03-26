@@ -251,20 +251,21 @@ export default function LoginPage() {
                                                 <div className="flex-grow border-t border-inherit"></div>
                                           </div>
 
-                                          <a href={`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5035/api'}/Client/Auth/keycloak/login`} className="w-full block">
-                                                <Button
-                                                      type="button"
-                                                      variant="outline"
-                                                      className={`w-full min-h-[48px] h-auto py-3 rounded-xl border-2 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 text-sm whitespace-normal text-center ${
-                                                            isDark 
-                                                            ? "border-slate-700 bg-slate-800/50 hover:bg-slate-700 text-white hover:border-slate-600" 
-                                                            : "border-slate-200 bg-white hover:bg-slate-50 text-slate-700 hover:border-slate-300"
-                                                      }`}
-                                                >
-                                                      <Lock className="w-4 h-4 flex-shrink-0" />
-                                                      <span>{t("auth.signInWithKeycloak") || "Sign in with Keycloak"}</span>
-                                                </Button>
-                                          </a>
+                                          <Button
+                                                type="button"
+                                                variant="outline"
+                                                onClick={() => {
+                                                      window.location.href = `${process.env.NEXT_PUBLIC_API_BASE_URL}/Client/Auth/keycloak/login`;
+                                                }}
+                                                className={`w-full min-h-[48px] h-auto py-3 rounded-xl border-2 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 text-sm whitespace-normal text-center ${
+                                                      isDark 
+                                                      ? "border-slate-700 bg-slate-800/50 hover:bg-slate-700 text-white hover:border-slate-600" 
+                                                      : "border-slate-200 bg-white hover:bg-slate-50 text-slate-700 hover:border-slate-300"
+                                                }`}
+                                          >
+                                                <Lock className="w-4 h-4 flex-shrink-0" />
+                                                <span>{t("auth.signInWithKeycloak") || "Sign in with Keycloak"}</span>
+                                          </Button>
                                     </form>
 
                                     {/* Footer - Contact Info */}

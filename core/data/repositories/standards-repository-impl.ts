@@ -61,7 +61,7 @@ export class StandardsRepositoryImpl implements StandardsRepository {
 
     try {
       console.log(`🔄 Fetching standard categories from API: page=${page}, pageSize=${pageSize}`)
-      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
       const url = `${baseUrl}/StandardCategories?page=${page}&pageSize=${pageSize}`
 
       const response = await fetch(url, {
@@ -96,7 +96,7 @@ export class StandardsRepositoryImpl implements StandardsRepository {
 
     try {
       console.log(`🔄 Fetching standard category by ID: ${id}`)
-      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
       const url = `${baseUrl}/StandardCategories/${id}`
 
       const response = await fetch(url, {
@@ -139,7 +139,7 @@ export class StandardsRepositoryImpl implements StandardsRepository {
 
     try {
       console.log(`🔄 Fetching standards by category: ${categoryId}, page=${page}, pageSize=${pageSize}`)
-      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
       const url = `${baseUrl}/standards/byCategory/${categoryId}?page=${page}&pageSize=${pageSize}`
 
       const response = await fetch(url, {
@@ -174,7 +174,7 @@ export class StandardsRepositoryImpl implements StandardsRepository {
 
     try {
       console.log(`🔄 Fetching standard by ID: ${id}`)
-      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
       const url = `${baseUrl}/standards/${id}`
 
       const response = await fetch(url, {
@@ -235,7 +235,7 @@ export class StandardsRepositoryImpl implements StandardsRepository {
 
     try {
       console.log(`🔄 Fetching controls by standard: ${standardId}, page=${page}, pageSize=${pageSize}`)
-      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
       const url = `${baseUrl}/Controls/byStandard/${standardId}?page=${page}&pageSize=${pageSize}`
 
       const response = await fetch(url, {
@@ -270,7 +270,7 @@ export class StandardsRepositoryImpl implements StandardsRepository {
 
     try {
       console.log(`🔄 Fetching control by ID: ${controlId}`)
-      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
       const url = `${baseUrl}/Controls/${controlId}`
 
       const response = await fetch(url, {
@@ -314,7 +314,7 @@ export class StandardsRepositoryImpl implements StandardsRepository {
 
     try {
       console.log(`🔄 Fetching safeguards by control: ${controlId}, page=${page}, pageSize=${pageSize}`)
-      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
       const url = `${baseUrl}/Safeguards/by-control/${controlId}?page=${page}&pageSize=${pageSize}`
 
       const response = await fetch(url, {
@@ -349,7 +349,7 @@ export class StandardsRepositoryImpl implements StandardsRepository {
 
     try {
       console.log(`🔄 Fetching safeguard by ID: ${safeguardId}`)
-      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
       const url = `${baseUrl}/Safeguards/${safeguardId}`
 
       const response = await fetch(url, {
@@ -393,7 +393,7 @@ export class StandardsRepositoryImpl implements StandardsRepository {
 
     try {
       console.log(`🔄 Fetching techniques by safeguard: ${safeguardId}, page=${page}, pageSize=${pageSize}`)
-      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
       const url = `${baseUrl}/Techniques/by-safeguard/${safeguardId}?page=${page}&pageSize=${pageSize}`
 
       const response = await fetch(url, {
@@ -428,7 +428,7 @@ export class StandardsRepositoryImpl implements StandardsRepository {
 
     try {
       console.log(`🔄 Fetching technique by ID: ${techniqueId}`)
-      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
       const url = `${baseUrl}/Techniques/${techniqueId}`
 
       const response = await fetch(url, {
@@ -472,7 +472,7 @@ export class StandardsRepositoryImpl implements StandardsRepository {
 
     try {
       console.log(`🔄 Fetching implementation steps by technique: ${techniqueId}, page=${page}, pageSize=${pageSize}`)
-      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
       const url = `${baseUrl}/ImplementationSteps/by-technique/${techniqueId}?page=${page}&pageSize=${pageSize}`
 
       const response = await fetch(url, {
@@ -510,7 +510,7 @@ export class StandardsRepositoryImpl implements StandardsRepository {
 
     try {
       console.log(`🔄 Fetching implementation step by ID: ${implementationStepId}`)
-      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api"
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
       const url = `${baseUrl}/ImplementationSteps/${implementationStepId}`
 
       const response = await fetch(url, {

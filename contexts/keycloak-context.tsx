@@ -59,7 +59,7 @@ const KeycloakContext = React.createContext<KeycloakContextType | undefined>(
 // Function to validate/register Keycloak client with our backend (JIT Provisioning)
 async function validateKeycloakClientWithBackend(token: string): Promise<SystemClient | null> {
     try {
-        const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5035/api";
+        const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
         console.log("🔄 Validating Keycloak client with backend...");
 
         const response = await fetch(`${apiBaseUrl}/keycloakauth/validate-client`, {
