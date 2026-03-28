@@ -116,16 +116,37 @@ export function ClientAuthProvider({ children }: { children: ReactNode }) {
             }
       }, [service]);
 
-      // Logout function - clears state but doesn't redirect
-      // The UI will update to show login button instead of user menu
+      // Logout function - handles both normal and Keycloak sessions
       const logout = useCallback(async () => {
             setIsLoading(true);
             try {
                   await service.logout();
             } finally {
+                  // Check if this session was authenticated via Keycloak
+                  const authMethod = localStorage.getItem("auth-method");
+
+                  // Clear all auth state
+                  localStorage.removeItem("auth-method");
                   setClient(null);
                   setIsLoading(false);
-                  // Don't redirect - let the UI update in place
+
+                  if (authMethod === "keycloak") {
+                        // Fetch the Keycloak logout URL from backend and navigate to it
+                        // This shows Keycloak's "Logout" / "Back to Application" page
+                        try {
+                              const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/Client/Auth/keycloak/logout-url`);
+                              if (res.ok) {
+                                    const data = await res.json();
+                                    if (data.url) {
+                                          window.location.href = data.url;
+                                          return;
+                                    }
+                              }
+                        } catch (e) {
+                              console.error("Failed to fetch Keycloak logout URL", e);
+                        }
+                  }
+                  // Normal login or fallback: UI updates in place (login button shown)
             }
       }, [service]);
 

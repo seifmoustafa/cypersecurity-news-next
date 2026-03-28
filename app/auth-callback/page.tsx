@@ -14,6 +14,8 @@ function AuthCallbackContent() {
     if (token) {
       // Save internal token to localStorage using Portal's specific keys
       localStorage.setItem("client_access_token", token);
+      // Mark that this session was authenticated via Keycloak (used for logout flow)
+      localStorage.setItem("auth-method", "keycloak");
       
       // Parse token to get client_id
       try {
