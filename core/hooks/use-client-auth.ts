@@ -183,19 +183,18 @@ interface UseClientLogoutReturn {
 
 export function useClientLogout(): UseClientLogoutReturn {
       const [isLoading, setIsLoading] = useState(false);
-      const router = useRouter();
+      const auth = useClientAuth();
 
       const logout = useCallback(async () => {
             setIsLoading(true);
             try {
-                  await container.services.clientAuth.logout();
-                  router.push("/login");
+                  await auth.logout();
             } catch (err) {
                   console.error("Logout error:", err);
             } finally {
                   setIsLoading(false);
             }
-      }, [router]);
+      }, [auth]);
 
       return { logout, isLoading };
 }

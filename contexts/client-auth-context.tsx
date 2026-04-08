@@ -102,6 +102,8 @@ export function ClientAuthProvider({ children }: { children: ReactNode }) {
                   // Load full profile after login
                   const profile = await service.loadProfile();
                   setClient(profile);
+                  // Mark non-SSO session so logout remains app-only
+                  localStorage.setItem("auth-method", "normal");
                   setIsLoading(false);
 
                   return {
@@ -127,6 +129,10 @@ export function ClientAuthProvider({ children }: { children: ReactNode }) {
 
                   // Clear all auth state
                   localStorage.removeItem("auth-method");
+                  // Also clear any Keycloak context tokens to avoid stale auth UI state
+                  localStorage.removeItem("auth-token");
+                  localStorage.removeItem("refresh-token");
+                  localStorage.removeItem("internal-token");
                   setClient(null);
                   setIsLoading(false);
 

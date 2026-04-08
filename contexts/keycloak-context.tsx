@@ -180,6 +180,7 @@ export function KeycloakProvider({ children }: KeycloakProviderProps) {
                 // Save token immediately after authentication
                 if (authenticated && keycloak.token) {
                     console.log("💾 Saving auth-token to localStorage...");
+                    localStorage.setItem("auth-method", "keycloak");
                     localStorage.setItem("auth-token", keycloak.token);
                     if (keycloak.refreshToken) {
                         localStorage.setItem("refresh-token", keycloak.refreshToken);
