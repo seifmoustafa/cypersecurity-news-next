@@ -152,9 +152,10 @@ export function ClientAuthProvider({ children }: { children: ReactNode }) {
                               console.error("Failed to fetch Keycloak logout URL", e);
                         }
                   }
-                  // Normal login or fallback: UI updates in place (login button shown)
+                  // Normal login or fallback: redirect to login page
+                  router.push("/login");
             }
-      }, [service]);
+      }, [service, router]);
 
       // Update profile function
       const updateProfile = useCallback(async (data: UpdateClientProfileRequest): Promise<boolean> => {

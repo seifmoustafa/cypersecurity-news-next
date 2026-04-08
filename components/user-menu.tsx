@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useClientProfile, useClientLogout } from "@/core/hooks/use-client-auth";
+import { useClientProfile } from "@/core/hooks/use-client-auth";
+import { useClientAuth } from "@/contexts/client-auth-context";
 import { useLanguage } from "@/components/language-provider";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,14 +24,14 @@ function getInitials(firstName?: string, lastName?: string): string {
 
 export function UserMenu() {
       const { client, isAuthenticated, isLoading } = useClientProfile();
-      const { logout } = useClientLogout();
+      const { logout } = useClientAuth();
       const { t, isRtl } = useLanguage();
       const router = useRouter();
       const [isOpen, setIsOpen] = useState(false);
 
-      const handleLogout = () => {
+      const handleLogout = async () => {
             setIsOpen(false);
-            logout();
+            await logout();
       };
 
       const handleLogin = () => {
